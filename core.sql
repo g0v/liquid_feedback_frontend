@@ -838,6 +838,16 @@ CREATE VIEW "battle" AS
 COMMENT ON VIEW "battle" IS 'Number of members preferring one initiative over another';
 
 
+CREATE VIEW "expired_session" AS
+  SELECT * FROM "session" WHERE now() > "expiry";
+
+CREATE RULE "delete" AS ON DELETE TO "expired_session" DO INSTEAD
+  DELETE FROM "session" WHERE "ident" = OLD."ident";
+
+COMMENT ON VIEW "expired_session" IS 'View containing all expired sessions where DELETE is possible';
+COMMENT ON RULE "delete" ON "expired_session" IS 'Rule allowing DELETE on rows in "expired_session" view, i.e. DELETE FROM "expired_session"';
+
+
 CREATE VIEW "open_issue" AS
   SELECT * FROM "issue" WHERE "closed" ISNULL;
 
@@ -1276,7 +1286,7 @@ CREATE FUNCTION "create_snapshot"
               SELECT coalesce(sum("snapshot"."weight"), 0)
               FROM "opinion" JOIN "direct_interest_snapshot" AS "snapshot"
               ON "opinion"."member_id" = "snapshot"."member_id"
-              WHERE "opinion"."initiative_id" = "initiative_id_v"
+              WHERE "opinion"."suggestion_id" = "suggestion_id_v"
               AND "snapshot"."issue_id" = "issue_id_p"
               AND "opinion"."degree" = -2
               AND "opinion"."fulfilled" = FALSE
@@ -1285,7 +1295,7 @@ CREATE FUNCTION "create_snapshot"
               SELECT coalesce(sum("snapshot"."weight"), 0)
               FROM "opinion" JOIN "direct_interest_snapshot" AS "snapshot"
               ON "opinion"."member_id" = "snapshot"."member_id"
-              WHERE "opinion"."initiative_id" = "initiative_id_v"
+              WHERE "opinion"."suggestion_id" = "suggestion_id_v"
               AND "snapshot"."issue_id" = "issue_id_p"
               AND "opinion"."degree" = -2
               AND "opinion"."fulfilled" = TRUE
@@ -1294,7 +1304,7 @@ CREATE FUNCTION "create_snapshot"
               SELECT coalesce(sum("snapshot"."weight"), 0)
               FROM "opinion" JOIN "direct_interest_snapshot" AS "snapshot"
               ON "opinion"."member_id" = "snapshot"."member_id"
-              WHERE "opinion"."initiative_id" = "initiative_id_v"
+              WHERE "opinion"."suggestion_id" = "suggestion_id_v"
               AND "snapshot"."issue_id" = "issue_id_p"
               AND "opinion"."degree" = -1
               AND "opinion"."fulfilled" = FALSE
@@ -1303,7 +1313,7 @@ CREATE FUNCTION "create_snapshot"
               SELECT coalesce(sum("snapshot"."weight"), 0)
               FROM "opinion" JOIN "direct_interest_snapshot" AS "snapshot"
               ON "opinion"."member_id" = "snapshot"."member_id"
-              WHERE "opinion"."initiative_id" = "initiative_id_v"
+              WHERE "opinion"."suggestion_id" = "suggestion_id_v"
               AND "snapshot"."issue_id" = "issue_id_p"
               AND "opinion"."degree" = -1
               AND "opinion"."fulfilled" = TRUE
@@ -1312,7 +1322,7 @@ CREATE FUNCTION "create_snapshot"
               SELECT coalesce(sum("snapshot"."weight"), 0)
               FROM "opinion" JOIN "direct_interest_snapshot" AS "snapshot"
               ON "opinion"."member_id" = "snapshot"."member_id"
-              WHERE "opinion"."initiative_id" = "initiative_id_v"
+              WHERE "opinion"."suggestion_id" = "suggestion_id_v"
               AND "snapshot"."issue_id" = "issue_id_p"
               AND "opinion"."degree" = 1
               AND "opinion"."fulfilled" = FALSE
@@ -1321,7 +1331,7 @@ CREATE FUNCTION "create_snapshot"
               SELECT coalesce(sum("snapshot"."weight"), 0)
               FROM "opinion" JOIN "direct_interest_snapshot" AS "snapshot"
               ON "opinion"."member_id" = "snapshot"."member_id"
-              WHERE "opinion"."initiative_id" = "initiative_id_v"
+              WHERE "opinion"."suggestion_id" = "suggestion_id_v"
               AND "snapshot"."issue_id" = "issue_id_p"
               AND "opinion"."degree" = 1
               AND "opinion"."fulfilled" = TRUE
@@ -1330,7 +1340,7 @@ CREATE FUNCTION "create_snapshot"
               SELECT coalesce(sum("snapshot"."weight"), 0)
               FROM "opinion" JOIN "direct_interest_snapshot" AS "snapshot"
               ON "opinion"."member_id" = "snapshot"."member_id"
-              WHERE "opinion"."initiative_id" = "initiative_id_v"
+              WHERE "opinion"."suggestion_id" = "suggestion_id_v"
               AND "snapshot"."issue_id" = "issue_id_p"
               AND "opinion"."degree" = 2
               AND "opinion"."fulfilled" = FALSE
@@ -1339,7 +1349,7 @@ CREATE FUNCTION "create_snapshot"
               SELECT coalesce(sum("snapshot"."weight"), 0)
               FROM "opinion" JOIN "direct_interest_snapshot" AS "snapshot"
               ON "opinion"."member_id" = "snapshot"."member_id"
-              WHERE "opinion"."initiative_id" = "initiative_id_v"
+              WHERE "opinion"."suggestion_id" = "suggestion_id_v"
               AND "snapshot"."issue_id" = "issue_id_p"
               AND "opinion"."degree" = 2
               AND "opinion"."fulfilled" = TRUE
@@ -1962,16 +1972,14 @@ CREATE FUNCTION "check_everything"()
     DECLARE
       "issue_id_v" "issue"."id"%TYPE;
     BEGIN
+      DELETE FROM "expired_session";
       FOR "issue_id_v" IN
-        SELECT "id" FROM "issue" WHERE "closed" ISNULL
+        SELECT "id" FROM "open_issue"
       LOOP
         PERFORM "check_issue"("issue_id_v");
       END LOOP;
       FOR "issue_id_v" IN
-        SELECT "id" FROM "issue"
-        WHERE "frozen" NOTNULL
-        AND "closed" NOTNULL
-        AND "ranks_available" = FALSE FOR UPDATE
+        SELECT "id" FROM "issue_with_ranks_missing"
       LOOP
         PERFORM "calculate_ranks"("issue_id_v");
       END LOOP;

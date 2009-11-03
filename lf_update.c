@@ -4,11 +4,15 @@
 #include <libpq-fe.h>
 
 int main(int argc, char **argv) {
+
+  // variable declarations:
   int i, count;
   char *conninfo;
   PGconn *db;
   PGresult *list;
   PGresult *status;
+
+  // parse command line:
   if (argc == 0) return 1;
   if (argc == 1 || !strcmp(argv[1], "-h") || !strcmp(argv[1], "--help")) {
     FILE *out;
@@ -37,6 +41,8 @@ int main(int argc, char **argv) {
       strcat(conninfo, argv[i]);
     }
   }
+
+  // connect to database:
   db = PQconnectdb(conninfo);
   if (!db) {
     fprintf(stderr, "Error: Could not create database handle\n");
@@ -46,6 +52,22 @@ int main(int argc, char **argv) {
     fprintf(stderr, "Could not open connection:\n%s", PQerrorMessage(db));
     return 1;
   }
+
+  // delete expired sessions:
+  status = PQexec(db, "DELETE FROM \"expired_session\"");
+  if (!status) {
+    fprintf(stderr, "Error in pqlib while sending SQL command deleting expired sessions\n");
+    return 1;
+  }
+  if (
+    PQresultStatus(status) != PGRES_COMMAND_OK &&
+    PQresultStatus(status) != PGRES_TUPLES_OK
+  ) {
+    fprintf(stderr, "Error while executing SQL command deleting expired sessions:\n%s", PQresultErrorMessage(status));
+    return 1;
+  }
+
+  // update open issues:
   list = PQexec(db, "SELECT \"id\" FROM \"open_issue\"");
   if (!list) {
     fprintf(stderr, "Error in pqlib while sending SQL command selecting open issues\n");
@@ -62,6 +84,10 @@ int main(int argc, char **argv) {
     status = PQexecParams(
       db, "SELECT \"check_issue\"($1)", 1, NULL, params, NULL, NULL, 0
     );
+    if (!status) {
+      fprintf(stderr, "Error in pqlib while sending SQL command to call function \"check_issue\"(...):\n");
+      return 1;
+    }
     if (
       PQresultStatus(status) != PGRES_COMMAND_OK &&
       PQresultStatus(status) != PGRES_TUPLES_OK
@@ -72,6 +98,9 @@ int main(int argc, char **argv) {
     PQclear(status);
   }
   PQclear(list);
+
+  // calculate ranks after voting is finished:
+  // (NOTE: This is a seperate process to avoid long transactions with locking)
   list = PQexec(db, "SELECT \"id\" FROM \"issue_with_ranks_missing\"");
   if (!list) {
     fprintf(stderr, "Error in pqlib while sending SQL command selecting issues where ranks are missing\n");
@@ -88,6 +117,10 @@ int main(int argc, char **argv) {
     status = PQexecParams(
       db, "SELECT \"calculate_ranks\"($1)", 1, NULL, params, NULL, NULL, 0
     );
+    if (!status) {
+      fprintf(stderr, "Error in pqlib while sending SQL command to call function \"calculate_ranks\"(...):\n");
+      return 1;
+    }
     if (
       PQresultStatus(status) != PGRES_COMMAND_OK &&
       PQresultStatus(status) != PGRES_TUPLES_OK
@@ -98,6 +131,9 @@ int main(int argc, char **argv) {
     PQclear(status);
   }
   PQclear(list);
+
+  // cleanup and exit
   PQfinish(db);
   return 0;
+
 }
