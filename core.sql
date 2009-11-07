@@ -259,7 +259,7 @@ CREATE INDEX "supporter_member_id_idx" ON "supporter" ("member_id");
 
 COMMENT ON TABLE "supporter" IS 'Members who support an initiative (conditionally)';
 
-COMMENT ON COLUMN "supporter"."draft_id" IS 'Latest seen draft';
+COMMENT ON COLUMN "supporter"."draft_id" IS 'Latest seen draft, defaults to current draft of the initiative (implemented by trigger "default_for_draft_id")';
 
 
 CREATE TABLE "opinion" (
@@ -674,6 +674,25 @@ CREATE TRIGGER "copy_autoreject" BEFORE INSERT OR UPDATE ON "interest"
 
 COMMENT ON FUNCTION "copy_autoreject_trigger"()    IS 'Implementation of trigger "copy_autoreject" on table "interest"';
 COMMENT ON TRIGGER "copy_autoreject" ON "interest" IS 'If "autoreject" is NULL, then copy it from the area setting, or set to FALSE, if no membership existent';
+
+
+CREATE FUNCTION "supporter_default_for_draft_id_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      IF NEW."draft_id" ISNULL THEN
+        SELECT "id" INTO NEW."draft_id" FROM "current_draft"
+          WHERE "initiative_id" = NEW."initiative_id";
+      END IF;
+      RETURN NEW;
+    END;
+  $$;
+
+CREATE TRIGGER "default_for_draft_id" BEFORE INSERT OR UPDATE ON "supporter"
+  FOR EACH ROW EXECUTE PROCEDURE "supporter_default_for_draft_id_trigger"();
+
+COMMENT ON FUNCTION "supporter_default_for_draft_id_trigger"() IS 'Implementation of trigger "default_for_draft" on table "supporter"';
+COMMENT ON TRIGGER "default_for_draft_id" ON "supporter"       IS 'If "draft_id" is NULL, then use the current draft of the initiative as default';
 
 
 
