@@ -66,6 +66,7 @@ CREATE TABLE "policy" (
         "description"           TEXT            NOT NULL DEFAULT '',
         "admission_time"        INTERVAL        NOT NULL,
         "discussion_time"       INTERVAL        NOT NULL,
+        "verification_time"     INTERVAL        NOT NULL,
         "voting_time"           INTERVAL        NOT NULL,
         "issue_quorum_num"      INT4            NOT NULL,
         "issue_quorum_den"      INT4            NOT NULL,
@@ -77,8 +78,9 @@ COMMENT ON TABLE "policy" IS 'Policies for a particular proceeding type (timelim
 
 COMMENT ON COLUMN "policy"."active"                IS 'TRUE = policy can be used for new issues';
 COMMENT ON COLUMN "policy"."admission_time"        IS 'Maximum time an issue stays open without being "accepted"';
-COMMENT ON COLUMN "policy"."discussion_time"       IS 'Regular time until an issue is "frozen" after being "accepted"';
-COMMENT ON COLUMN "policy"."voting_time"           IS 'Time after an issue is "frozen" but not "closed"';
+COMMENT ON COLUMN "policy"."discussion_time"       IS 'Regular time until an issue is "half_frozen" after being "accepted"';
+COMMENT ON COLUMN "policy"."verification_time"     IS 'Regular time until an issue is "fully_frozen" after being "half_frozen"';
+COMMENT ON COLUMN "policy"."voting_time"           IS 'Time after an issue is "fully_frozen" but not "closed"';
 COMMENT ON COLUMN "policy"."issue_quorum_num"      IS 'Numerator of quorum to be reached by one initiative of an issue to be "accepted"';
 COMMENT ON COLUMN "policy"."issue_quorum_den"      IS 'Denominator of quorum to be reached by one initiative of an issue to be "accepted"';
 COMMENT ON COLUMN "policy"."initiative_quorum_num" IS 'Numerator of quorum to be reached by an initiative to be "admitted" for voting';
@@ -103,7 +105,8 @@ CREATE TABLE "issue" (
         "policy_id"             INT4            NOT NULL REFERENCES "policy" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "accepted"              TIMESTAMPTZ,
-        "frozen"                TIMESTAMPTZ,
+        "half_frozen"           TIMESTAMPTZ,
+        "fully_frozen"          TIMESTAMPTZ,
         "closed"                TIMESTAMPTZ,
         "ranks_available"       BOOLEAN         NOT NULL DEFAULT FALSE,
         "snapshot"              TIMESTAMPTZ,
@@ -111,15 +114,20 @@ CREATE TABLE "issue" (
         "vote_now"              INT4,
         "vote_later"            INT4,
         CONSTRAINT "valid_state" CHECK (
-          ("accepted" ISNULL  AND "frozen" ISNULL  AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
-          ("accepted" ISNULL  AND "frozen" ISNULL  AND "closed" NOTNULL AND "ranks_available" = FALSE) OR
-          ("accepted" NOTNULL AND "frozen" ISNULL  AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
-          ("accepted" NOTNULL AND "frozen" NOTNULL AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
-          ("accepted" NOTNULL AND "frozen" NOTNULL AND "closed" NOTNULL AND "ranks_available" = FALSE) OR
-          ("accepted" NOTNULL AND "frozen" NOTNULL AND "closed" NOTNULL AND "ranks_available" = TRUE) ),
-        CONSTRAINT "state_change_order" CHECK ("created" <= "accepted" AND "accepted" <= "frozen" AND "frozen" <= "closed"),
-        CONSTRAINT "last_snapshot_on_freeze" CHECK ("snapshot" = "frozen"),  -- NOTE: snapshot can be set, while frozen is NULL yet
-        CONSTRAINT "freeze_requires_snapshot" CHECK ("frozen" ISNULL OR "snapshot" NOTNULL) );
+          ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
+          ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" NOTNULL AND "ranks_available" = FALSE) OR
+          ("accepted" NOTNULL AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
+          ("accepted" NOTNULL AND "half_frozen" NOTNULL AND "fully_frozen" ISNULL  AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
+          ("accepted" NOTNULL AND "half_frozen" NOTNULL AND "fully_frozen" NOTNULL AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
+          ("accepted" NOTNULL AND "half_frozen" NOTNULL AND "fully_frozen" NOTNULL AND "closed" NOTNULL AND "ranks_available" = FALSE) OR
+          ("accepted" NOTNULL AND "half_frozen" NOTNULL AND "fully_frozen" NOTNULL AND "closed" NOTNULL AND "ranks_available" = TRUE) ),
+        CONSTRAINT "state_change_order" CHECK (
+          "created" <= "accepted" AND
+          "accepted" <= "half_frozen" AND
+          "half_frozen" <= "fully_frozen" AND
+          "fully_frozen" <= "closed" ),
+        CONSTRAINT "last_snapshot_on_full_freeze" CHECK ("snapshot" = "fully_frozen"),  -- NOTE: snapshot can be set, while frozen is NULL yet
+        CONSTRAINT "freeze_requires_snapshot" CHECK ("fully_frozen" ISNULL OR "snapshot" NOTNULL) );
 CREATE INDEX "issue_area_id_idx" ON "issue" ("area_id");
 CREATE INDEX "issue_policy_id_idx" ON "issue" ("policy_id");
 CREATE INDEX "issue_created_idx_open" ON "issue" ("created") WHERE "closed" ISNULL;
@@ -127,8 +135,9 @@ CREATE INDEX "issue_created_idx_open" ON "issue" ("created") WHERE "closed" ISNU
 COMMENT ON TABLE "issue" IS 'Groups of initiatives';
 
 COMMENT ON COLUMN "issue"."accepted"        IS 'Point in time, when one initiative of issue reached the "issue_quorum"';
-COMMENT ON COLUMN "issue"."frozen"          IS 'Point in time, when "discussion_time" has elapsed, or members voted for voting.';
-COMMENT ON COLUMN "issue"."closed"          IS 'Point in time, when "admission_time" or "voting_time" is over, and issue is no longer active';
+COMMENT ON COLUMN "issue"."half_frozen"     IS 'Point in time, when "discussion_time" has elapsed, or members voted for voting';
+COMMENT ON COLUMN "issue"."fully_frozen"    IS 'Point in time, when "verification_time" has elapsed';
+COMMENT ON COLUMN "issue"."closed"          IS 'Point in time, when "admission_time" or "voting_time" have elapsed, and issue is no longer active';
 COMMENT ON COLUMN "issue"."ranks_available" IS 'TRUE = ranks have been calculated';
 COMMENT ON COLUMN "issue"."snapshot"        IS 'Point in time, when snapshot tables have been updated and "population", "vote_now", "vote_later" and *_count values were precalculated';
 COMMENT ON COLUMN "issue"."population"      IS 'Calculated from table "direct_population_snapshot"';
@@ -300,9 +309,9 @@ COMMENT ON COLUMN "delegation"."area_id"  IS 'Reference to area, if delegation i
 COMMENT ON COLUMN "delegation"."issue_id" IS 'Reference to issue, if delegation is issue-wide, otherwise NULL';
 
 
-CREATE TYPE "snapshot_event" AS ENUM ('periodic', 'end_of_admission', 'end_of_discussion');
+CREATE TYPE "snapshot_event" AS ENUM ('periodic', 'end_of_admission', 'start_of_voting');
 
-COMMENT ON TYPE "snapshot_event" IS 'Reason for snapshots: ''periodic'' = due to periodic recalculation, ''end_of_admission'' = saved state at end of admission period, ''end_of_discussion'' = saved state at end of discussion period';
+COMMENT ON TYPE "snapshot_event" IS 'Reason for snapshots: ''periodic'' = due to periodic recalculation, ''end_of_admission'' = saved state at end of admission period, ''start_of_voting'' = saved state at end of verification period';
 
 
 CREATE TABLE "direct_population_snapshot" (
@@ -875,7 +884,7 @@ COMMENT ON VIEW "open_issue" IS 'All open issues';
 
 CREATE VIEW "issue_with_ranks_missing" AS
   SELECT * FROM "issue"
-  WHERE "frozen" NOTNULL
+  WHERE "fully_frozen" NOTNULL
   AND "closed" NOTNULL
   AND "ranks_available" = FALSE;
 
@@ -1202,6 +1211,7 @@ CREATE FUNCTION "create_interest_snapshot"
         JOIN "direct_interest_snapshot"
         ON "member"."id" = "direct_interest_snapshot"."member_id"
         AND "initiative"."issue_id" = "direct_interest_snapshot"."issue_id"
+        AND "event" = 'periodic'
         WHERE "member"."active"
         AND "initiative"."issue_id" = "issue_id_p";
       RETURN;
@@ -1391,20 +1401,15 @@ CREATE FUNCTION "set_snapshot_event"
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
-      UPDATE "direct_population_snapshot"
-        SET "event" = 'end_of_discussion'
+      UPDATE "direct_population_snapshot" SET "event" = "event_p"
         WHERE "issue_id" = "issue_id_p" AND "event" = 'periodic';
-      UPDATE "delegating_population_snapshot"
-        SET "event" = 'end_of_discussion'
+      UPDATE "delegating_population_snapshot" SET "event" = "event_p"
         WHERE "issue_id" = "issue_id_p" AND "event" = 'periodic';
-      UPDATE "direct_interest_snapshot"
-        SET "event" = 'end_of_discussion'
+      UPDATE "direct_interest_snapshot" SET "event" = "event_p"
         WHERE "issue_id" = "issue_id_p" AND "event" = 'periodic';
-      UPDATE "delegating_interest_snapshot"
-        SET "event" = 'end_of_discussion'
+      UPDATE "delegating_interest_snapshot" SET "event" = "event_p"
         WHERE "issue_id" = "issue_id_p" AND "event" = 'periodic';
-      UPDATE "direct_supporter_snapshot"
-        SET "event" = 'end_of_discussion'
+      UPDATE "direct_supporter_snapshot" SET "event" = "event_p"
         WHERE "issue_id" = "issue_id_p" AND "event" = 'periodic';
       RETURN;
     END;
@@ -1433,8 +1438,12 @@ CREATE FUNCTION "freeze_after_snapshot"
       SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
       SELECT * INTO "policy_row"
         FROM "policy" WHERE "id" = "issue_row"."policy_id";
-      PERFORM "set_snapshot_event"("issue_id_p", 'end_of_discussion');
-      UPDATE "issue" SET "frozen" = now() WHERE "id" = "issue_id_p";
+      PERFORM "set_snapshot_event"("issue_id_p", 'start_of_voting');
+      UPDATE "issue" SET
+        "accepted"     = COALESCE("accepted", now()),
+        "half_frozen"  = COALESCE("half_frozen", now()),
+        "fully_frozen" = now()
+        WHERE "id" = "issue_id_p";
       FOR "initiative_row" IN
         SELECT * FROM "initiative" WHERE "issue_id" = "issue_id_p"
       LOOP
@@ -1457,7 +1466,7 @@ CREATE FUNCTION "freeze_after_snapshot"
 
 COMMENT ON FUNCTION "freeze_after_snapshot"
   ( "issue"."id"%TYPE )
-  IS 'This function freezes an issue, but must only be called when "create_snapshot" was called in the same transaction';
+  IS 'This function freezes an issue (fully) and starts voting, but must only be called when "create_snapshot" was called in the same transaction';
 
 
 CREATE FUNCTION "manual_freeze"("issue_id_p" "issue"."id"%TYPE)
@@ -1474,7 +1483,7 @@ CREATE FUNCTION "manual_freeze"("issue_id_p" "issue"."id"%TYPE)
 
 COMMENT ON FUNCTION "freeze_after_snapshot"
   ( "issue"."id"%TYPE )
-  IS 'Freeze an issue manually';
+  IS 'Freeze an issue manually (fully) and start voting';
 
 
 
@@ -1923,7 +1932,7 @@ CREATE FUNCTION "check_issue"
       IF "issue_row"."closed" ISNULL THEN
         SELECT * INTO "policy_row" FROM "policy"
           WHERE "id" = "issue_row"."policy_id";
-        IF "issue_row"."frozen" ISNULL THEN
+        IF "issue_row"."fully_frozen" ISNULL THEN
           PERFORM "create_snapshot"("issue_id_p");
           SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
         END IF;
@@ -1935,11 +1944,12 @@ CREATE FUNCTION "check_issue"
             AND "supporter_count" * "policy_row"."issue_quorum_den"
             >= "issue_row"."population" * "policy_row"."issue_quorum_num"
           ) THEN
+            PERFORM "set_snapshot_event"("issue_id_p", 'end_of_admission');
             "issue_row"."accepted" = now();  -- NOTE: "issue_row" used later
             UPDATE "issue" SET "accepted" = "issue_row"."accepted"
               WHERE "id" = "issue_row"."id";
           ELSIF
-            now() > "issue_row"."created" + "policy_row"."admission_time"
+            now() >= "issue_row"."created" + "policy_row"."admission_time"
           THEN
             PERFORM "set_snapshot_event"("issue_id_p", 'end_of_admission');
             UPDATE "issue" SET "closed" = now()
@@ -1948,7 +1958,7 @@ CREATE FUNCTION "check_issue"
         END IF;
         IF
           "issue_row"."accepted" NOTNULL AND
-          "issue_row"."frozen" ISNULL
+          "issue_row"."half_frozen" ISNULL
         THEN
           SELECT
             CASE
@@ -1962,16 +1972,26 @@ CREATE FUNCTION "check_issue"
             FROM "issue" WHERE "id" = "issue_id_p";
           IF
             "voting_requested_v" OR (
-              "voting_requested_v" ISNULL AND now() >
-              "issue_row"."accepted" + "policy_row"."discussion_time"
+              "voting_requested_v" ISNULL AND
+              now() >= "issue_row"."accepted" + "policy_row"."discussion_time"
             )
           THEN
-            PERFORM "freeze_after_snapshot"("issue_id_p");
+            "issue_row"."half_frozen" = now();  -- NOTE: "issue_row" used later
+            UPDATE "issue" SET "half_frozen" = "issue_row"."half_frozen"
+              WHERE "id" = "issue_row"."id";
           END IF;
         END IF;
         IF
-          "issue_row"."frozen" NOTNULL AND
-          now() > "issue_row"."frozen" + "policy_row"."voting_time"
+          "issue_row"."half_frozen" NOTNULL AND
+          "issue_row"."fully_frozen" ISNULL AND
+          now() >= "issue_row"."half_frozen" + "policy_row"."verification_time"
+        THEN
+          "issue_row"."fully_frozen" = now();  -- NOTE: "issue_row" used later
+          PERFORM "freeze_after_snapshot"("issue_id_p");
+        END IF;
+        IF
+          "issue_row"."fully_frozen" NOTNULL AND
+          now() >= "issue_row"."fully_frozen" + "policy_row"."voting_time"
         THEN
           PERFORM "close_voting"("issue_id_p");
         END IF;

@@ -32,14 +32,31 @@ UPDATE "member" SET "password" = "login";
 
 INSERT INTO "policy" (
         "name",
-        "admission_time", "discussion_time", "voting_time",
+        "admission_time",
+        "discussion_time",
+        "verification_time",
+        "voting_time",
         "issue_quorum_num", "issue_quorum_den",
         "initiative_quorum_num", "initiative_quorum_den"
     ) VALUES (
         'Default policy',
-        '1 hour', '1 hour', '1 hour',
+        '1 hour', '1 hour', '1 hour', '1 hour',
         25, 100,
         20, 100 );
+
+CREATE FUNCTION "time_warp"() RETURNS VOID
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      UPDATE "issue" SET
+        "snapshot"     = "snapshot"     - '1 hour 1 minute'::INTERVAL,
+        "created"      = "created"      - '1 hour 1 minute'::INTERVAL,
+        "accepted"     = "accepted"     - '1 hour 1 minute'::INTERVAL,
+        "half_frozen"  = "half_frozen"  - '1 hour 1 minute'::INTERVAL,
+        "fully_frozen" = "fully_frozen" - '1 hour 1 minute'::INTERVAL;
+      PERFORM "check_everything"();
+      RETURN;
+    END;
+  $$;
 
 INSERT INTO "area" ("name") VALUES
   ('Area #1'),  -- id 1
@@ -157,10 +174,9 @@ INSERT INTO "opinion" ("member_id", "suggestion_id", "degree", "fulfilled") VALU
 INSERT INTO "opinion" ("member_id", "suggestion_id", "degree", "fulfilled") VALUES
   (19, 1, 2, FALSE);
 
-UPDATE "issue" SET "created" = "created" - '3 hour 3 minute'::INTERVAL;
-SELECT check_everything();
-UPDATE "issue" SET "accepted" = "accepted" - '2 hour 2 minute'::INTERVAL;
-SELECT check_everything();
+SELECT "time_warp"();
+SELECT "time_warp"();
+SELECT "time_warp"();
 
 INSERT INTO "direct_voter" ("member_id", "issue_id") VALUES
   ( 8, 1),
@@ -219,10 +235,9 @@ INSERT INTO "vote" ("member_id", "issue_id", "initiative_id", "grade") VALUES
   (20, 1, 5,  1),
   (21, 1, 5, -1);
 
-UPDATE "issue" SET
-  "snapshot" = "snapshot" - '1 hour 1 minute'::INTERVAL,
-  "frozen" = "frozen" - '1 hour 1 minute'::INTERVAL;
-SELECT check_everything();
+SELECT "time_warp"();
+
+DROP FUNCTION "time_warp"();
 
 END;
 
