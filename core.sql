@@ -30,6 +30,14 @@ COMMENT ON COLUMN "member"."active"       IS 'Inactive members can not login and
 COMMENT ON COLUMN "member"."ident_number" IS 'Additional information about the members idenficication number within the organization';
 
 
+CREATE TABLE "member_count" (
+        "count"                 INT4            NOT NULL );
+
+COMMENT ON TABLE "member_count" IS 'Holds a single value (single row, single column) of the total count of active(!) members, as calculated from "member_count_view"';
+
+COMMENT ON COLUMN "member_count"."count" IS 'Total count of active(!) members';
+
+
 CREATE TABLE "contact" (
         PRIMARY KEY ("member_id", "other_member_id"),
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -91,12 +99,14 @@ CREATE TABLE "area" (
         "id"                    SERIAL4         PRIMARY KEY,
         "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
         "name"                  TEXT            NOT NULL,
-        "description"           TEXT            NOT NULL DEFAULT '' );
+        "description"           TEXT            NOT NULL DEFAULT '',
+        "member_count"          INT4 );
 CREATE INDEX "area_active_idx" ON "area" ("active");
 
 COMMENT ON TABLE "area" IS 'Subject areas';
 
-COMMENT ON COLUMN "area"."active" IS 'TRUE means new issues can be created in this area';
+COMMENT ON COLUMN "area"."active"       IS 'TRUE means new issues can be created in this area';
+COMMENT ON COLUMN "area"."member_count" IS 'Number of active members of that area, as calculated from view "area_member_count"';
 
 
 CREATE TABLE "issue" (
@@ -113,6 +123,7 @@ CREATE TABLE "issue" (
         "population"            INT4,
         "vote_now"              INT4,
         "vote_later"            INT4,
+        "voter_count"           INT4,
         CONSTRAINT "valid_state" CHECK (
           ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
           ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" NOTNULL AND "ranks_available" = FALSE) OR
@@ -143,6 +154,7 @@ COMMENT ON COLUMN "issue"."snapshot"        IS 'Point in time, when snapshot tab
 COMMENT ON COLUMN "issue"."population"      IS 'Calculated from table "direct_population_snapshot"';
 COMMENT ON COLUMN "issue"."vote_now"        IS 'Calculated from table "direct_interest_snapshot"';
 COMMENT ON COLUMN "issue"."vote_later"      IS 'Calculated from table "direct_interest_snapshot"';
+COMMENT ON COLUMN "issue"."voter_count"     IS 'Total number of direct and delegating voters; This value is related to the final voting, while "population" is related to snapshots before the final voting';
 
 
 CREATE TABLE "initiative" (
@@ -656,9 +668,9 @@ COMMENT ON TRIGGER "autofill_initiative_id" ON "opinion" IS 'Set "initiative_id"
 
 
 
------------------------------------------------------------------------
--- Automatic copy of autoreject settings from membership to interest --
------------------------------------------------------------------------
+-----------------------------------------------------
+-- Automatic calculation of certain default values --
+-----------------------------------------------------
 
 CREATE FUNCTION "copy_autoreject_trigger"()
   RETURNS TRIGGER
@@ -767,6 +779,25 @@ COMMENT ON TRIGGER "autocreate_supporter" ON "opinion" IS 'Opinions can only be 
 ------------------------------------------
 -- Views and helper functions for views --
 ------------------------------------------
+
+CREATE VIEW "member_count_view" AS
+  SELECT count(1) FROM "member" WHERE "active";
+
+COMMENT ON VIEW "member_count_view" IS 'View used to update "member_count" table';
+
+
+CREATE VIEW "area_member_count" AS
+  SELECT "area"."id" AS "area_id", count("member"."id")
+  FROM "area"
+  LEFT JOIN "membership"
+  ON "area"."id" = "membership"."area_id"
+  LEFT JOIN "member"
+  ON "membership"."member_id" = "member"."id"
+  AND "member"."active"
+  GROUP BY "area"."id";
+
+COMMENT ON VIEW "area_member_count" IS 'View used to update "member_count" column of table "area"';
+
 
 CREATE VIEW "issue_delegation_with_overridden_and_inactive" AS
   SELECT "delegation".*, "issue"."id" AS "resulting_issue_id"
@@ -930,13 +961,15 @@ CREATE FUNCTION "global_lock"() RETURNS VOID
       -- NOTE: PostgreSQL allows reading, while tables are locked in
       -- exclusive move. Transactions should be kept short anyway!
       LOCK TABLE "member"     IN EXCLUSIVE MODE;
-      LOCK TABLE "policy"     IN EXCLUSIVE MODE;
       LOCK TABLE "area"       IN EXCLUSIVE MODE;
+      LOCK TABLE "membership" IN EXCLUSIVE MODE;
+      -- NOTE: "member", "area" and "membership" are locked first to
+      -- prevent deadlocks in combination with "calculate_member_counts"()
+      LOCK TABLE "policy"     IN EXCLUSIVE MODE;
       LOCK TABLE "issue"      IN EXCLUSIVE MODE;
       LOCK TABLE "initiative" IN EXCLUSIVE MODE;
       LOCK TABLE "draft"      IN EXCLUSIVE MODE;
       LOCK TABLE "suggestion" IN EXCLUSIVE MODE;
-      LOCK TABLE "membership" IN EXCLUSIVE MODE;
       LOCK TABLE "interest"   IN EXCLUSIVE MODE;
       LOCK TABLE "initiator"  IN EXCLUSIVE MODE;
       LOCK TABLE "supporter"  IN EXCLUSIVE MODE;
@@ -955,6 +988,31 @@ CREATE FUNCTION "global_lock"() RETURNS VOID
   $$;
 
 COMMENT ON FUNCTION "global_lock"() IS 'Locks all tables related to support/voting until end of transaction; read access is still possible though';
+
+
+
+-------------------------------
+-- Materialize member counts --
+-------------------------------
+
+CREATE FUNCTION "calculate_member_counts"()
+  RETURNS VOID
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      LOCK TABLE "member"     IN EXCLUSIVE MODE;
+      LOCK TABLE "area"       IN EXCLUSIVE MODE;
+      LOCK TABLE "membership" IN EXCLUSIVE MODE;
+      DELETE FROM "member_count";
+      INSERT INTO "member_count" ("count")
+        SELECT "count" FROM "member_count_view";
+      UPDATE "area" SET "member_count" = "area_member_count"."count"
+        FROM "area_member_count"
+        WHERE "area_member_count"."area_id" = "area"."id";
+      RETURN;
+    END;
+  $$;
+
+COMMENT ON FUNCTION "calculate_member_counts"() IS 'Updates "member_count" table and "member_count" column of table "area" by materializing data from views "member_count_view" and "area_member_count"';
 
 
 
@@ -1440,8 +1498,8 @@ CREATE FUNCTION "freeze_after_snapshot"
         FROM "policy" WHERE "id" = "issue_row"."policy_id";
       PERFORM "set_snapshot_event"("issue_id_p", 'start_of_voting');
       UPDATE "issue" SET
-        "accepted"     = COALESCE("accepted", now()),
-        "half_frozen"  = COALESCE("half_frozen", now()),
+        "accepted"     = coalesce("accepted", now()),
+        "half_frozen"  = coalesce("half_frozen", now()),
         "fully_frozen" = now()
         WHERE "id" = "issue_id_p";
       FOR "initiative_row" IN
@@ -1640,17 +1698,28 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
           FROM "initiative" WHERE "issue_id" = "issue_id_p";
       END LOOP;
       PERFORM "add_vote_delegations"("issue_id_p");
+      UPDATE "issue" SET
+        "voter_count" = (
+          SELECT coalesce(sum("weight"), 0)
+          FROM "direct_voter" WHERE "issue_id" = "issue_id_p"
+        );
       UPDATE "initiative" SET
         "positive_votes" = "subquery"."positive_votes",
         "negative_votes" = "subquery"."negative_votes"
         FROM (
           SELECT
             "initiative_id",
-            sum(
-              CASE WHEN "grade" > 0 THEN "direct_voter"."weight" ELSE 0 END
+            coalesce(
+              sum(
+                CASE WHEN "grade" > 0 THEN "direct_voter"."weight" ELSE 0 END
+              ),
+              0
             ) AS "positive_votes",
-            sum (
-              CASE WHEN "grade" < 0 THEN "direct_voter"."weight" ELSE 0 END
+            coalesce(
+              sum(
+                CASE WHEN "grade" < 0 THEN "direct_voter"."weight" ELSE 0 END
+              ),
+              0
             ) AS "negative_votes"
           FROM "vote" JOIN "direct_voter"
           ON "vote"."member_id" = "direct_voter"."member_id"
@@ -2012,14 +2081,11 @@ CREATE FUNCTION "check_everything"()
       "issue_id_v" "issue"."id"%TYPE;
     BEGIN
       DELETE FROM "expired_session";
-      FOR "issue_id_v" IN
-        SELECT "id" FROM "open_issue"
-      LOOP
+      PERFORM "calculate_member_counts"();
+      FOR "issue_id_v" IN SELECT "id" FROM "open_issue" LOOP
         PERFORM "check_issue"("issue_id_v");
       END LOOP;
-      FOR "issue_id_v" IN
-        SELECT "id" FROM "issue_with_ranks_missing"
-      LOOP
+      FOR "issue_id_v" IN SELECT "id" FROM "issue_with_ranks_missing" LOOP
         PERFORM "calculate_ranks"("issue_id_v");
       END LOOP;
       RETURN;

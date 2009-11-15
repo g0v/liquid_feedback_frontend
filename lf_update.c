@@ -67,6 +67,20 @@ int main(int argc, char **argv) {
     return 1;
   }
 
+  // calculate member counts:
+  status = PQexec(db, "SELECT \"calculate_member_counts\"()");
+  if (!status) {
+    fprintf(stderr, "Error in pqlib while sending SQL command calculating member counts\n");
+    return 1;
+  }
+  if (
+    PQresultStatus(status) != PGRES_COMMAND_OK &&
+    PQresultStatus(status) != PGRES_TUPLES_OK
+  ) {
+    fprintf(stderr, "Error while executing SQL command calculating member counts:\n%s", PQresultErrorMessage(status));
+    return 1;
+  }
+
   // update open issues:
   list = PQexec(db, "SELECT \"id\" FROM \"open_issue\"");
   if (!list) {
