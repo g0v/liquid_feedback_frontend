@@ -21,7 +21,7 @@ ui.paginate{
           label = _"Support",
           content = function(record)
             if record.minus2_unfulfilled_count then
-              local max_value = record.initiative.supporter_count
+              local max_value = record.initiative.issue.population
               ui.bargraph{
                 max_value = max_value,
                 width = 50,
@@ -105,7 +105,7 @@ ui.paginate{
           label = _"Not fullfilled",
           content = function(record)
             if record.minus2_unfulfilled_count then
-              local max_value = record.initiative.supporter_count
+              local max_value = record.initiative.issue.population
               ui.bargraph{
                 max_value = max_value,
                 width = 50,
@@ -125,7 +125,7 @@ ui.paginate{
           label = _"Fullfilled",
           content = function(record)
             if record.minus2_fulfilled_count then
-              local max_value = record.initiative.supporter_count
+              local max_value = record.initiative.issue.population
               ui.bargraph{
                 max_value = max_value,
                 width = 50,
