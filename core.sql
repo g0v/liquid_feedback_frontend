@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('beta6', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('beta7', NULL, NULL, NULL))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -23,7 +23,8 @@ CREATE TABLE "member" (
         "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
         "admin"                 BOOLEAN         NOT NULL DEFAULT FALSE,
         "name"                  TEXT,
-        "ident_number"          TEXT            UNIQUE );
+        "ident_number"          TEXT            UNIQUE,
+        "avatar"                BYTEA );
 CREATE INDEX "member_active_idx" ON "member" ("active");
 
 COMMENT ON TABLE "member" IS 'Users of the system, e.g. members of an organization';
@@ -2041,7 +2042,8 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
         "voter_count" = (
           SELECT coalesce(sum("weight"), 0)
           FROM "direct_voter" WHERE "issue_id" = "issue_id_p"
-        );
+        )
+        WHERE "id" = "issue_id_p";
       UPDATE "initiative" SET
         "positive_votes" = "subquery"."positive_votes",
         "negative_votes" = "subquery"."negative_votes"
