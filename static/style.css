@@ -1,0 +1,559 @@
+/*************************************************************************
+ * Some global definitions 
+ */
+
+body, th, td {
+  font-family: sans-serif;
+  font-size: 14px;
+  padding: 0;
+  margin: 0;
+}
+
+body, a {
+  color: #000;
+}
+
+img {
+  border: none;
+}
+
+table {
+  border-collapse: collapse;
+  border: none;
+}
+
+td, th {
+  vertical-align: top;
+  padding: 0.5ex 0.5em 0.5ex 0.5em;
+}
+
+a.active {
+  color: #fff; 
+}
+
+.highlighted {
+  background-color: #fa7;
+  color: #000;
+}
+
+.admin_only {
+  font-style: italic;
+}
+
+/*************************************************************************
+ * Notices, warnings and errors
+ */
+
+.layout_notice, .layout_error, .layout_warning {
+        background: #fff;
+        font-weight: bold;
+        right: 2ex;
+        line-height: 1.7em;
+        position: absolute;
+        top: 6ex;
+        width: 60ex;
+        -moz-opacity:0.7;
+}
+
+.slot_notice, .slot_warning, .slot_error {
+        padding: 2ex;
+}
+
+.slot_notice {
+        color: green;
+        border: 2px solid green;
+}
+
+.slot_warning {
+        color: orange;
+        border: 2px solid orange;
+}
+
+.slot_error {
+        color: red;
+        border: 2px solid red;
+}
+
+/*************************************************************************
+ * Navigation, search and language chooser bar 
+ */
+
+.topbar {
+  margin-bottom: 1em;
+  background-color: #444;
+  color: #fff;
+  font-size: 75%;
+}
+
+.topbar a {
+  color: #fff;
+}
+
+.topbar  a:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.navigation,
+.logout_button {
+  line-height: 250%;
+}
+
+.navigation img,
+.logout_button img {
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
+
+.navigation a,
+.logout_button a {
+  padding: 1ex;
+}
+
+.logout_button {
+  float: right;
+}
+
+.searchbox {
+  padding: 0.5ex 1em 0ex 1em;
+  float: right;
+  line-height: 250%;
+}
+
+.searchbox div {
+  display: inline;
+}
+
+.searchbox select {
+  margin-left: 0.3em;
+  margin-right: 0.4em;
+  font-size: 100%;
+  width: 8em;
+}
+
+.searchbox input[type=text] {
+  width: 8em;
+  padding: 0.25ex 0.25em 0.25ex 0.25em;
+  margin-right: 0.5em;
+  font-size: 100%;
+}
+
+.searchbox input[type=submit] {
+  font-size: 100%;
+  width: 2.5em;
+}
+
+/*************************************************************************
+ * Title of current page including path and actions
+ */
+
+.title_bar {
+  border-bottom: 1px solid #000;
+  margin-bottom: 2ex;
+}
+
+.path {
+  color: #444;
+  xbackground-color: #ddd;
+}
+
+.path div {
+  margin-left: 1em;
+  font-size: 100%;
+  line-height: 180%;
+}
+
+.path a {
+  color: #444;
+}
+
+.slot_path div {
+  display: inline;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.title {
+  color: #000;
+  margin-bottom: 0.5ex;
+}
+
+.slot_title {
+}
+
+.title div {
+  margin-left: 0.66em;
+  font-weight: bold;
+  font-size: 135%;
+  line-height: 110%;
+}
+
+.title a {
+  color: #fff;
+}
+
+.avatar {
+  float: left;
+  margin-right: 0.5em;
+}
+
+.actions {
+  display: inline;
+  font-size: 75%;
+  line-height: 200%;
+}
+
+.slot_actions {
+  margin-left: 1em;
+  display: inline;
+}
+
+.actions a {
+  padding: 0.5ex 0.5em 0.5ex 0.0em;
+  margin-right: 1em;
+  vertical-align: middle;
+}
+
+.actions a:hover {
+  background-color: #d7d7d7;
+}
+
+.actions img {
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+}
+
+/*************************************************************************
+ * Main content
+ */
+
+.main {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+
+/*************************************************************************
+ * ui.tab
+ */
+
+.ui_tabs_links {
+  margin-top: 4ex;
+  font-size: 75%;
+}
+
+.ui_tabs_links a {
+  padding: 1ex;
+  margin-left: 0.5em;
+  background-color: #e7e7e7;
+}
+
+.ui_tabs_links a:hover {
+  background-color: #d7d7d7;
+}
+
+.ui_tabs_links a.selected {
+  background-color: #444;
+  color: #fff;
+  text-decoration: none;
+  padding: 1ex;
+}
+
+.ui_tabs_content {
+  border: 1px solid #444;
+  padding: 1ex 1ex 1ex 1ex;
+}
+
+/*************************************************************************
+ * ui.order
+ */
+
+.ui_order_head {
+  color: #777;
+  text-align: right;
+  margin-bottom: 1ex;
+  font-size: 75%;
+}
+
+.ui_order_head a {
+  color: #777;
+  padding: 0.5ex;
+}
+
+.ui_order_head a.active{
+  color: #fff;
+  background-color: #777;
+  padding: 0.5ex;
+}
+
+/*************************************************************************
+ * ui.paginate
+ */
+
+.ui_paginate_select a {
+  padding: 0.5ex;
+}
+
+/*************************************************************************
+ * ui.bargraph
+ */
+
+.bargraph {
+  width: 50px;
+}
+
+.bargraph div {
+  float: left;
+  margin-top: 0.5ex;
+  height: 1ex;
+}
+
+/*************************************************************************
+ * vertical ui.form
+ */
+
+.login input[type=text],
+.vertical input[type=text],
+.login input[type=password],
+.vertical input[type=password],
+.vertical textarea,
+.vertical select {
+  font-family: sans-serif;
+  font-size: 100%;
+  border: 1px solid #444;
+  width: 40em;
+  padding: 0.2ex 0.2em 0.2ex 0.2em;
+  margin-bottom: 1ex;
+}
+
+.login input[type=password],
+.vertical input[type=password] {
+  width: 16em;
+}
+
+.vertical select {
+  padding-right: 0;
+}
+
+.login .ui_field_label,
+.vertical .ui_field_label {
+  text-transform: uppercase;
+  font-size: 70%;
+  line-height: 190%;
+  font-weight: bold;
+  color: #777;
+  width: 15em;
+  display: block;
+  float: left;
+  clear: left;
+  text-align: right;
+  padding-right: 0.5em;
+}
+
+.login input[type=text],
+.login input[type=password] {
+  width: 10em;
+}
+
+.login div,
+.vertical div {
+  clear: left;
+}
+
+.vertical span {
+  display: block;
+  margin-bottom: 0.5ex;
+}
+
+.vertical span:after {
+  content: " ";
+}
+
+.vertical span span {
+  display: inline;
+  margin-bottom: 0;
+}
+
+.login input[type=submit],
+.vertical input[type=submit] {
+  font-size: 100%;
+  margin-left: 11em;
+  background-color: #444444;
+  color: #fff;
+  border: none;
+  padding: 0.75ex;
+}
+
+.login input[type=submit]:hover,
+.vertical input[type=submit]:hover {
+  background-color: #444444;
+}
+
+/*************************************************************************
+ * Tables
+ */
+
+
+table a.action {
+  font-size: 70%;
+  line-height: 190%;
+  padding: 0.5ex;
+  color: #777;
+}
+
+table a.active {
+  color: #fff; 
+}
+
+th {
+  text-align: left;
+  border-bottom: 1px solid #000;
+}
+
+tr:hover td {
+  background-color: #ddd;
+}
+
+
+tr table tr:hover td {
+  background-color: #fff;
+}
+
+
+/*************************************************************************
+ * Hidden inline form
+ */
+
+.hidden_inline_form {
+  display: none;
+  border: 1px solid #444;
+  width: 42em;
+  position: absolute;
+  background-color: #fff;
+  left: 5em;
+  top: 20ex;
+}
+
+.hidden_inline_form a {
+  padding: 0.5ex;
+  color: #fff;
+}
+
+
+.hidden_inline_form .head {
+  background-color: #444;
+  color: #fff;
+  display: block;
+  padding: 0.5ex;
+}
+
+.hidden_inline_form input[type=text],
+.hidden_inline_form textarea,
+.hidden_inline_form select {
+  width: 30em;
+}
+
+/*************************************************************************
+ * Positive / Negtive votes
+ */
+
+
+.positive_votes span {
+  display: inline;
+}
+
+.positive_votes {
+  display: inline;
+  background-color: #cfc;
+  padding: 0.3ex 0.5em 0.3ex 0.5em;
+}
+
+.negative_votes span {
+  display: inline;
+}
+
+.negative_votes {
+  display: inline;
+  background-color: #fcc;
+  padding: 0.3ex 0.5em 0.3ex 0.5em;
+}
+
+
+
+.active {
+  background-color: #444;
+  color: #fff;
+}
+
+.active_red2 { background-color: #a00; color: #fff !important; }
+.active_red1 { background-color: #f88; color: #000 !important; }
+.active_green1 { background-color: #8f8; color: #000 !important; }
+.active_green2 { background-color: #0a0; color: #000 !important; }
+
+
+
+
+/*************************************************************************
+ * Issues
+ */
+
+.issues tr {
+  border-bottom: 1px solid #444;
+}
+
+.issues tr tr {
+  border-bottom: none;
+}
+
+/*************************************************************************
+ * delegation 
+ */
+
+.infobox {
+  float: right;
+  margin-right: 1em;
+}
+
+.slot_interest,
+.slot_support,
+.slot_delegation {
+  border: 2px solid #444;
+  width: 20em;
+  font-size: 75%;
+  padding: 0;
+  margin-bottom: 0.5ex;
+}
+
+.infobox .head {
+  margin: 0.5ex;
+}
+
+.infobox .content {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  width: 20em;
+  background-color: #fff;
+  border: 2px solid #444;
+}
+
+.infobox .text {
+  margin: 0.5ex;
+  margin-bottom: 1ex;
+}
+
+.infobox .member {
+  margin: 0.5ex;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 1ex;
+}
+
+.delegation .revoke {
+  margin: 0.5ex;
+}
+
+.lang_chooser {
+  float: right;
+  margin-right: 0.5em;
+}

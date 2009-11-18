@@ -1,0 +1,32 @@
+
+slot.put_into("title", _"Change password")
+
+slot.select("actions", function()
+  ui.link{
+    content = function()
+        ui.image{ static = "icons/16/cancel.png" }
+        slot.put(_"Cancel")
+    end,
+    module = "index",
+    view = "index"
+  }
+end)
+
+ui.form{
+  attr = { class = "vertical" },
+  module = "index",
+  action = "update_password",
+  routing = {
+    ok = {
+      mode = "redirect",
+      module = "index",
+      view = "index"
+    }
+  },
+  content = function()
+    ui.field.password{ label = _"Old password", name = "old_password" }
+    ui.field.password{ label = _"New password", name = "new_password1" }
+    ui.field.password{ label = _"Repeat new password", name = "new_password2" }
+    ui.submit{ value = _"Change password" }
+  end
+}

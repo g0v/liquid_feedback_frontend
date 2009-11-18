@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title><!-- WEBMCP SLOTNODIV app_name --></title>
+    <link rel="stylesheet" type="text/css" media="screen" href="__BASEURL__/static/trace.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="__BASEURL__/static/style.css" />
+    <!-- WEBMCP SLOTNODIV html_head -->
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="logout_button" id="logout_button">
+        <!-- WEBMCP SLOT logout_button -->
+      </div>
+      <div class="searchbox" id="searchbox">
+        <!-- WEBMCP SLOT searchbox -->
+      </div>
+      <div class="navigation" id="navigation">
+        <!-- WEBMCP SLOT navigation -->
+      </div>
+    </div>
+    <div class="infobox" id="infobox">
+      <div class="interest" id="interest">
+        <!-- WEBMCP SLOT interest -->
+      </div>
+      <div class="support" id="support">
+        <!-- WEBMCP SLOT support -->
+      </div>
+      <div class="delegation" id="delegation">
+        <!-- WEBMCP SLOT delegation -->
+      </div>
+    </div>
+    <div class="title_bar">
+      <div class="path" id="path">
+        <!-- WEBMCP SLOT path -->
+      </div>
+      <div class="title" id="title">
+        <!-- WEBMCP SLOT title -->
+      </div>
+      <div class="actions" id="actions">
+        <!-- WEBMCP SLOT actions -->
+      </div>
+    </div>
+    <div class="main" id="default">
+      <!-- WEBMCP SLOT default -->
+    </div>
+    <div class="layout_trace" id="layout_trace" style="xdisplay: none">
+      <div id="trace_show" onclick="document.getElementById('trace_content').style.display='block';this.style.display='none';">TRACE</div>
+        <div id="trace_content" style="display: none;">
+          <!-- WEBMCP SLOT trace -->
+          <div class="trace_close" onclick="document.getElementById('trace_show').style.display='block';document.getElementById('trace_content').style.display='none';">
+            close
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layout_notice" id="layout_notice" onclick="document.getElementById('layout_notice').style.display='none';">
+      <!-- WEBMCP SLOT notice -->
+    </div>
+    <div class="layout_warning" id="layout_warning" onclick="document.getElementById('layout_warning').style.display='none';">
+      <!-- WEBMCP SLOT warning -->
+    </div>
+    <div class="layout_error" id="layout_error" onclick="document.getElementById('layout_error').style.display='none';">
+      <!-- WEBMCP SLOT error -->
+    </div>
+  </body>
+  <script>
+  </script>
+</html>
