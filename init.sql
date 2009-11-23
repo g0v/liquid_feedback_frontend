@@ -8,16 +8,14 @@ INSERT INTO "member" (
         "password",
         "active",
         "admin",
-        "name",
-        "ident_number"
+        "name"
     ) VALUES (
         DEFAULT,
         'admin',
         '',
         TRUE,
         TRUE,
-        'Administrator',
-        DEFAULT );
+        'Administrator' );
 
 INSERT INTO "policy" (
         "id",
@@ -26,6 +24,7 @@ INSERT INTO "policy" (
         "description",
         "admission_time",
         "discussion_time",
+        "verification_time",
         "voting_time",
         "issue_quorum_num",
         "issue_quorum_den",
@@ -37,29 +36,32 @@ INSERT INTO "policy" (
         'Extensive proceeding',
         DEFAULT,
         '1 month',
-        '6 months',
+        '5 months',
+        '1 month',
         '3 weeks',
-        5, 100,
-        1, 100
+        10, 100,
+        10, 100
     ), (
         DEFAULT,
         TRUE,
         'Standard proceeding',
         DEFAULT,
-        '1 week',
+        '1 month',
         '1 month',
         '1 week',
-        5, 100,
-        1, 100
+        '1 week',
+        10, 100,
+        10, 100
     ), (
        DEFAULT,
        TRUE,
        'Fast proceeding',
        DEFAULT,
-       '24 hours',
-       '4 hours',
+       '48 hours',
+       '3 hours',
+       '1 hour',
        '20 hours',
-        5, 100,
+        1, 100,
         1, 100 );
 
 INSERT INTO "area" (

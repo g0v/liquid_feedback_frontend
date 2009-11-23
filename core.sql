@@ -6,8 +6,45 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('beta7', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('beta8', NULL, NULL, NULL))
   AS "subquery"("string", "major", "minor", "revision");
+
+
+
+----------------------
+-- Full text search --
+----------------------
+
+
+CREATE FUNCTION "text_search_query"("query_text_p" TEXT)
+  RETURNS TSQUERY
+  LANGUAGE 'plpgsql' IMMUTABLE AS $$
+    BEGIN
+      RETURN plainto_tsquery('pg_catalog.simple', "query_text_p");
+    END;
+  $$;
+
+COMMENT ON FUNCTION "text_search_query"(TEXT) IS 'Usage: WHERE "text_search_data" @@ "text_search_query"(''<user query>'')';
+
+
+CREATE FUNCTION "highlight"
+  ( "body_p"       TEXT,
+    "query_text_p" TEXT )
+  RETURNS TEXT
+  LANGUAGE 'plpgsql' IMMUTABLE AS $$
+    BEGIN
+      RETURN ts_headline(
+        'pg_catalog.simple',
+        replace(replace("body_p", '\\', '\\\\'), '*', '\\*'),
+        "text_search_query"("query_text_p"),
+        'StartSel=* StopSel=* HighlightAll=TRUE' );
+    END;
+  $$;
+
+COMMENT ON FUNCTION "highlight"
+  ( "body_p"       TEXT,
+    "query_text_p" TEXT )
+  IS 'For a given a user query this function encapsulates all matches with asterisks. Asterisks and backslashes being already present are preceeded with one extra backslash.';
 
 
 
@@ -15,24 +52,77 @@ CREATE VIEW "liquid_feedback_version" AS
 -- Tables and indicies --
 -------------------------
 
-
 CREATE TABLE "member" (
         "id"                    SERIAL4         PRIMARY KEY,
         "login"                 TEXT            NOT NULL UNIQUE,
         "password"              TEXT,
         "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
         "admin"                 BOOLEAN         NOT NULL DEFAULT FALSE,
-        "name"                  TEXT,
-        "ident_number"          TEXT            UNIQUE,
-        "avatar"                BYTEA );
+        "notify_email"          TEXT,
+        "notify_email_confirmed" BOOLEAN,
+        "name"                  TEXT            NOT NULL UNIQUE,
+        "identification"        TEXT            UNIQUE,
+        "organizational_unit"   TEXT,
+        "internal_posts"        TEXT,
+        "realname"              TEXT,
+        "birthday"              DATE,
+        "address"               TEXT,
+        "email"                 TEXT,
+        "xmpp_address"          TEXT,
+        "website"               TEXT,
+        "phone"                 TEXT,
+        "mobile_phone"          TEXT,
+        "profession"            TEXT,
+        "external_memberships"  TEXT,
+        "external_posts"        TEXT,
+        "statement"             TEXT,
+        "text_search_data"      TSVECTOR,
+        CONSTRAINT "notify_email_null_check"
+          CHECK ("notify_email" NOTNULL = "notify_email_confirmed" NOTNULL) );
 CREATE INDEX "member_active_idx" ON "member" ("active");
+CREATE TRIGGER "update_text_search_data"
+  BEFORE INSERT OR UPDATE ON "member"
+  FOR EACH ROW EXECUTE PROCEDURE
+  tsvector_update_trigger('text_search_data', 'pg_catalog.simple',
+    "name", "identification", "organizational_unit", "internal_posts",
+    "realname", "external_memberships", "external_posts", "statement" );
 
 COMMENT ON TABLE "member" IS 'Users of the system, e.g. members of an organization';
 
-COMMENT ON COLUMN "member"."login"        IS 'Login name';
-COMMENT ON COLUMN "member"."password"     IS 'Password (preferably as crypto-hash, depending on the frontend or access layer)';
-COMMENT ON COLUMN "member"."active"       IS 'Inactive members can not login and their supports/votes are not counted by the system.';
-COMMENT ON COLUMN "member"."ident_number" IS 'Additional information about the members idenficication number within the organization';
+COMMENT ON COLUMN "member"."login"                  IS 'Login name';
+COMMENT ON COLUMN "member"."password"               IS 'Password (preferably as crypto-hash, depending on the frontend or access layer)';
+COMMENT ON COLUMN "member"."active"                 IS 'Inactive members can not login and their supports/votes are not counted by the system.';
+COMMENT ON COLUMN "member"."admin"                  IS 'TRUE for admins, which can administrate other users and setup policies and areas';
+COMMENT ON COLUMN "member"."notify_email"           IS 'Email address where notifications of the system are sent to';
+COMMENT ON COLUMN "member"."notify_email_confirmed" IS 'TRUE, if "notify_email" has been confirmed';
+COMMENT ON COLUMN "member"."name"                   IS 'Distinct name of the member';
+COMMENT ON COLUMN "member"."identification"         IS 'Optional identification number or code of the member';
+COMMENT ON COLUMN "member"."organizational_unit"    IS 'Branch or division of the organization the member belongs to';
+COMMENT ON COLUMN "member"."internal_posts"         IS 'Posts (offices) of the member inside the organization';
+COMMENT ON COLUMN "member"."realname"               IS 'Real name of the member, may be identical with "name"';
+COMMENT ON COLUMN "member"."email"                  IS 'Published email address of the member; not used for system notifications';
+COMMENT ON COLUMN "member"."external_memberships"   IS 'Other organizations the member is involved in';
+COMMENT ON COLUMN "member"."external_posts"         IS 'Posts (offices) outside the organization';
+COMMENT ON COLUMN "member"."statement"              IS 'Freely chosen text of the member for his homepage within the system';
+
+
+CREATE TYPE "member_image_type" AS ENUM ('photo', 'avatar');
+
+COMMENT ON TYPE "member_image_type" IS 'Types of images for a member';
+
+
+
+CREATE TABLE "member_image" (
+        PRIMARY KEY ("member_id", "image_type", "scaled"),
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "image_type"            "member_image_type",
+        "scaled"                BOOLEAN,
+        "content_type"          TEXT,
+        "data"                  BYTEA           NOT NULL );
+
+COMMENT ON TABLE "member_image" IS 'Images of members';
+
+COMMENT ON COLUMN "member_image"."scaled" IS 'FALSE for original image, TRUE for scaled version of the image';
 
 
 CREATE TABLE "member_count" (
@@ -109,8 +199,14 @@ CREATE TABLE "area" (
         "description"           TEXT            NOT NULL DEFAULT '',
         "direct_member_count"   INT4,
         "member_weight"         INT4,
-        "autoreject_weight"     INT4 );
+        "autoreject_weight"     INT4,
+        "text_search_data"      TSVECTOR );
 CREATE INDEX "area_active_idx" ON "area" ("active");
+CREATE TRIGGER "update_text_search_data"
+  BEFORE INSERT OR UPDATE ON "area"
+  FOR EACH ROW EXECUTE PROCEDURE
+  tsvector_update_trigger('text_search_data', 'pg_catalog.simple',
+    "name", "description" );
 
 COMMENT ON TABLE "area" IS 'Subject areas';
 
@@ -183,10 +279,15 @@ CREATE TABLE "initiative" (
         "positive_votes"        INT4,
         "negative_votes"        INT4,
         "rank"                  INT4,
+        "text_search_data"      TSVECTOR,
         CONSTRAINT "revoked_initiatives_cant_be_admitted"
           CHECK ("revoked" ISNULL OR "admitted" ISNULL),
         CONSTRAINT "non_admitted_initiatives_cant_contain_voting_results"
           CHECK ("admitted" = TRUE OR ("positive_votes" ISNULL AND "negative_votes" ISNULL AND "rank" ISNULL)) );
+CREATE TRIGGER "update_text_search_data"
+  BEFORE INSERT OR UPDATE ON "initiative"
+  FOR EACH ROW EXECUTE PROCEDURE
+  tsvector_update_trigger('text_search_data', 'pg_catalog.simple', "name");
 
 COMMENT ON TABLE "initiative" IS 'Group of members publishing drafts for resolutions to be passed';
 
@@ -207,7 +308,12 @@ CREATE TABLE "draft" (
         "id"                    SERIAL8         PRIMARY KEY,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "author_id"             INT4            NOT NULL REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-        "content"               TEXT            NOT NULL );
+        "content"               TEXT            NOT NULL,
+        "text_search_data"      TSVECTOR );
+CREATE TRIGGER "update_text_search_data"
+  BEFORE INSERT OR UPDATE ON "draft"
+  FOR EACH ROW EXECUTE PROCEDURE
+  tsvector_update_trigger('text_search_data', 'pg_catalog.simple', "content");
 
 COMMENT ON TABLE "draft" IS 'Drafts of initiatives to solve issues';
 
@@ -220,6 +326,7 @@ CREATE TABLE "suggestion" (
         "author_id"             INT4            NOT NULL REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
         "name"                  TEXT            NOT NULL,
         "description"           TEXT            NOT NULL DEFAULT '',
+        "text_search_data"      TSVECTOR,
         "minus2_unfulfilled_count" INT4,
         "minus2_fulfilled_count"   INT4,
         "minus1_unfulfilled_count" INT4,
@@ -228,6 +335,11 @@ CREATE TABLE "suggestion" (
         "plus1_fulfilled_count"    INT4,
         "plus2_unfulfilled_count"  INT4,
         "plus2_fulfilled_count"    INT4 );
+CREATE TRIGGER "update_text_search_data"
+  BEFORE INSERT OR UPDATE ON "suggestion"
+  FOR EACH ROW EXECUTE PROCEDURE
+  tsvector_update_trigger('text_search_data', 'pg_catalog.simple',
+    "name", "description");
 
 COMMENT ON TABLE "suggestion" IS 'Suggestions to initiators, to change the current draft';
 
