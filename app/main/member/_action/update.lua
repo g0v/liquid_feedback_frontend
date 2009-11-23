@@ -1,4 +1,20 @@
-param.update(app.session.member, "name")
+param.update(app.session.member,
+  "name",
+  "organizational_unit",
+  "internal_posts",
+  "realname",
+  "birthday",
+  "address",
+  "email",
+  "xmpp_address",
+  "website",
+  "phone",
+  "mobile_phone",
+  "profession",
+  "external_memberships",
+  "external_posts",
+  "statement"
+)
 
 app.session.member:save()
 

@@ -20,6 +20,15 @@ Area:add_reference{
 }
 
 Area:add_reference{
+  mode          = '1m',
+  to            = "Delegation",
+  this_key      = 'id',
+  that_key      = 'area_id',
+  ref           = 'delegations',
+  back_ref      = 'area'
+}
+
+Area:add_reference{
   mode                  = 'mm',
   to                    = "Member",
   this_key              = 'id',

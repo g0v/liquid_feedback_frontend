@@ -23,8 +23,17 @@ table {
 }
 
 td, th {
-  vertical-align: top;
   padding: 0.5ex 0.5em 0.5ex 0.5em;
+}
+
+td {
+  vertical-align: top;
+}
+
+th {
+  vertical-align: bottom;
+  font-size: 75%;
+  font-weight: bold;
 }
 
 a.active {
@@ -38,6 +47,10 @@ a.active {
 
 .admin_only {
   font-style: italic;
+}
+
+a {
+  vertical-align: middle;
 }
 
 /*************************************************************************
@@ -195,6 +208,8 @@ a.active {
 .avatar {
   float: left;
   margin-right: 0.5em;
+  width: 48px;
+  height: 48px;
 }
 
 .actions {
@@ -221,6 +236,62 @@ a.active {
 .actions img {
   padding-left: 0.2em;
   padding-right: 0.2em;
+}
+
+/*************************************************************************
+ * vote info / delegation 
+ */
+
+.slot_interest,
+.slot_support,
+.slot_delegation {
+  float: left;
+  font-size: 75%;
+  margin-right: 1em;
+}
+
+.vote_info .head {
+  line-height: 200%;
+}
+
+.vote_info .close {
+  background-color: #f44;
+  float: right;
+  padding: 1ex;
+}
+
+.vote_info .content {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  background-color: #fff;
+  border: 2px solid #444;
+  padding: 1em;
+}
+
+.vote_info .delegation_arrow {
+  margin-top: 1ex;
+  margin-bottom: 1ex;
+  vertical-align: middle;
+}
+
+.vote_info .delegation_scope {
+  display: inline;
+}
+
+.vote_info .delegation_info {
+}
+
+.vote_info .member_thumb {
+  clear: left;
+}
+
+.delegation .revoke {
+  margin: 0.5ex;
+}
+
+.delegation .revoke img {
+  vertical-align: middle;
 }
 
 /*************************************************************************
@@ -268,6 +339,28 @@ a.active {
  * ui.order
  */
 
+.ui_filter_head {
+  color: #777;
+  float: left;
+  margin-bottom: 1ex;
+  font-size: 75%;
+}
+
+.ui_filter_head a {
+  color: #777;
+  padding: 0.5ex;
+}
+
+.ui_filter_head a.active{
+  color: #fff;
+  background-color: #777;
+  padding: 0.5ex;
+}
+
+/*************************************************************************
+ * ui.order
+ */
+
 .ui_order_head {
   color: #777;
   text-align: right;
@@ -299,13 +392,13 @@ a.active {
  */
 
 .bargraph {
-  width: 50px;
+  width: 101px;
 }
 
 .bargraph div {
   float: left;
   margin-top: 0.5ex;
-  height: 1ex;
+  height: 1.3ex;
 }
 
 /*************************************************************************
@@ -320,8 +413,8 @@ a.active {
 .vertical select {
   font-family: sans-serif;
   font-size: 100%;
+  width: 50em;
   border: 1px solid #444;
-  width: 40em;
   padding: 0.2ex 0.2em 0.2ex 0.2em;
   margin-bottom: 1ex;
 }
@@ -498,62 +591,109 @@ tr table tr:hover td {
  */
 
 .issues tr {
-  border-bottom: 1px solid #444;
+  border: 1px solid #ccc;
 }
 
 .issues tr tr {
-  border-bottom: none;
-}
-
-/*************************************************************************
- * delegation 
- */
-
-.infobox {
-  float: right;
-  margin-right: 1em;
-}
-
-.slot_interest,
-.slot_support,
-.slot_delegation {
-  border: 2px solid #444;
-  width: 20em;
-  font-size: 75%;
-  padding: 0;
-  margin-bottom: 0.5ex;
-}
-
-.infobox .head {
-  margin: 0.5ex;
-}
-
-.infobox .content {
-  display: none;
-  position: absolute;
-  z-index: 10;
-  width: 20em;
-  background-color: #fff;
-  border: 2px solid #444;
-}
-
-.infobox .text {
-  margin: 0.5ex;
-  margin-bottom: 1ex;
-}
-
-.infobox .member {
-  margin: 0.5ex;
-  display: block;
-  font-weight: bold;
-  margin-bottom: 1ex;
-}
-
-.delegation .revoke {
-  margin: 0.5ex;
+  border: none;
 }
 
 .lang_chooser {
   float: right;
   margin-right: 0.5em;
+}
+
+.delegation_list_entry {
+  margin-right: 2em;
+  margin-bottom: 2ex;
+  float: left;
+  clear: left;
+}
+
+.delegation_list_entry .delegation_arrow {
+  float: left;
+}
+
+.delegation_list_entry .delegation_scope {
+  float: left;
+  width: 25em;
+}
+
+.delegation_list_entry .delegation_scope a {
+  display: block;
+}
+
+.member_list .member_thumb {
+  float: left;
+  margin-right: 1em;
+  margin-bottom: 2ex;
+}
+
+.member_thumb {
+  text-decoration: none;
+  min-width: 150px;
+  display: block;
+  float: left;
+  border: 1px solid #ccc;
+}
+
+.member_thumb:hover {
+  border: 1px solid #000;
+}
+
+.member_thumb img {
+  margin-right: 0.5em;
+  vertical-align: bottom;
+}
+
+.member_thumb div {
+  display: inline;
+  margin-right: 0.5em;
+}
+
+.draft_content {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  padding: 1ex;
+}
+
+.diff {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  padding: 1ex;
+}
+
+.diff .added {
+  background-color: #cfc;
+}
+
+.diff .removed {
+  background-color: #fcc;
+}
+
+.slot_issue_info {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  float: right;
+  padding: 0.5ex;
+  line-height: 130%;
+  margin-right: 1em;
+}
+
+.issue_info label {
+  float: left;
+  width: 8em;
+  text-transform: uppercase;
+  font-size: 70%;
+  color: #777;
+  font-weight: bold;
+  clear: left;
+  text-align: right;
+  margin-right: 0.7em;
+}
+
+.draft_updated_info {
+  border: 2px solid #faa;
+  background-color: #fee;
+  padding: 1ex;
 }

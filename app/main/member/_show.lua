@@ -5,11 +5,11 @@ ui.form{
   record = member,
   readonly = true,
   content = function()
-    ui.field.text{    label = _"Login",        name = "login" }
-    ui.field.text{    label = _"Name",         name = "name" }
     ui.field.boolean{ label = _"Admin?",       name = "admin" }
     ui.field.boolean{ label = _"Locked?",      name = "locked" }
-    ui.field.text{    label = _"Ident number", name = "ident_number" }
+    if member.ident_number then
+      ui.field.text{    label = _"Ident number", name = "ident_number" }
+    end
     ui.submit{        text  = _"Save" }
   end
 }
@@ -55,7 +55,7 @@ ui.tabs{
       execute.view{
         module = "delegation",
         view = "_list",
-        params = { selector = member:get_reference_selector("incoming_delegations") }
+        params = { delegations_selector = member:get_reference_selector("incoming_delegations"), incoming = true }
       }
     end
   },
@@ -66,7 +66,7 @@ ui.tabs{
       execute.view{
         module = "delegation",
         view = "_list",
-        params = { selector = member:get_reference_selector("outgoing_delegations") }
+        params = { delegations_selector = member:get_reference_selector("outgoing_delegations"), outgoing = true }
       }
     end
   },

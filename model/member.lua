@@ -2,6 +2,15 @@ Member = mondelefant.new_class()
 Member.table = 'member'
 
 Member:add_reference{
+  mode          = '11',
+  to            = "MemberImage",
+  this_key      = 'id',
+  that_key      = 'member_id',
+  ref           = 'image',
+  back_ref      = 'member'
+}
+
+Member:add_reference{
   mode          = '1m',
   to            = "Contact",
   this_key      = 'id',
@@ -87,8 +96,7 @@ Member:add_reference{
   this_key      = 'id',
   that_key      = 'member_id',
   ref           = 'supporters',
-  back_ref      = 'member',
-  default_order = '"id"'
+  back_ref      = 'member'
 }
 
 Member:add_reference{
@@ -248,9 +256,10 @@ function Member:by_login_and_password(login, password)
   end
 end
 
-function Member:search(search_string)
+function Member:get_search_selector(search_string)
   return self:new_selector()
-    :add_where{ '"member"."name" ILIKE ?', "%" .. search_string:gsub("%%", "") .. "%" }
+    :add_field( {'"highlight"("member"."name", ?)', search_string }, "name_highlighted")
+    :add_where{ '"member"."text_search_data" @@ "text_search_query"(?)', search_string }
     :add_where("active")
-    :exec()
 end
+

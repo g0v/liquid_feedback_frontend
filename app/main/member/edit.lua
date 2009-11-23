@@ -25,6 +25,20 @@ ui.form{
   },
   content = function()
     ui.field.text{ label = _"Name", name = "name" }
+    ui.field.text{ label = _"Organizational unit", name = "organizational_unit" }
+    ui.field.text{ label = _"Internal posts", name = "internal_posts" }
+    ui.field.text{ label = _"Real name", name = "realname" }
+    ui.field.text{ label = _"Birthday", name = "birthday" }
+    ui.field.text{ label = _"Address", name = "address", multiline = true }
+    ui.field.text{ label = _"email", name = "email" }
+    ui.field.text{ label = _"xmpp", name = "xmpp_address" }
+    ui.field.text{ label = _"Website", name = "website" }
+    ui.field.text{ label = _"Phone", name = "phone" }
+    ui.field.text{ label = _"Mobile phone", name = "mobile_phone" }
+    ui.field.text{ label = _"Profession", name = "profession" }
+    ui.field.text{ label = _"External memberships", name = "external_memberships", multiline = true }
+    ui.field.text{ label = _"External posts", name = "external_posts", multiline = true }
+    ui.field.text{ label = _"Statement", name = "statement", multiline = true }
     ui.submit{ value = _"Save" }
   end
 }

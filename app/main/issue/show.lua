@@ -42,12 +42,17 @@ execute.view{
   params = { issue_id = issue.id }
 }
 
+execute.view{
+  module = "issue",
+  view = "_show_box",
+  params = { issue = issue }
+}
+
 ui.tabs{
   {
     name = "initiatives",
     label = _"Initiatives",
-    content = function()
-      execute.view{
+    content = function()      execute.view{
         module = "initiative",
         view = "_list",
         params = { 
@@ -83,24 +88,48 @@ ui.tabs{
   },
 --]]
   {
+    name = "delegations",
+    label = _"Delegations",
+    content = function()
+      execute.view{
+        module = "delegation",
+        view = "_list",
+        params = { delegations_selector = issue:get_reference_selector("delegations") }
+      }
+    end
+  },
+  {
     name = "details",
     label = _"Details",
     content = function()
+      local policy = issue.policy
       ui.form{
         record = issue,
         readonly = true,
         attr = { class = "vertical" },
         content = function()
-          trace.debug(issue.created)
           ui.field.text{ label = _"State", name = "state" }
-          ui.field.timestamp{ label = _"Created at", name = "created" }
-          ui.field.timestamp{ label = _"Accepted", name = "accepted" }
-          ui.field.timestamp{ label = _"Half frozen", name = "half_frozen" }
-          ui.field.timestamp{ label = _"Fully frozen", name = "fully_frozen" }
-          ui.field.timestamp{ label = _"Closed", name = "closed" }
-          ui.field.potential_issue_weight{ label = _"Potential weight", name = "potential_weight" }
-          ui.field.vote_now{ label = _"Vote now", name = "vote_now" }
+          ui.field.timestamp{ label = _"Created at",            name = "created" }
+          ui.field.text{      label = _"admission_time",        value = policy.admission_time }
+          ui.field.integer{   label = _"issue_quorum_num",      value = policy.issue_quorum_num }
+          ui.field.integer{   label = _"issue_quorum_den",      value = policy.issue_quorum_den }
+          ui.field.timestamp{ label = _"Accepted",              name = "accepted" }
+          ui.field.text{      label = _"discussion_time",       value = policy.discussion_time }
+          ui.field.vote_now{   label = _"Vote now", name = "vote_now" }
           ui.field.vote_later{ label = _"Vote later", name = "vote_later" }
+          ui.field.timestamp{ label = _"Half frozen",           name = "half_frozen" }
+          ui.field.text{      label = _"verification_time",     value = policy.verification_time }
+          ui.field.integer{ label   = _"initiative_quorum_num", value = policy.initiative_quorum_num }
+          ui.field.integer{ label   = _"initiative_quorum_den", value = policy.initiative_quorum_den }
+          ui.field.timestamp{ label = _"Fully frozen",          name = "fully_frozen" }
+          ui.field.text{      label = _"voting_time",           value = policy.voting_time }
+          ui.field.timestamp{ label = _"Closed",                name = "closed" }
+        end
+      }
+      ui.form{
+        record = issue.policy,
+        readonly = true,
+        content = function()
         end
       }
     end

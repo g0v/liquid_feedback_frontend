@@ -6,7 +6,7 @@ slot.select("interest", function()
   ui.container{
     attr = { 
       class = "head",
-      onclick = "document.getElementById('interest_content').style.display = 'block';"
+      onclick = "document.getElementById('membership_content').style.display = 'block';"
     },
     content = function()
       if membership then
@@ -18,8 +18,16 @@ slot.select("interest", function()
   }
 
   ui.container{
-    attr = { class = "content", id = "interest_content" },
+    attr = { class = "content", id = "membership_content" },
     content = function()
+      ui.container{
+        attr = {
+          class = "close",
+          style = "cursor: pointer;",
+          onclick = "document.getElementById('membership_content').style.display = 'none';"
+        },
+        content = _"X"
+      }
       if membership then
         ui.link{
           content = _"Remove my membership",
@@ -56,14 +64,6 @@ slot.select("interest", function()
           routing = { default = { mode = "redirect", module = "area", view = "show", id = area.id } }
         }
       end
-        ui.container{
-          attr = {
-            class = "head",
-            style = "cursor: pointer;",
-            onclick = "document.getElementById('interest_content').style.display = 'none';"
-          },
-          content = _"Click here to close."
-        }
     end
   }
 end)

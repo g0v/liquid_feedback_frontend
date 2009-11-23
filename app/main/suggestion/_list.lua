@@ -4,6 +4,7 @@ ui.paginate{
   selector = suggestions_selector,
   content = function()
     ui.list{
+      attr = { style = "table-layout: fixed;" },
       records = suggestions_selector:exec(),
       columns = {
         {
@@ -24,7 +25,7 @@ ui.paginate{
               local max_value = record.initiative.issue.population
               ui.bargraph{
                 max_value = max_value,
-                width = 50,
+                width = 100,
                 bars = {
                   { color = "#ddd", value = max_value - record.minus2_unfulfilled_count - record.minus1_unfulfilled_count - record.minus2_fulfilled_count - record.minus1_fulfilled_count },
                   { color = "#f88", value = record.minus1_unfulfilled_count + record.minus1_fulfilled_count },
@@ -102,13 +103,14 @@ ui.paginate{
           end
         },
         {
-          label = _"Not fullfilled",
+          label = _"Suggestion currently not implemented",
+          label_attr = { style = "width: 101px;" },
           content = function(record)
             if record.minus2_unfulfilled_count then
               local max_value = record.initiative.issue.population
               ui.bargraph{
                 max_value = max_value,
-                width = 50,
+                width = 100,
                 bars = {
                   { color = "#ddd", value = max_value - record.minus2_unfulfilled_count - record.minus1_unfulfilled_count },
                   { color = "#f88", value = record.minus1_unfulfilled_count },
@@ -122,13 +124,14 @@ ui.paginate{
           end
         },
         {
-          label = _"Fullfilled",
+          label = _"Suggestion currently implemented",
+          label_attr = { style = "width: 101px;" },
           content = function(record)
             if record.minus2_fulfilled_count then
               local max_value = record.initiative.issue.population
               ui.bargraph{
                 max_value = max_value,
-                width = 50,
+                width = 100,
                 bars = {
                   { color = "#ddd", value = max_value - record.minus2_fulfilled_count - record.minus1_fulfilled_count },
                   { color = "#f88", value = record.minus1_fulfilled_count },
@@ -153,7 +156,7 @@ ui.paginate{
                 ui.image{ static = "icons/16/cross.png" }
                 ui.link{
                   attr = { class = "action" },
-                  text = _"set fulfilled",
+                  text = _"set implented",
                   module = "opinion",
                   action = "update",
                   routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
@@ -166,7 +169,7 @@ ui.paginate{
                 ui.image{ static = "icons/16/tick.png" }
                 ui.link{
                   attr = { class = "action" },
-                  text = _"remove fulfilled",
+                  text = _"remove implemented",
                   module = "opinion",
                   action = "update",
                   routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },

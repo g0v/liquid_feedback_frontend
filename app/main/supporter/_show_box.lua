@@ -27,6 +27,14 @@ slot.select("support", function()
     ui.container{
       attr = { class = "content", id = "support_content" },
       content = function()
+        ui.container{
+          attr = {
+            class = "close",
+            style = "cursor: pointer;",
+            onclick = "document.getElementById('support_content').style.display = 'none';"
+          },
+          content = _"X"
+        }
         if supported then
           ui.link{
             content = function()

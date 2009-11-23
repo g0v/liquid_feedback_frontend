@@ -52,21 +52,15 @@ ui.order{
       content = function()
         local initiatives = initiatives_selector:exec()
         local columns = {}
-        local issue = initiatives[1] and initiatives[1].issue or {}
-        if issue.accepted and issue.closed and issue.ranks_available then 
-          columns[#columns+1] = {
-            content = function(record)
+        columns[#columns+1] = {
+          content = function(record)
+            if record.issue.accepted and record.issue.closed and record.issue.ranks_available then 
               ui.field.rank{ value = record.rank }
-            end
-          }
-          columns[#columns+1] = {
-            content = function(record)
               if record.negative_votes and record.positive_votes then
                 local max_value = record.issue.voter_count
- trace.debug(record.issue.voter_count)
                 ui.bargraph{
                   max_value = max_value,
-                  width = 100,
+                  width = 200,
                   bars = {
                     { color = "#0a0", value = record.positive_votes },
                     { color = "#aaa", value = max_value - record.negative_votes - record.positive_votes },
@@ -74,34 +68,41 @@ ui.order{
                   }
                 }
               end
-            end
-          }
-        else
-          columns[#columns+1] = {
-            content = function(record)
+            else
               local max_value = (record.issue.population or 0)
               ui.bargraph{
                 max_value = max_value,
-                width = 100,
+                width = 200,
                 bars = {
-                  { color = "#0a0", value = (record.satisfied_informed_supporter_count or 0) },
-                  { color = "#8f8", value = (record.supporter_count or 0) - (record.satisfied_informed_supporter_count or 0) },
+                  { color = "#0a0", value = (record.satisfied_supporter_count or 0) },
+                  { color = "#8f8", value = (record.supporter_count or 0) - (record.satisfied_supporter_count or 0) },
                   { color = "#ddd", value = max_value - (record.supporter_count or 0) },
                 }
               }
             end
-          }
-        end
+          end
+        }
         columns[#columns+1] = {
           content = function(record)
             ui.link{
               content = function()
-                util.put_highlighted_string(record.shortened_name)
+                local name
+                if record.name_highlighted then
+                  name = encode.highlight(record.name_highlighted)
+                else
+                  name = encode.html(record.name)
+                end
+                slot.put(name)
               end,
               module = "initiative",
               view = "show",
               id = record.id
             }
+            if record.issue.state == "new" then
+              ui.image{
+                static = "icons/16/new.png"
+              }
+            end
           end
         }
 

@@ -67,6 +67,15 @@ Issue:add_reference{
 }
 
 Issue:add_reference{
+  mode          = '1m',
+  to            = "Delegation",
+  this_key      = 'id',
+  that_key      = 'issue_id',
+  ref           = 'delegations',
+  back_ref      = 'issue'
+}
+
+Issue:add_reference{
   mode                  = 'mm',
   to                    = "Member",
   this_key              = 'id',
@@ -78,32 +87,95 @@ Issue:add_reference{
 }
 
 function Issue:get_state_name_for_state(value)
-  local state_name_table = {}
+  local state_name_table = {
+    new          = _"New",
+    accepted     = _"Accepted",
+    frozen       = _"Frozen",
+    voting       = _"Voting",
+    finished     = _"Finished",
+    cancelled    = _"Cancelled"
+  }
   return state_name_table[value] or value
 end
 
-function Issue:search(search_string)
+function Issue:get_search_selector(search_string)
   return self:new_selector()
     :join('"initiative"', nil, '"initiative"."issue_id" = "issue"."id"')
-    :add_where{ '"initiative"."name" ILIKE ?', "%" .. search_string:gsub("%%", "") .. "%" }
+    :add_where{ '"initiative"."text_search_data" @@ "text_search_query"(?)', search_string }
     :set_distinct()
-    :exec()
 end
 
 function Issue.object_get:state()
   if self.accepted then
-    if self.frozen then
+    if self.fully_frozen then
+      return "voting"
+    elseif self.half_frozen then
       return "frozen"
     elseif self.closed then
-      return "closed"
+      if self.ranks_available then
+        return "finished"
+      else
+        return "cancelled"
+      end
     else
       return "accepted"
     end
   else
     if self.closed then
-      return "closed"
+      return "cancelled"
     else
       return "new"
     end
   end
+end
+
+function Issue.object_get:state_name()
+  return Issue:get_state_name_for_state(self.state)
+end
+
+function Issue.object_get:state_time_left()
+  local state = self.state
+  local last_event_time
+  local duration
+  if state == "new" then
+    last_event_time = self.created
+    duration = self.policy.admission_time
+  elseif state == "accepted" then
+    last_event_time = self.accepted
+    duration =  self.policy.discussion_time
+  elseif state == "frozen" then
+    last_event_time = self.half_frozen
+    duration = self.policy.verification_time
+  elseif state == "voting" then
+    last_event_time = self.fully_frozen
+    duration = self.policy.voting_time
+  end
+  return db:query{ "SELECT ?::timestamp + ?::interval - now() as time_left", last_event_time, duration }[1].time_left
+end
+
+function Issue.object_get:next_states()
+  local state = self.state
+  local next_states
+  if state == "new" then
+    next_states = { "accepted", "cancelled" }
+  elseif state == "accepted" then
+    next_states = { "frozen" }
+  elseif state == "frozen" then
+    next_states = { "voting" }
+  elseif state == "voting" then
+    next_states = { "finished" }
+  end
+  return next_states
+end
+
+function Issue.object_get:next_states_names()
+  local next_states = self.next_states
+  if not next_states then
+    return
+  end
+  local state_names = {}
+  for i, state in ipairs(self.next_states) do
+    state_names[#state_names+1] = Issue:get_state_name_for_state(state)
+  end
+  return table.concat(state_names, ", ")
 end

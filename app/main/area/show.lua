@@ -13,19 +13,19 @@ ui.container{
 slot.select("actions", function()
   ui.link{
     content = function()
-      ui.image{ static = "icons/16/folder_add.png" }
-      slot.put(_"Create new issue")
+      ui.image{ static = "icons/16/table_go.png" }
+      slot.put(_"Delegate")
     end,
-    module = "initiative",
+    module = "delegation",
     view = "new",
     params = { area_id = area.id }
   }
   ui.link{
     content = function()
-      ui.image{ static = "icons/16/table_go.png" }
-      slot.put(_"Delegate")
+      ui.image{ static = "icons/16/folder_add.png" }
+      slot.put(_"Create new issue")
     end,
-    module = "delegation",
+    module = "initiative",
     view = "new",
     params = { area_id = area.id }
   }
@@ -45,68 +45,35 @@ execute.view{
 
 ui.tabs{
   {
-    name = "new",
-    label = _"New",
+    name = "issues",
+    label = _"Issues",
     content = function()
       execute.view{
         module = "issue",
         view = "_list",
-        params = { issues_selector = area:get_reference_selector("issues"):add_where("issue.accepted ISNULL AND issue.closed ISNULL"), for_area_list = true }
+        params = { issues_selector = area:get_reference_selector("issues"), for_area_list = true }
       }
     end
   },
   {
-    name = "accepted",
-    label = _"In discussion",
+    name = "members",
+    label = _"Members",
     content = function()
       execute.view{
-        module = "issue",
+        module = "member",
         view = "_list",
-        params = { issues_selector = area:get_reference_selector("issues"):add_where("issue.accepted NOTNULL AND issue.half_frozen ISNULL AND issue.closed ISNULL"), for_area_list = true }
+        params = { members_selector = area:get_reference_selector("members") }
       }
     end
   },
   {
-    name = "half_frozen",
-    label = _"Frozen",
+    name = "delegations",
+    label = _"Delegations",
     content = function()
       execute.view{
-        module = "issue",
+        module = "delegation",
         view = "_list",
-        params = { issues_selector = area:get_reference_selector("issues"):add_where("issue.half_frozen NOTNULL AND issue.closed ISNULL"), for_area_list = true }
-      }
-    end
-  },
-  {
-    name = "frozen",
-    label = _"Voting",
-    content = function()
-      execute.view{
-        module = "issue",
-        view = "_list",
-        params = { issues_selector = area:get_reference_selector("issues"):add_where("issue.fully_frozen NOTNULL AND issue.closed ISNULL"), for_area_list = true }
-      }
-    end
-  },
-  {
-    name = "finished",
-    label = _"Finished",
-    content = function()
-      execute.view{
-        module = "issue",
-        view = "_list",
-        params = { issues_selector = area:get_reference_selector("issues"):add_where("issue.closed NOTNULL AND ranks_available"), for_area_list = true }
-      }
-    end
-  },
-  {
-    name = "cancelled",
-    label = _"Cancelled",
-    content = function()
-      execute.view{
-        module = "issue",
-        view = "_list",
-        params = { issues_selector = area:get_reference_selector("issues"):add_where("issue.closed NOTNULL AND NOT ranks_available"), for_area_list = true }
+        params = { delegations_selector = area:get_reference_selector("delegations") }
       }
     end
   },

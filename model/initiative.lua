@@ -91,11 +91,17 @@ Initiative:add_reference{
   ref                   = 'supporting_members'
 }
 
-function Initiative:search(search_string)
+function Initiative:get_search_selector(search_string)
   return self:new_selector()
-    :add_where{ '"initiative"."name" ILIKE ?', "%" .. search_string:gsub("%%", "") .. "%" }
-    :exec()
+    :add_field( {'"highlight"("initiative"."name", ?)', search_string }, "name_highlighted")
+    :add_where{ '"initiative"."text_search_data" @@ "text_search_query"(?)', search_string }
 end
+
+function Member:get_search_selector(search_string)
+  return self:new_selector()
+    :add_where("active")
+end
+
 
 function Initiative.object_get:current_draft()
   return Draft:new_selector()

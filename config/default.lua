@@ -1,9 +1,13 @@
 config.app_name = "LiquidFeedback"
-config.app_version = "alpha2"
+config.app_version = "alpha3"
 
 config.app_title = config.app_name .. " (" .. request.get_config_name() .. " environment)"
 
 config.app_service_provider = "Snake Oil<br/>10000 Berlin<br/>Germany"
+
+config.member_image_convert = {
+  avatar = { "convert", "-", "-thumbnail", "48x48", "-" }
+}
 
 -- uncomment the following two lines to use C implementations of chosen
 -- functions and to disable garbage collection during the request, to
@@ -37,7 +41,7 @@ request.set_absolute_baseurl(request.get_relative_baseurl())
 
 
 
-
+-- TODO abstraction
 -- get record by id
 function mondelefant.class_prototype:by_id(id)
   local selector = self:new_selector()
@@ -45,4 +49,5 @@ function mondelefant.class_prototype:by_id(id)
   selector:optional_object_mode()
   return selector:exec()
 end
+
 

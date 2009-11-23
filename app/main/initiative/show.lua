@@ -14,6 +14,11 @@ execute.view{
   params = { issue_id = initiative.issue_id }
 }
 
+execute.view{
+  module = "issue",
+  view = "_show_box",
+  params = { issue = initiative.issue }
+}
 
 slot.select("path", function()
   ui.link{
@@ -24,7 +29,7 @@ slot.select("path", function()
   }
   ui.container{ content = "::" }
   ui.link{
-    content = _"Issue ##{id} (#{policy_name})":gsub("#{id}", initiative.issue.id):gsub("#{policy_name}", initiative.issue.policy.name),
+    content = _"Issue ##{id}":gsub("#{id}", initiative.issue.id),
     module = "issue",
     view = "show",
     id = initiative.issue.id
@@ -34,6 +39,18 @@ end)
 slot.put_into("title", encode.html(_"Initiative: '#{name}'":gsub("#{name}", initiative.shortened_name) ))
 
 slot.select("actions", function()
+
+  if Initiator:by_pk(initiative.id, app.session.member.id) then
+    ui.link{
+      content = function()
+        ui.image{ static = "icons/16/script_add.png" }
+        slot.put(_"Edit draft")
+      end,
+      module = "draft",
+      view = "new",
+      params = { initiative_id = initiative.id }
+    }
+  end
 
   ui.twitter("http://example.com/i" .. tostring(initiative.id) .. " " .. initiative.name)
 
@@ -88,6 +105,48 @@ ui.container{
   end
 }
 
+local supporter = app.session.member:get_reference_selector("supporters")
+  :add_where{ "initiative_id = ?", initiative.id }
+  :optional_object_mode()
+  :exec()
+
+if supporter then
+  local old_draft_id = supporter.draft_id
+  local new_draft_id = initiative.current_draft.id
+  if old_draft_id ~= new_draft_id then
+    ui.container{
+      attr = { class = "draft_updated_info" },
+      content = function()
+        slot.put("The draft of this initiative has been updated!")
+        slot.put(" ")
+        ui.link{
+          content = _"Show diff",
+          module = "draft",
+          view = "diff",
+          params = {
+            old_draft_id = old_draft_id,
+            new_draft_id = new_draft_id
+          }
+        }
+        slot.put(" ")
+        ui.link{
+          content = _"Refresh support to current draft",
+          module = "initiative",
+          action = "add_support",
+          id = initiative.id,
+          routing = {
+            default = {
+              mode = "redirect",
+              module = "initiative",
+              view = "show",
+              id = initiative.id
+            }
+          }
+        }
+      end
+    }
+  end
+end
 
 ui.tabs{
   {
@@ -95,41 +154,6 @@ ui.tabs{
     label = _"Current draft",
     content = function()
       execute.view{ module = "draft", view = "_show", params = { draft = initiative.current_draft } }
-      if Initiator:by_pk(initiative.id, app.session.member.id) then
-        ui.link{
-          content = function()
-            ui.image{ static = "icons/16/script_add.png" }
-            slot.put(_"Add new draft")
-          end,
-          module = "draft",
-          view = "new",
-          params = { initiative_id = initiative.id }
-        }
-      end
-    end
-  },
-  {
-    name = "details",
-    label = _"Details",
-    content = function()
-      ui.form{
-        attr = { class = "vertical" },
-        record = initiative,
-        readonly = true,
-        content = function()
-          ui.field.text{ label = _"Issue policy", value = initiative.issue.policy.name }
-          ui.field.text{
-            label = _"Created at",
-            value = tostring(initiative.created)
-          }
-          ui.field.text{
-            label = _"Created at",
-            value = format.timestamp(initiative.created)
-          }
-          ui.field.date{ label = _"Revoked at", name = "revoked" }
-          ui.field.boolean{ label = _"Admitted", name = "admitted" }
-        end
-      }
     end
   },
   {
@@ -169,6 +193,30 @@ ui.tabs{
     label = _"Old drafts",
     content = function()
       execute.view{ module = "draft", view = "_list", params = { drafts = initiative.drafts } }
+    end
+  },
+  {
+    name = "details",
+    label = _"Details",
+    content = function()
+      ui.form{
+        attr = { class = "vertical" },
+        record = initiative,
+        readonly = true,
+        content = function()
+          ui.field.text{ label = _"Issue policy", value = initiative.issue.policy.name }
+          ui.field.text{
+            label = _"Created at",
+            value = tostring(initiative.created)
+          }
+          ui.field.text{
+            label = _"Created at",
+            value = format.timestamp(initiative.created)
+          }
+          ui.field.date{ label = _"Revoked at", name = "revoked" }
+          ui.field.boolean{ label = _"Admitted", name = "admitted" }
+        end
+      }
     end
   },
 }

@@ -35,7 +35,7 @@ ui.order{
               local max_value = MemberCount:get()
               ui.bargraph{
                 max_value = max_value,
-                width = 100,
+                width = 200,
                 bars = {
                   { color = "#444", value = record.direct_member_count },
                   { color = "#777", value = record.member_weight - record.direct_member_count },
