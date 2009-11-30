@@ -18,6 +18,10 @@ NOTE: When writing to the database, some INSERTs must be executed
       within the same transaction, e.g. issues can't exist without
       an initiative and vice versa.
 
+To create an export file, which is containing all but private data,
+you may use the lf_export shell-script:
+$ lf_export liquid_feedback export.sql.gz
+
 To uninstall the software, delete the lf_update binary
 and drop the database by entering the following command:
 $ dropdb liquid_feedback

@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('beta8', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('beta9', NULL, NULL, NULL))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -35,7 +35,7 @@ CREATE FUNCTION "highlight"
     BEGIN
       RETURN ts_headline(
         'pg_catalog.simple',
-        replace(replace("body_p", '\\', '\\\\'), '*', '\\*'),
+        replace(replace("body_p", e'\\', e'\\\\'), '*', e'\\*'),
         "text_search_query"("query_text_p"),
         'StartSel=* StopSel=* HighlightAll=TRUE' );
     END;
@@ -52,12 +52,14 @@ COMMENT ON FUNCTION "highlight"
 -- Tables and indicies --
 -------------------------
 
+
 CREATE TABLE "member" (
         "id"                    SERIAL4         PRIMARY KEY,
         "login"                 TEXT            NOT NULL UNIQUE,
         "password"              TEXT,
         "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
         "admin"                 BOOLEAN         NOT NULL DEFAULT FALSE,
+        "hidden_hints"          TEXT[],
         "notify_email"          TEXT,
         "notify_email_confirmed" BOOLEAN,
         "name"                  TEXT            NOT NULL UNIQUE,
@@ -80,6 +82,7 @@ CREATE TABLE "member" (
         CONSTRAINT "notify_email_null_check"
           CHECK ("notify_email" NOTNULL = "notify_email_confirmed" NOTNULL) );
 CREATE INDEX "member_active_idx" ON "member" ("active");
+CREATE INDEX "member_text_search_data_idx" ON "member" USING gin ("text_search_data");
 CREATE TRIGGER "update_text_search_data"
   BEFORE INSERT OR UPDATE ON "member"
   FOR EACH ROW EXECUTE PROCEDURE
@@ -93,6 +96,7 @@ COMMENT ON COLUMN "member"."login"                  IS 'Login name';
 COMMENT ON COLUMN "member"."password"               IS 'Password (preferably as crypto-hash, depending on the frontend or access layer)';
 COMMENT ON COLUMN "member"."active"                 IS 'Inactive members can not login and their supports/votes are not counted by the system.';
 COMMENT ON COLUMN "member"."admin"                  IS 'TRUE for admins, which can administrate other users and setup policies and areas';
+COMMENT ON COLUMN "member"."hidden_hints"           IS 'This field may be used by a frontend to store identification strings for introductory hints, which the user wants to hide.';
 COMMENT ON COLUMN "member"."notify_email"           IS 'Email address where notifications of the system are sent to';
 COMMENT ON COLUMN "member"."notify_email_confirmed" IS 'TRUE, if "notify_email" has been confirmed';
 COMMENT ON COLUMN "member"."name"                   IS 'Distinct name of the member';
@@ -202,6 +206,7 @@ CREATE TABLE "area" (
         "autoreject_weight"     INT4,
         "text_search_data"      TSVECTOR );
 CREATE INDEX "area_active_idx" ON "area" ("active");
+CREATE INDEX "area_text_search_data_idx" ON "area" USING gin ("text_search_data");
 CREATE TRIGGER "update_text_search_data"
   BEFORE INSERT OR UPDATE ON "area"
   FOR EACH ROW EXECUTE PROCEDURE
@@ -216,6 +221,11 @@ COMMENT ON COLUMN "area"."member_weight"       IS 'Same as "direct_member_count"
 COMMENT ON COLUMN "area"."autoreject_weight"   IS 'Sum of weight of members using the autoreject feature';
 
 
+CREATE TYPE "snapshot_event" AS ENUM ('periodic', 'end_of_admission', 'start_of_voting');
+
+COMMENT ON TYPE "snapshot_event" IS 'Reason for snapshots: ''periodic'' = due to periodic recalculation, ''end_of_admission'' = saved state at end of admission period, ''start_of_voting'' = saved state at end of verification period';
+
+
 CREATE TABLE "issue" (
         "id"                    SERIAL4         PRIMARY KEY,
         "area_id"               INT4            NOT NULL REFERENCES "area" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -227,6 +237,7 @@ CREATE TABLE "issue" (
         "closed"                TIMESTAMPTZ,
         "ranks_available"       BOOLEAN         NOT NULL DEFAULT FALSE,
         "snapshot"              TIMESTAMPTZ,
+        "latest_snapshot_event" "snapshot_event",
         "population"            INT4,
         "vote_now"              INT4,
         "vote_later"            INT4,
@@ -245,23 +256,25 @@ CREATE TABLE "issue" (
           "half_frozen" <= "fully_frozen" AND
           "fully_frozen" <= "closed" ),
         CONSTRAINT "last_snapshot_on_full_freeze" CHECK ("snapshot" = "fully_frozen"),  -- NOTE: snapshot can be set, while frozen is NULL yet
-        CONSTRAINT "freeze_requires_snapshot" CHECK ("fully_frozen" ISNULL OR "snapshot" NOTNULL) );
+        CONSTRAINT "freeze_requires_snapshot" CHECK ("fully_frozen" ISNULL OR "snapshot" NOTNULL),
+        CONSTRAINT "set_both_or_none_of_snapshot_and_latest_snapshot_event" CHECK ("snapshot" NOTNULL = "latest_snapshot_event" NOTNULL) );
 CREATE INDEX "issue_area_id_idx" ON "issue" ("area_id");
 CREATE INDEX "issue_policy_id_idx" ON "issue" ("policy_id");
 CREATE INDEX "issue_created_idx_open" ON "issue" ("created") WHERE "closed" ISNULL;
 
 COMMENT ON TABLE "issue" IS 'Groups of initiatives';
 
-COMMENT ON COLUMN "issue"."accepted"        IS 'Point in time, when one initiative of issue reached the "issue_quorum"';
-COMMENT ON COLUMN "issue"."half_frozen"     IS 'Point in time, when "discussion_time" has elapsed, or members voted for voting';
-COMMENT ON COLUMN "issue"."fully_frozen"    IS 'Point in time, when "verification_time" has elapsed';
-COMMENT ON COLUMN "issue"."closed"          IS 'Point in time, when "admission_time" or "voting_time" have elapsed, and issue is no longer active';
-COMMENT ON COLUMN "issue"."ranks_available" IS 'TRUE = ranks have been calculated';
-COMMENT ON COLUMN "issue"."snapshot"        IS 'Point in time, when snapshot tables have been updated and "population", "vote_now", "vote_later" and *_count values were precalculated';
-COMMENT ON COLUMN "issue"."population"      IS 'Sum of "weight" column in table "direct_population_snapshot"';
-COMMENT ON COLUMN "issue"."vote_now"        IS 'Number of votes in favor of voting now, as calculated from table "direct_interest_snapshot"';
-COMMENT ON COLUMN "issue"."vote_later"      IS 'Number of votes against voting now, as calculated from table "direct_interest_snapshot"';
-COMMENT ON COLUMN "issue"."voter_count"     IS 'Total number of direct and delegating voters; This value is related to the final voting, while "population" is related to snapshots before the final voting';
+COMMENT ON COLUMN "issue"."accepted"              IS 'Point in time, when one initiative of issue reached the "issue_quorum"';
+COMMENT ON COLUMN "issue"."half_frozen"           IS 'Point in time, when "discussion_time" has elapsed, or members voted for voting';
+COMMENT ON COLUMN "issue"."fully_frozen"          IS 'Point in time, when "verification_time" has elapsed';
+COMMENT ON COLUMN "issue"."closed"                IS 'Point in time, when "admission_time" or "voting_time" have elapsed, and issue is no longer active';
+COMMENT ON COLUMN "issue"."ranks_available"       IS 'TRUE = ranks have been calculated';
+COMMENT ON COLUMN "issue"."snapshot"              IS 'Point in time, when snapshot tables have been updated and "population", "vote_now", "vote_later" and *_count values were precalculated';
+COMMENT ON COLUMN "issue"."latest_snapshot_event" IS 'Event type of latest snapshot for issue; Can be used to select the latest snapshot data in the snapshot tables';
+COMMENT ON COLUMN "issue"."population"            IS 'Sum of "weight" column in table "direct_population_snapshot"';
+COMMENT ON COLUMN "issue"."vote_now"              IS 'Number of votes in favor of voting now, as calculated from table "direct_interest_snapshot"';
+COMMENT ON COLUMN "issue"."vote_later"            IS 'Number of votes against voting now, as calculated from table "direct_interest_snapshot"';
+COMMENT ON COLUMN "issue"."voter_count"           IS 'Total number of direct and delegating voters; This value is related to the final voting, while "population" is related to snapshots before the final voting';
 
 
 CREATE TABLE "initiative" (
@@ -269,6 +282,7 @@ CREATE TABLE "initiative" (
         "issue_id"              INT4            NOT NULL REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "id"                    SERIAL4         PRIMARY KEY,
         "name"                  TEXT            NOT NULL,
+        "discussion_url"        TEXT,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "revoked"               TIMESTAMPTZ,
         "admitted"              BOOLEAN,
@@ -284,13 +298,16 @@ CREATE TABLE "initiative" (
           CHECK ("revoked" ISNULL OR "admitted" ISNULL),
         CONSTRAINT "non_admitted_initiatives_cant_contain_voting_results"
           CHECK ("admitted" = TRUE OR ("positive_votes" ISNULL AND "negative_votes" ISNULL AND "rank" ISNULL)) );
+CREATE INDEX "initiative_text_search_data_idx" ON "initiative" USING gin ("text_search_data");
 CREATE TRIGGER "update_text_search_data"
   BEFORE INSERT OR UPDATE ON "initiative"
   FOR EACH ROW EXECUTE PROCEDURE
-  tsvector_update_trigger('text_search_data', 'pg_catalog.simple', "name");
+  tsvector_update_trigger('text_search_data', 'pg_catalog.simple',
+    "name", "discussion_url");
 
 COMMENT ON TABLE "initiative" IS 'Group of members publishing drafts for resolutions to be passed';
 
+COMMENT ON COLUMN "initiative"."discussion_url" IS 'URL pointing to a discussion platform for this initiative';
 COMMENT ON COLUMN "initiative"."revoked"        IS 'Point in time, when one initiator decided to revoke the initiative';
 COMMENT ON COLUMN "initiative"."admitted"       IS 'True, if initiative reaches the "initiative_quorum" when freezing the issue';
 COMMENT ON COLUMN "initiative"."supporter_count"                    IS 'Calculated from table "direct_supporter_snapshot"';
@@ -310,6 +327,7 @@ CREATE TABLE "draft" (
         "author_id"             INT4            NOT NULL REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
         "content"               TEXT            NOT NULL,
         "text_search_data"      TSVECTOR );
+CREATE INDEX "draft_text_search_data_idx" ON "draft" USING gin ("text_search_data");
 CREATE TRIGGER "update_text_search_data"
   BEFORE INSERT OR UPDATE ON "draft"
   FOR EACH ROW EXECUTE PROCEDURE
@@ -335,6 +353,7 @@ CREATE TABLE "suggestion" (
         "plus1_fulfilled_count"    INT4,
         "plus2_unfulfilled_count"  INT4,
         "plus2_fulfilled_count"    INT4 );
+CREATE INDEX "suggestion_text_search_data_idx" ON "suggestion" USING gin ("text_search_data");
 CREATE TRIGGER "update_text_search_data"
   BEFORE INSERT OR UPDATE ON "suggestion"
   FOR EACH ROW EXECUTE PROCEDURE
@@ -444,11 +463,6 @@ COMMENT ON COLUMN "delegation"."area_id"  IS 'Reference to area, if delegation i
 COMMENT ON COLUMN "delegation"."issue_id" IS 'Reference to issue, if delegation is issue-wide, otherwise NULL';
 
 
-CREATE TYPE "snapshot_event" AS ENUM ('periodic', 'end_of_admission', 'start_of_voting');
-
-COMMENT ON TYPE "snapshot_event" IS 'Reason for snapshots: ''periodic'' = due to periodic recalculation, ''end_of_admission'' = saved state at end of admission period, ''start_of_voting'' = saved state at end of verification period';
-
-
 CREATE TABLE "direct_population_snapshot" (
         PRIMARY KEY ("issue_id", "event", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -470,6 +484,7 @@ CREATE TABLE "delegating_population_snapshot" (
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "event"                "snapshot_event",
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+        "weight"                INT4,
         "delegate_member_ids"   INT4[]          NOT NULL );
 CREATE INDEX "delegating_population_snapshot_member_id_idx" ON "delegating_population_snapshot" ("member_id");
 
@@ -477,6 +492,7 @@ COMMENT ON TABLE "direct_population_snapshot" IS 'Delegations increasing the wei
 
 COMMENT ON COLUMN "delegating_population_snapshot"."event"               IS 'Reason for snapshot, see "snapshot_event" type for details';
 COMMENT ON COLUMN "delegating_population_snapshot"."member_id"           IS 'Delegating member';
+COMMENT ON COLUMN "delegating_population_snapshot"."weight"              IS 'Intermediate weight';
 COMMENT ON COLUMN "delegating_population_snapshot"."delegate_member_ids" IS 'Chain of members who act as delegates; last entry referes to "member_id" column of table "direct_population_snapshot"';
 
 
@@ -501,6 +517,7 @@ CREATE TABLE "delegating_interest_snapshot" (
         "issue_id"         INT4                 REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "event"                "snapshot_event",
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+        "weight"                INT4,
         "delegate_member_ids"   INT4[]          NOT NULL );
 CREATE INDEX "delegating_interest_snapshot_member_id_idx" ON "delegating_interest_snapshot" ("member_id");
 
@@ -508,6 +525,7 @@ COMMENT ON TABLE "delegating_interest_snapshot" IS 'Delegations increasing the w
 
 COMMENT ON COLUMN "delegating_interest_snapshot"."event"               IS 'Reason for snapshot, see "snapshot_event" type for details';
 COMMENT ON COLUMN "delegating_interest_snapshot"."member_id"           IS 'Delegating member';
+COMMENT ON COLUMN "delegating_interest_snapshot"."weight"              IS 'Intermediate weight';
 COMMENT ON COLUMN "delegating_interest_snapshot"."delegate_member_ids" IS 'Chain of members who act as delegates; last entry referes to "member_id" column of table "direct_interest_snapshot"';
 
 
@@ -523,7 +541,7 @@ CREATE TABLE "direct_supporter_snapshot" (
         FOREIGN KEY ("issue_id", "event", "member_id") REFERENCES "direct_interest_snapshot" ("issue_id", "event", "member_id") ON DELETE CASCADE ON UPDATE CASCADE );
 CREATE INDEX "direct_supporter_snapshot_member_id_idx" ON "direct_supporter_snapshot" ("member_id");
 
-COMMENT ON TABLE "direct_supporter_snapshot" IS 'Snapshot of supporters of initiatives (weight is stored in "direct_interest_snapshot)';
+COMMENT ON TABLE "direct_supporter_snapshot" IS 'Snapshot of supporters of initiatives (weight is stored in "direct_interest_snapshot")';
 
 COMMENT ON COLUMN "direct_supporter_snapshot"."event"     IS 'Reason for snapshot, see "snapshot_event" type for details';
 COMMENT ON COLUMN "direct_supporter_snapshot"."informed"  IS 'Supporter has seen the latest draft of the initiative';
@@ -548,12 +566,14 @@ CREATE TABLE "delegating_voter" (
         PRIMARY KEY ("issue_id", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+        "weight"                INT4,
         "delegate_member_ids"   INT4[]          NOT NULL );
 CREATE INDEX "delegating_voter_member_id_idx" ON "direct_voter" ("member_id");
 
 COMMENT ON TABLE "delegating_voter" IS 'Delegations increasing the weight of entries in the "direct_voter" table';
 
 COMMENT ON COLUMN "delegating_voter"."member_id"           IS 'Delegating member';
+COMMENT ON COLUMN "delegating_voter"."weight"              IS 'Intermediate weight';
 COMMENT ON COLUMN "delegating_voter"."delegate_member_ids" IS 'Chain of members who act as delegates; last entry referes to "member_id" column of table "direct_voter"';
 
 
@@ -1021,6 +1041,13 @@ CREATE FUNCTION "membership_weight_with_skipping"
     END;
   $$;
 
+COMMENT ON FUNCTION "membership_weight_with_skipping"
+  ( "area"."id"%TYPE,
+    "member"."id"%TYPE,
+    INT4[] )
+  IS 'Helper function for "membership_weight" function';
+
+
 CREATE FUNCTION "membership_weight"
   ( "area_id_p"         "area"."id"%TYPE,
     "member_id_p"       "member"."id"%TYPE )  -- "member"."id"%TYPE[]
@@ -1034,6 +1061,11 @@ CREATE FUNCTION "membership_weight"
       );
     END;
   $$;
+
+COMMENT ON FUNCTION "membership_weight"
+  ( "area"."id"%TYPE,
+    "member"."id"%TYPE )
+  IS 'Calculates the potential voting weight of a member in a given area';
 
 
 CREATE VIEW "member_count_view" AS
@@ -1067,7 +1099,6 @@ CREATE VIEW "area_member_count" AS
   ON "membership"."member_id" = "member"."id"
   AND "member"."active"
   GROUP BY "area"."id";
--- TODO: count delegations
 
 COMMENT ON VIEW "area_member_count" IS 'View used to update "member_count" column of table "area"';
 
@@ -1481,6 +1512,7 @@ CREATE FUNCTION "weight_of_added_delegations_for_population_snapshot"
       "issue_delegation_row"  "issue_delegation"%ROWTYPE;
       "delegate_member_ids_v" "delegating_population_snapshot"."delegate_member_ids"%TYPE;
       "weight_v"              INT4;
+      "sub_weight_v"          INT4;
     BEGIN
       "weight_v" := 0;
       FOR "issue_delegation_row" IN
@@ -1509,12 +1541,18 @@ CREATE FUNCTION "weight_of_added_delegations_for_population_snapshot"
               "issue_delegation_row"."truster_id",
               "delegate_member_ids_v"
             );
-          "weight_v" := "weight_v" + 1 +
+          "sub_weight_v" := 1 +
             "weight_of_added_delegations_for_population_snapshot"(
               "issue_id_p",
               "issue_delegation_row"."truster_id",
               "delegate_member_ids_v"
             );
+          UPDATE "delegating_population_snapshot"
+            SET "weight" = "sub_weight_v"
+            WHERE "issue_id" = "issue_id_p"
+            AND "event" = 'periodic'
+            AND "member_id" = "issue_delegation_row"."truster_id";
+          "weight_v" := "weight_v" + "sub_weight_v";
         END IF;
       END LOOP;
       RETURN "weight_v";
@@ -1606,6 +1644,7 @@ CREATE FUNCTION "weight_of_added_delegations_for_interest_snapshot"
       "issue_delegation_row"  "issue_delegation"%ROWTYPE;
       "delegate_member_ids_v" "delegating_interest_snapshot"."delegate_member_ids"%TYPE;
       "weight_v"              INT4;
+      "sub_weight_v"          INT4;
     BEGIN
       "weight_v" := 0;
       FOR "issue_delegation_row" IN
@@ -1634,12 +1673,18 @@ CREATE FUNCTION "weight_of_added_delegations_for_interest_snapshot"
               "issue_delegation_row"."truster_id",
               "delegate_member_ids_v"
             );
-          "weight_v" := "weight_v" + 1 +
+          "sub_weight_v" := 1 +
             "weight_of_added_delegations_for_interest_snapshot"(
               "issue_id_p",
               "issue_delegation_row"."truster_id",
               "delegate_member_ids_v"
             );
+          UPDATE "delegating_interest_snapshot"
+            SET "weight" = "sub_weight_v"
+            WHERE "issue_id" = "issue_id_p"
+            AND "event" = 'periodic'
+            AND "member_id" = "issue_delegation_row"."truster_id";
+          "weight_v" := "weight_v" + "sub_weight_v";
         END IF;
       END LOOP;
       RETURN "weight_v";
@@ -1744,14 +1789,15 @@ CREATE FUNCTION "create_snapshot"
       PERFORM "create_population_snapshot"("issue_id_p");
       PERFORM "create_interest_snapshot"("issue_id_p");
       UPDATE "issue" SET
-        "snapshot"   = now(),
+        "snapshot" = now(),
+        "latest_snapshot_event" = 'periodic',
         "population" = (
           SELECT coalesce(sum("weight"), 0)
           FROM "direct_population_snapshot"
           WHERE "issue_id" = "issue_id_p"
           AND "event" = 'periodic'
         ),
-        "vote_now"   = (
+        "vote_now" = (
           SELECT coalesce(sum("weight"), 0)
           FROM "direct_interest_snapshot"
           WHERE "issue_id" = "issue_id_p"
@@ -1910,6 +1956,8 @@ CREATE FUNCTION "set_snapshot_event"
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
+      UPDATE "issue" SET "latest_snapshot_event" = "event_p"
+        WHERE "id" = "issue_id_p";
       UPDATE "direct_population_snapshot" SET "event" = "event_p"
         WHERE "issue_id" = "issue_id_p" AND "event" = 'periodic';
       UPDATE "delegating_population_snapshot" SET "event" = "event_p"
@@ -2011,6 +2059,7 @@ CREATE FUNCTION "weight_of_added_vote_delegations"
       "issue_delegation_row"  "issue_delegation"%ROWTYPE;
       "delegate_member_ids_v" "delegating_voter"."delegate_member_ids"%TYPE;
       "weight_v"              INT4;
+      "sub_weight_v"          INT4;
     BEGIN
       "weight_v" := 0;
       FOR "issue_delegation_row" IN
@@ -2030,18 +2079,23 @@ CREATE FUNCTION "weight_of_added_vote_delegations"
           "delegate_member_ids_v" :=
             "member_id_p" || "delegate_member_ids_p";
           INSERT INTO "delegating_voter"
-            ("member_id", "issue_id", "delegate_member_ids")
+            ("issue_id", "member_id", "delegate_member_ids")
             VALUES (
-              "issue_delegation_row"."truster_id",
-              "issue_id_p",
-              "delegate_member_ids_v"
-            );
-          "weight_v" := "weight_v" +
-            1 + "weight_of_added_vote_delegations"(
               "issue_id_p",
               "issue_delegation_row"."truster_id",
               "delegate_member_ids_v"
             );
+          "sub_weight_v" := 1 +
+            "weight_of_added_vote_delegations"(
+              "issue_id_p",
+              "issue_delegation_row"."truster_id",
+              "delegate_member_ids_v"
+            );
+          UPDATE "delegating_voter"
+            SET "weight" = "sub_weight_v"
+            WHERE "issue_id" = "issue_id_p"
+            AND "member_id" = "issue_delegation_row"."truster_id";
+          "weight_v" := "weight_v" + "sub_weight_v";
         END IF;
       END LOOP;
       RETURN "weight_v";
@@ -2546,6 +2600,30 @@ CREATE FUNCTION "check_everything"()
   $$;
 
 COMMENT ON FUNCTION "check_everything"() IS 'Perform "check_issue" for every open issue, and if possible, automatically calculate ranks. Use this function only for development and debugging purposes, as long transactions with exclusive locking may result.';
+
+
+
+------------------------------
+-- Deletion of private data --
+------------------------------
+
+
+CREATE FUNCTION "delete_private_data"()
+  RETURNS VOID
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    DECLARE
+      "issue_id_v" "issue"."id"%TYPE;
+    BEGIN
+      DELETE FROM "session";
+      DELETE FROM "contact" WHERE NOT "public";
+      DELETE FROM "direct_voter" USING "issue"
+        WHERE "direct_voter"."issue_id" = "issue"."id"
+        AND "issue"."closed" ISNULL;
+      RETURN;
+    END;
+  $$;
+
+COMMENT ON FUNCTION "delete_private_data"() IS 'DO NOT USE on productive database, but only on a copy! This function deletes all data which should not be publicly available, and can be used to create a database dump for publication.';
 
 
 
