@@ -8,7 +8,7 @@ ui.paginate{
       records = suggestions_selector:exec(),
       columns = {
         {
-          label = _"Name",
+          label = _"Suggestion",
           content = function(record)
             ui.link{
               text = record.name,
@@ -19,7 +19,8 @@ ui.paginate{
           end
         },
         {
-          label = _"Support",
+          label = _"Collective opinion",
+          label_attr = { style = "width: 101px;" },
           content = function(record)
             if record.minus2_unfulfilled_count then
               local max_value = record.initiative.issue.population
@@ -39,6 +40,7 @@ ui.paginate{
           end
         },
         {
+          label = _"My opinion",
           content = function(record)
             local degree
             local opinion = Opinion:by_pk(app.session.member.id, record.id)
@@ -103,6 +105,14 @@ ui.paginate{
           end
         },
         {
+          content = function(record)
+            local opinion = Opinion:by_pk(app.session.member.id, record.id)
+            if opinion and not opinion.fulfilled then
+              ui.image{ static = "icons/16/cross.png" }
+            end
+          end
+        },
+        {
           label = _"Suggestion currently not implemented",
           label_attr = { style = "width: 101px;" },
           content = function(record)
@@ -120,6 +130,14 @@ ui.paginate{
                   { color = "#ddd", value = max_value - record.plus1_unfulfilled_count - record.plus2_unfulfilled_count },
                 }
               }
+            end
+          end
+        },
+        {
+          content = function(record)
+            local opinion = Opinion:by_pk(app.session.member.id, record.id)
+            if opinion and opinion.fulfilled then
+                ui.image{ static = "icons/16/tick.png" }
             end
           end
         },
@@ -145,6 +163,7 @@ ui.paginate{
           end
         },
         {
+          label_attr = { style = "width: 200px;" },
           content = function(record)
             local degree
             local opinion = Opinion:by_pk(app.session.member.id, record.id)
@@ -153,10 +172,15 @@ ui.paginate{
             end
             if opinion then
               if not opinion.fulfilled then
-                ui.image{ static = "icons/16/cross.png" }
+                local text = ""
+                if opinion.degree > 0 then
+                  text = _"Mark suggestion as implemented and express satisfaction"
+                else
+                  text = _"Mark suggestion as implemented and express dissatisfaction"
+                end
                 ui.link{
                   attr = { class = "action" },
-                  text = _"set implented",
+                  text = text,
                   module = "opinion",
                   action = "update",
                   routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
@@ -166,10 +190,14 @@ ui.paginate{
                   }
                 }
               else
-                ui.image{ static = "icons/16/tick.png" }
+                if opinion.degree > 0 then
+                  text = _"Mark suggestion as not implemented and express dissatisfaction"
+                else
+                  text = _"Mark suggestion as not implemented and express satisfaction"
+                end
                 ui.link{
                   attr = { class = "action" },
-                  text = _"remove implemented",
+                  text = text,
                   module = "opinion",
                   action = "update",
                   routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
@@ -178,6 +206,18 @@ ui.paginate{
                     fulfilled = false
                   }
                 }
+              end
+            end
+          end
+        },
+        {
+          content = function(record)
+            local opinion = Opinion:by_pk(app.session.member.id, record.id)
+            if opinion then
+              if (opinion.fulfilled and opinion.degree > 0) or (not opinion.fulfilled and opinion.degree < 0) then
+                ui.image{ static = "icons/16/thumb_up_green.png" }
+              else
+                ui.image{ static = "icons/16/thumb_down_red.png" }
               end
             end
           end

@@ -16,7 +16,7 @@ end
 
 local data = param.get("avatar")
 
-local data_scaled, err, status = os.pfilter(data, "convert", "-", "-thumbnail", "48x48", "-")
+local data_scaled, err, status = os.pfilter(data, "convert", "-", "-thumbnail", "48x48", "jpeg:-")
 
 if status ~= 0 or data_scaled == nil then
  error("error while converting image")

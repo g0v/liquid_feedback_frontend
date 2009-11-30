@@ -61,7 +61,7 @@ ui.tabs{
         }
       }
       slot.put("<br />")
-      if not issue.frozen and not issue.closed then
+      if not issue.fully_frozen and not issue.closed then
         ui.link{
           attr = { class = "action" },
           content = function()
@@ -88,6 +88,23 @@ ui.tabs{
   },
 --]]
   {
+    name = "interested_members",
+    label = _"Interested members",
+    content = function()
+      execute.view{
+        module = "member",
+        view = "_list",
+        params = {
+          issue = issue,
+          members_selector =  issue:get_reference_selector("interested_members_snapshot")
+            :join("issue", nil, "issue.id = direct_interest_snapshot.issue_id")
+            :add_field("direct_interest_snapshot.weight")
+            :add_where("direct_interest_snapshot.event = issue.latest_snapshot_event")
+        }
+      }
+    end
+  },
+  {
     name = "delegations",
     label = _"Delegations",
     content = function()
@@ -110,19 +127,23 @@ ui.tabs{
         content = function()
           ui.field.text{ label = _"State", name = "state" }
           ui.field.timestamp{ label = _"Created at",            name = "created" }
-          ui.field.text{      label = _"admission_time",        value = policy.admission_time }
-          ui.field.integer{   label = _"issue_quorum_num",      value = policy.issue_quorum_num }
-          ui.field.integer{   label = _"issue_quorum_den",      value = policy.issue_quorum_den }
-          ui.field.timestamp{ label = _"Accepted",              name = "accepted" }
-          ui.field.text{      label = _"discussion_time",       value = policy.discussion_time }
+          ui.field.text{      label = _"Admission time",        value = policy.admission_time }
+          ui.field.text{
+            label = _"Issue quorum",
+            value = format.percentage(policy.issue_quorum_num / policy.issue_quorum_den)
+          }
+          ui.field.timestamp{ label = _"Accepted at",              name = "accepted" }
+          ui.field.text{      label = _"Discussion time",       value = policy.discussion_time }
           ui.field.vote_now{   label = _"Vote now", name = "vote_now" }
           ui.field.vote_later{ label = _"Vote later", name = "vote_later" }
-          ui.field.timestamp{ label = _"Half frozen",           name = "half_frozen" }
-          ui.field.text{      label = _"verification_time",     value = policy.verification_time }
-          ui.field.integer{ label   = _"initiative_quorum_num", value = policy.initiative_quorum_num }
-          ui.field.integer{ label   = _"initiative_quorum_den", value = policy.initiative_quorum_den }
-          ui.field.timestamp{ label = _"Fully frozen",          name = "fully_frozen" }
-          ui.field.text{      label = _"voting_time",           value = policy.voting_time }
+          ui.field.timestamp{ label = _"Half frozen at",           name = "half_frozen" }
+          ui.field.text{      label = _"Verification time",     value = policy.verification_time }
+          ui.field.text{
+            label   = _"Initiative quorum",
+            value = format.percentage(policy.initiative_quorum_num / policy.initiative_quorum_den)
+          }
+          ui.field.timestamp{ label = _"Fully frozen at",          name = "fully_frozen" }
+          ui.field.text{      label = _"Voting time",           value = policy.voting_time }
           ui.field.timestamp{ label = _"Closed",                name = "closed" }
         end
       }

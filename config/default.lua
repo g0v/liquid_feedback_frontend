@@ -1,12 +1,12 @@
 config.app_name = "LiquidFeedback"
-config.app_version = "alpha3"
+config.app_version = "alpha4"
 
 config.app_title = config.app_name .. " (" .. request.get_config_name() .. " environment)"
 
 config.app_service_provider = "Snake Oil<br/>10000 Berlin<br/>Germany"
 
 config.member_image_convert = {
-  avatar = { "convert", "-", "-thumbnail", "48x48", "-" }
+  avatar = { "convert", "-", "-thumbnail", "48x48", "jpeg:-" }
 }
 
 -- uncomment the following two lines to use C implementations of chosen

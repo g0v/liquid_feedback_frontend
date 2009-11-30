@@ -5,8 +5,12 @@ ui.form{
   record = member,
   readonly = true,
   content = function()
-    ui.field.boolean{ label = _"Admin?",       name = "admin" }
-    ui.field.boolean{ label = _"Locked?",      name = "locked" }
+    if member.admin then
+      ui.field.boolean{ label = _"Admin?",       name = "admin" }
+    end
+    if member.locked then
+      ui.field.boolean{ label = _"Locked?",      name = "locked" }
+    end
     if member.ident_number then
       ui.field.text{    label = _"Ident number", name = "ident_number" }
     end

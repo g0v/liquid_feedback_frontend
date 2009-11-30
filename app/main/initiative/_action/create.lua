@@ -23,7 +23,8 @@ if not issue then
 end
 
 initiative.issue_id = issue.id
-param.update(initiative, "name")
+
+param.update(initiative, "name", "discussion_url")
 initiative:save()
 
 local draft = Draft:new()

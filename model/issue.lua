@@ -86,10 +86,21 @@ Issue:add_reference{
   ref                   = 'members'
 }
 
+Issue:add_reference{
+  mode                  = 'mm',
+  to                    = "Member",
+  this_key              = 'id',
+  that_key              = 'id',
+  connected_by_table    = 'direct_interest_snapshot',
+  connected_by_this_key = 'issue_id',
+  connected_by_that_key = 'member_id',
+  ref                   = 'interested_members_snapshot'
+}
+
 function Issue:get_state_name_for_state(value)
   local state_name_table = {
     new          = _"New",
-    accepted     = _"Accepted",
+    accepted     = _"Discussion",
     frozen       = _"Frozen",
     voting       = _"Voting",
     finished     = _"Finished",
@@ -107,16 +118,16 @@ end
 
 function Issue.object_get:state()
   if self.accepted then
-    if self.fully_frozen then
-      return "voting"
-    elseif self.half_frozen then
-      return "frozen"
-    elseif self.closed then
+    if self.closed then
       if self.ranks_available then
         return "finished"
       else
         return "cancelled"
       end
+    elseif self.fully_frozen then
+      return "voting"
+    elseif self.half_frozen then
+      return "frozen"
     else
       return "accepted"
     end

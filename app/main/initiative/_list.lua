@@ -55,7 +55,13 @@ ui.order{
         columns[#columns+1] = {
           content = function(record)
             if record.issue.accepted and record.issue.closed and record.issue.ranks_available then 
-              ui.field.rank{ value = record.rank }
+              ui.field.rank{ attr = { class = "rank" }, value = record.rank }
+            end
+          end
+        }
+        columns[#columns+1] = {
+          content = function(record)
+            if record.issue.accepted and record.issue.closed and record.issue.ranks_available then 
               if record.negative_votes and record.positive_votes then
                 local max_value = record.issue.voter_count
                 ui.bargraph{

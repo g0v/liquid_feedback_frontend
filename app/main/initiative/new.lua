@@ -39,6 +39,7 @@ ui.form{
       }
     end
     ui.field.text{ label = _"Name",  name = "name" }
+    ui.field.text{ label = _"Discussion URL",  name = "discussion_url" }
     ui.field.text{ label = _"Draft", name = "draft", multiline = true, attr = { style = "height: 50ex;" } }
     ui.submit{ text = _"Save" }
   end

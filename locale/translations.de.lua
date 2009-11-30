@@ -1,5 +1,7 @@
 #!/usr/bin/env lua
 return {
+["(change)"] = "(ändern)";
+["+ #{weight}"] = false;
 ["A-Z"] = false;
 ["About"] = false;
 ["About LiquidFeedback"] = "Über LiquidFeedback";
@@ -15,6 +17,7 @@ return {
 ["Admin"] = "Admin";
 ["Admin menu"] = "Admin Menü";
 ["Admin?"] = "Admin?";
+["Administrator"] = false;
 ["Admitted"] = "zugelassen";
 ["Any"] = "Alle";
 ["Area"] = "Themenbereich";
@@ -36,10 +39,12 @@ return {
 ["Click here to close."] = "Zum Schließen hier klicken";
 ["Close"] = "Schließen";
 ["Closed"] = "geschlossen";
+["Collective opinion"] = "Meinungsbild";
 ["Commit suggestion"] = "Anregung speichern";
 ["Compare"] = "Vergleichen";
 ["Contacts"] = "Kontakte";
 ["Content"] = "Inhalt";
+["Create alternative initiative"] = "Alternative Initiative hinzufügen";
 ["Create new area"] = "Neuen Themenbereich anlegen";
 ["Create new issue"] = "Neues Thema anlegen";
 ["Created at"] = "Erzeugt am/um";
@@ -52,11 +57,15 @@ return {
 ["Diff"] = false;
 ["Direct member count"] = "Anzahl Direktmitglieder";
 ["Direct supporter [change]"] = "Direkte Unterstützung [ändern]";
+["Discussion"] = "Diskussion";
+["Discussion URL"] = "Diskussions-URL";
 ["Draft"] = "Entwurf";
 ["Edit"] = "Bearbeiten";
 ["Edit draft"] = "Entwurf bearbeiten";
+["Edit initiative"] = "Initiative bearbeiten";
 ["Edit my page"] = "Meine Seite bearbeiten";
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Fehler beim aktualisieren des Mitglieds, die Datenbank berichtet folgenden Fehler:<br /><br /> (#{errormessage})";
+["External discussion"] = "Externe Diskussion";
 ["External memberships"] = "Externe Mitgliedschaften";
 ["External posts"] = "Externe Ämter";
 ["Filter"] = false;
@@ -73,12 +82,14 @@ return {
 ["In discussion"] = "In Diskussion";
 ["Incoming delegations"] = "Eingehende Delegationen";
 ["Initiative successfully created"] = "Initiative erfolgreich erzeugt";
+["Initiative successfully updated"] = "Initiative erfolgreich aktualisiert";
 ["Initiative: '#{name}'"] = "Initiative: '#{name}'";
 ["Initiatives"] = "Initiativen";
 ["Initiators"] = "Initiatoren";
 ["Interest not existant"] = "Interesse existiert nicht";
 ["Interest removed"] = "Interesse entfernt";
 ["Interest updated"] = "Interesse aktualisiert";
+["Interested members"] = "Interessierte Mitglieder";
 ["Internal posts"] = "Interne Ämter";
 ["Invalid username or password!"] = "Ungültiger Benutzername oder Kennwort";
 ["Issue"] = "Thema";
@@ -87,6 +98,7 @@ return {
 ["Issue delegation"] = "Issue-Delegation";
 ["Issue policy"] = "Regelwerk für Thema";
 ["Issues"] = "Themen";
+["Last snapshot:"] = "Letzte Auszählung:";
 ["License"] = "Lizenz";
 ["Locked?"] = "Gesperrt?";
 ["Logged in as:"] = "Angemeldet als:";
@@ -94,10 +106,15 @@ return {
 ["Login successful!"] = "Anmeldung erfolgreich";
 ["Logout"] = "Abmelden";
 ["Logout successful"] = "Abmeldung erfolgreich";
+["Mark suggestion as implemented and express dissatisfaction"] = "Anregung als umgesetzt markieren und Unzufriedenheit ausdrücken";
+["Mark suggestion as implemented and express satisfaction"] = "Anregung als umgesetzt markieren und Zufriedenheit ausdrücken";
+["Mark suggestion as not implemented and express dissatisfaction"] = "Anregung als nicht umgesetzt markieren und Unzufriedenheit ausdrücken";
+["Mark suggestion as not implemented and express satisfaction"] = "Anregung als nicht umgesetzt markieren und Zufriedenheit ausdrücken";
 ["Member '#{member}'"] = "Mitglied '#{member}'";
 ["Member has been removed from your contacts"] = "Mitglied wurde aus Deinen Kontakten entfernt";
 ["Member has been saved as private contact"] = "Mitglied wurde als privater Kontakt gespeichert";
 ["Member has been saved as public contact"] = "Mitglied wurde als öffentlicher Kontakt gespeichert";
+["Member is administrator"] = "Mitglied ist Administrator";
 ["Member is already saved in your contacts!"] = "Mitglied ist schon in Deinen Kontakten!";
 ["Member list"] = "Mitgliederliste";
 ["Member login"] = "Mitglied Login";
@@ -110,6 +127,7 @@ return {
 ["Membership removed"] = "Mitgliedschaft entfernt";
 ["Membership updated"] = "Mitgliedschaft aktualisiert";
 ["Mobile phone"] = "Mobiltelefon";
+["My opinion"] = "Meine Meinung";
 ["Name"] = "Name";
 ["New"] = "Neu";
 ["New draft has been added to initiative"] = "Neuer Entwurf wurde der Initiative hinzugefügt";
@@ -118,8 +136,9 @@ return {
 ["New passwords does not match."] = "Du hast nicht zweimal das gleiche Kennwort eingegeben";
 ["New passwords is too short."] = "Das neue Kennwort ist zu kurz";
 ["Newest"] = "Neueste";
-["Next states"] = "Nächste Statuse";
+["Next state"] = "Nächster Zustand";
 ["No supporter [change]"] = "Keine Unterstützung (ändern)";
+["Number of incoming delegations, follow link to see more details"] = "Anzahl eingehender Delegationen, Link folgen für mehr Details";
 ["OK"] = "OK";
 ["Old draft revision"] = "Alte Revision des Entwurfs";
 ["Old drafts"] = "Alte Entwürfe";
@@ -143,6 +162,7 @@ return {
 ["Register new member"] = "Neues Mitglied registrieren";
 ["Remove"] = "Entfernen";
 ["Remove autoreject"] = "Auto-Ablehnen abschalten";
+["Remove from contacts"] = "Aus den Kontakten entfernen";
 ["Remove my interest"] = "Interesse abmelden";
 ["Remove my membership"] = "Mitgliedschaft aufgeben";
 ["Remove my support from this initiative"] = "Meine Unterstützung der Initiative entziehen";
@@ -150,6 +170,7 @@ return {
 ["Revoke"] = "Widerrufen";
 ["Revoked at"] = "Zurückgezogen am/um";
 ["Save"] = "Speichern";
+["Saved as contact"] = "Als Kontakt speichern";
 ["Search"] = "Suchen";
 ["Search initiatives"] = "Suche Initiativen";
 ["Search issues"] = "Suche Themen";
@@ -164,9 +185,11 @@ return {
 ["Show areas not in use"] = "Zeige nicht verwendente Themenbereiche";
 ["Show diff"] = "Änderungen anzeigen";
 ["Show locked members"] = "Zeige gesperrte Mitglieder";
+["Show member"] = "Mitglied anzeigen";
 ["Software"] = false;
 ["State"] = "Zustand";
 ["Statement"] = false;
+["Suggestion"] = "Anregung";
 ["Suggestion currently implemented"] = "Anregung zur Zeit umgesetzt";
 ["Suggestion currently not implemented"] = "Anregung zur Zeit nicht umgesetzt";
 ["Suggestion for initiative: '#{name}'"] = "Anregung für Initiative '#{name}'";
@@ -177,6 +200,7 @@ return {
 ["Supporter"] = "Unterstützer";
 ["That's me!"] = "Das bin ich";
 ["The drafts do not differ"] = "Die Entwürfe unterscheiden sich nicht";
+["Time left"] = "Restzeit";
 ["Trustee"] = "Bevollmächtigter";
 ["Unknown author"] = "Unbekannter Autor";
 ["Upload avatar"] = "Avatar hochladen";
@@ -195,12 +219,16 @@ return {
 ["You are not a member. [more]"] = "Du bist kein Mitglied. [mehr]";
 ["You are not interested. [more]"] = "Du bist nicht interessiert. [mehr]";
 ["You didn't saved any member as contact yet."] = "Du hast noch kein Mitglied als Kontakt gespeichert!";
+["You have saved this member as contact"] = "Du hast das Mitglied als Kontakt gespeichert";
+["You have saved this member as contact."] = "Du hast das Mitglied als Kontakt gespeichert.";
+["You need to be logged in, to use this system."] = "Du musst eingeloggt sein, um das System zu benutzen";
 ["Your delegation for this area has been deleted."] = "Deine Delegation für dieses Themengebiet wurde gelöscht";
 ["Your delegation for this area has been updated."] = "Deine Delegation für dieses Themengebiet wurde geändert";
 ["Your delegation for this issue has been deleted."] = "Deine Delegation für dieses Thema wurde gelöscht";
 ["Your delegation for this issue has been updated."] = "Deine Delegation für dieses Thema wurde geändert";
 ["Your global delegation has been deleted."] = "Deine globale Delegation wurde gelöscht";
 ["Your global delegation has been updated."] = "Deine globale Delegation würde geändert";
+["Your opinion has been deleted"] = "Deine Meinung wurde gelöscht";
 ["Your opinion has been updated"] = "Deine Meinung wurde aktualisiert";
 ["Your page has been updated"] = "Deine Seite wurde aktualisiert";
 ["Your password has been updated successfully"] = "Das Kennwort wurde erfolgreich geändert";
@@ -211,6 +239,7 @@ return {
 ["Your vote is delegated. [more]"] = "Deine Stimme ist delegiert. [mehr]";
 ["Z-A"] = false;
 ["admission_time"] = false;
+["blank"] = false;
 ["delete<br /><br />"] = false;
 ["discussion_time"] = false;
 ["email"] = false;
@@ -221,8 +250,6 @@ return {
 ["must"] = "muss";
 ["must not"] = "darf nicht";
 ["neutral"] = "neutral";
-["remove implemented"] = "entferne umgesetzt";
-["set implented"] = "setze umgesetzt";
 ["should"] = "soll";
 ["should not"] = "soll nicht";
 ["verification_time"] = false;

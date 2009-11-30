@@ -4,9 +4,11 @@ local suggestion_id = param.get("suggestion_id", atom.integer)
 
 local opinion = Opinion:by_pk(member_id, suggestion_id)
 
-if opinion and param.get("delete") then
-  opinion:destroy()
-  slot.put_into("notice", _"Your opinion has been updated")
+if param.get("delete") then
+  if opinion then
+    opinion:destroy()
+  end
+  slot.put_into("notice", _"Your opinion has been deleted")
   return
 end
 

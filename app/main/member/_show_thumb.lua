@@ -1,5 +1,9 @@
 local member = param.get("member", "table")
 
+local issue = param.get("issue", "table")
+local initiative = param.get("initiative", "table")
+local trustee = param.get("trustee", "table")
+
 local name
 if member.name_highlighted then
   name = encode.highlight(member.name_highlighted)
@@ -7,19 +11,74 @@ else
   name = encode.html(member.name)
 end
 
-ui.link{
+ui.container{
   attr = { class = "member_thumb" },
-  module = "member",
-  view = "show",
-  id = member.id,
   content = function()
-    ui.image{
-      attr = { width = 48, height = 48 },
-      module    = "member",
-      view      = "avatar",
-      id        = member.id,
-      extension = "jpg"
+    ui.container{
+      attr = { class = "flags" },
+      content = function()
+        if (issue or initiative) and member.weight > 1 then
+          local module
+          if issue then
+            module = "interest"
+          elseif initiative then
+            module = "supporter"
+          end
+          ui.link{
+            attr = { title = _"Number of incoming delegations, follow link to see more details" },
+            content = _("+ #{weight}", { weight = member.weight - 1 }),
+            module = module,
+            view = "show_incoming",
+            params = { 
+              member_id = member.id, 
+              initiative_id = initiative and initiative.id or nil,
+              issue_id = issue and issue.id or nil
+            }
+          }
+        end
+        if member.admin then
+          ui.image{
+            attr = { 
+              alt   = _"Member is administrator",
+              title = _"Member is administrator"
+            },
+            static = "icons/16/cog.png"
+          }
+        end
+        -- TODO performance
+        local contact = Contact:by_pk(app.session.member.id, member.id)
+        if contact then
+          ui.image{
+            attr = { 
+              alt   = _"You have saved this member as contact",
+              title = _"You have saved this member as contact"
+            },
+            static = "icons/16/bullet_disk.png"
+          }
+        end
+      end
     }
-    slot.put(name)
+    
+    ui.link{
+      attr = { title = _"Show member" },
+      module = "member",
+      view = "show",
+      id = member.id,
+      content = function()
+        ui.image{
+          attr = { width = 48, height = 48 },
+          module    = "member",
+          view      = "avatar",
+          id        = member.id,
+          extension = "jpg"
+        }
+        ui.container{
+          attr = { class = "member_name" },
+          content = function()
+            slot.put(name)
+          end
+        }
+      end
+    }
   end
 }

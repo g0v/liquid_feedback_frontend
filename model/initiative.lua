@@ -91,6 +91,17 @@ Initiative:add_reference{
   ref                   = 'supporting_members'
 }
 
+Initiative:add_reference{
+  mode                  = 'mm',
+  to                    = "Member",
+  this_key              = 'id',
+  that_key              = 'id',
+  connected_by_table    = 'direct_supporter_snapshot',
+  connected_by_this_key = 'initiative_id',
+  connected_by_that_key = 'member_id',
+  ref                   = 'supporting_members_snapshot'
+}
+
 function Initiative:get_search_selector(search_string)
   return self:new_selector()
     :add_field( {'"highlight"("initiative"."name", ?)', search_string }, "name_highlighted")

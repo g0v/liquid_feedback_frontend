@@ -28,7 +28,6 @@ ui.form{
     ui.field.password{ label = _"Password",     name = "password", value = (member and member.password) and "********" or "" }
     ui.field.boolean{  label = _"Admin?",       name = "admin" }
     ui.field.boolean{  label = _"Active?",      name = "active" }
-    ui.field.text{     label = _"Ident number", name = "ident_number" }
     ui.submit{         text  = _"Save" }
   end
 }

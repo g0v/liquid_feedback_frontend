@@ -8,6 +8,6 @@ end
 
 request.set_csrf_secret(app.session.additional_secret)
 
-locale.set{lang = app.session.lang or "en"}
+locale.set{lang = app.session.lang or "de"}
 
 execute.inner()

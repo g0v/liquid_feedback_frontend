@@ -22,6 +22,14 @@ slot.select("interest", function()
   ui.container{
     attr = { class = "content", id = "interest_content" },
     content = function()
+      ui.container{
+        attr = {
+          class = "close",
+          style = "cursor: pointer;",
+          onclick = "document.getElementById('interest_content').style.display = 'none';"
+        },
+        content = _"X"
+      }
       if interest then
         ui.link{
           content = _"Remove my interest",
@@ -30,6 +38,8 @@ slot.select("interest", function()
           params = { issue_id = issue.id, delete = true },
           routing = { default = { mode = "redirect", module = "issue", view = "show", id = issue.id } }
         }
+        slot.put("<br />")
+        slot.put("<br />")
         if interest.autoreject then
           ui.field.text{ value = _"Autoreject is on." }
           ui.link{
@@ -58,14 +68,6 @@ slot.select("interest", function()
           routing = { default = { mode = "redirect", module = "issue", view = "show", id = issue.id } }
         }
       end
-        ui.container{
-          attr = {
-            class = "head",
-            style = "cursor: pointer;",
-            onclick = "document.getElementById('interest_content').style.display = 'none';"
-          },
-          content = _"Click here to close."
-        }
     end
   }
 end)

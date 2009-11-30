@@ -1,6 +1,6 @@
 local initiative = Initiative:new_selector():add_where{ "id = ?", param.get_id()}:single_object_mode():exec()
 
-slot.put_into("html_head", '<link rel="alternate" type="application/rss+xml" title="RSS" href="../show/' .. tostring(initiative.id) .. '.rss" />')
+--slot.put_into("html_head", '<link rel="alternate" type="application/rss+xml" title="RSS" href="../show/' .. tostring(initiative.id) .. '.rss" />')
 
 execute.view{
   module = "supporter",
@@ -40,7 +40,9 @@ slot.put_into("title", encode.html(_"Initiative: '#{name}'":gsub("#{name}", init
 
 slot.select("actions", function()
 
-  if Initiator:by_pk(initiative.id, app.session.member.id) then
+  local initiator = Initiator:by_pk(initiative.id, app.session.member.id)
+
+  if initiator then
     ui.link{
       content = function()
         ui.image{ static = "icons/16/script_add.png" }
@@ -52,8 +54,41 @@ slot.select("actions", function()
     }
   end
 
-  ui.twitter("http://example.com/i" .. tostring(initiative.id) .. " " .. initiative.name)
+  if not initiative.issue.fully_frozen and not initiative.issue.closed then
+    ui.link{
+      attr = { class = "action" },
+      content = function()
+        ui.image{ static = "icons/16/script_add.png" }
+        slot.put(_"Create alternative initiative" )
+      end,
+      module = "initiative",
+      view = "new",
+      params = { issue_id = initiative.issue.id }
+    }
+  end
+--  ui.twitter("http://example.com/i" .. tostring(initiative.id) .. " " .. initiative.name)
 
+  if initiative.discussion_url and #initiative.discussion_url > 0 then
+    ui.link{
+      attr = { 
+        target = _"blank",
+        title = initiative.discussion_url
+      },
+      content = function()
+        ui.image{ static = "icons/16/comments.png" }
+        slot.put(_"External discussion")
+      end,
+      external = initiative.discussion_url
+    }
+  end
+  if initiator then
+    ui.link{
+      content = _"(change)",
+      module = "initiative",
+      view = "edit",
+      id = initiative.id
+    }
+  end
 end)
 
 
@@ -178,7 +213,18 @@ ui.tabs{
     name = "supporter",
     label = _"Supporter",
     content = function()
-      execute.view{ module = "member", view = "_list", params = { members_selector = initiative:get_reference_selector("supporting_members") } }
+      execute.view{
+        module = "member",
+        view = "_list",
+        params = {
+          initiative = initiative,
+          members_selector =  initiative:get_reference_selector("supporting_members_snapshot")
+            :join("issue", nil, "issue.id = direct_supporter_snapshot.issue_id")
+            :join("direct_population_snapshot", nil, "direct_population_snapshot.event = issue.latest_snapshot_event AND direct_population_snapshot.issue_id = issue.id AND direct_population_snapshot.member_id = member.id")
+            :add_field("direct_population_snapshot.weight")
+            :add_where("direct_supporter_snapshot.event = issue.latest_snapshot_event")
+        }
+      }
     end
   },
   {

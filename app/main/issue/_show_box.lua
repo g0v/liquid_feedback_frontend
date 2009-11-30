@@ -8,14 +8,14 @@ slot.select("issue_info", function()
   local time_left = issue.state_time_left
   if time_left then
     ui.field.text{ 
-      label = "Time left",
+      label = _"Time left",
       value = time_left
     }
   end
   local next_state_names = issue.next_states_names
   if next_state_names then
     ui.field.text{ 
-      label = _"Next states", 
+      label = _"Next state",
       value = next_state_names
     }
   end

@@ -8,7 +8,7 @@ if member then
   end)
   trace.debug('User authenticated')
 else
-  slot.select("notice", function()
+  slot.select("error", function()
     ui.tag{ content = _'Invalid username or password!' }
   end)
   trace.debug('User NOT authenticated')

@@ -2,7 +2,7 @@ slot.put_into("title", encode.html(config.app_title))
 
 ui.tag{
   tag = 'p',
-  content = 'You need to be logged in, to use this system.'
+  content = _'You need to be logged in, to use this system.'
 }
 
 ui.form{

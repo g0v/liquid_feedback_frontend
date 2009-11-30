@@ -12,7 +12,7 @@ else
   member = Member:new()
 end
 
-param.update(member, "login", "admin", "name", "ident_number", "active")
+param.update(member, "login", "admin", "name", "active")
 
 local password = param.get("password")
 if password == "********" or #password == 0 then

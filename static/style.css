@@ -637,18 +637,35 @@ tr table tr:hover td {
   border: 1px solid #ccc;
 }
 
-.member_thumb:hover {
-  border: 1px solid #000;
+.member_thumb a:hover div {
+  background-color: #444;
+  color: #fff;
+}
+
+.member_thumb .flags a:hover {
+  background-color: #444;
+  color: #fff;
 }
 
 .member_thumb img {
   margin-right: 0.5em;
   vertical-align: bottom;
+  float: left;
 }
 
 .member_thumb div {
   display: inline;
+}
+
+.member_thumb .member_name {
+  display: block;
+  margin-top: 3ex;
   margin-right: 0.5em;
+}
+
+.member_thumb .flags {
+  float: right;
+  font-size: 75%;
 }
 
 .draft_content {
@@ -697,3 +714,4 @@ tr table tr:hover td {
   background-color: #fee;
   padding: 1ex;
 }
+
