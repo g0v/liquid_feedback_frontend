@@ -12,6 +12,8 @@ slot.select("actions", function()
   }
 end)
 
+util.help("index.change_password", _"Change password")
+
 ui.form{
   attr = { class = "vertical" },
   module = "index",

@@ -13,15 +13,6 @@ ui.container{
 slot.select("actions", function()
   ui.link{
     content = function()
-      ui.image{ static = "icons/16/table_go.png" }
-      slot.put(_"Delegate")
-    end,
-    module = "delegation",
-    view = "new",
-    params = { area_id = area.id }
-  }
-  ui.link{
-    content = function()
       ui.image{ static = "icons/16/folder_add.png" }
       slot.put(_"Create new issue")
     end,
@@ -30,6 +21,8 @@ slot.select("actions", function()
     params = { area_id = area.id }
   }
 end)
+
+util.help("area.show")
 
 execute.view{
   module = "membership",

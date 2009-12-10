@@ -66,7 +66,7 @@ ui.order{
                 local max_value = record.issue.voter_count
                 ui.bargraph{
                   max_value = max_value,
-                  width = 200,
+                  width = 100,
                   bars = {
                     { color = "#0a0", value = record.positive_votes },
                     { color = "#aaa", value = max_value - record.negative_votes - record.positive_votes },
@@ -78,7 +78,7 @@ ui.order{
               local max_value = (record.issue.population or 0)
               ui.bargraph{
                 max_value = max_value,
-                width = 200,
+                width = 100,
                 bars = {
                   { color = "#0a0", value = (record.satisfied_supporter_count or 0) },
                   { color = "#8f8", value = (record.supporter_count or 0) - (record.satisfied_supporter_count or 0) },

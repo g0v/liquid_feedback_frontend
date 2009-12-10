@@ -1,12 +1,13 @@
 local member = Member:by_id(param.get_id())
 
 slot.select("title", function()
-  ui.image{
-    attr = { class = "avatar" },
-    module = "member",
-    view = "avatar",
-    extension = "jpg",
-    id = member.id
+  execute.view{
+    module = "member_image",
+    view = "_show",
+    params = {
+      member = member,
+      image_type = "avatar"
+    }
   }
 end)
 
@@ -19,9 +20,15 @@ else
   local contact = Contact:by_pk(app.session.member.id, member.id)
   if contact then
     slot.select("actions", function()
-      ui.field.text{ value = _"You have saved this member as contact." }
+      ui.container{
+        attr = { class = "interest" },
+        content = _"You have saved this member as contact."
+      }
       ui.link{
-        text = _"Remove from contacts",
+        content = function()
+          ui.image{ static = "icons/16/book_delete.png" }
+          slot.put(encode.html(_"Remove from contacts"))
+        end,
         module = "contact",
         action = "remove_member",
         id = contact.other_member_id,
@@ -60,6 +67,7 @@ else
   end
 end
 
+util.help("member.show", _"Member page")
 
 execute.view{
   module = "member",

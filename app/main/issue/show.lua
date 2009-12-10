@@ -1,52 +1,12 @@
 local issue = Issue:by_id(param.get_id())
 
-slot.put_into("html_head", '<link rel="alternate" type="application/rss+xml" title="RSS" href="../show/' .. tostring(issue.id) .. '.rss" />')
-
-slot.select("path", function()
-  ui.link{
-    content = _"Area '#{name}'":gsub("#{name}", issue.area.name),
-    module = "area",
-    view = "show",
-    id = issue.area.id
-  }
-end)
-
-slot.put_into("title", encode.html(_"Issue ##{id} (#{policy_name})":gsub("#{id}", issue.id):gsub("#{policy_name}", issue.policy.name)))
-
-slot.select("actions", function()
-  if not issue.closed then
-    ui.link{
-      content = function()
-        ui.image{ static = "icons/16/table_go.png" }
-        slot.put(_"Delegate")
-      end,
-      module = "delegation",
-      view = "new",
-      params = { issue_id = issue.id }
-    }
-  end
-
-  ui.twitter("http://example.com/t" .. tostring(issue.id))
-
-end)
-
-execute.view{
-  module = "interest",
-  view = "_show_box",
-  params = { issue = issue }
-}
-
-execute.view{
-  module = "delegation",
-  view = "_show_box",
-  params = { issue_id = issue.id }
-}
-
 execute.view{
   module = "issue",
-  view = "_show_box",
+  view = "_show_head",
   params = { issue = issue }
 }
+
+util.help("issue.show")
 
 ui.tabs{
   {

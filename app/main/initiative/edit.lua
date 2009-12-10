@@ -2,6 +2,18 @@ local initiative = Initiative:by_id(param.get_id())
 
 slot.put_into("title", _"Edit initiative")
 
+slot.select("actions", function()
+  ui.link{
+    content = function()
+        ui.image{ static = "icons/16/cancel.png" }
+        slot.put(_"Cancel")
+    end,
+    module = "initiative",
+    view = "show",
+    id = initiative.id
+  }
+end)
+
 ui.form{
   record = initiative,
   module = "initiative",

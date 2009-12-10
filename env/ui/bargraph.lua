@@ -6,7 +6,7 @@ function ui.bargraph(args)
     content = function()
       for i, bar in ipairs(args.bars) do
         if bar.value > 0 then
-          local value = bar.value * args.width / args.max_value / 2 
+          local value = bar.value * args.width / args.max_value
           ui.container{
             attr = {
               style = "width: " .. tostring(value) .. "px; background-color: " .. bar.color .. ";",

@@ -71,6 +71,15 @@ slot.select('navigation', function()
       view = 'about'
     }
 
+    ui.link{
+      content = function()
+        ui.image{ static = "icons/16/bug.png" }
+        slot.put(_'Bug report')
+      end,
+      external = "http://trac.public-software-group.org/projects/lf" --/newticket?description=" .. encode.url_part("\n\n\n\nReport for: " .. os.getenv("REQUEST_URI") )
+    }
+
+
   if app.session.member.admin then
 
     slot.put(" ")
@@ -88,6 +97,12 @@ slot.select('navigation', function()
   end
 
 end)
+
+if config.app_logo then
+  slot.select("logo", function()
+    ui.image{ static = config.app_logo }
+  end)
+end
 
 execute.inner()
 

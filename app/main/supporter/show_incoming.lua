@@ -3,11 +3,11 @@ local issue = initiative.issue
 local member = Member:by_id(param.get("member_id", atom.integer))
 
 local members_selector = Member:new_selector()
-  :join("delegating_population_snapshot", nil, "delegating_population_snapshot.member_id = member.id")
-  :add_where{ "delegating_population_snapshot.issue_id = ?", issue.id }
-  :add_where{ "delegating_population_snapshot.event = ?", issue.latest_snapshot_event }
-  :add_where{ "delegating_population_snapshot.delegate_member_ids[1] = ?", member.id }
-  :add_field{ "delegating_population_snapshot.weight" }
+  :join("delegating_interest_snapshot", nil, "delegating_interest_snapshot.member_id = member.id")
+  :add_where{ "delegating_interest_snapshot.issue_id = ?", issue.id }
+  :add_where{ "delegating_interest_snapshot.event = ?", issue.latest_snapshot_event }
+  :add_where{ "delegating_interest_snapshot.delegate_member_ids[1] = ?", member.id }
+  :add_field{ "delegating_interest_snapshot.weight" }
 
 execute.view{
   module = "member",

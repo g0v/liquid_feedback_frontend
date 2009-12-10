@@ -1,0 +1,6 @@
+=Themenbereich, Mitgliedschaft=
+Für die Teilnahme an der Diskussion und Endabstimmung einzelner Themen ist die Mitgliedschaft im Themenbereich **keine** Voraussetzung. Mit der Mitgliedschaft erklärst du vielmehr ein generelles Interesse an diesem Themenbereich.
+=Delegation, Auto-Ablehnen=
+Du kannst deine Stimme für diesen Themenbereich (unabhängig von deiner Mitgliedschaft im Themenbereich) an eine Person in deiner Kontaktliste delegieren. Als Themenbereichsmitglied kannst du ,,Auto-Ablehnen'' als Standardabstimmverhalten festlegen. Diese Weisung gilt nur für den Fall, dass du nicht selbst an der Endabstimmung teilnimmst, es keine tatsächlich genutzte Delegation und keine Weisung für das jeweilige konkrete Thema gibt.
+=Neues Thema=
+Hier kannst du mit einer eigenen Initiative ein neues Thema eröffnen. **Bevor** du ein neues Thema eröffnest, solltest du prüfen, ob es dieses Thema vieleicht schon gibt. Eine Initiative zu einem bestehenden Thema (Alternativantrag) kannst du von der jeweilige Themenseite aus starten.

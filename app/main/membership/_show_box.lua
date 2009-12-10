@@ -1,34 +1,40 @@
 local area = param.get("area", "table")
 
+local membership = Membership:by_pk(area.id, app.session.member.id)
+
 slot.select("interest", function()
-  local membership = Membership:by_pk(area.id, app.session.member.id)
 
-  ui.container{
-    attr = { 
-      class = "head",
-      onclick = "document.getElementById('membership_content').style.display = 'block';"
-    },
-    content = function()
-      if membership then
-        ui.field.text{ value = _"You are member. [more]" }
-      else
-        ui.field.text{ value = _"You are not a member. [more]" }
+  if membership then
+  
+    ui.container{
+      attr = { 
+        class = "head head_active",
+        onclick = "document.getElementById('membership_content').style.display = 'block';"
+      },
+      content = function()
+        ui.image{
+          static = "icons/16/user_green.png"
+        }
+        slot.put(_"You are member")
+        ui.image{
+          static = "icons/16/dropdown.png"
+        }
       end
-    end
-  }
-
-  ui.container{
-    attr = { class = "content", id = "membership_content" },
-    content = function()
-      ui.container{
-        attr = {
-          class = "close",
-          style = "cursor: pointer;",
-          onclick = "document.getElementById('membership_content').style.display = 'none';"
-        },
-        content = _"X"
-      }
-      if membership then
+    }
+    
+    ui.container{
+      attr = { class = "content", id = "membership_content" },
+      content = function()
+        ui.container{
+          attr = {
+            class = "close",
+            style = "cursor: pointer;",
+            onclick = "document.getElementById('membership_content').style.display = 'none';"
+          },
+          content = function()
+            ui.image{ static = "icons/16/cross.png" }
+          end
+        }
         ui.link{
           content = _"Remove my membership",
           module = "membership",
@@ -55,15 +61,26 @@ slot.select("interest", function()
             routing = { default = { mode = "redirect", module = "area", view = "show", id = area.id } }
           }
         end
-      else
-        ui.link{
-          content = _"Add my membership to this area",
-          module = "membership",
-          action = "update",
-          params = { area_id = area.id },
-          routing = { default = { mode = "redirect", module = "area", view = "show", id = area.id } }
-        }
       end
-    end
-  }
+    }
+  else
+    ui.link{
+    content = function()
+      ui.image{ static = "icons/16/user_add.png" }
+      slot.put(_"Become a member")
+    end,
+      module = "membership",
+      action = "update",
+      params = { area_id = area.id },
+      routing = {
+        default = {
+          mode = "redirect",
+          module = "area",
+          view = "show",
+          id = area.id
+        }
+      }
+    }
+  end
+
 end)

@@ -1,13 +1,24 @@
 config.app_name = "LiquidFeedback"
-config.app_version = "alpha4"
+config.app_version = "alpha5"
 
 config.app_title = config.app_name .. " (" .. request.get_config_name() .. " environment)"
 
+config.app_logo = nil
+
 config.app_service_provider = "Snake Oil<br/>10000 Berlin<br/>Germany"
 
-config.member_image_convert = {
-  avatar = { "convert", "-", "-thumbnail", "48x48", "jpeg:-" }
+config.member_image_convert_func = {
+  avatar = function(data) return os.pfilter(data, "convert", "jpeg:-", "-thumbnail",   "48x48", "jpeg:-") end,
+  photo =  function(data) return os.pfilter(data, "convert", "jpeg:-", "-thumbnail", "240x240", "jpeg:-") end
 }
+
+config.member_image_default_file = {
+  avatar = "avatar.jpg",
+  photo = nil
+}
+
+config.fastpath_url_func = nil
+
 
 -- uncomment the following two lines to use C implementations of chosen
 -- functions and to disable garbage collection during the request, to

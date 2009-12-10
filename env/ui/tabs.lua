@@ -23,6 +23,7 @@ function ui.tabs(tabs)
               text = tab.label,
               params = params
             }
+            slot.put(" ")
           end
         end
       }

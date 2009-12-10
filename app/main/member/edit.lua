@@ -1,4 +1,4 @@
-slot.put_into("title", _"Edit my page")
+slot.put_into("title", _"Edit my profile")
 
 slot.select("actions", function()
   ui.link{
@@ -10,6 +10,8 @@ slot.select("actions", function()
     view = "index"
   }
 end)
+
+util.help("member.edit", _"Edit my page")
 
 ui.form{
   record = app.session.member,

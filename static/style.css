@@ -60,31 +60,27 @@ a {
 .layout_notice, .layout_error, .layout_warning {
         background: #fff;
         font-weight: bold;
-        right: 2ex;
         line-height: 1.7em;
-        position: absolute;
-        top: 6ex;
-        width: 60ex;
         -moz-opacity:0.7;
 }
 
 .slot_notice, .slot_warning, .slot_error {
-        padding: 2ex;
+        padding-left: 1em;
 }
 
 .slot_notice {
-        color: green;
-        border: 2px solid green;
+        background-color: #cfc;
+        color: #040;
 }
 
 .slot_warning {
-        color: orange;
-        border: 2px solid orange;
+        background-color: #fec;
+        color: #420;
 }
 
 .slot_error {
-        color: red;
-        border: 2px solid red;
+        background-color: #fcc;
+        color: #400;
 }
 
 /*************************************************************************
@@ -92,7 +88,6 @@ a {
  */
 
 .topbar {
-  margin-bottom: 1em;
   background-color: #444;
   color: #fff;
   font-size: 75%;
@@ -161,17 +156,21 @@ a {
  */
 
 .title_bar {
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #777;
   margin-bottom: 2ex;
+  padding-top: 1ex;
+  padding-bottom: 0.5ex;
+}
+
+.title_bar_content {
+  margin-left: 1em;
 }
 
 .path {
   color: #444;
-  xbackground-color: #ddd;
 }
 
 .path div {
-  margin-left: 1em;
   font-size: 100%;
   line-height: 180%;
 }
@@ -195,7 +194,6 @@ a {
 }
 
 .title div {
-  margin-left: 0.66em;
   font-weight: bold;
   font-size: 135%;
   line-height: 110%;
@@ -205,25 +203,23 @@ a {
   color: #fff;
 }
 
-.avatar {
+.member_image_avatar {
   float: left;
   margin-right: 0.5em;
-  width: 48px;
-  height: 48px;
 }
 
 .actions {
-  display: inline;
   font-size: 75%;
-  line-height: 200%;
+  line-height: 220%;
 }
 
 .slot_actions {
-  margin-left: 1em;
   display: inline;
 }
 
 .actions a {
+  float: left;
+  display: block;
   padding: 0.5ex 0.5em 0.5ex 0.0em;
   margin-right: 1em;
   vertical-align: middle;
@@ -236,43 +232,84 @@ a {
 .actions img {
   padding-left: 0.2em;
   padding-right: 0.2em;
+  vertical-align: middle;
+}
+
+.logo { 
+  float: right;
+  margin-right: 1em;
 }
 
 /*************************************************************************
  * vote info / delegation 
  */
 
-.slot_interest,
+.interest,
 .slot_support,
-.slot_delegation {
+.delegation {
   float: left;
-  font-size: 75%;
+  position: relative;
+}
+
+.interest img,
+.slot_support img,
+.delegation img {
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+}
+.vote_info .head {
+  float: left;
   margin-right: 1em;
 }
 
-.vote_info .head {
-  line-height: 200%;
+.interest .head_active {
+  background-color: #dfd;
+  border: 1px solid #8b8;
+}
+
+.slot_support .head_active {
+  background-color: #dfd;
+  border: 1px solid #8b8;
+}
+
+.delegation .head_active {
+  background-color: #ffd;
+  border: 1px solid #bb8;
 }
 
 .vote_info .close {
-  background-color: #f44;
-  float: right;
+  position: absolute;
+  top: 0;
+  right: 0;
   padding: 1ex;
+  display: block;
 }
 
 .vote_info .content {
+  font-size: 133%;
+  line-height: 100%;
+  top: 3ex;
   display: none;
   position: absolute;
   z-index: 10;
   background-color: #fff;
-  border: 2px solid #444;
+  border: 1px solid #999;
   padding: 1em;
+  width: 25em;
 }
 
 .vote_info .delegation_arrow {
   margin-top: 1ex;
   margin-bottom: 1ex;
   vertical-align: middle;
+}
+
+.vote_info .delegation_arrow_overridden {
+  opacity: 0.4;
+}
+
+.vote_info .delegation_scope_overridden {
+  color: #777;
 }
 
 .vote_info .delegation_scope {
@@ -286,12 +323,27 @@ a {
   clear: left;
 }
 
+.delegation_overridden .member_thumb {
+  opacity: 0.4;
+}
+
 .delegation .revoke {
   margin: 0.5ex;
+  float: right;
 }
 
 .delegation .revoke img {
   vertical-align: middle;
+}
+
+
+.sub_title div {
+  border-top: 1px solid #444;
+  padding-top: 1ex;
+  margin-top: 1ex;
+  font-weight: bold;
+  font-size: 135%;
+  line-height: 110%;
 }
 
 /*************************************************************************
@@ -315,8 +367,9 @@ a {
 
 .ui_tabs_links a {
   padding: 1ex;
-  margin-left: 0.5em;
+  line-height: 200%;
   background-color: #e7e7e7;
+  white-space: nowrap;
 }
 
 .ui_tabs_links a:hover {
@@ -401,6 +454,25 @@ a {
   height: 1.3ex;
 }
 
+.bargraph_legend {
+  margin-top: 2ex;
+}
+
+.bargraph_legend .bargraph {
+  width: 26px;
+}
+
+.bargraph_legend div,
+.bargraph_legend div div,
+.bargraph_legend div div div {
+  float: left;
+}
+
+.bargraph_legend_label {
+  margin-left: 0.5em;
+  margin-right: 1em;
+}
+
 /*************************************************************************
  * vertical ui.form
  */
@@ -432,7 +504,7 @@ a {
 .vertical .ui_field_label {
   text-transform: uppercase;
   font-size: 70%;
-  line-height: 190%;
+  line-height: 120%;
   font-weight: bold;
   color: #777;
   width: 15em;
@@ -631,10 +703,22 @@ tr table tr:hover td {
 
 .member_thumb {
   text-decoration: none;
-  min-width: 150px;
+  width: 18em;
+  height: 48px;
   display: block;
   float: left;
-  border: 1px solid #ccc;
+  border: 1px solid #999;
+  overflow: hidden;
+  xwhite-space: nowrap;
+  position: relative;
+}
+
+.member_thumb a{
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .member_thumb a:hover div {
@@ -642,25 +726,24 @@ tr table tr:hover td {
   color: #fff;
 }
 
-.member_thumb .flags a:hover {
-  background-color: #444;
-  color: #fff;
-}
-
 .member_thumb img {
-  margin-right: 0.5em;
+  padding: 0;
+  margin: 0;
   vertical-align: bottom;
-  float: left;
 }
 
 .member_thumb div {
-  display: inline;
+}
+
+.member_thumb .member_image {
 }
 
 .member_thumb .member_name {
-  display: block;
-  margin-top: 3ex;
-  margin-right: 0.5em;
+  position: absolute;
+  left: 48px;
+  top: 2ex;
+  font-size: 100%;
+  width: 14em;
 }
 
 .member_thumb .flags {
@@ -668,10 +751,22 @@ tr table tr:hover td {
   font-size: 75%;
 }
 
-.draft_content {
+.member_thumb .flags a{
+  position: static;
+  float: right;
+}
+
+
+.member .right {
+  float: right;
+}
+
+.draft_content,
+.member_statement {
   background-color: #eee;
   border: 1px solid #ccc;
-  padding: 1ex;
+  padding-left: 1ex;
+  padding-right: 1ex;
 }
 
 .diff {
@@ -715,3 +810,73 @@ tr table tr:hover td {
   padding: 1ex;
 }
 
+.suggestion_fulfilled {
+  width: 15em;
+}
+.suggestion_fulfilled a.action {
+  padding-left: 0;
+  line-height: 120%;
+}
+
+.help {
+  border: 1px solid #bcd;
+  background-color: #def;
+  color: #000;
+  padding: 1ex;
+}
+
+.help_visible {
+  margin-bottom: 1ex;
+}
+
+.help_visible .help_icon {
+  float: right;
+}
+
+.slot_help_hidden {
+  float: right;
+  margin-right: 1em;
+}
+
+.help_actions {
+  font-size: 75%;
+  float: right;
+}
+
+.help_actions a {
+  margin-right: 1em;
+  color: #468;
+}
+
+.wiki {
+}
+
+.wiki h1,
+.wiki h2,
+.wiki h3,
+.wiki h4 {
+  margin-top: 1ex;
+  margin-bottom: 1ex;
+}
+
+.wiki h1 {
+  font-size: 150%;
+}
+
+.wiki h2 {
+  font-size: 125%;
+}
+
+.wiki p {
+  margin-top: 1ex;
+  margin-bottom: 1ex;
+}
+
+form .warning {
+  background-color: #ffd;
+  color: #000;
+  border: 1px solid #dda;
+  margin: 1ex;
+  margin-bottom: 2ex;
+  padding: 1ex;
+}

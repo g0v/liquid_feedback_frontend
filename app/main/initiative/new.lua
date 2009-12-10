@@ -38,8 +38,18 @@ ui.form{
         foreign_name = "name"
       }
     end
-    ui.field.text{ label = _"Name",  name = "name" }
-    ui.field.text{ label = _"Discussion URL",  name = "discussion_url" }
+    ui.field.text{ label = _"Name", name = "name" }
+    ui.field.text{ label = _"Discussion URL", name = "discussion_url" }
+    ui.field.select{
+      label = _"Wiki engine",
+      name = "formatting_engine",
+      foreign_records = {
+        { id = "rocketwiki", name = "RocketWiki" },
+        { id = "compat", name = _"Traditional wiki syntax" }
+      },
+      foreign_id = "id",
+      foreign_name = "name"
+    }
     ui.field.text{ label = _"Draft", name = "draft", multiline = true, attr = { style = "height: 50ex;" } }
     ui.submit{ text = _"Save" }
   end

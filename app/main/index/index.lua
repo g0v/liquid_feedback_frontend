@@ -1,10 +1,11 @@
 slot.select("title", function()
-  ui.image{
-    attr = { class = "avatar" },
-    module = "member",
-    view = "avatar",
-    extension = "jpg",
-    id = app.session.member.id
+  execute.view{
+    module = "member_image",
+    view = "_show",
+    params = {
+      member = app.session.member, 
+      image_type = "avatar"
+    }
   }
 end)
 
@@ -41,27 +42,28 @@ end)
 slot.put_into("title", encode.html(config.app_title))
 
 slot.select("actions", function()
-  slot.put(_"Logged in as:")
-  slot.put(" <b>")
-  slot.put(app.session.member.login)
-  slot.put("</b> | ")
-
-  ui.link{
-    content = function()
-        ui.image{ static = "icons/16/user_gray.png" }
-        slot.put(_"Upload avatar")
-    end,
-    module = "member",
-    view = "edit_avatar"
-  }
 
   ui.link{
     content = function()
         ui.image{ static = "icons/16/application_form.png" }
-        slot.put(_"Edit my page")
+        slot.put(_"Edit my profile")
     end,
     module = "member",
     view = "edit"
+  }
+
+  ui.link{
+    content = function()
+        ui.image{ static = "icons/16/user_gray.png" }
+        slot.put(_"Upload images")
+    end,
+    module = "member",
+    view = "edit_images"
+  }
+
+  execute.view{
+    module = "delegation",
+    view = "_show_box"
   }
 
   ui.link{
@@ -72,7 +74,27 @@ slot.select("actions", function()
     module = "index",
     view = "change_password"
   }
+
 end)
+
+local lang = locale.get("lang")
+local basepath = request.get_app_basepath() 
+local file_name = basepath .. "/locale/motd/" .. lang .. ".txt"
+local file = io.open(file_name)
+if file ~= nil then
+  local help_text = file:read("*a")
+  if #help_text > 0 then
+    ui.container{
+      attr = { class = "motd wiki" },
+      content = function()
+        slot.put(format.wiki_text(help_text))
+      end
+    }
+  end
+end
+
+
+util.help("index.index", _"Home")
 
 execute.view{
   module = "member",

@@ -12,7 +12,7 @@ end
 
 local delegation = Delegation:by_pk(truster_id, area_id, issue_id)
 
-if param.get("delete") then
+if param.get("delete") or trustee_id == -1 then
 
   if delegation then
   

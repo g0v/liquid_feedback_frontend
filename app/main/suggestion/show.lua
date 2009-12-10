@@ -23,7 +23,6 @@ execute.view{
   view = "_list",
   params = { 
     opinions_selector = Opinion:new_selector()
-      :add_field("member.login", "member_login")
       :add_field("member.name", "member_name")
       :add_where{ "suggestion_id = ?", suggestion.id }
       :join("member", nil, "member.id = opinion.member_id")

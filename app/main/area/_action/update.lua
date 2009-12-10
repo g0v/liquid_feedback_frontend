@@ -1,3 +1,7 @@
+if not app.session.member.admin then
+  error()
+end
+
 local id = param.get_id()
 
 local area

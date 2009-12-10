@@ -1,5 +1,7 @@
 slot.put_into("title", _"Contacts")
 
+util.help("contact.list")
+
 execute.view{
   module = "contact",
   view = "_list",

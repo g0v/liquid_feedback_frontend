@@ -2,11 +2,11 @@ Member = mondelefant.new_class()
 Member.table = 'member'
 
 Member:add_reference{
-  mode          = '11',
+  mode          = '1m',
   to            = "MemberImage",
   this_key      = 'id',
   that_key      = 'member_id',
-  ref           = 'image',
+  ref           = 'images',
   back_ref      = 'member'
 }
 

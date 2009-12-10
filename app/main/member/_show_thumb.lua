@@ -58,19 +58,21 @@ ui.container{
         end
       end
     }
-    
+
     ui.link{
       attr = { title = _"Show member" },
       module = "member",
       view = "show",
       id = member.id,
       content = function()
-        ui.image{
-          attr = { width = 48, height = 48 },
-          module    = "member",
-          view      = "avatar",
-          id        = member.id,
-          extension = "jpg"
+        execute.view{
+          module = "member_image",
+          view = "_show",
+          params = {
+            member = member,
+            image_type = "avatar",
+            show_dummy = true
+          }
         }
         ui.container{
           attr = { class = "member_name" },

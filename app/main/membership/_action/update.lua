@@ -25,4 +25,4 @@ end
 
 membership:save()
 
-slot.put_into("notice", _"Membership updated")
+--slot.put_into("notice", _"Membership updated")

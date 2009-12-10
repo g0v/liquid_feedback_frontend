@@ -1,5 +1,15 @@
 local initiative = Initiative:new_selector():add_where{ "id = ?", param.get_id()}:single_object_mode():exec()
 
+
+
+execute.view{
+  module = "issue",
+  view = "_show_head",
+  params = { issue = initiative.issue }
+}
+
+local initiator = Initiator:by_pk(initiative.id, app.session.member.id)
+
 --slot.put_into("html_head", '<link rel="alternate" type="application/rss+xml" title="RSS" href="../show/' .. tostring(initiative.id) .. '.rss" />')
 
 execute.view{
@@ -7,6 +17,8 @@ execute.view{
   view = "_show_box",
   params = { initiative = initiative }
 }
+
+--[[
 
 execute.view{
   module = "delegation",
@@ -19,6 +31,7 @@ execute.view{
   view = "_show_box",
   params = { issue = initiative.issue }
 }
+
 
 slot.select("path", function()
   ui.link{
@@ -37,29 +50,27 @@ slot.select("path", function()
 end)
 
 slot.put_into("title", encode.html(_"Initiative: '#{name}'":gsub("#{name}", initiative.shortened_name) ))
+--]]
+
+slot.put_into("sub_title", encode.html(_"Initiative: '#{name}'":gsub("#{name}", initiative.shortened_name) ))
 
 slot.select("actions", function()
 
-  local initiator = Initiator:by_pk(initiative.id, app.session.member.id)
-
-  if initiator then
+  if not initiative.issue.fully_frozen and not initiative.issue.closed then
     ui.link{
       content = function()
-        ui.image{ static = "icons/16/script_add.png" }
-        slot.put(_"Edit draft")
+        ui.image{ static = "icons/16/script.png" }
+        slot.put(_"Show other initiatives")
       end,
-      module = "draft",
-      view = "new",
-      params = { initiative_id = initiative.id }
+      module = "issue",
+      view = "show",
+      id = initiative.issue.id
     }
-  end
-
-  if not initiative.issue.fully_frozen and not initiative.issue.closed then
     ui.link{
       attr = { class = "action" },
       content = function()
         ui.image{ static = "icons/16/script_add.png" }
-        slot.put(_"Create alternative initiative" )
+        slot.put(_"Create alternative initiative")
       end,
       module = "initiative",
       view = "new",
@@ -68,28 +79,50 @@ slot.select("actions", function()
   end
 --  ui.twitter("http://example.com/i" .. tostring(initiative.id) .. " " .. initiative.name)
 
-  if initiative.discussion_url and #initiative.discussion_url > 0 then
-    ui.link{
-      attr = { 
-        target = _"blank",
-        title = initiative.discussion_url
-      },
-      content = function()
-        ui.image{ static = "icons/16/comments.png" }
-        slot.put(_"External discussion")
-      end,
-      external = initiative.discussion_url
-    }
-  end
-  if initiator then
-    ui.link{
-      content = _"(change)",
-      module = "initiative",
-      view = "edit",
-      id = initiative.id
-    }
-  end
 end)
+
+
+util.help("initiative.show")
+
+
+ui.container{
+  attr = { class = "vertical" },
+  content = function()
+    ui.container{
+      attr = { class = "ui_field_label" },
+      content = _"Discussion URL"
+    }
+    ui.tag{
+      tag = "span",
+      content = function()
+        if initiative.discussion_url and #initiative.discussion_url > 0 then
+          ui.link{
+            attr = {
+              class = "actions",
+              target = _"blank",
+              title = initiative.discussion_url
+            },
+            content = function()
+              slot.put(encode.html(initiative.discussion_url))
+            end,
+            external = initiative.discussion_url
+          }
+        end
+        slot.put(" ")
+        if initiator then
+          ui.link{
+            attr = { class = "actions" },
+            content = _"(change URL)",
+            module = "initiative",
+            view = "edit",
+            id = initiative.id
+          }
+        end
+      end
+    }
+  end
+}
+
 
 
 ui.container{
@@ -122,7 +155,14 @@ ui.container{
       },
       attr = { class = "vertical" },
       content = function()
-        ui.field.text{ label = _"Name",        name = "name" }
+        local supported = Supporter:by_pk(initiative.id, app.session.member.id) and true or false
+        if not supported then
+          ui.field.text{
+            attr = { class = "warning" },
+            value = _"You are currently not supporting this initiative. By adding suggestions to this initiative you will automatically become a potential supporter."
+          }
+        end
+        ui.field.text{ label = _"Title (80 chars max)",        name = "name" }
         ui.field.text{ label = _"Description", name = "description", multiline = true }
         ui.field.select{ 
           label = _"Degree", 
@@ -183,11 +223,23 @@ if supporter then
   end
 end
 
+
 ui.tabs{
   {
     name = "current_draft",
     label = _"Current draft",
     content = function()
+      if initiator then
+        ui.link{
+          content = function()
+            ui.image{ static = "icons/16/script_add.png" }
+            slot.put(_"Edit draft")
+          end,
+          module = "draft",
+          view = "new",
+          params = { initiative_id = initiative.id }
+        }
+      end
       execute.view{ module = "draft", view = "_show", params = { draft = initiative.current_draft } }
     end
   },
@@ -195,7 +247,14 @@ ui.tabs{
     name = "suggestion",
     label = _"Suggestions",
     content = function()
-      execute.view{ module = "suggestion", view = "_list", params = { suggestions_selector = initiative:get_reference_selector("suggestions") } }
+      execute.view{
+        module = "suggestion",
+        view = "_list",
+        params = {
+          initiative = initiative,
+          suggestions_selector = initiative:get_reference_selector("suggestions")
+        }
+      }
       slot.put("<br />")
       if not initiative.issue.frozen and not initiative.issue.closed then
         ui.link{
@@ -220,8 +279,8 @@ ui.tabs{
           initiative = initiative,
           members_selector =  initiative:get_reference_selector("supporting_members_snapshot")
             :join("issue", nil, "issue.id = direct_supporter_snapshot.issue_id")
-            :join("direct_population_snapshot", nil, "direct_population_snapshot.event = issue.latest_snapshot_event AND direct_population_snapshot.issue_id = issue.id AND direct_population_snapshot.member_id = member.id")
-            :add_field("direct_population_snapshot.weight")
+            :join("direct_interest_snapshot", nil, "direct_interest_snapshot.event = issue.latest_snapshot_event AND direct_interest_snapshot.issue_id = issue.id AND direct_interest_snapshot.member_id = member.id")
+            :add_field("direct_interest_snapshot.weight")
             :add_where("direct_supporter_snapshot.event = issue.latest_snapshot_event")
         }
       }

@@ -1,3 +1,6 @@
 execute.config("default")
 
-config.wiki_parser_executeable = "/opt/rocketwiki/rocketwiki"
+config.formatting_engine_executeables = {
+  rocketwiki= "/opt/rocketwiki/rocketwiki-lqfb",
+  compat = "/opt/rocketwiki/rocketwiki-lqfb-compat"
+}

@@ -1,0 +1,2 @@
+=Themenbereiche=
+Die Balken zeigen dir an, wie hoch der Anteil der direkten Mitglieder bzw. der durch Delegation vertretenen Mitglieder des jeweiligen Themenbereichs im Verhältnis zur Gesamtzahl der Mitglieder dieses Systems ist. Für Testinitiativen (also Diskussionen, die nicht ernst gemeint sind) eignet sich übrigens der Themenbereich ,,Sandkasten/Spielwiese".

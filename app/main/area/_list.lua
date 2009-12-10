@@ -35,7 +35,7 @@ ui.order{
               local max_value = MemberCount:get()
               ui.bargraph{
                 max_value = max_value,
-                width = 200,
+                width = 100,
                 bars = {
                   { color = "#444", value = record.direct_member_count },
                   { color = "#777", value = record.member_weight - record.direct_member_count },
@@ -59,3 +59,13 @@ ui.order{
     }
   end
 }
+
+ui.bargraph_legend{
+  width = 25,
+  bars = {
+    { color = "#444", label = _"Direct membership" },
+    { color = "#777", label = _"Membership by delegation" },
+    { color = "#ddd", label = _"No membership at all" },
+  }
+}
+

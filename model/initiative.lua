@@ -26,7 +26,6 @@ Initiative:add_reference{
   that_key      = 'initiative_id',
   ref           = 'suggestions',
   back_ref      = 'initiative',
-  default_order = '"id"'
 }
 
 Initiative:add_reference{
