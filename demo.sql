@@ -31,6 +31,7 @@ INSERT INTO "member" ("login", "name") VALUES
 UPDATE "member" SET "password" = "login";
 
 INSERT INTO "policy" (
+        "index",
         "name",
         "admission_time",
         "discussion_time",
@@ -39,6 +40,7 @@ INSERT INTO "policy" (
         "issue_quorum_num", "issue_quorum_den",
         "initiative_quorum_num", "initiative_quorum_den"
     ) VALUES (
+        1,
         'Default policy',
         '1 hour', '1 hour', '1 hour', '1 hour',
         25, 100,
@@ -63,6 +65,9 @@ INSERT INTO "area" ("name") VALUES
   ('Area #2'),  -- id 2
   ('Area #3'),  -- id 3
   ('Area #4');  -- id 4
+
+INSERT INTO "allowed_policy" ("area_id", "policy_id", "default_policy")
+  VALUES (1, 1, TRUE), (2, 1, TRUE), (3, 1, TRUE), (4, 1, TRUE);
 
 INSERT INTO "membership" ("area_id", "member_id", "autoreject") VALUES
   (1,  9, FALSE),

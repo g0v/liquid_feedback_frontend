@@ -14,7 +14,7 @@ echo "Copying database \"$1\" to new database \"$EXPORT_DBNAME\"..."
 if createdb -T "$1" "$EXPORT_DBNAME"
 then
   echo "Deleting private data in copied database..."
-  if psql liquid_feedback -c 'SELECT delete_private_data()' > /dev/null
+  if psql -v ON_ERROR_STOP=1 -c 'SELECT delete_private_data()' "$EXPORT_DBNAME" > /dev/null
   then
     echo "Dumping and compressing copied database to \"$2\"..."
     if pg_dump --no-owner --no-privileges "$EXPORT_DBNAME" | gzip -9 > "$2"

@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('beta9', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('beta10', NULL, NULL, NULL))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -59,7 +59,6 @@ CREATE TABLE "member" (
         "password"              TEXT,
         "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
         "admin"                 BOOLEAN         NOT NULL DEFAULT FALSE,
-        "hidden_hints"          TEXT[],
         "notify_email"          TEXT,
         "notify_email_confirmed" BOOLEAN,
         "name"                  TEXT            NOT NULL UNIQUE,
@@ -96,7 +95,6 @@ COMMENT ON COLUMN "member"."login"                  IS 'Login name';
 COMMENT ON COLUMN "member"."password"               IS 'Password (preferably as crypto-hash, depending on the frontend or access layer)';
 COMMENT ON COLUMN "member"."active"                 IS 'Inactive members can not login and their supports/votes are not counted by the system.';
 COMMENT ON COLUMN "member"."admin"                  IS 'TRUE for admins, which can administrate other users and setup policies and areas';
-COMMENT ON COLUMN "member"."hidden_hints"           IS 'This field may be used by a frontend to store identification strings for introductory hints, which the user wants to hide.';
 COMMENT ON COLUMN "member"."notify_email"           IS 'Email address where notifications of the system are sent to';
 COMMENT ON COLUMN "member"."notify_email_confirmed" IS 'TRUE, if "notify_email" has been confirmed';
 COMMENT ON COLUMN "member"."name"                   IS 'Distinct name of the member';
@@ -110,10 +108,38 @@ COMMENT ON COLUMN "member"."external_posts"         IS 'Posts (offices) outside 
 COMMENT ON COLUMN "member"."statement"              IS 'Freely chosen text of the member for his homepage within the system';
 
 
+CREATE TABLE "invite_code" (
+        "code"                  TEXT            PRIMARY KEY,
+        "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
+        "used"                  TIMESTAMPTZ,
+        "member_id"             INT4            UNIQUE REFERENCES "member" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+        "comment"               TEXT,
+        CONSTRAINT "only_used_codes_may_refer_to_member" CHECK ("used" NOTNULL OR "member_id" ISNULL) );
+
+COMMENT ON TABLE "invite_code" IS 'Invite codes can be used once to create a new member account.';
+
+COMMENT ON COLUMN "invite_code"."code"      IS 'Secret code';
+COMMENT ON COLUMN "invite_code"."created"   IS 'Time of creation of the secret code';
+COMMENT ON COLUMN "invite_code"."used"      IS 'NULL, if not used yet, otherwise tells when this code was used to create a member account';
+COMMENT ON COLUMN "invite_code"."member_id" IS 'References the member whose account was created with this code';
+COMMENT ON COLUMN "invite_code"."comment"   IS 'Comment on the code, which is to be used for administrative reasons only';
+
+
+CREATE TABLE "setting" (
+        PRIMARY KEY ("member_id", "key"),
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "key"                   TEXT            NOT NULL,
+        "value"                 TEXT            NOT NULL );
+CREATE INDEX "setting_key_idx" ON "setting" ("key");
+
+COMMENT ON TABLE "setting" IS 'Place to store frontend specific member settings';
+
+COMMENT ON COLUMN "setting"."key" IS 'Name of the setting, preceded by a frontend specific prefix';
+
+
 CREATE TYPE "member_image_type" AS ENUM ('photo', 'avatar');
 
 COMMENT ON TYPE "member_image_type" IS 'Types of images for a member';
-
 
 
 CREATE TABLE "member_image" (
@@ -170,6 +196,7 @@ COMMENT ON COLUMN "session"."lang"              IS 'Language code of the selecte
 
 CREATE TABLE "policy" (
         "id"                    SERIAL4         PRIMARY KEY,
+        "index"                 INT4            NOT NULL,
         "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
         "name"                  TEXT            NOT NULL UNIQUE,
         "description"           TEXT            NOT NULL DEFAULT '',
@@ -185,6 +212,7 @@ CREATE INDEX "policy_active_idx" ON "policy" ("active");
 
 COMMENT ON TABLE "policy" IS 'Policies for a particular proceeding type (timelimits, quorum)';
 
+COMMENT ON COLUMN "policy"."index"                 IS 'Determines the order in listings';
 COMMENT ON COLUMN "policy"."active"                IS 'TRUE = policy can be used for new issues';
 COMMENT ON COLUMN "policy"."admission_time"        IS 'Maximum time an issue stays open without being "accepted"';
 COMMENT ON COLUMN "policy"."discussion_time"       IS 'Regular time until an issue is "half_frozen" after being "accepted"';
@@ -219,6 +247,18 @@ COMMENT ON COLUMN "area"."active"              IS 'TRUE means new issues can be 
 COMMENT ON COLUMN "area"."direct_member_count" IS 'Number of active members of that area (ignoring their weight), as calculated from view "area_member_count"';
 COMMENT ON COLUMN "area"."member_weight"       IS 'Same as "direct_member_count" but respecting delegations';
 COMMENT ON COLUMN "area"."autoreject_weight"   IS 'Sum of weight of members using the autoreject feature';
+
+
+CREATE TABLE "allowed_policy" (
+        PRIMARY KEY ("area_id", "policy_id"),
+        "area_id"               INT4            REFERENCES "area" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "policy_id"             INT4            NOT NULL REFERENCES "policy" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "default_policy"        BOOLEAN         NOT NULL DEFAULT FALSE );
+CREATE UNIQUE INDEX "allowed_policy_one_default_per_area_idx" ON "allowed_policy" ("area_id") WHERE "default_policy";
+
+COMMENT ON TABLE "allowed_policy" IS 'Selects which policies can be used in each area';
+
+COMMENT ON COLUMN "allowed_policy"."default_policy" IS 'One policy per area can be set as default.';
 
 
 CREATE TYPE "snapshot_event" AS ENUM ('periodic', 'end_of_admission', 'start_of_voting');
@@ -325,8 +365,10 @@ CREATE TABLE "draft" (
         "id"                    SERIAL8         PRIMARY KEY,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "author_id"             INT4            NOT NULL REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+        "formatting_engine"     TEXT,
         "content"               TEXT            NOT NULL,
         "text_search_data"      TSVECTOR );
+CREATE INDEX "draft_author_id_created_idx" ON "draft" ("author_id", "created");
 CREATE INDEX "draft_text_search_data_idx" ON "draft" USING gin ("text_search_data");
 CREATE TRIGGER "update_text_search_data"
   BEFORE INSERT OR UPDATE ON "draft"
@@ -334,6 +376,9 @@ CREATE TRIGGER "update_text_search_data"
   tsvector_update_trigger('text_search_data', 'pg_catalog.simple', "content");
 
 COMMENT ON TABLE "draft" IS 'Drafts of initiatives to solve issues';
+
+COMMENT ON COLUMN "draft"."formatting_engine" IS 'Allows different formatting engines (i.e. wiki formats) to be used';
+COMMENT ON COLUMN "draft"."content"           IS 'Text of the draft in a format depending on the field "formatting_engine"';
 
 
 CREATE TABLE "suggestion" (
@@ -353,6 +398,7 @@ CREATE TABLE "suggestion" (
         "plus1_fulfilled_count"    INT4,
         "plus2_unfulfilled_count"  INT4,
         "plus2_fulfilled_count"    INT4 );
+CREATE INDEX "suggestion_author_id_created_idx" ON "suggestion" ("author_id", "created");
 CREATE INDEX "suggestion_text_search_data_idx" ON "suggestion" USING gin ("text_search_data");
 CREATE TRIGGER "update_text_search_data"
   BEFORE INSERT OR UPDATE ON "suggestion"
@@ -590,6 +636,17 @@ CREATE INDEX "vote_member_id_idx" ON "vote" ("member_id");
 COMMENT ON TABLE "vote" IS 'Manual and delegated votes without abstentions';
 
 COMMENT ON COLUMN "vote"."grade" IS 'Values smaller than zero mean reject, values greater than zero mean acceptance, zero or missing row means abstention. Preferences are expressed by different positive or negative numbers.';
+
+
+CREATE TABLE "contingent" (
+        "time_frame"            INTERVAL        PRIMARY KEY,
+        "text_entry_limit"      INT4,
+        "initiative_limit"      INT4 );
+
+COMMENT ON TABLE "contingent" IS 'Amount of text entries or initiatives a user may create within a given time frame. Only one row needs to be fulfilled for a member to be allowed to post. This table must not be empty.';
+
+COMMENT ON COLUMN "contingent"."text_entry_limit" IS 'Number of new drafts or suggestions to be submitted by each member within the given time frame';
+COMMENT ON COLUMN "contingent"."initiative_limit" IS 'Number of new initiatives to be opened by each member within a given time frame';
 
 
 
@@ -1103,6 +1160,20 @@ CREATE VIEW "area_member_count" AS
 COMMENT ON VIEW "area_member_count" IS 'View used to update "member_count" column of table "area"';
 
 
+CREATE VIEW "opening_draft" AS
+  SELECT "draft".* FROM (
+    SELECT
+      "initiative"."id" AS "initiative_id",
+      min("draft"."id") AS "draft_id"
+    FROM "initiative" JOIN "draft"
+    ON "initiative"."id" = "draft"."initiative_id"
+    GROUP BY "initiative"."id"
+  ) AS "subquery"
+  JOIN "draft" ON "subquery"."draft_id" = "draft"."id";
+
+COMMENT ON VIEW "opening_draft" IS 'First drafts of all initiatives';
+
+
 CREATE VIEW "current_draft" AS
   SELECT "draft".* FROM (
     SELECT
@@ -1191,6 +1262,46 @@ CREATE VIEW "issue_with_ranks_missing" AS
   AND "ranks_available" = FALSE;
 
 COMMENT ON VIEW "issue_with_ranks_missing" IS 'Issues where voting was finished, but no ranks have been calculated yet';
+
+
+CREATE VIEW "member_contingent" AS
+  SELECT
+    "member"."id" AS "member_id",
+    "contingent"."time_frame",
+    CASE WHEN "contingent"."text_entry_limit" NOTNULL THEN
+      (
+        SELECT count(1) FROM "draft"
+        WHERE "draft"."author_id" = "member"."id"
+        AND "draft"."created" > now() - "contingent"."time_frame"
+      ) + (
+        SELECT count(1) FROM "suggestion"
+        WHERE "suggestion"."author_id" = "member"."id"
+        AND "suggestion"."created" > now() - "contingent"."time_frame"
+      )
+    ELSE NULL END AS "text_entry_count",
+    "contingent"."text_entry_limit",
+    CASE WHEN "contingent"."initiative_limit" NOTNULL THEN (
+      SELECT count(1) FROM "opening_draft"
+      WHERE "opening_draft"."author_id" = "member"."id"
+      AND "opening_draft"."created" > now() - "contingent"."time_frame"
+    ) ELSE NULL END AS "initiative_count",
+    "contingent"."initiative_limit"
+  FROM "member" CROSS JOIN "contingent";
+
+COMMENT ON VIEW "member_contingent" IS 'Actual counts of text entries and initiatives are calculated per member for each limit in the "contingent" table.';
+
+COMMENT ON COLUMN "member_contingent"."text_entry_count" IS 'Only calculated when "text_entry_limit" is not null in the same row';
+COMMENT ON COLUMN "member_contingent"."initiative_count" IS 'Only calculated when "initiative_limit" is not null in the same row';
+
+
+CREATE VIEW "member_contingent_left" AS
+  SELECT
+    "member_id",
+    max("text_entry_limit" - "text_entry_count") AS "text_entries_left",
+    max("initiative_limit" - "initiative_count") AS "initiatives_left"
+  FROM "member_contingent" GROUP BY "member_id";
+
+COMMENT ON VIEW "member_contingent_left" IS 'Amount of text entries or initiatives which can be posted now instantly by a member. This view should be used by a frontend to determine, if the contingent for posting is exhausted.';
 
 
 
@@ -2017,13 +2128,19 @@ CREATE FUNCTION "freeze_after_snapshot"
             WHERE "id" = "initiative_row"."id";
         END IF;
       END LOOP;
+      IF NOT EXISTS (
+        SELECT NULL FROM "initiative"
+        WHERE "issue_id" = "issue_id_p" AND "admitted" = TRUE
+      ) THEN
+        PERFORM "close_voting"("issue_id_p");
+      END IF;
       RETURN;
     END;
   $$;
 
 COMMENT ON FUNCTION "freeze_after_snapshot"
   ( "issue"."id"%TYPE )
-  IS 'This function freezes an issue (fully) and starts voting, but must only be called when "create_snapshot" was called in the same transaction';
+  IS 'This function freezes an issue (fully) and starts voting, but must only be called when "create_snapshot" was called in the same transaction.';
 
 
 CREATE FUNCTION "manual_freeze"("issue_id_p" "issue"."id"%TYPE)
@@ -2215,7 +2332,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
         "negative_votes" = "subquery"."negative_votes"
         FROM (
           SELECT
-            "initiative_id",
+            "initiative"."id" AS "initiative_id",
             coalesce(
               sum(
                 CASE WHEN "grade" > 0 THEN "direct_voter"."weight" ELSE 0 END
@@ -2228,11 +2345,14 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
               ),
               0
             ) AS "negative_votes"
-          FROM "vote" JOIN "direct_voter"
-          ON "vote"."member_id" = "direct_voter"."member_id"
-          AND "vote"."issue_id" = "direct_voter"."issue_id"
-          WHERE "vote"."issue_id" = "issue_id_p"
-          GROUP BY "initiative_id"
+          FROM "initiative"
+          LEFT JOIN "direct_voter"
+            ON "direct_voter"."issue_id" = "initiative"."issue_id"
+          LEFT JOIN "vote"
+            ON "vote"."initiative_id" = "initiative"."id"
+            AND "vote"."member_id" = "direct_voter"."member_id"
+          WHERE "initiative"."issue_id" = "issue_id_p"
+          GROUP BY "initiative"."id"
         ) AS "subquery"
         WHERE "initiative"."admitted"
         AND "initiative"."id" = "subquery"."initiative_id";
@@ -2562,10 +2682,12 @@ CREATE FUNCTION "check_issue"
           "issue_row"."fully_frozen" ISNULL AND
           now() >= "issue_row"."half_frozen" + "policy_row"."verification_time"
         THEN
-          "issue_row"."fully_frozen" = now();  -- NOTE: "issue_row" used later
           PERFORM "freeze_after_snapshot"("issue_id_p");
+          -- "issue" might change, thus "issue_row" has to be updated below
         END IF;
+        SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
         IF
+          "issue_row"."closed" ISNULL AND
           "issue_row"."fully_frozen" NOTNULL AND
           now() >= "issue_row"."fully_frozen" + "policy_row"."voting_time"
         THEN
@@ -2614,7 +2736,13 @@ CREATE FUNCTION "delete_private_data"()
     DECLARE
       "issue_id_v" "issue"."id"%TYPE;
     BEGIN
+      UPDATE "member" SET
+        "login"                  = 'login' || "id"::text,
+        "password"               = NULL,
+        "notify_email"           = NULL,
+        "notify_email_confirmed" = NULL;
       DELETE FROM "session";
+      DELETE FROM "invite_code";
       DELETE FROM "contact" WHERE NOT "public";
       DELETE FROM "direct_voter" USING "issue"
         WHERE "direct_voter"."issue_id" = "issue"."id"

@@ -3,22 +3,20 @@
 BEGIN;
 
 INSERT INTO "member" (
-        "id",
         "login",
         "password",
         "active",
         "admin",
         "name"
     ) VALUES (
-        DEFAULT,
         'admin',
-        '',
+        '$1$.EMPTY.$LDufa24OE2HZFXAXh71Eb1',
         TRUE,
         TRUE,
         'Administrator' );
 
 INSERT INTO "policy" (
-        "id",
+        "index",
         "active",
         "name",
         "description",
@@ -31,7 +29,7 @@ INSERT INTO "policy" (
         "initiative_quorum_num",
         "initiative_quorum_den"
     ) VALUES (
-        DEFAULT,
+        1,
         TRUE,
         'Extensive proceeding',
         DEFAULT,
@@ -42,7 +40,7 @@ INSERT INTO "policy" (
         10, 100,
         10, 100
     ), (
-        DEFAULT,
+        2,
         TRUE,
         'Standard proceeding',
         DEFAULT,
@@ -53,7 +51,7 @@ INSERT INTO "policy" (
         10, 100,
         10, 100
     ), (
-       DEFAULT,
+       3,
        TRUE,
        'Fast proceeding',
        DEFAULT,
@@ -65,12 +63,10 @@ INSERT INTO "policy" (
         1, 100 );
 
 INSERT INTO "area" (
-        "id",
         "active",
         "name",
         "description"
     ) VALUES (
-        DEFAULT,
         TRUE,
         'Generic area',
         DEFAULT );
