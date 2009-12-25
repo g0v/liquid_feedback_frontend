@@ -89,35 +89,35 @@ INSERT INTO "membership" ("area_id", "member_id", "autoreject") VALUES
 
 -- global delegations
 INSERT INTO "delegation"
-  ("truster_id", "trustee_id") VALUES
-  ( 1,  9),
-  ( 2, 11),
-  ( 3, 12),
-  ( 4, 13),
-  ( 5, 14),
-  ( 6,  7),
-  ( 7,  8),
-  ( 8,  6),
-  (10,  9),
-  (11,  9),
-  (12, 21),
-  (15, 10),
-  (16, 17),
-  (17, 19),
-  (18, 19),
-  (23, 22);
+  ("truster_id", "scope", "trustee_id") VALUES
+  ( 1, 'global',  9),
+  ( 2, 'global', 11),
+  ( 3, 'global', 12),
+  ( 4, 'global', 13),
+  ( 5, 'global', 14),
+  ( 6, 'global',  7),
+  ( 7, 'global',  8),
+  ( 8, 'global',  6),
+  (10, 'global',  9),
+  (11, 'global',  9),
+  (12, 'global', 21),
+  (15, 'global', 10),
+  (16, 'global', 17),
+  (17, 'global', 19),
+  (18, 'global', 19),
+  (23, 'global', 22);
 
 -- delegations for topics
 INSERT INTO "delegation"
-  ("area_id", "truster_id", "trustee_id") VALUES
-  (1,  3, 17),
-  (2,  5, 10),
-  (2,  9, 10),
-  (3,  4, 14),
-  (3, 16, 20),
-  (3, 19, 20),
-  (4,  5, 13),
-  (4, 12, 22);
+  ("area_id", "truster_id", "scope", "trustee_id") VALUES
+  (1,  3, 'area', 17),
+  (2,  5, 'area', 10),
+  (2,  9, 'area', 10),
+  (3,  4, 'area', 14),
+  (3, 16, 'area', 20),
+  (3, 19, 'area', 20),
+  (4,  5, 'area', 13),
+  (4, 12, 'area', 22);
 
 INSERT INTO "issue" ("area_id", "policy_id") VALUES
   (3, 1);  -- id 1
