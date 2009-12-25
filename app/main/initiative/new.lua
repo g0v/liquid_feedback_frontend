@@ -33,7 +33,7 @@ ui.form{
       ui.field.select{
         label = _"Policy",
         name = "policy_id",
-        foreign_records = Policy:new_selector():exec(),
+        foreign_records = Policy:new_selector():add_order_by("index"):exec(),
         foreign_id = "id",
         foreign_name = "name"
       }

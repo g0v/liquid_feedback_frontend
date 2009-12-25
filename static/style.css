@@ -94,6 +94,7 @@ a {
 }
 
 .topbar a {
+  background-color: #444;
   color: #fff;
 }
 
@@ -200,7 +201,7 @@ a {
 }
 
 .title a {
-  color: #fff;
+  color: #000;
 }
 
 .member_image_avatar {
@@ -220,7 +221,7 @@ a {
 .actions a {
   float: left;
   display: block;
-  padding: 0.5ex 0.5em 0.5ex 0.0em;
+  padding: 1px 0.5em 1px 0.0em;
   margin-right: 1em;
   vertical-align: middle;
 }
@@ -262,19 +263,20 @@ a {
   margin-right: 1em;
 }
 
-.interest .head_active {
-  background-color: #dfd;
-  border: 1px solid #8b8;
+.interest .head_active,
+.slot_support .head_potential_supporter {
+  background-color: #fec;
+  border: 1px solid #b96;
 }
 
-.slot_support .head_active {
-  background-color: #dfd;
+.slot_support .head_supporter {
+  background-color: #dfc;
   border: 1px solid #8b8;
 }
 
 .delegation .head_active {
-  background-color: #ffd;
-  border: 1px solid #bb8;
+  background-color: #ddf;
+  border: 1px solid #88b;
 }
 
 .vote_info .close {
@@ -389,44 +391,26 @@ a {
 }
 
 /*************************************************************************
+ * ui.filter
  * ui.order
  */
 
-.ui_filter_head {
-  color: #777;
-  float: left;
-  margin-bottom: 1ex;
-  font-size: 75%;
-}
-
-.ui_filter_head a {
-  color: #777;
-  padding: 0.5ex;
-}
-
-.ui_filter_head a.active{
-  color: #fff;
-  background-color: #777;
-  padding: 0.5ex;
-}
-
-/*************************************************************************
- * ui.order
- */
-
+.ui_filter_head,
 .ui_order_head {
   color: #777;
-  text-align: right;
-  margin-bottom: 1ex;
+  margin-top: 1ex;
+  margin-bottom: 1.5ex;
   font-size: 75%;
 }
 
+.ui_filter_head a,
 .ui_order_head a {
   color: #777;
   padding: 0.5ex;
 }
 
-.ui_order_head a.active{
+.ui_filter_head a.active,
+.ui_order_head a.active {
   color: #fff;
   background-color: #777;
   padding: 0.5ex;
@@ -643,7 +627,11 @@ tr table tr:hover td {
   padding: 0.3ex 0.5em 0.3ex 0.5em;
 }
 
-
+.suggestion_my_opinion a {
+  white-space: nowrap;
+  padding-left: 0.2ex !important;
+  padding-right: 0.2ex !important;
+}
 
 .active {
   background-color: #444;
@@ -879,4 +867,54 @@ form .warning {
   margin: 1ex;
   margin-bottom: 2ex;
   padding: 1ex;
+}
+
+
+/*************************************************************************
+ * Voting
+ */
+
+#voting {
+  position: relative;
+}
+#voting .approval, .abstention, .disapproval {
+  border: 2px black solid;
+  margin-top:    5ex;
+  margin-bottom: 5ex;
+  padding: 1ex;
+  padding-bottom: 2ex;
+}
+#voting .approval {
+  background-color: #9f9;
+}
+#voting .approval .movable {
+  background-color: #dfd;
+}
+#voting .abstention {
+  background-color: #ccc;
+}
+#voting .abstention .movable {
+  background-color: #eee;
+}
+#voting .disapproval {
+  background-color: #f88;
+}
+#voting .disapproval .movable {
+  background-color: #fbb;
+}
+#voting .cathead {
+  font-weight: bold;
+}
+#voting .movable {
+  position: relative;
+  border: 1px black solid;
+  margin: 1ex;
+  padding: 0.5ex;
+  cursor: pointer;
+}
+#voting .clickable {
+  cursor: auto;
+}
+#voting a.clickable {
+  cursor: pointer;
 }

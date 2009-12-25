@@ -1,13 +1,29 @@
+local tmp = db:query({ "SELECT text_entries_left, initiatives_left FROM member_contingent_left WHERE member_id = ?", app.session.member.id }, "opt_object")
+if tmp then
+  if tmp.initiatives_left and tmp.initiatives_left < 1 then
+    slot.put_into("error", _"Sorry, your contingent for creating initiatives has been used up. Please try again later.")
+    return false
+  end
+  if tmp.text_entries_left and tmp.text_entries_left < 1 then
+    slot.put_into("error", _"Sorry, you have reached your personal flood limit. Please be slower...")
+    return false
+  end
+end
+
 local issue
 local area
-
-db:query("BEGIN")
 
 local issue_id = param.get("issue_id", atom.integer)
 if issue_id then
   issue = Issue:new_selector():add_where{"id=?",issue_id}:single_object_mode():exec()
+  if issue.closed then
+    slot.put_into("error", _"This issue is already closed.")
+    return false
+  elseif issue.fully_frozen then 
+    slot.put_into("error", _"Voting for this issue has already begun.")
+    return false
+  end
   area = issue.area
-
 else
   local area_id = param.get("area_id", atom.integer)
   area = Area:new_selector():add_where{"id=?",area_id}:single_object_mode():exec()
@@ -21,6 +37,8 @@ if not issue then
   issue.policy_id = param.get("policy_id", atom.integer)
   issue:save()
 end
+
+
 
 initiative.issue_id = issue.id
 
@@ -54,8 +72,6 @@ supporter.initiative_id = initiative.id
 supporter.member_id = app.session.member.id
 supporter.draft_id = draft.id
 supporter:save()
-
-db:query("COMMIT")
 
 slot.put_into("notice", _"Initiative successfully created")
 

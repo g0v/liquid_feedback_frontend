@@ -15,9 +15,9 @@ local delegation = Delegation:by_pk(truster_id, area_id, issue_id)
 if param.get("delete") or trustee_id == -1 then
 
   if delegation then
-  
+
     delegation:destroy()
-  
+
     if issue_id then
       slot.put_into("notice", _"Your delegation for this issue has been deleted.")
     elseif area_id then
@@ -27,7 +27,7 @@ if param.get("delete") or trustee_id == -1 then
     end
 
   end
-  
+
 else
 
   if not delegation then
@@ -35,6 +35,13 @@ else
     delegation.truster_id = truster_id
     delegation.area_id    = area_id
     delegation.issue_id   = issue_id
+    if issue_id then
+      delegation.scope = "issue"
+    elseif area_id then
+      delegation.scope = "area"
+    else
+      delegation.scope = "global"
+    end
   end
 
   delegation.trustee_id = trustee_id

@@ -119,11 +119,7 @@ end
 function Issue.object_get:state()
   if self.accepted then
     if self.closed then
-      if self.ranks_available then
-        return "finished"
-      else
-        return "cancelled"
-      end
+      return "finished"
     elseif self.fully_frozen then
       return "voting"
     elseif self.half_frozen then

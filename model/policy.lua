@@ -7,6 +7,5 @@ Policy:add_reference{
   this_key      = 'id',
   that_key      = 'policy_id',
   ref           = 'issues',
-  back_ref      = 'policy',
-  default_order = '"created", "id"'
+  back_ref      = 'policy'
 }

@@ -1,6 +1,16 @@
 local initiative = Initiative:new_selector():add_where{ "id = ?", param.get_id()}:single_object_mode():exec()
 
-
+slot.select("actions", function()
+  ui.link{
+    content = function()
+      ui.image{ static = "icons/16/script.png" }
+      slot.put(_"Show all initiatives")
+    end,
+    module = "issue",
+    view = "show",
+    id = initiative.issue.id
+  }
+end)
 
 execute.view{
   module = "issue",
@@ -18,54 +28,10 @@ execute.view{
   params = { initiative = initiative }
 }
 
---[[
-
-execute.view{
-  module = "delegation",
-  view = "_show_box",
-  params = { issue_id = initiative.issue_id }
-}
-
-execute.view{
-  module = "issue",
-  view = "_show_box",
-  params = { issue = initiative.issue }
-}
-
-
-slot.select("path", function()
-  ui.link{
-    content = _"Area '#{name}'":gsub("#{name}", initiative.issue.area.name),
-    module = "area",
-    view = "show",
-    id = initiative.issue.area.id
-  }
-  ui.container{ content = "::" }
-  ui.link{
-    content = _"Issue ##{id}":gsub("#{id}", initiative.issue.id),
-    module = "issue",
-    view = "show",
-    id = initiative.issue.id
-  }
-end)
-
-slot.put_into("title", encode.html(_"Initiative: '#{name}'":gsub("#{name}", initiative.shortened_name) ))
---]]
-
 slot.put_into("sub_title", encode.html(_"Initiative: '#{name}'":gsub("#{name}", initiative.shortened_name) ))
 
 slot.select("actions", function()
-
   if not initiative.issue.fully_frozen and not initiative.issue.closed then
-    ui.link{
-      content = function()
-        ui.image{ static = "icons/16/script.png" }
-        slot.put(_"Show other initiatives")
-      end,
-      module = "issue",
-      view = "show",
-      id = initiative.issue.id
-    }
     ui.link{
       attr = { class = "action" },
       content = function()
@@ -77,8 +43,6 @@ slot.select("actions", function()
       params = { issue_id = initiative.issue.id }
     }
   end
---  ui.twitter("http://example.com/i" .. tostring(initiative.id) .. " " .. initiative.name)
-
 end)
 
 
@@ -99,7 +63,7 @@ ui.container{
           ui.link{
             attr = {
               class = "actions",
-              target = _"blank",
+              target = "_blank",
               title = initiative.discussion_url
             },
             content = function()
@@ -256,7 +220,7 @@ ui.tabs{
         }
       }
       slot.put("<br />")
-      if not initiative.issue.frozen and not initiative.issue.closed then
+      if not initiative.issue.fully_frozen and not initiative.issue.closed then
         ui.link{
           content = function()
             ui.image{ static = "icons/16/comment_add.png" }
@@ -269,7 +233,7 @@ ui.tabs{
     end
   },
   {
-    name = "supporter",
+    name = "satisfied_supporter",
     label = _"Supporter",
     content = function()
       execute.view{
@@ -282,6 +246,26 @@ ui.tabs{
             :join("direct_interest_snapshot", nil, "direct_interest_snapshot.event = issue.latest_snapshot_event AND direct_interest_snapshot.issue_id = issue.id AND direct_interest_snapshot.member_id = member.id")
             :add_field("direct_interest_snapshot.weight")
             :add_where("direct_supporter_snapshot.event = issue.latest_snapshot_event")
+            :add_where("direct_supporter_snapshot.satisfied")
+        }
+      }
+    end
+  },
+  {
+    name = "supporter",
+    label = _"Potential supporter",
+    content = function()
+      execute.view{
+        module = "member",
+        view = "_list",
+        params = {
+          initiative = initiative,
+          members_selector =  initiative:get_reference_selector("supporting_members_snapshot")
+            :join("issue", nil, "issue.id = direct_supporter_snapshot.issue_id")
+            :join("direct_interest_snapshot", nil, "direct_interest_snapshot.event = issue.latest_snapshot_event AND direct_interest_snapshot.issue_id = issue.id AND direct_interest_snapshot.member_id = member.id")
+            :add_field("direct_interest_snapshot.weight")
+            :add_where("direct_supporter_snapshot.event = issue.latest_snapshot_event")
+            :add_where("NOT direct_supporter_snapshot.satisfied")
         }
       }
     end

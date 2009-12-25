@@ -1,5 +1,6 @@
 DirectVoter = mondelefant.new_class()
-DirectVoter.table = 'member'
+DirectVoter.table = 'direct_voter'
+DirectVoter.primary_key = { "issue_id", "member_id" }
 
 DirectVoter:add_reference{
   mode          = 'm1',
@@ -16,3 +17,10 @@ DirectVoter:add_reference{
   that_key      = 'id',
   ref           = 'member',
 }
+
+function DirectVoter:by_pk(issue_id, member_id)
+  return self:new_selector()
+    :add_where{ "issue_id = ? AND member_id = ?", issue_id, member_id }
+    :optional_object_mode()
+    :exec()
+end

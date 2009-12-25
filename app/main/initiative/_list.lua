@@ -9,32 +9,32 @@ if issue and issue.ranks_available then
   order_options[#order_options+1] = {
     name = "rank",
     label = _"Rank",
-    order_by = "initiative.rank"
+    order_by = "initiative.rank, initiative.admitted DESC, vote_ratio(initiative.positive_votes, initiative.negative_votes) DESC, initiative.id"
   }
 end
 
 order_options[#order_options+1] = {
-  name = "support",
-  label = _"Support",
-  order_by = "initiative.supporter_count::float / issue.population::float DESC"
+  name = "potential_support",
+  label = _"Potential support",
+  order_by = "initiative.supporter_count::float / issue.population::float DESC, initiative.id"
 }
 
 order_options[#order_options+1] = {
-  name = "support_si",
-  label = _"Support S+I",
-  order_by = "initiative.satisfied_informed_supporter_count::float / issue.population::float DESC"
+  name = "support",
+  label = _"Support",
+  order_by = "initiative.satisfied_supporter_count::float / issue.population::float DESC, initiative.id"
 }
 
 order_options[#order_options+1] = {
   name = "newest",
   label = _"Newest",
-  order_by = "initiative.created DESC"
+  order_by = "initiative.created DESC, initiative.id"
 }
 
 order_options[#order_options+1] = {
   name = "oldest",
   label = _"Oldest",
-  order_by = "initiative.created"
+  order_by = "initiative.created, initiative.id"
 }
 
 local name = "initiative_list"
@@ -61,18 +61,22 @@ ui.order{
         }
         columns[#columns+1] = {
           content = function(record)
-            if record.issue.accepted and record.issue.closed and record.issue.ranks_available then 
-              if record.negative_votes and record.positive_votes then
-                local max_value = record.issue.voter_count
-                ui.bargraph{
-                  max_value = max_value,
-                  width = 100,
-                  bars = {
-                    { color = "#0a0", value = record.positive_votes },
-                    { color = "#aaa", value = max_value - record.negative_votes - record.positive_votes },
-                    { color = "#a00", value = record.negative_votes },
+            if record.issue.accepted and record.issue.closed then
+              if record.issue.ranks_available then 
+                if record.negative_votes and record.positive_votes then
+                  local max_value = record.issue.voter_count
+                  ui.bargraph{
+                    max_value = max_value,
+                    width = 100,
+                    bars = {
+                      { color = "#0a0", value = record.positive_votes },
+                      { color = "#aaa", value = max_value - record.negative_votes - record.positive_votes },
+                      { color = "#a00", value = record.negative_votes },
+                    }
                   }
-                }
+                end
+              else
+                slot.put(_"Counting of votes")
               end
             else
               local max_value = (record.issue.population or 0)
@@ -81,7 +85,7 @@ ui.order{
                 width = 100,
                 bars = {
                   { color = "#0a0", value = (record.satisfied_supporter_count or 0) },
-                  { color = "#8f8", value = (record.supporter_count or 0) - (record.satisfied_supporter_count or 0) },
+                  { color = "#777", value = (record.supporter_count or 0) - (record.satisfied_supporter_count or 0) },
                   { color = "#ddd", value = max_value - (record.supporter_count or 0) },
                 }
               }

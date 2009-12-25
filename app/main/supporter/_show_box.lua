@@ -1,29 +1,48 @@
 
 slot.select("support", function()
   local initiative = param.get("initiative", "table")
-  local supported = Supporter:by_pk(initiative.id, app.session.member.id) and true or false
+  local supporter = Supporter:by_pk(initiative.id, app.session.member.id)
 
   ui.container{
     attr = { class = "actions" },
     content = function()
-      if not initiative.issue.frozen and not initiative.issue.closed then
-        if supported then
-          ui.container{
-            attr = {
-              class = "head head_active",
-              style = "cursor: pointer;",
-              onclick = "document.getElementById('support_content').style.display = 'block';"
-            },
-            content = function()
-              ui.image{
-                static = "icons/16/thumb_up_green.png"
-              }
-              slot.put(_"Your are supporter")
-              ui.image{
-                static = "icons/16/dropdown.png"
-              }
-            end
-          }
+      if not initiative.issue.fully_frozen and not initiative.issue.closed then
+        if supporter then
+          if not supporter:has_critical_opinion() then
+            ui.container{
+              attr = {
+                class = "head head_supporter",
+                style = "cursor: pointer;",
+                onclick = "document.getElementById('support_content').style.display = 'block';"
+              },
+              content = function()
+                ui.image{
+                  static = "icons/16/thumb_up_green.png"
+                }
+                slot.put(_"Your are supporter")
+                ui.image{
+                  static = "icons/16/dropdown.png"
+                }
+              end
+            }
+          else
+            ui.container{
+              attr = {
+                class = "head head_potential_supporter",
+                style = "cursor: pointer;",
+                onclick = "document.getElementById('support_content').style.display = 'block';"
+              },
+              content = function()
+                ui.image{
+                  static = "icons/16/thumb_up.png"
+                }
+                slot.put(_"Your are potential supporter")
+                ui.image{
+                  static = "icons/16/dropdown.png"
+                }
+              end
+            }
+          end
           ui.container{
             attr = { class = "content", id = "support_content" },
             content = function()
@@ -37,7 +56,7 @@ slot.select("support", function()
                   ui.image{ static = "icons/16/cross.png" }
                 end
               }
-              if supported then
+              if supporter then
                 ui.link{
                   content = function()
                     ui.image{ static = "icons/16/thumb_down_red.png" }

@@ -1,9 +1,11 @@
 local auth_needed = not (
   request.get_module() == 'index'
   and (
-    request.get_view() == 'login'
+       request.get_view()   == 'login'
     or request.get_action() == 'login'
-    or request.get_view() == "about"
+    or request.get_view()   == "register"
+    or request.get_action() == "register"
+    or request.get_view()   == "about"
   )
 )
 

@@ -1,5 +1,4 @@
 param.update(app.session.member,
-  "name",
   "organizational_unit",
   "internal_posts",
   "realname",

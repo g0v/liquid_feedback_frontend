@@ -26,7 +26,6 @@ ui.form{
     }
   },
   content = function()
-    ui.field.text{ label = _"Name", name = "name" }
     ui.field.text{ label = _"Organizational unit", name = "organizational_unit" }
     ui.field.text{ label = _"Internal posts", name = "internal_posts" }
     ui.field.text{ label = _"Real name", name = "realname" }

@@ -20,8 +20,3 @@ contact.other_member_id = other_member.id
 contact.public = public or false
 contact:save()
 
-if public then
---  slot.put_into("notice", _"Member has been saved as public contact")
-else
---  slot.put_into("notice", _"Member has been saved as private contact")
-end

@@ -10,8 +10,8 @@ slot.put_into("title", _"Create new area")
 ui.form{
   attr = { class = "vertical" },
   record = area,
-  module = "area",
-  action = "update",
+  module = "admin",
+  action = "area_update",
   routing = {
     default = {
       mode = "redirect",

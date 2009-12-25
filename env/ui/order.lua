@@ -16,7 +16,11 @@ function ui.order(args)
             local attr = {}
             if current_order == option.name then
               attr.class = "active"
-              args.selector:add_order_by(option.order_by)
+              if option.selector_modifier then
+                option.selector_modifier(args.selector)
+              else
+                args.selector:add_order_by(option.order_by)
+              end
             end
             ui.link{
               attr    = attr,

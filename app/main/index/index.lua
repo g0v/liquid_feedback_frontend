@@ -96,6 +96,90 @@ end
 
 util.help("index.index", _"Home")
 
+
+local selector = Area:new_selector()
+  :reset_fields()
+  :add_field("area.id", nil, { "grouped" })
+  :add_field("area.name", nil, { "grouped" })
+  :add_field("membership.member_id NOTNULL", "is_member", { "grouped" })
+  :add_field("count(issue.id)", "issues_to_vote_count")
+  :add_field("count(interest.member_id)", "interested_issues_to_vote_count")
+  :join("issue", nil, "issue.area_id = area.id AND issue.fully_frozen NOTNULL AND issue.closed ISNULL")
+  :left_join("direct_voter", nil, { "direct_voter.issue_id = issue.id AND direct_voter.member_id = ?", app.session.member.id })
+  :add_where{ "direct_voter.member_id ISNULL" }
+  :left_join("interest", nil, { "interest.issue_id = issue.id AND interest.member_id = ?", app.session.member.id })
+  :left_join("membership", nil, { "membership.area_id = area.id AND membership.member_id = ? ", app.session.member.id })
+
+local areas = {}
+for i, area in ipairs(selector:exec()) do
+  if area.is_member or area.interested_issues_to_vote_count > 0 then
+    areas[#areas+1] = area
+  end
+end
+
+if #areas > 0 then
+  ui.container{
+    attr = { style = "font-weight: bold;" },
+    content = _"Current votings in areas you are member of and issues you are interested in:"
+  }
+  
+  ui.list{
+    records = areas,
+    columns = {
+      {
+        name = "name"
+      },
+      {
+        content = function(record)
+          if record.is_member and record.issues_to_vote_count > 0 then
+            ui.link{
+              content = function()
+                if record.issues_to_vote_count > 1 then
+                  slot.put(_("#{issues_to_vote_count} issue(s)", { issues_to_vote_count = record.issues_to_vote_count }))
+                else
+                  slot.put(_("One issue"))
+                end
+              end,
+              module = "area",
+              view = "show",
+              id = record.id,
+              params = { 
+                filter = "frozen",
+                filter_voting = "not_voted"
+              }
+            }
+          else
+            slot.put(_"Not a member")
+          end
+        end
+      },
+      {
+        content = function(record)
+          if record.interested_issues_to_vote_count > 0 then
+            ui.link{
+              content = function()
+                if record.interested_issues_to_vote_count > 1 then
+                  slot.put(_("#{interested_issues_to_vote_count} issue(s) you are interested in", { interested_issues_to_vote_count = record.interested_issues_to_vote_count }))
+                else
+                  slot.put(_"One issue you are interested in")
+                end
+              end,
+              module = "area",
+              view = "show",
+              id = record.id,
+              params = { 
+                filter = "frozen",
+                filter_interest = "my",
+                filter_voting = "not_voted"
+              }
+            }
+          end
+        end
+      },
+    }
+  }
+end
+
 execute.view{
   module = "member",
   view = "_show",

@@ -1,48 +1,47 @@
 slot.select("actions", function()
 
-  ui.container{
-    attr = { class = "delegation vote_info"},
-    content = function()
-    
-      local delegation
-      local area_id
-      local issue_id
-    
-      local scope = "global"
-    
-      if param.get("initiative_id", atom.integer) then
-        issue_id = Initiative:by_id(param.get("initiative_id", atom.integer)).issue_id
-        scope = "issue"
-      end
-    
-      if param.get("issue_id", atom.integer) then
-        issue_id = param.get("issue_id", atom.integer)
-        scope = "issue"
-      end
-    
-      if param.get("area_id", atom.integer) then
-        area_id = param.get("area_id", atom.integer)
-        scope = "area"
-      end
-    
-    
-    
-      local delegation
-    
-      if issue_id then
-        delegation = Delegation:by_pk(app.session.member.id, nil, issue_id)
-        if not delegation then
-          local issue = Issue:by_id(issue_id)
-          delegation = Delegation:by_pk(app.session.member.id, issue.area_id)
-        end
-      elseif area_id then
-        delegation = Delegation:by_pk(app.session.member.id, area_id)
-      end
-    
-      if not delegation then
-        delegation = Delegation:by_pk(app.session.member.id)
-      end
-      if delegation then
+  local delegation
+  local area_id
+  local issue_id
+
+  local scope = "global"
+
+  if param.get("initiative_id", atom.integer) then
+    issue_id = Initiative:by_id(param.get("initiative_id", atom.integer)).issue_id
+    scope = "issue"
+  end
+
+  if param.get("issue_id", atom.integer) then
+    issue_id = param.get("issue_id", atom.integer)
+    scope = "issue"
+  end
+
+  if param.get("area_id", atom.integer) then
+    area_id = param.get("area_id", atom.integer)
+    scope = "area"
+  end
+
+
+
+  local delegation
+  local issue
+  if issue_id then
+    issue = Issue:by_id(issue_id)
+    delegation = Delegation:by_pk(app.session.member.id, nil, issue_id)
+    if not delegation then
+      delegation = Delegation:by_pk(app.session.member.id, issue.area_id)
+    end
+  elseif area_id then
+    delegation = Delegation:by_pk(app.session.member.id, area_id)
+  end
+
+  if not delegation then
+    delegation = Delegation:by_pk(app.session.member.id)
+  end
+  if delegation then
+    ui.container{
+      attr = { class = "delegation vote_info"},
+      content = function()
         ui.container{
           attr = {
             title = _"Click for details",
@@ -117,25 +116,27 @@ slot.select("actions", function()
                       end
                     }
                     if i == 2 then
-                      ui.link{
-                        attr = { class = "revoke" },
-                        content = function()
-                          ui.image{ static = "icons/16/delete.png" }
-                          slot.put(_"Revoke")
-                        end,
-                        module = "delegation",
-                        action = "update",
-                        params = { issue_id = delegation.issue_id, area_id = delegation.area_id, delete = true },
-                        routing = {
-                          default = {
-                            mode = "redirect",
-                            module = request.get_module(),
-                            view = request.get_view(),
-                            id = param.get_id_cgi(),
-                            params = param.get_all_cgi()
+                      if not issue or (issue.state ~= "finished" and issue.state ~= "cancelled") then
+                        ui.link{
+                          attr = { class = "revoke" },
+                          content = function()
+                            ui.image{ static = "icons/16/delete.png" }
+                            slot.put(_"Revoke")
+                          end,
+                          module = "delegation",
+                          action = "update",
+                          params = { issue_id = delegation.issue_id, area_id = delegation.area_id, delete = true },
+                          routing = {
+                            default = {
+                              mode = "redirect",
+                              module = request.get_module(),
+                              view = request.get_view(),
+                              id = param.get_id_cgi(),
+                              params = param.get_all_cgi()
+                            }
                           }
                         }
-                      }
+                      end
                     end
                   end
                 }
@@ -163,30 +164,39 @@ slot.select("actions", function()
           end
         }
       end
-      ui.link{
-        content = function()
+    }
+
+
+  end
+  ui.link{
+    content = function()
+      if scope == "global" and delegation then
+        ui.image{ static = "icons/16/table_go.png" }
+        slot.put(_"Change global delegation")
+      elseif scope == "global" and not delegation then
+        ui.image{ static = "icons/16/table_go.png" }
+        slot.put(_"Set global delegation")
+      elseif scope == "area" and delegation and delegation.area_id then
+        ui.image{ static = "icons/16/table_go.png" }
+        slot.put(_"Change area delegation")
+      elseif scope == "area" and not (delegation and delegation.area_id) then
+        ui.image{ static = "icons/16/table_go.png" }
+        slot.put(_"Set area delegation")
+      elseif scope == "issue" then
+        if delegation and delegation.issue_id then
           ui.image{ static = "icons/16/table_go.png" }
-          if scope == "global" and delegation then
-            slot.put(_"Change global delegation")
-          elseif scope == "global" and not delegation then
-            slot.put(_"Set global delegation")
-          elseif scope == "area" and delegation and delegation.area_id then
-            slot.put(_"Change area delegation")
-          elseif scope == "area" and not (delegation and delegation.area_id) then
-            slot.put(_"Set area delegation")
-          elseif scope == "issue" and delegation and delegation.issue_id then
-            slot.put(_"Change issue delegation")
-          elseif scope == "issue" and not (delegation and delegation.issue_id) then
-            slot.put(_"Set issue delegation")
-          end
-        end,
-        module = "delegation",
-        view = "new",
-        params = {
-          area_id = area_id,
-          issue_id = issue_id 
-        }
-      }
-    end
+          slot.put(_"Change issue delegation")
+        elseif issue.state ~= "finished" and issue.state ~= "cancelled" then
+          ui.image{ static = "icons/16/table_go.png" }
+          slot.put(_"Set issue delegation")
+        end
+      end
+    end,
+    module = "delegation",
+    view = "new",
+    params = {
+      area_id = area_id,
+      issue_id = issue_id 
+    }
   }
 end)

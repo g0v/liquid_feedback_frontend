@@ -105,60 +105,69 @@ ui.order{
                 if opinion then
                   degree = opinion.degree
                 end
-                ui.link{
-                  attr = { class = "action" .. (degree == -2 and " active_red2" or "") },
-                  text = _"must not",
-                  module = "opinion",
-                  action = "update",
-                  routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                  params = {
-                    suggestion_id = record.id,
-                    degree = -2
-                  }
-                }
-                ui.link{
-                  attr = { class = "action" .. (degree == -1 and " active_red1" or "") },
-                  text = _"should not",
-                  module = "opinion",
-                  action = "update",
-                  routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                  params = {
-                    suggestion_id = record.id,
-                    degree = -1
-                  }
-                }
-                ui.link{
-                  attr = { class = "action" .. (degree == nil and " active" or "") },
-                  text = _"neutral",
-                  module = "opinion",
-                  action = "update",
-                  routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                  params = {
-                    suggestion_id = record.id,
-                    delete = true
-                  }
-                }
-                ui.link{
-                  attr = { class = "action" .. (degree == 1 and " active_green1" or "") },
-                  text = _"should",
-                  module = "opinion",
-                  action = "update",
-                  routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                  params = {
-                    suggestion_id = record.id,
-                    degree = 1
-                  }
-                }
-                ui.link{
-                  attr = { class = "action" .. (degree == 2 and " active_green2" or "") },
-                  text = _"must",
-                  module = "opinion",
-                  action = "update",
-                  routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                  params = {
-                    suggestion_id = record.id,
-                    degree = 2
-                  }
+                ui.container{
+                  attr = { class = "suggestion_my_opinion" },
+                  content = function()
+                    ui.link{
+                      attr = { class = "action" .. (degree == -2 and " active_red2" or "") },
+                      text = _"must not",
+                      module = "opinion",
+                      action = "update",
+                      routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                      params = {
+                        suggestion_id = record.id,
+                        degree = -2
+                      }
+                    }
+                    slot.put(" ")
+                    ui.link{
+                      attr = { class = "action" .. (degree == -1 and " active_red1" or "") },
+                      text = _"should not",
+                      module = "opinion",
+                      action = "update",
+                      routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                      params = {
+                        suggestion_id = record.id,
+                        degree = -1
+                      }
+                    }
+                    slot.put(" ")
+                    ui.link{
+                      attr = { class = "action" .. (degree == nil and " active" or "") },
+                      text = _"neutral",
+                      module = "opinion",
+                      action = "update",
+                      routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                      params = {
+                        suggestion_id = record.id,
+                        delete = true
+                      }
+                    }
+                    slot.put(" ")
+                    ui.link{
+                      attr = { class = "action" .. (degree == 1 and " active_green1" or "") },
+                      text = _"should",
+                      module = "opinion",
+                      action = "update",
+                      routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                      params = {
+                        suggestion_id = record.id,
+                        degree = 1
+                      }
+                    }
+                    slot.put(" ")
+                    ui.link{
+                      attr = { class = "action" .. (degree == 2 and " active_green2" or "") },
+                      text = _"must",
+                      module = "opinion",
+                      action = "update",
+                      routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                      params = {
+                        suggestion_id = record.id,
+                        degree = 2
+                      }
+                    }
+                  end
                 }
               end
             },

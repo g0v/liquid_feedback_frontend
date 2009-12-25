@@ -1,10 +1,25 @@
-db:query("BEGIN")
+local tmp = db:query({ "SELECT text_entries_left FROM member_contingent_left WHERE member_id = ?", app.session.member.id }, "opt_object")
+if tmp and tmp.text_entries_left and tmp.text_entries_left < 1 then
+  slot.put_into("error", _"Sorry, you have reached your personal flood limit. Please be slower...")
+  return false
+end
 
 local suggestion = Suggestion:new()
 
 suggestion.author_id = app.session.member.id
 param.update(suggestion, "name", "description", "initiative_id")
 suggestion:save()
+
+-- TODO important m1 selectors returning result _SET_!
+local issue = suggestion.initiative:get_reference_selector("issue"):for_share():single_object_mode():exec()
+
+if issue.closed then
+  slot.put_into("error", _"This issue is already closed.")
+  return false
+elseif issue.fully_frozen then 
+  slot.put_into("error", _"Voting for this issue has already begun.")
+  return false
+end
 
 local opinion = Opinion:new()
 
@@ -14,7 +29,5 @@ opinion.degree        = param.get("degree", atom.integer)
 opinion.fulfilled     = false
 
 opinion:save()
-
-db:query("COMMIT")
 
 slot.put_into("notice", _"Your suggestion has been added")

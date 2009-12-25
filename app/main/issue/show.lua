@@ -12,7 +12,8 @@ ui.tabs{
   {
     name = "initiatives",
     label = _"Initiatives",
-    content = function()      execute.view{
+    content = function()
+      execute.view{
         module = "initiative",
         view = "_list",
         params = { 

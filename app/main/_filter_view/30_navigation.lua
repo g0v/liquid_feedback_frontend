@@ -6,10 +6,18 @@ if app.session.member == nil then
     ui.link{
       content = function()
         ui.image{ static = "icons/16/key.png" }
-        slot.put('Login')
+        slot.put(_"Login")
       end,
       module = 'index',
       view = 'login'
+    }
+    ui.link{
+      content = function()
+        ui.image{ static = "icons/16/book_edit.png" }
+        slot.put(_"Registration")
+      end,
+      module = 'index',
+      view = 'register'
     }
     ui.link{
       content = function()
@@ -29,7 +37,7 @@ slot.select('navigation', function()
     ui.link{
       content = function()
         ui.image{ static = "icons/16/house.png" }
-        slot.put(_'Home')
+        slot.put(_"Home")
       end,
       module = 'index',
       view = 'index'
@@ -38,7 +46,7 @@ slot.select('navigation', function()
     ui.link{
       content = function()
         ui.image{ static = "icons/16/package.png" }
-        slot.put(_'Areas')
+        slot.put(_"Areas")
       end,
       module = 'area',
       view = 'list'
@@ -47,7 +55,7 @@ slot.select('navigation', function()
     ui.link{
       content = function()
         ui.image{ static = "icons/16/group.png" }
-        slot.put(_'Members')
+        slot.put(_"Members")
       end,
       module = 'member',
       view = 'list'
@@ -56,7 +64,7 @@ slot.select('navigation', function()
     ui.link{
       content = function()
         ui.image{ static = "icons/16/book_edit.png" }
-        slot.put(_'Contacts')
+        slot.put(_"Contacts")
       end,
       module = 'contact',
       view = 'list'
@@ -65,7 +73,7 @@ slot.select('navigation', function()
     ui.link{
       content = function()
         ui.image{ static = "icons/16/information.png" }
-        slot.put(_'About')
+        slot.put(_"About")
       end,
       module = 'index',
       view = 'about'
@@ -74,7 +82,7 @@ slot.select('navigation', function()
     ui.link{
       content = function()
         ui.image{ static = "icons/16/bug.png" }
-        slot.put(_'Bug report')
+        slot.put(_"Bug report")
       end,
       external = "http://trac.public-software-group.org/projects/lf" --/newticket?description=" .. encode.url_part("\n\n\n\nReport for: " .. os.getenv("REQUEST_URI") )
     }
