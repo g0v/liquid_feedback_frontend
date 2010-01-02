@@ -64,7 +64,8 @@ slot.select("actions", function()
       params = { issue_id = issue.id }
     }
   end
- 
+
+--[[ 
   if issue.state == "accepted" then
     -- TODO
     ui.link{
@@ -74,6 +75,7 @@ slot.select("actions", function()
       end,
     }
   end
+--]]
 
 end)
 

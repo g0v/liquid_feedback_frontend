@@ -41,9 +41,17 @@ end
 local initiative = Initiative:new()
 
 if not issue then
+  local policy_id = param.get("policy_id", atom.integer)
+  if not area:get_reference_selector("allowed_policies")
+    :add_where{ "policy.id = ?", policy_id }
+    :optional_object_mode()
+    :exec()
+  then
+    error("policy not allowed")
+  end
   issue = Issue:new()
   issue.area_id = area.id
-  issue.policy_id = param.get("policy_id", atom.integer)
+  issue.policy_id = policy_id
   issue:save()
 end
 

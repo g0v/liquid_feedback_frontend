@@ -297,7 +297,7 @@ return {
 ["Supporter"] = "Unterstützer";
 ["Terms accepted"] = "Bedingungen akzeptiert";
 ["That's me!"] = "Das bin ich";
-["The code you've entered is invalid"] = "Den Code den Du eingeben hast ist nicht gültig!";
+["The code you've entered is invalid"] = "Der Code, den Du eingeben hast, ist nicht gültig!";
 ["The drafts do not differ"] = "Die Entwürfe unterscheiden sich nicht";
 ["This issue is already closed."] = "Das Thema ist schon geschlossen.";
 ["This issue is already frozen."] = "Das Thema ist schon eingefroren";

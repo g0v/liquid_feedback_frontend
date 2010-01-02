@@ -30,12 +30,14 @@ ui.form{
     if issue_id then
       ui.field.text{ label = _"Issue",  value = issue_id }
     else
+      local value
       ui.field.select{
         label = _"Policy",
         name = "policy_id",
-        foreign_records = Policy:new_selector():add_order_by("index"):exec(),
+        foreign_records = area.allowed_policies,
         foreign_id = "id",
-        foreign_name = "name"
+        foreign_name = "name",
+        value = area.default_policy.id
       }
     end
     ui.field.text{ label = _"Name", name = "name" }
