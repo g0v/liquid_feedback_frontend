@@ -2,8 +2,7 @@ local issue_id = assert(param.get("issue_id", atom.integer), "no issue id given"
 
 local interest = Interest:by_pk(issue_id, app.session.member.id)
 
--- TODO important m1 selectors returning result _SET_!
-local issue = interest:get_reference_selector("issue"):for_share():single_object_mode():exec()
+local issue = Issue:by_id(issue_id)
 
 if issue.closed then
   slot.put_into("error", _"This issue is already closed.")

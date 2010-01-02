@@ -577,10 +577,10 @@ tr table tr:hover td {
   display: none;
   border: 1px solid #444;
   width: 42em;
-  position: absolute;
+  position: fixed;
   background-color: #fff;
   left: 5em;
-  top: 20ex;
+  top: 5ex;
 }
 
 .hidden_inline_form a {

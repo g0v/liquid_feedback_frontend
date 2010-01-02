@@ -1,5 +1,5 @@
 config.app_name = "LiquidFeedback"
-config.app_version = "beta3"
+config.app_version = "beta4"
 
 config.app_title = config.app_name .. " (" .. request.get_config_name() .. " environment)"
 
@@ -26,6 +26,9 @@ config.fastpath_url_func = nil
 config.download_dir = nil
 
 config.download_use_terms = "=== Nutzungsbedingungen ===\nAlles ist verboten"
+
+
+request.set_404_route{ module = 'index', view = '404' }
 
 -- uncomment the following two lines to use C implementations of chosen
 -- functions and to disable garbage collection during the request, to
