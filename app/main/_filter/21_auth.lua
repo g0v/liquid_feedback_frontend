@@ -6,6 +6,10 @@ local auth_needed = not (
     or request.get_view()   == "register"
     or request.get_action() == "register"
     or request.get_view()   == "about"
+    or request.get_view()   == "reset_password"
+    or request.get_action() == "reset_password"
+    or request.get_view()   == "confirm_notify_email"
+    or request.get_action() == "confirm_notify_email"
   )
 )
 

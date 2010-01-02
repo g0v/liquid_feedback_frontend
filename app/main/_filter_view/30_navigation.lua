@@ -21,6 +21,14 @@ if app.session.member == nil then
     }
     ui.link{
       content = function()
+        ui.image{ static = "icons/16/key_forgot.png" }
+        slot.put(_"Reset password")
+      end,
+      module = 'index',
+      view = 'reset_password'
+    }
+    ui.link{
+      content = function()
         ui.image{ static = "icons/16/information.png" }
         slot.put('About / Impressum')
       end,
@@ -78,15 +86,6 @@ slot.select('navigation', function()
       module = 'index',
       view = 'about'
     }
-
-    ui.link{
-      content = function()
-        ui.image{ static = "icons/16/bug.png" }
-        slot.put(_"Bug report")
-      end,
-      external = "http://trac.public-software-group.org/projects/lf" --/newticket?description=" .. encode.url_part("\n\n\n\nReport for: " .. os.getenv("REQUEST_URI") )
-    }
-
 
   if app.session.member.admin then
 

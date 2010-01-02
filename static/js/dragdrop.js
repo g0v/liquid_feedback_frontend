@@ -59,7 +59,7 @@ window.addEventListener("load", function(event) {
       element.addEventListener("mousedown", function(event) {
         event.target.style.cursor = "move";
         dragElement(event.currentTarget, function(element, dropX, dropY) {
-          event.target.style.cursor = null;
+          event.target.style.cursor = '';
           elementDropped(element, dropX, dropY);
         });
         event.preventDefault();

@@ -109,13 +109,46 @@ ui.form{
                     id = "entry_" .. tostring(initiative.id)
                   },
                   content = function()
-                    ui.link{
-                      attr = { class = "clickable" },
-                      content = initiative.name,
-                      module = "initiative",
-                      view = "show",
-                      id = initiative.id
+                    local initiators = initiative.initiating_members
+                    local initiator_names = {}
+                    for i, initiator in ipairs(initiators) do
+                      initiator_names[#initiator_names+1] = initiator.name
+                    end
+                    local initiator_names_string = table.concat(initiator_names, ", ")
+                    ui.container{
+                      attr = { style = "float: right;" },
+                      content = function()
+                        ui.link{
+                          attr = { class = "clickable" },
+                          content = _"Show",
+                          module = "initiative",
+                          view = "show",
+                          id = initiative.id
+                        }
+                        slot.put(" ")
+                        ui.link{
+                          attr = { class = "clickable", target = "_blank" },
+                          content = _"(new window)",
+                          module = "initiative",
+                          view = "show",
+                          id = initiative.id
+                        }
+                        slot.put(" ")
+                        ui.image{ attr = { class = "grabber" }, static = "icons/grabber.png" }
+                      end
                     }
+                    slot.put(encode.html(initiative.shortened_name))
+                    if #initiators > 1 then
+                      ui.container{
+                        attr = { style = "font-size: 80%;" },
+                        content = _"Initiators" .. ": " .. initiator_names_string
+                      }
+                    else
+                      ui.container{
+                        attr = { style = "font-size: 80%;" },
+                        content = _"Initiator" .. ": " .. initiator_names_string
+                      }
+                    end
                   end
                 }
               end

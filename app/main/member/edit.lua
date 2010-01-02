@@ -29,7 +29,7 @@ ui.form{
     ui.field.text{ label = _"Organizational unit", name = "organizational_unit" }
     ui.field.text{ label = _"Internal posts", name = "internal_posts" }
     ui.field.text{ label = _"Real name", name = "realname" }
-    ui.field.text{ label = _"Birthday", name = "birthday" }
+    ui.field.text{ label = _"Birthday" .. " YYYY-MM-DD ", name = "birthday" }
     ui.field.text{ label = _"Address", name = "address", multiline = true }
     ui.field.text{ label = _"email", name = "email" }
     ui.field.text{ label = _"xmpp", name = "xmpp_address" }

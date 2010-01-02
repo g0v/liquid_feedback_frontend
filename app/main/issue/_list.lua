@@ -11,9 +11,13 @@ ui_filter{
   filters = {
     {
       type = "boolean",
-      name = "any",
-      label = _"Any",
-      selector_modifier = function()  end
+      name = "open",
+      label = _"Open",
+      selector_modifier = function(selector, value)
+        if value then
+          selector:add_where("issue.closed ISNULL")
+        end
+      end
     },
     {
       type = "boolean",
@@ -150,14 +154,14 @@ ui_filter{
                   name = "max_potential_support",
                   label = _"Max potential support",
                   selector_modifier = function(selector)
-                    selector:add_order_by("(SELECT max(supporter_count) FROM initiative WHERE initiative.issue_id = issue.id)")
+                    selector:add_order_by("(SELECT max(supporter_count) FROM initiative WHERE initiative.issue_id = issue.id) DESC")
                   end
                 },
                 {
                   name = "max_support",
                   label = _"Max support",
                   selector_modifier = function(selector)
-                    selector:add_order_by("(SELECT max(satisfied_supporter_count) FROM initiative WHERE initiative.issue_id = issue.id)")
+                    selector:add_order_by("(SELECT max(satisfied_supporter_count) FROM initiative WHERE initiative.issue_id = issue.id) DESC")
                   end
                 },
                 {
@@ -214,7 +218,16 @@ ui_filter{
                         {
                           label = _"State",
                           content = function(record)
-                            ui.field.issue_state{ value = record.state }
+                            if record.state == "voting" then
+                              ui.link{
+                                content = _"Voting",
+                                module = "vote",
+                                view = "list",
+                                params = { issue_id = record.id }
+                              }
+                            else
+                              ui.field.issue_state{ value = record.state }
+                            end
                           end
                         },
                         {

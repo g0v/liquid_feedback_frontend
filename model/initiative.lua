@@ -101,10 +101,29 @@ Initiative:add_reference{
   ref                   = 'supporting_members_snapshot'
 }
 
+
 function Initiative:get_search_selector(search_string)
   return self:new_selector()
+    :join("draft", nil, "draft.initiative_id = initiative.id")
     :add_field( {'"highlight"("initiative"."name", ?)', search_string }, "name_highlighted")
-    :add_where{ '"initiative"."text_search_data" @@ "text_search_query"(?)', search_string }
+    :add_where{ '"initiative"."text_search_data" @@ "text_search_query"(?) OR "draft"."text_search_data" @@ "text_search_query"(?)', search_string, search_string }
+    :add_group_by('"initiative"."id"')
+    :add_group_by('"initiative"."issue_id"')
+    :add_group_by('"initiative"."name"')
+    :add_group_by('"initiative"."discussion_url"')
+    :add_group_by('"initiative"."created"')
+    :add_group_by('"initiative"."revoked"')
+    :add_group_by('"initiative"."admitted"')
+    :add_group_by('"initiative"."supporter_count"')
+    :add_group_by('"initiative"."informed_supporter_count"')
+    :add_group_by('"initiative"."satisfied_supporter_count"')
+    :add_group_by('"initiative"."satisfied_informed_supporter_count"')
+    :add_group_by('"initiative"."positive_votes"')
+    :add_group_by('"initiative"."negative_votes"')
+    :add_group_by('"initiative"."agreed"')
+    :add_group_by('"initiative"."rank"')
+    :add_group_by('"initiative"."text_search_data"')
+    :add_group_by('"issue"."population"')
 end
 
 function Member:get_search_selector(search_string)

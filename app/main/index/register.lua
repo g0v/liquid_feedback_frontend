@@ -1,32 +1,26 @@
 slot.put_into("title", _"Registration")
 
-slot.select("actions", function()
-  ui.link{
-    content = function()
-        ui.image{ static = "icons/16/cancel.png" }
-        slot.put(_"Cancel")
-    end,
-    module = "index",
-    view = "index"
-  }
-end)
 
 local code = param.get("code")
+local notify_email = param.get("notify_email")
 local name = param.get("name")
 local login = param.get("login")
 
+slot.put_into("title", " (")
 ui.form{
-  attr = { class = "login" },
+  attr = { class = "vertical" },
   module = 'index',
   action = 'register',
   params = {
     code = code,
+    notify_email = notify_email,
     name = name,
     login = login
   },
   content = function()
 
     if not code then
+      slot.put_into("title", _"Step 1/5: Invite code")
       ui.tag{
         tag = "p",
         content = _"Please enter the invite code you've received."
@@ -34,9 +28,48 @@ ui.form{
       ui.field.text{
         label     = _'Invite code',
         name = 'code',
+        value = param.get("invite")
+      }
+
+    elseif not notify_email then
+      slot.put_into("title", _"Step 2/5: Email address")
+      slot.select("actions", function()
+        ui.link{
+          content = function()
+              ui.image{ static = "icons/16/resultset_previous.png" }
+              slot.put(_"One step back")
+          end,
+          module = "index",
+          view = "register",
+          params = {
+          }
+        }
+      end)
+      ui.tag{
+        tag = "p",
+        content = _"Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."
+      }
+      ui.field.text{
+        label     = _'Email address',
+        name      = 'notify_email',
+        value     = param.get("notify_email")
       }
 
     elseif not name then
+      slot.put_into("title", _"Step 3/5: Username")
+      slot.select("actions", function()
+        ui.link{
+          content = function()
+              ui.image{ static = "icons/16/resultset_previous.png" }
+              slot.put(_"One step back")
+          end,
+          module = "index",
+          view = "register",
+          params = {
+            code = code
+          }
+        }
+      end)
       ui.tag{
         tag = "p",
         content = _"Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you. You CAN'T change this name later, so please choose it wisely!"
@@ -48,6 +81,21 @@ ui.form{
       }
 
     elseif not login then
+      slot.put_into("title", _"Step 4/5: Login name")
+      slot.select("actions", function()
+        ui.link{
+          content = function()
+              ui.image{ static = "icons/16/resultset_previous.png" }
+              slot.put(_"One step back")
+          end,
+          module = "index",
+          view = "register",
+          params = {
+            code = code,
+            notify_email = notify_email
+          }
+        }
+      end)
       ui.tag{
         tag = "p",
         content = _"Please choose a login name. This name will not be shown to others and is used only by you to login into the system. The login name is case sensitive."
@@ -59,18 +107,54 @@ ui.form{
       }
 
     else
+      slot.put_into("title", _"Step 5/5: Terms of use and password")
+      slot.select("actions", function()
+        ui.link{
+          content = function()
+              ui.image{ static = "icons/16/resultset_previous.png" }
+              slot.put(_"One step back")
+          end,
+          module = "index",
+          view = "register",
+          params = {
+            code = code,
+            notify_email = notify_email,
+            name = name,
+          }
+        }
+      end)
+      ui.container{
+        attr = { class = "wiki use_terms" },
+        content = function()
+          slot.put(format.wiki_text(config.use_terms))
+        end
+      }
+      slot.put("<br />")
+      ui.field.text{
+        label     = _'Email address',
+        value     = param.get("notify_email"),
+        readonly = true
+      }
       ui.field.text{
         label     = _'Name',
-        name      = 'name',
         value     = param.get("name"),
         readonly = true
       }
       ui.field.text{
         label     = _'Login name',
-        name      = 'login',
         value     = param.get("login"),
         readonly = true
       }
+
+      ui.tag{
+        tag = "p",
+        content = _"I accept the terms of use by checking the following checkbox:"
+      }
+      ui.field.boolean{
+        label     = _"Terms accepted",
+        name      = "use_terms_accepted",
+      }
+
       ui.tag{
         tag = "p",
         content = _"Please choose a password and enter it twice. The password is case sensitive."
@@ -89,6 +173,18 @@ ui.form{
     ui.submit{
       text = _'Register'
     }
+
+    slot.put_into("title", ")")
+    slot.select("actions", function()
+      ui.link{
+        content = function()
+            ui.image{ static = "icons/16/cancel.png" }
+            slot.put(_"Cancel registration")
+        end,
+        module = "index",
+        view = "index"
+      }
+    end)
 
   end
 }

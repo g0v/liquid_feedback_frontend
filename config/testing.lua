@@ -1,3 +1,5 @@
+config.absolute_base_url = "http://www.public-software-group.org/liquid_feedback_testing/"
+
 execute.config("default")
 
 config.formatting_engine_executeables = {

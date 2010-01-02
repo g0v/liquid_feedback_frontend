@@ -85,3 +85,24 @@ execute.view{
 }
 
 --  ui.twitter("http://example.com/t" .. tostring(issue.id))
+
+
+if issue.state == 'voting' then
+  ui.container{
+    attr = { class = "voting_active_info" },
+    content = function()
+      slot.put(_"Voting for this issue is currently running!")
+      slot.put(" ")
+      ui.link{
+        content = function()
+          slot.put(_"Vote now")
+        end,
+        module = "vote",
+        view = "list",
+        params = { issue_id = issue.id }
+      }
+    end
+  }
+  slot.put("<br />")
+end
+

@@ -277,3 +277,28 @@ function Member:get_search_selector(search_string)
     :add_where("active")
 end
 
+function Member.object:set_notify_email(notify_email)
+  local expiry = db:query("SELECT now() + '7 days'::interval as expiry", "object").expiry
+  self.notify_email_unconfirmed = notify_email
+  self.notify_email_secret = multirand.string( 24, "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz" )
+  self.notify_email_secret_expiry = expiry
+  local content = slot.use_temporary(function()
+    slot.put(_"Hello " .. self.name .. ",\n\n")
+    slot.put(_"Please confirm your email address by clicking the following link:\n\n")
+    slot.put(config.absolute_base_url .. "index/confirm_notify_email.html?secret=" .. self.notify_email_secret .. "\n\n")
+    slot.put(_"If this link is not working, please open following url in your web browser:\n\n")
+    slot.put(config.absolute_base_url .. "index/confirm_notify_email.html\n\n")
+    slot.put(_"On that page please enter the confirmation code:\n\n")
+    slot.put(self.notify_email_secret .. "\n\n")
+  end)
+  local success = net.send_mail{
+    envelope_from = config.mail_envelope_from,
+    from          = config.mail_from,
+    reply_to      = config.mail_reply_to,
+    to            = self.notify_email_unconfirmed,
+    subject       = config.mail_subject_prefix .. _"Email confirmation request",
+    content_type  = "text/plain; charset=UTF-8",
+    content       = content
+  }
+  return success
+end

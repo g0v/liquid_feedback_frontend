@@ -792,9 +792,10 @@ tr table tr:hover td {
   margin-right: 0.7em;
 }
 
-.draft_updated_info {
-  border: 2px solid #faa;
-  background-color: #fee;
+.draft_updated_info,
+.voting_active_info {
+  background-color: #fec;
+  border: 2px solid #b96;
   padding: 1ex;
 }
 
@@ -806,7 +807,8 @@ tr table tr:hover td {
   line-height: 120%;
 }
 
-.help {
+.help,
+.use_terms {
   border: 1px solid #bcd;
   background-color: #def;
   color: #000;
@@ -917,4 +919,9 @@ form .warning {
 }
 #voting a.clickable {
   cursor: pointer;
+}
+
+#voting .grabber {
+  vertical-align: middle;
+  cursor: move;
 }

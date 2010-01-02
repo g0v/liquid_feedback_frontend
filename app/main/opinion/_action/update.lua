@@ -4,8 +4,15 @@ local suggestion_id = param.get("suggestion_id", atom.integer)
 
 local opinion = Opinion:by_pk(member_id, suggestion_id)
 
+local suggestion = Suggestion:by_id(suggestion_id)
+
+if not suggestion then
+  slot.put_into("error", _"This suggestion has been meanwhile deleted")
+  return false
+end
+
 -- TODO important m1 selectors returning result _SET_!
-local issue = opinion.initiative:get_reference_selector("issue"):for_share():single_object_mode():exec()
+local issue = suggestion.initiative:get_reference_selector("issue"):for_share():single_object_mode():exec()
 
 if issue.closed then
   slot.put_into("error", _"This issue is already closed.")

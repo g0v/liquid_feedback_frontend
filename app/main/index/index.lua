@@ -75,6 +75,16 @@ slot.select("actions", function()
     view = "change_password"
   }
 
+  if config.download_dir then
+    ui.link{
+      content = function()
+          ui.image{ static = "icons/16/database_save.png" }
+          slot.put(_"Download")
+      end,
+      module = "index",
+      view = "download"
+    }
+  end 
 end)
 
 local lang = locale.get("lang")

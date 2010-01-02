@@ -1,11 +1,13 @@
 config.app_name = "LiquidFeedback"
-config.app_version = "beta1"
+config.app_version = "beta2"
 
 config.app_title = config.app_name .. " (" .. request.get_config_name() .. " environment)"
 
 config.app_logo = nil
 
 config.app_service_provider = "Snake Oil<br/>10000 Berlin<br/>Germany"
+
+config.use_terms = "=== Nutzungsbedingungen ===\nAlles ist verboten"
 
 config.member_image_convert_func = {
   avatar = function(data) return os.pfilter(data, "convert", "jpeg:-", "-thumbnail",   "48x48", "jpeg:-") end,
@@ -17,8 +19,13 @@ config.member_image_default_file = {
   photo = nil
 }
 
+config.mail_subject_prefix = "[LiquidFeedback] "
+
 config.fastpath_url_func = nil
 
+config.download_dir = nil
+
+config.download_use_terms = "=== Nutzungsbedingungen ===\nAlles ist verboten"
 
 -- uncomment the following two lines to use C implementations of chosen
 -- functions and to disable garbage collection during the request, to
@@ -45,10 +52,7 @@ function db:sql_tracer(command)
   end
 end
 
--- 'request.get_relative_baseurl()' should be replaced by the absolute
--- base URL of the application, as otherwise HTTP redirects will not be
--- standard compliant
-request.set_absolute_baseurl(request.get_relative_baseurl())
+request.set_absolute_baseurl(config.absolute_base_url)
 
 
 

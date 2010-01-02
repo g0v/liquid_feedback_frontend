@@ -17,16 +17,27 @@ ui.container{
     ui.container{
       attr = { class = "flags" },
       content = function()
-        if (issue or initiative) and member.weight > 1 then
+        local weight = 0
+        if member.weight then
+          weight = member.weight
+        end
+        if member.voter_weight then
+          weight = member.voter_weight
+        end
+        if (issue or initiative) and weight > 1 then
           local module
           if issue then
             module = "interest"
           elseif initiative then
-            module = "supporter"
+            if member.voter_weight then
+               module = "vote"
+            else
+              module = "supporter"
+            end
           end
           ui.link{
             attr = { title = _"Number of incoming delegations, follow link to see more details" },
-            content = _("+ #{weight}", { weight = member.weight - 1 }),
+            content = _("+ #{weight}", { weight = weight - 1 }),
             module = module,
             view = "show_incoming",
             params = { 
@@ -34,6 +45,39 @@ ui.container{
               initiative_id = initiative and initiative.id or nil,
               issue_id = issue and issue.id or nil
             }
+          }
+        else
+          slot.put("&nbsp;")
+        end
+        if member.grade then
+          ui.container{
+            content = function()
+              if member.grade > 0 then
+                ui.image{
+                  attr = { 
+                    alt   = _"Voted yes",
+                    title = _"Voted yes"
+                  },
+                  static = "icons/16/thumb_up_green.png"
+                }
+              elseif member.grade < 0 then
+                ui.image{
+                  attr = { 
+                    alt   = _"Voted no",
+                    title = _"Voted no"
+                  },
+                  static = "icons/16/thumb_down_red.png"
+                }
+              else
+                ui.image{
+                  attr = { 
+                    alt   = _"Abstention",
+                    title = _"Abstention"
+                  },
+                  static = "icons/16/bullet_yellow.png"
+                }
+              end
+            end
           }
         end
         if member.admin then

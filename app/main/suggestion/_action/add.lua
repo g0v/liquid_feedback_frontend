@@ -4,10 +4,19 @@ if tmp and tmp.text_entries_left and tmp.text_entries_left < 1 then
   return false
 end
 
+local name = param.get("name")
+local name = util.trim(name)
+
+if #name < 3 then
+  slot.put_into("error", _"This title is really too short!")
+  return false
+end
+
 local suggestion = Suggestion:new()
 
 suggestion.author_id = app.session.member.id
-param.update(suggestion, "name", "description", "initiative_id")
+suggestion.name = name
+param.update(suggestion, "description", "initiative_id")
 suggestion:save()
 
 -- TODO important m1 selectors returning result _SET_!

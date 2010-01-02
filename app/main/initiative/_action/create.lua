@@ -29,6 +29,15 @@ else
   area = Area:new_selector():add_where{"id=?",area_id}:single_object_mode():exec()
 end
 
+local name = param.get("name")
+
+local name = util.trim(name)
+
+if #name < 3 then
+  slot.put_into("error", _"This name is really too short!")
+  return false
+end
+
 local initiative = Initiative:new()
 
 if not issue then
@@ -38,11 +47,9 @@ if not issue then
   issue:save()
 end
 
-
-
 initiative.issue_id = issue.id
-
-param.update(initiative, "name", "discussion_url")
+initiative.name = name
+param.update(initiative, "discussion_url")
 initiative:save()
 
 local draft = Draft:new()

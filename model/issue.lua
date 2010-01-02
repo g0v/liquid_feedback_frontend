@@ -97,6 +97,19 @@ Issue:add_reference{
   ref                   = 'interested_members_snapshot'
 }
 
+Issue:add_reference{
+  mode                  = 'mm',
+  to                    = "Member",
+  this_key              = 'id',
+  that_key              = 'id',
+  connected_by_table    = 'direct_voter',
+  connected_by_this_key = 'issue_id',
+  connected_by_that_key = 'member_id',
+  ref                   = 'direct_voters'
+}
+
+
+
 function Issue:get_state_name_for_state(value)
   local state_name_table = {
     new          = _"New",
@@ -112,8 +125,24 @@ end
 function Issue:get_search_selector(search_string)
   return self:new_selector()
     :join('"initiative"', nil, '"initiative"."issue_id" = "issue"."id"')
-    :add_where{ '"initiative"."text_search_data" @@ "text_search_query"(?)', search_string }
-    :set_distinct()
+    :join('"draft"', nil, '"draft"."initiative_id" = "initiative"."id"')
+    :add_where{ '"initiative"."text_search_data" @@ "text_search_query"(?) OR "draft"."text_search_data" @@ "text_search_query"(?)', search_string, search_string }
+    :add_group_by('"issue"."id"')
+    :add_group_by('"issue"."area_id"')
+    :add_group_by('"issue"."policy_id"')
+    :add_group_by('"issue"."created"')
+    :add_group_by('"issue"."accepted"')
+    :add_group_by('"issue"."half_frozen"')
+    :add_group_by('"issue"."fully_frozen"')
+    :add_group_by('"issue"."closed"')
+    :add_group_by('"issue"."ranks_available"')
+    :add_group_by('"issue"."snapshot"')
+    :add_group_by('"issue"."latest_snapshot_event"')
+    :add_group_by('"issue"."population"')
+    :add_group_by('"issue"."vote_now"')
+    :add_group_by('"issue"."vote_later"')
+    :add_group_by('"issue"."voter_count"')
+    --:set_distinct()
 end
 
 function Issue.object_get:state()

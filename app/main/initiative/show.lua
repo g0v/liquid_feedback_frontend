@@ -188,10 +188,19 @@ if supporter then
 end
 
 
-ui.tabs{
+local current_draft_name = _"Current draft"
+if initiative.issue.half_frozen then
+  current_draft_name = _"Voting proposal"
+end
+
+if initiative.issue.state == "finished" then
+  current_draft_name = _"Voted proposal"
+end
+
+local tabs = {
   {
     name = "current_draft",
-    label = _"Current draft",
+    label = current_draft_name,
     content = function()
       if initiator then
         ui.link{
@@ -206,108 +215,136 @@ ui.tabs{
       end
       execute.view{ module = "draft", view = "_show", params = { draft = initiative.current_draft } }
     end
-  },
-  {
-    name = "suggestion",
-    label = _"Suggestions",
-    content = function()
-      execute.view{
-        module = "suggestion",
-        view = "_list",
-        params = {
-          initiative = initiative,
-          suggestions_selector = initiative:get_reference_selector("suggestions")
-        }
-      }
-      slot.put("<br />")
-      if not initiative.issue.fully_frozen and not initiative.issue.closed then
-        ui.link{
-          content = function()
-            ui.image{ static = "icons/16/comment_add.png" }
-            slot.put(_"Add new suggestion")
-          end,
-          attr = { onclick = "document.getElementById('add_suggestion_form').style.display='block';return(false)" },
-          static = "#"
-        }
-      end
-    end
-  },
-  {
-    name = "satisfied_supporter",
-    label = _"Supporter",
-    content = function()
-      execute.view{
-        module = "member",
-        view = "_list",
-        params = {
-          initiative = initiative,
-          members_selector =  initiative:get_reference_selector("supporting_members_snapshot")
-            :join("issue", nil, "issue.id = direct_supporter_snapshot.issue_id")
-            :join("direct_interest_snapshot", nil, "direct_interest_snapshot.event = issue.latest_snapshot_event AND direct_interest_snapshot.issue_id = issue.id AND direct_interest_snapshot.member_id = member.id")
-            :add_field("direct_interest_snapshot.weight")
-            :add_where("direct_supporter_snapshot.event = issue.latest_snapshot_event")
-            :add_where("direct_supporter_snapshot.satisfied")
-        }
-      }
-    end
-  },
-  {
-    name = "supporter",
-    label = _"Potential supporter",
-    content = function()
-      execute.view{
-        module = "member",
-        view = "_list",
-        params = {
-          initiative = initiative,
-          members_selector =  initiative:get_reference_selector("supporting_members_snapshot")
-            :join("issue", nil, "issue.id = direct_supporter_snapshot.issue_id")
-            :join("direct_interest_snapshot", nil, "direct_interest_snapshot.event = issue.latest_snapshot_event AND direct_interest_snapshot.issue_id = issue.id AND direct_interest_snapshot.member_id = member.id")
-            :add_field("direct_interest_snapshot.weight")
-            :add_where("direct_supporter_snapshot.event = issue.latest_snapshot_event")
-            :add_where("NOT direct_supporter_snapshot.satisfied")
-        }
-      }
-    end
-  },
-  {
-    name = "initiators",
-    label = _"Initiators",
-    content = function()
-      execute.view{ module = "member", view = "_list", params = { members_selector = initiative:get_reference_selector("initiating_members") } }
-    end
-  },
-  {
-    name = "drafts",
-    label = _"Old drafts",
-    content = function()
-      execute.view{ module = "draft", view = "_list", params = { drafts = initiative.drafts } }
-    end
-  },
-  {
-    name = "details",
-    label = _"Details",
-    content = function()
-      ui.form{
-        attr = { class = "vertical" },
-        record = initiative,
-        readonly = true,
-        content = function()
-          ui.field.text{ label = _"Issue policy", value = initiative.issue.policy.name }
-          ui.field.text{
-            label = _"Created at",
-            value = tostring(initiative.created)
-          }
-          ui.field.text{
-            label = _"Created at",
-            value = format.timestamp(initiative.created)
-          }
-          ui.field.date{ label = _"Revoked at", name = "revoked" }
-          ui.field.boolean{ label = _"Admitted", name = "admitted" }
-        end
-      }
-    end
-  },
+  }
 }
 
+if initiative.issue.ranks_available then
+  tabs[#tabs+1] = {
+    name = "voter",
+    label = _"Voter",
+    content = function()
+      execute.view{
+        module = "member",
+        view = "_list",
+        params = {
+          initiative = initiative,
+          members_selector =  initiative.issue:get_reference_selector("direct_voters")
+            :left_join("vote", nil, { "vote.initiative_id = ? AND vote.member_id = member.id", initiative.id })
+            :add_field("direct_voter.weight as voter_weight")
+            :add_field("coalesce(vote.grade, 0) as grade")
+        }
+      }
+    end
+  }
+end
+
+tabs[#tabs+1] = {
+  name = "suggestion",
+  label = _"Suggestions",
+  content = function()
+    execute.view{
+      module = "suggestion",
+      view = "_list",
+      params = {
+        initiative = initiative,
+        suggestions_selector = initiative:get_reference_selector("suggestions")
+      }
+    }
+    slot.put("<br />")
+    if not initiative.issue.fully_frozen and not initiative.issue.closed then
+      ui.link{
+        content = function()
+          ui.image{ static = "icons/16/comment_add.png" }
+          slot.put(_"Add new suggestion")
+        end,
+        attr = { onclick = "document.getElementById('add_suggestion_form').style.display='block';return(false)" },
+        static = "#"
+      }
+    end
+  end
+}
+
+tabs[#tabs+1] = {
+  name = "satisfied_supporter",
+  label = _"Supporter",
+  content = function()
+    execute.view{
+      module = "member",
+      view = "_list",
+      params = {
+        initiative = initiative,
+        members_selector =  initiative:get_reference_selector("supporting_members_snapshot")
+          :join("issue", nil, "issue.id = direct_supporter_snapshot.issue_id")
+          :join("direct_interest_snapshot", nil, "direct_interest_snapshot.event = issue.latest_snapshot_event AND direct_interest_snapshot.issue_id = issue.id AND direct_interest_snapshot.member_id = member.id")
+          :add_field("direct_interest_snapshot.weight")
+          :add_where("direct_supporter_snapshot.event = issue.latest_snapshot_event")
+          :add_where("direct_supporter_snapshot.satisfied")
+      }
+    }
+  end
+}
+
+tabs[#tabs+1] = {
+  name = "supporter",
+  label = _"Potential supporter",
+  content = function()
+    execute.view{
+      module = "member",
+      view = "_list",
+      params = {
+        initiative = initiative,
+        members_selector =  initiative:get_reference_selector("supporting_members_snapshot")
+          :join("issue", nil, "issue.id = direct_supporter_snapshot.issue_id")
+          :join("direct_interest_snapshot", nil, "direct_interest_snapshot.event = issue.latest_snapshot_event AND direct_interest_snapshot.issue_id = issue.id AND direct_interest_snapshot.member_id = member.id")
+          :add_field("direct_interest_snapshot.weight")
+          :add_where("direct_supporter_snapshot.event = issue.latest_snapshot_event")
+          :add_where("NOT direct_supporter_snapshot.satisfied")
+      }
+    }
+  end
+}
+
+tabs[#tabs+1] = {
+  name = "initiators",
+  label = _"Initiators",
+  content = function()
+    execute.view{ module = "member", view = "_list", params = { members_selector = initiative:get_reference_selector("initiating_members") } }
+  end
+}
+
+tabs[#tabs+1] = {
+  name = "drafts",
+  label = _"Old drafts",
+  content = function()
+    execute.view{ module = "draft", view = "_list", params = { drafts = initiative.drafts } }
+  end
+}
+
+tabs[#tabs+1] = {
+  name = "details",
+  label = _"Details",
+  content = function()
+    ui.form{
+      attr = { class = "vertical" },
+      record = initiative,
+      readonly = true,
+      content = function()
+        ui.field.text{ label = _"Issue policy", value = initiative.issue.policy.name }
+        ui.field.text{
+          label = _"Created at",
+          value = tostring(initiative.created)
+        }
+        ui.field.text{
+          label = _"Created at",
+          value = format.timestamp(initiative.created)
+        }
+        ui.field.date{ label = _"Revoked at", name = "revoked" }
+        ui.field.boolean{ label = _"Admitted", name = "admitted" }
+      end
+    }
+  end
+}
+
+
+ui.tabs(tabs)
 
