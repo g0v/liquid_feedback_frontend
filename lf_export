@@ -19,6 +19,7 @@ then
     echo "Dumping and compressing copied database to \"$2\"..."
     if pg_dump --no-owner --no-privileges "$EXPORT_DBNAME" | gzip -9 > "$2"
     then
+      true
     else
       retval=4
     fi

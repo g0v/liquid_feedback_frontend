@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('beta11', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('beta12', NULL, NULL, NULL))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -60,9 +60,11 @@ CREATE TABLE "member" (
         "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
         "admin"                 BOOLEAN         NOT NULL DEFAULT FALSE,
         "notify_email"          TEXT,
-        "notify_email_unconfirmed"   TEXT,
-        "notify_email_secret"        TEXT,
-        "notify_email_secret_expiry" TIMESTAMPTZ,
+        "notify_email_unconfirmed"     TEXT,
+        "notify_email_secret"          TEXT     UNIQUE,
+        "notify_email_secret_expiry"   TIMESTAMPTZ,
+        "password_reset_secret"        TEXT     UNIQUE,
+        "password_reset_secret_expiry" TIMESTAMPTZ,
         "name"                  TEXT            NOT NULL UNIQUE,
         "identification"        TEXT            UNIQUE,
         "organizational_unit"   TEXT,
@@ -171,7 +173,9 @@ CREATE TABLE "contact" (
         PRIMARY KEY ("member_id", "other_member_id"),
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "other_member_id"       INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "public"                BOOLEAN         NOT NULL DEFAULT FALSE );
+        "public"                BOOLEAN         NOT NULL DEFAULT FALSE,
+        CONSTRAINT "cant_save_yourself_as_contact"
+          CHECK ("member_id" != "other_member_id") );
 
 COMMENT ON TABLE "contact" IS 'Contact lists';
 
@@ -2303,8 +2307,9 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
           AND "direct_voter"."member_id" ISNULL
           AND "delegating_voter"."member_id" ISNULL
       LOOP
-        INSERT INTO "direct_voter" ("member_id", "issue_id", "autoreject")
-          VALUES ("member_id_v", "issue_id_p", TRUE);
+        INSERT INTO "direct_voter"
+          ("member_id", "issue_id", "weight", "autoreject") VALUES
+          ("member_id_v", "issue_id_p", 1, TRUE);
         INSERT INTO "vote" (
           "member_id",
           "issue_id",
@@ -2744,15 +2749,34 @@ CREATE FUNCTION "delete_private_data"()
       "issue_id_v" "issue"."id"%TYPE;
     BEGIN
       UPDATE "member" SET
-        "login"                      = 'login' || "id"::text,
-        "password"                   = NULL,
-        "notify_email"               = NULL,
-        "notify_email_unconfirmed"   = NULL,
-        "notify_email_secret"        = NULL,
-        "notify_email_secret_expiry" = NULL;
+        "login"                        = 'login' || "id"::text,
+        "password"                     = NULL,
+        "notify_email"                 = NULL,
+        "notify_email_unconfirmed"     = NULL,
+        "notify_email_secret"          = NULL,
+        "notify_email_secret_expiry"   = NULL,
+        "password_reset_secret"        = NULL,
+        "password_reset_secret_expiry" = NULL,
+        "organizational_unit"          = NULL,
+        "internal_posts"               = NULL,
+        "realname"                     = NULL,
+        "birthday"                     = NULL,
+        "address"                      = NULL,
+        "email"                        = NULL,
+        "xmpp_address"                 = NULL,
+        "website"                      = NULL,
+        "phone"                        = NULL,
+        "mobile_phone"                 = NULL,
+        "profession"                   = NULL,
+        "external_memberships"         = NULL,
+        "external_posts"               = NULL,
+        "statement"                    = NULL;
+      -- "text_search_data" is updated by triggers
       DELETE FROM "session";
       DELETE FROM "invite_code" WHERE "used" ISNULL;
       DELETE FROM "contact" WHERE NOT "public";
+      DELETE FROM "setting";
+      DELETE FROM "member_image";
       DELETE FROM "direct_voter" USING "issue"
         WHERE "direct_voter"."issue_id" = "issue"."id"
         AND "issue"."closed" ISNULL;
