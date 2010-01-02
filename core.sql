@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('beta12', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('beta13', NULL, NULL, NULL))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -2773,7 +2773,7 @@ CREATE FUNCTION "delete_private_data"()
         "statement"                    = NULL;
       -- "text_search_data" is updated by triggers
       DELETE FROM "session";
-      DELETE FROM "invite_code" WHERE "used" ISNULL;
+      DELETE FROM "invite_code";
       DELETE FROM "contact" WHERE NOT "public";
       DELETE FROM "setting";
       DELETE FROM "member_image";
