@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('beta13', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('beta14', NULL, NULL, NULL))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -55,6 +55,7 @@ COMMENT ON FUNCTION "highlight"
 
 CREATE TABLE "member" (
         "id"                    SERIAL4         PRIMARY KEY,
+        "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "login"                 TEXT            NOT NULL UNIQUE,
         "password"              TEXT,
         "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
@@ -110,6 +111,19 @@ COMMENT ON COLUMN "member"."email"                IS 'Published email address of
 COMMENT ON COLUMN "member"."external_memberships" IS 'Other organizations the member is involved in';
 COMMENT ON COLUMN "member"."external_posts"       IS 'Posts (offices) outside the organization';
 COMMENT ON COLUMN "member"."statement"            IS 'Freely chosen text of the member for his homepage within the system';
+
+
+CREATE TABLE "member_history" (
+        "id"                    SERIAL8         PRIMARY KEY,
+        "member_id"             INT4            NOT NULL REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "until"                 TIMESTAMPTZ     NOT NULL DEFAULT now(),
+        "login"                 TEXT            NOT NULL,
+        "name"                  TEXT            NOT NULL );
+
+COMMENT ON TABLE "member_history" IS 'Filled by trigger; keeps information about old names and login names of members';
+
+COMMENT ON COLUMN "member_history"."id"    IS 'Primary key, which can be used to sort entries correctly (and time warp resistant)';
+COMMENT ON COLUMN "member_history"."until" IS 'Timestamp until the name and login had been valid';
 
 
 CREATE TABLE "invite_code" (
@@ -679,6 +693,31 @@ COMMENT ON TABLE "contingent" IS 'Amount of text entries or initiatives a user m
 
 COMMENT ON COLUMN "contingent"."text_entry_limit" IS 'Number of new drafts or suggestions to be submitted by each member within the given time frame';
 COMMENT ON COLUMN "contingent"."initiative_limit" IS 'Number of new initiatives to be opened by each member within a given time frame';
+
+
+
+--------------------------------
+-- Writing of history entries --
+--------------------------------
+
+CREATE FUNCTION "write_member_history_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      IF NEW."login" != OLD."login" OR NEW."name" != OLD."name" THEN
+        INSERT INTO "member_history" ("member_id", "login", "name")
+          VALUES (NEW."id", OLD."login", OLD."name");
+      END IF;
+      RETURN NULL;
+    END;
+  $$;
+
+CREATE TRIGGER "write_member_history"
+  AFTER UPDATE ON "member" FOR EACH ROW EXECUTE PROCEDURE
+  "write_member_history_trigger"();
+
+COMMENT ON FUNCTION "write_member_history_trigger"()  IS 'Implementation of trigger "write_member_history" on table "member"';
+COMMENT ON TRIGGER "write_member_history" ON "member" IS 'When changing name or login of a member, create a history entry in "member_history" table';
 
 
 
@@ -2774,7 +2813,7 @@ CREATE FUNCTION "delete_private_data"()
       -- "text_search_data" is updated by triggers
       DELETE FROM "session";
       DELETE FROM "invite_code";
-      DELETE FROM "contact" WHERE NOT "public";
+      DELETE FROM "contact";
       DELETE FROM "setting";
       DELETE FROM "member_image";
       DELETE FROM "direct_voter" USING "issue"
