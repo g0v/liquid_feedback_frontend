@@ -53,6 +53,16 @@ a {
   vertical-align: middle;
 }
 
+h1 {
+  font-size: 150%;
+}
+
+h2 {
+  font-size: 125%;
+}
+
+
+
 /*************************************************************************
  * Notices, warnings and errors
  */
@@ -871,6 +881,11 @@ form .warning {
   padding: 1ex;
 }
 
+a.not_voted {
+  display: block;
+  background-color: #fec;
+  color: #000;
+}
 
 /*************************************************************************
  * Voting

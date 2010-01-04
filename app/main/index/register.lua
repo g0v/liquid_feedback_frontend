@@ -72,7 +72,7 @@ ui.form{
       end)
       ui.tag{
         tag = "p",
-        content = _"Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you. You CAN'T change this name later, so please choose it wisely!"
+        content = _"Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you."
       }
       ui.field.text{
         label     = _'Name',

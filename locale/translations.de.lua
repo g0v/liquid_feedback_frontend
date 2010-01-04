@@ -1,4 +1,4 @@
-#!/usr/bin/env lua
+-- #!/usr/bin/env lua
 return {
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} Themen";
@@ -39,7 +39,6 @@ return {
 ["Back"] = "Zurück";
 ["Become a member"] = "Mitglied werden";
 ["Birthday"] = "Geburtstag";
-["Bug report"] = "Fehlerbericht";
 ["Can't send confirmation email"] = "Bestätigungs-E-Mail kann nicht versendet werden.";
 ["Cancel"] = "Abbrechen";
 ["Cancel password reset"] = "Kennwort-Rücksetzung abbrechen";
@@ -48,7 +47,12 @@ return {
 ["Change area delegation"] = "Delegation für Themengebiet ändern";
 ["Change global delegation"] = "Globale Delegation ändern";
 ["Change issue delegation"] = "Delegation für Thema ändern";
+["Change login"] = "Login ändern";
+["Change name"] = "Name ändern";
 ["Change password"] = "Kennwort ändern";
+["Change your login"] = "Deinen Anmeldenamen ändern";
+["Change your name"] = "Deinen Namen ändern";
+["Change your password"] = "Dein Kennwort ändern";
 ["Click for details"] = "Klicke für Details";
 ["Close"] = "Schließen";
 ["Closed"] = "geschlossen";
@@ -77,6 +81,8 @@ return {
 ["Discussion"] = "Diskussion";
 ["Discussion URL"] = "Diskussions-URL";
 ["Discussion time"] = "Zeit für die Diskussions";
+["Download"] = "Download";
+["Download database export"] = "Datenbankexport herunterladen";
 ["Draft"] = "Entwurf";
 ["Edit"] = "Bearbeiten";
 ["Edit draft"] = "Entwurf bearbeiten";
@@ -96,7 +102,6 @@ return {
 ["Finish voting"] = "Stimmabgabe abschließen";
 ["Finished"] = "Abgeschlossen";
 ["Frozen"] = "Eingefroren";
-["Fulfilled"] = "Erfüllt";
 ["Fully frozen at"] = "Ganz eingefroren am/um";
 ["Global delegation"] = "Globale Delegation";
 ["Global delegation active"] = "Globale Delegation aktiv";
@@ -158,8 +163,8 @@ return {
 ["Member is administrator"] = "Mitglied ist Administrator";
 ["Member is already saved in your contacts!"] = "Mitglied ist schon in Deinen Kontakten!";
 ["Member list"] = "Mitgliederliste";
-["Member login"] = "Mitglied Login";
 ["Member name"] = "Mitglied Name";
+["Member name history for '#{name}'"] = "Namenshistorie für '#{name}'";
 ["Member page"] = "Mitgliederseite";
 ["Member successfully registered"] = "Mitglied erfolgreich registriert";
 ["Member successfully updated"] = "Mitglied erfolgreich aktualisert";
@@ -189,6 +194,7 @@ return {
 ["No support at all"] = "Gar keine Unterstützung";
 ["Not a member"] = "Kein Mitglied";
 ["Not voted"] = "Nicht abgestimmt";
+["Not yet voted"] = "Noch abzustimmen";
 ["Number of incoming delegations, follow link to see more details"] = "Anzahl eingehender Delegationen, Link folgen für mehr Details";
 ["OK"] = "OK";
 ["Old draft revision"] = "Alte Revision des Entwurfs";
@@ -214,7 +220,7 @@ return {
 ["Phone"] = "Telefon";
 ["Photo"] = "Foto";
 ["Please choose a login name. This name will not be shown to others and is used only by you to login into the system. The login name is case sensitive."] = "Bitte wähle einen Anmeldenamen. Dieser wird anderen nicht gezeigt und nur von Dir zum Anmelden verwendet. Groß- und Kleinschreibung wird berücksichtigt.";
-["Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you. You CAN'T change this name later, so please choose it wisely!"] = "Bitte wähle einen Namen, z. B. Deinen Real- oder Nicknamen. Dieser wird anderen angezeigt um Dich zu identifizieren. Du kannst Deinen Namen später NICHT ändern, wähle ihn also weise!";
+["Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you."] = "Wähle einen Namen, z. B. Deinen Real- oder Nicknamen. Dieser wird anderen angezeigt um Dich zu identifizieren.";
 ["Please choose a password and enter it twice. The password is case sensitive."] = "Bitte wähle ein Kennwort und gebe es zweimal ein. Groß- und Kleinschreibung wird berücksichtigt.";
 ["Please confirm your email address by clicking the following link:\n\n"] = "Bitte bestätige Deine E-Mail-Adresse, indem Du den folgenden Link anklickst:\n\n";
 ["Please enter the email reset code you have received:"] = "Bitte gib den Rücksetzcode ein, den Du erhalten hast:";
@@ -266,6 +272,7 @@ return {
 ["Set global delegation"] = "Globale Delegation festlegen";
 ["Set issue delegation"] = "Delegation für Thema festlegen";
 ["Set new password"] = "Neues Kennwort setzen";
+["Settings"] = "Einstellungen";
 ["Show"] = "Zeige";
 ["Show active members"] = "Zeige aktive Mitglieder";
 ["Show all initiatives"] = "Zeige alle Initiativen";
@@ -274,6 +281,7 @@ return {
 ["Show diff"] = "Änderungen anzeigen";
 ["Show locked members"] = "Zeige gesperrte Mitglieder";
 ["Show member"] = "Mitglied anzeigen";
+["Show name history"] = "Namenshistorie zeigen";
 ["Software"] = "Software";
 ["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = "Einige auf JavaScript basierende Funktionen (insbesondere der Abstimmung) sind nicht benutzbar.\nFür diese Beta verwende bitte eine aktuelle Version von Firefox, Safari, Opera(?), Konqueror oder einen anderen (mehr) den Standards entsprechenden Browser.\nEin alternativer Zugriff ohne JavaScript wird bald zur Verfügung stehen.";
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Sorry, aber für diesen Account ist keine bestätigte E-Mail-Adresse hinterlegt. Bitte wende Dich an den Administrator oder den Support.";
@@ -296,15 +304,16 @@ return {
 ["Supported initiatives"] = "Unterstützte Initiativen";
 ["Supporter"] = "Unterstützer";
 ["Terms accepted"] = "Bedingungen akzeptiert";
-["That's me!"] = "Das bin ich";
 ["The code you've entered is invalid"] = "Der Code, den Du eingeben hast, ist nicht gültig!";
 ["The drafts do not differ"] = "Die Entwürfe unterscheiden sich nicht";
 ["This issue is already closed."] = "Das Thema ist schon geschlossen.";
 ["This issue is already frozen."] = "Das Thema ist schon eingefroren";
 ["This login is already taken, please choose another one!"] = "Dieser Anmeldename ist bereits vergeben, bitte wähle einen anderen!";
 ["This login is too short!"] = "Dieser Anmeldename ist zu kurz!";
+["This member account has been created at #{created}"] = "Dieser Mitgliedszugang wurde am/um #{created} angelegt.";
 ["This name is already taken, please choose another one!"] = "Dieser Name ist bereits vergeben, bitte wähle einen anderen!";
 ["This name is really too short!"] = "Dieser Name ist wirklich zu kurz!";
+["This name is too short!"] = "Dieser Name ist zu kurz!";
 ["This suggestion has been meanwhile deleted"] = "Diese Anregung wurde zwischenzeitlich gelöscht";
 ["This title is really too short!"] = "Dieser Titel ist wirklich zu kurz!";
 ["This username is too short!"] = "Dieser Benutzername ist zu kurz!";
@@ -314,6 +323,7 @@ return {
 ["Trustee"] = "Bevollmächtigter";
 ["Unknown author"] = "Unbekannter Autor";
 ["Upload images"] = "Bilder hochladen";
+["Used until"] = "Benutzt bis";
 ["Verification time"] = "Zeit für die Überprüfung";
 ["Version"] = "Version";
 ["Vote later"] = "Später abstimmen";
@@ -353,6 +363,8 @@ return {
 ["Your delegation for this issue has been updated."] = "Deine Delegation für dieses Thema wurde geändert";
 ["Your global delegation has been deleted."] = "Deine globale Delegation wurde gelöscht";
 ["Your global delegation has been updated."] = "Deine globale Delegation wurde geändert";
+["Your login has been changed to '#{login}'"] = "Dein Anmeldename wurde auf '#{login}' geändert";
+["Your name has been changed"] = "Dein Name wurde geändert";
 ["Your opinion has been deleted"] = "Deine Meinung wurde gelöscht";
 ["Your opinion has been updated"] = "Deine Meinung wurde aktualisiert";
 ["Your page has been updated"] = "Deine Seite wurde aktualisiert";
@@ -364,6 +376,7 @@ return {
 ["Your web browser is not fully supported yet."] = "Dein Web-Browser wird noch nicht vollständig unterstützt.";
 ["Z-A"] = "Z-A";
 ["all"] = "Alle";
+["continuing"] = "andauernd";
 ["delete<br /><br />"] = "löschen<br /><br />";
 ["email"] = "E-Mail";
 ["login name"] = "Anmeldename";

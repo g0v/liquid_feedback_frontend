@@ -68,11 +68,11 @@ slot.select("actions", function()
 
   ui.link{
     content = function()
-        ui.image{ static = "icons/16/key.png" }
-        slot.put(_"Change password")
+        ui.image{ static = "icons/16/wrench.png" }
+        slot.put(_"Settings")
     end,
-    module = "index",
-    view = "change_password"
+    module = "member",
+    view = "settings"
   }
 
   if config.download_dir then

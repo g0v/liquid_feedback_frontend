@@ -13,9 +13,7 @@ end)
 
 slot.put_into("title", encode.html(_"Member '#{member}'":gsub("#{member}", member.name)))
 
-if member.id == app.session.member.id then
-  slot.put_into("actions", _"That's me!")
-else
+if member.id ~= app.session.member.id then
   --TODO performance
   local contact = Contact:by_pk(app.session.member.id, member.id)
   if contact then
@@ -66,6 +64,18 @@ else
     end)
   end
 end
+
+slot.select("actions", function()
+  ui.link{
+    content = function()
+      ui.image{ static = "icons/16/clock_edit.png" }
+      slot.put(encode.html(_"Show name history"))
+    end,
+    module  = "member",
+    view    = "history",
+    id      = member.id
+  }
+end)
 
 util.help("member.show", _"Member page")
 

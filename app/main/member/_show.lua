@@ -24,11 +24,11 @@ ui.tabs{
               }
             }
 
-              ui.container{
-                attr = { class = "contact_data" },
-                content = function()
-                end
-              }
+            ui.container{
+              attr = { class = "contact_data" },
+              content = function()
+              end
+            }
 
             end
           }

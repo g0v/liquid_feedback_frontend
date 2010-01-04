@@ -1,5 +1,17 @@
 local areas_selector = param.get("areas_selector", "table")
 
+areas_selector
+  :reset_fields()
+  :add_field("area.id", nil, { "grouped" })
+  :add_field("area.name", nil, { "grouped" })
+  :add_field("member_weight", nil, { "grouped" })
+  :add_field("direct_member_count", nil, { "grouped" })
+  :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.accepted ISNULL AND issue.closed ISNULL)", "issues_new_count")
+  :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.accepted NOTNULL AND issue.half_frozen ISNULL AND issue.closed ISNULL)", "issues_discussion_count")
+  :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.half_frozen NOTNULL AND issue.fully_frozen ISNULL AND issue.closed ISNULL)", "issues_frozen_count")
+  :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.fully_frozen NOTNULL AND issue.closed ISNULL)", "issues_voting_count")
+  :add_field({ "(SELECT COUNT(*) FROM issue LEFT JOIN direct_voter ON direct_voter.issue_id = issue.id AND direct_voter.member_id = ? WHERE issue.area_id = area.id AND issue.fully_frozen NOTNULL AND issue.closed ISNULL AND direct_voter.member_id ISNULL)", app.session.member.id }, "issues_to_vote_count")
+
 ui.order{
   name = name,
   selector = areas_selector,
@@ -52,6 +64,72 @@ ui.order{
               module = "area",
               view = "show",
               id = record.id
+            }
+          end
+        },
+        {
+          label = _"New",
+          field_attr = { style = "text-align: right;" },
+          content = function(record)
+            ui.link{
+              text = tostring(record.issues_new_count),
+              module = "area",
+              view = "show",
+              id = record.id,
+              params = { filter = "new" }
+            }
+          end
+        },
+        {
+          label = _"Discussion",
+          field_attr = { style = "text-align: right;" },
+          content = function(record)
+            ui.link{
+              text = tostring(record.issues_discussion_count),
+              module = "area",
+              view = "show",
+              id = record.id,
+              params = { filter = "accepted" }
+            }
+          end
+        },
+        {
+          label = _"Frozen",
+          field_attr = { style = "text-align: right;" },
+          content = function(record)
+            ui.link{
+              text = tostring(record.issues_frozen_count),
+              module = "area",
+              view = "show",
+              id = record.id,
+              params = { filter = "half_frozen" }
+            }
+          end
+        },
+        {
+          label = _"Voting",
+          field_attr = { style = "text-align: right;" },
+          content = function(record)
+            ui.link{
+              text = tostring(record.issues_voting_count),
+              module = "area",
+              view = "show",
+              id = record.id,
+              params = { filter = "frozen" }
+            }
+          end
+        },
+        {
+          label = _"Not yet voted",
+          field_attr = { style = "text-align: right;" },
+          content = function(record)
+            ui.link{
+              attr = { class = record.issues_to_vote_count > 0 and "not_voted" or nil },
+              text = tostring(record.issues_to_vote_count),
+              module = "area",
+              view = "show",
+              id = record.id,
+              params = { filter = "frozen", filter_voting = "not_voted" }
             }
           end
         }
