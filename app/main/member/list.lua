@@ -5,5 +5,5 @@ util.help("member.list")
 execute.view{
   module = "member",
   view = "_list",
-  params = { members_selector = Member:new_selector():add_order_by("name") }
+  params = { members_selector = Member:new_selector() }
 }

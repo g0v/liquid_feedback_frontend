@@ -11,6 +11,8 @@ areas_selector
   :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.half_frozen NOTNULL AND issue.fully_frozen ISNULL AND issue.closed ISNULL)", "issues_frozen_count")
   :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.fully_frozen NOTNULL AND issue.closed ISNULL)", "issues_voting_count")
   :add_field({ "(SELECT COUNT(*) FROM issue LEFT JOIN direct_voter ON direct_voter.issue_id = issue.id AND direct_voter.member_id = ? WHERE issue.area_id = area.id AND issue.fully_frozen NOTNULL AND issue.closed ISNULL AND direct_voter.member_id ISNULL)", app.session.member.id }, "issues_to_vote_count")
+  :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.fully_frozen NOTNULL AND issue.closed NOTNULL)", "issues_finished_count")
+  :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.fully_frozen ISNULL AND issue.closed NOTNULL)", "issues_cancelled_count")
 
 ui.order{
   name = name,
@@ -132,7 +134,33 @@ ui.order{
               params = { filter = "frozen", filter_voting = "not_voted" }
             }
           end
-        }
+        },
+        {
+          label = _"Finished",
+          field_attr = { style = "text-align: right;" },
+          content = function(record)
+            ui.link{
+              text = tostring(record.issues_finished_count),
+              module = "area",
+              view = "show",
+              id = record.id,
+              params = { filter = "finished", issue_list = "newest" }
+            }
+          end
+        },
+        {
+          label = _"Cancelled",
+          field_attr = { style = "text-align: right;" },
+          content = function(record)
+            ui.link{
+              text = tostring(record.issues_cancelled_count),
+              module = "area",
+              view = "show",
+              id = record.id,
+              params = { filter = "cancelled", issue_list = "newest" }
+            }
+          end
+        },
       }
     }
   end

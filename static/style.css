@@ -40,6 +40,10 @@ a.active {
   color: #fff; 
 }
 
+.revoked {
+  text-decoration: line-through;
+}
+
 .highlighted {
   background-color: #fa7;
   color: #000;
@@ -60,7 +64,6 @@ h1 {
 h2 {
   font-size: 125%;
 }
-
 
 
 /*************************************************************************
@@ -274,7 +277,7 @@ h2 {
 }
 
 .interest .head_active,
-.slot_support .head_potential_supporter {
+.slot_support .head_potential_supporter{
   background-color: #fec;
   border: 1px solid #b96;
 }
@@ -282,6 +285,11 @@ h2 {
 .slot_support .head_supporter {
   background-color: #dfc;
   border: 1px solid #8b8;
+}
+
+.slot_support .head_initiator {
+  background-color: #eee;
+  border: 1px solid #999;
 }
 
 .delegation .head_active {
@@ -759,6 +767,10 @@ tr table tr:hover td {
   float: right;
 }
 
+.member_thumb.not_accepted {
+  opacity: 0.5;
+}
+
 .draft_content,
 .member_statement {
   background-color: #eee;
@@ -803,7 +815,9 @@ tr table tr:hover td {
 }
 
 .draft_updated_info,
-.voting_active_info {
+.voting_active_info,
+.revoked_info,
+.initiator_invite_info {
   background-color: #fec;
   border: 2px solid #b96;
   padding: 1ex;

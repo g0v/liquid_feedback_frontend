@@ -34,8 +34,7 @@ Initiative:add_reference{
   this_key      = 'id',
   that_key      = 'initiative_id',
   ref           = 'initiators',
-  back_ref      = 'initiative',
-  default_order = '"id"'
+  back_ref      = 'initiative'
 }
 
 Initiative:add_reference{
@@ -66,6 +65,14 @@ Initiative:add_reference{
   ref           = 'votes',
   back_ref      = 'initiative',
   default_order = '"member_id"'
+}
+
+Initiative:add_reference{
+  mode          = 'm1',
+  to            = "Initiative",
+  this_key      = 'suggested_initiative_id',
+  that_key      = 'id',
+  ref           = 'suggested_initiative',
 }
 
 Initiative:add_reference{

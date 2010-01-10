@@ -6,7 +6,7 @@ ui.form{
   readonly = true,
   content = function()
 
-    ui.field.text{ label = _"Author", name = "author_name" }
+    ui.field.text{ label = _"Last author", name = "author_name" }
     ui.field.timestamp{ label = _"Created at", name = "created" }
     ui.container{
       attr = { class = "draft_content wiki" },

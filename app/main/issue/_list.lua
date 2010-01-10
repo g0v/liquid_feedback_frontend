@@ -5,6 +5,10 @@ if param.get("filter", atom.boolean) == false then
   ui_filter = function(args) args.content() end
 end
 
+if param.get("no_filter", atom.boolean) then
+  ui_filter = function(args) args.content() end
+end
+
 local filter_voting = false
 ui_filter{
   selector = issues_selector,
@@ -86,6 +90,9 @@ ui_filter{
     if not filter_voting then
       ui_filter = function(args) args.content() end
     end
+    if param.get("no_filter", atom.boolean) then
+      ui_filter = function(args) args.content() end
+    end
     ui_filter{
       selector = issues_selector,
       name = "filter_voting",
@@ -145,8 +152,11 @@ ui_filter{
             },
           },
           content = function()
-
-            ui.order{
+            local ui_order = ui.order
+            if param.get("no_sort", atom.boolean) then
+              ui_order = function(args) args.content() end
+            end
+            ui_order{
               name = "issue_list",
               selector = issues_selector,
               options = {
@@ -181,7 +191,12 @@ ui_filter{
                 }
               },
               content = function()
-                ui.paginate{
+                local ui_paginate = ui.paginate
+                if param.get("per_page") == "all" then
+                  ui_paginate = function(args) args.content() end
+                end
+                ui_paginate{
+                  per_page = tonumber(param.get("per_page")),
                   selector = issues_selector,
                   content = function()
                     local highlight_string = param.get("highlight_string", "string")
@@ -201,7 +216,7 @@ ui_filter{
                               slot.put("<br />")
                             end
                             ui.link{
-                              text = _"Issue ##{id}":gsub("#{id}", tostring(record.id)),
+                              text = _("Issue ##{id}", { id = tostring(record.id) }),
                               module = "issue",
                               view = "show",
                               id = record.id
@@ -213,6 +228,11 @@ ui_filter{
                             end
                             slot.put("<br />")
                             slot.put("<br />")
+                            if record.old_state then
+                              ui.field.text{ value = format.time(record.sort) }
+                              ui.field.text{ value = Issue:get_state_name_for_state(record.old_state) .. " > " .. Issue:get_state_name_for_state(record.new_state) }
+                            else
+                            end
                           end
                         },
                         {
@@ -245,7 +265,9 @@ ui_filter{
                                 issue = record,
                                 initiatives_selector = initiatives_selector,
                                 highlight_string = highlight_string,
-                                limit = 3
+                                limit = 3,
+                                per_page = param.get("initiatives_per_page", atom.number),
+                                no_sort = param.get("initiatives_no_sort", atom.boolean)
                               }
                             }
                           end

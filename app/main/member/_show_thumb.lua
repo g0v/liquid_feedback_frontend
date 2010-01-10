@@ -1,3 +1,4 @@
+local initiator = param.get("initiator", "table")
 local member = param.get("member", "table")
 
 local issue = param.get("issue", "table")
@@ -11,8 +12,13 @@ else
   name = encode.html(member.name)
 end
 
+local container_class = "member_thumb"
+if initiator and member.accepted ~= true then
+  container_class = container_class .. " not_accepted"
+end
+
 ui.container{
-  attr = { class = "member_thumb" },
+  attr = { class = container_class },
   content = function()
     ui.container{
       attr = { class = "flags" },
@@ -48,6 +54,13 @@ ui.container{
           }
         else
           slot.put("&nbsp;")
+        end
+        if initiator and initiator.accepted then
+          if member.accepted == nil then
+            slot.put(_"Invited")
+          elseif member.accepted == false then
+            slot.put(_"Rejected")
+          end
         end
         if member.grade then
           ui.container{

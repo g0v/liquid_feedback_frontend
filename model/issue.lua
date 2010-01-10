@@ -119,7 +119,7 @@ function Issue:get_state_name_for_state(value)
     finished     = _"Finished",
     cancelled    = _"Cancelled"
   }
-  return state_name_table[value] or value
+  return state_name_table[value] or value or ''
 end
 
 function Issue:get_search_selector(search_string)

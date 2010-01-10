@@ -95,8 +95,7 @@ Member:add_reference{
   this_key      = 'id',
   that_key      = 'member_id',
   ref           = 'initiators',
-  back_ref      = 'member',
-  default_order = '"id"'
+  back_ref      = 'member'
 }
 
 Member:add_reference{

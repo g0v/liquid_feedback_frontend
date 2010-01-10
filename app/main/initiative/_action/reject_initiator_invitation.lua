@@ -1,9 +1,5 @@
-local initiative = Initiative:by_id(param.get_id())
-
+local initiative = Initiative:by_id(param.get("initiative_id"))
 local initiator = Initiator:by_pk(initiative.id, app.session.member.id)
-if not initiator or not initiator.accepted then
-  error("access denied")
-end
 
 -- TODO important m1 selectors returning result _SET_!
 local issue = initiative:get_reference_selector("issue"):for_share():single_object_mode():exec()
@@ -16,13 +12,13 @@ elseif issue.half_frozen then
   return false
 end
 
-if initiative.revoked then
-  slot.put_into("error", _"This initiative is revoked")
-  return false
+if initiator.accepted ~= nil then
+  error("access denied")
 end
 
-param.update(initiative, "discussion_url")
-initiative:save()
+initiator.accepted = false
+initiator:save()
 
-slot.put_into("notice", _"Initiative successfully updated")
+slot.put_into("notice", _"Invitation has been refused")
+
 

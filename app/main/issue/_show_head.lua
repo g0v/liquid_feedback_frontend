@@ -77,6 +77,17 @@ slot.select("actions", function()
   end
 --]]
 
+  if config.issue_discussion_url_func then
+    local url = config.issue_discussion_url_func(issue)
+    ui.link{
+      attr = { target = "_blank" },
+      external = url,
+      content = function()
+        ui.image{ static = "icons/16/comments.png" }
+        slot.put(_"Discussion on issue")
+      end,
+    }
+  end
 end)
 
 

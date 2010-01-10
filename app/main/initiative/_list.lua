@@ -42,13 +42,25 @@ if issue then
   name = "issue_" .. tostring(issue.id) ..  "_initiative_list"
 end
 
-ui.order{
+ui_order = ui.order
+
+if param.get("no_sort", atom.boolean) then
+  ui_order = function(args) args.content() end
+  if issue.ranks_available then
+    initiatives_selector:add_order_by("initiative.rank, initiative.admitted DESC, vote_ratio(initiative.positive_votes, initiative.negative_votes) DESC, initiative.id")
+  else
+    initiatives_selector:add_order_by("initiative.supporter_count::float / issue.population::float DESC, initiative.id")
+  end
+end
+
+ui_order{
   name = name,
   selector = initiatives_selector,
   options = order_options,
   content = function()
     ui.paginate{
       selector = initiatives_selector,
+      per_page = param.get("per_page", atom.number),
       content = function()
         local initiatives = initiatives_selector:exec()
         local columns = {}
@@ -94,7 +106,12 @@ ui.order{
         }
         columns[#columns+1] = {
           content = function(record)
+            local link_class
+            if record.revoked then
+              link_class = "revoked"
+            end
             ui.link{
+              attr = { class = link_class },
               content = function()
                 local name
                 if record.name_highlighted then

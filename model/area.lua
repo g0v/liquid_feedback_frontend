@@ -54,7 +54,7 @@ function Area.object_get:default_policy()
   return Policy:new_selector()
     :join("allowed_policy", nil, "allowed_policy.policy_id = policy.id")
     :add_where{ "allowed_policy.area_id = ? AND allowed_policy.default_policy", self.id }
-    :single_object_mode()
+    :optional_object_mode()
     :exec()
 end
 

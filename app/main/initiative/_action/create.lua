@@ -29,6 +29,13 @@ else
   area = Area:new_selector():add_where{"id=?",area_id}:single_object_mode():exec()
 end
 
+local policy_id = param.get("policy_id", atom.integer)
+
+if policy_id == -1 then
+  slot.put_into("error", _"Please choose a policy")
+  return false
+end
+
 local name = param.get("name")
 
 local name = util.trim(name)
@@ -41,7 +48,6 @@ end
 local initiative = Initiative:new()
 
 if not issue then
-  local policy_id = param.get("policy_id", atom.integer)
   if not area:get_reference_selector("allowed_policies")
     :add_where{ "policy.id = ?", policy_id }
     :optional_object_mode()
@@ -80,6 +86,7 @@ draft:save()
 local initiator = Initiator:new()
 initiator.initiative_id = initiative.id
 initiator.member_id = app.session.member.id
+initiator.accepted = true
 initiator:save()
 
 local supporter = Supporter:new()

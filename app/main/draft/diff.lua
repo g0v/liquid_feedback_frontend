@@ -3,6 +3,16 @@ slot.put_into("title", _"Diff")
 local old_draft_id = param.get("old_draft_id", atom.integer)
 local new_draft_id = param.get("new_draft_id", atom.integer)
 
+if not old_draft_id or not new_draft_id then
+  slot.put( _"Please choose two versions of the draft to compare")
+  return
+end
+
+if old_draft_id == new_draft_id then
+  slot.put( _"Please choose two different versions of the draft to compare")
+  return
+end
+
 if old_draft_id > new_draft_id then
   local tmp = old_draft_id
   old_draft_id = new_draft_id

@@ -30,14 +30,17 @@ ui.form{
     if issue_id then
       ui.field.text{ label = _"Issue",  value = issue_id }
     else
-      local value
+      tmp = { { id = -1, name = _"Please choose a policy" } }
+      for i, allowed_policy in ipairs(area.allowed_policies) do
+        tmp[#tmp+1] = allowed_policy
+      end
       ui.field.select{
         label = _"Policy",
         name = "policy_id",
-        foreign_records = area.allowed_policies,
+        foreign_records = tmp,
         foreign_id = "id",
         foreign_name = "name",
-        value = area.default_policy.id
+        value = (area.default_policy or {}).id
       }
     end
     ui.field.text{ label = _"Name", name = "name" }

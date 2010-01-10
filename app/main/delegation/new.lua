@@ -74,7 +74,7 @@ ui.form{
     }
   },
   content = function()
-    records = {
+    local records = {
       {
         id = "-1",
         name = _"No delegation"

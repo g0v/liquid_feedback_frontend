@@ -2,8 +2,19 @@ local members_selector = param.get("members_selector", "table")
 local initiative = param.get("initiative", "table")
 local issue = param.get("issue", "table")
 local trustee = param.get("trustee", "table")
+local initiator = param.get("initiator", "table")
 
 local options = {
+  {
+    name = "newest",
+    label = _"Newest",
+    order_by = "created DESC, id DESC"
+  },
+  {
+    name = "oldest",
+    label = _"Oldest",
+    order_by = "created, id"
+  },
   {
     name = "name",
     label = _"A-Z",
@@ -117,7 +128,13 @@ ui.order{
               execute.view{
                 module = "member",
                 view = "_show_thumb",
-                params = { member = member, initiative = initiative, issue = issue, trustee = trustee }
+                params = {
+                  member = member,
+                  initiative = initiative,
+                  issue = issue,
+                  trustee = trustee,
+                  initiator = initiator
+                }
               }
             end
 ---]]

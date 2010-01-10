@@ -11,6 +11,11 @@ elseif issue.fully_frozen then
   return false
 end
 
+if initiative.revoked then
+  slot.put_into("error", _"This initiative is revoked")
+  return false
+end
+
 local member = app.session.member
 
 local supporter = Supporter:by_pk(initiative.id, member.id)

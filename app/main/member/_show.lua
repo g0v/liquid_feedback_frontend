@@ -151,7 +151,7 @@ ui.tabs{
       execute.view{
         module = "initiative",
         view = "_list",
-        params = { initiatives_selector = member:get_reference_selector("initiated_initiatives") }
+        params = { initiatives_selector = member:get_reference_selector("initiated_initiatives"):add_where("initiator.accepted = true") }
       }
     end
   },
