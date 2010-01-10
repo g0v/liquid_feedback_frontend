@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('beta14', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('beta15', NULL, NULL, NULL))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -354,6 +354,7 @@ CREATE TABLE "initiative" (
         "discussion_url"        TEXT,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "revoked"               TIMESTAMPTZ,
+        "suggested_initiative_id" INT4          REFERENCES "initiative" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "admitted"              BOOLEAN,
         "supporter_count"                    INT4,
         "informed_supporter_count"           INT4,
@@ -364,6 +365,8 @@ CREATE TABLE "initiative" (
         "agreed"                BOOLEAN,
         "rank"                  INT4,
         "text_search_data"      TSVECTOR,
+        CONSTRAINT "non_revoked_initiatives_cant_suggest_other"
+          CHECK ("revoked" NOTNULL OR "suggested_initiative_id" ISNULL),
         CONSTRAINT "revoked_initiatives_cant_be_admitted"
           CHECK ("revoked" ISNULL OR "admitted" ISNULL),
         CONSTRAINT "non_admitted_initiatives_cant_contain_voting_results"
@@ -483,12 +486,12 @@ CREATE TABLE "initiator" (
         PRIMARY KEY ("initiative_id", "member_id"),
         "initiative_id"         INT4            REFERENCES "initiative" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "accepted"              BOOLEAN         NOT NULL DEFAULT TRUE );
+        "accepted"              BOOLEAN );
 CREATE INDEX "initiator_member_id_idx" ON "initiator" ("member_id");
 
 COMMENT ON TABLE "initiator" IS 'Members who are allowed to post new drafts; Frontends must ensure that initiators are not added or removed from half_frozen, fully_frozen or closed initiatives.';
 
-COMMENT ON COLUMN "initiator"."accepted" IS 'If "accepted" = FALSE, then the member was invited to be a co-initiator, but has not answered yet.';
+COMMENT ON COLUMN "initiator"."accepted" IS 'If "accepted" is NULL, then the member was invited to be a co-initiator, but has not answered yet. If it is TRUE, the member has accepted the invitation, if it is FALSE, the member has rejected the invitation.';
 
 
 CREATE TABLE "supporter" (
@@ -2152,6 +2155,7 @@ CREATE FUNCTION "freeze_after_snapshot"
         SELECT * FROM "initiative" WHERE "issue_id" = "issue_id_p"
       LOOP
         IF
+          "initiative_row"."revoked" ISNULL AND
           "initiative_row"."satisfied_supporter_count" > 0 AND
           "initiative_row"."satisfied_supporter_count" *
           "policy_row"."initiative_quorum_den" >=
