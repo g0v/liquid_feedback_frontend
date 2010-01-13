@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('beta15', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('beta16', NULL, NULL, NULL))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -2152,10 +2152,10 @@ CREATE FUNCTION "freeze_after_snapshot"
         "fully_frozen" = now()
         WHERE "id" = "issue_id_p";
       FOR "initiative_row" IN
-        SELECT * FROM "initiative" WHERE "issue_id" = "issue_id_p"
+        SELECT * FROM "initiative"
+        WHERE "issue_id" = "issue_id_p" AND "revoked" ISNULL
       LOOP
         IF
-          "initiative_row"."revoked" ISNULL AND
           "initiative_row"."satisfied_supporter_count" > 0 AND
           "initiative_row"."satisfied_supporter_count" *
           "policy_row"."initiative_quorum_den" >=
@@ -2408,7 +2408,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
               ON "vote"."initiative_id" = "initiative"."id"
               AND "vote"."member_id" = "direct_voter"."member_id"
             WHERE "initiative"."issue_id" = "issue_id_p"
-            AND "initiative"."admitted"
+            AND "initiative"."admitted"  -- NOTE: NULL case is handled too
             GROUP BY "initiative"."id"
           ) AS "vote_counts",
           "issue",
