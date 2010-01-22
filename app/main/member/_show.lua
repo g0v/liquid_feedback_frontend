@@ -73,7 +73,7 @@ ui.tabs{
                 ui.tag{
                   tag = "span",
                   content = function()
-                    slot.put(encode.html_newlines(member.address))
+                    slot.put(encode.html_newlines(html.encode(member.address)))
                   end
                 }
               end

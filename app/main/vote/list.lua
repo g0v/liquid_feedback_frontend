@@ -109,7 +109,9 @@ ui.form{
                     id = "entry_" .. tostring(initiative.id)
                   },
                   content = function()
-                    local initiators = initiative.initiating_members
+                    local initiators_selector = initiative:get_reference_selector("initiating_members")
+                      :add_where("accepted")
+                    local initiators = initiators_selector:exec()
                     local initiator_names = {}
                     for i, initiator in ipairs(initiators) do
                       initiator_names[#initiator_names+1] = initiator.name

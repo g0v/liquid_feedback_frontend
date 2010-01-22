@@ -438,6 +438,14 @@ h2 {
  * ui.paginate
  */
 
+.ui_paginate_head {
+  margin-bottom: 1ex;
+}
+
+.ui_paginate_foot {
+  margin-top: 1ex;
+}
+
 .ui_paginate_select a {
   padding: 0.5ex;
 }
@@ -517,6 +525,11 @@ h2 {
   padding-right: 0.5em;
 }
 
+.ui_field_label.label_right {
+  text-align: left;
+  width: auto;
+}
+
 .login input[type=text],
 .login input[type=password] {
   width: 10em;
@@ -578,6 +591,14 @@ th {
 }
 
 tr:hover td {
+  background-color: #ddd;
+}
+
+.nohover tr:hover td {
+  background-color: #fff;
+}
+
+.nohover table tr:hover td {
   background-color: #ddd;
 }
 
@@ -817,7 +838,8 @@ tr table tr:hover td {
 .draft_updated_info,
 .voting_active_info,
 .revoked_info,
-.initiator_invite_info {
+.initiator_invite_info,
+.motd {
   background-color: #fec;
   border: 2px solid #b96;
   padding: 1ex;
@@ -899,6 +921,10 @@ a.not_voted {
   display: block;
   background-color: #fec;
   color: #000;
+}
+
+.action_active {
+  background-color: #fec;
 }
 
 /*************************************************************************

@@ -310,3 +310,31 @@ function Member.object:set_notify_email(notify_email)
   }
   return success
 end
+
+function Member.object:get_setting_by_key(key)
+end
+
+function Member.object:set_setting(key, value)
+end
+
+function Member.object:get_setting_maps_by_key(key)
+  return SettingMap:new_selector()
+    :add_where{ "member_id = ?", self.id }
+    :add_where{ "key = ?", key }
+    :add_order_by("subkey")
+    :exec()
+end
+
+function Member.object:get_setting_map_by_key_and_subkey(key, subkey)
+  return SettingMap:new_selector()
+    :add_where{ "member_id = ?", self.id }
+    :add_where{ "key = ?", key }
+    :add_where{ "subkey = ?", subkey }
+    :add_order_by("subkey")
+    :optional_object_mode()
+    :exec()
+end
+
+function Member.object:set_setting_map(key, subkey, value)
+  
+end

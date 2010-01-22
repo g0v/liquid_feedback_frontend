@@ -42,50 +42,77 @@ end
 
 slot.select('navigation', function()
 
-    ui.link{
-      content = function()
-        ui.image{ static = "icons/16/house.png" }
-        slot.put(_"Home")
-      end,
-      module = 'index',
-      view = 'index'
-    }
+  ui.link{
+    content = function()
+      ui.image{ static = "icons/16/house.png" }
+      slot.put(_"Home")
+    end,
+    module = 'index',
+    view = 'index'
+  }
 
-    ui.link{
-      content = function()
-        ui.image{ static = "icons/16/package.png" }
-        slot.put(_"Areas")
-      end,
-      module = 'area',
-      view = 'list'
-    }
+  local setting_key = "liquidfeedback_frontend_timeline_current_options"
+  local setting = Setting:by_pk(app.session.member.id, setting_key)
 
-    ui.link{
-      content = function()
-        ui.image{ static = "icons/16/group.png" }
-        slot.put(_"Members")
-      end,
-      module = 'member',
-      view = 'list'
-    }
+  timeline_params = {}
+  if setting then
+    for event_ident, filter_idents in setting.value:gmatch("(%S+):(%S+)") do
+      timeline_params["option_" .. event_ident] = true
+      if filter_idents ~= "*" then
+        for filter_ident in filter_idents:gmatch("([^\|]+)") do
+          timeline_params["option_" .. event_ident .. "_" .. filter_ident] = true
+        end
+      end
+    end
+  end
 
-    ui.link{
-      content = function()
-        ui.image{ static = "icons/16/book_edit.png" }
-        slot.put(_"Contacts")
-      end,
-      module = 'contact',
-      view = 'list'
-    }
+  timeline_params.date = param.get("date") or today
 
-    ui.link{
-      content = function()
-        ui.image{ static = "icons/16/information.png" }
-        slot.put(_"About")
-      end,
-      module = 'index',
-      view = 'about'
-    }
+  ui.link{
+    content = function()
+      ui.image{ static = "icons/16/time.png" }
+      slot.put(_"Timeline")
+    end,
+    module = "timeline",
+    action = "update"
+--    params = timeline_params
+  }
+
+  ui.link{
+    content = function()
+      ui.image{ static = "icons/16/package.png" }
+      slot.put(_"Areas")
+    end,
+    module = 'area',
+    view = 'list'
+  }
+
+  ui.link{
+    content = function()
+      ui.image{ static = "icons/16/group.png" }
+      slot.put(_"Members")
+    end,
+    module = 'member',
+    view = 'list'
+  }
+
+  ui.link{
+    content = function()
+      ui.image{ static = "icons/16/book_edit.png" }
+      slot.put(_"Contacts")
+    end,
+    module = 'contact',
+    view = 'list'
+  }
+
+  ui.link{
+    content = function()
+      ui.image{ static = "icons/16/information.png" }
+      slot.put(_"About")
+    end,
+    module = 'index',
+    view = 'about'
+  }
 
   if app.session.member.admin then
 

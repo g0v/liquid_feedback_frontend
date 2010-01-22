@@ -1,6 +1,18 @@
 local initiatives_selector = param.get("initiatives_selector", "table")
 initiatives_selector:join("issue", nil, "issue.id = initiative.issue_id")
 
+local limit = param.get("limit", atom.number)
+
+local more_initiatives_count
+if limit then
+  local initiatives_count = initiatives_selector:count()
+  if initiatives_count > limit then
+    more_initiatives_count = initiatives_count - limit
+  end
+  initiatives_selector:limit(limit)
+end
+
+
 local issue = param.get("issue", "table")
 
 local order_options = {}
@@ -53,12 +65,22 @@ if param.get("no_sort", atom.boolean) then
   end
 end
 
+initiatives_selector
+  :left_join("initiator", "_initiator", { "_initiator.initiative_id = initiative.id AND _initiator.member_id = ?", app.session.member.id} )
+  :left_join("supporter", "_supporter", { "_supporter.initiative_id = initiative.id AND _supporter.member_id = ?", app.session.member.id} )
+
+  :add_field("(_initiator.member_id NOTNULL)", "is_initiator")
+  :add_field({"(_supporter.member_id NOTNULL) AND NOT EXISTS(SELECT 1 FROM opinion WHERE opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)))", app.session.member.id }, "is_supporter")
+  :add_field({"EXISTS(SELECT 1 FROM opinion WHERE opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)))", app.session.member.id }, "is_potential_supporter")
+
+
 ui_order{
   name = name,
   selector = initiatives_selector,
   options = order_options,
   content = function()
     ui.paginate{
+      name = issue and "issue_" .. tostring(issue.id) .. "_page" or nil,
       selector = initiatives_selector,
       per_page = param.get("per_page", atom.number),
       content = function()
@@ -130,6 +152,30 @@ ui_order{
                 static = "icons/16/new.png"
               }
             end
+            if record.is_supporter then
+              slot.put("&nbsp;")
+              local label = _"You are supporting this initiative"
+              ui.image{
+                attr = { alt = label, title = label },
+                static = "icons/16/thumb_up_green.png"
+              }
+            end
+            if record.is_potential_supporter then
+              slot.put("&nbsp;")
+              local label = _"You are potential supporter of this initiative"
+              ui.image{
+                attr = { alt = label, title = label },
+                static = "icons/16/thumb_up.png"
+              }
+            end
+            if record.is_initiator then
+              slot.put("&nbsp;")
+              local label = _"You are iniator of this initiative"
+              ui.image{
+                attr = { alt = label, title = label },
+                static = "icons/16/user_edit.png"
+              }
+            end
           end
         }
 
@@ -142,3 +188,13 @@ ui_order{
     }
   end
 }
+
+if more_initiatives_count then
+  ui.link{
+    attr = { style = "font-size: 75%; font-style: italic;" },
+    content = _("#{count} more initiatives", { count = more_initiatives_count }),
+    module = "issue",
+    view = "show",
+    id = issue.id,
+  }
+end

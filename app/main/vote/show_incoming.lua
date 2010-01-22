@@ -6,14 +6,14 @@ local members_selector = Member:new_selector()
   :join("delegating_voter", nil, "delegating_voter.member_id = member.id")
   :add_where{ "delegating_voter.issue_id = ?", issue.id }
   :add_where{ "delegating_voter.delegate_member_ids[1] = ?", member.id }
-  :add_field{ "delegating_voter.weight" }
+  :add_field("delegating_voter.weight", "voter_weight")
 
 execute.view{
   module = "member",
   view = "_list",
-  params = { 
+  params = {
     members_selector = members_selector,
-    issue = issue,
+    initiative = initiative,
     trustee = member
   }
 }

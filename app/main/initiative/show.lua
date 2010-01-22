@@ -151,18 +151,22 @@ if (initiative.discussion_url and #initiative.discussion_url > 0)
       ui.tag{
         tag = "span",
         content = function()
-          if initiative.discussion_url and #initiative.discussion_url > 0 then
-            ui.link{
-              attr = {
-                class = "actions",
-                target = "_blank",
-                title = initiative.discussion_url
-              },
-              content = function()
-                slot.put(encode.html(initiative.discussion_url))
-              end,
-              external = initiative.discussion_url
-            }
+          if initiative.discussion_url:find("^https?://") then
+            if initiative.discussion_url and #initiative.discussion_url > 0 then
+              ui.link{
+                attr = {
+                  class = "actions",
+                  target = "_blank",
+                  title = initiative.discussion_url
+                },
+                content = function()
+                  slot.put(encode.html(initiative.discussion_url))
+                end,
+                external = initiative.discussion_url
+              }
+            end
+          else
+            slot.put(encode.html(initiative.discussion_url))
           end
           slot.put(" ")
           if initiator and initiator.accepted and not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked then
@@ -248,7 +252,7 @@ if supporter then
     ui.container{
       attr = { class = "draft_updated_info" },
       content = function()
-        slot.put("The draft of this initiative has been updated!")
+        slot.put(_"The draft of this initiative has been updated!")
         slot.put(" ")
         ui.link{
           content = _"Show diff",
@@ -358,18 +362,27 @@ tabs[#tabs+1] = {
   end
 }
 
-local members_selector =  initiative:get_reference_selector("supporting_members_snapshot")
+local members_selector = initiative:get_reference_selector("supporting_members_snapshot")
           :join("issue", nil, "issue.id = direct_supporter_snapshot.issue_id")
           :join("direct_interest_snapshot", nil, "direct_interest_snapshot.event = issue.latest_snapshot_event AND direct_interest_snapshot.issue_id = issue.id AND direct_interest_snapshot.member_id = member.id")
           :add_field("direct_interest_snapshot.weight")
           :add_where("direct_supporter_snapshot.event = issue.latest_snapshot_event")
           :add_where("direct_supporter_snapshot.satisfied")
 
-local satisfied_supporter_count = members_selector:count()
+local tmp = db:query("SELECT count(1) AS count, sum(weight) AS weight FROM (" .. tostring(members_selector) .. ") as subquery", "object")
+local direct_satisfied_supporter_count = tmp.count
+local indirect_satisfied_supporter_count = (tmp.weight or 0) - tmp.count
+
+local count_string
+if indirect_satisfied_supporter_count > 0 then
+  count_string = "(" .. tostring(direct_satisfied_supporter_count) .. "+" .. tostring(indirect_satisfied_supporter_count) .. ")"
+else
+  count_string = "(" .. tostring(direct_satisfied_supporter_count) .. ")"
+end
 
 tabs[#tabs+1] = {
   name = "satisfied_supporter",
-  label = _"Supporter" .. " (" .. tostring(satisfied_supporter_count) .. ")",
+  label = _"Supporter" .. " " .. count_string,
   content = function()
     execute.view{
       module = "member",
@@ -389,11 +402,20 @@ local members_selector = initiative:get_reference_selector("supporting_members_s
           :add_where("direct_supporter_snapshot.event = issue.latest_snapshot_event")
           :add_where("NOT direct_supporter_snapshot.satisfied")
 
-local potential_supporter_count = members_selector:count()
+local tmp = db:query("SELECT count(1) AS count, sum(weight) AS weight FROM (" .. tostring(members_selector) .. ") as subquery", "object")
+local direct_potential_supporter_count = tmp.count
+local indirect_potential_supporter_count = (tmp.weight or 0) - tmp.count
+
+local count_string
+if indirect_potential_supporter_count > 0 then
+  count_string = "(" .. tostring(direct_potential_supporter_count) .. "+" .. tostring(indirect_potential_supporter_count) .. ")"
+else
+  count_string = "(" .. tostring(direct_potential_supporter_count) .. ")"
+end
 
 tabs[#tabs+1] = {
   name = "supporter",
-  label = _"Potential supporter" .. " (" .. tostring(potential_supporter_count) .. ")",
+  label = _"Potential supporter" .. " " .. count_string,
   content = function()
     execute.view{
       module = "member",

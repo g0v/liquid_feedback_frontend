@@ -1,5 +1,9 @@
 local issues_selector = param.get("issues_selector", "table")
 
+issues_selector
+  :left_join("interest", "_interest", { "_interest.issue_id = issue.id AND _interest.member_id = ?", app.session.member.id} )
+  :add_field("(_interest.member_id NOTNULL)", "is_interested")
+
 local ui_filter = ui.filter
 if param.get("filter", atom.boolean) == false then
   ui_filter = function(args) args.content() end
@@ -150,6 +154,36 @@ ui_filter{
                 end
               end
             },
+            {
+              type = "boolean",
+              name = "supported",
+              label = _"Supported",
+              selector_modifier = function(selector, value)
+                if value then
+                  selector:add_where({ "EXISTS (SELECT 1 FROM initiative JOIN supporter ON supporter.initiative_id = initiative.id AND supporter.member_id = ? LEFT JOIN opinion ON opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)) WHERE initiative.issue_id = issue.id AND opinion.member_id ISNULL LIMIT 1)", app.session.member.id, app.session.member.id })
+                end
+              end
+            },
+            {
+              type = "boolean",
+              name = "potentially_supported",
+              label = _"Potential supported",
+              selector_modifier = function(selector, value)
+                if value then
+                  selector:add_where({ "EXISTS (SELECT 1 FROM initiative JOIN supporter ON supporter.initiative_id = initiative.id AND supporter.member_id = ? JOIN opinion ON opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)) WHERE initiative.issue_id = issue.id LIMIT 1)", app.session.member.id, app.session.member.id })
+                end
+              end
+            },
+            {
+              type = "boolean",
+              name = "initiated",
+              label = _"Initiated",
+              selector_modifier = function(selector, value)
+                if value then
+                  selector:add_where({ "EXISTS (SELECT 1 FROM initiative JOIN initiator ON initiator.initiative_id = initiative.id AND initiator.member_id = ? WHERE initiative.issue_id = issue.id)", app.session.member.id })
+                end
+              end
+            },
           },
           content = function()
             local ui_order = ui.order
@@ -215,6 +249,14 @@ ui_filter{
                               }
                               slot.put("<br />")
                             end
+                            if record.is_interested then
+                              local label = _"You are interested in this issue",
+                              ui.image{
+                                attr = { alt = label, title = label },
+                                static = "icons/16/eye.png"
+                              }
+                              slot.put("&nbsp;")
+                            end
                             ui.link{
                               text = _("Issue ##{id}", { id = tostring(record.id) }),
                               module = "issue",
@@ -265,7 +307,6 @@ ui_filter{
                                 issue = record,
                                 initiatives_selector = initiatives_selector,
                                 highlight_string = highlight_string,
-                                limit = 3,
                                 per_page = param.get("initiatives_per_page", atom.number),
                                 no_sort = param.get("initiatives_no_sort", atom.boolean)
                               }
