@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('beta17', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('beta18', NULL, NULL, NULL))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -1416,7 +1416,8 @@ CREATE VIEW "timeline_issue" AS
       'issue_voting_started'::"timeline_event" AS "event",
       "id" AS "issue_id"
     FROM "issue"
-    WHERE "fully_frozen" NOTNULL AND "closed" != "fully_frozen"
+    WHERE "fully_frozen" NOTNULL
+    AND ("closed" ISNULL OR "closed" != "fully_frozen")
   UNION ALL
     SELECT
       "closed" AS "occurrence",
