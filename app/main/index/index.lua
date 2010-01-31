@@ -15,7 +15,7 @@ slot.select("title", function()
   ui.container{
     attr = { class = "lang_chooser" },
     content = function()
-      for i, lang in ipairs{"en", "de"} do
+      for i, lang in ipairs{"en", "de", "eo"} do
         ui.link{
           content = function()
             ui.image{
