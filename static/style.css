@@ -260,14 +260,16 @@ h2 {
 
 .interest,
 .slot_support,
-.delegation {
+.delegation,
+.voting_requested {
   float: left;
   position: relative;
 }
 
 .interest img,
 .slot_support img,
-.delegation img {
+.delegation img,
+.voting_requested img {
   padding-left: 0.2em;
   padding-right: 0.2em;
 }
@@ -295,6 +297,11 @@ h2 {
 .delegation .head_active {
   background-color: #ddf;
   border: 1px solid #88b;
+}
+
+.voting_requested .head_active {
+  background-color: #fdd;
+  border: 1px solid #b77;
 }
 
 .vote_info .close {

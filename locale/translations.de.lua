@@ -103,7 +103,6 @@ return {
 ["Edit initiative"] = "Initiative bearbeiten";
 ["Edit my page"] = "Meine Seite bearbeiten";
 ["Edit my profile"] = "Mein Profil bearbeiten";
-["Edit timeline filter"] = "Zeitachsen-Filter bearbeiten";
 ["Email address"] = "E-Mail-Adresse";
 ["Email address confirmation"] = "Bestätigung der E-Mail-Adresse";
 ["Email address is confirmed now"] = "E-Mail-Adresse ist jetzt bestätigt";
@@ -302,11 +301,9 @@ return {
 ["Remove initiator from initiative"] = "Initiator von der Initiative entfernen";
 ["Remove my interest"] = "Interesse abmelden";
 ["Remove my membership"] = "Mitgliedschaft aufgeben";
+["Remove my request to vote later"] = "Meinen Wunsch später abzustimmen zurückziehen";
 ["Remove my support from this initiative"] = "Meine Unterstützung der Initiative entziehen";
-["Rename"] = "Umbenennen";
-["Rename filter"] = "Filter umbenennen";
 ["Repeat new password"] = "Neues Kennwort wiederholen";
-["Replace filter"] = "Filter ersetzen";
 ["Request password reset link"] = "Link zum Rücksetzen des Kennworts anfordern";
 ["Reset code"] = "Rücksetzcode";
 ["Reset code is invalid!"] = "Rücksetzcode ist ungültig";
@@ -317,7 +314,6 @@ return {
 ["Revoked at"] = "Zurückgezogen am/um";
 ["Saturday"] = "Samstag";
 ["Save"] = "Speichern";
-["Save as new filter"] = "Als neuen Filter speichern";
 ["Save current filter"] = "Aktuellen Filter speichern";
 ["Save timeline filters"] = "Zeitachsen-Filter speichern";
 ["Saved as contact"] = "Als Kontakt gespeichert";
@@ -326,7 +322,6 @@ return {
 ["Search issues"] = "Suche Themen";
 ["Search members"] = "Suche Mitglieder";
 ["Search results for: '#{search}'"] = "Suchergebnisse für: '#{search}'";
-["Select filter to replace"] = "Wähle zu ersetzenden Filter";
 ["Set URL"] = "URL setzen";
 ["Set area delegation"] = "Delegation für Themengebiet festlegen";
 ["Set autoreject"] = "Auto-Ablehnen anschalten";
@@ -410,8 +405,8 @@ return {
 ["Verification time"] = "Zeit für die Überprüfung";
 ["Version"] = "Version";
 ["Vote later"] = "Später abstimmen";
+["Vote later requests"] = "Später abstimmen";
 ["Vote now"] = "Jetzt abstimmen";
-["Vote now/later"] = "Jetzt/später abstimmen";
 ["Voted"] = "Abgestimmt";
 ["Voted no"] = "Mit Nein gestimmt";
 ["Voted proposal"] = "Abgestimmte Vorlage";
@@ -422,7 +417,7 @@ return {
 ["Voting for this issue is currently running!"] = "Über dieses Thema wird gerade abgestimmt!";
 ["Voting has not started yet."] = "Die Abstimmung hat noch nicht begonnen.";
 ["Voting proposal"] = "Abstimmungsvorlage";
-["Voting requests"] = "Abstimmanträge";
+["Voting request updated"] = "Abstimmungswunsch aktualisiert";
 ["Voting started"] = "Abstimmung begonnen";
 ["Voting time"] = "Zeit für die Abstimmung";
 ["Website"] = "Webseite";
@@ -447,6 +442,7 @@ return {
 ["You have to accept the terms of use to complete registration."] = "Du musst die Nutzungsbedingungen akzeptieren um die Registration abzuschliessen.";
 ["You have to mark 'Are you sure' to revoke!"] = "Zum Zurückziehen musst Du 'Sicher?' auswählen";
 ["You need to be logged in, to use this system."] = "Du musst eingeloggt sein, um das System zu benutzen";
+["You want to vote later"] = "Du willst später abstimmen";
 ["You've successfully registered and you can login now with your login and password!"] = "Du hast Dich erfolgreich registriert und kannst Dich jetzt mit Deinen Benutzernamen und Kennwort anmelden!";
 ["Your are interested"] = "Du bist interessiert";
 ["Your are potential supporter"] = "Du bist potentieller Unterstützer";

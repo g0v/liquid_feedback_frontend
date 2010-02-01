@@ -77,4 +77,17 @@ if interest then
       end
     }
   end)
+else
+  if not issue.closed and not issue.fully_frozen then
+    ui.link{
+      content = function()
+        ui.image{ static = "icons/16/user_add.png" }
+        slot.put(_"Add my interest")
+      end,
+      module = "interest",
+      action = "update",
+      params = { issue_id = issue.id },
+      routing = { default = { mode = "redirect", module = "issue", view = "show", id = issue.id } }
+    }
+  end
 end

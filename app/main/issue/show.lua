@@ -8,6 +8,12 @@ execute.view{
 
 util.help("issue.show")
 
+local voting_requested_percentage = 0
+if issue.vote_later and issue.population and issue.population > 0 then
+  voting_requested_percentage = math.ceil(issue.vote_later  / issue.population * 100)
+end
+local voting_requested_string = "(" .. tostring(voting_requested_percentage) .. "%)"
+
 ui.tabs{
   {
     name = "initiatives",
@@ -36,18 +42,6 @@ ui.tabs{
       end
     end
   },
---[[  {
-    name = "voting_requests",
-    label = _"Voting requests",
-    content = function()
-      execute.view{
-        module = "issue_voting_request",
-        view = "_list",
-        params = { issue = issue }
-      }
-    end
-  },
---]]
   {
     name = "interested_members",
     label = _"Interested members",
@@ -73,6 +67,22 @@ ui.tabs{
         module = "delegation",
         view = "_list",
         params = { delegations_selector = issue:get_reference_selector("delegations") }
+      }
+    end
+  },
+  {
+    name = "voting_requests",
+    label = _"Vote later requests" .. " " .. voting_requested_string,
+    content = function()
+      execute.view{
+        module = "member",
+        view = "_list",
+        params = {
+          issue = issue,
+          members_selector =  issue:get_reference_selector("interested_members_snapshot")
+            :join("issue", nil, "issue.id = direct_interest_snapshot.issue_id")
+            :add_where("direct_interest_snapshot.voting_requested = false")
+        }
       }
     end
   },

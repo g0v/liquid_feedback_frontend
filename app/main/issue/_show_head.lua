@@ -40,22 +40,6 @@ slot.select("actions", function()
     view = "_show_box",
     params = { issue = issue }
   }
-  -- TODO performance
-  local interest = Interest:by_pk(issue.id, app.session.member.id)
-  if not issue.closed and not issue.fully_frozen then
-    if not interest then
-      ui.link{
-        content = function()
-          ui.image{ static = "icons/16/user_add.png" }
-          slot.put(_"Add my interest")
-        end,
-        module = "interest",
-        action = "update",
-        params = { issue_id = issue.id },
-        routing = { default = { mode = "redirect", module = "issue", view = "show", id = issue.id } }
-      }
-    end
-  end
 
   if not issue.closed then
     execute.view{
@@ -65,17 +49,11 @@ slot.select("actions", function()
     }
   end
 
---[[ 
-  if issue.state == "accepted" then
-    -- TODO
-    ui.link{
-      content = function()
-        ui.image{ static = "icons/16/time.png" }
-        slot.put(_"Vote now/later")
-      end,
-    }
-  end
---]]
+  execute.view{
+    module = "issue",
+    view = "_show_vote_later_box",
+    params = { issue = issue }
+  }
 
   if config.issue_discussion_url_func then
     local url = config.issue_discussion_url_func(issue)
