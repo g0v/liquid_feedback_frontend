@@ -1,7 +1,7 @@
 BEGIN;
 
 CREATE OR REPLACE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('incomplete_update_from_beta18_to_v1.0.0', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('incomplete_update_from_beta18_to_beta19', NULL, NULL, NULL))
   AS "subquery"("string", "major", "minor", "revision");
 
 ALTER TABLE "issue" RENAME COLUMN "latest_snapshot_event" TO "tmp";
