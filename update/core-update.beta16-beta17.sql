@@ -1,3 +1,4 @@
+BEGIN;
 
 CREATE OR REPLACE VIEW "liquid_feedback_version" AS
   SELECT * FROM (VALUES ('beta17', NULL, NULL, NULL))
@@ -161,3 +162,4 @@ CREATE VIEW "timeline" AS
 
 COMMENT ON VIEW "timeline" IS 'Aggregation of different events in the system';
 
+COMMIT;
