@@ -150,7 +150,7 @@ CREATE TABLE "setting" (
         "value"                 TEXT            NOT NULL );
 CREATE INDEX "setting_key_idx" ON "setting" ("key");
 
-COMMENT ON TABLE "setting" IS 'Place to store a frontend specific member setting as a string';
+COMMENT ON TABLE "setting" IS 'Place to store a frontend specific settings for members as a string';
 
 COMMENT ON COLUMN "setting"."key" IS 'Name of the setting, preceded by a frontend specific prefix';
 
@@ -163,11 +163,21 @@ CREATE TABLE "setting_map" (
         "value"                 TEXT            NOT NULL );
 CREATE INDEX "setting_map_key_idx" ON "setting_map" ("key");
 
-COMMENT ON TABLE "setting_map" IS 'Place to store a frontend specific member setting as a map of key value pairs';
+COMMENT ON TABLE "setting_map" IS 'Place to store a frontend specific setting for members as a map of key value pairs';
 
 COMMENT ON COLUMN "setting_map"."key"    IS 'Name of the setting, preceded by a frontend specific prefix';
 COMMENT ON COLUMN "setting_map"."subkey" IS 'Key of a map entry';
 COMMENT ON COLUMN "setting_map"."value"  IS 'Value of a map entry';
+
+
+CREATE TABLE "member_relation_setting" (
+        PRIMARY KEY ("member_id", "key", "other_member_id"),
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "key"                   TEXT            NOT NULL,
+        "other_member_id"       INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "value"                 TEXT            NOT NULL );
+
+COMMENT ON TABLE "setting" IS 'Place to store a frontend specific settings related to relations between members as a string';
 
 
 CREATE TYPE "member_image_type" AS ENUM ('photo', 'avatar');
@@ -290,6 +300,16 @@ COMMENT ON COLUMN "area"."member_weight"       IS 'Same as "direct_member_count"
 COMMENT ON COLUMN "area"."autoreject_weight"   IS 'Sum of weight of members using the autoreject feature';
 
 
+CREATE TABLE "area_setting" (
+        PRIMARY KEY ("member_id", "key", "area_id"),
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "key"                   TEXT            NOT NULL,
+        "area_id"               INT4            REFERENCES "area" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "value"                 TEXT            NOT NULL );
+
+COMMENT ON TABLE "area_setting" IS 'Place for frontend to store area specific settings of members as strings';
+
+
 CREATE TABLE "allowed_policy" (
         PRIMARY KEY ("area_id", "policy_id"),
         "area_id"               INT4            REFERENCES "area" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -375,6 +395,16 @@ COMMENT ON COLUMN "issue"."vote_later"            IS 'Number of votes against vo
 COMMENT ON COLUMN "issue"."voter_count"           IS 'Total number of direct and delegating voters; This value is related to the final voting, while "population" is related to snapshots before the final voting';
 
 
+CREATE TABLE "issue_setting" (
+        PRIMARY KEY ("member_id", "key", "issue_id"),
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "key"                   TEXT            NOT NULL,
+        "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "value"                 TEXT            NOT NULL );
+
+COMMENT ON TABLE "issue_setting" IS 'Place for frontend to store issue specific settings of members as strings';
+
+
 CREATE TABLE "initiative" (
         UNIQUE ("issue_id", "id"),  -- index needed for foreign-key on table "vote"
         "issue_id"              INT4            NOT NULL REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -426,6 +456,16 @@ COMMENT ON COLUMN "initiative"."positive_votes" IS 'Calculated from table "direc
 COMMENT ON COLUMN "initiative"."negative_votes" IS 'Calculated from table "direct_voter"';
 COMMENT ON COLUMN "initiative"."agreed"         IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "majority_num"/"majority_den"';
 COMMENT ON COLUMN "initiative"."rank"           IS 'Rank of approved initiatives (winner is 1), calculated from table "direct_voter"';
+
+
+CREATE TABLE "initiative_setting" (
+        PRIMARY KEY ("member_id", "key", "initiative_id"),
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "key"                   TEXT            NOT NULL,
+        "initiative_id"         INT4            REFERENCES "initiative" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "value"                 TEXT            NOT NULL );
+
+COMMENT ON TABLE "initiative_setting" IS 'Place for frontend to store initiative specific settings of members as strings';
 
 
 CREATE TABLE "draft" (
@@ -487,6 +527,16 @@ COMMENT ON COLUMN "suggestion"."plus1_unfulfilled_count"  IS 'Calculated from ta
 COMMENT ON COLUMN "suggestion"."plus1_fulfilled_count"    IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
 COMMENT ON COLUMN "suggestion"."plus2_unfulfilled_count"  IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
 COMMENT ON COLUMN "suggestion"."plus2_fulfilled_count"    IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
+
+
+CREATE TABLE "suggestion_setting" (
+        PRIMARY KEY ("member_id", "key", "suggestion_id"),
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "key"                   TEXT            NOT NULL,
+        "suggestion_id"         INT8            REFERENCES "suggestion" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "value"                 TEXT            NOT NULL );
+
+COMMENT ON TABLE "suggestion_setting" IS 'Place for frontend to store suggestion specific settings of members as strings';
 
 
 CREATE TABLE "membership" (
