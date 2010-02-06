@@ -2984,13 +2984,16 @@ CREATE FUNCTION "check_issue"
     BEGIN
       PERFORM "global_lock"();
       SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
+      -- only process open issues:
       IF "issue_row"."closed" ISNULL THEN
         SELECT * INTO "policy_row" FROM "policy"
           WHERE "id" = "issue_row"."policy_id";
+        -- create a snapshot, unless issue is already fully frozen:
         IF "issue_row"."fully_frozen" ISNULL THEN
           PERFORM "create_snapshot"("issue_id_p");
           SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
         END IF;
+        -- eventually close or accept issues, which have not been accepted:
         IF "issue_row"."accepted" ISNULL THEN
           IF EXISTS (
             SELECT NULL FROM "initiative"
@@ -2999,6 +3002,7 @@ CREATE FUNCTION "check_issue"
             AND "supporter_count" * "policy_row"."issue_quorum_den"
             >= "issue_row"."population" * "policy_row"."issue_quorum_num"
           ) THEN
+            -- accept issues, if supporter count is high enough
             PERFORM "set_snapshot_event"("issue_id_p", 'end_of_admission');
             "issue_row"."accepted" = now();  -- NOTE: "issue_row" used later
             UPDATE "issue" SET "accepted" = "issue_row"."accepted"
@@ -3006,12 +3010,15 @@ CREATE FUNCTION "check_issue"
           ELSIF
             now() >= "issue_row"."created" + "issue_row"."admission_time"
           THEN
+            -- close issues, if admission time has expired
             PERFORM "set_snapshot_event"("issue_id_p", 'end_of_admission');
             UPDATE "issue" SET "closed" = now()
               WHERE "id" = "issue_row"."id";
           END IF;
         END IF;
+        -- eventually half freeze issues:
         IF
+          -- NOTE: issue can't be closed at this point, if it has been accepted
           "issue_row"."accepted" NOTNULL AND
           "issue_row"."half_frozen" ISNULL
         THEN
@@ -3037,15 +3044,43 @@ CREATE FUNCTION "check_issue"
               WHERE "id" = "issue_row"."id";
           END IF;
         END IF;
+        -- close issues after some time, if all initiatives have been revoked:
+        IF
+          "issue_row"."closed" ISNULL AND
+          NOT EXISTS (
+            -- all initiatives are revoked
+            SELECT NULL FROM "initiative"
+            WHERE "issue_id" = "issue_id_p" AND "revoked" ISNULL
+          ) AND (
+            NOT EXISTS (
+              -- and no initiatives have been revoked lately
+              SELECT NULL FROM "initiative"
+              WHERE "issue_id" = "issue_id_p"
+              AND now() < "revoked" + "issue_row"."verification_time"
+            ) OR (
+              -- or verification time has elapsed
+              "issue_row"."half_frozen" NOTNULL AND
+              "issue_row"."fully_frozen" ISNULL AND
+              now() >= "issue_row"."half_frozen" + "issue_row"."verification_time"
+            )
+          )
+        THEN
+          "issue_row"."closed" = now();  -- NOTE: "issue_row" used later
+          UPDATE "issue" SET "closed" = "issue_row"."closed"
+            WHERE "id" = "issue_row"."id";
+        END IF;
+        -- fully freeze issue after verification time:
         IF
           "issue_row"."half_frozen" NOTNULL AND
           "issue_row"."fully_frozen" ISNULL AND
+          "issue_row"."closed" ISNULL AND
           now() >= "issue_row"."half_frozen" + "issue_row"."verification_time"
         THEN
           PERFORM "freeze_after_snapshot"("issue_id_p");
-          -- "issue" might change, thus "issue_row" has to be updated below
+          -- NOTE: "issue" might change, thus "issue_row" has to be updated below
         END IF;
         SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
+        -- close issue by calling close_voting(...) after voting time:
         IF
           "issue_row"."closed" ISNULL AND
           "issue_row"."fully_frozen" NOTNULL AND
