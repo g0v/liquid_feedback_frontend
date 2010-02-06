@@ -920,9 +920,55 @@ COMMENT ON TRIGGER "last_opinion_deletes_suggestion" ON "opinion" IS 'Removing t
 
 
 
+---------------------------------------------------------------
+-- Ensure that votes are not modified when issues are frozen --
+---------------------------------------------------------------
+
+-- NOTE: Frontends should ensure this anyway, but in case of programming
+-- errors the following triggers ensure data integrity.
+
+
+CREATE FUNCTION "forbid_changes_on_closed_issue_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    DECLARE
+      "issue_row" "issue"%ROWTYPE;
+    BEGIN
+      SELECT INTO "issue_row" * FROM "issue"
+        WHERE "id" = NEW."issue_id" FOR SHARE;
+      IF "issue_row"."closed" NOTNULL THEN
+        RAISE EXCEPTION 'Tried to modify data belonging to a closed issue.';
+      END IF;
+      RETURN NULL;
+    END;
+  $$;
+
+CREATE TRIGGER "forbid_changes_on_closed_issue"
+  AFTER INSERT OR UPDATE OR DELETE ON "direct_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "forbid_changes_on_closed_issue_trigger"();
+
+CREATE TRIGGER "forbid_changes_on_closed_issue"
+  AFTER INSERT OR UPDATE OR DELETE ON "delegating_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "forbid_changes_on_closed_issue_trigger"();
+
+CREATE TRIGGER "forbid_changes_on_closed_issue"
+  AFTER INSERT OR UPDATE OR DELETE ON "vote"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "forbid_changes_on_closed_issue_trigger"();
+
+COMMENT ON FUNCTION "forbid_changes_on_closed_issue_trigger"()            IS 'Implementation of triggers "forbid_changes_on_closed_issue" on tables "direct_voter", "delegating_voter" and "vote"';
+COMMENT ON TRIGGER "forbid_changes_on_closed_issue" ON "direct_voter"     IS 'Ensures that frontends can''t tamper with votings of closed issues, in case of programming errors';
+COMMENT ON TRIGGER "forbid_changes_on_closed_issue" ON "delegating_voter" IS 'Ensures that frontends can''t tamper with votings of closed issues, in case of programming errors';
+COMMENT ON TRIGGER "forbid_changes_on_closed_issue" ON "vote"             IS 'Ensures that frontends can''t tamper with votings of closed issues, in case of programming errors';
+
+
+
 --------------------------------------------------------------------
 -- Auto-retrieval of fields only needed for referential integrity --
 --------------------------------------------------------------------
+
 
 CREATE FUNCTION "autofill_issue_id_trigger"()
   RETURNS TRIGGER
