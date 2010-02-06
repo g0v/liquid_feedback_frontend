@@ -317,6 +317,10 @@ CREATE TABLE "issue" (
         "fully_frozen"          TIMESTAMPTZ,
         "closed"                TIMESTAMPTZ,
         "ranks_available"       BOOLEAN         NOT NULL DEFAULT FALSE,
+        "admission_time"        INTERVAL        NOT NULL,
+        "discussion_time"       INTERVAL        NOT NULL,
+        "verification_time"     INTERVAL        NOT NULL,
+        "voting_time"           INTERVAL        NOT NULL,
         "snapshot"              TIMESTAMPTZ,
         "latest_snapshot_event" "snapshot_event",
         "population"            INT4,
@@ -359,6 +363,10 @@ COMMENT ON COLUMN "issue"."half_frozen"           IS 'Point in time, when "discu
 COMMENT ON COLUMN "issue"."fully_frozen"          IS 'Point in time, when "verification_time" has elapsed; Frontends must ensure that for fully_frozen issues additionally to the restrictions for half_frozen issues a) initiatives are not created, b) no interest is created or removed, c) no supporters are added or removed, d) no opinions are created, changed or deleted.';
 COMMENT ON COLUMN "issue"."closed"                IS 'Point in time, when "admission_time" or "voting_time" have elapsed, and issue is no longer active; Frontends must ensure that for closed issues additionally to the restrictions for half_frozen and fully_frozen issues a) no voter is added or removed to/from the direct_voter table, b) no votes are added, modified or removed.';
 COMMENT ON COLUMN "issue"."ranks_available"       IS 'TRUE = ranks have been calculated';
+COMMENT ON COLUMN "issue"."admission_time"        IS 'Copied from "policy" table at creation of issue';
+COMMENT ON COLUMN "issue"."discussion_time"       IS 'Copied from "policy" table at creation of issue';
+COMMENT ON COLUMN "issue"."verification_time"     IS 'Copied from "policy" table at creation of issue';
+COMMENT ON COLUMN "issue"."voting_time"           IS 'Copied from "policy" table at creation of issue';
 COMMENT ON COLUMN "issue"."snapshot"              IS 'Point in time, when snapshot tables have been updated and "population", "vote_now", "vote_later" and *_count values were precalculated';
 COMMENT ON COLUMN "issue"."latest_snapshot_event" IS 'Event type of latest snapshot for issue; Can be used to select the latest snapshot data in the snapshot tables';
 COMMENT ON COLUMN "issue"."population"            IS 'Sum of "weight" column in table "direct_population_snapshot"';
@@ -1017,6 +1025,38 @@ COMMENT ON TRIGGER "autofill_initiative_id" ON "opinion" IS 'Set "initiative_id"
 -- Automatic calculation of certain default values --
 -----------------------------------------------------
 
+
+CREATE FUNCTION "copy_timings_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    DECLARE
+      "policy_row" "policy"%ROWTYPE;
+    BEGIN
+      SELECT * INTO "policy_row" FROM "policy"
+        WHERE "id" = NEW."policy_id";
+      IF NEW."admission_time" ISNULL THEN
+        NEW."admission_time" := "policy_row"."admission_time";
+      END IF;
+      IF NEW."discussion_time" ISNULL THEN
+        NEW."discussion_time" := "policy_row"."discussion_time";
+      END IF;
+      IF NEW."verification_time" ISNULL THEN
+        NEW."verification_time" := "policy_row"."verification_time";
+      END IF;
+      IF NEW."voting_time" ISNULL THEN
+        NEW."voting_time" := "policy_row"."voting_time";
+      END IF;
+      RETURN NEW;
+    END;
+  $$;
+
+CREATE TRIGGER "copy_timings" BEFORE INSERT OR UPDATE ON "issue"
+  FOR EACH ROW EXECUTE PROCEDURE "copy_timings_trigger"();
+
+COMMENT ON FUNCTION "copy_timings_trigger"() IS 'Implementation of trigger "copy_timings" on table "issue"';
+COMMENT ON TRIGGER "copy_timings" ON "issue" IS 'If timing fields are NULL, copy values from policy.';
+
+
 CREATE FUNCTION "copy_autoreject_trigger"()
   RETURNS TRIGGER
   LANGUAGE 'plpgsql' VOLATILE AS $$
@@ -1065,6 +1105,7 @@ COMMENT ON TRIGGER "default_for_draft_id" ON "supporter"       IS 'If "draft_id"
 ----------------------------------------
 -- Automatic creation of dependencies --
 ----------------------------------------
+
 
 CREATE FUNCTION "autocreate_interest_trigger"()
   RETURNS TRIGGER
@@ -2913,7 +2954,7 @@ CREATE FUNCTION "check_issue"
             UPDATE "issue" SET "accepted" = "issue_row"."accepted"
               WHERE "id" = "issue_row"."id";
           ELSIF
-            now() >= "issue_row"."created" + "policy_row"."admission_time"
+            now() >= "issue_row"."created" + "issue_row"."admission_time"
           THEN
             PERFORM "set_snapshot_event"("issue_id_p", 'end_of_admission');
             UPDATE "issue" SET "closed" = now()
@@ -2937,7 +2978,7 @@ CREATE FUNCTION "check_issue"
           IF
             "voting_requested_v" OR (
               "voting_requested_v" ISNULL AND
-              now() >= "issue_row"."accepted" + "policy_row"."discussion_time"
+              now() >= "issue_row"."accepted" + "issue_row"."discussion_time"
             )
           THEN
             PERFORM "set_snapshot_event"("issue_id_p", 'half_freeze');
@@ -2949,7 +2990,7 @@ CREATE FUNCTION "check_issue"
         IF
           "issue_row"."half_frozen" NOTNULL AND
           "issue_row"."fully_frozen" ISNULL AND
-          now() >= "issue_row"."half_frozen" + "policy_row"."verification_time"
+          now() >= "issue_row"."half_frozen" + "issue_row"."verification_time"
         THEN
           PERFORM "freeze_after_snapshot"("issue_id_p");
           -- "issue" might change, thus "issue_row" has to be updated below
@@ -2958,7 +2999,7 @@ CREATE FUNCTION "check_issue"
         IF
           "issue_row"."closed" ISNULL AND
           "issue_row"."fully_frozen" NOTNULL AND
-          now() >= "issue_row"."fully_frozen" + "policy_row"."voting_time"
+          now() >= "issue_row"."fully_frozen" + "issue_row"."voting_time"
         THEN
           PERFORM "close_voting"("issue_id_p");
         END IF;
