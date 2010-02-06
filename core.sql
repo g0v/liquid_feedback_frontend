@@ -302,9 +302,9 @@ COMMENT ON TABLE "allowed_policy" IS 'Selects which policies can be used in each
 COMMENT ON COLUMN "allowed_policy"."default_policy" IS 'One policy per area can be set as default.';
 
 
-CREATE TYPE "snapshot_event" AS ENUM ('periodic', 'end_of_admission', 'start_of_voting');
+CREATE TYPE "snapshot_event" AS ENUM ('periodic', 'end_of_admission', 'half_freeze', 'full_freeze');
 
-COMMENT ON TYPE "snapshot_event" IS 'Reason for snapshots: ''periodic'' = due to periodic recalculation, ''end_of_admission'' = saved state at end of admission period, ''start_of_voting'' = saved state at end of verification period';
+COMMENT ON TYPE "snapshot_event" IS 'Reason for snapshots: ''periodic'' = due to periodic recalculation, ''end_of_admission'' = saved state at end of admission period, ''half_freeze'' = saved state at end of discussion period, ''full_freeze'' = saved state at end of verification period';
 
 
 CREATE TABLE "issue" (
@@ -2314,19 +2314,23 @@ CREATE FUNCTION "set_snapshot_event"
     "event_p" "snapshot_event" )
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
+    DECLARE
+      "event_v" "issue"."latest_snapshot_event"%TYPE;
     BEGIN
+      SELECT "latest_snapshot_event" INTO "event_v" FROM "issue"
+        WHERE "id" = "issue_id_p" FOR UPDATE;
       UPDATE "issue" SET "latest_snapshot_event" = "event_p"
         WHERE "id" = "issue_id_p";
       UPDATE "direct_population_snapshot" SET "event" = "event_p"
-        WHERE "issue_id" = "issue_id_p" AND "event" = 'periodic';
+        WHERE "issue_id" = "issue_id_p" AND "event" = "event_v";
       UPDATE "delegating_population_snapshot" SET "event" = "event_p"
-        WHERE "issue_id" = "issue_id_p" AND "event" = 'periodic';
+        WHERE "issue_id" = "issue_id_p" AND "event" = "event_v";
       UPDATE "direct_interest_snapshot" SET "event" = "event_p"
-        WHERE "issue_id" = "issue_id_p" AND "event" = 'periodic';
+        WHERE "issue_id" = "issue_id_p" AND "event" = "event_v";
       UPDATE "delegating_interest_snapshot" SET "event" = "event_p"
-        WHERE "issue_id" = "issue_id_p" AND "event" = 'periodic';
+        WHERE "issue_id" = "issue_id_p" AND "event" = "event_v";
       UPDATE "direct_supporter_snapshot" SET "event" = "event_p"
-        WHERE "issue_id" = "issue_id_p" AND "event" = 'periodic';
+        WHERE "issue_id" = "issue_id_p" AND "event" = "event_v";
       RETURN;
     END;
   $$;
@@ -2354,7 +2358,7 @@ CREATE FUNCTION "freeze_after_snapshot"
       SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
       SELECT * INTO "policy_row"
         FROM "policy" WHERE "id" = "issue_row"."policy_id";
-      PERFORM "set_snapshot_event"("issue_id_p", 'start_of_voting');
+      PERFORM "set_snapshot_event"("issue_id_p", 'full_freeze');
       UPDATE "issue" SET
         "accepted"     = coalesce("accepted", now()),
         "half_frozen"  = coalesce("half_frozen", now()),
@@ -2936,6 +2940,7 @@ CREATE FUNCTION "check_issue"
               now() >= "issue_row"."accepted" + "policy_row"."discussion_time"
             )
           THEN
+            PERFORM "set_snapshot_event"("issue_id_p", 'half_freeze');
             "issue_row"."half_frozen" = now();  -- NOTE: "issue_row" used later
             UPDATE "issue" SET "half_frozen" = "issue_row"."half_frozen"
               WHERE "id" = "issue_row"."id";
