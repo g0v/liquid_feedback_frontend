@@ -4,7 +4,7 @@ return {
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} temoj";
 ["#{number} Image(s) has been deleted"] = "Estas viŝita(j) #{number} bildo(j)";
 ["#{number} Image(s) has been updated"] = "Estas ĝisdatigita(j) #{number} bildo(j)";
-["(#{more_count} duplicates removed)"] = "(#{more_count} duoblaÄµoj forigitaj)";
+["(#{more_count} duplicates removed)"] = "(#{more_count} duoblaĵoj forigitaj)";
 ["(change URL)"] = "(ŝanĝi URL)";
 ["(new window)"] = "(nova fenestro)";
 ["+ #{weight}"] = "+ #{weight}";
@@ -70,7 +70,7 @@ return {
 ["Cancel registration"] = "Nuligi registradon";
 ["Cancelled"] = "Abolita";
 ["Change area delegation"] = "Ŝanĝi delegacion por temaro";
-["Change display settings"] = "Sangi afiÅajn agordojn";
+["Change display settings"] = "Sangi afiŝajn agordojn";
 ["Change filters and order"] = false;
 ["Change global delegation"] = "Ŝanĝi ĝeneralan delegacion";
 ["Change issue delegation"] = "Ŝanĝi delegacion por la temo";
@@ -123,7 +123,7 @@ return {
 ["Discussion on issue"] = "Diskuto pri la temo";
 ["Discussion time"] = "Tempo de la diskuto";
 ["Discussion with initiators"] = "Diskuto kun la iniciatintoj";
-["Display settings"] = "AfiÅaj agordoj";
+["Display settings"] = "Afiŝaj agordoj";
 ["Download"] = "Elŝuti";
 ["Download database export"] = "Elŝuti datumbazoeksporton";
 ["Draft"] = "Skizo";
@@ -155,7 +155,7 @@ return {
 ["Hello "] = "Saluton ";
 ["Help for: #{text}"] = "Helpo por: #{text}";
 ["Hide"] = "Kaŝi";
-["Hide filter details"] = "KaÅi filtrodetalojn";
+["Hide filter details"] = "Kaŝi filtrodetalojn";
 ["Hide this help message"] = "Kaŝi tiun helpotekston";
 ["Home"] = "Ĉefpaĝo";
 ["I accept the terms of use by checking the following checkbox:"] = "Mi akceptas la uzokondiĉojn per la selekto de la sekva krucosignokesteto:";
@@ -165,7 +165,7 @@ return {
 ["Images"] = "Bildoj";
 ["In discussion"] = "En diskuton";
 ["Incoming delegations"] = "Alvenantaj delegacioj";
-["Initiated"] = "LanÄita";
+["Initiated"] = "Lanĉita";
 ["Initiated initiatives"] = "Lanĉitaj iniciatoj";
 ["Initiative events"] = "Iniciato-eventoj";
 ["Initiative is revoked now"] = "Iniciato nun estas retirita";
@@ -198,8 +198,8 @@ return {
 ["Issue delegation active"] = "Delegacio por temo aktiva";
 ["Issue events"] = "Temoeventoj";
 ["Issue finished"] = "Temo finita";
-["Issue finished without voting"] = "Temo finita sen voÄdono";
-["Issue frozen"] = "Temo Äelita";
+["Issue finished without voting"] = "Temo finita sen voĉdono";
+["Issue frozen"] = "Temo ĝelita";
 ["Issue policy"] = "Regularo por temo";
 ["Issue quorum"] = "Kvorumo per temo";
 ["Issues"] = "Temoj";
@@ -277,7 +277,7 @@ return {
 ["Not voted (revoked from initiator)"] = false;
 ["Not yet voted"] = "Ankoraŭ ne balotinta";
 ["Number of incoming delegations, follow link to see more details"] = "Nombro de alvenantaj delegacioj, sekvi ligilon por pli da detaloj";
-["Number of initiatives to preview"] = "Nombro de iniciatoj por antaÅ­montri";
+["Number of initiatives to preview"] = "Nombro de iniciatoj por antaŭmontri";
 ["OK"] = "Bone";
 ["Old draft revision"] = "Malnova revizio de la skizo";
 ["Old password"] = "Malnova pasvorto";
@@ -382,7 +382,7 @@ return {
 ["Show locked members"] = "Montri blokitajn membrojn";
 ["Show member"] = "Montri membron";
 ["Show name history"] = "Montri nomohistorion";
-["Show only events which match... (or associtated)"] = "Montri nur eventojn, kiuj kongruas... (aÅ­-kunligita)";
+["Show only events which match... (or associtated)"] = "Montri nur eventojn, kiuj kongruas... (aŭ-kunligita)";
 ["Software"] = "Programaro";
 ["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = "Kelkaj funkcioj bazitaj je JavaScript (precipe la voĉdono) ne funkcios.\nBonvolu, uzi por tiu betaversio aktualan version de Firefox, Safari, Opera(?), Konqueror aŭ alian (pli) normokonforman retumilon.\nAlternativa atingo sen JavaScript estos baldaŭ disponeble.";
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Pardonu, por tiu konto ne ekzistas konfirmita retadreson. Bonvolu vin turni al administranto aŭ al la helpantaro.";
@@ -415,7 +415,7 @@ return {
 ["Terms accepted"] = "Kondiĉoj akceptitaj";
 ["Terms of use"] = false;
 ["The code you've entered is invalid"] = "La kodo, kiun vi enigis ne estas valida!";
-["The draft of this initiative has been updated!"] = "La skizo de tiu Äi iniciato estas Äisdatigita";
+["The draft of this initiative has been updated!"] = "La skizo de tiu ĉi iniciato estas ĝisdatigita";
 ["The drafts do not differ"] = "La skizoj ne estas malsamaj";
 ["The initiators suggest to support the following initiative:"] = "La iniciatantoj rekomendas subteni sekvan iniciaton:";
 ["There are no more alternative initiatives currently."] = false;
@@ -471,8 +471,8 @@ return {
 ["Voting for this issue is currently running!"] = "Voĉdono pri tiu temo okazas nun!";
 ["Voting has not started yet."] = "Voĉdono por tiu temo ankoraŭ ne komenciĝis.";
 ["Voting proposal"] = "Privoĉdonendaj proponoj";
-["Voting request updated"] = "VoÄdono-peto Äisdatigita";
-["Voting started"] = "VoÄdono komenciÄis";
+["Voting request updated"] = "Voĉdono-peto ĝisdatigita";
+["Voting started"] = "Voĉdono komenciĝis";
 ["Voting time"] = "Tempo por la voĉdono";
 ["Website"] = "Retpaĝo";
 ["Wednesday"] = "Merkredo";
@@ -505,7 +505,7 @@ return {
 ["Your delegation for this area has been updated."] = "Via delegacio por tiu temaro estas ĝisdatigita";
 ["Your delegation for this issue has been deleted."] = "Via delegacio por tiu temaro estas viŝita";
 ["Your delegation for this issue has been updated."] = "Via delegacio por tiu temaro estas ĝisdatigita";
-["Your display settings have been updated"] = "Viaj afiÅaj-agordoj estas Äisdatigitaj";
+["Your display settings have been updated"] = "Viaj afiŝaj-agordoj estas ĝisdatigitaj";
 ["Your global delegation has been deleted."] = "Via ĝenerala delegacio estas viŝita";
 ["Your global delegation has been updated."] = "Via ĝenerala delegacio estas ĝisdatigita";
 ["Your login has been changed to '#{login}'"] = "Via salutnomo estas ĝisdatigita al '#{login}'";
