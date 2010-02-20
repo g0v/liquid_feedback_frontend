@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('beta19', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('beta20', NULL, NULL, NULL))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -1851,12 +1851,15 @@ CREATE FUNCTION "vote_ratio"
     "negative_votes_p" "initiative"."negative_votes"%TYPE )
   RETURNS FLOAT8
   LANGUAGE 'plpgsql' STABLE AS $$
-    DECLARE
-      "total_v" INT4;
     BEGIN
-      "total_v" := "positive_votes_p" + "negative_votes_p";
-      IF "total_v" > 0 THEN
-        RETURN "positive_votes_p"::FLOAT8 / "total_v"::FLOAT8;
+      IF "positive_votes_p" > 0 AND "negative_votes_p" > 0 THEN
+        RETURN
+          "positive_votes_p"::FLOAT8 /
+          ("positive_votes_p" + "negative_votes_p")::FLOAT8;
+      ELSIF "positive_votes_p" > 0 THEN
+        RETURN "positive_votes_p";
+      ELSIF "negative_votes_p" > 0 THEN
+        RETURN 1 - "negative_votes_p";
       ELSE
         RETURN 0.5;
       END IF;
@@ -1866,7 +1869,7 @@ CREATE FUNCTION "vote_ratio"
 COMMENT ON FUNCTION "vote_ratio"
   ( "initiative"."positive_votes"%TYPE,
     "initiative"."negative_votes"%TYPE )
-  IS 'Ratio of positive votes to sum of positive and negative votes; 0.5, if there are neither positive nor negative votes';
+  IS 'Returns a number, which can be used for comparison of initiatives based on count of approvals and disapprovals. Greater numbers indicate a better result. This function is NOT injective.';
 
 
 
@@ -2729,8 +2732,26 @@ COMMENT ON FUNCTION "close_voting"
   IS 'Closes the voting on an issue, and calculates positive and negative votes for each initiative; The ranking is not calculated yet, to keep the (locking) transaction short.';
 
 
-CREATE FUNCTION "init_array"("dim_p" INTEGER)
-  RETURNS INT4[]
+CREATE FUNCTION "defeat_strength"
+  ( "positive_votes_p" INT4, "negative_votes_p" INT4 )
+  RETURNS INT8
+  LANGUAGE 'plpgsql' IMMUTABLE AS $$
+    BEGIN
+      IF "positive_votes_p" > "negative_votes_p" THEN
+        RETURN ("positive_votes_p"::INT8 << 31) - "negative_votes_p"::INT8;
+      ELSIF "positive_votes_p" = "negative_votes_p" THEN
+        RETURN 0;
+      ELSE
+        RETURN -1;
+      END IF;
+    END;
+  $$;
+
+COMMENT ON FUNCTION "defeat_strength"(INT4, INT4) IS 'Calculates defeat strength (INT8!) of a pairwise defeat primarily by the absolute number of votes for the winner and secondarily by the absolute number of votes for the loser';
+
+
+CREATE FUNCTION "array_init_string"("dim_p" INTEGER)
+  RETURNS TEXT
   LANGUAGE 'plpgsql' IMMUTABLE AS $$
     DECLARE
       "i"          INTEGER;
@@ -2745,18 +2766,18 @@ CREATE FUNCTION "init_array"("dim_p" INTEGER)
           "ary_text_v" := "ary_text_v" || ',NULL';
         END LOOP;
         "ary_text_v" := "ary_text_v" || '}';
-        RETURN "ary_text_v"::INT4[][];
+        RETURN "ary_text_v";
       ELSE
         RAISE EXCEPTION 'Dimension needs to be at least 1.';
       END IF;
     END;
   $$;
 
-COMMENT ON FUNCTION "init_array"(INTEGER) IS 'Needed for PostgreSQL < 8.4, due to missing "array_fill" function';
+COMMENT ON FUNCTION "array_init_string"(INTEGER) IS 'Needed for PostgreSQL < 8.4, due to missing "array_fill" function';
 
 
-CREATE FUNCTION "init_square_matrix"("dim_p" INTEGER)
-  RETURNS INT4[][]
+CREATE FUNCTION "square_matrix_init_string"("dim_p" INTEGER)
+  RETURNS TEXT
   LANGUAGE 'plpgsql' IMMUTABLE AS $$
     DECLARE
       "i"          INTEGER;
@@ -2780,14 +2801,14 @@ CREATE FUNCTION "init_square_matrix"("dim_p" INTEGER)
           "ary_text_v" := "ary_text_v" || ',' || "row_text_v";
         END LOOP;
         "ary_text_v" := "ary_text_v" || '}';
-        RETURN "ary_text_v"::INT4[][];
+        RETURN "ary_text_v";
       ELSE
         RAISE EXCEPTION 'Dimension needs to be at least 1.';
       END IF;
     END;
   $$;
 
-COMMENT ON FUNCTION "init_square_matrix"(INTEGER) IS 'Needed for PostgreSQL < 8.4, due to missing "array_fill" function';
+COMMENT ON FUNCTION "square_matrix_init_string"(INTEGER) IS 'Needed for PostgreSQL < 8.4, due to missing "array_fill" function';
 
 
 CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
@@ -2795,7 +2816,8 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
   LANGUAGE 'plpgsql' VOLATILE AS $$
     DECLARE
       "dimension_v"     INTEGER;
-      "matrix"          INT4[][];
+      "vote_matrix"     INT4[][];  -- absolute votes
+      "matrix"          INT8[][];  -- defeat strength / best paths
       "i"               INTEGER;
       "j"               INTEGER;
       "k"               INTEGER;
@@ -2807,22 +2829,22 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
       "initiative_id_v" "initiative"."id"%TYPE;
     BEGIN
       PERFORM NULL FROM "issue" WHERE "id" = "issue_id_p" FOR UPDATE;
-      -- Prepare matrix for Schulze-Method:
       SELECT count(1) INTO "dimension_v" FROM "initiative"
         WHERE "issue_id" = "issue_id_p" AND "agreed";
       IF "dimension_v" = 1 THEN
         UPDATE "initiative" SET "rank" = 1
           WHERE "issue_id" = "issue_id_p" AND "agreed";
       ELSIF "dimension_v" > 1 THEN
-        "matrix" := "init_square_matrix"("dimension_v");  -- TODO: replace by "array_fill" function (PostgreSQL 8.4)
+        -- Create "vote_matrix" with absolute number of votes in pairwise
+        -- comparison:
+        "vote_matrix" := "square_matrix_init_string"("dimension_v");  -- TODO: replace by "array_fill" function (PostgreSQL 8.4)
         "i" := 1;
         "j" := 2;
-        -- Fill matrix with data from "battle" view
         FOR "battle_row" IN
           SELECT * FROM "battle" WHERE "issue_id" = "issue_id_p"
           ORDER BY "winning_initiative_id", "losing_initiative_id"
         LOOP
-          "matrix"["i"]["j"] := "battle_row"."count";
+          "vote_matrix"["i"]["j"] := "battle_row"."count";
           IF "j" = "dimension_v" THEN
             "i" := "i" + 1;
             "j" := 1;
@@ -2836,25 +2858,23 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
         IF "i" != "dimension_v" OR "j" != "dimension_v" + 1 THEN
           RAISE EXCEPTION 'Wrong battle count (should not happen)';
         END IF;
-        -- Delete losers from matrix:
+        -- Store defeat strengths in "matrix" using "defeat_strength"
+        -- function:
+        "matrix" := "square_matrix_init_string"("dimension_v");  -- TODO: replace by "array_fill" function (PostgreSQL 8.4)
         "i" := 1;
         LOOP
-          "j" := "i" + 1;
+          "j" := 1;
           LOOP
             IF "i" != "j" THEN
-              IF "matrix"["i"]["j"] < "matrix"["j"]["i"] THEN
-                "matrix"["i"]["j"] := 0;
-              ELSIF matrix[j][i] < matrix[i][j] THEN
-                "matrix"["j"]["i"] := 0;
-              ELSE
-                "matrix"["i"]["j"] := 0;
-                "matrix"["j"]["i"] := 0;
-              END IF;
+              "matrix"["i"]["j"] := "defeat_strength"(
+                "vote_matrix"["i"]["j"],
+                "vote_matrix"["j"]["i"]
+              );
             END IF;
             EXIT WHEN "j" = "dimension_v";
             "j" := "j" + 1;
           END LOOP;
-          EXIT WHEN "i" = "dimension_v" - 1;
+          EXIT WHEN "i" = "dimension_v";
           "i" := "i" + 1;
         END LOOP;
         -- Find best paths:
@@ -2887,7 +2907,7 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           "i" := "i" + 1;
         END LOOP;
         -- Determine order of winners:
-        "rank_ary" := "init_array"("dimension_v");  -- TODO: replace by "array_fill" function (PostgreSQL 8.4)
+        "rank_ary" := "array_init_string"("dimension_v");  -- TODO: replace by "array_fill" function (PostgreSQL 8.4)
         "rank_v" := 1;
         "done_v" := 0;
         LOOP
