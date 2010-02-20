@@ -39,7 +39,7 @@ ui.form{
     ui.field.text{ label = _"Profession", name = "profession" }
     ui.field.text{ label = _"External memberships", name = "external_memberships", multiline = true }
     ui.field.text{ label = _"External posts", name = "external_posts", multiline = true }
-    ui.field.text{ label = _"Statement", name = "statement", multiline = true }
+    ui.field.text{ label = _"Statement", name = "statement", multiline = true, attr = { style = "height: 10em;" } }
     ui.submit{ value = _"Save" }
   end
 }

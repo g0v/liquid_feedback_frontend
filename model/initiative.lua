@@ -16,7 +16,7 @@ Initiative:add_reference{
   that_key      = 'initiative_id',
   ref           = 'drafts',
   back_ref      = 'initiative',
-  default_order = '"id"'
+  default_order = '"id" DESC'
 }
 
 Initiative:add_reference{
@@ -129,8 +129,11 @@ function Initiative:get_search_selector(search_string)
     :add_group_by('"initiative"."negative_votes"')
     :add_group_by('"initiative"."agreed"')
     :add_group_by('"initiative"."rank"')
+    :add_group_by('"initiative"."suggested_initiative_id"')
     :add_group_by('"initiative"."text_search_data"')
     :add_group_by('"issue"."population"')
+    :add_group_by("_initiator.member_id")
+    :add_group_by("_supporter.member_id")
 end
 
 function Member:get_search_selector(search_string)

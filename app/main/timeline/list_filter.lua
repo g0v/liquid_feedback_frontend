@@ -2,10 +2,8 @@ slot.put_into("title", _"Manage timeline filters")
 
 slot.select("actions", function()
   ui.link{
-    content = function()
-        ui.image{ static = "icons/16/cancel.png" }
-        slot.put(_"Back to timeline")
-    end,
+    image  = { static = "icons/16/cancel.png" },
+    text   = _"Back to timeline",
     module = "timeline",
     action = "update"
   }
@@ -22,10 +20,8 @@ ui.list{
     {
       content = function(timeline_filter)
         ui.link{
-          attr = { class = "action" },
-          content = function()
-              slot.put(_"Delete filter")
-          end,
+          attr   = { class = "action" },
+          text   = _"Delete filter",
           module = "timeline",
           action = "delete_filter",
           params = { 

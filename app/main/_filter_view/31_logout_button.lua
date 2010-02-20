@@ -5,10 +5,8 @@ end
 
 slot.select('logout_button', function()
   ui.link{
-    content = function()
-      ui.image{ static = "icons/16/stop.png" }
-      slot.put(_'Logout')
-    end,
+    image  = { static = "icons/16/stop.png" },
+    text   = _"Logout",
     module = 'index',
     action = 'logout'
   }

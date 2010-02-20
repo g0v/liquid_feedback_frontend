@@ -17,53 +17,25 @@ if initiator and member.accepted ~= true then
   container_class = container_class .. " not_accepted"
 end
 
+if member.is_informed == false then
+  container_class = container_class .. " not_informed"
+end
+
 ui.container{
   attr = { class = container_class },
   content = function()
     ui.container{
       attr = { class = "flags" },
       content = function()
-        local weight = 0
-        if member.weight then
-          weight = member.weight
-        end
-        if member.voter_weight then
-          weight = member.voter_weight
-        end
-        if (issue or initiative) and weight > 1 then
-          local module
-          if issue then
-            module = "interest"
-          elseif initiative then
-            if member.voter_weight then
-               module = "vote"
-            else
-              module = "supporter"
-            end
-          end
-          ui.link{
-            attr = { title = _"Number of incoming delegations, follow link to see more details" },
-            content = _("+ #{weight}", { weight = weight - 1 }),
-            module = module,
-            view = "show_incoming",
-            params = { 
-              member_id = member.id, 
-              initiative_id = initiative and initiative.id or nil,
-              issue_id = issue and issue.id or nil
-            }
-          }
-        else
-          slot.put("&nbsp;")
-        end
-        if initiator and initiator.accepted then
-          if member.accepted == nil then
-            slot.put(_"Invited")
-          elseif member.accepted == false then
-            slot.put(_"Rejected")
-          end
-        end
+
         if member.grade then
-          ui.container{
+          ui.link{
+            module = "vote",
+            view = "list",
+            params = {
+              issue_id = initiative.issue.id,
+              member_id = member.id,
+            },
             content = function()
               if member.grade > 0 then
                 ui.image{
@@ -93,6 +65,54 @@ ui.container{
             end
           }
         end
+
+        local weight = 0
+        if member.weight then
+          weight = member.weight
+        end
+        if member.voter_weight then
+          weight = member.voter_weight
+        end
+        if (issue or initiative) and weight > 1 then
+          local module
+          if issue then
+            module = "interest"
+          elseif initiative then
+            if member.voter_weight then
+               module = "vote"
+            else
+              module = "supporter"
+            end
+          end
+          ui.link{
+            attr = { title = _"Number of incoming delegations, follow link to see more details" },
+            content = _("+ #{weight}", { weight = weight - 1 }),
+            module = module,
+            view = "show_incoming",
+            params = { 
+              member_id = member.id, 
+              initiative_id = initiative and initiative.id or nil,
+              issue_id = issue and issue.id or nil
+            }
+          }
+        end
+
+        if initiator and initiator.accepted then
+          if member.accepted == nil then
+            slot.put(_"Invited")
+          elseif member.accepted == false then
+            slot.put(_"Rejected")
+          end
+        end
+
+        if member.is_informed == false then
+          local text = _"Member has not approved latest draft"
+          ui.image{
+            attr = { alt = text, title = text },
+            static = "icons/16/help_yellow.png"
+          }
+        end
+
         if member.admin then
           ui.image{
             attr = { 
@@ -102,6 +122,7 @@ ui.container{
             static = "icons/16/cog.png"
           }
         end
+
         -- TODO performance
         local contact = Contact:by_pk(app.session.member.id, member.id)
         if contact then

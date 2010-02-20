@@ -13,36 +13,54 @@ areas_selector
   :add_field({ "(SELECT COUNT(*) FROM issue LEFT JOIN direct_voter ON direct_voter.issue_id = issue.id AND direct_voter.member_id = ? WHERE issue.area_id = area.id AND issue.fully_frozen NOTNULL AND issue.closed ISNULL AND direct_voter.member_id ISNULL)", app.session.member.id }, "issues_to_vote_count")
   :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.fully_frozen NOTNULL AND issue.closed NOTNULL)", "issues_finished_count")
   :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.fully_frozen ISNULL AND issue.closed NOTNULL)", "issues_cancelled_count")
+  :left_join("membership", "_membership", { "_membership.area_id = area.id AND _membership.member_id = ?", app.session.member.id })
+  :add_field("_membership.member_id NOTNULL", "is_member", { "grouped" })
 
-ui.order{
-  name = name,
+local label_attr = { style = "text-align: right; width: 4em;" }
+local field_attr = { style = "text-align: right; width: 4em;" }
+
+ui.filters{
+  label = _"Change order",
   selector = areas_selector,
-  options = {
+  {
+    label = _"Order by",
     {
       name = "member_weight",
       label = _"Population",
-      order_by = "area.member_weight DESC"
+      selector_modifier = function(selector) selector:add_order_by("area.member_weight DESC") end
     },
     {
       name = "direct_member_count",
       label = _"Direct member count",
-      order_by = "area.direct_member_count DESC"
+      selector_modifier = function(selector) selector:add_order_by("area.direct_member_count DESC") end
     },
     {
       name = "az",
       label = _"A-Z",
-      order_by = "area.name"
+      selector_modifier = function(selector) selector:add_order_by("area.name") end
     },
     {
       name = "za",
       label = _"Z-A",
-      order_by = "area.name DESC"
+      selector_modifier = function(selector) selector:add_order_by("area.name DESC") end
     }
   },
   content = function()
     ui.list{
+      attr = { class = "area_list" },
       records = areas_selector:exec(),
       columns = {
+        {
+          content = function(record)
+            if record.is_member then
+              local text = _"Member of area"
+              ui.image{
+                attr = { title = text, alt = text, style = "vertical-align: middle;" },
+                static = "icons/16/user_gray.png",
+              }
+            end
+          end
+        },
         {
           content = function(record)
             if record.member_weight and record.direct_member_count then
@@ -70,95 +88,141 @@ ui.order{
           end
         },
         {
-          label = _"New",
-          field_attr = { style = "text-align: right;" },
+          label = function()
+            local title = _"New"
+            ui.image{
+              attr = { title = title, alt = title },
+              static = "icons/16/new.png"
+            }
+          end,
+          field_attr = field_attr,
+          label_attr = label_attr,
           content = function(record)
             ui.link{
               text = tostring(record.issues_new_count),
               module = "area",
               view = "show",
               id = record.id,
-              params = { filter = "new" }
+              params = { filter = "new", tab = "issues" }
             }
           end
         },
         {
-          label = _"Discussion",
-          field_attr = { style = "text-align: right;" },
+          label = function()
+            local title = _"Discussion"
+            ui.image{
+              attr = { title = title, alt = title },
+              static = "icons/16/comments.png"
+            }
+          end,
+          field_attr = field_attr,
+          label_attr = label_attr,
           content = function(record)
             ui.link{
               text = tostring(record.issues_discussion_count),
               module = "area",
               view = "show",
               id = record.id,
-              params = { filter = "accepted" }
+              params = { filter = "accepted", tab = "issues" }
             }
           end
         },
         {
-          label = _"Frozen",
-          field_attr = { style = "text-align: right;" },
+          label = function()
+            local title = _"Frozen"
+            ui.image{
+              attr = { title = title, alt = title },
+              static = "icons/16/lock.png"
+            }
+          end,
+          field_attr = field_attr,
+          label_attr = label_attr,
           content = function(record)
             ui.link{
               text = tostring(record.issues_frozen_count),
               module = "area",
               view = "show",
               id = record.id,
-              params = { filter = "half_frozen" }
+              params = { filter = "half_frozen", tab = "issues" }
             }
           end
         },
         {
-          label = _"Voting",
-          field_attr = { style = "text-align: right;" },
+          label = function()
+            local title = _"Voting"
+            ui.image{
+              attr = { title = title, alt = title },
+              static = "icons/16/email_open.png"
+            }
+          end,
+          field_attr = field_attr,
+          label_attr = label_attr,
           content = function(record)
             ui.link{
               text = tostring(record.issues_voting_count),
               module = "area",
               view = "show",
               id = record.id,
-              params = { filter = "frozen" }
+              params = { filter = "frozen", tab = "issues" }
             }
           end
         },
         {
-          label = _"Not yet voted",
-          field_attr = { style = "text-align: right;" },
-          content = function(record)
-            ui.link{
-              attr = { class = record.issues_to_vote_count > 0 and "not_voted" or nil },
-              text = tostring(record.issues_to_vote_count),
-              module = "area",
-              view = "show",
-              id = record.id,
-              params = { filter = "frozen", filter_voting = "not_voted" }
+          label = function()
+            local title = _"Finished"
+            ui.image{
+              attr = { title = title, alt = title },
+              static = "icons/16/tick.png"
             }
-          end
-        },
-        {
-          label = _"Finished",
-          field_attr = { style = "text-align: right;" },
+          end,
+          field_attr = field_attr,
+          label_attr = label_attr,
           content = function(record)
             ui.link{
               text = tostring(record.issues_finished_count),
               module = "area",
               view = "show",
               id = record.id,
-              params = { filter = "finished", issue_list = "newest" }
+              params = { filter = "finished", issue_list = "newest", tab = "issues" }
             }
           end
         },
         {
-          label = _"Cancelled",
-          field_attr = { style = "text-align: right;" },
+          label = function()
+            local title = _"Cancelled"
+            ui.image{
+              attr = { title = title, alt = title },
+              static = "icons/16/cross.png"
+            }
+          end,
+          field_attr = field_attr,
+          label_attr = label_attr,
           content = function(record)
             ui.link{
               text = tostring(record.issues_cancelled_count),
               module = "area",
               view = "show",
               id = record.id,
-              params = { filter = "cancelled", issue_list = "newest" }
+              params = { filter = "cancelled", issue_list = "newest", tab = "issues" }
             }
+          end
+        },
+        {
+          content = function(record)
+            if record.issues_to_vote_count > 0 then
+              ui.link{
+                attr = { class = "not_voted" },
+                text = _"Not yet voted" .. ": " .. tostring(record.issues_to_vote_count),
+                module = "area",
+                view = "show",
+                id = record.id,
+                params = {
+                  filter = "frozen",
+                  filter_voting = "not_voted",
+                  tab = "issues"
+                }
+              }
+            end
           end
         },
       }
@@ -174,4 +238,62 @@ ui.bargraph_legend{
     { color = "#ddd", label = _"No membership at all" },
   }
 }
+
+slot.put("<br /> &nbsp; ")
+
+
+ui.image{
+  attr = { title = title, alt = title },
+  static = "icons/16/user_gray.png"
+}
+slot.put(" ")
+slot.put(_"Member of area")
+slot.put(" &nbsp; ")
+
+ui.image{
+  attr = { title = title, alt = title },
+  static = "icons/16/new.png"
+}
+slot.put(" ")
+slot.put(_"New")
+slot.put(" &nbsp; ")
+
+ui.image{
+  attr = { title = title, alt = title },
+  static = "icons/16/comments.png"
+}
+slot.put(" ")
+slot.put(_"Discussion")
+slot.put(" &nbsp; ")
+
+ui.image{
+  attr = { title = title, alt = title },
+  static = "icons/16/lock.png"
+}
+slot.put(" ")
+slot.put(_"Frozen")
+slot.put(" &nbsp; ")
+
+ui.image{
+  attr = { title = title, alt = title },
+  static = "icons/16/email_open.png"
+}
+slot.put(" ")
+slot.put(_"Voting")
+slot.put(" &nbsp; ")
+
+ui.image{
+  attr = { title = title, alt = title },
+  static = "icons/16/tick.png"
+}
+slot.put(" ")
+slot.put(_"Finished")
+slot.put(" &nbsp; ")
+
+ui.image{
+  attr = { title = title, alt = title },
+  static = "icons/16/cross.png"
+}
+slot.put(" ")
+slot.put(_"Cancelled")
 

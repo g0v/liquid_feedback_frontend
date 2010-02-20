@@ -37,13 +37,10 @@ slot.select("actions", function()
     if options_string == current_options then
       active = true
     end
-    timeline_params.date = param.get("date")
     ui.link{
-      attr = { class = active and "action_active" or nil },
-      content = function()
-        ui.image{ static = "icons/16/time.png" }
-        slot.put(encode.html(name))
-      end,
+      image  = { static = "icons/16/time.png" },
+      attr   = { class = active and "action_active" or nil },
+      text   = name,
       module = 'timeline',
       action = 'update',
       params = {
@@ -81,68 +78,100 @@ ui.form{
   action = "update",
   content = function()
 
+    ui.container{
 
-    ui.tag{
-      tag = "label",
-      attr = { style = "font-size: 130%;" },
-      content = _"Date" .. ":"
-    }
-    slot.put(" ")
-    local date = param.get("date")
-    if not date or #date == 0 then
-      date = tostring(db:query("select now()::date as date")[1].date)
-    end
-    ui.tag{
-      tag = "input",
-      attr = {
-        type = "text",
-        id = "timeline_search_date",
-        style = "width: 10em;",
-        onchange = "this.form.submit();",
-        name = "date",
-        value = date
-      },
-      content = function() end
-    }
-
-    ui.script{ static = "gregor.js/gregor.js" }
-    util.gregor("timeline_search_date", "document.getElementById('timeline_search_date').form.submit();")
-
-
-    ui.link{
-      attr = { style = "margin-left: 1em; font-size: 130%; font-weight: bold;", onclick = "document.getElementById('timeline_search_date').form.submit();return(false);" },
       content = function()
-        ui.image{
-          attr = { style = "margin-right: 0.25em;" },
-          static = "icons/16/magnifier.png"
-        }
-        slot.put(_"Search")
-      end,
-      external = "#",
-    }
-    local show_options = param.get("show_options", atom.boolean)
-    ui.link{
-      attr = { style = "margin-left: 1em; font-size: 130%;", onclick = "el=document.getElementById('timeline_show_options');el.checked=" .. tostring(not show_options) .. ";el.form.submit();return(false);" },
-      content = function()
-        ui.image{
-          attr = { style = "margin-right: 0.25em;" },
-          static = "icons/16/text_list_bullets.png"
-        }
-        slot.put(not show_options and _"Show filter details" or _"Hide filter details")
-      end,
-      external = "#",
-    }
 
-    ui.field.boolean{
-      attr = { id = "timeline_show_options", style = "display: none;", onchange="this.form.submit();" },
-      name = "show_options",
-      value = param.get("show_options", atom.boolean)
-    }
+        ui.tag{
+          tag = "input",
+          attr = {
+            type = "radio",
+            id = "timeline_search_last_24h",
+            name = "search_from",
+            value = "last_24h",
+            checked = param.get("date") == "last_24h" and "checked" or nil
+          },
+        }
 
-    ui.field.boolean{
-      attr = { id = "timeline_save", style = "display: none;", onchange="this.form.submit();" },
-      name = "save",
-      value = false
+        ui.tag{
+          tag = "label",
+          attr = {
+            ["for"] = "timeline_search_last_24h" 
+          },
+          content = " " .. _"last 24 hours" .. " "
+        }
+
+        ui.tag{
+          tag = "input",
+          attr = {
+            type = "radio",
+            id = "timeline_search_from_date",
+            name = "search_from",
+            value = "date",
+            checked = not (param.get("date") == "last_24h") and "checked" or nil
+          },
+        }
+
+        slot.put(" ")
+        local current_date = param.get("date")
+        if not current_date or #current_date == 0 or current_date == "last_24h" then
+          current_date = tostring(db:query("select now()::date as date")[1].date)
+        end
+        ui.tag{
+          tag = "input",
+          attr = {
+            type = "text",
+            id = "timeline_search_date",
+            style = "width: 10em;",
+            onchange = "this.form.submit();",
+            onclick = "document.getElementById('timeline_search_from_date').checked = true;",
+            name = "date",
+            value = current_date
+          },
+          content = function() end
+        }
+    
+        ui.script{ static = "gregor.js/gregor.js" }
+        util.gregor("timeline_search_date", "document.getElementById('timeline_search_date').form.submit();")
+    
+    
+        ui.link{
+          attr = { style = "margin-left: 1em; font-weight: bold;", onclick = "document.getElementById('timeline_search_date').form.submit();return(false);" },
+          content = function()
+            ui.image{
+              attr = { style = "margin-right: 0.25em;" },
+              static = "icons/16/magnifier.png"
+            }
+            slot.put(_"Search")
+          end,
+          external = "#",
+        }
+        local show_options = param.get("show_options", atom.boolean)
+        ui.link{
+          attr = { style = "margin-left: 1em;", onclick = "el=document.getElementById('timeline_show_options');el.checked=" .. tostring(not show_options) .. ";el.form.submit();return(false);" },
+          content = function()
+            ui.image{
+              attr = { style = "margin-right: 0.25em;" },
+              static = "icons/16/text_list_bullets.png"
+            }
+            slot.put(not show_options and _"Show filter details" or _"Hide filter details")
+          end,
+          external = "#",
+        }
+
+        ui.field.boolean{
+          attr = { id = "timeline_show_options", style = "display: none;", onchange="this.form.submit();" },
+          name = "show_options",
+          value = param.get("show_options", atom.boolean)
+        }
+
+        ui.field.boolean{
+          attr = { id = "timeline_save", style = "display: none;", onchange="this.form.submit();" },
+          name = "save",
+          value = false
+        }
+
+      end
     }
 
     ui.container{
@@ -219,8 +248,6 @@ ui.form{
           }
         }
 
-        slot.put("<br />")
-
         slot.put("<table>")
 
         for i_event_group, event_group in ipairs(event_groups) do
@@ -255,6 +282,7 @@ ui.form{
 }
 
 local date = param.get("date")
+
 if not date or #date == 0 then
   date = "today"
 end
@@ -266,24 +294,50 @@ for event, event_name in pairs(event_names) do
   if param.get("option_" .. event, atom.boolean) then
 
     local tmp = Timeline:new_selector()
-      :add_where{ "occurrence::date = ?", date }
+      if event == "draft_created" then
+        tmp
+          :reset_fields()
+          :add_field("max(timeline.occurrence)", "occurrence")
+          :add_field("timeline.event", nil,  { "grouped" })
+          :add_field("timeline.issue_id", nil, { "grouped" })
+          :add_field("timeline.initiative_id", nil, { "grouped" })
+          :add_field("max(timeline.draft_id)", "draft_id")
+          :add_field("timeline.suggestion_id", nil, { "grouped" })
+          :add_field("COUNT(*)", "count")
+      else
+        tmp
+          :add_field("1", "count")
+      end
 
-      :left_join("draft", nil, "draft.id = timeline.draft_id")
-      :left_join("suggestion", nil, "suggestion.id = timeline.suggestion_id")
-      :left_join("initiative", nil, "initiative.id = timeline.initiative_id or initiative.id = draft.initiative_id or initiative.id = suggestion.initiative_id")
-      :left_join("issue", nil, "issue.id = timeline.issue_id or issue.id = initiative.issue_id")
-      :left_join("area", nil, "area.id = issue.area_id")
+      if date == "last_24h" then
+        tmp:add_where{ "occurrence > now() - '24 hours'::interval" }
+      else
+        tmp:add_where{ "occurrence::date = ?::date", date }
+      end
+      tmp
+        :left_join("draft", nil, "draft.id = timeline.draft_id")
+        :left_join("suggestion", nil, "suggestion.id = timeline.suggestion_id")
+        :left_join("initiative", nil, "initiative.id = timeline.initiative_id or initiative.id = draft.initiative_id or initiative.id = suggestion.initiative_id")
+        :left_join("issue", nil, "issue.id = timeline.issue_id or issue.id = initiative.issue_id")
+        :left_join("area", nil, "area.id = issue.area_id")
 
-      :left_join("interest", "_interest", { "_interest.issue_id = issue.id AND _interest.member_id = ?", app.session.member.id} )
-      :left_join("membership", "_membership", { "_membership.area_id = area.id AND _membership.member_id = ?", app.session.member.id} )
-      :left_join("initiator", "_initiator", { "_initiator.initiative_id = initiative.id AND _initiator.member_id = ?", app.session.member.id} )
-      :left_join("supporter", "_supporter", { "_supporter.initiative_id = initiative.id AND _supporter.member_id = ?", app.session.member.id} )
+        :left_join("interest", "_interest", { "_interest.issue_id = issue.id AND _interest.member_id = ?", app.session.member.id} )
+        :left_join("initiator", "_initiator", { "_initiator.initiative_id = initiative.id AND _initiator.member_id = ?", app.session.member.id} )
+        :left_join("membership", "_membership", { "_membership.area_id = area.id AND _membership.member_id = ?", app.session.member.id} )
+        :left_join("supporter", "_supporter", { "_supporter.initiative_id = initiative.id AND _supporter.member_id = ?", app.session.member.id} )
 
-      :add_field("(_interest.member_id NOTNULL)", "is_interested")
-      :add_field("(_initiator.member_id NOTNULL)", "is_initiator")
-      :add_field({"(_supporter.member_id NOTNULL) AND NOT EXISTS(SELECT NULL FROM opinion WHERE opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)) LIMIT 1)", app.session.member.id }, "is_supporter")
-      :add_field({"EXISTS(SELECT NULL FROM opinion WHERE opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)) LIMIT 1)", app.session.member.id }, "is_potential_supporter")
-  --    :left_join("member", nil, "member.id = timeline.member_id")
+      local group
+      if event == "draft_created" then
+        group = { "grouped" }
+      end
+
+      tmp
+        :add_field("(_interest.member_id NOTNULL)", "is_interested", group)
+        :add_field("(_initiator.member_id NOTNULL)", "is_initiator", group)
+        :add_field({"(_supporter.member_id NOTNULL) AND NOT EXISTS(SELECT NULL FROM opinion WHERE opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)) LIMIT 1)", app.session.member.id }, "is_supporter", group)
+        :add_field({"EXISTS(SELECT NULL FROM opinion WHERE opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)) LIMIT 1)", app.session.member.id }, "is_potential_supporter", group)
+  --    :left_join("member", nil, "member.id = timeline.member_id", group)
+
 
     tmp:add_where{ "event = ?", event }
 
@@ -310,7 +364,7 @@ for event, event_name in pairs(event_names) do
 
     if #filters > 0 then
       local filter_string = "(" .. table.concat(filters, ") OR (") .. ")"
-      tmp:add_where{ filter_string, app.session.member.id }
+      tmp:add_where{ filter_string, app.session.member.id, app.session.member.id }
     end
   
     if not timeline_selector then
@@ -327,10 +381,11 @@ if timeline_selector then
   
   local outer_timeline_selector = db:new_selector()
   outer_timeline_selector._class = Timeline
-  outer_timeline_selector:add_field{ "timeline.*" }
-  outer_timeline_selector:from({"($)", { timeline_selector }}, "timeline" )
-  outer_timeline_selector:add_order_by("occurrence DESC")
-  
+  outer_timeline_selector
+    :add_field{ "timeline.*" }
+    :from({"($)", { timeline_selector }}, "timeline" )
+    :add_order_by("occurrence DESC")
+
   slot.put("<br />")
   execute.view{
     module = "timeline",

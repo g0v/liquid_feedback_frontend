@@ -21,10 +21,17 @@ ui.paginate{
               attr = { style = "font-size: 75%; font-weight: bold; background-color: #ccc; display: block; margin-bottom: 1ex;"},
               value = format.time(timeline.occurrence)
             }
+
             ui.field.text{
               attr = { style = "font-size: 75%; font-weight: bold;"},
               value = event_names[timeline.event] or timeline.event
             }
+            if timeline.event == "draft_created" and timeline.count > 1 then
+              ui.field.text{
+                attr = { style = "font-size: 75%;"},
+                value = _("(#{more_count} duplicates removed)", { more_count = timeline.count - 1 })
+              }
+            end
           end
         },
         {

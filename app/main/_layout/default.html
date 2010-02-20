@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" media="screen" href="__BASEURL__/static/gregor.js/gregor.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="<!-- WEBMCP SLOTNODIV stylesheet_url -->" />
     <!-- WEBMCP SLOTNODIV html_head -->
+    <script type="text/javascript" src="__BASEURL__/static/js/partialload.js"></script>
+    <script type="text/javascript">var ui_tabs_active = {};</script>
   </head>
   <body>
     <div class="topbar">
@@ -67,7 +69,9 @@
     <div class="layout_trace" id="layout_trace" style="xdisplay: none">
       <div id="trace_show" onclick="document.getElementById('trace_content').style.display='block';this.style.display='none';">TRACE</div>
         <div id="trace_content" style="display: none;">
-          <!-- WEBMCP SLOT trace -->
+            <tt id="system_error"><!-- WEBMCP SLOT system_error --></tt>
+            <div id="trace">&nbsp;</div><hr />
+            <!-- WEBMCP SLOT trace -->
           <div class="trace_close" onclick="document.getElementById('trace_show').style.display='block';document.getElementById('trace_content').style.display='none';">
             close
           </div>

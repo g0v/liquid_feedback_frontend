@@ -142,6 +142,7 @@ function Issue:get_search_selector(search_string)
     :add_group_by('"issue"."vote_now"')
     :add_group_by('"issue"."vote_later"')
     :add_group_by('"issue"."voter_count"')
+    :add_group_by('"_interest"."member_id"')
     --:set_distinct()
 end
 

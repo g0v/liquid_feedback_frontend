@@ -1,5 +1,18 @@
 slot.put_into("title", encode.html(_"About LiquidFeedback"))
 
+if app.session.member_id then
+  slot.select("actions", function()
+    ui.link{
+      module = "index",
+      view = "usage_terms",
+      content = function()
+        ui.image{ static = "icons/16/script.png" }
+        slot.put(_"Terms of use")
+      end
+    }
+  end)
+end
+
 
 slot.put("<br />")
 ui.field.text{ attr = { style = "font-weight: bold;" }, value = "Diensteanbieter:" }

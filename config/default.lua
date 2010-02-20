@@ -1,5 +1,5 @@
 config.app_name = "LiquidFeedback"
-config.app_version = "beta9"
+config.app_version = "beta10"
 
 config.app_title = config.app_name .. " (" .. request.get_config_name() .. " environment)"
 
@@ -27,6 +27,11 @@ config.download_dir = nil
 
 config.download_use_terms = "=== Nutzungsbedingungen ===\nAlles ist verboten"
 
+request.set_allowed_json_request_slots{ "title", "actions", "support", "default", "trace", "system_error" }
+
+if request.get_json_request_slots() then
+  request.force_absolute_baseurl()
+end
 
 request.set_404_route{ module = 'index', view = '404' }
 

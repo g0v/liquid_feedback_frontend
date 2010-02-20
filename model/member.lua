@@ -311,10 +311,26 @@ function Member.object:set_notify_email(notify_email)
   return success
 end
 
-function Member.object:get_setting_by_key(key)
+function Member.object:get_setting(key)
+  return Setting:by_pk(app.session.member.id, key)
+end
+
+function Member.object:get_setting_value(key)
+  local setting = Setting:by_pk(app.session.member.id, key)
+  if setting then
+    return setting.value
+  end
 end
 
 function Member.object:set_setting(key, value)
+  local setting = self:get_setting(key)
+  if not setting then
+    setting = Setting:new()
+    setting.member_id = app.session.member_id
+    setting.key = key
+  end
+  setting.value = value
+  setting:save()
 end
 
 function Member.object:get_setting_maps_by_key(key)

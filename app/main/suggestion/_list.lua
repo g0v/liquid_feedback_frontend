@@ -1,61 +1,66 @@
 
 local initiative = param.get("initiative", "table")
 local suggestions_selector = param.get("suggestions_selector", "table")
+local tab_id = param.get("tab_id")
+local show_name = param.get("show_name", atom.boolean)
+if show_name == nil then
+  show_name = true
+end
+local show_filter = param.get("show_filter", atom.boolean)
+if show_filter == nil then
+  show_filter = true
+end
 
-ui.order{
-  name = name,
+local partial = {
+  routing = {
+    default = {
+      mode = "redirect",
+      module = "initiative",
+      view = "show_tab",
+      params = {
+        initiative_id = initiative.id,
+        tab = "suggestions",
+        tab_id = tab_id
+      },
+    }
+  }
+}
+
+local ui_filters = ui.filters
+if not show_filter then
+  ui_filters = function(args) args.content() end
+end
+
+ui_filters{
+  label = _"Show filter",
   selector = suggestions_selector,
-  options = {
+  {
+    label = _"Order by",
     {
-      name = "all",
-      label = _"all",
-      order_by = "minus2_unfulfilled_count + minus1_unfulfilled_count + minus2_fulfilled_count + minus1_fulfilled_count + plus2_unfulfilled_count + plus1_unfulfilled_count + plus2_fulfilled_count + plus1_fulfilled_count DESC, id"
+      name = "plus_unfulfilled",
+      label = _"requested",
+      selector_modifier = function(selector) selector:add_order_by("plus2_unfulfilled_count + plus1_unfulfilled_count DESC, id") end
     },
     {
       name = "plus2",
       label = _"must",
-      order_by = "plus2_unfulfilled_count + plus2_fulfilled_count DESC, id"
+      selector_modifier = function(selector) selector:add_order_by("plus2_unfulfilled_count + plus2_fulfilled_count DESC, id") end
     },
     {
       name = "plus",
       label = _"must/should",
-      order_by = "plus2_unfulfilled_count + plus1_unfulfilled_count + plus2_fulfilled_count + plus1_fulfilled_count DESC, id"
+      selector_modifier = function(selector) selector:add_order_by("plus2_unfulfilled_count + plus1_unfulfilled_count + plus2_fulfilled_count + plus1_fulfilled_count DESC, id") end
     },
     {
       name = "minus",
       label = _"must/should not",
-      order_by = "minus2_unfulfilled_count + minus1_unfulfilled_count + minus2_fulfilled_count + minus1_fulfilled_count DESC, id"
+      selector_modifier = function(selector) selector:add_order_by("minus2_unfulfilled_count + minus1_unfulfilled_count + minus2_fulfilled_count + minus1_fulfilled_count DESC, id") end
     },
     {
       name = "minus2",
       label = _"must not",
-      order_by = "minus2_unfulfilled_count + minus2_fulfilled_count DESC, id"
-    },
-    {
-      name = "unfulfilled",
-      label = _"not implemented",
-      order_by = "minus2_unfulfilled_count + minus1_unfulfilled_count + plus2_unfulfilled_count + plus1_unfulfilled_count DESC, id"
-    },
-    {
-      name = "plus2_unfulfilled",
-      label = _"must",
-      order_by = "plus2_unfulfilled_count DESC, id"
-    },
-    {
-      name = "plus_unfulfilled",
-      label = _"must/should",
-      order_by = "plus2_unfulfilled_count + plus1_unfulfilled_count DESC, id"
-    },
-    {
-      name = "minus_unfulfilled",
-      label = _"must/should not",
-      order_by = "minus2_unfulfilled_count + minus1_unfulfilled_count DESC, id"
-    },
-    {
-      name = "minus2_unfulfilled",
-      label = _"must not",
-      order_by = "minus2_unfulfilled_count DESC, id"
-    },
+      selector_modifier = function(selector) selector:add_order_by("minus2_unfulfilled_count + minus2_fulfilled_count DESC, id") end
+    }
   },
   content = function()
     ui.paginate{
@@ -66,14 +71,16 @@ ui.order{
           records = suggestions_selector:exec(),
           columns = {
             {
-              label = _"Suggestion",
+              label = show_name and _"Suggestion" or nil,
               content = function(record)
-                ui.link{
-                  text = record.name,
-                  module = "suggestion",
-                  view = "show",
-                  id = record.id
-                }
+                if show_name then
+                  ui.link{
+                    text = record.name,
+                    module = "suggestion",
+                    view = "show",
+                    id = record.id
+                  }
+                end
               end
             },
             {
@@ -108,65 +115,98 @@ ui.order{
                 ui.container{
                   attr = { class = "suggestion_my_opinion" },
                   content = function()
-                    ui.link{
-                      attr = { class = "action" .. (degree == -2 and " active_red2" or "") },
-                      text = _"must not",
-                      module = "opinion",
-                      action = "update",
-                      routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                      params = {
-                        suggestion_id = record.id,
-                        degree = -2
+                    if initiative.issue.state == "voting" or initiative.issue.state == "closed" then
+                      ui.tag{
+                        tag = "span",
+                        attr = { class = "action" .. (degree == -2 and " active_red2" or "") },
+                        content = _"must not"
                       }
-                    }
-                    slot.put(" ")
-                    ui.link{
-                      attr = { class = "action" .. (degree == -1 and " active_red1" or "") },
-                      text = _"should not",
-                      module = "opinion",
-                      action = "update",
-                      routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                      params = {
-                        suggestion_id = record.id,
-                        degree = -1
+                      ui.tag{
+                        tag = "span",
+                        attr = { class = "action" .. (degree == -1 and " active_red1" or "") },
+                        content = _"should not"
                       }
-                    }
-                    slot.put(" ")
-                    ui.link{
-                      attr = { class = "action" .. (degree == nil and " active" or "") },
-                      text = _"neutral",
-                      module = "opinion",
-                      action = "update",
-                      routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                      params = {
-                        suggestion_id = record.id,
-                        delete = true
+                      ui.tag{
+                        tag = "span",
+                        attr = { class = "action" .. (degree == nil and " active" or "") },
+                        content = _"neutral"
                       }
-                    }
-                    slot.put(" ")
-                    ui.link{
-                      attr = { class = "action" .. (degree == 1 and " active_green1" or "") },
-                      text = _"should",
-                      module = "opinion",
-                      action = "update",
-                      routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                      params = {
-                        suggestion_id = record.id,
-                        degree = 1
+                      ui.tag{
+                        tag = "span",
+                        attr = { class = "action" .. (degree == 1 and " active_green1" or "") },
+                        content = _"should"
                       }
-                    }
-                    slot.put(" ")
-                    ui.link{
-                      attr = { class = "action" .. (degree == 2 and " active_green2" or "") },
-                      text = _"must",
-                      module = "opinion",
-                      action = "update",
-                      routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                      params = {
-                        suggestion_id = record.id,
-                        degree = 2
+                      ui.tag{
+                        tag = "span",
+                        attr = { class = "action" .. (degree == 2 and " active_green2" or "") },
+                        content = _"must"
                       }
-                    }
+                    else
+                      ui.link{
+                        attr = { class = "action" .. (degree == -2 and " active_red2" or "") },
+                        text = _"must not",
+                        module = "opinion",
+                        action = "update",
+                        routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                        params = {
+                          suggestion_id = record.id,
+                          degree = -2
+                        },
+                        partial = partial
+                      }
+                      slot.put(" ")
+                      ui.link{
+                        attr = { class = "action" .. (degree == -1 and " active_red1" or "") },
+                        text = _"should not",
+                        module = "opinion",
+                        action = "update",
+                        routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                        params = {
+                          suggestion_id = record.id,
+                          degree = -1
+                        },
+                        partial = partial
+                      }
+                      slot.put(" ")
+                      ui.link{
+                        attr = { class = "action" .. (degree == nil and " active" or "") },
+                        text = _"neutral",
+                        module = "opinion",
+                        action = "update",
+                        routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                        params = {
+                          suggestion_id = record.id,
+                          delete = true
+                        },
+                        partial = partial
+                      }
+                      slot.put(" ")
+                      ui.link{
+                        attr = { class = "action" .. (degree == 1 and " active_green1" or "") },
+                        text = _"should",
+                        module = "opinion",
+                        action = "update",
+                        routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                        params = {
+                          suggestion_id = record.id,
+                          degree = 1
+                        },
+                        partial = partial
+                      }
+                      slot.put(" ")
+                      ui.link{
+                        attr = { class = "action" .. (degree == 2 and " active_green2" or "") },
+                        text = _"must",
+                        module = "opinion",
+                        action = "update",
+                        routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                        params = {
+                          suggestion_id = record.id,
+                          degree = 2
+                        },
+                        partial = partial
+                      }
+                    end
                   end
                 }
               end
@@ -254,7 +294,8 @@ ui.order{
                       params = {
                         suggestion_id = record.id,
                         fulfilled = true
-                      }
+                      },
+                      partial = partial
                     }
                   else
                     if opinion.degree > 0 then
@@ -271,7 +312,8 @@ ui.order{
                       params = {
                         suggestion_id = record.id,
                         fulfilled = false
-                      }
+                      },
+                      partial = partial
                     }
                   end
                 end
@@ -295,7 +337,3 @@ ui.order{
     }
   end
 }
-
-if initiative then
-  ui.field.timestamp{ label = _"Last snapshot:", value = initiative.issue.snapshot }
-end

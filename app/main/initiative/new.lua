@@ -12,7 +12,7 @@ else
 end
 
 if issue_id then
-  slot.put_into("title", _"Add new initiative to issue")
+  slot.put_into("title", _"Add alternative initiative to issue")
 else
   slot.put_into("title", _"Create new issue")
 end

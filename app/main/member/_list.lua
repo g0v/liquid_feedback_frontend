@@ -4,41 +4,45 @@ local issue = param.get("issue", "table")
 local trustee = param.get("trustee", "table")
 local initiator = param.get("initiator", "table")
 
-local options = {
-  {
-    name = "newest",
-    label = _"Newest",
-    order_by = "created DESC, id DESC"
-  },
-  {
-    name = "oldest",
-    label = _"Oldest",
-    order_by = "created, id"
-  },
+ui.add_partial_param_names{ "member_list" }
+
+local filter = {
+  label = _"Order by",
+  name = "member_list",
   {
     name = "name",
     label = _"A-Z",
-    order_by = "name"
+    selector_modifier = function(selector) selector:add_order_by("name") end
   },
   {
     name = "name_desc",
     label = _"Z-A",
-    order_by = "name DESC"
+    selector_modifier = function(selector) selector:add_order_by("name DESC") end
+  },
+  {
+    name = "newest",
+    label = _"Newest",
+    selector_modifier = function(selector) selector:add_order_by("created DESC, id DESC") end
+  },
+  {
+    name = "oldest",
+    label = _"Oldest",
+    selector_modifier = function(selector) selector:add_order_by("created, id") end
   },
 }
 
 if initiative then
-  options[#options+1] = {
+  filter[#filter] = {
     name = "delegations",
     label = _"Delegations",
-    order_by = "weight DESC"
+    selector_modifier = function(selector) selector:add_order_by("weight DESC") end
   }
 end
 
-ui.order{
-  name = "member_list",
+ui.filters{
+  label = _"Change order",
   selector = members_selector,
-  options = options,
+  filter,
   content = function()
     ui.paginate{
       selector = members_selector,
@@ -118,12 +122,6 @@ ui.order{
               }
             end
 
---[[            ui.list{
-              records = members,
-              columns = columns
-            }
---]]
----[[
             for i, member in ipairs(members) do
               execute.view{
                 module = "member",
@@ -137,16 +135,10 @@ ui.order{
                 }
               }
             end
----]]
+
           end
         }
         slot.put('<br style="clear: left;" />')
-        if issue then
-          ui.field.timestamp{ label = _"Last snapshot:", value = issue.snapshot }
-        end
-        if initiative then
-          ui.field.timestamp{ label = _"Last snapshot:", value = initiative.issue.snapshot }
-        end
       end
     }
   end

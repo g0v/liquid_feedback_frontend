@@ -23,13 +23,11 @@ if member.id ~= app.session.member.id then
         content = _"You have saved this member as contact."
       }
       ui.link{
-        content = function()
-          ui.image{ static = "icons/16/book_delete.png" }
-          slot.put(encode.html(_"Remove from contacts"))
-        end,
+        image  = { static = "icons/16/book_delete.png" },
+        text   = _"Remove from contacts",
         module = "contact",
         action = "remove_member",
-        id = contact.other_member_id,
+        id     = contact.other_member_id,
         routing = {
           default = {
             mode = "redirect",
@@ -44,10 +42,8 @@ if member.id ~= app.session.member.id then
   else
     slot.select("actions", function()
       ui.link{
-        content = function()
-          ui.image{ static = "icons/16/book_add.png" }
-          slot.put(encode.html(_"Add to my contacts"))
-        end,
+        image   = { static = "icons/16/book_add.png" },
+        text    = _"Add to my contacts",
         module  = "contact",
         action  = "add_member",
         id      = member.id,

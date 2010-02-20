@@ -36,28 +36,28 @@ slot.select("interest", function()
           end
         }
         ui.link{
-          content = _"Remove my membership",
-          module = "membership",
-          action = "update",
-          params = { area_id = area.id, delete = true },
+          text    = _"Remove my membership",
+          module  = "membership",
+          action  = "update",
+          params  = { area_id = area.id, delete = true },
           routing = { default = { mode = "redirect", module = "area", view = "show", id = area.id } }
         }
         if membership.autoreject then
           ui.field.text{ value = _"Autoreject is on." }
           ui.link{
-            content = _"Remove autoreject",
-            module = "membership",
-            action = "update",
-            params = { area_id = area.id, autoreject = false },
+            text    = _"Remove autoreject",
+            module  = "membership",
+            action  = "update",
+            params  = { area_id = area.id, autoreject = false },
             routing = { default = { mode = "redirect", module = "area", view = "show", id = area.id } }
           }
         else
           ui.field.text{ value = _"Autoreject is off." }
           ui.link{
-            content = _"Set autoreject",
-            module = "membership",
-            action = "update",
-            params = { area_id = area.id, autoreject = true },
+            text    = _"Set autoreject",
+            module  = "membership",
+            action  = "update",
+            params  = { area_id = area.id, autoreject = true },
             routing = { default = { mode = "redirect", module = "area", view = "show", id = area.id } }
           }
         end
@@ -65,10 +65,8 @@ slot.select("interest", function()
     }
   else
     ui.link{
-    content = function()
-      ui.image{ static = "icons/16/user_add.png" }
-      slot.put(_"Become a member")
-    end,
+      image  = { static = "icons/16/user_add.png" },
+      text   = _"Become a member",
       module = "membership",
       action = "update",
       params = { area_id = area.id },

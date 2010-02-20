@@ -48,10 +48,10 @@ if interest.voting_requested ~= nil then
               end
             }
             ui.link{
-              content = _"Remove my request to vote later",
-              module = "interest",
-              action = "update_voting_requested",
-              params = { issue_id = issue.id, voting_requested = nil },
+              text    = _"Remove my request to vote later",
+              module  = "interest",
+              action  = "update_voting_requested",
+              params  = { issue_id = issue.id, voting_requested = nil },
               routing = { default = { mode = "redirect", module = "issue", view = "show", id = issue.id } }
             }
             slot.put("<br />")
@@ -63,10 +63,8 @@ if interest.voting_requested ~= nil then
 else
   if not issue.closed and not issue.half_frozen then
     ui.link{
-      content = function()
-        ui.image{ static = "icons/16/clock_play.png" }
-        slot.put(_"Vote later")
-      end,
+      image  = { static = "icons/16/clock_play.png" },
+      text   = _"Vote later",
       module = "interest",
       action = "update_voting_requested",
       params = {

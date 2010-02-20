@@ -11,7 +11,7 @@ if interest then
     content = function()
         ui.container{
           attr = { 
-            class = "head head_active",
+            class = "head head_active" .. (interest.autoreject and " head_autoreject" or ""),
             onclick = "document.getElementById('interest_content').style.display = 'block';"
           },
           content = function()
@@ -19,6 +19,13 @@ if interest then
               static = "icons/16/eye.png"
             }
             slot.put(_"Your are interested")
+
+            if interest.autoreject then
+              ui.image{
+                static = "icons/16/thumb_down_red.png"
+              }
+            end
+
             ui.image{
               static = "icons/16/dropdown.png"
             }
@@ -40,10 +47,10 @@ if interest then
             }
             if issue.state ~= "finished" and issue.state ~= "cancelled" and issue.state ~= "voting" then
               ui.link{
-                content = _"Remove my interest",
-                module = "interest",
-                action = "update",
-                params = { issue_id = issue.id, delete = true },
+                text    = _"Remove my interest",
+                module  = "interest",
+                action  = "update",
+                params  = { issue_id = issue.id, delete = true },
                 routing = { default = { mode = "redirect", module = "issue", view = "show", id = issue.id } }
               }
               slot.put("<br />")
@@ -53,10 +60,10 @@ if interest then
               ui.field.text{ value = _"Autoreject is on." }
               if issue.state ~= "finished" and issue.state ~= "cancelled" then
                 ui.link{
-                  content = _"Remove autoreject",
-                  module = "interest",
-                  action = "update",
-                  params = { issue_id = issue.id, autoreject = false },
+                  text    = _"Remove autoreject",
+                  module  = "interest",
+                  action  = "update",
+                  params  = { issue_id = issue.id, autoreject = false },
                   routing = { default = { mode = "redirect", module = "issue", view = "show", id = issue.id } }
                 }
               end
@@ -64,10 +71,10 @@ if interest then
               ui.field.text{ value = _"Autoreject is off." }
               if issue.state ~= "finished" and issue.state ~= "cancelled" then
                 ui.link{
-                  content = _"Set autoreject",
-                  module = "interest",
-                  action = "update",
-                  params = { issue_id = issue.id, autoreject = true },
+                  text    = _"Set autoreject",
+                  module  = "interest",
+                  action  = "update",
+                  params  = { issue_id = issue.id, autoreject = true },
                   routing = { default = { mode = "redirect", module = "issue", view = "show", id = issue.id } }
                 }
               end
@@ -80,13 +87,11 @@ if interest then
 else
   if not issue.closed and not issue.fully_frozen then
     ui.link{
-      content = function()
-        ui.image{ static = "icons/16/user_add.png" }
-        slot.put(_"Add my interest")
-      end,
-      module = "interest",
-      action = "update",
-      params = { issue_id = issue.id },
+      image   = { static = "icons/16/user_add.png" },
+      text    = _"Add my interest",
+      module  = "interest",
+      action  = "update",
+      params  = { issue_id = issue.id },
       routing = { default = { mode = "redirect", module = "issue", view = "show", id = issue.id } }
     }
   end

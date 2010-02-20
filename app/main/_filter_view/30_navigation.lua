@@ -4,36 +4,28 @@ slot.put_into("app_name", config.app_title)
 if app.session.member == nil then
   slot.select('navigation', function()
     ui.link{
-      content = function()
-        ui.image{ static = "icons/16/key.png" }
-        slot.put(_"Login")
-      end,
+      image  = { static = "icons/16/key.png" },
+      text   = _"Login",
       module = 'index',
-      view = 'login'
+      view   = 'login'
     }
     ui.link{
-      content = function()
-        ui.image{ static = "icons/16/book_edit.png" }
-        slot.put(_"Registration")
-      end,
+      image  = { static = "icons/16/book_edit.png" },
+      text   = _"Registration",
       module = 'index',
-      view = 'register'
+      view   = 'register'
     }
     ui.link{
-      content = function()
-        ui.image{ static = "icons/16/key_forgot.png" }
-        slot.put(_"Reset password")
-      end,
+      image  = { static = "icons/16/key_forgot.png" },
+      text   = _"Reset password",
       module = 'index',
-      view = 'reset_password'
+      view   = 'reset_password'
     }
     ui.link{
-      content = function()
-        ui.image{ static = "icons/16/information.png" }
-        slot.put('About / Impressum')
-      end,
+      image  = { static = "icons/16/information.png" },
+      text   = _"About / Impressum",
       module = 'index',
-      view = 'about'
+      view   = 'about'
     }
   end)
   execute.inner()
@@ -43,75 +35,46 @@ end
 slot.select('navigation', function()
 
   ui.link{
-    content = function()
-      ui.image{ static = "icons/16/house.png" }
-      slot.put(_"Home")
-    end,
+    image  = { static = "icons/16/house.png" },
+    text   = _"Home",
     module = 'index',
-    view = 'index'
+    view   = 'index'
   }
 
-  local setting_key = "liquidfeedback_frontend_timeline_current_options"
-  local setting = Setting:by_pk(app.session.member.id, setting_key)
-
-  timeline_params = {}
-  if setting then
-    for event_ident, filter_idents in setting.value:gmatch("(%S+):(%S+)") do
-      timeline_params["option_" .. event_ident] = true
-      if filter_idents ~= "*" then
-        for filter_ident in filter_idents:gmatch("([^\|]+)") do
-          timeline_params["option_" .. event_ident .. "_" .. filter_ident] = true
-        end
-      end
-    end
-  end
-
-  timeline_params.date = param.get("date") or today
-
   ui.link{
-    content = function()
-      ui.image{ static = "icons/16/time.png" }
-      slot.put(_"Timeline")
-    end,
+    image  = { static = "icons/16/time.png" },
+    text   = _"Timeline",
     module = "timeline",
-    action = "update"
---    params = timeline_params
+    view   = "index"
   }
 
   ui.link{
-    content = function()
-      ui.image{ static = "icons/16/package.png" }
-      slot.put(_"Areas")
-    end,
+    image  = { static = "icons/16/package.png" },
+    text   = _"Areas",
     module = 'area',
-    view = 'list'
+    view   = 'list'
   }
 
   ui.link{
-    content = function()
-      ui.image{ static = "icons/16/group.png" }
-      slot.put(_"Members")
-    end,
+    image  = { static = "icons/16/group.png" },
+    text   = _"Members",
     module = 'member',
-    view = 'list'
+    view   = 'list',
+    params = { member_list = "newest" }
   }
 
   ui.link{
-    content = function()
-      ui.image{ static = "icons/16/book_edit.png" }
-      slot.put(_"Contacts")
-    end,
+    image  = { static = "icons/16/book_edit.png" },
+    text   = _"Contacts",
     module = 'contact',
-    view = 'list'
+    view   = 'list'
   }
 
   ui.link{
-    content = function()
-      ui.image{ static = "icons/16/information.png" }
-      slot.put(_"About")
-    end,
+    image  = { static = "icons/16/information.png" },
+    text   = _"About",
     module = 'index',
-    view = 'about'
+    view   = 'about'
   }
 
   if app.session.member.admin then
@@ -119,13 +82,11 @@ slot.select('navigation', function()
     slot.put(" ")
 
     ui.link{
-      attr = { class = { "admin_only" } },
-      content = function()
-        ui.image{ static = "icons/16/cog.png" }
-        slot.put(_'Admin')
-      end,
+      attr   = { class = { "admin_only" } },
+      image  = { static = "icons/16/cog.png" },
+      text   = _"Admin",
       module = 'admin',
-      view = 'index'
+      view   = 'index'
     }
 
   end
@@ -139,5 +100,3 @@ if config.app_logo then
 end
 
 execute.inner()
-
-

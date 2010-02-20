@@ -4,9 +4,14 @@
 
 body, th, td {
   font-family: sans-serif;
+  font-size: 15px;
   font-size: 14px;
   padding: 0;
   margin: 0;
+}
+
+.area_list {
+  line-height: 170%;
 }
 
 body, a {
@@ -54,7 +59,7 @@ a.active {
 }
 
 a {
-  vertical-align: middle;
+  xvertical-align: middle;
 }
 
 h1 {
@@ -104,6 +109,8 @@ h2 {
   background-color: #444;
   color: #fff;
   font-size: 75%;
+  line-height: 140%;
+  margin-bottom: 1.8ex;
 }
 
 .topbar a {
@@ -137,9 +144,14 @@ h2 {
 }
 
 .searchbox {
-  padding: 0.5ex 1em 0ex 1em;
+  margin: 0;
+  padding: 0.1ex 1em 0ex 1em;
   float: right;
   line-height: 250%;
+}
+
+.searchbox form {
+  float: left;
 }
 
 .searchbox div {
@@ -162,7 +174,6 @@ h2 {
 
 .searchbox input[type=submit] {
   font-size: 100%;
-  width: 2.5em;
 }
 
 /*************************************************************************
@@ -264,6 +275,7 @@ h2 {
 .voting_requested {
   float: left;
   position: relative;
+  z-index: 1;
 }
 
 .interest img,
@@ -284,6 +296,11 @@ h2 {
   border: 1px solid #b96;
 }
 
+.interest .head_autoreject {
+  background-color: #fdd;
+  border: 1px solid #b77;
+}
+
 .slot_support .head_supporter {
   background-color: #dfc;
   border: 1px solid #8b8;
@@ -297,6 +314,23 @@ h2 {
 .delegation .head_active {
   background-color: #ddf;
   border: 1px solid #88b;
+}
+
+.delegation .change_delegation {
+  margin-bottom: 2ex;
+}
+
+.delegation .change_delegation a {
+  display: inline;
+  float: none;
+  padding: 1ex;
+}
+
+.delegation .delegation_participation {
+  margin-left: 20.5em;
+  margin-top: 3ex;
+  font-style: italic;
+  font-size: 80%;
 }
 
 .voting_requested .head_active {
@@ -322,7 +356,7 @@ h2 {
   background-color: #fff;
   border: 1px solid #999;
   padding: 1em;
-  width: 25em;
+  width: 35em;
 }
 
 .vote_info .delegation_arrow {
@@ -365,7 +399,6 @@ h2 {
 
 
 .sub_title div {
-  border-top: 1px solid #444;
   padding-top: 1ex;
   margin-top: 1ex;
   font-weight: bold;
@@ -415,27 +448,81 @@ h2 {
   padding: 1ex 1ex 1ex 1ex;
 }
 
+.web10 .ui_tabs_accordeon_head {
+  margin-bottom: 1ex;
+}
+
+.web20 .ui_tabs_accordeon_head {
+  font-size: 80%;
+  font-weight: bold;
+  display: block;
+  background: #eee;
+  border: 1px solid #bbb;
+  color: #000;
+  padding: 0.75ex;
+  margin-top: 2ex;
+  cursor: pointer;
+}
+
+.web20 .ui_tabs_accordeon_head img {
+  vertical-align: middle;
+  margin-right: 0.5em;
+}
+
+.web20 .ui_tabs_accordeon_head .bargraph {
+  margin-right: 0.5em;
+}
+
+.web20 .ui_tabs_accordeon_content {
+  border: 1px solid #aaa;
+  border-top: none;
+  padding: 2ex 1em 2ex 1em;
+  margin-bottom: 3ex;
+}
+
+.web20 .issue_initiative_list .ui_tabs_accordeon_head {
+  background-color: #e5e5ff;
+}
+
+.web20 .issue_initiative_list .ui_tabs_accordeon_head,
+.web20 .issue_initiative_list .ui_tabs_accordeon_content {
+  border-color: #aad;
+}
+
+.web20 .issue_initiative_list .ui_tabs_accordeon_content .ui_tabs_accordeon_content {
+  border-color: #bbb;
+  border-width: 1px;
+}
+
+.web20 .issue_initiative_list .ui_tabs_accordeon_content .ui_tabs_accordeon_head {
+  background-color: #eee;
+  border: 1px solid #bbb;
+}
+
+.web20 .issue_initiative_list .ui_tabs_accordeon_head a {
+  font-size: 125%;
+}
+
+
+
 /*************************************************************************
- * ui.filter
- * ui.order
+ * ui.filters
  */
 
-.ui_filter_head,
-.ui_order_head {
+.ui_filter_closed_head,
+.ui_filter_head {
   color: #777;
   margin-top: 1ex;
   margin-bottom: 1.5ex;
   font-size: 75%;
 }
 
-.ui_filter_head a,
-.ui_order_head a {
+.ui_filter_head a {
   color: #777;
   padding: 0.5ex;
 }
 
-.ui_filter_head a.active,
-.ui_order_head a.active {
+.ui_filter_head a.active {
   color: #fff;
   background-color: #777;
   padding: 0.5ex;
@@ -462,7 +549,11 @@ h2 {
  */
 
 .bargraph {
-  width: 101px;
+  width: 103px;
+}
+
+.bargraph50 {
+  width: 52px;
 }
 
 .bargraph div {
@@ -627,6 +718,7 @@ tr table tr:hover td {
   background-color: #fff;
   left: 5em;
   top: 5ex;
+z-index: 2;
 }
 
 .hidden_inline_form a {
@@ -673,7 +765,8 @@ tr table tr:hover td {
   padding: 0.3ex 0.5em 0.3ex 0.5em;
 }
 
-.suggestion_my_opinion a {
+.suggestion_my_opinion a,
+.suggestion_my_opinion span {
   white-space: nowrap;
   padding-left: 0.2ex !important;
   padding-right: 0.2ex !important;
@@ -737,7 +830,7 @@ tr table tr:hover td {
 
 .member_thumb {
   text-decoration: none;
-  width: 18em;
+  width: 15.5em;
   height: 48px;
   display: block;
   float: left;
@@ -781,13 +874,15 @@ tr table tr:hover td {
 }
 
 .member_thumb .flags {
-  float: right;
+  text-align: right;
   font-size: 75%;
 }
 
-.member_thumb .flags a{
+.member_thumb .flags a,
+.member_thumb .flags img {
   position: static;
   float: right;
+  margin-left: 0.5em;
 }
 
 
@@ -795,12 +890,14 @@ tr table tr:hover td {
   float: right;
 }
 
-.member_thumb.not_accepted {
+.member_thumb.not_accepted,
+.member_thumb.not_informed {
   opacity: 0.5;
 }
 
+.member_statement,
 .draft_content,
-.member_statement {
+.suggestion_content {
   background-color: #eee;
   border: 1px solid #ccc;
   padding-left: 1ex;
@@ -842,14 +939,27 @@ tr table tr:hover td {
   margin-right: 0.7em;
 }
 
+.admitted_info {
+  background-color: #dfd;
+  padding: 1ex;
+  margin-bottom: 2ex;
+}
+
+.not_admitted_info,
+.revoked_info {
+  background-color: #fdd;
+  padding: 1ex;
+  margin-bottom: 2ex;
+}
+
 .draft_updated_info,
 .voting_active_info,
-.revoked_info,
 .initiator_invite_info,
 .motd {
   background-color: #fec;
-  border: 2px solid #b96;
+  border: 1px solid #b96;
   padding: 1ex;
+  margin-bottom: 2ex;
 }
 
 .suggestion_fulfilled {
@@ -934,6 +1044,17 @@ a.not_voted {
   background-color: #fec;
 }
 
+.heading {
+  font-size: 120%;
+  font-weight: bold;
+  margin-top: 2ex;
+  margin-bottom: 1ex;
+}
+
+.heading.first {
+  margin-top: 0;
+}
+
 /*************************************************************************
  * Voting
  */
@@ -974,12 +1095,14 @@ a.not_voted {
   border: 1px black solid;
   margin: 1ex;
   padding: 0.5ex;
+}
+#voting .voting_form_active .movable {
   cursor: pointer;
 }
-#voting .clickable {
+#voting .voting_form_active .clickable {
   cursor: auto;
 }
-#voting a.clickable {
+#voting .voting_form_active a.clickable {
   cursor: pointer;
 }
 
@@ -987,3 +1110,5 @@ a.not_voted {
   vertical-align: middle;
   cursor: move;
 }
+
+

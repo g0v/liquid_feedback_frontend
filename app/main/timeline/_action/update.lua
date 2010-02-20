@@ -48,6 +48,11 @@ if not setting or setting.value ~= options_string then
 end
 
 local date = param.get("date")
+trace.debug(param.get("search_from"))
+
+if param.get("search_from") == "last_24h" then
+  date = "last_24h"
+end
 
 if date and #date > 0 then
   local setting_key = "liquidfeedback_frontend_timeline_current_date"

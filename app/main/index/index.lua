@@ -23,6 +23,7 @@ slot.select("title", function()
               attr = { style = "margin-left: 0.5em;", alt = lang }
             }
           end,
+          text = _('Select language "#{langcode}"', { langcode = lang }),
           module = "index",
           action = "set_lang",
           params = { lang = lang },

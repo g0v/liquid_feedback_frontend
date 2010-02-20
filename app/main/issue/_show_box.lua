@@ -2,6 +2,10 @@ local issue = param.get("issue", "table")
 
 slot.select("issue_info", function()
   ui.field.text{ 
+    label = _"Policy",
+    value = issue.policy.name 
+  }
+  ui.field.text{ 
     label = _"State",
     value = issue.state_name 
   }

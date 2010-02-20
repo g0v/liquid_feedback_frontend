@@ -13,7 +13,7 @@ function util.help(id, title)
           attr = { class = "help_actions" },
           content = function()
             ui.link{
-              content = _"Hide this help message",
+              text   = _"Hide this help message",
               module = "help",
               action = "update",
               params = {

@@ -5,11 +5,11 @@ function ui.field.rank(args)
       attr = { class = "rank" },
       content = function()
         if value == 1 then
-            ui.image{ static = "icons/16/award_star_gold_2.png" }
+            ui.image{ attr = args.image_attr, static = "icons/16/award_star_gold_2.png" }
         elseif value then
-            ui.image{ static = "icons/16/award_star_silver_2.png" }
+            ui.image{ attr = args.image_attr, static = "icons/16/award_star_silver_2.png" }
         else
-            ui.image{ static = "icons/16/cross.png" }
+            ui.image{ attr = args.image_attr, static = "icons/16/cross.png" }
         end
         if value then
           ui.tag{

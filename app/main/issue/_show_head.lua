@@ -1,22 +1,30 @@
 local issue = param.get("issue", "table")
 
+local direct_voter = DirectVoter:by_pk(issue.id, app.session.member.id)
+
 slot.put_into("html_head", '<link rel="alternate" type="application/rss+xml" title="RSS" href="../show/' .. tostring(issue.id) .. '.rss" />')
 
 slot.select("path", function()
-  ui.link{
-    content = _"Area '#{name}'":gsub("#{name}", issue.area.name),
-    module = "area",
-    view = "show",
-    id = issue.area.id
-  }
 end)
 
 slot.select("title", function()
   ui.link{
-    content = _"Issue ##{id} (#{policy_name})":gsub("#{id}", issue.id):gsub("#{policy_name}", issue.policy.name),
+    content = issue.area.name,
+    module = "area",
+    view = "show",
+    id = issue.area.id
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    content = _("Issue ##{id}", { id = issue.id }),
     module = "issue",
     view = "show",
     id = issue.id
+  }
+  slot.put(" &middot; ")
+  ui.tag{
+    tag = "span",
+    content = issue.state_name,
   }
 end)
 
@@ -24,10 +32,16 @@ end)
 slot.select("actions", function()
 
   if issue.state == 'voting' then
+    local text
+    if not direct_voter then
+      text = _"Vote now"
+    else
+      text = _"Change vote"
+    end
     ui.link{
       content = function()
         ui.image{ static = "icons/16/email_open.png" }
-        slot.put(_"Vote now")
+        slot.put(text)
       end,
       module = "vote",
       view = "list",
@@ -78,7 +92,7 @@ execute.view{
 --  ui.twitter("http://example.com/t" .. tostring(issue.id))
 
 
-if issue.state == 'voting' then
+if issue.state == 'voting' and not direct_voter then
   ui.container{
     attr = { class = "voting_active_info" },
     content = function()

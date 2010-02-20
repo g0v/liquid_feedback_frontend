@@ -28,9 +28,9 @@ if util._hidden_helps ~= nil then
             attr = { class = "help_icon" },
             static = "icons/16/help.png"
           }
-        end
+        end,
+        text = _"Show help text"
       }
     end
   end)
 end
-
