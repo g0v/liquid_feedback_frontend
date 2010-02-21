@@ -272,7 +272,7 @@ return {
 ["No membership at all"] = "Gar keine Mitgliedschaft";
 ["No support at all"] = "Gar keine Unterstützung";
 ["Not a member"] = "Kein Mitglied";
-["Not approved"] = "Nicht zugelassen";
+["Not approved"] = "Nicht angenommen";
 ["Not approved (rank #{rank})"] = "Nicht angenommen (Rang #{rank})";
 ["Not voted"] = "Nicht abgestimmt";
 ["Not voted (not admitted)"] = "Nicht abgestimmt (nicht zugelassen)";
