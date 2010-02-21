@@ -60,123 +60,128 @@ ui.container{
       },
       content = function()
 
-        ui.container{
-          attr = { style = "float: left; width: 4em;"},
-          content = function()
-            if initiative.issue.accepted and initiative.issue.closed and initiative.issue.ranks_available or initiative.admitted == false then 
-              ui.field.rank{ image_attr = { id = icon_name }, attr = { class = "rank" }, value = initiative.rank }
-            elseif web20 then
-              ui.image{
-                attr = {
-                  width = 16,
-                  height = 16,
-                  id = icon_name,
-                  style = "float: left;"
-                },
-                static = "icons/16/script.png"
-              }
-            else
-              slot.put("&nbsp;")
-            end
-          end
-        }
+        ui.list{
+          attr = { class = "nohover" },
+          records = { { a = 1} },
+          columns = {
+            {
+              field_attr = { style = "width: 4em; padding: 0;"},
+              content = function()
+                if initiative.issue.accepted and initiative.issue.closed and initiative.issue.ranks_available or initiative.admitted == false then 
+                  ui.field.rank{ image_attr = { id = icon_name }, attr = { class = "rank" }, value = initiative.rank }
+                elseif web20 then
+                  ui.image{
+                    attr = {
+                      width = 16,
+                      height = 16,
+                      id = icon_name,
+                      style = "float: left;"
+                    },
+                    static = "icons/16/script.png"
+                  }
+                else
+                  slot.put("&nbsp;")
+                end
+              end
+            },
 
-        ui.container{
-          attr = { style = "float: left; width: 110px;"},
-          content = function()
-            if initiative.issue.accepted and initiative.issue.closed then
-              if initiative.issue.ranks_available then 
-                if initiative.negative_votes and initiative.positive_votes then
-                  local max_value = initiative.issue.voter_count
+            {
+              field_attr = { style = "width: 110px; padding: 0;"},
+              content = function()
+                if initiative.issue.accepted and initiative.issue.closed then
+                  if initiative.issue.ranks_available then 
+                    if initiative.negative_votes and initiative.positive_votes then
+                      local max_value = initiative.issue.voter_count
+                      ui.bargraph{
+                        max_value = max_value,
+                        width = 100,
+                        bars = {
+                          { color = "#0a0", value = initiative.positive_votes },
+                          { color = "#aaa", value = max_value - initiative.negative_votes - initiative.positive_votes },
+                          { color = "#a00", value = initiative.negative_votes },
+                        }
+                      }
+                    else
+                      slot.put("&nbsp;")
+                    end
+                  else
+                    slot.put(_"Counting of votes")
+                  end
+                elseif initiative.issue.population then
+                  local max_value = initiative.issue.population
                   ui.bargraph{
                     max_value = max_value,
                     width = 100,
                     bars = {
-                      { color = "#0a0", value = initiative.positive_votes },
-                      { color = "#aaa", value = max_value - initiative.negative_votes - initiative.positive_votes },
-                      { color = "#a00", value = initiative.negative_votes },
+                      { color = "#0a0", value = (initiative.satisfied_supporter_count or 0) },
+                      { color = "#bbb", value = (initiative.supporter_count or 0) - (initiative.satisfied_supporter_count or 0) },
+                      { color = "#eee", value = max_value - (initiative.supporter_count or 0) },
                     }
                   }
                 else
                   slot.put("&nbsp;")
                 end
-              else
-                slot.put(_"Counting of votes")
               end
-            elseif initiative.issue.population then
-              local max_value = initiative.issue.population
-              ui.bargraph{
-                max_value = max_value,
-                width = 100,
-                bars = {
-                  { color = "#0a0", value = (initiative.satisfied_supporter_count or 0) },
-                  { color = "#bbb", value = (initiative.supporter_count or 0) - (initiative.satisfied_supporter_count or 0) },
-                  { color = "#eee", value = max_value - (initiative.supporter_count or 0) },
-                }
-              }
-            else
-              slot.put("&nbsp;")
-            end
-          end
-        }
-
-        ui.container{
-          attr = { style = "float: left;"},
-          content = function()
-            local link_class
-            if initiative.revoked then
-              link_class = "revoked"
-            end
-            ui.link{
-              attr = { id = link_name, class = link_class },
+            },
+    
+            {
+              field_attr = { style = "padding: 0;"},
               content = function()
-                local name
-                if initiative.name_highlighted then
-                  name = encode.highlight(initiative.name_highlighted)
-                else
-                  name = encode.html(initiative.name)
+                local link_class
+                if initiative.revoked then
+                  link_class = "revoked"
                 end
-                slot.put(name)
-              end,
-              module  = module,
-              view    = view,
-              id      = id,
-              params  = params,
+                ui.link{
+                  attr = { id = link_name, class = link_class },
+                  content = function()
+                    local name
+                    if initiative.name_highlighted then
+                      name = encode.highlight(initiative.name_highlighted)
+                    else
+                      name = encode.html(initiative.shortened_name)
+                    end
+                    slot.put(name)
+                  end,
+                  module  = module,
+                  view    = view,
+                  id      = id,
+                  params  = params,
+                }
+    
+                if initiative.issue.state == "new" then
+                  ui.image{
+                    static = "icons/16/new.png"
+                  }
+                end
+                if initiative.is_supporter then
+                  slot.put("&nbsp;")
+                  local label = _"You are supporting this initiative"
+                  ui.image{
+                    attr = { alt = label, title = label },
+                    static = "icons/16/thumb_up_green.png"
+                  }
+                end
+                if initiative.is_potential_supporter then
+                  slot.put("&nbsp;")
+                  local label = _"You are potential supporter of this initiative"
+                  ui.image{
+                    attr = { alt = label, title = label },
+                    static = "icons/16/thumb_up.png"
+                  }
+                end
+                if initiative.is_initiator then
+                  slot.put("&nbsp;")
+                  local label = _"You are iniator of this initiative"
+                  ui.image{
+                    attr = { alt = label, title = label },
+                    static = "icons/16/user_edit.png"
+                  }
+                end
+        
+              end
             }
-          end
+          }
         }
-
-        if initiative.issue.state == "new" then
-          ui.image{
-            static = "icons/16/new.png"
-          }
-        end
-        if initiative.is_supporter then
-          slot.put("&nbsp;")
-          local label = _"You are supporting this initiative"
-          ui.image{
-            attr = { alt = label, title = label },
-            static = "icons/16/thumb_up_green.png"
-          }
-        end
-        if initiative.is_potential_supporter then
-          slot.put("&nbsp;")
-          local label = _"You are potential supporter of this initiative"
-          ui.image{
-            attr = { alt = label, title = label },
-            static = "icons/16/thumb_up.png"
-          }
-        end
-        if initiative.is_initiator then
-          slot.put("&nbsp;")
-          local label = _"You are iniator of this initiative"
-          ui.image{
-            attr = { alt = label, title = label },
-            static = "icons/16/user_edit.png"
-          }
-        end
-
-        slot.put("<br style='clear: left' />")
       end
     }
   end
