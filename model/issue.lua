@@ -176,16 +176,16 @@ function Issue.object_get:state_time_left()
   local duration
   if state == "new" then
     last_event_time = self.created
-    duration = self.policy.admission_time
+    duration = self.admission_time
   elseif state == "accepted" then
     last_event_time = self.accepted
-    duration =  self.policy.discussion_time
+    duration =  self.discussion_time
   elseif state == "frozen" then
     last_event_time = self.half_frozen
-    duration = self.policy.verification_time
+    duration = self.verification_time
   elseif state == "voting" then
     last_event_time = self.fully_frozen
-    duration = self.policy.voting_time
+    duration = self.voting_time
   end
   return db:query{ "SELECT ?::timestamp + ?::interval - now() as time_left", last_event_time, duration }[1].time_left
 end
