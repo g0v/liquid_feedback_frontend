@@ -44,6 +44,7 @@ execute.view{
   module = "initiative",
   view = "show_partial",
   params = {
-    initiative = initiative
+    initiative = initiative,
+    expanded = true
   }
 }
