@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('beta20', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('beta21', NULL, NULL, NULL))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -990,10 +990,16 @@ CREATE FUNCTION "forbid_changes_on_closed_issue_trigger"()
   RETURNS TRIGGER
   LANGUAGE 'plpgsql' VOLATILE AS $$
     DECLARE
-      "issue_row" "issue"%ROWTYPE;
+      "issue_id_v" "issue"."id"%TYPE;
+      "issue_row"  "issue"%ROWTYPE;
     BEGIN
+      IF TG_OP = 'DELETE' THEN
+        "issue_id_v" := OLD."issue_id";
+      ELSE
+        "issue_id_v" := NEW."issue_id";
+      END IF;
       SELECT INTO "issue_row" * FROM "issue"
-        WHERE "id" = NEW."issue_id" FOR SHARE;
+        WHERE "id" = "issue_id_v" FOR SHARE;
       IF "issue_row"."closed" NOTNULL THEN
         RAISE EXCEPTION 'Tried to modify data belonging to a closed issue.';
       END IF;
