@@ -118,6 +118,7 @@ return {
 ["Disapproval (prefer to lower blocks) [single entry]"] = "Ablehnung (jedoch Bevorzugung gegenüber unteren Ablehnungsblöcken)";
 ["Disapproval [many entries]"] = "Ablehnung";
 ["Disapproval [single entry]"] = "Ablehnung";
+["Discard voting"] = "Abstimmung zurückziehen";
 ["Discussion"] = "Diskussion";
 ["Discussion URL"] = "Diskussions-URL";
 ["Discussion on issue"] = "Diskussion zum Thema";
@@ -271,6 +272,7 @@ return {
 ["No membership at all"] = "Gar keine Mitgliedschaft";
 ["No support at all"] = "Gar keine Unterstützung";
 ["Not a member"] = "Kein Mitglied";
+["Not approved"] = "Nicht zugelassen";
 ["Not approved (rank #{rank})"] = "Nicht angenommen (Rang #{rank})";
 ["Not voted"] = "Nicht abgestimmt";
 ["Not voted (not admitted)"] = "Nicht abgestimmt (nicht zugelassen)";
@@ -518,6 +520,7 @@ return {
 ["Your support has been added to this initiative"] = "Deine Unterstützung wurde der Initiative hinzugefügt";
 ["Your support has been removed from this initiative"] = "Deine Unterstützung wurde der Initiave entzogen";
 ["Your support has been updated to the latest draft"] = "Deine Unterstützung wurde auf den neuesten Entwurf aktualisiert";
+["Your vote has been discarded. Delegation rules apply if set."] = "Deine Abstimmung wurde zurückgezogen. Delegationsregeln gelten sofern gesetzt.";
 ["Your web browser is not fully supported yet."] = "Dein Web-Browser wird noch nicht vollständig unterstützt.";
 ["Z-A"] = "Z-A";
 ["and #{count} more initiatives"] = "und #{count} weitere Initiativen";

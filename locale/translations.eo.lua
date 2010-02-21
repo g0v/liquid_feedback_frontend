@@ -118,6 +118,7 @@ return {
 ["Disapproval (prefer to lower blocks) [single entry]"] = false;
 ["Disapproval [many entries]"] = false;
 ["Disapproval [single entry]"] = false;
+["Discard voting"] = false;
 ["Discussion"] = "Diskuto";
 ["Discussion URL"] = "Diskuto-URL";
 ["Discussion on issue"] = "Diskuto pri la temo";
@@ -271,6 +272,7 @@ return {
 ["No membership at all"] = "Tute sen membreco";
 ["No support at all"] = "Tute sen subteno";
 ["Not a member"] = "Ne estas membro";
+["Not approved"] = false;
 ["Not approved (rank #{rank})"] = false;
 ["Not voted"] = "Ne balotinta";
 ["Not voted (not admitted)"] = false;
@@ -518,6 +520,7 @@ return {
 ["Your support has been added to this initiative"] = "Via subteno estas aldonita al la iniciato";
 ["Your support has been removed from this initiative"] = "Via subteno estas forigita de la iniciato";
 ["Your support has been updated to the latest draft"] = "Via subteno estas ĝisdatigita al la plej nova skizo";
+["Your vote has been discarded. Delegation rules apply if set."] = false;
 ["Your web browser is not fully supported yet."] = "Via retumilo ne estas jam komplete subtenita.";
 ["Z-A"] = "Z-A";
 ["and #{count} more initiatives"] = "kaj #{count} pliaj iniciatoj";

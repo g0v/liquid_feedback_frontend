@@ -31,8 +31,27 @@ else
       view = "show",
       id = issue.id
     }
+    ui.link{
+      content = function()
+          ui.image{ static = "icons/16/email_delete.png" }
+          slot.put(_"Discard voting")
+      end,
+      module = "vote",
+      action = "update",
+      params = {
+        issue_id = issue.id,
+        discard = true
+      },
+      routing = {
+        default = {
+          mode = "redirect",
+          module = "issue",
+          view = "show",
+          id = issue.id
+        }
+      }
+    }
   end)
-  
 end
 
 
