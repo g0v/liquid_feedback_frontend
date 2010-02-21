@@ -78,7 +78,7 @@ return {
 ["Change name"] = "Name ändern";
 ["Change order"] = "Sortierung ändern";
 ["Change password"] = "Kennwort ändern";
-["Change vote"] = "Wahl ändern";
+["Change vote"] = "Abstimmung ändern";
 ["Change your login"] = "Deinen Anmeldenamen ändern";
 ["Change your name"] = "Deinen Namen ändern";
 ["Change your password"] = "Dein Kennwort ändern";

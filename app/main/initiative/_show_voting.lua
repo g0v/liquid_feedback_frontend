@@ -86,7 +86,14 @@ else
           end
         },
         {
-          name = "name"
+          content = function(record)
+            ui.link{
+              module = "initiative",
+              view = "show",
+              id = record.id,
+              text = record.name
+            }
+          end
         }
       }
     }

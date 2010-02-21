@@ -23,6 +23,8 @@ if initiative.issue.ranks_available and initiative.admitted then
         slot.put(_"Approved")
       elseif initiative.rank then
         slot.put(_("Not approved (rank #{rank})", { rank = initiative.rank }))
+      else
+        slot.put(_"Not approved")
       end
       slot.put("</b>")
     end

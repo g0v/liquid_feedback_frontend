@@ -30,7 +30,7 @@ elseif not show_for_initiative_id and show_for_issue and issue and issue.ranks_a
   winning_initiative = Initiative:new_selector()
     :add_where{ "issue_id = ?", issue.id }
     :add_where("rank = 1")
-    :single_object_mode()
+    :optional_object_mode()
     :exec()
   if winning_initiative then
     show_for_initiative = winning_initiative

@@ -76,7 +76,7 @@ ui.tabs{
     icon = { static = "icons/16/table_go.png" },
     module = "delegation",
     view = "_list",
-    params = { delegations_selector = outgoing_delegations_selector },
+    params = { delegations_selector = outgoing_delegations_selector, outgoing = true },
   },
   {
     name = "contacts",
