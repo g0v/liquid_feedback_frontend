@@ -1,5 +1,7 @@
 #!/usr/bin/env lua
 return {
+["##{id}"] = false;
+["##{issue_id}.#{id} #{name}"] = false;
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} Themen";
 ["#{number} Image(s) has been deleted"] = "Es wurde(n) #{number} Bild(er) gelöscht";
@@ -101,6 +103,7 @@ return {
 ["Created at"] = "Erzeugt am/um";
 ["Current draft"] = "Aktueller Entwurf";
 ["Current votings in areas you are member of and issues you are interested in:"] = "Jetzt laufende Abstimmungen zu Themen aus Deinen Themenbereichen oder solchen an denen Du interessiert bist:";
+["Date"] = "Datum";
 ["Degree"] = "Grad";
 ["Delegations"] = "Delegationen";
 ["Delete filter"] = "Filter löschen";
@@ -238,7 +241,7 @@ return {
 ["Member page"] = "Mitgliederseite";
 ["Member successfully registered"] = "Mitglied erfolgreich registriert";
 ["Member successfully updated"] = "Mitglied erfolgreich aktualisert";
-["Member voting"] = false;
+["Member voting"] = "Abstimmungsverhalten";
 ["Member: '#{login}' (#{name})"] = "Mitlied: '#{login}' (#{name})";
 ["Members"] = "Mitglieder";
 ["Membership by delegation"] = "Mitgliedschaft durch Delegation";
@@ -264,6 +267,8 @@ return {
 ["New passwords is too short."] = "Das neue Kennwort ist zu kurz";
 ["New suggestion"] = "Neue Anregung";
 ["Newest"] = "Neueste";
+["Next initiative"] = "Nächste Initiative";
+["Next issue"] = "Nächstes Thema";
 ["Next state"] = "Nächster Zustand";
 ["No"] = "Nein";
 ["No changes to your images were made"] = "An Deinen Bildern wurde nichts geändert";
@@ -322,6 +327,8 @@ return {
 ["Potential support"] = "Potentielle Unterstützung";
 ["Potential supported"] = "Potentiell unterstützt";
 ["Potential supporter"] = "Potentielle Unterstützer";
+["Previous initiative"] = "Vorherige Initiative";
+["Previous issue"] = "Vorheriges Thema";
 ["Profession"] = "Beruf";
 ["Profile"] = "Profil";
 ["Publish"] = "Veröffentlichen";

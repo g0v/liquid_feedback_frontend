@@ -8,9 +8,6 @@ function ui.field.positive_votes(args)
           attr = { class = "value" },
           content = function()
             slot.put(tostring(value) .. '&nbsp;')
-            ui.image{
-              static = "icons/16/add.png"
-            }
           end
         }
       end

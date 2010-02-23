@@ -1,5 +1,7 @@
 #!/usr/bin/env lua
 return {
+["##{id}"] = false;
+["##{issue_id}.#{id} #{name}"] = false;
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = false;
 ["#{issues_to_vote_count} issue(s)"] = false;
 ["#{number} Image(s) has been deleted"] = false;
@@ -10,6 +12,7 @@ return {
 ["+ #{weight}"] = false;
 ["A-Z"] = false;
 ["About"] = false;
+["About / Impressum"] = false;
 ["About LiquidFeedback"] = false;
 ["Abstention"] = false;
 ["Abstention [many entries]"] = "Abstention";
@@ -20,9 +23,8 @@ return {
 ["Accordion (first expanded)"] = false;
 ["Accordion (none expanded)"] = false;
 ["Active?"] = false;
+["Add alternative initiative to issue"] = false;
 ["Add my interest"] = false;
-["Add new initiative"] = false;
-["Add new initiative to issue"] = false;
 ["Add new suggestion"] = false;
 ["Add to my contacts"] = false;
 ["Address"] = false;
@@ -32,6 +34,7 @@ return {
 ["Administrator"] = false;
 ["Admission time"] = false;
 ["Admitted"] = false;
+["Alternative initiatives"] = false;
 ["Any"] = false;
 ["Approval (#th preference) [many entries]"] = "Approval (#th preference)";
 ["Approval (#th preference) [single entry]"] = "Approval (#th preference)";
@@ -43,6 +46,7 @@ return {
 ["Approval (third preference) [single entry]"] = "Approval (third preference)";
 ["Approval [many entries]"] = "Approval";
 ["Approval [single entry]"] = "Approval";
+["Approved"] = false;
 ["Are you sure?"] = false;
 ["Area"] = false;
 ["Area '#{name}'"] = false;
@@ -57,6 +61,7 @@ return {
 ["Avatar"] = false;
 ["Back"] = false;
 ["Back to timeline"] = false;
+["Ballot of '#{member_name}' for issue ##{issue_id}"] = false;
 ["Become a member"] = false;
 ["Birthday"] = false;
 ["Can't remove last initiator"] = false;
@@ -68,10 +73,12 @@ return {
 ["Cancelled"] = false;
 ["Change area delegation"] = false;
 ["Change display settings"] = false;
+["Change filters and order"] = false;
 ["Change global delegation"] = false;
 ["Change issue delegation"] = false;
 ["Change login"] = false;
 ["Change name"] = false;
+["Change order"] = false;
 ["Change password"] = false;
 ["Change vote"] = false;
 ["Change your login"] = false;
@@ -80,7 +87,6 @@ return {
 ["Choose initiator"] = false;
 ["Choose member"] = false;
 ["Click for details"] = false;
-["Close"] = false;
 ["Closed"] = false;
 ["Collective opinion"] = false;
 ["Commit suggestion"] = false;
@@ -97,6 +103,7 @@ return {
 ["Created at"] = false;
 ["Current draft"] = false;
 ["Current votings in areas you are member of and issues you are interested in:"] = false;
+["Date"] = false;
 ["Degree"] = false;
 ["Delegations"] = false;
 ["Delete filter"] = false;
@@ -114,17 +121,18 @@ return {
 ["Disapproval (prefer to lower blocks) [single entry]"] = "Disapproval (prefer to lower blocks)";
 ["Disapproval [many entries]"] = "Disapproval";
 ["Disapproval [single entry]"] = "Disapproval";
+["Discard voting"] = false;
 ["Discussion"] = false;
 ["Discussion URL"] = false;
 ["Discussion on issue"] = false;
 ["Discussion time"] = false;
 ["Discussion with initiators"] = false;
 ["Display settings"] = false;
-["Display starting from"] = false;
 ["Download"] = false;
 ["Download database export"] = false;
 ["Draft"] = false;
 ["Draft history"] = false;
+["EXPERIMENTAL FEATURE"] = false;
 ["Edit"] = false;
 ["Edit draft"] = false;
 ["Edit initiative"] = false;
@@ -188,7 +196,6 @@ return {
 ["Invited"] = false;
 ["Issue"] = false;
 ["Issue ##{id}"] = false;
-["Issue ##{id} (#{policy_name})"] = false;
 ["Issue accepted"] = false;
 ["Issue canceled"] = false;
 ["Issue delegation"] = false;
@@ -223,6 +230,7 @@ return {
 ["Member '#{member}'"] = false;
 ["Member has been removed from initiators"] = false;
 ["Member has been removed from your contacts"] = false;
+["Member has not approved latest draft"] = false;
 ["Member is administrator"] = false;
 ["Member is already saved in your contacts!"] = false;
 ["Member is now invited to be initiator"] = false;
@@ -233,6 +241,7 @@ return {
 ["Member page"] = false;
 ["Member successfully registered"] = false;
 ["Member successfully updated"] = false;
+["Member voting"] = false;
 ["Member: '#{login}' (#{name})"] = false;
 ["Members"] = false;
 ["Membership by delegation"] = false;
@@ -243,6 +252,8 @@ return {
 ["Missing help text: #{id}.#{lang}.txt"] = false;
 ["Mobile phone"] = false;
 ["Monday"] = false;
+["Move down"] = false;
+["Move up"] = false;
 ["My opinion"] = false;
 ["Name"] = false;
 ["New"] = false;
@@ -256,6 +267,8 @@ return {
 ["New passwords is too short."] = false;
 ["New suggestion"] = false;
 ["Newest"] = false;
+["Next initiative"] = false;
+["Next issue"] = false;
 ["Next state"] = false;
 ["No"] = false;
 ["No changes to your images were made"] = false;
@@ -264,7 +277,11 @@ return {
 ["No membership at all"] = false;
 ["No support at all"] = false;
 ["Not a member"] = false;
+["Not approved"] = false;
+["Not approved (rank #{rank})"] = false;
 ["Not voted"] = false;
+["Not voted (not admitted)"] = false;
+["Not voted (revoked from initiator)"] = false;
 ["Not yet voted"] = false;
 ["Number of incoming delegations, follow link to see more details"] = false;
 ["Number of initiatives to preview"] = false;
@@ -279,6 +296,7 @@ return {
 ["One issue you are interested in"] = false;
 ["One step back"] = false;
 ["Open"] = false;
+["Opinions"] = false;
 ["Order by"] = false;
 ["Organizational unit"] = false;
 ["Outgoing delegations"] = false;
@@ -309,11 +327,12 @@ return {
 ["Potential support"] = false;
 ["Potential supported"] = false;
 ["Potential supporter"] = false;
+["Previous initiative"] = false;
+["Previous issue"] = false;
 ["Profession"] = false;
 ["Profile"] = false;
 ["Publish"] = false;
 ["Published"] = false;
-["Published contacts"] = false;
 ["Rank"] = false;
 ["Real name"] = false;
 ["Refresh support to current draft"] = false;
@@ -350,6 +369,7 @@ return {
 ["Search issues"] = false;
 ["Search members"] = false;
 ["Search results for: '#{search}'"] = false;
+["Select language \"#{langcode}\""] = false;
 ["Set URL"] = false;
 ["Set area delegation"] = false;
 ["Set autoreject"] = false;
@@ -361,11 +381,13 @@ return {
 ["Settings"] = false;
 ["Show"] = false;
 ["Show active members"] = false;
-["Show all initiatives"] = false;
+["Show alternative initiatives"] = false;
 ["Show areas in use"] = false;
 ["Show areas not in use"] = false;
 ["Show diff"] = false;
+["Show filter"] = false;
 ["Show filter details"] = false;
+["Show help text"] = false;
 ["Show locked members"] = false;
 ["Show member"] = false;
 ["Show name history"] = false;
@@ -400,14 +422,22 @@ return {
 ["Supporter"] = false;
 ["Tabs"] = false;
 ["Terms accepted"] = false;
+["Terms of use"] = false;
 ["The code you've entered is invalid"] = false;
 ["The draft of this initiative has been updated!"] = false;
 ["The drafts do not differ"] = false;
 ["The initiators suggest to support the following initiative:"] = false;
+["There are no more alternative initiatives currently."] = false;
+["There were no more alternative initiatives."] = false;
+["This initiative"] = false;
+["This initiative compared to alternative initiatives"] = false;
 ["This initiative has been revoked at #{revoked}"] = false;
 ["This initiative has not been admitted! It failed the quorum of #{quorum}."] = false;
 ["This initiative is already revoked"] = false;
 ["This initiative is revoked"] = false;
+["This issue has been cancelled. It failed the quorum of #{quorum}."] = false;
+["This issue has been finished with the following winning initiative:"] = false;
+["This issue has been finished without any winning initiative."] = false;
 ["This issue is already closed."] = false;
 ["This issue is already frozen."] = false;
 ["This login is already taken, please choose another one!"] = false;
@@ -416,6 +446,7 @@ return {
 ["This member has rejected to become initiator of this initiative"] = false;
 ["This member is already initiator of this initiative"] = false;
 ["This member is already invited to become initiator of this initiative"] = false;
+["This member is participating, the rest of delegation chain is suspended while discussing"] = false;
 ["This name is already taken, please choose another one!"] = false;
 ["This name is really too short!"] = false;
 ["This name is too short!"] = false;
@@ -425,6 +456,7 @@ return {
 ["Thursday"] = false;
 ["Time left"] = false;
 ["Timeline"] = false;
+["Title"] = false;
 ["Title (80 chars max)"] = false;
 ["Traditional wiki syntax"] = false;
 ["Trustee"] = false;
@@ -442,8 +474,8 @@ return {
 ["Voted no"] = false;
 ["Voted proposal"] = false;
 ["Voted yes"] = false;
-["Voter"] = false;
 ["Voting"] = false;
+["Voting details"] = false;
 ["Voting for this issue has already begun."] = false;
 ["Voting for this issue is currently running!"] = false;
 ["Voting has not started yet."] = false;
@@ -495,21 +527,21 @@ return {
 ["Your support has been added to this initiative"] = false;
 ["Your support has been removed from this initiative"] = false;
 ["Your support has been updated to the latest draft"] = false;
+["Your vote has been discarded. Delegation rules apply if set."] = false;
 ["Your web browser is not fully supported yet."] = false;
 ["Z-A"] = false;
-["all"] = false;
 ["and #{count} more initiatives"] = false;
 ["continuing"] = false;
 ["delete<br /><br />"] = false;
 ["email"] = false;
+["last 24 hours"] = false;
 ["login name"] = false;
 ["must"] = false;
 ["must not"] = false;
 ["must/should"] = false;
 ["must/should not"] = false;
 ["neutral"] = false;
-["not implemented"] = false;
-["now"] = false;
+["requested"] = false;
 ["should"] = false;
 ["should not"] = false;
 ["to reset your password please click on the following link:\n\n"] = false;

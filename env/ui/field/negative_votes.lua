@@ -8,9 +8,6 @@ function ui.field.negative_votes(args)
           attr = { class = "value" },
           content = function()
             slot.put(tostring(value) .. '&nbsp;')
-            ui.image{
-              static = "icons/16/delete.png"
-            }
           end
         }
       end

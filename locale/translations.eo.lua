@@ -1,5 +1,7 @@
 #!/usr/bin/env lua
 return {
+["##{id}"] = false;
+["##{issue_id}.#{id} #{name}"] = false;
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} temoj, kiujn vi interesi";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} temoj";
 ["#{number} Image(s) has been deleted"] = "Estas viŝita(j) #{number} bildo(j)";
@@ -101,6 +103,7 @@ return {
 ["Created at"] = "Kreita je";
 ["Current draft"] = "Aktuala skizo";
 ["Current votings in areas you are member of and issues you are interested in:"] = "Aktualaj voĉdonoj pri temoj en kiuj vi membraa kaj kiuj vin interesas:";
+["Date"] = false;
 ["Degree"] = "Grado";
 ["Delegations"] = "Delegacioj";
 ["Delete filter"] = "Forvisi filtron";
@@ -264,6 +267,8 @@ return {
 ["New passwords is too short."] = "La nova pasvorto estas tro mallonga";
 ["New suggestion"] = "Nova sugesto";
 ["Newest"] = "Plej nova";
+["Next initiative"] = false;
+["Next issue"] = false;
 ["Next state"] = "Sekva stato";
 ["No"] = "Ne";
 ["No changes to your images were made"] = "Viaj bildoj ne estas ŝanĝitaj";
@@ -322,6 +327,8 @@ return {
 ["Potential support"] = "Eventuala subteno";
 ["Potential supported"] = "Eble subtenota";
 ["Potential supporter"] = "Eventuala subtenanto";
+["Previous initiative"] = false;
+["Previous issue"] = false;
 ["Profession"] = "Profesio";
 ["Profile"] = "Profilo";
 ["Publish"] = "Publikigi";
