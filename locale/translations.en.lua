@@ -155,6 +155,7 @@ return {
 ["Fully frozen at"] = false;
 ["Global delegation"] = false;
 ["Global delegation active"] = false;
+["Go up"] = false;
 ["Half frozen at"] = false;
 ["Hello "] = false;
 ["Help for: #{text}"] = false;
@@ -450,6 +451,7 @@ return {
 ["This name is already taken, please choose another one!"] = false;
 ["This name is really too short!"] = false;
 ["This name is too short!"] = false;
+["This report can be saved (use 'save complete website') and used offline."] = false;
 ["This suggestion has been meanwhile deleted"] = false;
 ["This title is really too short!"] = false;
 ["This username is too short!"] = false;

@@ -117,6 +117,8 @@ ui.container{
   end
 }
 
+ui.script{ script = "parents['area_" .. tostring(area.id) .. "'] = 'areas';" }
+
 local next_issue = issues[1]
 if next_issue then
   ui.script{ script = "next_issues['area_" .. tostring(area.id) .. "'] = 'issue_" .. tostring(next_issue.id) .. "';" }
@@ -157,6 +159,8 @@ for i, issue in ipairs(issues) do
     ui.script{ script = "next_initiatives['issue_" .. tostring(issue.id) .. "'] = 'initiative_" .. tostring(next_initiative.id) .. "';" }
   end
 
+  ui.script{ script = "parents['issue_" .. tostring(issue.id) .. "'] = 'area_" .. tostring(area.id) .. "';" }
+
   local next_issue = issues[i+1]
   if next_issue then
     ui.script{ script = "next_issues['issue_" .. tostring(issue.id) .. "'] = 'issue_" .. tostring(next_issue.id) .. "';" }
@@ -196,6 +200,8 @@ for i, issue in ipairs(issues) do
     if previous_initiative then
       ui.script{ script = "prev_initiatives['initiative_" .. tostring(initiative.id) .. "'] = 'initiative_" .. tostring(previous_initiative.id) .. "';" }
     end
+
+    ui.script{ script = "parents['initiative_" .. tostring(initiative.id) .. "'] = 'issue_" .. tostring(issue.id) .. "';" }
 
     local next_initiative = initiatives[j+1]
     if next_initiative then

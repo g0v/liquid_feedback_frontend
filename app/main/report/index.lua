@@ -8,7 +8,6 @@ function link_area(area)
     },
     content = function()
       ui.heading{
-        attr = { style = "background-color: #000; color: #fff;" },
         content = area.name
       }
     end
@@ -17,97 +16,136 @@ end
 
 slot.set_layout("report")
 
-ui.form{
+slot.put("<br />")
+
+ui.container{
   attr = {
-    style = " float: right;",
-    onsubmit = "openElDirect(); return(false);"
+    class = "nav",
+    style = "text-align: center;"
   },
   content = function()
-    slot.put("#")
-    ui.tag{
-      tag = "input",
-      attr = {
-        id = "input_issue",
-        type = "text",
-        style = "width: 4em;"
-      }
+
+
+    ui.container{
+      attr = { 
+        class = "left",
+      },
+      content = function()
+        ui.link{
+          external = "",
+          attr = {
+            onclick = "undo(); return(false);"
+          },
+          content = function()
+            ui.image{ static = "icons/16/cancel.png" }
+            slot.put(" ")
+            slot.put(_"Back")
+          end
+        }
+      end
     }
-    slot.put(".")
-    ui.tag{
-      tag = "input",
+
+    ui.form{
       attr = {
-        id = "input_initiative",
-        type = "text",
-        style = "width: 4em;"
-      }
+        style = "float: right;",
+        onsubmit = "openElDirect(); return(false);"
+      },
+      content = function()
+        slot.put("#")
+        ui.tag{
+          tag = "input",
+          attr = {
+            id = "input_issue",
+            type = "text",
+            style = "width: 4em;"
+          }
+        }
+        slot.put(".")
+        ui.tag{
+          tag = "input",
+          attr = {
+            id = "input_initiative",
+            type = "text",
+            style = "width: 4em;"
+          }
+        }
+        slot.put(" ")
+        ui.tag{
+          tag = "input",
+          attr = {
+            type = "submit",
+            value = "OK",
+          }
+        }
+      end
     }
-    slot.put(" ")
-    ui.tag{
-      tag = "input",
+
+
+    ui.link{
+      external = "",
       attr = {
-        type = "submit",
-        value = "OK",
-      }
+        onclick = "openPrevIssue(); return(false);"
+      },
+      content = function()
+        ui.image{ static = "icons/16/resultset_previous_double.png" }
+        slot.put(" ")
+        slot.put(_"Previous issue")
+      end
+    }
+
+    ui.link{
+      external = "",
+      attr = {
+        onclick = "openPrevInitiative(); return(false);"
+      },
+      content = function()
+        ui.image{ static = "icons/16/resultset_previous.png" }
+        slot.put(" ")
+        slot.put(_"Previous initiative")
+      end
+    }
+
+    ui.link{
+      external = "",
+      attr = {
+        onclick = "openParent(); return(false);"
+      },
+      content = function()
+        ui.image{ static = "icons/16/go_up.png" }
+        slot.put(" ")
+        slot.put(_"Go up")
+      end
+    }
+
+    ui.link{
+      external = "",
+      attr = {
+        onclick = "openNextInitiative(); return(false);"
+      },
+      content = function()
+        ui.image{ static = "icons/16/resultset_next.png" }
+        slot.put(" ")
+        slot.put(_"Next initiative")
+      end
+    }
+
+    ui.link{
+      external = "",
+      attr = {
+        onclick = "openNextIssue(); return(false);"
+      },
+      content = function()
+        ui.image{ static = "icons/16/resultset_next_double.png" }
+        slot.put(" ")
+        slot.put(_"Next issue")
+      end
     }
   end
 }
 
-ui.link{
-  external = "",
-  attr = {
-    onclick = "undo(); return(false);"
-  },
-  text = _"Back"
-}
+slot.put("<br />")
 
-slot.put(" ")
-
-ui.link{
-  external = "",
-  text = _"Areas"
-}
-
-slot.put(" ")
-
-ui.link{
-  external = "",
-  attr = {
-    onclick = "openPrevIssue(); return(false);"
-  },
-  text = "<< " .. _"Previous issue"
-}
-
-slot.put(" ")
-
-ui.link{
-  external = "",
-  attr = {
-    onclick = "openPrevInitiative(); return(false);"
-  },
-  text = "< " .. _"Previous initiative"
-}
-
-slot.put(" ")
-
-ui.link{
-  external = "",
-  attr = {
-    onclick = "openNextInitiative(); return(false);"
-  },
-  text = _"Next initiative" .. " >"
-}
-
-slot.put(" ")
-
-ui.link{
-  external = "",
-  attr = {
-    onclick = "openNextIssue(); return(false);"
-  },
-  text = _"Next issue" .. " >>"
-}
-
-local areas = Area:new_selector():exec()
+local areas = Area:new_selector():add_order_by("name"):exec()
 
 
 ui.container{
@@ -116,7 +154,8 @@ ui.container{
     for i, area in ipairs(areas) do
       link_area(area)
     end
-  end
+    slot.put("<br /><br />")
+    slot.put(_"This report can be saved (use 'save complete website') and used offline.")  end
 }
 
 ui.script{ script = "openEl('areas')" }
@@ -128,3 +167,4 @@ for i, area in ipairs(areas) do
     params = { area = area }
   }
 end
+

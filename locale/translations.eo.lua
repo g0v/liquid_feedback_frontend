@@ -155,6 +155,7 @@ return {
 ["Fully frozen at"] = "Tute ĝelita je";
 ["Global delegation"] = "Ĝenerala delegacio";
 ["Global delegation active"] = "Ĝenerala delegacio estas aktiva";
+["Go up"] = false;
 ["Half frozen at"] = "Duone ĝelita je";
 ["Hello "] = "Saluton ";
 ["Help for: #{text}"] = "Helpo por: #{text}";
@@ -450,6 +451,7 @@ return {
 ["This name is already taken, please choose another one!"] = "Tiu nomo estas jam fordonita, bonvolu elekti alian!";
 ["This name is really too short!"] = "Tiu nomo estas vere tro mallonga!";
 ["This name is too short!"] = "Tiu nomo estas tro mallonga!";
+["This report can be saved (use 'save complete website') and used offline."] = false;
 ["This suggestion has been meanwhile deleted"] = "Tiu sugesto estis intertempe forviŝita";
 ["This title is really too short!"] = "Tiu titolo estas vere tro mallonga!";
 ["This username is too short!"] = "Tiu salutonomo estas tro mallonga!";

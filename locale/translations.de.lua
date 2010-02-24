@@ -155,6 +155,7 @@ return {
 ["Fully frozen at"] = "Ganz eingefroren am/um";
 ["Global delegation"] = "Globale Delegation";
 ["Global delegation active"] = "Globale Delegation aktiv";
+["Go up"] = "Nach oben";
 ["Half frozen at"] = "Halb eingefroren am/um";
 ["Hello "] = "Hallo ";
 ["Help for: #{text}"] = "Hilfe zu: #{text}";
@@ -450,6 +451,7 @@ return {
 ["This name is already taken, please choose another one!"] = "Dieser Name ist bereits vergeben, bitte wähle einen anderen!";
 ["This name is really too short!"] = "Dieser Name ist wirklich zu kurz!";
 ["This name is too short!"] = "Dieser Name ist zu kurz!";
+["This report can be saved (use 'save complete website') and used offline."] = "Dieser Bericht kann gespeichert (mit 'Webseite komplett speichern') und offline genutzt werden.";
 ["This suggestion has been meanwhile deleted"] = "Diese Anregung wurde zwischenzeitlich gelöscht";
 ["This title is really too short!"] = "Dieser Titel ist wirklich zu kurz!";
 ["This username is too short!"] = "Dieser Benutzername ist zu kurz!";

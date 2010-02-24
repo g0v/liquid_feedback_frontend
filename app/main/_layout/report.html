@@ -17,7 +17,7 @@
         el.style.display = 'block';
       }
       function undo() {
-        if (lastEls.length > 0) {
+        if (lastEls.length > 1) {
           var el = lastEls.pop();
           el.style.display='none';
         };
@@ -27,6 +27,7 @@
       }
       var prev_issues = {};
       var prev_initiatives = {};
+      var parents = {};
       var next_initiatives = {};
       var next_issues = {};
       function openPrevIssue() {
@@ -34,6 +35,9 @@
       };
       function openPrevInitiative() {
         openEl(prev_initiatives[lastEls[lastEls.length-1].id]);
+      };
+      function openParent() {
+        openEl(parents[lastEls[lastEls.length-1].id]);
       };
       function openNextInitiative() {
         openEl(next_initiatives[lastEls[lastEls.length-1].id]);
@@ -53,6 +57,24 @@
         initiative_id_el.value = "";
       }
     </script>
+    <style>
+      .nav {
+        font-size: 75%;
+      }
+      .nav .left {
+        float: left;
+      }
+
+      .nav a {
+        text-decoration: none;
+        margin-left: 0.5em;
+        padding: 1ex;
+        background-color: #ddd;
+      }
+      .nav img {
+        vertical-align: middle;
+      }
+    </style>
   </head>
   <body>
     <div class="main" id="default">
