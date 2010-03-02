@@ -38,7 +38,7 @@ slot.select("actions", function()
   end
 end)
 
-slot.put_into("sub_title", encode.html(_"Initiative: '#{name}'":gsub("#{name}", initiative.name) ))
+slot.put_into("sub_title", encode.html(_("Initiative: '#{name}'", { name = initiative.name }) ))
 
 execute.view{
   module = "initiative",
