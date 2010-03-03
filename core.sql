@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('beta22', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('beta23', NULL, NULL, NULL))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -2329,73 +2329,97 @@ CREATE FUNCTION "create_snapshot"
           UPDATE "suggestion" SET
             "minus2_unfulfilled_count" = (
               SELECT coalesce(sum("snapshot"."weight"), 0)
-              FROM "opinion" JOIN "direct_interest_snapshot" AS "snapshot"
-              ON "opinion"."member_id" = "snapshot"."member_id"
-              WHERE "opinion"."suggestion_id" = "suggestion_id_v"
-              AND "snapshot"."issue_id" = "issue_id_p"
+              FROM "issue" CROSS JOIN "opinion"
+              JOIN "direct_interest_snapshot" AS "snapshot"
+              ON "snapshot"."issue_id" = "issue"."id"
+              AND "snapshot"."event" = "issue"."latest_snapshot_event"
+              AND "snapshot"."member_id" = "opinion"."member_id"
+              WHERE "issue"."id" = "issue_id_p"
+              AND "opinion"."suggestion_id" = "suggestion_id_v"
               AND "opinion"."degree" = -2
               AND "opinion"."fulfilled" = FALSE
             ),
             "minus2_fulfilled_count" = (
               SELECT coalesce(sum("snapshot"."weight"), 0)
-              FROM "opinion" JOIN "direct_interest_snapshot" AS "snapshot"
-              ON "opinion"."member_id" = "snapshot"."member_id"
-              WHERE "opinion"."suggestion_id" = "suggestion_id_v"
-              AND "snapshot"."issue_id" = "issue_id_p"
+              FROM "issue" CROSS JOIN "opinion"
+              JOIN "direct_interest_snapshot" AS "snapshot"
+              ON "snapshot"."issue_id" = "issue"."id"
+              AND "snapshot"."event" = "issue"."latest_snapshot_event"
+              AND "snapshot"."member_id" = "opinion"."member_id"
+              WHERE "issue"."id" = "issue_id_p"
+              AND "opinion"."suggestion_id" = "suggestion_id_v"
               AND "opinion"."degree" = -2
               AND "opinion"."fulfilled" = TRUE
             ),
             "minus1_unfulfilled_count" = (
               SELECT coalesce(sum("snapshot"."weight"), 0)
-              FROM "opinion" JOIN "direct_interest_snapshot" AS "snapshot"
-              ON "opinion"."member_id" = "snapshot"."member_id"
-              WHERE "opinion"."suggestion_id" = "suggestion_id_v"
-              AND "snapshot"."issue_id" = "issue_id_p"
+              FROM "issue" CROSS JOIN "opinion"
+              JOIN "direct_interest_snapshot" AS "snapshot"
+              ON "snapshot"."issue_id" = "issue"."id"
+              AND "snapshot"."event" = "issue"."latest_snapshot_event"
+              AND "snapshot"."member_id" = "opinion"."member_id"
+              WHERE "issue"."id" = "issue_id_p"
+              AND "opinion"."suggestion_id" = "suggestion_id_v"
               AND "opinion"."degree" = -1
               AND "opinion"."fulfilled" = FALSE
             ),
             "minus1_fulfilled_count" = (
               SELECT coalesce(sum("snapshot"."weight"), 0)
-              FROM "opinion" JOIN "direct_interest_snapshot" AS "snapshot"
-              ON "opinion"."member_id" = "snapshot"."member_id"
-              WHERE "opinion"."suggestion_id" = "suggestion_id_v"
-              AND "snapshot"."issue_id" = "issue_id_p"
+              FROM "issue" CROSS JOIN "opinion"
+              JOIN "direct_interest_snapshot" AS "snapshot"
+              ON "snapshot"."issue_id" = "issue"."id"
+              AND "snapshot"."event" = "issue"."latest_snapshot_event"
+              AND "snapshot"."member_id" = "opinion"."member_id"
+              WHERE "issue"."id" = "issue_id_p"
+              AND "opinion"."suggestion_id" = "suggestion_id_v"
               AND "opinion"."degree" = -1
               AND "opinion"."fulfilled" = TRUE
             ),
             "plus1_unfulfilled_count" = (
               SELECT coalesce(sum("snapshot"."weight"), 0)
-              FROM "opinion" JOIN "direct_interest_snapshot" AS "snapshot"
-              ON "opinion"."member_id" = "snapshot"."member_id"
-              WHERE "opinion"."suggestion_id" = "suggestion_id_v"
-              AND "snapshot"."issue_id" = "issue_id_p"
+              FROM "issue" CROSS JOIN "opinion"
+              JOIN "direct_interest_snapshot" AS "snapshot"
+              ON "snapshot"."issue_id" = "issue"."id"
+              AND "snapshot"."event" = "issue"."latest_snapshot_event"
+              AND "snapshot"."member_id" = "opinion"."member_id"
+              WHERE "issue"."id" = "issue_id_p"
+              AND "opinion"."suggestion_id" = "suggestion_id_v"
               AND "opinion"."degree" = 1
               AND "opinion"."fulfilled" = FALSE
             ),
             "plus1_fulfilled_count" = (
               SELECT coalesce(sum("snapshot"."weight"), 0)
-              FROM "opinion" JOIN "direct_interest_snapshot" AS "snapshot"
-              ON "opinion"."member_id" = "snapshot"."member_id"
-              WHERE "opinion"."suggestion_id" = "suggestion_id_v"
-              AND "snapshot"."issue_id" = "issue_id_p"
+              FROM "issue" CROSS JOIN "opinion"
+              JOIN "direct_interest_snapshot" AS "snapshot"
+              ON "snapshot"."issue_id" = "issue"."id"
+              AND "snapshot"."event" = "issue"."latest_snapshot_event"
+              AND "snapshot"."member_id" = "opinion"."member_id"
+              WHERE "issue"."id" = "issue_id_p"
+              AND "opinion"."suggestion_id" = "suggestion_id_v"
               AND "opinion"."degree" = 1
               AND "opinion"."fulfilled" = TRUE
             ),
             "plus2_unfulfilled_count" = (
               SELECT coalesce(sum("snapshot"."weight"), 0)
-              FROM "opinion" JOIN "direct_interest_snapshot" AS "snapshot"
-              ON "opinion"."member_id" = "snapshot"."member_id"
-              WHERE "opinion"."suggestion_id" = "suggestion_id_v"
-              AND "snapshot"."issue_id" = "issue_id_p"
+              FROM "issue" CROSS JOIN "opinion"
+              JOIN "direct_interest_snapshot" AS "snapshot"
+              ON "snapshot"."issue_id" = "issue"."id"
+              AND "snapshot"."event" = "issue"."latest_snapshot_event"
+              AND "snapshot"."member_id" = "opinion"."member_id"
+              WHERE "issue"."id" = "issue_id_p"
+              AND "opinion"."suggestion_id" = "suggestion_id_v"
               AND "opinion"."degree" = 2
               AND "opinion"."fulfilled" = FALSE
             ),
             "plus2_fulfilled_count" = (
               SELECT coalesce(sum("snapshot"."weight"), 0)
-              FROM "opinion" JOIN "direct_interest_snapshot" AS "snapshot"
-              ON "opinion"."member_id" = "snapshot"."member_id"
-              WHERE "opinion"."suggestion_id" = "suggestion_id_v"
-              AND "snapshot"."issue_id" = "issue_id_p"
+              FROM "issue" CROSS JOIN "opinion"
+              JOIN "direct_interest_snapshot" AS "snapshot"
+              ON "snapshot"."issue_id" = "issue"."id"
+              AND "snapshot"."event" = "issue"."latest_snapshot_event"
+              AND "snapshot"."member_id" = "opinion"."member_id"
+              WHERE "issue"."id" = "issue_id_p"
+              AND "opinion"."suggestion_id" = "suggestion_id_v"
               AND "opinion"."degree" = 2
               AND "opinion"."fulfilled" = TRUE
             )
