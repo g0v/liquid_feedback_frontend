@@ -536,7 +536,7 @@ return {
 ["continuing"] = "kontinue";
 ["delete<br /><br />"] = "forviŝi<br /><br />";
 ["email"] = "Retpoŝto";
-["last 24 hours"] = false;
+["last 24 hours"] = "lastaj 24 horoj";
 ["login name"] = "Salutnomo";
 ["must"] = "devas";
 ["must not"] = "ne rajtas";
