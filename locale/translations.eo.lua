@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 return {
-["##{id}"] = false;
+["##{id}"] = "##{id}";
 ["##{issue_id}.#{id} #{name}"] = false;
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} temoj, kiujn vi interesi";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} temoj";
