@@ -25,8 +25,8 @@ local issue = suggestion.initiative:get_reference_selector("issue"):for_share():
 if issue.closed then
   slot.put_into("error", _"This issue is already closed.")
   return false
-elseif issue.fully_frozen then 
-  slot.put_into("error", _"Voting for this issue has already begun.")
+elseif issue.half_frozen then 
+  slot.put_into("error", _"This issue is already frozen.")
   return false
 end
 

@@ -18,6 +18,7 @@ local interested_members_selector = issue:get_reference_selector("interested_mem
 local voting_requests_selector = issue:get_reference_selector("interested_members_snapshot")
   :join("issue", nil, "issue.id = direct_interest_snapshot.issue_id")
   :add_where("direct_interest_snapshot.voting_requested = false")
+  :add_where("direct_interest_snapshot.event = issue.latest_snapshot_event")
 
 local delegations_selector = issue:get_reference_selector("delegations")
 

@@ -197,7 +197,9 @@ if #areas > 0 then
 end
 
 local initiatives_selector = Initiative:new_selector()
+  :join("issue", "_issue_state", "_issue_state.id = initiative.issue_id")
   :join("initiator", nil, { "initiator.initiative_id = initiative.id AND initiator.member_id = ? AND initiator.accepted ISNULL", app.session.member.id })
+  :add_where("_issue_state.closed ISNULL AND _issue_state.half_frozen ISNULL")
 
 if initiatives_selector:count() > 0 then
   ui.container{

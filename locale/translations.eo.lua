@@ -23,7 +23,7 @@ return {
 ["Accordion (first expanded)"] = "Akordiono (unua apertaj)";
 ["Accordion (none expanded)"] = "Akordiono (neniu apertaj)";
 ["Active?"] = "Ĉu aktiva?";
-["Add alternative initiative to issue"] = "Aldoni alternativan iniciaton al la temo"; 
+["Add alternative initiative to issue"] = "Aldoni alternativan iniciaton al la temo";
 ["Add my interest"] = "Anonci mian intereson";
 ["Add new suggestion"] = "Aldoni novan sugeston";
 ["Add to my contacts"] = "Aldoni al miaj kontaktoj";
