@@ -69,7 +69,7 @@ else
         lines[#lines+1] = line
       elseif (state == "-") or (state == "+") or (state == "eof") then
         local text = table.concat(lines, "\n")
-        slot.put("<tr><td>", text, "</td><td>", encode.html_newlines(encode.html(text)), "</td></tr>")
+        slot.put("<tr><td>", encode.html_newlines(encode.html(text)), "</td><td>", encode.html_newlines(encode.html(text)), "</td></tr>")
         lines = { line }
       end
     elseif last_state == "-" then
