@@ -19,7 +19,7 @@ return {
 ["Abstention [single entry]"] = "Sindeteno";
 ["Accept invitation"] = "Akcepti inviton";
 ["Accepted at"] = "Akceptita je";
-["Accordion (all expanded)"] = "Akordiono (ciuj apertaj)";
+["Accordion (all expanded)"] = "Akordiono (ĉiuj apertaj)";
 ["Accordion (first expanded)"] = "Akordiono (unua apertaj)";
 ["Accordion (none expanded)"] = "Akordiono (neniu apertaj)";
 ["Active?"] = "Ĉu aktiva?";
@@ -433,7 +433,7 @@ return {
 ["This initiative"] = "Tiu iniciato";
 ["This initiative compared to alternative initiatives"] = "Tiu iniciato komparata al la alternativajn iniciatojn";
 ["This initiative has been revoked at #{revoked}"] = "Tiu iniciato estis nuligita je #{revoked}";
-["This initiative has not been admitted! It failed the quorum of #{quorum}."] = "Tiu iniciato ne estas aprobita! Gxi malsukcesis la kvorumon de #{quorum}.";
+["This initiative has not been admitted! It failed the quorum of #{quorum}."] = "Tiu iniciato ne estas aprobita! Ĝi malsukcesis la kvorumon de #{quorum}.";
 ["This initiative is already revoked"] = "Tiu iniciato estas jam nuligita";
 ["This initiative is revoked"] = "Tiu iniciato estas nuligita";
 ["This issue has been cancelled. It failed the quorum of #{quorum}."] = "Tiu temo estas abolita. Ĝi malsukcesi la kvoro de #{quorum}.";
