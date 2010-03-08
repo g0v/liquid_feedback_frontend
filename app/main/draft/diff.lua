@@ -47,11 +47,12 @@ if not status then
 else
   slot.put('<table class="diff">')
   slot.put('<tr><th width="50%">' .. _"Old draft revision" .. '</th><th width="50%">' .. _"New draft revision" .. '</th></tr>')
+
   local last_state = "unchanged"
   local lines = {}
   local removed_lines = nil
-  output = output .. " "
-  output = output:gsub("[^\n\r]+", function(line)
+
+  local function process_line(line)
     local state = "unchanged"
     local char = line:sub(1,1)
     line = line:sub(2)
@@ -60,13 +61,15 @@ else
       state = "-"
     elseif char == "+" then
       state = "+"
+    elseif char == "!" then
+      state = "eof"
     end
     if last_state == "unchanged" then
       if state == "unchanged" then
         lines[#lines+1] = line
-      elseif (state == "-") or (state == "+") then
-        local text = table.concat(lines, "<br />")
-        slot.put("<tr><td>", text, "</td><td>", text, "</td></tr>")
+      elseif (state == "-") or (state == "+") or (state == "eof") then
+        local text = table.concat(lines, "\n")
+        slot.put("<tr><td>", encode.html_newlines(encode.html(text)), "</td><td>", encode.html_newlines(encode.html(text)), "</td></tr>")
         lines = { line }
       end
     elseif last_state == "-" then
@@ -75,29 +78,36 @@ else
       elseif state == "+" then
         removed_lines = lines
         lines = { line }
-      elseif state == "unchanged" then
-        local text = table.concat(lines,"<br />")
-        slot.put('<tr><td class="removed">', text, "</td><td></td></tr>")
+      elseif (state == "unchanged") or (state == "eof") then
+        local text = table.concat(lines,"\n")
+        slot.put('<tr><td class="removed">', encode.html_newlines(encode.html(text)), "</td><td></td></tr>")
         lines = { line }
       end
     elseif last_state == "+" then
       if state == "+" then
         lines[#lines+1] = line
-      elseif (state == "-") or (state == "unchanged") then
+      elseif (state == "-") or (state == "unchanged") or (state == "eof") then
         if removed_lines then
-          local text = table.concat(lines, "<br />")
-          local removed_text = table.concat(removed_lines, "<br />")
-          slot.put('<tr><td class="removed">', removed_text, '</td><td class="added">', text, "</td></tr>")
+          local text = table.concat(lines, "\n")
+          local removed_text = table.concat(removed_lines, "\n")
+          slot.put('<tr><td class="removed">', encode.html_newlines(encode.html(removed_text)), '</td><td class="added">', encode.html_newlines(encode.html(text)), "</td></tr>")
         else
-          local text = table.concat(lines, "<br />")
-          slot.put('<tr><td></td><td class="added">', text, "</td></tr>")
+          local text = table.concat(lines, "\n")
+          slot.put('<tr><td></td><td class="added">', encode.html_newlines(encode.html(text)), "</td></tr>")
         end
         removed_lines = nil
         lines = { line }
       end
     end
     last_state = state
+  end
+
+  output = output .. " "
+  output = output:gsub("[^\n\r]+", function(line)
+    process_line(line)
   end)
+  process_line("!")
+
   slot.put("</table>")
 end 
 

@@ -447,7 +447,7 @@ return {
 ["This member has rejected to become initiator of this initiative"] = "Dieses Mitglied hat die Einladung, Initiator zu werden, abgelehnt";
 ["This member is already initiator of this initiative"] = "Dieses Mitglied ist bereits Initiator dieser Initiative";
 ["This member is already invited to become initiator of this initiative"] = "Dieses Mitglied ist bereits eingeladen Initiator dieser Initiative zu werden";
-["This member is participating, the rest of delegation chain is suspended while discussing"] = "Dieses Mitglied partizipiert, Rest der Delegationskette ausgesetzt.";
+["This member is participating, the rest of delegation chain is suspended while discussing"] = "Dieses Mitglied partizipiert, Rest der Delegationskette während der Diskussion ausgesetzt.";
 ["This name is already taken, please choose another one!"] = "Dieser Name ist bereits vergeben, bitte wähle einen anderen!";
 ["This name is really too short!"] = "Dieser Name ist wirklich zu kurz!";
 ["This name is too short!"] = "Dieser Name ist zu kurz!";

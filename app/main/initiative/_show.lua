@@ -72,7 +72,7 @@ if initiative.revoked then
   }
 end
 
-if initiator and initiator.accepted == nil then
+if initiator and initiator.accepted == nil and not initiative.issue.half_frozen and not initiative.issue.closed then
   ui.container{
     attr = { class = "initiator_invite_info" },
     content = function()

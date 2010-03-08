@@ -300,7 +300,7 @@ for event, event_name in pairs(event_names) do
           :add_field("max(timeline.occurrence)", "occurrence")
           :add_field("timeline.event", nil,  { "grouped" })
           :add_field("timeline.issue_id", nil, { "grouped" })
-          :add_field("timeline.initiative_id", nil, { "grouped" })
+          :add_field("draft.initiative_id", nil, { "grouped" })
           :add_field("max(timeline.draft_id)", "draft_id")
           :add_field("timeline.suggestion_id", nil, { "grouped" })
           :add_field("COUNT(*)", "count")
