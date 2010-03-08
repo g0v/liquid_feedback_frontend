@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('beta23', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('beta24', NULL, NULL, NULL))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -150,7 +150,7 @@ CREATE TABLE "setting" (
         "value"                 TEXT            NOT NULL );
 CREATE INDEX "setting_key_idx" ON "setting" ("key");
 
-COMMENT ON TABLE "setting" IS 'Place to store a frontend specific settings for members as a string';
+COMMENT ON TABLE "setting" IS 'Place to store a frontend specific setting for members as a string';
 
 COMMENT ON COLUMN "setting"."key" IS 'Name of the setting, preceded by a frontend specific prefix';
 
@@ -177,7 +177,7 @@ CREATE TABLE "member_relation_setting" (
         "other_member_id"       INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "value"                 TEXT            NOT NULL );
 
-COMMENT ON TABLE "setting" IS 'Place to store a frontend specific settings related to relations between members as a string';
+COMMENT ON TABLE "member_relation_setting" IS 'Place to store a frontend specific setting related to relations between members as a string';
 
 
 CREATE TYPE "member_image_type" AS ENUM ('photo', 'avatar');
@@ -3207,11 +3207,18 @@ CREATE FUNCTION "delete_private_data"()
         "external_posts"               = NULL,
         "statement"                    = NULL;
       -- "text_search_data" is updated by triggers
-      DELETE FROM "session";
+      UPDATE "member_history" SET "login" = 'login' || "member_id"::text;
       DELETE FROM "invite_code";
-      DELETE FROM "contact";
       DELETE FROM "setting";
+      DELETE FROM "setting_map";
+      DELETE FROM "member_relation_setting";
       DELETE FROM "member_image";
+      DELETE FROM "contact";
+      DELETE FROM "session";
+      DELETE FROM "area_setting";
+      DELETE FROM "issue_setting";
+      DELETE FROM "initiative_setting";
+      DELETE FROM "suggestion_setting";
       DELETE FROM "direct_voter" USING "issue"
         WHERE "direct_voter"."issue_id" = "issue"."id"
         AND "issue"."closed" ISNULL;
