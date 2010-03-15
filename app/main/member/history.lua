@@ -1,6 +1,6 @@
 local member = Member:by_id(param.get_id())
 
-slot.put_into("title", _("Member name history for '#{name}'", { name = member.name }))
+slot.put_into("title", encode.html(_("Member name history for '#{name}'", { name = member.name })))
 
 slot.select("actions", function()
   ui.link{

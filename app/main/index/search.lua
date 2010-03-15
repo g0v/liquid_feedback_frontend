@@ -1,7 +1,7 @@
 local search_for = param.get("search_for", atom.string) or "global"
 local search_string = param.get("search", atom.string)
 
-slot.put_into("title", _("Search results for: '#{search}'", { search  = search_string }))
+slot.put_into("title", encode.html(_("Search results for: '#{search}'", { search  = search_string })))
 
 
 if search_for == "global" or search_for == "member" then
