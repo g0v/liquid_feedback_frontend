@@ -88,7 +88,7 @@ ui.container{
             {
               field_attr = { style = "width: 110px; padding: 0;"},
               content = function()
-                if initiative.issue.accepted and initiative.issue.closed then
+                if initiative.issue.fully_frozen and initiative.issue.closed then
                   if initiative.issue.ranks_available then 
                     if initiative.negative_votes and initiative.positive_votes then
                       local max_value = initiative.issue.voter_count
