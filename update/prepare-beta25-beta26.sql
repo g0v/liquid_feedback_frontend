@@ -1,7 +1,7 @@
 BEGIN;
 
 CREATE OR REPLACE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('incomplete_update_from_beta24_to_beta25', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('incomplete_update_from_beta25_to_beta26', NULL, NULL, NULL))
   AS "subquery"("string", "major", "minor", "revision");
 
 ALTER TABLE "member" ADD COLUMN "last_login" TIMESTAMPTZ;
