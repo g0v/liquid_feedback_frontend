@@ -11,19 +11,15 @@ slot.select("actions", function()
     view = "index"
   }
 
-  local setting_key = "liquidfeedback_frontend_developer_features"
-  local setting = Setting:by_pk(app.session.member.id, setting_key)
+  ui.link{
+    content = function()
+        ui.image{ static = "icons/16/wrench.png" }
+        slot.put(_"Developer features")
+    end,
+    module = "member",
+    view = "developer_settings"
+  }
 
-  if setting then
-    ui.link{
-      content = function()
-          ui.image{ static = "icons/16/wrench.png" }
-          slot.put(_"Developer features")
-      end,
-      module = "member",
-      view = "developer_settings"
-    }
-  end
 end)
 
 ui.heading{ content = _"Display settings" }

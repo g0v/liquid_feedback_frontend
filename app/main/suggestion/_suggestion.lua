@@ -5,7 +5,11 @@ ui.form{
   record = suggestion,
   readonly = true,
   content = function()
-    ui.field.text{ label = _"Author",      value = suggestion.author.name }
+    if app.session.member_id or config.public_access == "pseudonym" then
+      ui.field.text{ label = _"Author",      value = suggestion.author.name }
+    else
+      ui.field.text{ label = _"Author",      value = _"[not displayed public]" }
+    end
     ui.field.text{ label = _"Title",        name = "name" }
     ui.container{
       attr = { class = "suggestion_content wiki" },

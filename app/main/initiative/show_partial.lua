@@ -7,7 +7,10 @@ if not initiative then
 end
 
 -- TODO performance
-local initiator = Initiator:by_pk(initiative.id, app.session.member.id)
+local initiator
+if app.session.member_id then
+  initiator = Initiator:by_pk(initiative.id, app.session.member.id)
+end
 
 ui.partial{
   module = "initiative",

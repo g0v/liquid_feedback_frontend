@@ -3,14 +3,19 @@ ui.script{ script = "lf_initiative_expanded = {};" }
 local issue = param.get("issue", "table")
 
 local initiatives_selector = param.get("initiatives_selector", "table")
+
 initiatives_selector
   :join("issue", nil, "issue.id = initiative.issue_id")
-  :left_join("initiator", "_initiator", { "_initiator.initiative_id = initiative.id AND _initiator.member_id = ?", app.session.member.id} )
-  :left_join("supporter", "_supporter", { "_supporter.initiative_id = initiative.id AND _supporter.member_id = ?", app.session.member.id} )
 
-  :add_field("(_initiator.member_id NOTNULL)", "is_initiator")
-  :add_field({"(_supporter.member_id NOTNULL) AND NOT EXISTS(SELECT 1 FROM opinion WHERE opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)))", app.session.member.id }, "is_supporter")
-  :add_field({"EXISTS(SELECT 1 FROM opinion WHERE opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)))", app.session.member.id }, "is_potential_supporter")
+if app.session.member_id then
+  initiatives_selector
+    :left_join("initiator", "_initiator", { "_initiator.initiative_id = initiative.id AND _initiator.member_id = ?", app.session.member.id} )
+    :left_join("supporter", "_supporter", { "_supporter.initiative_id = initiative.id AND _supporter.member_id = ?", app.session.member.id} )
+  
+    :add_field("(_initiator.member_id NOTNULL)", "is_initiator")
+    :add_field({"(_supporter.member_id NOTNULL) AND NOT EXISTS(SELECT 1 FROM opinion WHERE opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)))", app.session.member.id }, "is_supporter")
+    :add_field({"EXISTS(SELECT 1 FROM opinion WHERE opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)))", app.session.member.id }, "is_potential_supporter")
+end
 
 local initiatives_count = initiatives_selector:count()
 
@@ -208,7 +213,7 @@ if show_for_issue then
     }
   end
 
-  if not (issue.fully_frozen or issue.closed) then
+  if app.session.member_id and not (issue.fully_frozen or issue.closed) then
     slot.put(" ")
     ui.link{
       content = function()

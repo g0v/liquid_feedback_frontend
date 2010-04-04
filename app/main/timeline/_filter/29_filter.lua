@@ -1,6 +1,9 @@
 if request.get_view() == "index" and not param.get("date") then
+  local setting
   local setting_key = "liquidfeedback_frontend_timeline_current_options"
-  local setting = Setting:by_pk(app.session.member.id, setting_key)
+  if app.session.member_id then
+    setting = Setting:by_pk(app.session.member.id, setting_key)
+  end
 
   local timeline_params = {}
   if setting and setting.value then
@@ -14,8 +17,11 @@ if request.get_view() == "index" and not param.get("date") then
     end
   end
 
+  local setting
   local setting_key = "liquidfeedback_frontend_timeline_current_date"
-  local setting = Setting:by_pk(app.session.member.id, setting_key)
+  if app.session.member_id then
+    setting = Setting:by_pk(app.session.member.id, setting_key)
+  end
 
   if setting then
     timeline_params.date = setting.value

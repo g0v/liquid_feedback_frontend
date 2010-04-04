@@ -136,10 +136,10 @@ function Initiative:get_search_selector(search_string)
     :add_group_by("_supporter.member_id")
 end
 
-function Member:get_search_selector(search_string)
-  return self:new_selector()
-    :add_where("active")
-end
+--function Member:get_search_selector(search_string)
+--  return self:new_selector()
+--    :add_where("active")
+--end
 
 
 function Initiative.object_get:current_draft()

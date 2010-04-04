@@ -25,6 +25,8 @@ if app.session.member then
   if tab_mode then
     config.user_tab_mode = tab_mode
   end
+else
+  config.user_tab_mode = "accordeon_first_expanded"
 end
 
 local web20 = config.user_tab_mode == "accordeon"
@@ -39,12 +41,15 @@ if request.get_json_request_slots() then
   slot.set_layout("blank")
 end
 
-
-ui.container{
-  attr = {
-    class = web20 and "web20" or "web10"
-  },
-  content = function()
-    execute.inner()
-  end
-}
+if request.get_module() ~= "api" then
+  ui.container{
+    attr = {
+      class = web20 and "web20" or "web10"
+    },
+    content = function()
+      execute.inner()
+    end
+  }
+else
+  execute.inner()
+end

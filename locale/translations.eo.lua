@@ -11,6 +11,9 @@ return {
 ["(new window)"] = "(nova fenestro)";
 ["+ #{weight}"] = "+ #{weight}";
 ["A-Z"] = "A-Z";
+["API key"] = false;
+["API key has been deleted"] = false;
+["API key has been updated"] = false;
 ["About"] = "Pri";
 ["About / Impressum"] = "Pri / Pres-indikaĵoj";
 ["About LiquidFeedback"] = "Pri LiquidFeedback";
@@ -71,6 +74,7 @@ return {
 ["Cancel refuse of invitation"] = "Nuligi rifuzon de la invito";
 ["Cancel registration"] = "Nuligi registradon";
 ["Cancelled"] = "Abolita";
+["Change API key"] = false;
 ["Change area delegation"] = "Ŝanĝi delegacion por temaro";
 ["Change display settings"] = "Sangi afiŝajn agordojn";
 ["Change filters and order"] = "Ŝanĝi filtrojn kaj ordon";
@@ -103,9 +107,11 @@ return {
 ["Created at"] = "Kreita je";
 ["Current draft"] = "Aktuala skizo";
 ["Current votings in areas you are member of and issues you are interested in:"] = "Aktualaj voĉdonoj pri temoj en kiuj vi membraa kaj kiuj vin interesas:";
+["Currently no API key is set."] = false;
 ["Date"] = "Dato";
 ["Degree"] = "Grado";
 ["Delegations"] = "Delegacioj";
+["Delete API key"] = false;
 ["Delete filter"] = "Forvisi filtron";
 ["Description"] = "Priskribo";
 ["Details"] = "Detaloj";
@@ -144,6 +150,7 @@ return {
 ["Email address too short!"] = "Retadreso estas tro mallonga!";
 ["Email confirmation request"] = "Konfirmopeto de via retadreso";
 ["Empty help text: #{id}.#{lang}.txt"] = "Malplena helpoteksto: #{id}.#{lang}.txt";
+["Error while resolving openid. Internal message: '#{errmsg}'"] = false;
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Eraro dum ĝisdatigo de la membro, la datumbazo raportas sekvan eraron:<br /><br /> (#{errormessage})";
 ["External memberships"] = "Eksteraj membrecoj";
 ["External posts"] = "Eksteraj postenoj";
@@ -153,6 +160,8 @@ return {
 ["Friday"] = "Vendredo";
 ["Frozen"] = "Ĝelita";
 ["Fully frozen at"] = "Tute ĝelita je";
+["Generate / change API key"] = false;
+["Generate API key"] = false;
 ["Global delegation"] = "Ĝenerala delegacio";
 ["Global delegation active"] = "Ĝenerala delegacio estas aktiva";
 ["Go up"] = "Movi supren";
@@ -297,6 +306,8 @@ return {
 ["One issue you are interested in"] = "Unu temo, kiu vin interesas";
 ["One step back"] = "Unu paŝo reen";
 ["Open"] = "Malferma";
+["OpenID"] = false;
+["OpenID Login"] = false;
 ["Opinions"] = "Opinioj";
 ["Order by"] = "Ordigi laŭ";
 ["Organizational unit"] = "Organiza unuo";
@@ -397,6 +408,7 @@ return {
 ["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = "Kelkaj funkcioj bazitaj je JavaScript (precipe la voĉdono) ne funkcios.\nBonvolu, uzi por tiu betaversio aktualan version de Firefox, Safari, Opera(?), Konqueror aŭ alian (pli) normokonforman retumilon.\nAlternativa atingo sen JavaScript estos baldaŭ disponeble.";
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Pardonu, por tiu konto ne ekzistas konfirmita retadreson. Bonvolu vin turni al administranto aŭ al la helpantaro.";
 ["Sorry, but you are currently not invited"] = "Pardonu, sed aktuale vi ne estas invitita";
+["Sorry, it was not possible to verify your OpenID."] = false;
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Pardonu, vi atingis vian propran inundolimigon. Bonvolu esti pli malrapida...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Pardonu, via kontingento por krei iniciatojn estas aktuale elĉerpita. Bonvolu provi pli malfrue denove!";
 ["State"] = "Stato";
@@ -424,12 +436,14 @@ return {
 ["Tabs"] = "Langetoj";
 ["Terms accepted"] = "Kondiĉoj akceptitaj";
 ["Terms of use"] = "Uzokondiĉoj";
+["The API key has been changed too fast."] = false;
 ["The code you've entered is invalid"] = "La kodo, kiun vi enigis ne estas valida!";
 ["The draft of this initiative has been updated!"] = "La skizo de tiu ĉi iniciato estas ĝisdatigita";
 ["The drafts do not differ"] = "La skizoj ne estas malsamaj";
 ["The initiators suggest to support the following initiative:"] = "La iniciatantoj rekomendas subteni sekvan iniciaton:";
 ["There are no more alternative initiatives currently."] = "Aktuale ne eksistas pliajn alternativajn iniciatojn.";
 ["There were no more alternative initiatives."] = "Ne eksistis pliajn alternativajn iniciatojn.";
+["This identifier is not allowed for this instance."] = false;
 ["This initiative"] = "Tiu iniciato";
 ["This initiative compared to alternative initiatives"] = "Tiu iniciato komparata al la alternativajn iniciatojn";
 ["This initiative has been revoked at #{revoked}"] = "Tiu iniciato estis nuligita je #{revoked}";
@@ -506,9 +520,10 @@ return {
 ["You have saved this member as contact."] = "Vi ne jam storis membron kiel kontakton.";
 ["You have to accept the terms of use to complete registration."] = "Vi devas akcepti la uzokondiĉojn por fini la registradon.";
 ["You have to mark 'Are you sure' to revoke!"] = "Por nuligi vi devas elekti 'Certa?'";
-["You need to be logged in, to use this system."] = "Vi devas esti ensalutinta, por uzi la sistemon";
+["You need to be logged in, to use all features of this system."] = false;
 ["You want to vote later"] = "Vi volas baloti pli malfrue";
 ["You've successfully registered and you can login now with your login and password!"] = "Vi sukcese registriĝis kaj povas nun ensaluti per via salutnomo kaj pasvorto!";
+["Your API key:"] = false;
 ["Your are interested"] = "Vi estas interesita";
 ["Your are potential supporter"] = "Vi estas eventuala subtenanto";
 ["Your are supporter"] = "Vi estas subtenanto";
@@ -532,6 +547,8 @@ return {
 ["Your vote has been discarded. Delegation rules apply if set."] = "Via voĉo estas retirata. La delegacioregularo aplikas se metita.";
 ["Your web browser is not fully supported yet."] = "Via retumilo ne estas jam komplete subtenita.";
 ["Z-A"] = "Z-A";
+["[Registered members only]"] = false;
+["[not displayed public]"] = false;
 ["and #{count} more initiatives"] = "kaj #{count} pliaj iniciatoj";
 ["continuing"] = "kontinue";
 ["delete<br /><br />"] = "forviŝi<br /><br />";

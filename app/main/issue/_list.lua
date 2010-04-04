@@ -1,8 +1,10 @@
 local issues_selector = param.get("issues_selector", "table")
 
-issues_selector
-  :left_join("interest", "_interest", { "_interest.issue_id = issue.id AND _interest.member_id = ?", app.session.member.id} )
-  :add_field("(_interest.member_id NOTNULL)", "is_interested")
+if app.session.member_id then
+  issues_selector
+    :left_join("interest", "_interest", { "_interest.issue_id = issue.id AND _interest.member_id = ?", app.session.member.id} )
+    :add_field("(_interest.member_id NOTNULL)", "is_interested")
+end
 
 ui.add_partial_param_names{
   "filter",
@@ -265,9 +267,9 @@ filters.content = function()
                   issue = record,
                   initiatives_selector = initiatives_selector,
                   highlight_string = highlight_string,
-                  per_page = tonumber(app.session.member:get_setting_value("initiatives_preview_limit") or 3),
+                  per_page = app.session.member_id and tonumber(app.session.member:get_setting_value("initiatives_preview_limit") or 3) or 3,
                   no_sort = true,
-                  limit = tonumber(app.session.member:get_setting_value("initiatives_preview_limit") or 3)
+                  limit = app.session.member_id and tonumber(app.session.member:get_setting_value("initiatives_preview_limit") or 3) or 3
                 }
               }
             end

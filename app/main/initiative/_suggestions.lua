@@ -1,6 +1,6 @@
 local initiative = param.get("initiative", "table")
 
-if not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked then
+if app.session.member_id and not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked then
   ui.link{
     content = function()
       ui.image{ static = "icons/16/comment_add.png" }

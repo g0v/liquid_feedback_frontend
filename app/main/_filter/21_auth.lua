@@ -1,8 +1,8 @@
 local auth_needed = not (
   request.get_module() == 'index'
   and (
-       request.get_view()   == 'login'
-    or request.get_action() == 'login'
+       request.get_view()   == "login"
+    or request.get_action() == "login"
     or request.get_view()   == "register"
     or request.get_action() == "register"
     or request.get_view()   == "about"
@@ -12,7 +12,34 @@ local auth_needed = not (
     or request.get_action() == "confirm_notify_email"
     or request.get_action() == "set_lang"
   )
+  or request.get_module() == "openid"
 )
+
+if config.public_access then
+
+  if
+    request.get_module() == "area" and (
+     request.get_view() == "list"
+     or request.get_view() == "show"
+     or request.get_view() == "show_tab"
+    )
+    or request.get_module() == "issue" and request.get_view() == "show"
+    or request.get_module() == "issue" and request.get_view() == "show_tab"
+    or request.get_module() == "initiative" and request.get_view() == "show"
+    or request.get_module() == "initiative" and request.get_view() == "show_partial"
+    or request.get_module() == "initiative" and request.get_view() == "show_tab"
+    or request.get_module() == "suggestion" and request.get_view() == "show"
+    or request.get_module() == "draft" and request.get_view() == "diff"
+  then
+    auth_needed = false
+  end
+
+end
+
+if config.public_access and not app.session.member_id and auth_needed and request.get_module() == "index" and request.get_view() == "index" then
+  request.redirect{ module = "area", view = "list" }
+  return
+end
 
 -- if not app.session.user_id then
 --   trace.debug("DEBUG: AUTHENTICATION BYPASS ENABLED")

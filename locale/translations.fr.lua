@@ -11,6 +11,9 @@ return {
 ["(new window)"] = false;
 ["+ #{weight}"] = false;
 ["A-Z"] = false;
+["API key"] = false;
+["API key has been deleted"] = false;
+["API key has been updated"] = false;
 ["About"] = false;
 ["About / Impressum"] = false;
 ["About LiquidFeedback"] = false;
@@ -71,6 +74,7 @@ return {
 ["Cancel refuse of invitation"] = false;
 ["Cancel registration"] = false;
 ["Cancelled"] = false;
+["Change API key"] = false;
 ["Change area delegation"] = false;
 ["Change display settings"] = false;
 ["Change filters and order"] = false;
@@ -103,9 +107,11 @@ return {
 ["Created at"] = false;
 ["Current draft"] = false;
 ["Current votings in areas you are member of and issues you are interested in:"] = false;
+["Currently no API key is set."] = false;
 ["Date"] = false;
 ["Degree"] = false;
 ["Delegations"] = false;
+["Delete API key"] = false;
 ["Delete filter"] = false;
 ["Description"] = false;
 ["Details"] = false;
@@ -144,6 +150,7 @@ return {
 ["Email address too short!"] = false;
 ["Email confirmation request"] = false;
 ["Empty help text: #{id}.#{lang}.txt"] = false;
+["Error while resolving openid. Internal message: '#{errmsg}'"] = false;
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = false;
 ["External memberships"] = false;
 ["External posts"] = false;
@@ -153,6 +160,8 @@ return {
 ["Friday"] = false;
 ["Frozen"] = false;
 ["Fully frozen at"] = false;
+["Generate / change API key"] = false;
+["Generate API key"] = false;
 ["Global delegation"] = false;
 ["Global delegation active"] = false;
 ["Go up"] = false;
@@ -297,6 +306,8 @@ return {
 ["One issue you are interested in"] = false;
 ["One step back"] = false;
 ["Open"] = false;
+["OpenID"] = false;
+["OpenID Login"] = false;
 ["Opinions"] = false;
 ["Order by"] = false;
 ["Organizational unit"] = false;
@@ -397,6 +408,7 @@ return {
 ["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = false;
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = false;
 ["Sorry, but you are currently not invited"] = false;
+["Sorry, it was not possible to verify your OpenID."] = false;
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = false;
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = false;
 ["State"] = false;
@@ -424,12 +436,14 @@ return {
 ["Tabs"] = false;
 ["Terms accepted"] = false;
 ["Terms of use"] = false;
+["The API key has been changed too fast."] = false;
 ["The code you've entered is invalid"] = false;
 ["The draft of this initiative has been updated!"] = false;
 ["The drafts do not differ"] = false;
 ["The initiators suggest to support the following initiative:"] = false;
 ["There are no more alternative initiatives currently."] = false;
 ["There were no more alternative initiatives."] = false;
+["This identifier is not allowed for this instance."] = false;
 ["This initiative"] = false;
 ["This initiative compared to alternative initiatives"] = false;
 ["This initiative has been revoked at #{revoked}"] = false;
@@ -506,9 +520,10 @@ return {
 ["You have saved this member as contact."] = false;
 ["You have to accept the terms of use to complete registration."] = false;
 ["You have to mark 'Are you sure' to revoke!"] = false;
-["You need to be logged in, to use this system."] = false;
+["You need to be logged in, to use all features of this system."] = false;
 ["You want to vote later"] = false;
 ["You've successfully registered and you can login now with your login and password!"] = false;
+["Your API key:"] = false;
 ["Your are interested"] = false;
 ["Your are potential supporter"] = false;
 ["Your are supporter"] = false;
@@ -532,6 +547,8 @@ return {
 ["Your vote has been discarded. Delegation rules apply if set."] = false;
 ["Your web browser is not fully supported yet."] = false;
 ["Z-A"] = false;
+["[Registered members only]"] = false;
+["[not displayed public]"] = false;
 ["and #{count} more initiatives"] = false;
 ["continuing"] = false;
 ["delete<br /><br />"] = false;

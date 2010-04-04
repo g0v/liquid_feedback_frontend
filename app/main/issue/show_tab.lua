@@ -22,41 +22,51 @@ local voting_requests_selector = issue:get_reference_selector("interested_member
 
 local delegations_selector = issue:get_reference_selector("delegations")
 
-
-ui.tabs{
+local tabs = {
   module = "issue",
   view = "show_tab",
   static_params = { issue_id = issue.id },
-  {
-    name = "interested_members",
-    label = _"Interested members" .. " (" .. tostring(interested_members_selector:count()) .. ")" ,
-    icon = { static = "icons/16/eye.png" },
-    module = "member",
-    view = "_list",
-    params = {
-      issue = issue,
-      members_selector = interested_members_selector
+}
+
+if app.session.member_id then
+  tabs[#tabs+1] =
+    {
+      name = "interested_members",
+      label = _"Interested members" .. " (" .. tostring(interested_members_selector:count()) .. ")" ,
+      icon = { static = "icons/16/eye.png" },
+      module = "member",
+      view = "_list",
+      params = {
+        issue = issue,
+        members_selector = interested_members_selector
+      }
     }
-  },
-  {
-    name = "voting_requests",
-    label = _"Vote later requests" .. " (" .. tostring(voting_requests_selector:count()) .. ") (" .. tostring(voting_requested_percentage) ..  "%)",
-    icon = { static = "icons/16/clock_play.png" },
-    module = "member",
-    view = "_list",
-    params = {
-      issue = issue,
-      members_selector = voting_requests_selector
+
+  tabs[#tabs+1] =
+    {
+      name = "voting_requests",
+      label = _"Vote later requests" .. " (" .. tostring(voting_requests_selector:count()) .. ") (" .. tostring(voting_requested_percentage) ..  "%)",
+      icon = { static = "icons/16/clock_play.png" },
+      module = "member",
+      view = "_list",
+      params = {
+        issue = issue,
+        members_selector = voting_requests_selector
+      }
     }
-  },
-  {
-    name = "delegations",
-    label = _"Delegations" .. " (" .. tostring(delegations_selector:count()) .. ")" ,
-    icon = { static = "icons/16/table_go.png" },
-    module = "delegation",
-    view = "_list",
-    params = { delegations_selector = delegations_selector }
-  },
+
+  tabs[#tabs+1] =
+    {
+      name = "delegations",
+      label = _"Delegations" .. " (" .. tostring(delegations_selector:count()) .. ")" ,
+      icon = { static = "icons/16/table_go.png" },
+      module = "delegation",
+      view = "_list",
+      params = { delegations_selector = delegations_selector }
+    }
+end
+
+tabs[#tabs+1] =
   {
     name = "details",
     label = _"Details",
@@ -64,7 +74,8 @@ ui.tabs{
     module = "issue",
     view = "_details",
     params = { issue = issue }
-  },
-}
+  }
+
+ui.tabs(tabs)
 
 

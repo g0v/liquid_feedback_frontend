@@ -146,6 +146,22 @@ function Issue:get_search_selector(search_string)
     --:set_distinct()
 end
 
+function Issue:modify_selector_for_state(state)
+  if state == "new" then
+    initiatives_selector:add_where("issue.accepted ISNULL AND issue.cancelled ISNULL")
+  elseif state == "accepted" then
+    initiatives_selector:add_where("issue.accepted NOTNULL AND issue.half_frozen ISNULL AND issue.cancelled ISNULL")
+  elseif state == "frozen" then
+    initiatives_selector:add_where("issue.half_frozen NOTNULL AND issue.fully_frozen ISNULL AND cancelled ISNULL")
+  elseif state == "voting" then
+    initiatives_selector:add_where("issue.fully_frozen NOTNULL AND issue.finished ISNULL AND issue.cancelled ISNULL")
+  elseif state == "finished" then
+    initiatives_selector:add_where("issue.finished NOTNULL")
+  elseif state == "cancelled" then
+    initiatives_selector:add_where("issue.cancelled NOTNULL")
+  end
+end
+
 function Issue.object_get:state()
   if self.accepted then
     if self.closed then

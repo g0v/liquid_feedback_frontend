@@ -10,11 +10,17 @@ areas_selector
   :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.accepted NOTNULL AND issue.half_frozen ISNULL AND issue.closed ISNULL)", "issues_discussion_count")
   :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.half_frozen NOTNULL AND issue.fully_frozen ISNULL AND issue.closed ISNULL)", "issues_frozen_count")
   :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.fully_frozen NOTNULL AND issue.closed ISNULL)", "issues_voting_count")
-  :add_field({ "(SELECT COUNT(*) FROM issue LEFT JOIN direct_voter ON direct_voter.issue_id = issue.id AND direct_voter.member_id = ? WHERE issue.area_id = area.id AND issue.fully_frozen NOTNULL AND issue.closed ISNULL AND direct_voter.member_id ISNULL)", app.session.member.id }, "issues_to_vote_count")
   :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.fully_frozen NOTNULL AND issue.closed NOTNULL)", "issues_finished_count")
   :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.fully_frozen ISNULL AND issue.closed NOTNULL)", "issues_cancelled_count")
-  :left_join("membership", "_membership", { "_membership.area_id = area.id AND _membership.member_id = ?", app.session.member.id })
-  :add_field("_membership.member_id NOTNULL", "is_member", { "grouped" })
+
+if app.session.member_id then
+  areas_selector
+    :add_field({ "(SELECT COUNT(*) FROM issue LEFT JOIN direct_voter ON direct_voter.issue_id = issue.id AND direct_voter.member_id = ? WHERE issue.area_id = area.id AND issue.fully_frozen NOTNULL AND issue.closed ISNULL AND direct_voter.member_id ISNULL)", app.session.member.id }, "issues_to_vote_count")
+    :left_join("membership", "_membership", { "_membership.area_id = area.id AND _membership.member_id = ?", app.session.member.id })
+    :add_field("_membership.member_id NOTNULL", "is_member", { "grouped" })
+else
+  areas_selector:add_field("0", "issues_to_vote_count")
+end
 
 local label_attr = { style = "text-align: right; width: 4em;" }
 local field_attr = { style = "text-align: right; width: 4em;" }
@@ -242,13 +248,15 @@ ui.bargraph_legend{
 slot.put("<br /> &nbsp; ")
 
 
-ui.image{
-  attr = { title = title, alt = title },
-  static = "icons/16/user_gray.png"
-}
-slot.put(" ")
-slot.put(_"Member of area")
-slot.put(" &nbsp; ")
+if app.session.member_id then
+  ui.image{
+    attr = { title = title, alt = title },
+    static = "icons/16/user_gray.png"
+  }
+  slot.put(" ")
+  slot.put(_"Member of area")
+  slot.put(" &nbsp; ")
+end
 
 ui.image{
   attr = { title = title, alt = title },

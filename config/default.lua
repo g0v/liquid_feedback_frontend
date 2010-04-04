@@ -27,7 +27,17 @@ config.download_dir = nil
 
 config.download_use_terms = "=== Nutzungsbedingungen ===\nAlles ist verboten"
 
+config.public_access = false  -- Available options: "anonymous", "pseudonym"
+
+config.api_enabled = false
+
+-- OpenID authentication is not fully implemented yet, DO NOT USE BEFORE THIS NOTICE HAS BEEN REMOVED!
+config.auth_openid_enabled = false
+config.auth_openid_https_as_default = true
+config.auth_openid_identifier_check_func = function(uri) return false end
+
 request.set_allowed_json_request_slots{ "title", "actions", "support", "default", "trace", "system_error" }
+
 
 if request.get_json_request_slots() then
   request.force_absolute_baseurl()

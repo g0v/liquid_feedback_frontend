@@ -1,6 +1,10 @@
 local issue = param.get("issue", "table")
 
-local direct_voter = DirectVoter:by_pk(issue.id, app.session.member.id)
+local direct_voter
+
+if app.session.member_id then
+  direct_voter = DirectVoter:by_pk(issue.id, app.session.member.id)
+end
 
 slot.put_into("html_head", '<link rel="alternate" type="application/rss+xml" title="RSS" href="../show/' .. tostring(issue.id) .. '.rss" />')
 
@@ -31,43 +35,47 @@ end)
 
 slot.select("actions", function()
 
-  if issue.state == 'voting' then
-    local text
-    if not direct_voter then
-      text = _"Vote now"
-    else
-      text = _"Change vote"
+  if app.session.member_id then
+
+    if issue.state == 'voting' then
+      local text
+      if not direct_voter then
+        text = _"Vote now"
+      else
+        text = _"Change vote"
+      end
+      ui.link{
+        content = function()
+          ui.image{ static = "icons/16/email_open.png" }
+          slot.put(text)
+        end,
+        module = "vote",
+        view = "list",
+        params = { issue_id = issue.id }
+      }
     end
-    ui.link{
-      content = function()
-        ui.image{ static = "icons/16/email_open.png" }
-        slot.put(text)
-      end,
-      module = "vote",
-      view = "list",
-      params = { issue_id = issue.id }
-    }
-  end
 
-  execute.view{
-    module = "interest",
-    view = "_show_box",
-    params = { issue = issue }
-  }
-
-  if not issue.closed then
     execute.view{
-      module = "delegation",
+      module = "interest",
       view = "_show_box",
-      params = { issue_id = issue.id }
+      params = { issue = issue }
     }
-  end
 
-  execute.view{
-    module = "issue",
-    view = "_show_vote_later_box",
-    params = { issue = issue }
-  }
+    if not issue.closed then
+      execute.view{
+        module = "delegation",
+        view = "_show_box",
+        params = { issue_id = issue.id }
+      }
+    end
+
+    execute.view{
+      module = "issue",
+      view = "_show_vote_later_box",
+      params = { issue = issue }
+    }
+
+  end
 
   if config.issue_discussion_url_func then
     local url = config.issue_discussion_url_func(issue)
@@ -98,14 +106,16 @@ if issue.state == 'voting' and not direct_voter then
     content = function()
       slot.put(_"Voting for this issue is currently running!")
       slot.put(" ")
-      ui.link{
-        content = function()
-          slot.put(_"Vote now")
-        end,
-        module = "vote",
-        view = "list",
-        params = { issue_id = issue.id }
-      }
+      if app.session.member_id then
+        ui.link{
+          content = function()
+            slot.put(_"Vote now")
+          end,
+          module = "vote",
+          view = "list",
+          params = { issue_id = issue.id }
+        }
+      end
     end
   }
   slot.put("<br />")

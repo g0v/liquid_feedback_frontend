@@ -44,27 +44,9 @@ slot.select("title", function()
 end)
 
 
-local lang = locale.get("lang")
-local basepath = request.get_app_basepath() 
-local file_name = basepath .. "/locale/motd/" .. lang .. "_public.txt"
-local file = io.open(file_name)
-if file ~= nil then
-  local help_text = file:read("*a")
-  if #help_text > 0 then
-    ui.container{
-      attr = { class = "motd wiki" },
-      content = function()
-        slot.put(format.wiki_text(help_text))
-      end
-    }
-  end
-end
-
-
-
 ui.tag{
   tag = 'p',
-  content = _'You need to be logged in, to use this system.'
+  content = _'You need to be logged in, to use all features of this system.'
 }
 
 ui.form{
@@ -74,8 +56,9 @@ ui.form{
   routing = {
     ok = {
       mode   = 'redirect',
-      module = 'index',
-      view   = 'index'
+      module = param.get("redirect_module") or "index",
+      view = param.get("redirect_view") or "index",
+      id = param.get("redirect_id"),
     },
     error = {
       mode   = 'forward',
@@ -102,3 +85,27 @@ ui.form{
   end
 }
 
+if config.auth_openid_enabled then
+  ui.form{
+    attr = { class = "login" },
+    module = 'openid',
+    action = 'initiate',
+    routing = {
+      default = {
+        mode   = 'forward',
+        module = 'index',
+        view   = 'login',
+      }
+    },
+    content = function()
+      ui.field.text{
+        label     = _'OpenID',
+        html_name = 'openid_identifier',
+        value     = ''
+      }
+      ui.submit{
+        text = _'OpenID Login'
+      }
+    end
+  }
+end

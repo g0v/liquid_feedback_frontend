@@ -6,15 +6,28 @@ ui.form{
   readonly = true,
   content = function()
 
-    ui.field.text{ 
-      label = _"Last author",
-      value = _(
-        "#{author} at #{date}", {
-          author = draft.author_name,
-          date = format.timestamp(draft.created)
-        }
-      )
-    }
+    if app.session.member_id or config.public_access == "pseudonym" then
+      ui.field.text{
+        label = _"Last author",
+        value = _(
+          "#{author} at #{date}", {
+            author = draft.author_name,
+            date = format.timestamp(draft.created)
+          }
+        )
+      }
+    else
+      ui.field.text{
+        label = _"Last author",
+        value = _(
+          "#{author} at #{date}", {
+            author = "[not displayed public]",
+            date = format.timestamp(draft.created)
+          }
+        )
+      }
+    end
+
     ui.container{
       attr = { class = "draft_content wiki" },
       content = function()

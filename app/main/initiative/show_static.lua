@@ -24,19 +24,20 @@ execute.view{
 
 --slot.put_into("html_head", '<link rel="alternate" type="application/rss+xml" title="RSS" href="../show/' .. tostring(initiative.id) .. '.rss" />')
 
-
-slot.select("actions", function()
-  if not initiative.issue.fully_frozen and not initiative.issue.closed then
-    ui.link{
-      image  = { static = "icons/16/script_add.png" },
-      attr   = { class = "action" },
-      text   = _"Create alternative initiative",
-      module = "initiative",
-      view   = "new",
-      params = { issue_id = initiative.issue.id }
-    }
-  end
-end)
+if app.session.member_id then
+  slot.select("actions", function()
+    if not initiative.issue.fully_frozen and not initiative.issue.closed then
+      ui.link{
+        image  = { static = "icons/16/script_add.png" },
+        attr   = { class = "action" },
+        text   = _"Create alternative initiative",
+        module = "initiative",
+        view   = "new",
+        params = { issue_id = initiative.issue.id }
+      }
+    end
+  end)
+end
 
 slot.put_into("sub_title", encode.html(_("Initiative: '#{name}'", { name = initiative.name }) ))
 

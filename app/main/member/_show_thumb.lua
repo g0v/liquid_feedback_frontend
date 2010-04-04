@@ -124,15 +124,17 @@ ui.container{
         end
 
         -- TODO performance
-        local contact = Contact:by_pk(app.session.member.id, member.id)
-        if contact then
-          ui.image{
-            attr = { 
-              alt   = _"You have saved this member as contact",
-              title = _"You have saved this member as contact"
-            },
-            static = "icons/16/bullet_disk.png"
-          }
+        if app.session.member_id then
+          local contact = Contact:by_pk(app.session.member.id, member.id)
+          if contact then
+            ui.image{
+              attr = { 
+                alt   = _"You have saved this member as contact",
+                title = _"You have saved this member as contact"
+              },
+              static = "icons/16/bullet_disk.png"
+            }
+          end
         end
       end
     }

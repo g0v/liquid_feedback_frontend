@@ -108,104 +108,111 @@ ui_filters{
               label = _"My opinion",
               content = function(record)
                 local degree
-                local opinion = Opinion:by_pk(app.session.member.id, record.id)
+                local opinion
+                if app.session.member_id then
+                  opinion = Opinion:by_pk(app.session.member.id, record.id)
+                end
                 if opinion then
                   degree = opinion.degree
                 end
                 ui.container{
                   attr = { class = "suggestion_my_opinion" },
                   content = function()
-                    if initiative.issue.state == "voting" or initiative.issue.state == "closed" then
-                      ui.tag{
-                        tag = "span",
-                        attr = { class = "action" .. (degree == -2 and " active_red2" or "") },
-                        content = _"must not"
-                      }
-                      ui.tag{
-                        tag = "span",
-                        attr = { class = "action" .. (degree == -1 and " active_red1" or "") },
-                        content = _"should not"
-                      }
-                      ui.tag{
-                        tag = "span",
-                        attr = { class = "action" .. (degree == nil and " active" or "") },
-                        content = _"neutral"
-                      }
-                      ui.tag{
-                        tag = "span",
-                        attr = { class = "action" .. (degree == 1 and " active_green1" or "") },
-                        content = _"should"
-                      }
-                      ui.tag{
-                        tag = "span",
-                        attr = { class = "action" .. (degree == 2 and " active_green2" or "") },
-                        content = _"must"
-                      }
+                    if app.session.member_id then
+                      if initiative.issue.state == "voting" or initiative.issue.state == "closed" then
+                        ui.tag{
+                          tag = "span",
+                          attr = { class = "action" .. (degree == -2 and " active_red2" or "") },
+                          content = _"must not"
+                        }
+                        ui.tag{
+                          tag = "span",
+                          attr = { class = "action" .. (degree == -1 and " active_red1" or "") },
+                          content = _"should not"
+                        }
+                        ui.tag{
+                          tag = "span",
+                          attr = { class = "action" .. (degree == nil and " active" or "") },
+                          content = _"neutral"
+                        }
+                        ui.tag{
+                          tag = "span",
+                          attr = { class = "action" .. (degree == 1 and " active_green1" or "") },
+                          content = _"should"
+                        }
+                        ui.tag{
+                          tag = "span",
+                          attr = { class = "action" .. (degree == 2 and " active_green2" or "") },
+                          content = _"must"
+                        }
+                      else
+                        ui.link{
+                          attr = { class = "action" .. (degree == -2 and " active_red2" or "") },
+                          text = _"must not",
+                          module = "opinion",
+                          action = "update",
+                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                          params = {
+                            suggestion_id = record.id,
+                            degree = -2
+                          },
+                          partial = partial
+                        }
+                        slot.put(" ")
+                        ui.link{
+                          attr = { class = "action" .. (degree == -1 and " active_red1" or "") },
+                          text = _"should not",
+                          module = "opinion",
+                          action = "update",
+                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                          params = {
+                            suggestion_id = record.id,
+                            degree = -1
+                          },
+                          partial = partial
+                        }
+                        slot.put(" ")
+                        ui.link{
+                          attr = { class = "action" .. (degree == nil and " active" or "") },
+                          text = _"neutral",
+                          module = "opinion",
+                          action = "update",
+                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                          params = {
+                            suggestion_id = record.id,
+                            delete = true
+                          },
+                          partial = partial
+                        }
+                        slot.put(" ")
+                        ui.link{
+                          attr = { class = "action" .. (degree == 1 and " active_green1" or "") },
+                          text = _"should",
+                          module = "opinion",
+                          action = "update",
+                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                          params = {
+                            suggestion_id = record.id,
+                            degree = 1
+                          },
+                          partial = partial
+                        }
+                        slot.put(" ")
+                        ui.link{
+                          attr = { class = "action" .. (degree == 2 and " active_green2" or "") },
+                          text = _"must",
+                          module = "opinion",
+                          action = "update",
+                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                          params = {
+                            suggestion_id = record.id,
+                            degree = 2
+                          },
+                          partial = partial
+                        }
+                      end
                     else
-                      ui.link{
-                        attr = { class = "action" .. (degree == -2 and " active_red2" or "") },
-                        text = _"must not",
-                        module = "opinion",
-                        action = "update",
-                        routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                        params = {
-                          suggestion_id = record.id,
-                          degree = -2
-                        },
-                        partial = partial
-                      }
-                      slot.put(" ")
-                      ui.link{
-                        attr = { class = "action" .. (degree == -1 and " active_red1" or "") },
-                        text = _"should not",
-                        module = "opinion",
-                        action = "update",
-                        routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                        params = {
-                          suggestion_id = record.id,
-                          degree = -1
-                        },
-                        partial = partial
-                      }
-                      slot.put(" ")
-                      ui.link{
-                        attr = { class = "action" .. (degree == nil and " active" or "") },
-                        text = _"neutral",
-                        module = "opinion",
-                        action = "update",
-                        routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                        params = {
-                          suggestion_id = record.id,
-                          delete = true
-                        },
-                        partial = partial
-                      }
-                      slot.put(" ")
-                      ui.link{
-                        attr = { class = "action" .. (degree == 1 and " active_green1" or "") },
-                        text = _"should",
-                        module = "opinion",
-                        action = "update",
-                        routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                        params = {
-                          suggestion_id = record.id,
-                          degree = 1
-                        },
-                        partial = partial
-                      }
-                      slot.put(" ")
-                      ui.link{
-                        attr = { class = "action" .. (degree == 2 and " active_green2" or "") },
-                        text = _"must",
-                        module = "opinion",
-                        action = "update",
-                        routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                        params = {
-                          suggestion_id = record.id,
-                          degree = 2
-                        },
-                        partial = partial
-                      }
+                      ui.field.text{ value = _"[Registered members only]" }
                     end
                   end
                 }
@@ -213,7 +220,10 @@ ui_filters{
             },
             {
               content = function(record)
-                local opinion = Opinion:by_pk(app.session.member.id, record.id)
+                local opinion
+                if app.session.member_id then
+                  opinion = Opinion:by_pk(app.session.member.id, record.id)
+                end
                 if opinion and not opinion.fulfilled then
                   ui.image{ static = "icons/16/cross.png" }
                 end
@@ -242,7 +252,10 @@ ui_filters{
             },
             {
               content = function(record)
-                local opinion = Opinion:by_pk(app.session.member.id, record.id)
+                local opinion
+                if app.session.member_id then
+                  opinion = Opinion:by_pk(app.session.member.id, record.id)
+                end
                 if opinion and opinion.fulfilled then
                     ui.image{ static = "icons/16/tick.png" }
                 end
@@ -273,7 +286,10 @@ ui_filters{
               label_attr = { style = "width: 200px;" },
               content = function(record)
                 local degree
-                local opinion = Opinion:by_pk(app.session.member.id, record.id)
+                local opinion
+                if app.session.member_id then
+                  opinion = Opinion:by_pk(app.session.member.id, record.id)
+                end
                 if opinion then
                   degree = opinion.degree
                 end
@@ -321,7 +337,10 @@ ui_filters{
             },
             {
               content = function(record)
-                local opinion = Opinion:by_pk(app.session.member.id, record.id)
+                local opinion
+                if app.session.member_id then
+                  opinion = Opinion:by_pk(app.session.member.id, record.id)
+                end
                 if opinion then
                   if (opinion.fulfilled and opinion.degree > 0) or (not opinion.fulfilled and opinion.degree < 0) then
                     ui.image{ static = "icons/16/thumb_up_green.png" }

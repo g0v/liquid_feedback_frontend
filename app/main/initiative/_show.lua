@@ -120,10 +120,14 @@ if initiator and initiator.accepted == nil and not initiative.issue.half_frozen 
 end
 
 
-local supporter = app.session.member:get_reference_selector("supporters")
-  :add_where{ "initiative_id = ?", initiative.id }
-  :optional_object_mode()
-  :exec()
+local supporter
+
+if app.session.member_id then
+  supporter = app.session.member:get_reference_selector("supporters")
+    :add_where{ "initiative_id = ?", initiative.id }
+    :optional_object_mode()
+    :exec()
+end
 
 if supporter and not initiative.issue.closed then
   local old_draft_id = supporter.draft_id
@@ -164,21 +168,22 @@ if supporter and not initiative.issue.closed then
 end
 
 
-
-ui.container{
-  attr = {
-    id = "initiative_" .. tostring(initiative.id) .. "_support"
-  },
-  content = function()
-    execute.view{
-      module = "initiative",
-      view = "show_support",
-      params = {
-        initiative = initiative
+if app.session.member_id then
+  ui.container{
+    attr = {
+      id = "initiative_" .. tostring(initiative.id) .. "_support"
+    },
+    content = function()
+      execute.view{
+        module = "initiative",
+        view = "show_support",
+        params = {
+          initiative = initiative
+        }
       }
-    }
-  end
-}
+    end
+  }
+end
 
 if (initiative.discussion_url and #initiative.discussion_url > 0)
   or (initiator and initiator.accepted and not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked) then

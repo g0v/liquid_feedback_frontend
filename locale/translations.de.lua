@@ -11,6 +11,9 @@ return {
 ["(new window)"] = "(neues Fenster)";
 ["+ #{weight}"] = "+ #{weight}";
 ["A-Z"] = "A-Z";
+["API key"] = false;
+["API key has been deleted"] = false;
+["API key has been updated"] = false;
 ["About"] = "About";
 ["About / Impressum"] = false;
 ["About LiquidFeedback"] = "Über LiquidFeedback";
@@ -71,6 +74,7 @@ return {
 ["Cancel refuse of invitation"] = "Ablehnung der Einladung aufheben";
 ["Cancel registration"] = "Registration abbrechen";
 ["Cancelled"] = "Abgebrochen";
+["Change API key"] = false;
 ["Change area delegation"] = "Delegation für Themenbereich ändern";
 ["Change display settings"] = "Anzeige-Einstellungen ändern";
 ["Change filters and order"] = "Filter und Sortierung ändern";
@@ -103,9 +107,11 @@ return {
 ["Created at"] = "Erzeugt am/um";
 ["Current draft"] = "Aktueller Entwurf";
 ["Current votings in areas you are member of and issues you are interested in:"] = "Jetzt laufende Abstimmungen zu Themen aus Deinen Themenbereichen oder solchen an denen Du interessiert bist:";
+["Currently no API key is set."] = false;
 ["Date"] = "Datum";
 ["Degree"] = "Grad";
 ["Delegations"] = "Delegationen";
+["Delete API key"] = false;
 ["Delete filter"] = "Filter löschen";
 ["Description"] = "Beschreibung";
 ["Details"] = "Details";
@@ -144,6 +150,7 @@ return {
 ["Email address too short!"] = "E-Mail-Adresse ist zu kurz!";
 ["Email confirmation request"] = "Bestätigung Deiner E-Mail-Adresse";
 ["Empty help text: #{id}.#{lang}.txt"] = "Leerer Hilfe-Text: #{id}.#{lang}.txt";
+["Error while resolving openid. Internal message: '#{errmsg}'"] = false;
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Fehler beim aktualisieren des Mitglieds, die Datenbank berichtet folgenden Fehler:<br /><br /> (#{errormessage})";
 ["External memberships"] = "Externe Mitgliedschaften";
 ["External posts"] = "Externe Ämter";
@@ -153,6 +160,8 @@ return {
 ["Friday"] = "Freitag";
 ["Frozen"] = "Eingefroren";
 ["Fully frozen at"] = "Ganz eingefroren am/um";
+["Generate / change API key"] = false;
+["Generate API key"] = false;
 ["Global delegation"] = "Globale Delegation";
 ["Global delegation active"] = "Globale Delegation aktiv";
 ["Go up"] = "Nach oben";
@@ -297,6 +306,8 @@ return {
 ["One issue you are interested in"] = "Ein Thema, das Dich interessiert";
 ["One step back"] = "Ein Schritt zurück";
 ["Open"] = "Offen";
+["OpenID"] = false;
+["OpenID Login"] = false;
 ["Opinions"] = "Meinungen";
 ["Order by"] = "Sortieren nach";
 ["Organizational unit"] = "Organisationseinheit";
@@ -397,6 +408,7 @@ return {
 ["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = "Einige auf JavaScript basierende Funktionen (insbesondere der Abstimmung) sind nicht benutzbar.\nFür diese Beta verwende bitte eine aktuelle Version von Firefox, Safari, Opera(?), Konqueror oder einen anderen (mehr) den Standards entsprechenden Browser.\nEin alternativer Zugriff ohne JavaScript wird bald zur Verfügung stehen.";
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Sorry, aber für diesen Account ist keine bestätigte E-Mail-Adresse hinterlegt. Bitte wende Dich an den Administrator oder den Support.";
 ["Sorry, but you are currently not invited"] = "Sorry, aber Du bist zur Zeit nicht eingeladen";
+["Sorry, it was not possible to verify your OpenID."] = false;
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Sorry, Du hast Dein persönliches Flood-Limit erreicht. Bitte sei langsamer...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Sorry, Dein Antragskontingent ist zur Zeit ausgeschöpft. Bitte versuche es später erneut!";
 ["State"] = "Zustand";
@@ -424,12 +436,14 @@ return {
 ["Tabs"] = "Registerkarten";
 ["Terms accepted"] = "Bedingungen akzeptiert";
 ["Terms of use"] = "Nutzungsbedingungen";
+["The API key has been changed too fast."] = false;
 ["The code you've entered is invalid"] = "Der Code, den Du eingeben hast, ist nicht gültig!";
 ["The draft of this initiative has been updated!"] = "Der Entwurfstext der Initiative wurde aktualisiert!";
 ["The drafts do not differ"] = "Die Entwürfe unterscheiden sich nicht";
 ["The initiators suggest to support the following initiative:"] = "Die Initiatoren empfehlen folgende Initiative zu unterstützen:";
 ["There are no more alternative initiatives currently."] = "Es gibt zur Zeit keine weiteren alternative Initiative.";
 ["There were no more alternative initiatives."] = "Es gab keine weiteren alternativen Initiativen.";
+["This identifier is not allowed for this instance."] = false;
 ["This initiative"] = "Diese Initiative";
 ["This initiative compared to alternative initiatives"] = "Diese Initiative im Vergleich zu alternativen Initiativen";
 ["This initiative has been revoked at #{revoked}"] = "Diese Initiative wurde am/um #{revoked} zurückgezogen";
@@ -506,9 +520,10 @@ return {
 ["You have saved this member as contact."] = "Du hast das Mitglied als Kontakt gespeichert.";
 ["You have to accept the terms of use to complete registration."] = "Du musst die Nutzungsbedingungen akzeptieren um die Registration abzuschliessen.";
 ["You have to mark 'Are you sure' to revoke!"] = "Zum Zurückziehen musst Du 'Sicher?' auswählen";
-["You need to be logged in, to use this system."] = "Du musst eingeloggt sein, um das System zu benutzen";
+["You need to be logged in, to use all features of this system."] = false;
 ["You want to vote later"] = "Du willst später abstimmen";
 ["You've successfully registered and you can login now with your login and password!"] = "Du hast Dich erfolgreich registriert und kannst Dich jetzt mit Deinen Benutzernamen und Kennwort anmelden!";
+["Your API key:"] = false;
 ["Your are interested"] = "Du bist interessiert";
 ["Your are potential supporter"] = "Du bist potentieller Unterstützer";
 ["Your are supporter"] = "Du bist Unterstützer";
@@ -532,6 +547,8 @@ return {
 ["Your vote has been discarded. Delegation rules apply if set."] = "Deine Abstimmung wurde zurückgezogen. Delegationsregeln gelten sofern gesetzt.";
 ["Your web browser is not fully supported yet."] = "Dein Web-Browser wird noch nicht vollständig unterstützt.";
 ["Z-A"] = "Z-A";
+["[Registered members only]"] = false;
+["[not displayed public]"] = false;
 ["and #{count} more initiatives"] = "und #{count} weitere Initiativen";
 ["continuing"] = "andauernd";
 ["delete<br /><br />"] = "löschen<br /><br />";

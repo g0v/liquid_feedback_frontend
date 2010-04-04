@@ -9,32 +9,36 @@ ui.container{
   end
 }
 
-
-slot.select("actions", function()
-  ui.link{
-    content = function()
-      ui.image{ static = "icons/16/folder_add.png" }
-      slot.put(_"Create new issue")
-    end,
-    module = "initiative",
-    view = "new",
-    params = { area_id = area.id }
-  }
-end)
+if app.session.member_id then
+  slot.select("actions", function()
+    ui.link{
+      content = function()
+        ui.image{ static = "icons/16/folder_add.png" }
+        slot.put(_"Create new issue")
+      end,
+      module = "initiative",
+      view = "new",
+      params = { area_id = area.id }
+    }
+  end)
+end
 
 util.help("area.show")
 
-execute.view{
-  module = "membership",
-  view = "_show_box",
-  params = { area = area }
-}
+if app.session.member_id then
+  execute.view{
+    module = "membership",
+    view = "_show_box",
+    params = { area = area }
+  }
 
-execute.view{
-  module = "delegation",
-  view = "_show_box",
-  params = { area_id = area.id }
-}
+  execute.view{
+    module = "delegation",
+    view = "_show_box",
+    params = { area_id = area.id }
+  }
+
+end
 
 --[[
 for i, issue in ipairs(area.issues) do
