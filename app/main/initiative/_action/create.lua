@@ -27,12 +27,23 @@ if issue_id then
 else
   local area_id = param.get("area_id", atom.integer)
   area = Area:new_selector():add_where{"id=?",area_id}:single_object_mode():exec()
+  if not area.active then
+    slot.put_into("error", "Invalid area.")
+    return false
+  end
 end
 
 local policy_id = param.get("policy_id", atom.integer)
 
 if policy_id == -1 then
   slot.put_into("error", _"Please choose a policy")
+  return false
+end
+
+local policy = Policy:by_id(policy_id)
+
+if not policy.active then
+  slot.put_into("error", "Invalid policy.")
   return false
 end
 

@@ -9,6 +9,7 @@ config.app_service_provider = "Snake Oil<br/>10000 Berlin<br/>Germany"
 
 config.use_terms = "=== Nutzungsbedingungen ===\nAlles ist verboten"
 
+config.member_image_content_type = "image/jpeg"
 config.member_image_convert_func = {
   avatar = function(data) return os.pfilter(data, "convert", "jpeg:-", "-thumbnail",   "48x48", "jpeg:-") end,
   photo =  function(data) return os.pfilter(data, "convert", "jpeg:-", "-thumbnail", "240x240", "jpeg:-") end
@@ -30,6 +31,8 @@ config.download_use_terms = "=== Nutzungsbedingungen ===\nAlles ist verboten"
 config.public_access = false  -- Available options: "anonymous", "pseudonym"
 
 config.api_enabled = false
+
+config.feature_rss_enabled = true
 
 -- OpenID authentication is not fully implemented yet, DO NOT USE BEFORE THIS NOTICE HAS BEEN REMOVED!
 config.auth_openid_enabled = false

@@ -157,3 +157,18 @@ function Initiative.object_get:shortened_name()
   end
   return name
 end
+
+function Initiative.object_get:initiator_names()
+  local members = Member:new_selector()
+    :join("initiator", nil, "initiator.member_id = member.id")
+    :add_where{ "initiator.initiative_id = ?", self.id }
+    :add_where{ "initiator.accepted" }
+    :exec()
+
+  local member_names = {}
+  for i, member in ipairs(members) do
+    member_names[#member_names+1] = member.name
+  end
+  return member_names
+end
+

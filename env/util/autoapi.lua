@@ -14,8 +14,10 @@ function util.autoapi_xml(args)
       elseif field.field then
         value = row[field.name]
       end
-      if value then
+      if value ~= nil then
         slot.put(encode.html(tostring(value)))
+      else
+        slot.put("NULL")
       end
       slot.put("</", field.name, ">\n")
     end

@@ -41,7 +41,7 @@ if request.get_json_request_slots() then
   slot.set_layout("blank")
 end
 
-if request.get_module() ~= "api" then
+if request.get_module() ~= "api" and request.get_view() ~= "list_rss" then
   ui.container{
     attr = {
       class = web20 and "web20" or "web10"

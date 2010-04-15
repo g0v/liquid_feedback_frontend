@@ -31,6 +31,7 @@ for i, image_type in ipairs{"avatar", "photo"} do
         member_image.member_id = member_id
         member_image.image_type = image_type
         member_image.scaled = false
+        member_image.content_type = cgi.post_types[image_type] or nil
         member_image.data = ""
         member_image:save()
       end
@@ -40,7 +41,7 @@ for i, image_type in ipairs{"avatar", "photo"} do
         member_image_scaled.member_id = member_id
         member_image_scaled.image_type = image_type
         member_image_scaled.scaled = true
-        member_image_scaled.content_type = true
+        member_image_scaled.content_type = config.member_image_content_type
         member_image_scaled.data = ""
         member_image_scaled:save()
       end

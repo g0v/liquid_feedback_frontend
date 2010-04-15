@@ -20,14 +20,14 @@ int main(int argc, const char * const *argv) {
   char *args_string;
   char *member_id;
   char *image_type;
-  char *sql_member_image_params[2];
+  const char *sql_member_image_params[2];
 
   char *cookies;
   regex_t session_ident_regex;
   ssize_t start, length;
   regmatch_t session_ident_regmatch[3];
   char *session_ident;
-  char *sql_session_params[1];
+  const char *sql_session_params[1];
 
   PGconn *conn;
   PGresult *dbr;
@@ -48,7 +48,7 @@ int main(int argc, const char * const *argv) {
     // shouldn't happen
     abort();
   }
-  if (regexec(&session_ident_regex, cookies, 2, session_ident_regmatch, 0) != 0) {
+  if (regexec(&session_ident_regex, cookies, 3, session_ident_regmatch, 0) != 0) {
     fputs("Status: 403 Access Denied\n\n", stdout);
     return 0;
   }
@@ -125,10 +125,7 @@ int main(int argc, const char * const *argv) {
       PQfinish(conn);
       return 1;
     }
-    fputs("Content-Type: ", stdout);
-    fprintf(stdout, "Content-Length: %i\n", PQgetlength(dbr, 0, 1));
-    fwrite(PQgetvalue(dbr, 0, 0), PQgetlength(dbr, 0, 0), 1, stdout);
-    fputs("\n\n", stdout);
+    fprintf(stdout, "Content-Type: %s\n\n", PQgetvalue(dbr, 0, 0));
     fwrite(PQgetvalue(dbr, 0, 1), PQgetlength(dbr, 0, 1), 1, stdout);
   }
   PQfinish(conn);

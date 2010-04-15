@@ -23,6 +23,7 @@ if config.public_access then
      or request.get_view() == "show"
      or request.get_view() == "show_tab"
     )
+    or request.get_module() == "policy" and request.get_view() == "show"
     or request.get_module() == "issue" and request.get_view() == "show"
     or request.get_module() == "issue" and request.get_view() == "show_tab"
     or request.get_module() == "initiative" and request.get_view() == "show"

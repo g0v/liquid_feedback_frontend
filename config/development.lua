@@ -12,8 +12,10 @@ config.mail_reply_to = "liquid-support@localhost"
 
 config.issue_discussion_url_func = function(issue) return "http://example.com/issue_" .. tostring(issue.id) end
 
-config.auth_openid_enabled = true
+config.auth_openid_enabled = false
 config.auth_openid_https_as_default = true
+
+config.api_enabled = true
 
 config.auth_openid_identifier_check_func = function(uri)
   local uri = uri:lower()

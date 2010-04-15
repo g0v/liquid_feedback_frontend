@@ -6,7 +6,10 @@ if app.session.member_id then
   direct_voter = DirectVoter:by_pk(issue.id, app.session.member.id)
 end
 
-slot.put_into("html_head", '<link rel="alternate" type="application/rss+xml" title="RSS" href="../show/' .. tostring(issue.id) .. '.rss" />')
+if config.feature_rss_enabled then
+  util.html_rss_head{ title = _"Initiatives in this issue (last created first)", module = "initiative", view = "list_rss", params = { issue_id = issue.id } }
+  util.html_rss_head{ title = _"Initiatives in this issue (last updated first)", module = "initiative", view = "list_rss", params = { issue_id = issue.id, order = "last_updated" } }
+end
 
 slot.select("path", function()
 end)

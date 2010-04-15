@@ -163,23 +163,22 @@ function Issue:modify_selector_for_state(state)
 end
 
 function Issue.object_get:state()
-  if self.accepted then
-    if self.closed then
+  if self.closed then
+    if self.fully_frozen then
       return "finished"
-    elseif self.fully_frozen then
-      return "voting"
-    elseif self.half_frozen then
-      return "frozen"
     else
-      return "accepted"
-    end
-  else
-    if self.closed then
       return "cancelled"
-    else
-      return "new"
     end
+  elseif self.fully_frozen then
+    return "voting"
+  elseif self.half_frozen then
+    return "frozen"
+  elseif self.accepted then
+    return "accepted"
+  else
+    return "new"
   end
+
 end
 
 function Issue.object_get:state_name()

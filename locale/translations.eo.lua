@@ -179,6 +179,7 @@ return {
 ["Images"] = "Bildoj";
 ["In discussion"] = "En diskuton";
 ["Incoming delegations"] = "Alvenantaj delegacioj";
+["Information about the available policies"] = false;
 ["Initiated"] = "Lanĉita";
 ["Initiated initiatives"] = "Lanĉitaj iniciatoj";
 ["Initiative events"] = "Iniciato-eventoj";
@@ -189,6 +190,10 @@ return {
 ["Initiative successfully updated"] = "Iniciato sukcese ĝisdatigita";
 ["Initiative: '#{name}'"] = "Iniciato: '#{name}'";
 ["Initiatives"] = "Iniciatoj";
+["Initiatives in this area (last created first)"] = false;
+["Initiatives in this area (last updated first)"] = false;
+["Initiatives in this issue (last created first)"] = false;
+["Initiatives in this issue (last updated first)"] = false;
 ["Initiatives that invited you to become initiator:"] = "Iniciatoj, kiuj vin invitis esti iniciatinto:";
 ["Initiator"] = "Iniciatinto";
 ["Initiators"] = "Iniciatintoj";
@@ -228,6 +233,7 @@ return {
 ["Login successful!"] = "Saluto sukcesa!";
 ["Logout"] = "Adiaŭi";
 ["Logout successful"] = "Adiaŭo sukcesa";
+["Majority"] = false;
 ["Manage filter"] = "Administri filtrilojn";
 ["Manage timeline filters"] = "Administri tempolinio-filtrilojn";
 ["Mark suggestion as implemented and express dissatisfaction"] = "Marki sugeston kiel realigitan kaj esprimi malkontentecon";
@@ -318,6 +324,7 @@ return {
 ["Password reset request"] = "Demando de rimetopasvorton";
 ["Passwords don't match!"] = "La pasvortoj ne estas samaj!";
 ["Passwords must consist of at least 8 characters!"] = "La pasvorto devas havi almenaŭ 8 literojn!";
+["Phases"] = false;
 ["Phone"] = "Telefono";
 ["Photo"] = "Foto";
 ["Please choose a login name. This name will not be shown to others and is used only by you to login into the system. The login name is case sensitive."] = "Bonvolu elekti salutonomon! Tiu nomo ne estas montrita al aliaj kaj nur vi uzas tiun nomon por la saluto. La uskleco (granda/malgranda) gravas";
@@ -333,7 +340,9 @@ return {
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Bonvolu enigi vian retadreson. Tiu adreso estas uzita por aŭtomataj sciigoj (se vi petas tiajn) kaj por remeti la pasvorton. Tiu adreso ne estos publikigita. Post la fino de la registrado, vi ricevos retpoŝton kun ligilo al la konfirmo de la adreso.";
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Bonvolu enigi vian salutnomon. Vi ricevos retpoŝton kun ligilo al la remeto de la pasvorto.";
 ["Please enter your new password twice."] = "Bonvolu enigi dufoje vian novan pasvorton:";
+["Policies"] = false;
 ["Policy"] = "Regularo";
+["Policy '#{name}'"] = false;
 ["Population"] = "Loĝantaro";
 ["Posts"] = "Postenoj";
 ["Potential support"] = "Eventuala subteno";
@@ -345,6 +354,7 @@ return {
 ["Profile"] = "Profilo";
 ["Publish"] = "Publikigi";
 ["Published"] = "Publikigita";
+["Quorum"] = false;
 ["Rank"] = "Rango";
 ["Real name"] = "Vera nomo";
 ["Refresh support to current draft"] = "Refreŝigi subtenon por la aktuala skizo";
@@ -474,6 +484,7 @@ return {
 ["Timeline"] = "Tempolinio";
 ["Title"] = "Titolo";
 ["Title (80 chars max)"] = "Titolo (maksimume 80 literoj)";
+["Title of initiative"] = false;
 ["Traditional wiki syntax"] = "Tradicia Viki-sintakso";
 ["Trustee"] = "Fidulo mastrumanta";
 ["Tuesday"] = "Mardo";
@@ -552,6 +563,7 @@ return {
 ["and #{count} more initiatives"] = "kaj #{count} pliaj iniciatoj";
 ["continuing"] = "kontinue";
 ["delete<br /><br />"] = "forviŝi<br /><br />";
+["disabled"] = false;
 ["email"] = "Retpoŝto";
 ["last 24 hours"] = "lastaj 24 horoj";
 ["login name"] = "Salutnomo";

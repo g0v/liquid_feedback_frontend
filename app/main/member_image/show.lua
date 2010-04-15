@@ -11,11 +11,10 @@ if record == nil then
   exit()
 end
 
-print('Content-type: ' .. record.content_type .. '\n')
+assert(record.content_type, "No content-type set for image.")
+
+slot.set_layout(nil, record.content_type)
 
 if record then
-  io.stdout:write(record.data)
-else
+  slot.put_into("data", record.data)
 end
-
-exit()

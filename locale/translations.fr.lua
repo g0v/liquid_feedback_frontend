@@ -179,6 +179,7 @@ return {
 ["Images"] = false;
 ["In discussion"] = false;
 ["Incoming delegations"] = false;
+["Information about the available policies"] = false;
 ["Initiated"] = false;
 ["Initiated initiatives"] = false;
 ["Initiative events"] = false;
@@ -189,6 +190,10 @@ return {
 ["Initiative successfully updated"] = false;
 ["Initiative: '#{name}'"] = false;
 ["Initiatives"] = false;
+["Initiatives in this area (last created first)"] = false;
+["Initiatives in this area (last updated first)"] = false;
+["Initiatives in this issue (last created first)"] = false;
+["Initiatives in this issue (last updated first)"] = false;
 ["Initiatives that invited you to become initiator:"] = false;
 ["Initiator"] = false;
 ["Initiators"] = false;
@@ -228,6 +233,7 @@ return {
 ["Login successful!"] = false;
 ["Logout"] = false;
 ["Logout successful"] = false;
+["Majority"] = false;
 ["Manage filter"] = false;
 ["Manage timeline filters"] = false;
 ["Mark suggestion as implemented and express dissatisfaction"] = false;
@@ -318,6 +324,7 @@ return {
 ["Password reset request"] = false;
 ["Passwords don't match!"] = false;
 ["Passwords must consist of at least 8 characters!"] = false;
+["Phases"] = false;
 ["Phone"] = false;
 ["Photo"] = false;
 ["Please choose a login name. This name will not be shown to others and is used only by you to login into the system. The login name is case sensitive."] = false;
@@ -333,7 +340,9 @@ return {
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = false;
 ["Please enter your new password twice."] = false;
+["Policies"] = false;
 ["Policy"] = false;
+["Policy '#{name}'"] = false;
 ["Population"] = false;
 ["Posts"] = false;
 ["Potential support"] = false;
@@ -345,6 +354,7 @@ return {
 ["Profile"] = false;
 ["Publish"] = false;
 ["Published"] = false;
+["Quorum"] = false;
 ["Rank"] = false;
 ["Real name"] = false;
 ["Refresh support to current draft"] = false;
@@ -474,6 +484,7 @@ return {
 ["Timeline"] = false;
 ["Title"] = false;
 ["Title (80 chars max)"] = false;
+["Title of initiative"] = false;
 ["Traditional wiki syntax"] = false;
 ["Trustee"] = false;
 ["Tuesday"] = false;
@@ -552,6 +563,7 @@ return {
 ["and #{count} more initiatives"] = false;
 ["continuing"] = false;
 ["delete<br /><br />"] = false;
+["disabled"] = false;
 ["email"] = false;
 ["last 24 hours"] = false;
 ["login name"] = false;

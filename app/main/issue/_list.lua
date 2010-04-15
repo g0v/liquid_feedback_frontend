@@ -65,7 +65,7 @@ filters[#filters+1] = {
     name = "cancelled",
     label = _"Cancelled",
     selector_modifier = function(selector)
-      selector:add_where("issue.closed NOTNULL AND issue.accepted ISNULL")
+      selector:add_where("issue.closed NOTNULL AND issue.fully_frozen ISNULL")
     end
   },
   {
