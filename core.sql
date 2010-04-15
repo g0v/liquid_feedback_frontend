@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('beta26', NULL, NULL, NULL))
+  SELECT * FROM (VALUES ('1.0.0', 1, 0, 0))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -57,7 +57,7 @@ CREATE TABLE "member" (
         "id"                    SERIAL4         PRIMARY KEY,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "last_login"            TIMESTAMPTZ,
-        "login"                 TEXT            NOT NULL UNIQUE,
+        "login"                 TEXT            UNIQUE,
         "password"              TEXT,
         "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
         "admin"                 BOOLEAN         NOT NULL DEFAULT FALSE,
@@ -118,9 +118,10 @@ CREATE TABLE "member_history" (
         "id"                    SERIAL8         PRIMARY KEY,
         "member_id"             INT4            NOT NULL REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "until"                 TIMESTAMPTZ     NOT NULL DEFAULT now(),
-        "login"                 TEXT            NOT NULL,
+        "login"                 TEXT,
         "active"                BOOLEAN         NOT NULL,
         "name"                  TEXT            NOT NULL );
+CREATE INDEX "member_history_member_id_idx" ON "member_history" ("member_id");
 
 COMMENT ON TABLE "member_history" IS 'Filled by trigger; keeps information about old names, login names and active flag of members';
 
@@ -646,7 +647,7 @@ CREATE TABLE "direct_population_snapshot" (
         PRIMARY KEY ("issue_id", "event", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "event"                 "snapshot_event",
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT,
         "weight"                INT4,
         "interest_exists"       BOOLEAN         NOT NULL );
 CREATE INDEX "direct_population_snapshot_member_id_idx" ON "direct_population_snapshot" ("member_id");
@@ -662,7 +663,7 @@ CREATE TABLE "delegating_population_snapshot" (
         PRIMARY KEY ("issue_id", "event", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "event"                "snapshot_event",
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT,
         "weight"                INT4,
         "scope"              "delegation_scope" NOT NULL,
         "delegate_member_ids"   INT4[]          NOT NULL );
@@ -680,7 +681,7 @@ CREATE TABLE "direct_interest_snapshot" (
         PRIMARY KEY ("issue_id", "event", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "event"                 "snapshot_event",
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT,
         "weight"                INT4,
         "voting_requested"      BOOLEAN );
 CREATE INDEX "direct_interest_snapshot_member_id_idx" ON "direct_interest_snapshot" ("member_id");
@@ -696,7 +697,7 @@ CREATE TABLE "delegating_interest_snapshot" (
         PRIMARY KEY ("issue_id", "event", "member_id"),
         "issue_id"         INT4                 REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "event"                "snapshot_event",
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT,
         "weight"                INT4,
         "scope"              "delegation_scope" NOT NULL,
         "delegate_member_ids"   INT4[]          NOT NULL );
@@ -715,7 +716,7 @@ CREATE TABLE "direct_supporter_snapshot" (
         PRIMARY KEY ("initiative_id", "event", "member_id"),
         "initiative_id"         INT4,
         "event"                 "snapshot_event",
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT,
         "informed"              BOOLEAN         NOT NULL,
         "satisfied"             BOOLEAN         NOT NULL,
         FOREIGN KEY ("issue_id", "initiative_id") REFERENCES "initiative" ("issue_id", "id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -732,7 +733,7 @@ COMMENT ON COLUMN "direct_supporter_snapshot"."satisfied" IS 'Supporter has no "
 CREATE TABLE "direct_voter" (
         PRIMARY KEY ("issue_id", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT,
         "weight"                INT4,
         "autoreject"            BOOLEAN         NOT NULL DEFAULT FALSE );
 CREATE INDEX "direct_voter_member_id_idx" ON "direct_voter" ("member_id");
@@ -746,7 +747,7 @@ COMMENT ON COLUMN "direct_voter"."autoreject" IS 'Votes were inserted due to "au
 CREATE TABLE "delegating_voter" (
         PRIMARY KEY ("issue_id", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT,
         "weight"                INT4,
         "scope"              "delegation_scope" NOT NULL,
         "delegate_member_ids"   INT4[]          NOT NULL );
@@ -795,7 +796,10 @@ CREATE FUNCTION "write_member_history_trigger"()
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
       IF
-        NEW."login"  != OLD."login"  OR
+        ( NEW."login" NOTNULL AND OLD."login" NOTNULL AND
+          NEW."login" != OLD."login" ) OR
+        ( NEW."login" NOTNULL AND OLD."login" ISNULL ) OR
+        ( NEW."login" ISNULL AND OLD."login" NOTNULL ) OR
         NEW."active" != OLD."active" OR
         NEW."name"   != OLD."name"
       THEN
@@ -3184,14 +3188,12 @@ COMMENT ON FUNCTION "check_everything"() IS 'Perform "check_issue" for every ope
 ------------------------------
 
 
-CREATE FUNCTION "delete_private_data"()
+CREATE FUNCTION "delete_member_data"("member_id_p" "member"."id"%TYPE)
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
-    DECLARE
-      "issue_id_v" "issue"."id"%TYPE;
     BEGIN
       UPDATE "member" SET
-        "login"                        = 'login' || "id"::text,
+        "login"                        = NULL,
         "password"                     = NULL,
         "notify_email"                 = NULL,
         "notify_email_unconfirmed"     = NULL,
@@ -3212,20 +3214,34 @@ CREATE FUNCTION "delete_private_data"()
         "profession"                   = NULL,
         "external_memberships"         = NULL,
         "external_posts"               = NULL,
-        "statement"                    = NULL;
+        "statement"                    = NULL
+        WHERE "id" = "member_id_p";
       -- "text_search_data" is updated by triggers
-      UPDATE "member_history" SET "login" = 'login' || "member_id"::text;
+      UPDATE "member_history" SET "login" = NULL
+        WHERE "member_id" = "member_id_p";
+      DELETE FROM "setting"            WHERE "member_id" = "member_id_p";
+      DELETE FROM "setting_map"        WHERE "member_id" = "member_id_p";
+      DELETE FROM "member_relation_setting" WHERE "member_id" = "member_id_p";
+      DELETE FROM "member_image"       WHERE "member_id" = "member_id_p";
+      DELETE FROM "contact"            WHERE "member_id" = "member_id_p";
+      DELETE FROM "area_setting"       WHERE "member_id" = "member_id_p";
+      DELETE FROM "issue_setting"      WHERE "member_id" = "member_id_p";
+      DELETE FROM "initiative_setting" WHERE "member_id" = "member_id_p";
+      DELETE FROM "suggestion_setting" WHERE "member_id" = "member_id_p";
+      RETURN;
+    END;
+  $$;
+
+COMMENT ON FUNCTION "delete_member_data"("member_id_p" "member"."id"%TYPE) IS 'Clear certain settings and data of a particular member (data protection)';
+
+
+CREATE FUNCTION "delete_private_data"()
+  RETURNS VOID
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      PERFORM "delete_member_data"("id") FROM "member";
       DELETE FROM "invite_code";
-      DELETE FROM "setting";
-      DELETE FROM "setting_map";
-      DELETE FROM "member_relation_setting";
-      DELETE FROM "member_image";
-      DELETE FROM "contact";
       DELETE FROM "session";
-      DELETE FROM "area_setting";
-      DELETE FROM "issue_setting";
-      DELETE FROM "initiative_setting";
-      DELETE FROM "suggestion_setting";
       DELETE FROM "direct_voter" USING "issue"
         WHERE "direct_voter"."issue_id" = "issue"."id"
         AND "issue"."closed" ISNULL;
