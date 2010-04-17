@@ -77,9 +77,9 @@ if config.user_tab_mode == "accordeon" or config.user_tab_mode == "accordeon_fir
         attr = {
           name = "tab_" .. tab.name,
           class = (
-            tab.name == current_tab and "ui_tabs_accordeon_head selected" or
-            not current_tab and i == 1 and "ui_tabs_accordeon_head selected" or
-            "ui_tabs_accordeon_head"
+            tab.name == current_tab and "ui_tabs_accordeon_head selected" .. (tab.class and (" " .. tab.class) or "") or
+            not current_tab and i == 1 and "ui_tabs_accordeon_head selected" .. (tab.class and (" " .. tab.class) or "")  or
+            "ui_tabs_accordeon_head" .. (tab.class and (" " .. tab.class) or "") 
           ),
           id = "tab" .. unique_string .. "_head_" .. tab.name,
           onclick = onclick,
@@ -105,7 +105,7 @@ if config.user_tab_mode == "accordeon" or config.user_tab_mode == "accordeon_fir
       local expanded = active or not request.get_json_request_slots() and config.user_tab_mode == "accordeon_all_expanded" and not current_tabs_string
       ui.container{
         attr = {
-          class = "ui_tabs_accordeon_content",
+          class = "ui_tabs_accordeon_content" .. (tab.class and (" " .. tab.class) or ""),
           style = not expanded and "display: none;" or nil,
           id = "tab" .. unique_string .. "_content_" .. tab.name
         },
@@ -198,9 +198,9 @@ else -- 'classic tab'
               ui.link{
                 attr = { 
                   class = (
-                    tab.name == current_tab and "selected" or
-                    not current_tab and i == 1 and "selected" or
-                    ""
+                    tab.name == current_tab and "selected" .. (tab.class and (" " .. tab.class) or "") or
+                    not current_tab and i == 1 and "selected" .. (tab.class and (" " .. tab.class) or "") or
+                    "" .. (tab.class and (" " .. tab.class) or "")
                   )
                 },
                 module  = request.get_module(),

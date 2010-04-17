@@ -9,7 +9,7 @@ initiatives_selector
 
 if app.session.member_id then
   initiatives_selector
-    :left_join("initiator", "_initiator", { "_initiator.initiative_id = initiative.id AND _initiator.member_id = ?", app.session.member.id} )
+    :left_join("initiator", "_initiator", { "_initiator.initiative_id = initiative.id AND _initiator.member_id = ? AND _initiator.accepted", app.session.member.id} )
     :left_join("supporter", "_supporter", { "_supporter.initiative_id = initiative.id AND _supporter.member_id = ?", app.session.member.id} )
   
     :add_field("(_initiator.member_id NOTNULL)", "is_initiator")

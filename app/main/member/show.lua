@@ -13,11 +13,12 @@ end)
 
 slot.put_into("title", encode.html(_"Member '#{member}'":gsub("#{member}", member.name)))
 
-if member.id ~= app.session.member.id then
-  --TODO performance
-  local contact = Contact:by_pk(app.session.member.id, member.id)
-  if contact then
-    slot.select("actions", function()
+slot.select("actions", function()
+  if member.id == app.session.member.id then
+  else
+    --TODO performance
+    local contact = Contact:by_pk(app.session.member.id, member.id)
+    if contact then
       ui.container{
         attr = { class = "interest" },
         content = _"You have saved this member as contact."
@@ -38,9 +39,7 @@ if member.id ~= app.session.member.id then
           }
         }
       }
-    end)
-  else
-    slot.select("actions", function()
+    else
       ui.link{
         image   = { static = "icons/16/book_add.png" },
         text    = _"Add to my contacts",
@@ -57,9 +56,9 @@ if member.id ~= app.session.member.id then
           }
         }
       }
-    end)
+    end
   end
-end
+end)
 
 slot.select("actions", function()
   ui.link{
