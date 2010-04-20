@@ -1,0 +1,12 @@
+=Issue, interest=
+This page lists all initiatives belonging to this issue. If you add your ,,Interest at the issue'', you will be treated as equal to the members of the superior areas of this issue, and you increase the assessment basis for the supporter quorums to be reached by an initiative. As soon as you support an initiative of this issue, your interest will be automatically added. Even if you remove your support from all initiatives, your interest persists until you opt out. 
+=Delegation, autoreject=
+A delegation for this issue takes precedence over a potentially existing global delegation and/or a delegation for the superior area. A potentially existing autoreject instruction is valid only in case you do not participate yourself in the final voting and no delegation is really used. If you added your interest outgoing delegations will be suspended during the discussion phase, but will be active during the final voting.
+=Discussion phase=
+During the discussion phase (in the states ,,New'' and ,,Discussion'') you should support **all** initiatives that you can agree with generally (or under certain conditions), and make suggestions for improvements (you can find details on the initiative page). Hereby you give the initiators the chance to improve the draft. During this phase you can also start your own (competing) initiative for this issue and ask people to support it. 
+=Final voting=
+Initiatives reaching a certain quorum, will be taken into the final voting. There you can list all initiatives that you approve, ordered by preference. For other initiatives you can abstain or disapprove (the latter also by preference). Only those initiatives can be decided that get in total more votes in favour than against.
+
+**Important:** There is no reason to prefer a proposal you consider to be suboptimal, with an eye to the majority situation (i.e. because you are afraid of ,,giving away'' your vote). To put it simply, the preference-based voting means that as soon as your real favourite does not get a chance, your vote will be counted entirely for your first alternative, then for your second one, and so on.
+
+Information about the electoral process used: [http://en.wikipedia.org/wiki/Schulze_method Schulze-Method]
