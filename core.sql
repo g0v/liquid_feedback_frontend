@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.0.0', 1, 0, 0))
+  SELECT * FROM (VALUES ('1.0.1', 1, 0, 1))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -3224,6 +3224,7 @@ CREATE FUNCTION "delete_member_data"("member_id_p" "member"."id"%TYPE)
       DELETE FROM "member_relation_setting" WHERE "member_id" = "member_id_p";
       DELETE FROM "member_image"       WHERE "member_id" = "member_id_p";
       DELETE FROM "contact"            WHERE "member_id" = "member_id_p";
+      DELETE FROM "delegation"         WHERE "truster_id" = "member_id_p";
       DELETE FROM "area_setting"       WHERE "member_id" = "member_id_p";
       DELETE FROM "issue_setting"      WHERE "member_id" = "member_id_p";
       DELETE FROM "initiative_setting" WHERE "member_id" = "member_id_p";
