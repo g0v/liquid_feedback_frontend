@@ -18,15 +18,22 @@ local tabs = {
 }
 
 if show_as_homepage and app.session.member_id == member.id then
-  tabs[#tabs+1] = {
-    class = "yellow",
-    name = "motd",
-    label = _"Message of the day",
-    icon = { static = "icons/16/bell.png" },
-    module = "index",
-    view = "_motd",
-    params = {}
-  }
+
+  local lang = locale.get("lang")
+  local basepath = request.get_app_basepath() 
+  local file_name = basepath .. "/locale/motd/" .. lang .. ".txt"
+  local file = io.open(file_name)
+  if file ~= nil then
+    tabs[#tabs+1] = {
+      class = "yellow",
+      name = "motd",
+      label = _"Message of the day",
+      icon = { static = "icons/16/bell.png" },
+      module = "index",
+      view = "_motd",
+      params = {}
+    }
+  end
 
   local selector = Area:new_selector()
     :reset_fields()
