@@ -196,6 +196,7 @@ return {
 ["Initiatives in this issue (last updated first)"] = "Initiativen in diesem Thema (zuletzt aktualisierte zuerst)";
 ["Initiatives that invited you to become initiator:"] = "Initiative, die Dich eingeladen haben, Initiator zu werden:";
 ["Initiator"] = "Initiator";
+["Initiator invites"] = "Einladungen";
 ["Initiators"] = "Initiatoren";
 ["Interest not existant"] = "Interesse existiert nicht";
 ["Interest removed"] = "Interesse entfernt";
@@ -265,6 +266,7 @@ return {
 ["Membership removed"] = "Mitgliedschaft entfernt";
 ["Membership updated"] = "Mitgliedschaft aktualisiert";
 ["Memberships"] = "Mitgliedschaften";
+["Message of the day"] = "Hinweise";
 ["Missing help text: #{id}.#{lang}.txt"] = "Fehlender Hilfe-Text: #{id}.#{lang}.txt";
 ["Mobile phone"] = "Mobiltelefon";
 ["Monday"] = "Montag";
@@ -298,6 +300,7 @@ return {
 ["Not voted"] = "Nicht abgestimmt";
 ["Not voted (not admitted)"] = "Nicht abgestimmt (nicht zugelassen)";
 ["Not voted (revoked from initiator)"] = "Nicht abgestimmt (durch Initiator zurückgezogen)";
+["Not voted issues"] = "Nicht abgestimmt";
 ["Not yet voted"] = "Noch abzustimmen";
 ["Number of incoming delegations, follow link to see more details"] = "Anzahl eingehender Delegationen, Link folgen für mehr Details";
 ["Number of initiatives to preview"] = "Anzahl der Initiativen in der Vorschau";
@@ -312,6 +315,7 @@ return {
 ["One issue you are interested in"] = "Ein Thema, das Dich interessiert";
 ["One step back"] = "Ein Schritt zurück";
 ["Open"] = "Offen";
+["Open initiatives you are supporting which has been updated their draft:"] = "Offene, von dir unterstützte Initiativen, deren Antragstext aktualisiert wurde:";
 ["OpenID"] = false;
 ["OpenID Login"] = false;
 ["Opinions"] = "Meinungen";
@@ -490,6 +494,7 @@ return {
 ["Tuesday"] = "Dienstag";
 ["Type of tabs"] = "Tabulatortyp";
 ["Unknown author"] = "Unbekannter Autor";
+["Updated drafts"] = "Neue Entwürfe";
 ["Upload images"] = "Bilder hochladen";
 ["Used until"] = "Benutzt bis";
 ["Verification time"] = "Zeit für die Überprüfung";
@@ -517,6 +522,7 @@ return {
 ["You are already initator"] = "Du bist bereits Initiator";
 ["You are already not supporting this initiative"] = "Diese Initiative hat bereits keine Unterstützung von Dir";
 ["You are already supporting the latest draft"] = "Du unterstützt bereits den neuesten Entwurf";
+["You are currently not invited to any initiative."] = "Du bist zur Zeit von keiner Initiative eingeladen.";
 ["You are currently not supporting this initiative. By adding suggestions to this initiative you will automatically become a potential supporter."] = "Du bist zur Zeit kein Unterstützer dieser Initiative. Wenn Du eine Anregung hinzufügst wirst Du automatisch potentieller Unterstützer!";
 ["You are iniator of this initiative"] = "Du bist Initiator dieser Initiative";
 ["You are interested in this issue"] = "Du bist an diesem Thema interessiert";

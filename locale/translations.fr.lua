@@ -196,6 +196,7 @@ return {
 ["Initiatives in this issue (last updated first)"] = false;
 ["Initiatives that invited you to become initiator:"] = false;
 ["Initiator"] = false;
+["Initiator invites"] = false;
 ["Initiators"] = false;
 ["Interest not existant"] = false;
 ["Interest removed"] = false;
@@ -265,6 +266,7 @@ return {
 ["Membership removed"] = false;
 ["Membership updated"] = false;
 ["Memberships"] = false;
+["Message of the day"] = false;
 ["Missing help text: #{id}.#{lang}.txt"] = false;
 ["Mobile phone"] = false;
 ["Monday"] = false;
@@ -298,6 +300,7 @@ return {
 ["Not voted"] = false;
 ["Not voted (not admitted)"] = false;
 ["Not voted (revoked from initiator)"] = false;
+["Not voted issues"] = false;
 ["Not yet voted"] = false;
 ["Number of incoming delegations, follow link to see more details"] = false;
 ["Number of initiatives to preview"] = false;
@@ -312,6 +315,7 @@ return {
 ["One issue you are interested in"] = false;
 ["One step back"] = false;
 ["Open"] = false;
+["Open initiatives you are supporting which has been updated their draft:"] = false;
 ["OpenID"] = false;
 ["OpenID Login"] = false;
 ["Opinions"] = false;
@@ -490,6 +494,7 @@ return {
 ["Tuesday"] = false;
 ["Type of tabs"] = false;
 ["Unknown author"] = false;
+["Updated drafts"] = false;
 ["Upload images"] = false;
 ["Used until"] = false;
 ["Verification time"] = false;
@@ -517,6 +522,7 @@ return {
 ["You are already initator"] = false;
 ["You are already not supporting this initiative"] = false;
 ["You are already supporting the latest draft"] = false;
+["You are currently not invited to any initiative."] = false;
 ["You are currently not supporting this initiative. By adding suggestions to this initiative you will automatically become a potential supporter."] = false;
 ["You are iniator of this initiative"] = false;
 ["You are interested in this issue"] = false;
