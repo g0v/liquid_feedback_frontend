@@ -21,7 +21,7 @@ ui.form{
         label = _"Last author",
         value = _(
           "#{author} at #{date}", {
-            author = "[not displayed public]",
+            author = _"[not displayed public]",
             date = format.timestamp(draft.created)
           }
         )
