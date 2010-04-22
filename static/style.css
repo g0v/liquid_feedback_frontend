@@ -980,7 +980,8 @@ z-index: 2;
 .draft_updated_info,
 .voting_active_info,
 .initiator_invite_info,
-.motd {
+.motd,
+.public_access_issue_head {
   background-color: #fec;
   border: 1px solid #b96;
   padding: 1ex;

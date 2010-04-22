@@ -102,8 +102,11 @@ execute.view{
 
 --  ui.twitter("http://example.com/t" .. tostring(issue.id))
 
+if config.public_access_issue_head and not app.session.member_id then
+  config.public_access_issue_head(issue)
+end
 
-if issue.state == 'voting' and not direct_voter then
+if app.session.member_id and issue.state == 'voting' and not direct_voter then
   ui.container{
     attr = { class = "voting_active_info" },
     content = function()
