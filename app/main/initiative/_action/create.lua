@@ -33,19 +33,7 @@ else
   end
 end
 
-local policy_id = param.get("policy_id", atom.integer)
 
-if policy_id == -1 then
-  slot.put_into("error", _"Please choose a policy")
-  return false
-end
-
-local policy = Policy:by_id(policy_id)
-
-if not policy.active then
-  slot.put_into("error", "Invalid policy.")
-  return false
-end
 
 local name = param.get("name")
 
@@ -59,6 +47,16 @@ end
 local initiative = Initiative:new()
 
 if not issue then
+  local policy_id = param.get("policy_id", atom.integer)
+  if policy_id == -1 then
+    slot.put_into("error", _"Please choose a policy")
+    return false
+  end
+  local policy = Policy:by_id(policy_id)
+  if not policy.active then
+    slot.put_into("error", "Invalid policy.")
+    return false
+  end
   if not area:get_reference_selector("allowed_policies")
     :add_where{ "policy.id = ?", policy_id }
     :optional_object_mode()

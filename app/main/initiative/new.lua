@@ -43,33 +43,33 @@ ui.form{
         foreign_name = "name",
         value = (area.default_policy or {}).id
       }
+      ui.tag{
+        tag = "div",
+        content = function()
+          ui.tag{
+            tag = "label",
+            attr = { class = "ui_field_label" },
+            content = function() slot.put("&nbsp;") end,
+          }
+          ui.tag{
+            content = function()
+              ui.link{
+                text = _"Information about the available policies",
+                module = "policy",
+                view = "list"
+              }
+              slot.put(" ")
+              ui.link{
+                attr = { target = "_blank" },
+                text = _"(new window)",
+                module = "policy",
+                view = "list"
+              }
+            end
+          }
+        end
+      }
     end
-    ui.tag{
-      tag = "div",
-      content = function()
-        ui.tag{
-          tag = "label",
-          attr = { class = "ui_field_label" },
-          content = function() slot.put("&nbsp;") end,
-        }
-        ui.tag{
-          content = function()
-            ui.link{
-              text = _"Information about the available policies",
-              module = "policy",
-              view = "list"
-            }
-            slot.put(" ")
-            ui.link{
-              attr = { target = "_blank" },
-              text = _"(new window)",
-              module = "policy",
-              view = "list"
-            }
-          end
-        }
-      end
-    }
     slot.put("<br />")
     ui.field.text{ label = _"Title of initiative", name = "name" }
     ui.field.text{ label = _"Discussion URL", name = "discussion_url" }
