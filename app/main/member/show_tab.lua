@@ -55,7 +55,9 @@ if show_as_homepage and app.session.member_id == member.id then
     if area.is_member or area.interested_issues_to_vote_count > 0 then
       not_voted_areas[#not_voted_areas+1] = area
     end
-    issues_to_vote_count = issues_to_vote_count + area.issues_to_vote_count_sum
+    if area.is_member then
+      issues_to_vote_count = issues_to_vote_count + area.issues_to_vote_count_sum
+    end
   end
 
   if issues_to_vote_count > 0 then
