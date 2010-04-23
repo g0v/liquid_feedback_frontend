@@ -19,11 +19,7 @@ local tabs = {
 
 if show_as_homepage and app.session.member_id == member.id then
 
-  local lang = locale.get("lang")
-  local basepath = request.get_app_basepath() 
-  local file_name = basepath .. "/locale/motd/" .. lang .. ".txt"
-  local file = io.open(file_name)
-  if file ~= nil then
+  if config.motd_intern then
     tabs[#tabs+1] = {
       class = "yellow",
       name = "motd",

@@ -28,3 +28,9 @@ config.auth_openid_identifier_check_func = function(uri)
     return false
   end
 end
+
+config.motd_public = "==Public motd=="
+
+config.motd_intern = "==Internal motd=="
+
+config.public_access = "anonymous"

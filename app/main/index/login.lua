@@ -43,6 +43,15 @@ slot.select("title", function()
   }
 end)
 
+if config.motd_public then
+  local help_text = config.motd_public
+  ui.container{
+    attr = { class = "wiki motd" },
+    content = function()
+      slot.put(format.wiki_text(help_text))
+    end
+  }
+end
 
 ui.tag{
   tag = 'p',
