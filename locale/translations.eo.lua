@@ -196,7 +196,7 @@ return {
 ["Initiatives in this issue (last updated first)"] = "Iniciatoj en tiu temo (laste ĝisdatigitaj unue)";
 ["Initiatives that invited you to become initiator:"] = "Iniciatoj, kiuj vin invitis esti iniciatinto:";
 ["Initiator"] = "Iniciatinto";
-["Initiator invites"] = false;
+["Initiator invites"] = "Invitoj";
 ["Initiators"] = "Iniciatintoj";
 ["Interest not existant"] = "Ne ekzistas intereso";
 ["Interest removed"] = "Intereso forigita";
@@ -266,7 +266,7 @@ return {
 ["Membership removed"] = "Membreco forigita";
 ["Membership updated"] = "Membreco ĝisdatigita";
 ["Memberships"] = "Membrecoj";
-["Message of the day"] = false;
+["Message of the day"] = "Mesaĝoj";
 ["Missing help text: #{id}.#{lang}.txt"] = "Mankas helpoteksto: #{id}.#{lang}.txt";
 ["Mobile phone"] = "Poŝtelefono";
 ["Monday"] = "Lundo";
@@ -300,7 +300,7 @@ return {
 ["Not voted"] = "Ne balotinta";
 ["Not voted (not admitted)"] = "Ne balotinta (ne aprobita)";
 ["Not voted (revoked from initiator)"] = "Ne balotinta (retirita de la iniciatinto)";
-["Not voted issues"] = false;
+["Not voted issues"] = "Ne balotitaj";
 ["Not yet voted"] = "Ankoraŭ ne balotinta";
 ["Number of incoming delegations, follow link to see more details"] = "Nombro de alvenantaj delegacioj, sekvi ligilon por pli da detaloj";
 ["Number of initiatives to preview"] = "Nombro de iniciatoj por antaŭmontri";
@@ -315,7 +315,7 @@ return {
 ["One issue you are interested in"] = "Unu temo, kiu vin interesas";
 ["One step back"] = "Unu paŝo reen";
 ["Open"] = "Malferma";
-["Open initiatives you are supporting which has been updated their draft:"] = false;
+["Open initiatives you are supporting which has been updated their draft:"] = "Malfermitaj iniciatoj, kiujn vi subtenas kaj kiuj ĝisdatigis sian skizon:";
 ["OpenID"] = "OpenID";
 ["OpenID Login"] = "OpenID ensalutnomo";
 ["Opinions"] = "Opinioj";
@@ -494,7 +494,7 @@ return {
 ["Tuesday"] = "Mardo";
 ["Type of tabs"] = "Tipo de langetoj";
 ["Unknown author"] = "Aŭtoro nekonata";
-["Updated drafts"] = false;
+["Updated drafts"] = "Skizoj ĝisdatigitaj";
 ["Upload images"] = "Alŝuti bildojn";
 ["Used until"] = "Uzita ĝis";
 ["Verification time"] = "Tempo por la kontrolo";
@@ -522,7 +522,7 @@ return {
 ["You are already initator"] = "Vi estas jam iniciatanto";
 ["You are already not supporting this initiative"] = "Vi jam ne subtenas tiun iniciaton";
 ["You are already supporting the latest draft"] = "Vi jam subtenas la plej novan skizon";
-["You are currently not invited to any initiative."] = false;
+["You are currently not invited to any initiative."] = "Vi aktuale estas invitata al neniu iniciato."; 
 ["You are currently not supporting this initiative. By adding suggestions to this initiative you will automatically become a potential supporter."] = "Vi aktuale ne subtenas tiun iniciaton. Se vi aldonas sugeston al tiu iniciato vi estos aŭtomate eventuala subtenanto!";
 ["You are iniator of this initiative"] = "Vi estas iniciatanto de tiu iniciato";
 ["You are interested in this issue"] = "Vin interesas tiu temo";
