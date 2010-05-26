@@ -1,0 +1,2 @@
+=Temaroj=
+La traboj montras al vi, kiom granda estas la kvoto de la rektaj membroj respektive de la perdelegacie reprezentataj membroj de la respektiva temaro rilate al la entuta nombro de la membroj. Por testiniciatoj (do diskutoj, kiuj estas ne tute seriozaj) cetere la temaro „Sandkasten/Spielwiese“ taŭgas. 
