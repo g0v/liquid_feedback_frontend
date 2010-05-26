@@ -4,7 +4,7 @@ return {
 ["##{issue_id}.#{id} #{name}"] = "##{issue_id}.#{id} #{name}";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} temoj, kiuj interesas vin";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} temo(j)";
-["#{number} Image(s) has been deleted"] = "Estas viŝita(j) #{number} bildo(j) estas viŝita(j)";
+["#{number} Image(s) has been deleted"] = "#{number} bildo(j) estas viŝita(j)";
 ["#{number} Image(s) has been updated"] = "#{number} bildo(j) estas ĝisdatigita(j)";
 ["(#{more_count} duplicates removed)"] = "(#{more_count} duoblaĵoj forigitaj)";
 ["(change URL)"] = "(ŝanĝi URLon)";
