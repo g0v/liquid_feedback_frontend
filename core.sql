@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.0.2', 1, 0, 2))
+  SELECT * FROM (VALUES ('1.0.3', 1, 0, 3))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -751,7 +751,7 @@ CREATE TABLE "delegating_voter" (
         "weight"                INT4,
         "scope"              "delegation_scope" NOT NULL,
         "delegate_member_ids"   INT4[]          NOT NULL );
-CREATE INDEX "delegating_voter_member_id_idx" ON "direct_voter" ("member_id");
+CREATE INDEX "delegating_voter_member_id_idx" ON "delegating_voter" ("member_id");
 
 COMMENT ON TABLE "delegating_voter" IS 'Delegations increasing the weight of entries in the "direct_voter" table';
 
