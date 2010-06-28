@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.0.3', 1, 0, 3))
+  SELECT * FROM (VALUES ('1.1.0', 1, 1, 0))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -648,15 +648,13 @@ CREATE TABLE "direct_population_snapshot" (
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "event"                 "snapshot_event",
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT,
-        "weight"                INT4,
-        "interest_exists"       BOOLEAN         NOT NULL );
+        "weight"                INT4 );
 CREATE INDEX "direct_population_snapshot_member_id_idx" ON "direct_population_snapshot" ("member_id");
 
 COMMENT ON TABLE "direct_population_snapshot" IS 'Snapshot of active members having either a "membership" in the "area" or an "interest" in the "issue"';
 
 COMMENT ON COLUMN "direct_population_snapshot"."event"           IS 'Reason for snapshot, see "snapshot_event" type for details';
 COMMENT ON COLUMN "direct_population_snapshot"."weight"          IS 'Weight of member (1 or higher) according to "delegating_population_snapshot"';
-COMMENT ON COLUMN "direct_population_snapshot"."interest_exists" IS 'TRUE if entry is due to interest in issue, FALSE if entry is only due to membership in area';
 
 
 CREATE TABLE "delegating_population_snapshot" (
@@ -2047,35 +2045,26 @@ CREATE FUNCTION "create_population_snapshot"
         WHERE "issue_id" = "issue_id_p"
         AND "event" = 'periodic';
       INSERT INTO "direct_population_snapshot"
-        ("issue_id", "event", "member_id", "interest_exists")
-        SELECT DISTINCT ON ("issue_id", "member_id")
-          "issue_id_p" AS "issue_id",
-          'periodic'   AS "event",
-          "subquery"."member_id",
-          "subquery"."interest_exists"
-        FROM (
-          SELECT
-            "member"."id" AS "member_id",
-            FALSE         AS "interest_exists"
-          FROM "issue"
-          JOIN "area" ON "issue"."area_id" = "area"."id"
-          JOIN "membership" ON "area"."id" = "membership"."area_id"
-          JOIN "member" ON "membership"."member_id" = "member"."id"
-          WHERE "issue"."id" = "issue_id_p"
-          AND "member"."active"
-          UNION
-          SELECT
-            "member"."id" AS "member_id",
-            TRUE          AS "interest_exists"
-          FROM "interest" JOIN "member"
-          ON "interest"."member_id" = "member"."id"
-          WHERE "interest"."issue_id" = "issue_id_p"
-          AND "member"."active"
-        ) AS "subquery"
-        ORDER BY
-          "issue_id_p",
-          "subquery"."member_id",
-          "subquery"."interest_exists" DESC;
+        ("issue_id", "event", "member_id")
+        SELECT
+          "issue_id_p"                 AS "issue_id",
+          'periodic'::"snapshot_event" AS "event",
+          "member"."id"                AS "member_id"
+        FROM "issue"
+        JOIN "area" ON "issue"."area_id" = "area"."id"
+        JOIN "membership" ON "area"."id" = "membership"."area_id"
+        JOIN "member" ON "membership"."member_id" = "member"."id"
+        WHERE "issue"."id" = "issue_id_p"
+        AND "member"."active"
+        UNION
+        SELECT
+          "issue_id_p"                 AS "issue_id",
+          'periodic'::"snapshot_event" AS "event",
+          "member"."id"                AS "member_id"
+        FROM "interest" JOIN "member"
+        ON "interest"."member_id" = "member"."id"
+        WHERE "interest"."issue_id" = "issue_id_p"
+        AND "member"."active";
       FOR "member_id_v" IN
         SELECT "member_id" FROM "direct_population_snapshot"
         WHERE "issue_id" = "issue_id_p"
@@ -3188,13 +3177,14 @@ COMMENT ON FUNCTION "check_everything"() IS 'Perform "check_issue" for every ope
 ------------------------------
 
 
-CREATE FUNCTION "delete_member_data"("member_id_p" "member"."id"%TYPE)
+CREATE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
       UPDATE "member" SET
         "login"                        = NULL,
         "password"                     = NULL,
+        "active"                       = FALSE,
         "notify_email"                 = NULL,
         "notify_email_unconfirmed"     = NULL,
         "notify_email_secret"          = NULL,
@@ -3224,17 +3214,17 @@ CREATE FUNCTION "delete_member_data"("member_id_p" "member"."id"%TYPE)
       DELETE FROM "member_relation_setting" WHERE "member_id" = "member_id_p";
       DELETE FROM "member_image"       WHERE "member_id" = "member_id_p";
       DELETE FROM "contact"            WHERE "member_id" = "member_id_p";
-      DELETE FROM "delegation"         WHERE "truster_id" = "member_id_p";
-      DELETE FROM "membership"         WHERE "member_id" = "member_id_p";
       DELETE FROM "area_setting"       WHERE "member_id" = "member_id_p";
       DELETE FROM "issue_setting"      WHERE "member_id" = "member_id_p";
       DELETE FROM "initiative_setting" WHERE "member_id" = "member_id_p";
       DELETE FROM "suggestion_setting" WHERE "member_id" = "member_id_p";
+      DELETE FROM "membership"         WHERE "member_id" = "member_id_p";
+      DELETE FROM "delegation"         WHERE "truster_id" = "member_id_p";
       RETURN;
     END;
   $$;
 
-COMMENT ON FUNCTION "delete_member_data"("member_id_p" "member"."id"%TYPE) IS 'Clear certain settings and data of a particular member (data protection)';
+COMMENT ON FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE) IS 'Clear certain settings and data of a particular member (data protection)';
 
 
 CREATE FUNCTION "delete_private_data"()
@@ -3266,17 +3256,17 @@ CREATE FUNCTION "delete_private_data"()
         "statement"                    = NULL;
       -- "text_search_data" is updated by triggers
       UPDATE "member_history" SET "login" = NULL;
+      DELETE FROM "invite_code";
       DELETE FROM "setting";
       DELETE FROM "setting_map";
       DELETE FROM "member_relation_setting";
       DELETE FROM "member_image";
       DELETE FROM "contact";
+      DELETE FROM "session";
       DELETE FROM "area_setting";
       DELETE FROM "issue_setting";
       DELETE FROM "initiative_setting";
       DELETE FROM "suggestion_setting";
-      DELETE FROM "invite_code";
-      DELETE FROM "session";
       DELETE FROM "direct_voter" USING "issue"
         WHERE "direct_voter"."issue_id" = "issue"."id"
         AND "issue"."closed" ISNULL;
