@@ -147,21 +147,23 @@ if supporter and not initiative.issue.closed then
             new_draft_id = new_draft_id
           }
         }
-        slot.put(" ")
-        ui.link{
-          text   = _"Refresh support to current draft",
-          module = "initiative",
-          action = "add_support",
-          id     = initiative.id,
-          routing = {
-            default = {
-              mode = "redirect",
-              module = "initiative",
-              view = "show",
-              id = initiative.id
+        if not initiative.revoked then
+          slot.put(" ")
+          ui.link{
+            text   = _"Refresh support to current draft",
+            module = "initiative",
+            action = "add_support",
+            id     = initiative.id,
+            routing = {
+              default = {
+                mode = "redirect",
+                module = "initiative",
+                view = "show",
+                id = initiative.id
+              }
             }
           }
-        }
+        end
       end
     }
   end

@@ -1,4 +1,4 @@
-slot.put_into("title", _"Developer features")
+slot.put_into("title", _"Developer settings")
 
 slot.select("actions", function()
   ui.link{

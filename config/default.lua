@@ -1,5 +1,5 @@
 config.app_name = "LiquidFeedback"
-config.app_version = "beta18"
+config.app_version = "beta19"
 
 config.app_title = config.app_name .. " (" .. request.get_config_name() .. " environment)"
 
@@ -32,7 +32,7 @@ config.public_access = false  -- Available options: "anonymous", "pseudonym"
 
 config.api_enabled = false
 
-config.feature_rss_enabled = true
+config.feature_rss_enabled = false -- feature is broken
 
 -- OpenID authentication is not fully implemented yet, DO NOT USE BEFORE THIS NOTICE HAS BEEN REMOVED!
 config.auth_openid_enabled = false

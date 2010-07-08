@@ -11,7 +11,7 @@ else
   slot.put_into("stylesheet_url", config.absolute_base_url .. "static/style.css")
 end
 
-if os.getenv("HTTP_USER_AGENT"):find("Android.*AppleWebKit.*Mobile Safari") then
+if os.getenv("HTTP_USER_AGENT") and os.getenv("HTTP_USER_AGENT"):find("Android.*AppleWebKit.*Mobile Safari") then
   slot.select("html_head", function()
     ui.tag{
       tag = "style",

@@ -76,7 +76,7 @@ filters[#filters+1] = {
 }
 
 
-if param.get("filter") == "frozen" then
+if app.session.member and param.get("filter") == "frozen" then
   filters[#filters+1] = {
     label = _"Filter",
     name = "filter_voting",

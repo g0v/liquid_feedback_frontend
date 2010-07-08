@@ -19,6 +19,18 @@ local tabs = {
 
 if show_as_homepage and app.session.member_id == member.id then
 
+  if app.session.member.notify_email_unconfirmed then
+    tabs[#tabs+1] = {
+      class = "yellow",
+      name = "email_unconfirmed",
+      label = _"Email unconfirmed",
+      icon = { static = "icons/16/bell.png" },
+      module = "member",
+      view = "_email_unconfirmed",
+      params = {}
+    }
+  end
+
   if config.motd_intern then
     tabs[#tabs+1] = {
       class = "yellow",
@@ -93,6 +105,7 @@ if show_as_homepage and app.session.member_id == member.id then
     :join("issue", "_issue_state", "_issue_state.id = initiative.issue_id AND _issue_state.closed ISNULL AND _issue_state.fully_frozen ISNULL")
     :join("current_draft", "_current_draft", "_current_draft.initiative_id = initiative.id")
     :join("supporter", "supporter", { "supporter.member_id = ? AND supporter.initiative_id = initiative.id AND supporter.draft_id < _current_draft.id", app.session.member_id })
+    :add_where("initiative.revoked ISNULL")
 
   if updated_drafts_selector:count() > 0 then
     tabs[#tabs+1] = {

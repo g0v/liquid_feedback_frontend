@@ -1,4 +1,4 @@
-local id             = param.get_id()
+local id             = param.get("id")
 local min_id         = param.get("min_id")
 local max_id         = param.get("max_id")
 local area_id        = param.get("area_id", atom.integer)
@@ -13,7 +13,7 @@ local limit          = param.get("limit", atom.integer)
 local order          = param.get("order")
 
 local initiatives_selector = Initiative:new_selector()
-  :join("issue", nil, "issue.id = initiative.id")
+  :join("issue", nil, "issue.id = initiative.issue_id")
   :join("area", nil, "area.id = issue.area_id")
   :join("policy", nil, "policy.id = issue.policy_id")
 
@@ -42,7 +42,7 @@ if policy_id then
 end
 
 if state then
-  Issue:modify_selector_for_state(state)
+  Issue:modify_selector_for_state(initiatives_selector, state)
 end
 
 if agreed then
@@ -187,6 +187,7 @@ local fields = {
 }
 
 util.autoapi{
+  relation_name = "initiative",
   selector = initiatives_selector,
   fields = fields,
   api_engine = api_engine

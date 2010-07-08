@@ -79,13 +79,15 @@ ui.tag{
 
 ui.tag{
   tag = "id",
-  content = "urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6"
+--  content = "urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6"
 }
 
+--[[
 ui.tag{
   tag = "updated",
   content = "2003-12-14T10:20:09Z"
 }
+--]]
 
 for i, initiative in ipairs(initiatives) do
   ui.tag{

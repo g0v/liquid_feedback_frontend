@@ -77,6 +77,8 @@ return {
 ["Change API key"] = "API-Schlüssel ändern";
 ["Change area delegation"] = "Delegation für Themenbereich ändern";
 ["Change display settings"] = "Anzeige-Einstellungen ändern";
+["Change email"] = "E-Mail-Adresse ändern";
+["Change email address"] = "E-Mail-Adresse ändern";
 ["Change filters and order"] = "Filter und Sortierung ändern";
 ["Change global delegation"] = "Globale Delegation ändern";
 ["Change issue delegation"] = "Delegation für Thema ändern";
@@ -87,6 +89,7 @@ return {
 ["Change vote"] = "Abstimmung ändern";
 ["Change your login"] = "Deinen Anmeldenamen ändern";
 ["Change your name"] = "Deinen Namen ändern";
+["Change your notification email address"] = "Deine E-Mail-Adresse für Benachrichtigungen ändern";
 ["Change your password"] = "Dein Kennwort ändern";
 ["Choose initiator"] = "Initiator auswählen";
 ["Choose member"] = "Mitglied auswählen";
@@ -98,6 +101,7 @@ return {
 ["Confirm"] = "Bestätigen";
 ["Confirmation code"] = "Bestätigungscode";
 ["Confirmation code invalid!"] = "Bestätigungscode ist ungültig!";
+["Confirmed address"] = "Bestätigte E-Mail";
 ["Contacts"] = "Kontakte";
 ["Content"] = "Inhalt";
 ["Counting of votes"] = "Auszählung";
@@ -109,13 +113,14 @@ return {
 ["Current votings in areas you are member of and issues you are interested in:"] = "Jetzt laufende Abstimmungen zu Themen aus Deinen Themenbereichen oder solchen an denen Du interessiert bist:";
 ["Currently no API key is set."] = "Zur Zeit ist kein API-Schlüssel festgelegt.";
 ["Date"] = "Datum";
+["Date format is not valid. Please use following format: YYYY-MM-DD"] = "Datumsformat nicht korrekt. Bitte verwende: JJJJ-MM-TT, also z.B. 1945-05-23";
 ["Degree"] = "Grad";
 ["Delegations"] = "Delegationen";
 ["Delete API key"] = "API-Schlüssel löschen";
 ["Delete filter"] = "Filter löschen";
 ["Description"] = "Beschreibung";
 ["Details"] = "Details";
-["Developer features"] = "Entwicklerfunktionen";
+["Developer settings"] = "Einstellungen für Entwickler";
 ["Diff"] = "Differenz";
 ["Direct member count"] = "Anzahl Direktmitglieder";
 ["Direct membership"] = "Direkte Mitgliedschaft";
@@ -149,7 +154,9 @@ return {
 ["Email address is confirmed now"] = "E-Mail-Adresse ist jetzt bestätigt";
 ["Email address too short!"] = "E-Mail-Adresse ist zu kurz!";
 ["Email confirmation request"] = "Bestätigung Deiner E-Mail-Adresse";
+["Email unconfirmed"] = "Unbestätigte E-Mail-Adresse";
 ["Empty help text: #{id}.#{lang}.txt"] = "Leerer Hilfe-Text: #{id}.#{lang}.txt";
+["Error while converting image. Please note, that only JPG files are supported!"] = "Fehler beim Konvertieren des Bilds. Bitte beachte, dass nur JPG-Dateien unterstützt werden.";
 ["Error while resolving openid. Internal message: '#{errmsg}'"] = "Fehler beim Auflösen der OpenID. Interne Fehlermeldung: '#{errmsg}'";
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Fehler beim aktualisieren des Mitglieds, die Datenbank berichtet folgenden Fehler:<br /><br /> (#{errormessage})";
 ["External memberships"] = "Externe Mitgliedschaften";
@@ -180,8 +187,8 @@ return {
 ["In discussion"] = "In Diskussion";
 ["Incoming delegations"] = "Eingehende Delegationen";
 ["Information about the available policies"] = "Informationen zu den verfügbaren Regelwerken";
-["Initiated"] = "Initiert";
-["Initiated initiatives"] = "Initierte Initiativen";
+["Initiated"] = "Initiiert";
+["Initiated initiatives"] = "Initiierte Initiativen";
 ["Initiative events"] = "Initiativen-Ereignisse";
 ["Initiative is revoked now"] = "Initiative ist jetzt zurückgezogen";
 ["Initiative quorum"] = "Quorum Inititive";
@@ -216,7 +223,7 @@ return {
 ["Issue canceled"] = "Thema abgebrochen";
 ["Issue delegation"] = "Issue-Delegation";
 ["Issue delegation active"] = "Delegation für Thema aktiv";
-["Issue events"] = "Themen-Ergeignisse";
+["Issue events"] = "Themen-Ereignisse";
 ["Issue finished"] = "Thema abgeschlossen";
 ["Issue finished without voting"] = "Thema ohne Abstimmung abgeschlossen";
 ["Issue frozen"] = "Thema eingefroren";
@@ -250,6 +257,7 @@ return {
 ["Member has not approved latest draft"] = "Mitglied hat den letzten Entwurf noch nicht angenommen";
 ["Member is administrator"] = "Mitglied ist Administrator";
 ["Member is already saved in your contacts!"] = "Mitglied ist schon in Deinen Kontakten!";
+["Member is deactivated"] = "Mitglied ist deaktiviert";
 ["Member is now invited to be initiator"] = "Mitglied ist jetzt als Initiator eingeladen";
 ["Member list"] = "Mitgliederliste";
 ["Member name"] = "Mitglied Name";
@@ -275,6 +283,7 @@ return {
 ["My opinion"] = "Meine Meinung";
 ["Name"] = "Name";
 ["New"] = "Neu";
+["New address"] = "Neue E-Mail-Adresse";
 ["New draft"] = "Neuer Entwurf";
 ["New draft has been added to initiative"] = "Neuer Entwurf wurde der Initiative hinzugefügt";
 ["New draft revision"] = "Neue Revision des Entwurfs";
@@ -302,6 +311,7 @@ return {
 ["Not voted (revoked from initiator)"] = "Nicht abgestimmt (durch Initiator zurückgezogen)";
 ["Not voted issues"] = "Nicht abgestimmt";
 ["Not yet voted"] = "Noch abzustimmen";
+["Notification address unconfirmed"] = "E-Mail-Adresse für Benachrichtigungen unbestätigt";
 ["Number of incoming delegations, follow link to see more details"] = "Anzahl eingehender Delegationen, Link folgen für mehr Details";
 ["Number of initiatives to preview"] = "Anzahl der Initiativen in der Vorschau";
 ["OK"] = "OK";
@@ -378,6 +388,7 @@ return {
 ["Remove my support from this initiative"] = "Meine Unterstützung der Initiative entziehen";
 ["Repeat new password"] = "Neues Kennwort wiederholen";
 ["Request password reset link"] = "Link zum Rücksetzen des Kennworts anfordern";
+["Resend activation email to '#{email}'"] = "E-Mail mit Aktivierungslink erneut an '#{email}' senden";
 ["Reset code"] = "Rücksetzcode";
 ["Reset code is invalid!"] = "Rücksetzcode ist ungültig";
 ["Reset link has been send for this member"] = "Rücksetz-Link wurde versendet";
@@ -457,6 +468,7 @@ return {
 ["The initiators suggest to support the following initiative:"] = "Die Initiatoren empfehlen folgende Initiative zu unterstützen:";
 ["There are no more alternative initiatives currently."] = "Es gibt zur Zeit keine weiteren alternative Initiative.";
 ["There were no more alternative initiatives."] = "Es gab keine weiteren alternativen Initiativen.";
+["This email address is too short!"] = "Diese E-Mail-Adresse ist zu kurz!";
 ["This identifier is not allowed for this instance."] = "Dieser Identifier ist für diese Instanz nicht zugelassen.";
 ["This initiative"] = "Diese Initiative";
 ["This initiative compared to alternative initiatives"] = "Diese Initiative im Vergleich zu alternativen Initiativen";
@@ -475,6 +487,7 @@ return {
 ["This member has rejected to become initiator of this initiative"] = "Dieses Mitglied hat die Einladung, Initiator zu werden, abgelehnt";
 ["This member is already initiator of this initiative"] = "Dieses Mitglied ist bereits Initiator dieser Initiative";
 ["This member is already invited to become initiator of this initiative"] = "Dieses Mitglied ist bereits eingeladen Initiator dieser Initiative zu werden";
+["This member is deactivated."] = "Dieses Mitglied ist deaktiviert.";
 ["This member is participating, the rest of delegation chain is suspended while discussing"] = "Dieses Mitglied partizipiert, Rest der Delegationskette während der Diskussion ausgesetzt.";
 ["This name is already taken, please choose another one!"] = "Dieser Name ist bereits vergeben, bitte wähle einen anderen!";
 ["This name is really too short!"] = "Dieser Name ist wirklich zu kurz!";
@@ -493,6 +506,7 @@ return {
 ["Trustee"] = "Bevollmächtigter";
 ["Tuesday"] = "Dienstag";
 ["Type of tabs"] = "Tabulatortyp";
+["Unconfirmed address"] = "Unbestätigte E-Mail";
 ["Unknown author"] = "Unbekannter Autor";
 ["Updated drafts"] = "Neue Entwürfe";
 ["Upload images"] = "Bilder hochladen";
@@ -515,6 +529,8 @@ return {
 ["Voting request updated"] = "Abstimmungswunsch aktualisiert";
 ["Voting started"] = "Abstimmung begonnen";
 ["Voting time"] = "Zeit für die Abstimmung";
+["We couldn't deliver a confirmation mail to this address. Please check entered email address."] = "Wir konnten keine Bestätigungs-E-Mail versenden. Bitte überprüfe die E-Mail-Adresse.";
+["We have sent an email with activation link already in the last hour. Please try again later."] = "Wir haben bereits innerhalb der letzten Stunde eine E-Mail mit Bestätigungslink gesendet. Bitte versuche es später erneut.";
 ["Website"] = "Webseite";
 ["Wednesday"] = "Mittwoch";
 ["Wiki engine"] = "Wiki engine";
@@ -531,7 +547,11 @@ return {
 ["You are now initiator of this initiative"] = "Du bist jetzt Initiator dieser Initiative";
 ["You are potential supporter of this initiative"] = "Du bist potentieller Unterstützer dieser Initiative";
 ["You are supporting this initiative"] = "Du unterstützt diese Initiative";
+["You can change the following settings:"] = "Du kannst die folgenden Einstellungen vornehmen:";
+["You can change your email address only once per hour. Please try again later."] = "Du kannst die E-Mail-Adresse nur einmal in der Stunde ändern, bitte versuche es später erneut.";
 ["You can't suggest the initiative you are revoking"] = "Du kannst nicht die Initiative empfehlen, die Du löschen möchtest";
+["You didn't confirmed your email address '#{email}' within 7 days."] = "Du hast die E-Mail-Adresse '#{email}' nicht innerhalb von 7 Tagen bestätigt.";
+["You didn't confirmed your email address '#{email}'. You have received an email with an activation link."] = "Du hast die E-Mail-Adresse '#{email}' nicht bestätigt. Du hast hierzu eine E-Mail mit einem Aktivierungslink erhalten.";
 ["You didn't saved any member as contact yet."] = "Du hast noch kein Mitglied als Kontakt gespeichert!";
 ["You have saved this member as contact"] = "Du hast das Mitglied als Kontakt gespeichert";
 ["You have saved this member as contact."] = "Du hast das Mitglied als Kontakt gespeichert.";
@@ -549,6 +569,7 @@ return {
 ["Your delegation for this issue has been deleted."] = "Deine Delegation für dieses Thema wurde gelöscht";
 ["Your delegation for this issue has been updated."] = "Deine Delegation für dieses Thema wurde geändert";
 ["Your display settings have been updated"] = "Deine Anzeige-Einstellungen wurden aktualisiert";
+["Your email address has been changed, please check for confirmation email with activation link!"] = "Deine E-Mail-Adresse wurde geändert, du hast eine Bestätigungs-E-Mail mit Aktivierungslink erhalten.";
 ["Your global delegation has been deleted."] = "Deine globale Delegation wurde gelöscht";
 ["Your global delegation has been updated."] = "Deine globale Delegation wurde geändert";
 ["Your login has been changed to '#{login}'"] = "Dein Anmeldename wurde auf '#{login}' geändert";

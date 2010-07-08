@@ -28,6 +28,14 @@ ui.container{
       attr = { class = "flags" },
       content = function()
 
+        if not member.active then
+          local text = _"Member is deactivated"
+          ui.image{
+            attr = { alt = text, title = text },
+            static = "icons/16/cross.png"
+          }
+        end
+
         if member.grade then
           ui.link{
             module = "vote",

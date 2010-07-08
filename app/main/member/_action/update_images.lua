@@ -23,7 +23,8 @@ for i, image_type in ipairs{"avatar", "photo"} do
       local convert_func = config.member_image_convert_func[image_type]
       local data_scaled, err, status = convert_func(data)
       if status ~= 0 or data_scaled == nil then
-      error("error while converting image")
+        slot.put_into("error", _"Error while converting image. Please note, that only JPG files are supported!")
+        return false
       end
 
       if not member_image then

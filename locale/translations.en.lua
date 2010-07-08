@@ -77,6 +77,8 @@ return {
 ["Change API key"] = false;
 ["Change area delegation"] = false;
 ["Change display settings"] = false;
+["Change email"] = false;
+["Change email address"] = false;
 ["Change filters and order"] = false;
 ["Change global delegation"] = false;
 ["Change issue delegation"] = false;
@@ -87,6 +89,7 @@ return {
 ["Change vote"] = false;
 ["Change your login"] = false;
 ["Change your name"] = false;
+["Change your notification email address"] = false;
 ["Change your password"] = false;
 ["Choose initiator"] = false;
 ["Choose member"] = false;
@@ -98,6 +101,7 @@ return {
 ["Confirm"] = false;
 ["Confirmation code"] = false;
 ["Confirmation code invalid!"] = false;
+["Confirmed address"] = false;
 ["Contacts"] = false;
 ["Content"] = false;
 ["Counting of votes"] = false;
@@ -109,13 +113,14 @@ return {
 ["Current votings in areas you are member of and issues you are interested in:"] = false;
 ["Currently no API key is set."] = false;
 ["Date"] = false;
+["Date format is not valid. Please use following format: YYYY-MM-DD"] = false;
 ["Degree"] = false;
 ["Delegations"] = false;
 ["Delete API key"] = false;
 ["Delete filter"] = false;
 ["Description"] = false;
 ["Details"] = false;
-["Developer features"] = false;
+["Developer settings"] = false;
 ["Diff"] = false;
 ["Direct member count"] = false;
 ["Direct membership"] = false;
@@ -149,7 +154,9 @@ return {
 ["Email address is confirmed now"] = false;
 ["Email address too short!"] = false;
 ["Email confirmation request"] = false;
+["Email unconfirmed"] = false;
 ["Empty help text: #{id}.#{lang}.txt"] = false;
+["Error while converting image. Please note, that only JPG files are supported!"] = false;
 ["Error while resolving openid. Internal message: '#{errmsg}'"] = false;
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = false;
 ["External memberships"] = false;
@@ -250,6 +257,7 @@ return {
 ["Member has not approved latest draft"] = false;
 ["Member is administrator"] = false;
 ["Member is already saved in your contacts!"] = false;
+["Member is deactivated"] = false;
 ["Member is now invited to be initiator"] = false;
 ["Member list"] = false;
 ["Member name"] = false;
@@ -275,6 +283,7 @@ return {
 ["My opinion"] = false;
 ["Name"] = false;
 ["New"] = false;
+["New address"] = false;
 ["New draft"] = false;
 ["New draft has been added to initiative"] = false;
 ["New draft revision"] = false;
@@ -302,6 +311,7 @@ return {
 ["Not voted (revoked from initiator)"] = false;
 ["Not voted issues"] = false;
 ["Not yet voted"] = false;
+["Notification address unconfirmed"] = false;
 ["Number of incoming delegations, follow link to see more details"] = false;
 ["Number of initiatives to preview"] = false;
 ["OK"] = false;
@@ -378,6 +388,7 @@ return {
 ["Remove my support from this initiative"] = false;
 ["Repeat new password"] = false;
 ["Request password reset link"] = false;
+["Resend activation email to '#{email}'"] = false;
 ["Reset code"] = false;
 ["Reset code is invalid!"] = false;
 ["Reset link has been send for this member"] = false;
@@ -457,6 +468,7 @@ return {
 ["The initiators suggest to support the following initiative:"] = false;
 ["There are no more alternative initiatives currently."] = false;
 ["There were no more alternative initiatives."] = false;
+["This email address is too short!"] = false;
 ["This identifier is not allowed for this instance."] = false;
 ["This initiative"] = false;
 ["This initiative compared to alternative initiatives"] = false;
@@ -475,6 +487,7 @@ return {
 ["This member has rejected to become initiator of this initiative"] = false;
 ["This member is already initiator of this initiative"] = false;
 ["This member is already invited to become initiator of this initiative"] = false;
+["This member is deactivated."] = false;
 ["This member is participating, the rest of delegation chain is suspended while discussing"] = false;
 ["This name is already taken, please choose another one!"] = false;
 ["This name is really too short!"] = false;
@@ -493,6 +506,7 @@ return {
 ["Trustee"] = false;
 ["Tuesday"] = false;
 ["Type of tabs"] = false;
+["Unconfirmed address"] = false;
 ["Unknown author"] = false;
 ["Updated drafts"] = false;
 ["Upload images"] = false;
@@ -515,6 +529,8 @@ return {
 ["Voting request updated"] = false;
 ["Voting started"] = false;
 ["Voting time"] = false;
+["We couldn't deliver a confirmation mail to this address. Please check entered email address."] = false;
+["We have sent an email with activation link already in the last hour. Please try again later."] = false;
 ["Website"] = false;
 ["Wednesday"] = false;
 ["Wiki engine"] = false;
@@ -531,7 +547,11 @@ return {
 ["You are now initiator of this initiative"] = false;
 ["You are potential supporter of this initiative"] = false;
 ["You are supporting this initiative"] = false;
+["You can change the following settings:"] = false;
+["You can change your email address only once per hour. Please try again later."] = false;
 ["You can't suggest the initiative you are revoking"] = false;
+["You didn't confirmed your email address '#{email}' within 7 days."] = false;
+["You didn't confirmed your email address '#{email}'. You have received an email with an activation link."] = false;
 ["You didn't saved any member as contact yet."] = false;
 ["You have saved this member as contact"] = false;
 ["You have saved this member as contact."] = false;
@@ -549,6 +569,7 @@ return {
 ["Your delegation for this issue has been deleted."] = false;
 ["Your delegation for this issue has been updated."] = false;
 ["Your display settings have been updated"] = false;
+["Your email address has been changed, please check for confirmation email with activation link!"] = false;
 ["Your global delegation has been deleted."] = false;
 ["Your global delegation has been updated."] = false;
 ["Your login has been changed to '#{login}'"] = false;

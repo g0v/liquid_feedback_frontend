@@ -2,10 +2,10 @@ local name = param.get("name")
 
 name = util.trim(name)
 
-if #name < 3 then 
-  slot.put_into(_error, _"This name is too short!")
+if #name < 3 then
+  slot.put_into("error", _"This name is too short!")
+  return false
 end
-
 
 app.session.member.name = name
 

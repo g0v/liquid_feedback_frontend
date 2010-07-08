@@ -142,23 +142,29 @@ function Issue:get_search_selector(search_string)
     :add_group_by('"issue"."vote_now"')
     :add_group_by('"issue"."vote_later"')
     :add_group_by('"issue"."voter_count"')
+    :add_group_by('"issue"."admission_time"')
+    :add_group_by('"issue"."discussion_time"')
+    :add_group_by('"issue"."verification_time"')
+    :add_group_by('"issue"."voting_time"')
     :add_group_by('"_interest"."member_id"')
     --:set_distinct()
 end
 
-function Issue:modify_selector_for_state(state)
+function Issue:modify_selector_for_state(initiatives_selector, state)
   if state == "new" then
-    initiatives_selector:add_where("issue.accepted ISNULL AND issue.cancelled ISNULL")
+    initiatives_selector:add_where("issue.accepted ISNULL AND issue.closed ISNULL")
   elseif state == "accepted" then
-    initiatives_selector:add_where("issue.accepted NOTNULL AND issue.half_frozen ISNULL AND issue.cancelled ISNULL")
+    initiatives_selector:add_where("issue.accepted NOTNULL AND issue.half_frozen ISNULL AND issue.closed ISNULL")
   elseif state == "frozen" then
-    initiatives_selector:add_where("issue.half_frozen NOTNULL AND issue.fully_frozen ISNULL AND cancelled ISNULL")
+    initiatives_selector:add_where("issue.half_frozen NOTNULL AND issue.fully_frozen ISNULL AND issue.closed ISNULL")
   elseif state == "voting" then
-    initiatives_selector:add_where("issue.fully_frozen NOTNULL AND issue.finished ISNULL AND issue.cancelled ISNULL")
+    initiatives_selector:add_where("issue.fully_frozen NOTNULL AND issue.closed ISNULL")
   elseif state == "finished" then
-    initiatives_selector:add_where("issue.finished NOTNULL")
+    initiatives_selector:add_where("issue.fully_frozen NOTNULL AND issue.closed NOTNULL")
   elseif state == "cancelled" then
-    initiatives_selector:add_where("issue.cancelled NOTNULL")
+    initiatives_selector:add_where("issue.fully_frozen ISNULL AND issue.closed NOTNULL")
+  else
+    error("Invalid state")
   end
 end
 

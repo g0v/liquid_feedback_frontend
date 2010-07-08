@@ -308,6 +308,11 @@ function Member.object:set_notify_email(notify_email)
     content_type  = "text/plain; charset=UTF-8",
     content       = content
   }
+  if success then
+    local lock_expiry = db:query("SELECT now() + '1 hour'::interval AS lock_expiry", "object").lock_expiry
+    self.notify_email_lock_expiry = lock_expiry
+  end
+  self:save()
   return success
 end
 
@@ -353,4 +358,13 @@ end
 
 function Member.object:set_setting_map(key, subkey, value)
   
+end
+
+function Member.object_get:notify_email_locked()
+  return(
+    Member:new_selector()
+      :add_where{ "id = ?", app.session.member.id }
+      :add_where("notify_email_lock_expiry > now()")
+      :count() == 1
+  )
 end

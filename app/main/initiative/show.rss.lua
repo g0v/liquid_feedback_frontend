@@ -14,19 +14,16 @@ local function rss_item(item)
   slot.put("</item>")
 end
 
-
 local initiative = Initiative:by_id(param.get_id())
 
 rss_channel{
   title = initiative.name,
   description = initiative.current_draft.content,
   language = "de",
-  copyright = initiative.current_draft.author.name,
-  pubDate = "Tue, 8 Jul 2008 2:43:19"
 }
 
 for i, suggestion in ipairs(initiative.suggestions) do
-  
+
   local text = suggestion.name
 
   text = text .. " ("
@@ -40,10 +37,7 @@ for i, suggestion in ipairs(initiative.suggestions) do
   rss_item{
     title = text,
     description = suggestion.content,
-    link = "http://localhost/lf/suggestion/show/" .. tostring(suggestion.id) .. ".html",
-    author = "",
-    guid = "guid",
-    pubDate = "Tue, 8 Jul 2008 2:43:19"
+    link = request.get_base_url() .. "/lf/suggestion/show/" .. tostring(suggestion.id) .. ".html",
   }
 
 end

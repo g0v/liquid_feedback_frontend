@@ -24,17 +24,23 @@ if config.public_access then
      or request.get_view() == "show_tab"
     )
     or request.get_module() == "policy" and request.get_view() == "show"
+    or request.get_module() == "policy" and request.get_view() == "list"
     or request.get_module() == "issue" and request.get_view() == "show"
     or request.get_module() == "issue" and request.get_view() == "show_tab"
     or request.get_module() == "initiative" and request.get_view() == "show"
     or request.get_module() == "initiative" and request.get_view() == "show_partial"
     or request.get_module() == "initiative" and request.get_view() == "show_tab"
+    or request.get_module() == "initiative" and request.get_view() == "show.rss"
     or request.get_module() == "suggestion" and request.get_view() == "show"
     or request.get_module() == "draft" and request.get_view() == "diff"
   then
     auth_needed = false
   end
 
+end
+
+if config.api_enabled and request.get_module() == "api" then
+  auth_needed = false
 end
 
 if config.public_access and not app.session.member_id and auth_needed and request.get_module() == "index" and request.get_view() == "index" then

@@ -77,6 +77,8 @@ return {
 ["Change API key"] = "Ŝanĝi API-ŝlosilon";
 ["Change area delegation"] = "Ŝanĝi delegacion por temaro";
 ["Change display settings"] = "Ŝanĝi afiŝajn agordojn";
+["Change email"] = false;
+["Change email address"] = false;
 ["Change filters and order"] = "Ŝanĝi filtrojn kaj ordon";
 ["Change global delegation"] = "Ŝanĝi ĝeneralan delegacion";
 ["Change issue delegation"] = "Ŝanĝi delegacion por la temo";
@@ -87,6 +89,7 @@ return {
 ["Change vote"] = "Sangi baloton";
 ["Change your login"] = "Ŝanĝi vian salutnomon";
 ["Change your name"] = "Ŝanĝi vian nomon";
+["Change your notification email address"] = false;
 ["Change your password"] = "Ŝanĝi vian pasvorton";
 ["Choose initiator"] = "Elekti inicianton";
 ["Choose member"] = "Elekti membron";
@@ -98,6 +101,7 @@ return {
 ["Confirm"] = "Konfirmi";
 ["Confirmation code"] = "Konfirmokodon";
 ["Confirmation code invalid!"] = "La konfirmokodo estas malvalida!";
+["Confirmed address"] = false;
 ["Contacts"] = "Kontaktoj";
 ["Content"] = "Enhavo";
 ["Counting of votes"] = "Nombrado de voĉoj";
@@ -109,13 +113,14 @@ return {
 ["Current votings in areas you are member of and issues you are interested in:"] = "Aktualaj voĉdonoj pri temoj en kiuj vi membras kaj kiuj vin interesas:";
 ["Currently no API key is set."] = "Nuntempe ne ekzistas API-ŝlosilo";
 ["Date"] = "Dato";
+["Date format is not valid. Please use following format: YYYY-MM-DD"] = false;
 ["Degree"] = "Grado";
 ["Delegations"] = "Delegacioj";
 ["Delete API key"] = "Forviŝi API-ŝlosilon";
 ["Delete filter"] = "Forviŝi filtron";
 ["Description"] = "Priskribo";
 ["Details"] = "Detaloj";
-["Developer features"] = "Porprogramistaj funkcioj";
+["Developer settings"] = false;
 ["Diff"] = "Diferenco";
 ["Direct member count"] = "Nombro de la rektaj membroj";
 ["Direct membership"] = "Rekta membreco";
@@ -149,7 +154,9 @@ return {
 ["Email address is confirmed now"] = "Retadreso nun estas konfirmita";
 ["Email address too short!"] = "Retadreso estas tro mallonga!";
 ["Email confirmation request"] = "Konfirmopeto de via retadreso";
+["Email unconfirmed"] = false;
 ["Empty help text: #{id}.#{lang}.txt"] = "Malplena helpoteksto: #{id}.#{lang}.txt";
+["Error while converting image. Please note, that only JPG files are supported!"] = false;
 ["Error while resolving openid. Internal message: '#{errmsg}'"] = "Eraro dum trovado de openid. Interna mesaĝo: '#{errmsg}'";
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Eraro dum ĝisdatigo de la membro, la datumbazo raportas sekvan eraron:<br /><br /> (#{errormessage})";
 ["External memberships"] = "Eksteraj membrecoj";
@@ -250,6 +257,7 @@ return {
 ["Member has not approved latest draft"] = "La membro ne konsentis la plej novan skizon";
 ["Member is administrator"] = "La membro estas administranto";
 ["Member is already saved in your contacts!"] = "La membro estas jam konservita en viaj kontaktoj!";
+["Member is deactivated"] = false;
 ["Member is now invited to be initiator"] = "La membro nun estas invitita kiel inicionto";
 ["Member list"] = "Membrolisto";
 ["Member name"] = "Membronomo";
@@ -275,6 +283,7 @@ return {
 ["My opinion"] = "Mia opinio";
 ["Name"] = "Nomo";
 ["New"] = "Nova";
+["New address"] = false;
 ["New draft"] = "Nova skizo";
 ["New draft has been added to initiative"] = "La nova skizo estas aldonita al la iniciato";
 ["New draft revision"] = "Nova revizio de la skizo";
@@ -302,6 +311,7 @@ return {
 ["Not voted (revoked from initiator)"] = "Ne balotinta (retirita de la iniciinto)";
 ["Not voted issues"] = "Ne balotitaj";
 ["Not yet voted"] = "Ankoraŭ ne balotinta";
+["Notification address unconfirmed"] = false;
 ["Number of incoming delegations, follow link to see more details"] = "Nombro de alvenantaj delegacioj, sekvu ligilon por pli da detaloj";
 ["Number of initiatives to preview"] = "Nombro de iniciatoj por antaŭmontri";
 ["OK"] = "Bone";
@@ -378,6 +388,7 @@ return {
 ["Remove my support from this initiative"] = "Forigi mian subtenon de la iniciato";
 ["Repeat new password"] = "Ripeti novan pasvorton";
 ["Request password reset link"] = "Demandi ligilon por remeti la pasvorton";
+["Resend activation email to '#{email}'"] = false;
 ["Reset code"] = "Remetokodo";
 ["Reset code is invalid!"] = "La remetokodo estas malvalida!";
 ["Reset link has been send for this member"] = "Remetoligilo estas dissendita";
@@ -457,6 +468,7 @@ return {
 ["The initiators suggest to support the following initiative:"] = "La iniciintoj rekomendas subteni sekvan iniciaton:";
 ["There are no more alternative initiatives currently."] = "Aktuale ne ekzistas pliajn alternativajn iniciatojn.";
 ["There were no more alternative initiatives."] = "Ne ekzistis pliajn alternativajn iniciatojn.";
+["This email address is too short!"] = false;
 ["This identifier is not allowed for this instance."] = "Tiu identigilo ne estas permesita por ĉi tiu instanco.";
 ["This initiative"] = "Tiu iniciato";
 ["This initiative compared to alternative initiatives"] = "Tiu iniciato komparata al la alternativajn iniciatojn";
@@ -475,6 +487,7 @@ return {
 ["This member has rejected to become initiator of this initiative"] = "Tiu membro rifuzis inviton por esti inicionto";
 ["This member is already initiator of this initiative"] = "Tiu membro estas jam iniciinto de tiu iniciato";
 ["This member is already invited to become initiator of this initiative"] = "Tiu membro estis jam invitita por esti inicionto de tiu iniciato";
+["This member is deactivated."] = false;
 ["This member is participating, the rest of delegation chain is suspended while discussing"] = "Tiu membro partoprenas, la resta delegaciĉeno estas blokita dum la diskuto";
 ["This name is already taken, please choose another one!"] = "Tiu nomo estas jam prenita, bonvolu elekti alian!";
 ["This name is really too short!"] = "Tiu nomo estas vere tro mallonga!";
@@ -493,6 +506,7 @@ return {
 ["Trustee"] = "Fidulo mastrumanta";
 ["Tuesday"] = "Mardo";
 ["Type of tabs"] = "Tipo de langetoj";
+["Unconfirmed address"] = false;
 ["Unknown author"] = "Aŭtoro nekonata";
 ["Updated drafts"] = "Skizoj ĝisdatigitaj";
 ["Upload images"] = "Alŝuti bildojn";
@@ -515,6 +529,8 @@ return {
 ["Voting request updated"] = "Voĉdono-peto ĝisdatigita";
 ["Voting started"] = "Voĉdono komenciĝis";
 ["Voting time"] = "Tempo por la voĉdono";
+["We couldn't deliver a confirmation mail to this address. Please check entered email address."] = false;
+["We have sent an email with activation link already in the last hour. Please try again later."] = false;
 ["Website"] = "Retpaĝo";
 ["Wednesday"] = "Merkredo";
 ["Wiki engine"] = "Viki-modulo";
@@ -522,7 +538,7 @@ return {
 ["You are already initator"] = "Vi estas jam iniciinto";
 ["You are already not supporting this initiative"] = "Vi ankoraŭ ne subtenas tiun iniciaton";
 ["You are already supporting the latest draft"] = "Vi jam subtenas la plej novan skizon";
-["You are currently not invited to any initiative."] = "Vi aktuale estas invitita al neniu iniciato."; 
+["You are currently not invited to any initiative."] = "Vi aktuale estas invitita al neniu iniciato.";
 ["You are currently not supporting this initiative. By adding suggestions to this initiative you will automatically become a potential supporter."] = "Vi aktuale ne subtenas tiun iniciaton. Se vi aldonas sugeston al tiu iniciato vi estos aŭtomate eventuala subtenonto!";
 ["You are iniator of this initiative"] = "Vi estas iniciinto de tiu iniciato";
 ["You are interested in this issue"] = "Vin interesas tiu temo";
@@ -531,7 +547,11 @@ return {
 ["You are now initiator of this initiative"] = "Vi nun estas iniciinto de tiu iniciato";
 ["You are potential supporter of this initiative"] = "Vi estas eventuala subtenanto de tiu iniciato";
 ["You are supporting this initiative"] = "Vi subtenas tiun iniciaton";
+["You can change the following settings:"] = false;
+["You can change your email address only once per hour. Please try again later."] = false;
 ["You can't suggest the initiative you are revoking"] = "Vi ne povas rekomendi la iniciaton, kiun vi nuligas";
+["You didn't confirmed your email address '#{email}' within 7 days."] = false;
+["You didn't confirmed your email address '#{email}'. You have received an email with an activation link."] = false;
 ["You didn't saved any member as contact yet."] = "Vi ankoraŭ ne konservis membron kiel kontakton!";
 ["You have saved this member as contact"] = "Vi konservis membron kiel kontakton";
 ["You have saved this member as contact."] = "Vi konservis membron kiel kontakton.";
@@ -549,6 +569,7 @@ return {
 ["Your delegation for this issue has been deleted."] = "Via delegacio por tiu temo estas viŝita";
 ["Your delegation for this issue has been updated."] = "Via delegacio por tiu temo estas ĝisdatigita";
 ["Your display settings have been updated"] = "Viaj afiŝaj-agordoj estas ĝisdatigitaj";
+["Your email address has been changed, please check for confirmation email with activation link!"] = false;
 ["Your global delegation has been deleted."] = "Via ĝenerala delegacio estas viŝita";
 ["Your global delegation has been updated."] = "Via ĝenerala delegacio estas ĝisdatigita";
 ["Your login has been changed to '#{login}'"] = "Via salutnomo estas ĝisdatigita al '#{login}'";

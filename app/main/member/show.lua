@@ -14,8 +14,15 @@ end)
 slot.put_into("title", encode.html(_"Member '#{member}'":gsub("#{member}", member.name)))
 
 slot.select("actions", function()
-  if member.id == app.session.member.id then
-  else
+  if not (member.id == app.session.member.id) then
+if not member.active then
+  ui.tag{
+    tag = "div",
+    attr = { class = "interest deactivated_member_info" },
+    content = _"This member is deactivated."
+  }
+  slot.put(" ")
+end
     --TODO performance
     local contact = Contact:by_pk(app.session.member.id, member.id)
     if contact then
@@ -39,7 +46,7 @@ slot.select("actions", function()
           }
         }
       }
-    else
+    elseif member.active then
       ui.link{
         image   = { static = "icons/16/book_add.png" },
         text    = _"Add to my contacts",
