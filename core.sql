@@ -65,6 +65,7 @@ CREATE TABLE "member" (
         "notify_email_unconfirmed"     TEXT,
         "notify_email_secret"          TEXT     UNIQUE,
         "notify_email_secret_expiry"   TIMESTAMPTZ,
+        "notify_email_lock_expiry"     TIMESTAMPTZ,
         "password_reset_secret"        TEXT     UNIQUE,
         "password_reset_secret_expiry" TIMESTAMPTZ,
         "name"                  TEXT            NOT NULL UNIQUE,
@@ -103,6 +104,7 @@ COMMENT ON COLUMN "member"."notify_email"         IS 'Email address where notifi
 COMMENT ON COLUMN "member"."notify_email_unconfirmed"   IS 'Unconfirmed email address provided by the member to be copied into "notify_email" field after verification';
 COMMENT ON COLUMN "member"."notify_email_secret"        IS 'Secret sent to the address in "notify_email_unconformed"';
 COMMENT ON COLUMN "member"."notify_email_secret_expiry" IS 'Expiry date/time for "notify_email_secret"';
+COMMENT ON COLUMN "member"."notify_email_lock_expiry"   IS 'Date/time until no further email confirmation mails may be sent (abuse protection)';
 COMMENT ON COLUMN "member"."name"                 IS 'Distinct name of the member';
 COMMENT ON COLUMN "member"."identification"       IS 'Optional identification number or code of the member';
 COMMENT ON COLUMN "member"."organizational_unit"  IS 'Branch or division of the organization the member belongs to';
@@ -2534,7 +2536,7 @@ CREATE FUNCTION "manual_freeze"("issue_id_p" "issue"."id"%TYPE)
     END;
   $$;
 
-COMMENT ON FUNCTION "freeze_after_snapshot"
+COMMENT ON FUNCTION "manual_freeze"
   ( "issue"."id"%TYPE )
   IS 'Freeze an issue manually (fully) and start voting';
 

@@ -4,6 +4,9 @@ CREATE OR REPLACE VIEW "liquid_feedback_version" AS
   SELECT * FROM (VALUES ('1.1.0', 1, 1, 0))
   AS "subquery"("string", "major", "minor", "revision");
 
+ALTER TABLE "member" ADD COLUMN "notify_email_lock_expiry" TIMESTAMPTZ;
+COMMENT ON COLUMN "member"."notify_email_lock_expiry" IS 'Date/time until no further email confirmation mails may be sent (abuse protection)';
+
 ALTER TABLE "direct_population_snapshot" DROP COLUMN "interest_exists";
 
 CREATE OR REPLACE FUNCTION "create_population_snapshot"
@@ -59,6 +62,14 @@ CREATE OR REPLACE FUNCTION "create_population_snapshot"
       RETURN;
     END;
   $$;
+
+COMMENT ON FUNCTION "freeze_after_snapshot"
+  ( "issue"."id"%TYPE )
+  IS 'This function freezes an issue (fully) and starts voting, but must only be called when "create_snapshot" was called in the same transaction.';
+
+COMMENT ON FUNCTION "manual_freeze"
+  ( "issue"."id"%TYPE )
+  IS 'Freeze an issue manually (fully) and start voting';
 
 DROP FUNCTION "delete_member_data"("member"."id"%TYPE);
 
