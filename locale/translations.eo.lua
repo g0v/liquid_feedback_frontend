@@ -110,6 +110,8 @@ return {
 ["Create new issue"] = "Krei novan temon";
 ["Created at"] = "Kreita je";
 ["Current draft"] = "Aktuala skizo";
+["Current name"] = false;
+["Current status"] = false;
 ["Current votings in areas you are member of and issues you are interested in:"] = "Aktualaj voĉdonoj pri temoj en kiuj vi membras kaj kiuj vin interesas:";
 ["Currently no API key is set."] = "Nuntempe ne ekzistas API-ŝlosilo";
 ["Date"] = "Dato";
@@ -438,6 +440,7 @@ return {
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Pardonu, via kontingento por krei iniciatojn estas aktuale elĉerpita. Bonvolu provi pli malfrue denove!";
 ["State"] = "Stato";
 ["Statement"] = "Deklaro";
+["Status"] = false;
 ["Step 1/5: Invite code"] = "Paŝo 1/5: Invitokodo";
 ["Step 2/5: Email address"] = "Paŝo 2/5: Retadreso";
 ["Step 3/5: Username"] = "Paŝo 3/5: Uzantnomo";
@@ -510,7 +513,6 @@ return {
 ["Unknown author"] = "Aŭtoro nekonata";
 ["Updated drafts"] = "Skizoj ĝisdatigitaj";
 ["Upload images"] = "Alŝuti bildojn";
-["Used until"] = "Uzita ĝis";
 ["Verification time"] = "Tempo por la kontrolo";
 ["Version"] = "Versio";
 ["Vote later"] = "Baloti pli malfrue";
@@ -587,8 +589,9 @@ return {
 ["Z-A"] = "Z-A";
 ["[Registered members only]"] = "[Nur registritaj membroj]";
 ["[not displayed public]"] = "[ne afiŝita publike]";
+["activated"] = false;
 ["and #{count} more initiatives"] = "kaj #{count} pliaj iniciatoj";
-["continuing"] = "kontinue";
+["deactivated"] = false;
 ["delete<br /><br />"] = "forviŝi<br /><br />";
 ["disabled"] = "malaktiva";
 ["email"] = "retpoŝto";
@@ -603,5 +606,6 @@ return {
 ["should"] = "devus";
 ["should not"] = "ne devus";
 ["to reset your password please click on the following link:\n\n"] = "por remeti vian pasvorton bonvolu klaki sekvan ligilon:\n\n";
+["until"] = false;
 ["xmpp"] = "Jabber (XMPP)";
 }

@@ -110,6 +110,8 @@ return {
 ["Create new issue"] = false;
 ["Created at"] = false;
 ["Current draft"] = false;
+["Current name"] = false;
+["Current status"] = false;
 ["Current votings in areas you are member of and issues you are interested in:"] = false;
 ["Currently no API key is set."] = false;
 ["Date"] = false;
@@ -438,6 +440,7 @@ return {
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = false;
 ["State"] = false;
 ["Statement"] = false;
+["Status"] = false;
 ["Step 1/5: Invite code"] = false;
 ["Step 2/5: Email address"] = false;
 ["Step 3/5: Username"] = false;
@@ -510,7 +513,6 @@ return {
 ["Unknown author"] = false;
 ["Updated drafts"] = false;
 ["Upload images"] = false;
-["Used until"] = false;
 ["Verification time"] = false;
 ["Version"] = false;
 ["Vote later"] = false;
@@ -587,8 +589,9 @@ return {
 ["Z-A"] = false;
 ["[Registered members only]"] = false;
 ["[not displayed public]"] = false;
+["activated"] = false;
 ["and #{count} more initiatives"] = false;
-["continuing"] = false;
+["deactivated"] = false;
 ["delete<br /><br />"] = false;
 ["disabled"] = false;
 ["email"] = false;
@@ -603,5 +606,6 @@ return {
 ["should"] = false;
 ["should not"] = false;
 ["to reset your password please click on the following link:\n\n"] = false;
+["until"] = false;
 ["xmpp"] = false;
 }

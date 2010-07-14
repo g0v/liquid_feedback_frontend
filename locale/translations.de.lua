@@ -110,6 +110,8 @@ return {
 ["Create new issue"] = "Neues Thema anlegen";
 ["Created at"] = "Erzeugt am/um";
 ["Current draft"] = "Aktueller Entwurf";
+["Current name"] = "Aktueller Name";
+["Current status"] = "Aktueller Status";
 ["Current votings in areas you are member of and issues you are interested in:"] = "Jetzt laufende Abstimmungen zu Themen aus Deinen Themenbereichen oder solchen an denen Du interessiert bist:";
 ["Currently no API key is set."] = "Zur Zeit ist kein API-Schlüssel festgelegt.";
 ["Date"] = "Datum";
@@ -438,6 +440,7 @@ return {
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Sorry, Dein Antragskontingent ist zur Zeit ausgeschöpft. Bitte versuche es später erneut!";
 ["State"] = "Zustand";
 ["Statement"] = "Statement";
+["Status"] = false;
 ["Step 1/5: Invite code"] = "Schritt 1/5: Invite-Code";
 ["Step 2/5: Email address"] = "Schritt 2/5: E-Mail-Adresse";
 ["Step 3/5: Username"] = "Schritt 3/5: Benutzername";
@@ -510,7 +513,6 @@ return {
 ["Unknown author"] = "Unbekannter Autor";
 ["Updated drafts"] = "Neue Entwürfe";
 ["Upload images"] = "Bilder hochladen";
-["Used until"] = "Benutzt bis";
 ["Verification time"] = "Zeit für die Überprüfung";
 ["Version"] = "Version";
 ["Vote later"] = "Später abstimmen";
@@ -587,8 +589,9 @@ return {
 ["Z-A"] = "Z-A";
 ["[Registered members only]"] = "[nur für Registrierte]";
 ["[not displayed public]"] = "[nicht öffentlich]";
+["activated"] = "aktiviert";
 ["and #{count} more initiatives"] = "und #{count} weitere Initiativen";
-["continuing"] = "andauernd";
+["deactivated"] = "deaktiviert";
 ["delete<br /><br />"] = "löschen<br /><br />";
 ["disabled"] = "ausgeschaltet";
 ["email"] = "E-Mail";
@@ -603,5 +606,6 @@ return {
 ["should"] = "soll";
 ["should not"] = "soll nicht";
 ["to reset your password please click on the following link:\n\n"] = "um Dein Kennwort zurückzusetzen klicke bitte den folgenden Link an:\n\n";
+["until"] = "bis";
 ["xmpp"] = "Jabber (XMPP)";
 }

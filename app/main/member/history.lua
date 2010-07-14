@@ -14,6 +14,15 @@ slot.select("actions", function()
   }
 end)
 
+ui.form{
+  attr = { class = "vertical" },
+  content = function()
+    ui.field.text{ label = _"Current name", value = member.name }
+    ui.field.text{ label = _"Current status", value = member.active and _'activated' or _'deactivated' }
+  end
+}
+
+
 local entries = member:get_reference_selector("history_entries"):add_order_by("id DESC"):exec()
 
 ui.tag{
@@ -28,47 +37,32 @@ ui.tag{
         }
         ui.tag{
           tag = "th",
-          content = _("Used until")
-        }
-      end
-    }
-    ui.tag{
-      tag = "tr",
-      content = function()
-        ui.tag{
-          tag = "td",
-          content = member.name
+          content = _("Status")
         }
         ui.tag{
-          tag = "td",
-          content = _"continuing"
+          tag = "th",
+          content = _("until")
         }
       end
     }
     for i, entry in ipairs(entries) do
-      local display = false
-      if (i == 1) then
-        if entry.name ~= member.name then
-          display = true
+      ui.tag{
+        tag = "tr",
+        content = function()
+          ui.tag{
+            tag = "td",
+            content = entry.name
+          }
+          ui.tag{
+            tag = "td",
+            content =  member.active and _'activated' or _'deactivated',
+          }
+          ui.tag{
+            tag = "td",
+            content = format.timestamp(entry["until"])
+          }
         end
-      elseif entry.name ~= entries[i-1].name then
-        display = true
-      end
-      if display then
-        ui.tag{
-          tag = "tr",
-          content = function()
-            ui.tag{
-              tag = "td",
-              content = entry.name
-            }
-            ui.tag{
-              tag = "td",
-              content = format.timestamp(entry["until"])
-            }
-          end
-        }
-      end
+      }
     end
   end
 }
