@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.1.0', 1, 1, 0))
+  SELECT * FROM (VALUES ('1.2.0', 1, 2, 0))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -120,15 +120,14 @@ CREATE TABLE "member_history" (
         "id"                    SERIAL8         PRIMARY KEY,
         "member_id"             INT4            NOT NULL REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "until"                 TIMESTAMPTZ     NOT NULL DEFAULT now(),
-        "login"                 TEXT,
         "active"                BOOLEAN         NOT NULL,
         "name"                  TEXT            NOT NULL );
 CREATE INDEX "member_history_member_id_idx" ON "member_history" ("member_id");
 
-COMMENT ON TABLE "member_history" IS 'Filled by trigger; keeps information about old names, login names and active flag of members';
+COMMENT ON TABLE "member_history" IS 'Filled by trigger; keeps information about old names and active flag of members';
 
 COMMENT ON COLUMN "member_history"."id"    IS 'Primary key, which can be used to sort entries correctly (and time warp resistant)';
-COMMENT ON COLUMN "member_history"."until" IS 'Timestamp until the name and login had been valid';
+COMMENT ON COLUMN "member_history"."until" IS 'Timestamp until the data was valid';
 
 
 CREATE TABLE "invite_code" (
@@ -796,16 +795,12 @@ CREATE FUNCTION "write_member_history_trigger"()
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
       IF
-        ( NEW."login" NOTNULL AND OLD."login" NOTNULL AND
-          NEW."login" != OLD."login" ) OR
-        ( NEW."login" NOTNULL AND OLD."login" ISNULL ) OR
-        ( NEW."login" ISNULL AND OLD."login" NOTNULL ) OR
         NEW."active" != OLD."active" OR
         NEW."name"   != OLD."name"
       THEN
         INSERT INTO "member_history"
-          ("member_id", "login", "active", "name")
-          VALUES (NEW."id", OLD."login", OLD."active", OLD."name");
+          ("member_id", "active", "name")
+          VALUES (NEW."id", OLD."active", OLD."name");
       END IF;
       RETURN NULL;
     END;
@@ -816,7 +811,7 @@ CREATE TRIGGER "write_member_history"
   "write_member_history_trigger"();
 
 COMMENT ON FUNCTION "write_member_history_trigger"()  IS 'Implementation of trigger "write_member_history" on table "member"';
-COMMENT ON TRIGGER "write_member_history" ON "member" IS 'When changing name or login of a member, create a history entry in "member_history" table';
+COMMENT ON TRIGGER "write_member_history" ON "member" IS 'When changing certain fields of a member, create a history entry in "member_history" table';
 
 
 
@@ -3184,6 +3179,7 @@ CREATE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
       UPDATE "member" SET
+        "last_login"                   = NULL,
         "login"                        = NULL,
         "password"                     = NULL,
         "active"                       = FALSE,
@@ -3191,6 +3187,7 @@ CREATE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
         "notify_email_unconfirmed"     = NULL,
         "notify_email_secret"          = NULL,
         "notify_email_secret_expiry"   = NULL,
+        "notify_email_lock_expiry"     = NULL,
         "password_reset_secret"        = NULL,
         "password_reset_secret_expiry" = NULL,
         "organizational_unit"          = NULL,
@@ -3209,8 +3206,6 @@ CREATE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
         "statement"                    = NULL
         WHERE "id" = "member_id_p";
       -- "text_search_data" is updated by triggers
-      UPDATE "member_history" SET "login" = NULL
-        WHERE "member_id" = "member_id_p";
       DELETE FROM "setting"            WHERE "member_id" = "member_id_p";
       DELETE FROM "setting_map"        WHERE "member_id" = "member_id_p";
       DELETE FROM "member_relation_setting" WHERE "member_id" = "member_id_p";
@@ -3222,11 +3217,15 @@ CREATE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
       DELETE FROM "suggestion_setting" WHERE "member_id" = "member_id_p";
       DELETE FROM "membership"         WHERE "member_id" = "member_id_p";
       DELETE FROM "delegation"         WHERE "truster_id" = "member_id_p";
+      DELETE FROM "direct_voter" USING "issue"
+        WHERE "direct_voter"."issue_id" = "issue"."id"
+        AND "issue"."closed" ISNULL
+        AND "member_id" = "member_id_p";
       RETURN;
     END;
   $$;
 
-COMMENT ON FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE) IS 'Clear certain settings and data of a particular member (data protection)';
+COMMENT ON FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE) IS 'Deactivate member and clear certain settings and data of this member (data protection)';
 
 
 CREATE FUNCTION "delete_private_data"()
@@ -3234,12 +3233,14 @@ CREATE FUNCTION "delete_private_data"()
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
       UPDATE "member" SET
+        "last_login"                   = NULL,
         "login"                        = NULL,
         "password"                     = NULL,
         "notify_email"                 = NULL,
         "notify_email_unconfirmed"     = NULL,
         "notify_email_secret"          = NULL,
         "notify_email_secret_expiry"   = NULL,
+        "notify_email_lock_expiry"     = NULL,
         "password_reset_secret"        = NULL,
         "password_reset_secret_expiry" = NULL,
         "organizational_unit"          = NULL,
@@ -3257,7 +3258,6 @@ CREATE FUNCTION "delete_private_data"()
         "external_posts"               = NULL,
         "statement"                    = NULL;
       -- "text_search_data" is updated by triggers
-      UPDATE "member_history" SET "login" = NULL;
       DELETE FROM "invite_code";
       DELETE FROM "setting";
       DELETE FROM "setting_map";
