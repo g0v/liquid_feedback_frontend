@@ -126,9 +126,7 @@ if Member:by_login(login) then
   return false
 end
 
-local use_terms_accepted = param.get("use_terms_accepted", atom.boolean)
-
-if login and use_terms_accepted == nil then
+if login and param.get("step") ~= "5" then
   request.redirect{
     mode   = "redirect",
     module = "index",
@@ -143,21 +141,13 @@ if login and use_terms_accepted == nil then
   return false
 end
 
-if use_terms_accepted ~= true then
-  slot.put_into("error", _"You have to accept the terms of use to complete registration.")
-  request.redirect{
-    mode   = "redirect",
-    module = "index",
-    view   = "register",
-    params = { 
-      code = invite_code.code,
-      notify_email = notify_email,
-      name = name,
-      login = login
-    }
-  }
-  return false
-end
+for i, checkbox in ipairs(config.use_terms_checkboxes) do
+  local accepted = param.get("use_terms_checkbox_" .. checkbox.name, atom.boolean)
+  if not accepted then
+    slot.put_into("error", checkbox.not_accepted_error)
+    return false
+  end
+end  
 
 local password1 = param.get("password1")
 local password2 = param.get("password2")
@@ -174,38 +164,17 @@ if login and not password1 then
       login = login
     }
   }
+--]]
   return false
 end
 
 if password1 ~= password2 then
   slot.put_into("error", _"Passwords don't match!")
-  request.redirect{
-    mode   = "redirect",
-    module = "index",
-    view   = "register",
-    params = { 
-      code = invite_code.code,
-      notify_email = notify_email,
-      name = name,
-      login = login
-    }
-  }
   return false
 end
 
 if #password1 < 8 then
   slot.put_into("error", _"Passwords must consist of at least 8 characters!")
-  request.redirect{
-    mode   = "redirect",
-    module = "index",
-    view   = "register",
-    params = { 
-      code = invite_code.code,
-      notify_email = notify_email,
-      name = name,
-      login = login
-    }
-  }
   return false
 end
 
@@ -217,22 +186,16 @@ member.name = name
 local success = member:set_notify_email(notify_email)
 if not success then
   slot.put_into("error", _"Can't send confirmation email")
-  request.redirect{
-    mode   = "redirect",
-    module = "index",
-    view   = "register",
-    params = { 
-      code = invite_code.code,
-      notify_email = notify_email,
-      name = name,
-      login = login
-    }
-  }
   return
 end
 
 member:set_password(password1)
 member:save()
+
+for i, checkbox in ipairs(config.use_terms_checkboxes) do
+  local accepted = param.get("use_terms_checkbox_" .. checkbox.name, atom.boolean)
+  member:set_setting("use_terms_checkbox_" .. checkbox.name, "accepted")
+end
 
 invite_code.member_id = member.id
 invite_code.used = "now"

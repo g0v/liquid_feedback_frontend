@@ -1,5 +1,5 @@
 config.app_name = "LiquidFeedback"
-config.app_version = "beta20"
+config.app_version = "beta21"
 
 config.app_title = config.app_name .. " (" .. request.get_config_name() .. " environment)"
 
@@ -8,6 +8,16 @@ config.app_logo = nil
 config.app_service_provider = "Snake Oil<br/>10000 Berlin<br/>Germany"
 
 config.use_terms = "=== Nutzungsbedingungen ===\nAlles ist verboten"
+--config.use_terms_html = ""
+
+config.use_terms_checkboxes = {
+  {
+    name = "nutzungsbedingungen_v1",
+    html = "Ich akzeptiere die Bedingungen.",
+    not_accepted_error = "Du musst die Bedingungen akzeptieren, um dich zu registrieren."
+  }
+}
+
 
 config.member_image_content_type = "image/jpeg"
 config.member_image_convert_func = {

@@ -107,6 +107,7 @@ ui.form{
       }
 
     else
+      ui.field.hidden{ name = "step", value = "5" }
       slot.put_into("title", _"Step 5/5: Terms of use and password")
       slot.select("actions", function()
         ui.link{
@@ -126,10 +127,37 @@ ui.form{
       ui.container{
         attr = { class = "wiki use_terms" },
         content = function()
-          slot.put(format.wiki_text(config.use_terms))
+          if config.use_terms_html then
+            slot.put(config.use_terms_html)
+          else
+            slot.put(format.wiki_text(config.use_terms))
+          end
         end
       }
+
+      for i, checkbox in ipairs(config.use_terms_checkboxes) do
+        slot.put("<br />")
+        ui.tag{
+          tag = "div",
+          content = function()
+            ui.tag{
+              tag = "input",
+              attr = {
+                type = "checkbox",
+                name = "use_terms_checkbox_" .. checkbox.name,
+                value = "1",
+                style = "float: left;",
+                checked = param.get("use_terms_checkbox_" .. checkbox.name, atom.boolean) and "checked" or nil
+              }
+            }
+            slot.put("&nbsp;")
+            slot.put(checkbox.html)
+          end
+        }
+      end
+
       slot.put("<br />")
+
       ui.field.text{
         label     = _'Email address',
         value     = param.get("notify_email"),
@@ -144,15 +172,6 @@ ui.form{
         label     = _'Login name',
         value     = param.get("login"),
         readonly = true
-      }
-
-      ui.tag{
-        tag = "p",
-        content = _"I accept the terms of use by checking the following checkbox:"
-      }
-      ui.field.boolean{
-        label     = _"Terms accepted",
-        name      = "use_terms_accepted",
       }
 
       ui.tag{
