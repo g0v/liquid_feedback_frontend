@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.2.0', 1, 2, 0))
+  SELECT * FROM (VALUES ('1.2.1', 1, 2, 1))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -341,6 +341,7 @@ CREATE TABLE "issue" (
         "fully_frozen"          TIMESTAMPTZ,
         "closed"                TIMESTAMPTZ,
         "ranks_available"       BOOLEAN         NOT NULL DEFAULT FALSE,
+        "cleaned"               TIMESTAMPTZ,
         "admission_time"        INTERVAL        NOT NULL,
         "discussion_time"       INTERVAL        NOT NULL,
         "verification_time"     INTERVAL        NOT NULL,
@@ -366,6 +367,12 @@ CREATE TABLE "issue" (
           "accepted"     <= "half_frozen" AND
           "half_frozen"  <= "fully_frozen" AND
           "fully_frozen" <= "closed" ),
+        CONSTRAINT "clean_restriction" CHECK (
+          "cleaned" ISNULL OR (
+            "closed" NOTNULL AND (
+              "fully_frozen" ISNULL OR "ranks_available"
+            )
+          ) ),
         CONSTRAINT "last_snapshot_on_full_freeze"
           CHECK ("snapshot" = "fully_frozen"),  -- NOTE: snapshot can be set, while frozen is NULL yet
         CONSTRAINT "freeze_requires_snapshot"
@@ -389,6 +396,7 @@ COMMENT ON COLUMN "issue"."half_frozen"           IS 'Point in time, when "discu
 COMMENT ON COLUMN "issue"."fully_frozen"          IS 'Point in time, when "verification_time" has elapsed; Frontends must ensure that for fully_frozen issues additionally to the restrictions for half_frozen issues a) initiatives are not created, b) no interest is created or removed, c) no supporters are added or removed, d) no opinions are created, changed or deleted.';
 COMMENT ON COLUMN "issue"."closed"                IS 'Point in time, when "admission_time" or "voting_time" have elapsed, and issue is no longer active; Frontends must ensure that for closed issues additionally to the restrictions for half_frozen and fully_frozen issues a) no voter is added or removed to/from the direct_voter table, b) no votes are added, modified or removed.';
 COMMENT ON COLUMN "issue"."ranks_available"       IS 'TRUE = ranks have been calculated';
+COMMENT ON COLUMN "issue"."cleaned"               IS 'Point in time, when discussion data and votes had been deleted';
 COMMENT ON COLUMN "issue"."admission_time"        IS 'Copied from "policy" table at creation of issue';
 COMMENT ON COLUMN "issue"."discussion_time"       IS 'Copied from "policy" table at creation of issue';
 COMMENT ON COLUMN "issue"."verification_time"     IS 'Copied from "policy" table at creation of issue';
@@ -3169,9 +3177,52 @@ COMMENT ON FUNCTION "check_everything"() IS 'Perform "check_issue" for every ope
 
 
 
-------------------------------
--- Deletion of private data --
-------------------------------
+----------------------
+-- Deletion of data --
+----------------------
+
+
+CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
+  RETURNS VOID
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    DECLARE
+      "issue_row" "issue"%ROWTYPE;
+    BEGIN
+      SELECT * INTO "issue_row"
+        FROM "issue" WHERE "id" = "issue_id_p"
+        FOR UPDATE;
+      IF "issue_row"."cleaned" ISNULL THEN
+        UPDATE "issue" SET
+          "closed" = NULL,
+          "ranks_available" = FALSE
+          WHERE "id" = "issue_id_p";
+        DELETE FROM "delegating_voter"
+          WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "direct_voter"
+          WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "delegating_interest_snapshot"
+          WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "direct_interest_snapshot"
+          WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "delegating_population_snapshot"
+          WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "direct_population_snapshot"
+          WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "delegation"
+          WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "supporter"
+          WHERE "issue_id" = "issue_id_p";
+        UPDATE "issue" SET
+          "closed"          = "issue_row"."closed",
+          "ranks_available" = "issue_row"."ranks_available",
+          "cleaned"         = now()
+          WHERE "id" = "issue_id_p";
+      END IF;
+      RETURN;
+    END;
+  $$;
+
+COMMENT ON FUNCTION "clean_issue"("issue"."id"%TYPE) IS 'Delete discussion data and votes belonging to an issue';
 
 
 CREATE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
