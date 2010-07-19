@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.2.1', 1, 2, 1))
+  SELECT * FROM (VALUES ('1.2.2', 1, 2, 2))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -367,12 +367,8 @@ CREATE TABLE "issue" (
           "accepted"     <= "half_frozen" AND
           "half_frozen"  <= "fully_frozen" AND
           "fully_frozen" <= "closed" ),
-        CONSTRAINT "clean_restriction" CHECK (
-          "cleaned" ISNULL OR (
-            "closed" NOTNULL AND (
-              "fully_frozen" ISNULL OR "ranks_available"
-            )
-          ) ),
+        CONSTRAINT "only_closed_issues_may_be_cleaned" CHECK (
+          "cleaned" ISNULL OR "closed" NOTNULL ),
         CONSTRAINT "last_snapshot_on_full_freeze"
           CHECK ("snapshot" = "fully_frozen"),  -- NOTE: snapshot can be set, while frozen is NULL yet
         CONSTRAINT "freeze_requires_snapshot"
@@ -470,6 +466,18 @@ COMMENT ON COLUMN "initiative"."positive_votes" IS 'Calculated from table "direc
 COMMENT ON COLUMN "initiative"."negative_votes" IS 'Calculated from table "direct_voter"';
 COMMENT ON COLUMN "initiative"."agreed"         IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "majority_num"/"majority_den"';
 COMMENT ON COLUMN "initiative"."rank"           IS 'Rank of approved initiatives (winner is 1), calculated from table "direct_voter"';
+
+
+CREATE TABLE "battle" (
+        PRIMARY KEY ("issue_id", "winning_initiative_id", "losing_initiative_id"),
+        "issue_id"              INT4,
+        "winning_initiative_id" INT4,
+        FOREIGN KEY ("issue_id", "winning_initiative_id") REFERENCES "initiative" ("issue_id", "id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "losing_initiative_id"  INT4,
+        FOREIGN KEY ("issue_id", "losing_initiative_id") REFERENCES "initiative" ("issue_id", "id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "count"                 INT4            NOT NULL);
+
+COMMENT ON TABLE "battle" IS 'Number of members preferring one initiative to another; Filled by "battle_view" when closing an issue';
 
 
 CREATE TABLE "initiative_setting" (
@@ -1428,7 +1436,7 @@ CREATE VIEW "critical_opinion" AS
 COMMENT ON VIEW "critical_opinion" IS 'Opinions currently causing dissatisfaction';
 
 
-CREATE VIEW "battle" AS
+CREATE VIEW "battle_view" AS
   SELECT
     "issue"."id" AS "issue_id",
     "winning_initiative"."id" AS "winning_initiative_id",
@@ -1454,14 +1462,15 @@ CREATE VIEW "battle" AS
   LEFT JOIN "vote" AS "worse_vote"
     ON "direct_voter"."member_id" = "worse_vote"."member_id"
     AND "losing_initiative"."id" = "worse_vote"."initiative_id"
-  WHERE
-    "winning_initiative"."id" != "losing_initiative"."id"
+  WHERE "issue"."closed" NOTNULL
+  AND "issue"."cleaned" ISNULL
+  AND "winning_initiative"."id" != "losing_initiative"."id"
   GROUP BY
     "issue"."id",
     "winning_initiative"."id",
     "losing_initiative"."id";
 
-COMMENT ON VIEW "battle" IS 'Number of members preferring one initiative over another';
+COMMENT ON VIEW "battle_view" IS 'Number of members preferring one initiative to another; Used to fill "battle" table';
 
 
 CREATE VIEW "expired_session" AS
@@ -2711,6 +2720,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       END LOOP;
       PERFORM "add_vote_delegations"("issue_id_p");
       UPDATE "issue" SET
+        "closed" = now(),
         "voter_count" = (
           SELECT coalesce(sum("weight"), 0)
           FROM "direct_voter" WHERE "issue_id" = "issue_id_p"
@@ -2760,7 +2770,17 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
         WHERE "vote_counts"."initiative_id" = "initiative"."id"
         AND "issue"."id" = "initiative"."issue_id"
         AND "policy"."id" = "issue"."policy_id";
-      UPDATE "issue" SET "closed" = now() WHERE "id" = "issue_id_p";
+      -- NOTE: "closed" column of issue must be set at this point
+      DELETE FROM "battle" WHERE "issue_id" = "issue_id_p";
+      INSERT INTO "battle" (
+        "issue_id",
+        "winning_initiative_id", "losing_initiative_id",
+        "count"
+      ) SELECT
+        "issue_id",
+        "winning_initiative_id", "losing_initiative_id",
+        "count"
+        FROM "battle_view" WHERE "issue_id" = "issue_id_p";
     END;
   $$;
 
