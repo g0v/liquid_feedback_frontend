@@ -22,10 +22,8 @@ if not initiator or not initiator.accepted then
   error("access denied")
 end
 
-local draft = Draft:new()
-draft.author_id = app.session.member.id
-draft.initiative_id = initiative.id
 local formatting_engine = param.get("formatting_engine")
+
 local formatting_engine_valid = false
 for fe, dummy in pairs(config.formatting_engine_executeables) do
   if formatting_engine == fe then
@@ -35,9 +33,16 @@ end
 if not formatting_engine_valid then
   error("invalid formatting engine!")
 end
+
+
+local draft = Draft:new()
+draft.author_id = app.session.member.id
+draft.initiative_id = initiative.id
 draft.formatting_engine = formatting_engine
 draft.content = param.get("content")
 draft:save()
+
+draft:render_content()
 
 slot.put_into("notice", _"New draft has been added to initiative")
 

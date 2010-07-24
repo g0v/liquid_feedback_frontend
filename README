@@ -59,3 +59,10 @@ Use /opt/webmcp/doc/lighttpd.example.conf (or apache.sample.conf) to setup
 your webserver appropriatly.
 
 
+7. Compile help messages from wiki to html
+
+cd /opt/liquid_feedback_frontend/locale/help
+for file in *.txt; do /opt/rocketwiki-lqfb/rocketwiki-lqfb < $file > $file.html; done
+
+
+

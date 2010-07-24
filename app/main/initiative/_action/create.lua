@@ -33,8 +33,6 @@ else
   end
 end
 
-
-
 local name = param.get("name")
 
 local name = util.trim(name)
@@ -43,6 +41,20 @@ if #name < 3 then
   slot.put_into("error", _"This name is really too short!")
   return false
 end
+
+local formatting_engine = param.get("formatting_engine")
+
+local formatting_engine_valid = false
+for fe, dummy in pairs(config.formatting_engine_executeables) do
+  if formatting_engine == fe then
+    formatting_engine_valid = true
+  end
+end
+if not formatting_engine_valid then
+  error("invalid formatting engine!")
+end
+
+
 
 local initiative = Initiative:new()
 
@@ -77,16 +89,6 @@ initiative:save()
 
 local draft = Draft:new()
 draft.initiative_id = initiative.id
-local formatting_engine = param.get("formatting_engine")
-local formatting_engine_valid = false
-for fe, dummy in pairs(config.formatting_engine_executeables) do
-  if formatting_engine == fe then
-    formatting_engine_valid = true
-  end
-end
-if not formatting_engine_valid then
-  error("invalid formatting engine!")
-end
 draft.formatting_engine = formatting_engine
 draft.content = param.get("draft")
 draft.author_id = app.session.member.id

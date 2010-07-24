@@ -31,7 +31,7 @@ ui.form{
     ui.container{
       attr = { class = "draft_content wiki" },
       content = function()
-        slot.put(format.wiki_text(draft.content, draft.formatting_engine))
+        slot.put(draft:get_content("html"))
       end
     }
   end

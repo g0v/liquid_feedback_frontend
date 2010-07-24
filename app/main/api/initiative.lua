@@ -63,7 +63,11 @@ if order == "supporter_count" then
   initiatives_selector:add_order_by("initiative.supporter_count")
 end
 
-initiatives_selector:add_order_by("initiative.id")
+if order == "id_desc" then
+  initiatives_selector:add_order_by("initiative.id DESC")
+else
+  initiatives_selector:add_order_by("initiative.id")
+end
 
 if limit then
   initiatives_selector:limit(limit)

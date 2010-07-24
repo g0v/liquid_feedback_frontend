@@ -37,7 +37,7 @@ function util.help(id, title)
         }
         local lang = locale.get("lang")
         local basepath = request.get_app_basepath() 
-        local file_name = basepath .. "/locale/help/" .. id .. "." .. lang .. ".txt"
+        local file_name = basepath .. "/locale/help/" .. id .. "." .. lang .. ".txt.html"
         local file = io.open(file_name)
         if file ~= nil then
           local help_text = file:read("*a")
@@ -45,7 +45,7 @@ function util.help(id, title)
             ui.container{
               attr = { class = "wiki" },
               content = function()
-                slot.put(format.wiki_text(help_text))
+                slot.put(help_text)
               end
             }
           else
