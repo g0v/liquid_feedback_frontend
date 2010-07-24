@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.2.2', 1, 2, 2))
+  SELECT * FROM (VALUES ('1.2.3', 1, 2, 3))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -511,6 +511,15 @@ COMMENT ON TABLE "draft" IS 'Drafts of initiatives to solve issues; Frontends mu
 
 COMMENT ON COLUMN "draft"."formatting_engine" IS 'Allows different formatting engines (i.e. wiki formats) to be used';
 COMMENT ON COLUMN "draft"."content"           IS 'Text of the draft in a format depending on the field "formatting_engine"';
+
+
+CREATE TABLE "rendered_draft" (
+        PRIMARY KEY ("draft_id", "format"),
+        "draft_id"              INT8            REFERENCES "draft" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "format"                TEXT,
+        "content"               TEXT            NOT NULL );
+
+COMMENT ON TABLE "rendered_draft" IS 'This table may be used by frontends to cache "rendered" drafts (e.g. HTML output generated from wiki text)';
 
 
 CREATE TABLE "suggestion" (
