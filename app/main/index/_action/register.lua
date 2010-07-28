@@ -192,9 +192,11 @@ end
 member:set_password(password1)
 member:save()
 
+local now = db:query("SELECT now() AS now", "object").now
+
 for i, checkbox in ipairs(config.use_terms_checkboxes) do
   local accepted = param.get("use_terms_checkbox_" .. checkbox.name, atom.boolean)
-  member:set_setting("use_terms_checkbox_" .. checkbox.name, "accepted")
+  member:set_setting("use_terms_checkbox_" .. checkbox.name, "accepted at " .. tostring(now))
 end
 
 invite_code.member_id = member.id
