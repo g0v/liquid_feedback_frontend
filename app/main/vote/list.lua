@@ -32,6 +32,7 @@ else
       id = issue.id
     }
     ui.link{
+      text = _"Discard voting",
       content = function()
           ui.image{ static = "icons/16/email_delete.png" }
           slot.put(_"Discard voting")
@@ -193,7 +194,7 @@ ui.form{
       ui.tag{
         tag = "input",
         attr = {
-          type = "button",
+          type = "submit",
           class = "voting_done",
           value = _"Finish voting"
         }
@@ -400,7 +401,7 @@ ui.form{
       ui.tag{
         tag = "input",
         attr = {
-          type = "button",
+          type = "submit",
           class = "voting_done",
           value = _"Finish voting"
         }
