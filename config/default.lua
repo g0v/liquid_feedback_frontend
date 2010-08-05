@@ -7,6 +7,8 @@ config.app_logo = nil
 
 config.app_service_provider = "Snake Oil<br/>10000 Berlin<br/>Germany"
 
+--config.footer_html = '<a href="somewhere">some link</a>'
+
 config.use_terms = "=== Nutzungsbedingungen ===\nAlles ist verboten"
 --config.use_terms_html = ""
 

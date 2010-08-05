@@ -53,3 +53,7 @@ if request.get_module() ~= "api" and request.get_view() ~= "list_rss" then
 else
   execute.inner()
 end
+
+if config.footer_html then 
+  slot.put_into("footer", config.footer_html)
+end
