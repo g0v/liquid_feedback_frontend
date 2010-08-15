@@ -6,6 +6,7 @@
 int main(int argc, char **argv) {
 
   // variable declarations:
+  int err = 0;
   int i, count;
   char *conninfo;
   PGconn *db;
@@ -57,97 +58,105 @@ int main(int argc, char **argv) {
   status = PQexec(db, "DELETE FROM \"expired_session\"");
   if (!status) {
     fprintf(stderr, "Error in pqlib while sending SQL command deleting expired sessions\n");
-    return 1;
-  }
-  if (
+    err = 1;
+  } else if (
     PQresultStatus(status) != PGRES_COMMAND_OK &&
     PQresultStatus(status) != PGRES_TUPLES_OK
   ) {
     fprintf(stderr, "Error while executing SQL command deleting expired sessions:\n%s", PQresultErrorMessage(status));
-    return 1;
+    err = 1;
+    PQclear(status);
+  } else {
+    PQclear(status);
   }
 
   // calculate member counts:
   status = PQexec(db, "SELECT \"calculate_member_counts\"()");
   if (!status) {
     fprintf(stderr, "Error in pqlib while sending SQL command calculating member counts\n");
-    return 1;
-  }
-  if (
+    err = 1;
+  } else if (
     PQresultStatus(status) != PGRES_COMMAND_OK &&
     PQresultStatus(status) != PGRES_TUPLES_OK
   ) {
     fprintf(stderr, "Error while executing SQL command calculating member counts:\n%s", PQresultErrorMessage(status));
-    return 1;
+    err = 1;
+    PQclear(status);
+  } else {
+    PQclear(status);
   }
 
   // update open issues:
   list = PQexec(db, "SELECT \"id\" FROM \"open_issue\"");
   if (!list) {
     fprintf(stderr, "Error in pqlib while sending SQL command selecting open issues\n");
-    return 1;
-  }
-  if (PQresultStatus(list) != PGRES_TUPLES_OK) {
+    err = 1;
+  } else if (PQresultStatus(list) != PGRES_TUPLES_OK) {
     fprintf(stderr, "Error while executing SQL command selecting open issues:\n%s", PQresultErrorMessage(list));
-    return 1;
-  }
-  count = PQntuples(list);
-  for (i=0; i<count; i++) {
-    const char *params[1];
-    params[0] = PQgetvalue(list, i, 0);
-    status = PQexecParams(
-      db, "SELECT \"check_issue\"($1)", 1, NULL, params, NULL, NULL, 0
-    );
-    if (!status) {
-      fprintf(stderr, "Error in pqlib while sending SQL command to call function \"check_issue\"(...):\n");
-      return 1;
+    err = 1;
+    PQclear(list);
+  } else {
+    count = PQntuples(list);
+    for (i=0; i<count; i++) {
+      const char *params[1];
+      params[0] = PQgetvalue(list, i, 0);
+      status = PQexecParams(
+        db, "SELECT \"check_issue\"($1)", 1, NULL, params, NULL, NULL, 0
+      );
+      if (!status) {
+        fprintf(stderr, "Error in pqlib while sending SQL command to call function \"check_issue\"(...):\n");
+        err = 1;
+      } else if (
+        PQresultStatus(status) != PGRES_COMMAND_OK &&
+        PQresultStatus(status) != PGRES_TUPLES_OK
+      ) {
+        fprintf(stderr, "Error while calling SQL function \"check_issue\"(...):\n%s", PQresultErrorMessage(status));
+        err = 1;
+        PQclear(status);
+      } else {
+        PQclear(status);
+      }
     }
-    if (
-      PQresultStatus(status) != PGRES_COMMAND_OK &&
-      PQresultStatus(status) != PGRES_TUPLES_OK
-    ) {
-      fprintf(stderr, "Error while calling SQL function \"check_issue\"(...):\n%s", PQresultErrorMessage(status));
-      return 1;
-    }
-    PQclear(status);
+    PQclear(list);
   }
-  PQclear(list);
 
   // calculate ranks after voting is finished:
   // (NOTE: This is a seperate process to avoid long transactions with locking)
   list = PQexec(db, "SELECT \"id\" FROM \"issue_with_ranks_missing\"");
   if (!list) {
     fprintf(stderr, "Error in pqlib while sending SQL command selecting issues where ranks are missing\n");
-    return 1;
-  }
-  if (PQresultStatus(list) != PGRES_TUPLES_OK) {
+    err = 1;
+  } else if (PQresultStatus(list) != PGRES_TUPLES_OK) {
     fprintf(stderr, "Error while executing SQL command selecting issues where ranks are missing:\n%s", PQresultErrorMessage(list));
-    return 1;
-  }
-  count = PQntuples(list);
-  for (i=0; i<count; i++) {
-    const char *params[1];
-    params[0] = PQgetvalue(list, i, 0);
-    status = PQexecParams(
-      db, "SELECT \"calculate_ranks\"($1)", 1, NULL, params, NULL, NULL, 0
-    );
-    if (!status) {
-      fprintf(stderr, "Error in pqlib while sending SQL command to call function \"calculate_ranks\"(...):\n");
-      return 1;
+    err = 1;
+    PQclear(list);
+  } else {
+    count = PQntuples(list);
+    for (i=0; i<count; i++) {
+      const char *params[1];
+      params[0] = PQgetvalue(list, i, 0);
+      status = PQexecParams(
+        db, "SELECT \"calculate_ranks\"($1)", 1, NULL, params, NULL, NULL, 0
+      );
+      if (!status) {
+        fprintf(stderr, "Error in pqlib while sending SQL command to call function \"calculate_ranks\"(...):\n");
+        err = 1;
+      } else if (
+        PQresultStatus(status) != PGRES_COMMAND_OK &&
+        PQresultStatus(status) != PGRES_TUPLES_OK
+      ) {
+        fprintf(stderr, "Error while calling SQL function \"calculate_ranks\"(...):\n%s", PQresultErrorMessage(status));
+        err = 1;
+        PQclear(status);
+      } else {
+        PQclear(status);
+      }
     }
-    if (
-      PQresultStatus(status) != PGRES_COMMAND_OK &&
-      PQresultStatus(status) != PGRES_TUPLES_OK
-    ) {
-      fprintf(stderr, "Error while calling SQL function \"calculate_ranks\"(...):\n%s", PQresultErrorMessage(status));
-      return 1;
-    }
-    PQclear(status);
+    PQclear(list);
   }
-  PQclear(list);
 
   // cleanup and exit
   PQfinish(db);
-  return 0;
+  return err;
 
 }
