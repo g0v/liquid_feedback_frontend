@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.2.4', 1, 2, 4))
+  SELECT * FROM (VALUES ('1.2.5', 1, 2, 5))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -1917,39 +1917,123 @@ COMMENT ON FUNCTION "vote_ratio"
 -- Locking for snapshots and voting procedure --
 ------------------------------------------------
 
-CREATE FUNCTION "global_lock"() RETURNS VOID
+
+CREATE FUNCTION "share_row_lock_issue_trigger"()
+  RETURNS TRIGGER
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
-      -- NOTE: PostgreSQL allows reading, while tables are locked in
-      -- exclusive move. Transactions should be kept short anyway!
-      LOCK TABLE "member"     IN EXCLUSIVE MODE;
-      LOCK TABLE "area"       IN EXCLUSIVE MODE;
-      LOCK TABLE "membership" IN EXCLUSIVE MODE;
-      -- NOTE: "member", "area" and "membership" are locked first to
-      -- prevent deadlocks in combination with "calculate_member_counts"()
-      LOCK TABLE "policy"     IN EXCLUSIVE MODE;
-      LOCK TABLE "issue"      IN EXCLUSIVE MODE;
-      LOCK TABLE "initiative" IN EXCLUSIVE MODE;
-      LOCK TABLE "draft"      IN EXCLUSIVE MODE;
-      LOCK TABLE "suggestion" IN EXCLUSIVE MODE;
-      LOCK TABLE "interest"   IN EXCLUSIVE MODE;
-      LOCK TABLE "initiator"  IN EXCLUSIVE MODE;
-      LOCK TABLE "supporter"  IN EXCLUSIVE MODE;
-      LOCK TABLE "opinion"    IN EXCLUSIVE MODE;
-      LOCK TABLE "delegation" IN EXCLUSIVE MODE;
+      IF TG_OP = 'UPDATE' OR TG_OP = 'DELETE' THEN
+        PERFORM NULL FROM "issue" WHERE "id" = OLD."issue_id" FOR SHARE;
+      END IF;
+      IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
+        PERFORM NULL FROM "issue" WHERE "id" = NEW."issue_id" FOR SHARE;
+        RETURN NEW;
+      ELSE
+        RETURN OLD;
+      END IF;
+    END;
+  $$;
+
+COMMENT ON FUNCTION "share_row_lock_issue_trigger"() IS 'Implementation of triggers "share_row_lock_issue" on multiple tables';
+
+
+CREATE FUNCTION "share_row_lock_issue_via_initiative_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      IF TG_OP = 'UPDATE' OR TG_OP = 'DELETE' THEN
+        PERFORM NULL FROM "issue"
+          JOIN "initiative" ON "issue"."id" = "initiative"."issue_id"
+          WHERE "initiative"."id" = OLD."initiative_id"
+          FOR SHARE OF "issue";
+      END IF;
+      IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
+        PERFORM NULL FROM "issue"
+          JOIN "initiative" ON "issue"."id" = "initiative"."issue_id"
+          WHERE "initiative"."id" = NEW."initiative_id"
+          FOR SHARE OF "issue";
+        RETURN NEW;
+      ELSE
+        RETURN OLD;
+      END IF;
+    END;
+  $$;
+
+COMMENT ON FUNCTION "share_row_lock_issue_trigger"() IS 'Implementation of trigger "share_row_lock_issue_via_initiative" on table "opinion"';
+
+
+CREATE TRIGGER "share_row_lock_issue"
+  BEFORE INSERT OR UPDATE OR DELETE ON "initiative"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "share_row_lock_issue_trigger"();
+
+CREATE TRIGGER "share_row_lock_issue"
+  BEFORE INSERT OR UPDATE OR DELETE ON "interest"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "share_row_lock_issue_trigger"();
+
+CREATE TRIGGER "share_row_lock_issue"
+  BEFORE INSERT OR UPDATE OR DELETE ON "supporter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "share_row_lock_issue_trigger"();
+
+CREATE TRIGGER "share_row_lock_issue_via_initiative"
+  BEFORE INSERT OR UPDATE OR DELETE ON "opinion"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "share_row_lock_issue_via_initiative_trigger"();
+
+CREATE TRIGGER "share_row_lock_issue"
+  BEFORE INSERT OR UPDATE OR DELETE ON "direct_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "share_row_lock_issue_trigger"();
+
+CREATE TRIGGER "share_row_lock_issue"
+  BEFORE INSERT OR UPDATE OR DELETE ON "delegating_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "share_row_lock_issue_trigger"();
+
+CREATE TRIGGER "share_row_lock_issue"
+  BEFORE INSERT OR UPDATE OR DELETE ON "vote"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "share_row_lock_issue_trigger"();
+
+COMMENT ON TRIGGER "share_row_lock_issue"                ON "initiative"       IS 'See "lock_issue" function';
+COMMENT ON TRIGGER "share_row_lock_issue"                ON "interest"         IS 'See "lock_issue" function';
+COMMENT ON TRIGGER "share_row_lock_issue"                ON "supporter"        IS 'See "lock_issue" function';
+COMMENT ON TRIGGER "share_row_lock_issue_via_initiative" ON "opinion"          IS 'See "lock_issue" function';
+COMMENT ON TRIGGER "share_row_lock_issue"                ON "direct_voter"     IS 'See "lock_issue" function';
+COMMENT ON TRIGGER "share_row_lock_issue"                ON "delegating_voter" IS 'See "lock_issue" function';
+COMMENT ON TRIGGER "share_row_lock_issue"                ON "vote"             IS 'See "lock_issue" function';
+
+
+CREATE FUNCTION "lock_issue"
+  ( "issue_id_p" "issue"."id"%TYPE )
+  RETURNS VOID
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      LOCK TABLE "member"     IN SHARE MODE;
+      LOCK TABLE "membership" IN SHARE MODE;
+      LOCK TABLE "policy"     IN SHARE MODE;
+      PERFORM NULL FROM "issue" WHERE "id" = "issue_id_p" FOR UPDATE;
+      -- NOTE: The row-level exclusive lock in combination with the
+      -- share_row_lock_issue(_via_initiative)_trigger functions (which
+      -- acquire a row-level share lock on the issue) ensure that no data
+      -- is changed, which could affect calculation of snapshots or
+      -- counting of votes. Table "delegation" must be table-level-locked,
+      -- as it also contains issue- and global-scope delegations.
+      LOCK TABLE "delegation" IN SHARE MODE;
       LOCK TABLE "direct_population_snapshot"     IN EXCLUSIVE MODE;
       LOCK TABLE "delegating_population_snapshot" IN EXCLUSIVE MODE;
       LOCK TABLE "direct_interest_snapshot"       IN EXCLUSIVE MODE;
       LOCK TABLE "delegating_interest_snapshot"   IN EXCLUSIVE MODE;
       LOCK TABLE "direct_supporter_snapshot"      IN EXCLUSIVE MODE;
-      LOCK TABLE "direct_voter"     IN EXCLUSIVE MODE;
-      LOCK TABLE "delegating_voter" IN EXCLUSIVE MODE;
-      LOCK TABLE "vote"             IN EXCLUSIVE MODE;
       RETURN;
     END;
   $$;
 
-COMMENT ON FUNCTION "global_lock"() IS 'Locks all tables related to support/voting until end of transaction; read access is still possible though';
+COMMENT ON FUNCTION "lock_issue"
+  ( "issue"."id"%TYPE )
+  IS 'Locks the issue and all other data which is used for calculating snapshots or counting votes.';
 
 
 
@@ -1961,9 +2045,10 @@ CREATE FUNCTION "calculate_member_counts"()
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
-      LOCK TABLE "member"     IN EXCLUSIVE MODE;
-      LOCK TABLE "area"       IN EXCLUSIVE MODE;
-      LOCK TABLE "membership" IN EXCLUSIVE MODE;
+      LOCK TABLE "member"       IN SHARE MODE;
+      LOCK TABLE "member_count" IN EXCLUSIVE MODE;
+      LOCK TABLE "area"         IN EXCLUSIVE MODE;
+      LOCK TABLE "membership"   IN SHARE MODE;
       DELETE FROM "member_count";
       INSERT INTO "member_count" ("total_count")
         SELECT "total_count" FROM "member_count_view";
@@ -2109,7 +2194,7 @@ CREATE FUNCTION "create_population_snapshot"
   $$;
 
 COMMENT ON FUNCTION "create_population_snapshot"
-  ( "issue_id_p" "issue"."id"%TYPE )
+  ( "issue"."id"%TYPE )
   IS 'This function creates a new ''periodic'' population snapshot for the given issue. It does neither lock any tables, nor updates precalculated values in other tables.';
 
 
@@ -2269,7 +2354,7 @@ CREATE FUNCTION "create_snapshot"
       "initiative_id_v"    "initiative"."id"%TYPE;
       "suggestion_id_v"    "suggestion"."id"%TYPE;
     BEGIN
-      PERFORM "global_lock"();
+      PERFORM "lock_issue"("issue_id_p");
       PERFORM "create_population_snapshot"("issue_id_p");
       PERFORM "create_interest_snapshot"("issue_id_p");
       UPDATE "issue" SET
@@ -2668,7 +2753,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       "issue_row"   "issue"%ROWTYPE;
       "member_id_v" "member"."id"%TYPE;
     BEGIN
-      PERFORM "global_lock"();
+      PERFORM "lock_issue"("issue_id_p");
       SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
       DELETE FROM "delegating_voter"
         WHERE "issue_id" = "issue_id_p";
@@ -3068,7 +3153,7 @@ CREATE FUNCTION "check_issue"
       "policy_row"        "policy"%ROWTYPE;
       "voting_requested_v" BOOLEAN;
     BEGIN
-      PERFORM "global_lock"();
+      PERFORM "lock_issue"("issue_id_p");
       SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
       -- only process open issues:
       IF "issue_row"."closed" ISNULL THEN
