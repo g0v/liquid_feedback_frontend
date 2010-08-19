@@ -1,4 +1,10 @@
-local invite_code = InviteCode:by_code(param.get("code"))
+local code = param.get("code")
+
+local invite_code = InviteCode:new_selector()
+  :add_where{ "code = ?", code }
+  :optional_object_mode()
+  :for_update()
+  :exec()
 
 if not invite_code or invite_code.used then
   slot.put_into("error", _"The code you've entered is invalid")
