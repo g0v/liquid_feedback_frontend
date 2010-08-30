@@ -1256,61 +1256,55 @@ COMMENT ON TRIGGER "autocreate_supporter" ON "opinion" IS 'Opinions can only be 
 ------------------------------------------
 
 
+CREATE VIEW "active_delegation" AS
+  SELECT "delegation".* FROM "delegation"
+  JOIN "member" ON "delegation"."truster_id" = "member"."id"
+  WHERE "member"."active" = TRUE;
+
+COMMENT ON VIEW "active_delegation" IS 'Delegations where the truster_id refers to an active member';
+
+
 CREATE VIEW "global_delegation" AS
-  SELECT
-    "delegation"."id",
-    "delegation"."truster_id",
-    "delegation"."trustee_id"
-  FROM "delegation" JOIN "member"
-  ON "delegation"."truster_id" = "member"."id"
-  WHERE "delegation"."scope" = 'global' AND "member"."active";
+  SELECT * FROM "active_delegation" WHERE "scope" = 'global';
 
 COMMENT ON VIEW "global_delegation" IS 'Global delegations from active members';
 
 
 CREATE VIEW "area_delegation" AS
-  SELECT "subquery".* FROM (
-    SELECT DISTINCT ON ("area"."id", "delegation"."truster_id")
-      "area"."id" AS "area_id",
-      "delegation"."id",
-      "delegation"."truster_id",
-      "delegation"."trustee_id",
-      "delegation"."scope"
-    FROM "area" JOIN "delegation"
-    ON "delegation"."scope" = 'global'
-    OR "delegation"."area_id" = "area"."id"
-    ORDER BY
-      "area"."id",
-      "delegation"."truster_id",
-      "delegation"."scope" DESC
-  ) AS "subquery"
-  JOIN "member" ON "subquery"."truster_id" = "member"."id"
-  WHERE "member"."active";
+  SELECT DISTINCT ON ("area"."id", "delegation"."truster_id")
+    "area"."id" AS "area_id",
+    "delegation"."id",
+    "delegation"."truster_id",
+    "delegation"."trustee_id",
+    "delegation"."scope"
+  FROM "area" JOIN "active_delegation" AS "delegation"
+  ON "delegation"."scope" = 'global'
+  OR "delegation"."area_id" = "area"."id"
+  ORDER BY
+    "area"."id",
+    "delegation"."truster_id",
+    "delegation"."scope" DESC;
 
-COMMENT ON VIEW "area_delegation" IS 'Active delegations for areas';
+COMMENT ON VIEW "area_delegation" IS 'Resulting area delegations from active members';
 
 
 CREATE VIEW "issue_delegation" AS
-  SELECT "subquery".* FROM (
-    SELECT DISTINCT ON ("issue"."id", "delegation"."truster_id")
-      "issue"."id"  AS "issue_id",
-      "delegation"."id",
-      "delegation"."truster_id",
-      "delegation"."trustee_id",
-      "delegation"."scope"
-    FROM "issue" JOIN "delegation"
-    ON "delegation"."scope" = 'global'
-    OR "delegation"."area_id" = "issue"."area_id"
-    OR "delegation"."issue_id" = "issue"."id"
-    ORDER BY
-      "issue"."id",
-      "delegation"."truster_id",
-      "delegation"."scope" DESC
-  ) AS "subquery"
-  JOIN "member" ON "subquery"."truster_id" = "member"."id"
-  WHERE "member"."active";
+  SELECT DISTINCT ON ("issue"."id", "delegation"."truster_id")
+    "issue"."id" AS "issue_id",
+    "delegation"."id",
+    "delegation"."truster_id",
+    "delegation"."trustee_id",
+    "delegation"."scope"
+  FROM "issue" JOIN "active_delegation" AS "delegation"
+  ON "delegation"."scope" = 'global'
+  OR "delegation"."area_id" = "issue"."area_id"
+  OR "delegation"."issue_id" = "issue"."id"
+  ORDER BY
+    "issue"."id",
+    "delegation"."truster_id",
+    "delegation"."scope" DESC;
 
-COMMENT ON VIEW "issue_delegation" IS 'Active delegations for issues';
+COMMENT ON VIEW "issue_delegation" IS 'Resulting issue delegations from active members';
 
 
 CREATE FUNCTION "membership_weight_with_skipping"
