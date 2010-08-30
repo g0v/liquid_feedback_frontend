@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.2.5', 1, 2, 5))
+  SELECT * FROM (VALUES ('1.2.6', 1, 2, 6))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -1262,10 +1262,10 @@ CREATE VIEW "global_delegation" AS
     "delegation"."truster_id",
     "delegation"."trustee_id"
   FROM "delegation" JOIN "member"
-  ON "delegation"."trustee_id" = "member"."id"
+  ON "delegation"."truster_id" = "member"."id"
   WHERE "delegation"."scope" = 'global' AND "member"."active";
 
-COMMENT ON VIEW "global_delegation" IS 'Global delegations to active members';
+COMMENT ON VIEW "global_delegation" IS 'Global delegations from active members';
 
 
 CREATE VIEW "area_delegation" AS
@@ -1284,7 +1284,7 @@ CREATE VIEW "area_delegation" AS
       "delegation"."truster_id",
       "delegation"."scope" DESC
   ) AS "subquery"
-  JOIN "member" ON "subquery"."trustee_id" = "member"."id"
+  JOIN "member" ON "subquery"."truster_id" = "member"."id"
   WHERE "member"."active";
 
 COMMENT ON VIEW "area_delegation" IS 'Active delegations for areas';
@@ -1307,7 +1307,7 @@ CREATE VIEW "issue_delegation" AS
       "delegation"."truster_id",
       "delegation"."scope" DESC
   ) AS "subquery"
-  JOIN "member" ON "subquery"."trustee_id" = "member"."id"
+  JOIN "member" ON "subquery"."truster_id" = "member"."id"
   WHERE "member"."active";
 
 COMMENT ON VIEW "issue_delegation" IS 'Active delegations for issues';
