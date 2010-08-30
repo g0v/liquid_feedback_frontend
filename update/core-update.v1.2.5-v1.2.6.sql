@@ -11,7 +11,9 @@ CREATE VIEW "active_delegation" AS
 
 COMMENT ON VIEW "active_delegation" IS 'Delegations where the truster_id refers to an active member';
 
-CREATE OR REPLACE VIEW "global_delegation" AS
+DROP VIEW "global_delegation";
+
+CREATE VIEW "global_delegation" AS
   SELECT * FROM "active_delegation"
   WHERE "scope" = 'global';
 
