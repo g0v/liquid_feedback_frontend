@@ -95,7 +95,7 @@ return {
 ["Choose member"] = false;
 ["Click for details"] = false;
 ["Closed"] = false;
-["Collective opinion"] = false;
+["Collective opinion of supporters"] = false;
 ["Commit suggestion"] = false;
 ["Compare"] = false;
 ["Confirm"] = false;
@@ -155,9 +155,7 @@ return {
 ["Email address confirmation"] = false;
 ["Email address is confirmed now"] = false;
 ["Email address too short!"] = false;
-["Email confirmation request"] = false;
 ["Email unconfirmed"] = false;
-["Empty help text: #{id}.#{lang}.txt"] = false;
 ["Error while converting image. Please note, that only JPG files are supported!"] = false;
 ["Error while resolving openid. Internal message: '#{errmsg}'"] = false;
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = false;
@@ -179,9 +177,8 @@ return {
 ["Help for: #{text}"] = false;
 ["Hide"] = false;
 ["Hide filter details"] = false;
-["Hide this help message"] = false;
 ["Home"] = false;
-["I accept the terms of use by checking the following checkbox:"] = false;
+["I consider suggestion as"] = false;
 ["Id"] = false;
 ["Ident number"] = false;
 ["If this link is not working, please open following url in your web browser:\n\n"] = false;
@@ -235,7 +232,6 @@ return {
 ["JavaScript is disabled or not available."] = false;
 ["Last author"] = false;
 ["Last snapshot:"] = false;
-["Legend:"] = false;
 ["License"] = false;
 ["Locked?"] = false;
 ["Login"] = false;
@@ -246,10 +242,6 @@ return {
 ["Majority"] = false;
 ["Manage filter"] = false;
 ["Manage timeline filters"] = false;
-["Mark suggestion as implemented and express dissatisfaction"] = false;
-["Mark suggestion as implemented and express satisfaction"] = false;
-["Mark suggestion as not implemented and express dissatisfaction"] = false;
-["Mark suggestion as not implemented and express satisfaction"] = false;
 ["Max potential support"] = false;
 ["Max support"] = false;
 ["Member"] = false;
@@ -277,7 +269,6 @@ return {
 ["Membership updated"] = false;
 ["Memberships"] = false;
 ["Message of the day"] = false;
-["Missing help text: #{id}.#{lang}.txt"] = false;
 ["Mobile phone"] = false;
 ["Monday"] = false;
 ["Move down"] = false;
@@ -288,7 +279,6 @@ return {
 ["New address"] = false;
 ["New draft"] = false;
 ["New draft has been added to initiative"] = false;
-["New draft revision"] = false;
 ["New initiative"] = false;
 ["New issue"] = false;
 ["New password"] = false;
@@ -317,11 +307,9 @@ return {
 ["Number of incoming delegations, follow link to see more details"] = false;
 ["Number of initiatives to preview"] = false;
 ["OK"] = false;
-["Old draft revision"] = false;
 ["Old password"] = false;
 ["Old password is wrong"] = false;
 ["Oldest"] = false;
-["On that page please enter the confirmation code:\n\n"] = false;
 ["On that page please enter the reset code:\n\n"] = false;
 ["One issue"] = false;
 ["One issue you are interested in"] = false;
@@ -350,7 +338,6 @@ return {
 ["Please choose a policy"] = false;
 ["Please choose two different versions of the draft to compare"] = false;
 ["Please choose two versions of the draft to compare"] = false;
-["Please confirm your email address by clicking the following link:\n\n"] = false;
 ["Please enter the email reset code you have received:"] = false;
 ["Please enter the invite code you've received."] = false;
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = false;
@@ -364,6 +351,7 @@ return {
 ["Potential support"] = false;
 ["Potential supported"] = false;
 ["Potential supporter"] = false;
+["Preview"] = false;
 ["Previous initiative"] = false;
 ["Previous issue"] = false;
 ["Profession"] = false;
@@ -431,6 +419,7 @@ return {
 ["Show member"] = false;
 ["Show name history"] = false;
 ["Show only events which match... (or associtated)"] = false;
+["So I'm"] = false;
 ["Software"] = false;
 ["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = false;
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = false;
@@ -462,7 +451,6 @@ return {
 ["Supported initiatives"] = false;
 ["Supporter"] = false;
 ["Tabs"] = false;
-["Terms accepted"] = false;
 ["Terms of use"] = false;
 ["The API key has been changed too fast."] = false;
 ["The code you've entered is invalid"] = false;
@@ -510,7 +498,6 @@ return {
 ["Tuesday"] = false;
 ["Type of tabs"] = false;
 ["Unconfirmed address"] = false;
-["Unknown author"] = false;
 ["Updated drafts"] = false;
 ["Upload images"] = false;
 ["Verification time"] = false;
@@ -557,7 +544,6 @@ return {
 ["You didn't saved any member as contact yet."] = false;
 ["You have saved this member as contact"] = false;
 ["You have saved this member as contact."] = false;
-["You have to accept the terms of use to complete registration."] = false;
 ["You have to mark 'Are you sure' to revoke!"] = false;
 ["You need to be logged in, to use all features of this system."] = false;
 ["You want to vote later"] = false;
@@ -576,10 +562,10 @@ return {
 ["Your global delegation has been updated."] = false;
 ["Your login has been changed to '#{login}'"] = false;
 ["Your name has been changed"] = false;
-["Your opinion has been deleted"] = false;
-["Your opinion has been updated"] = false;
 ["Your page has been updated"] = false;
 ["Your password has been updated successfully"] = false;
+["Your rating has been deleted"] = false;
+["Your rating has been updated"] = false;
 ["Your suggestion has been added"] = false;
 ["Your support has been added to this initiative"] = false;
 ["Your support has been removed from this initiative"] = false;
@@ -589,20 +575,24 @@ return {
 ["Z-A"] = false;
 ["[Registered members only]"] = false;
 ["[not displayed public]"] = false;
+["a bit unsatisfied"] = false;
 ["activated"] = false;
 ["and #{count} more initiatives"] = false;
 ["deactivated"] = false;
-["delete<br /><br />"] = false;
 ["disabled"] = false;
 ["email"] = false;
+["implemented"] = false;
 ["last 24 hours"] = false;
 ["login name"] = false;
+["more unsatisfied"] = false;
 ["must"] = false;
 ["must not"] = false;
 ["must/should"] = false;
 ["must/should not"] = false;
 ["neutral"] = false;
+["not implemented"] = false;
 ["requested"] = false;
+["satisfied"] = false;
 ["should"] = false;
 ["should not"] = false;
 ["to reset your password please click on the following link:\n\n"] = false;

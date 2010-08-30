@@ -935,12 +935,14 @@ z-index: 2;
   padding: 1ex;
 }
 
-.diff .added {
+.diff_added {
   background-color: #cfc;
+  text-decoration: underline;
 }
 
-.diff .removed {
+.diff_removed {
   background-color: #fcc;
+  text-decoration: line-through;
 }
 
 .slot_issue_info {

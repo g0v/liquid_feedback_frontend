@@ -54,6 +54,9 @@ if not formatting_engine_valid then
   error("invalid formatting engine!")
 end
 
+if param.get("preview") then
+  return
+end
 
 
 local initiative = Initiative:new()

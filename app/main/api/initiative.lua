@@ -7,10 +7,15 @@ local policy_id      = param.get("policy_id", atom.integer)
 local state          = param.get("state")
 local agreed         = param.get("agreed")
 local rank           = param.get("rank")
-local search         = param.get("search")
-local search_context = param.get("search_context") or "full"
+--local search         = param.get("search")
+--local search_context = param.get("search_context") or "full"
 local limit          = param.get("limit", atom.integer)
 local order          = param.get("order")
+local render_draft   = param.get("render_draft")
+
+if render_draft and render_draft ~= "html" then
+  error("unsupported render target, only 'html' is supported right now")
+end
 
 local initiatives_selector = Initiative:new_selector()
   :join("issue", nil, "issue.id = initiative.issue_id")
@@ -53,11 +58,13 @@ if rank then
   initiatives_selector:add_where{ "initiative.rank = ?", rank }
 end
 
+--[[
 if search then
   if search_context == "full" then
   elseif search_context == "title" then
   end
 end
+--]]
 
 if order == "supporter_count" then
   initiatives_selector:add_order_by("initiative.supporter_count")
@@ -154,7 +161,13 @@ local fields = {
       return format.timestamp(record.created)
     end
   },
-  { name = "revoked",                   field = "initiative.revoked" },
+  {
+    name = "revoked",
+    field = "initiative.revoked",
+    func = function(record)
+      return format.timestamp(record.revoked)
+    end
+  },
   { name = "suggested_initiative_id",   field = "initiative.suggested_initiative_id" },
   { name = "admitted",                  field = "initiative.admitted" },
   { name = "issue_population",          field = "issue.population" },
@@ -185,14 +198,18 @@ local fields = {
   {
     name = "current_draft_content",
     func = function(record)
-      return record.current_draft.content
+      if render_draft then
+        return record.current_draft:get_content(render_draft)
+      else
+        return record.current_draft.content
+      end
     end
   }
 }
 
 util.autoapi{
   relation_name = "initiative",
-  selector = initiatives_selector,
-  fields = fields,
-  api_engine = api_engine
+  selector      = initiatives_selector,
+  fields        = fields,
+  api_engine    = api_engine
 }

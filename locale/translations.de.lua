@@ -95,7 +95,7 @@ return {
 ["Choose member"] = "Mitglied auswählen";
 ["Click for details"] = "Klicke für Details";
 ["Closed"] = "geschlossen";
-["Collective opinion"] = "Meinungsbild";
+["Collective opinion of supporters"] = "Meinungsbild der Unterstützer";
 ["Commit suggestion"] = "Anregung speichern";
 ["Compare"] = "Vergleichen";
 ["Confirm"] = "Bestätigen";
@@ -155,9 +155,7 @@ return {
 ["Email address confirmation"] = "Bestätigung der E-Mail-Adresse";
 ["Email address is confirmed now"] = "E-Mail-Adresse ist jetzt bestätigt";
 ["Email address too short!"] = "E-Mail-Adresse ist zu kurz!";
-["Email confirmation request"] = "Bestätigung Deiner E-Mail-Adresse";
 ["Email unconfirmed"] = "Unbestätigte E-Mail-Adresse";
-["Empty help text: #{id}.#{lang}.txt"] = "Leerer Hilfe-Text: #{id}.#{lang}.txt";
 ["Error while converting image. Please note, that only JPG files are supported!"] = "Fehler beim Konvertieren des Bilds. Bitte beachte, dass nur JPG-Dateien unterstützt werden.";
 ["Error while resolving openid. Internal message: '#{errmsg}'"] = "Fehler beim Auflösen der OpenID. Interne Fehlermeldung: '#{errmsg}'";
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Fehler beim aktualisieren des Mitglieds, die Datenbank berichtet folgenden Fehler:<br /><br /> (#{errormessage})";
@@ -179,9 +177,8 @@ return {
 ["Help for: #{text}"] = "Hilfe zu: #{text}";
 ["Hide"] = "Verstecken";
 ["Hide filter details"] = "Filter-Details verstecken";
-["Hide this help message"] = "Diesen Hilfetext ausblenden";
 ["Home"] = "Startseite";
-["I accept the terms of use by checking the following checkbox:"] = "Ich akzeptiere die Nutzungsbedingungen durch Auswahl der folgenden Ankreuzbox:";
+["I consider suggestion as"] = "Ich halte die Anregung für";
 ["Id"] = "Id";
 ["Ident number"] = "Ident-Nummer";
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Sollte der Link nicht funktionieren, öffne bitte die folgenden URL in Deinem Web-Browser:\n\n";
@@ -235,7 +232,6 @@ return {
 ["JavaScript is disabled or not available."] = "JavaScript ist abgeschaltet oder nicht verfügbar.";
 ["Last author"] = "Letzter Autor";
 ["Last snapshot:"] = "Letzte Auszählung:";
-["Legend:"] = "Legende:";
 ["License"] = "Lizenz";
 ["Locked?"] = "Gesperrt?";
 ["Login"] = "Anmeldung";
@@ -246,10 +242,6 @@ return {
 ["Majority"] = "Mehrheit";
 ["Manage filter"] = "Filter verwalten";
 ["Manage timeline filters"] = "Zeitachsen-Filter verwalten";
-["Mark suggestion as implemented and express dissatisfaction"] = "Anregung als umgesetzt markieren und Unzufriedenheit ausdrücken";
-["Mark suggestion as implemented and express satisfaction"] = "Anregung als umgesetzt markieren und Zufriedenheit ausdrücken";
-["Mark suggestion as not implemented and express dissatisfaction"] = "Anregung als nicht umgesetzt markieren und Unzufriedenheit ausdrücken";
-["Mark suggestion as not implemented and express satisfaction"] = "Anregung als nicht umgesetzt markieren und Zufriedenheit ausdrücken";
 ["Max potential support"] = "Max. potentielle Unterstützer";
 ["Max support"] = "Max. Unterstützer";
 ["Member"] = "Mitglied";
@@ -277,7 +269,6 @@ return {
 ["Membership updated"] = "Mitgliedschaft aktualisiert";
 ["Memberships"] = "Mitgliedschaften";
 ["Message of the day"] = "Hinweise";
-["Missing help text: #{id}.#{lang}.txt"] = "Fehlender Hilfe-Text: #{id}.#{lang}.txt";
 ["Mobile phone"] = "Mobiltelefon";
 ["Monday"] = "Montag";
 ["Move down"] = "Runter schieben";
@@ -288,7 +279,6 @@ return {
 ["New address"] = "Neue E-Mail-Adresse";
 ["New draft"] = "Neuer Entwurf";
 ["New draft has been added to initiative"] = "Neuer Entwurf wurde der Initiative hinzugefügt";
-["New draft revision"] = "Neue Revision des Entwurfs";
 ["New initiative"] = "Neue Initiative";
 ["New issue"] = "Neues Thema";
 ["New password"] = "Neues Kennwort";
@@ -317,11 +307,9 @@ return {
 ["Number of incoming delegations, follow link to see more details"] = "Anzahl eingehender Delegationen, Link folgen für mehr Details";
 ["Number of initiatives to preview"] = "Anzahl der Initiativen in der Vorschau";
 ["OK"] = "OK";
-["Old draft revision"] = "Alte Revision des Entwurfs";
 ["Old password"] = "Altes Kennwort";
 ["Old password is wrong"] = "Das alte Kennwort ist falsch";
 ["Oldest"] = "Älteste";
-["On that page please enter the confirmation code:\n\n"] = "Auf dieser Seite gib bitte folgenden Bestätigungscode ein:\n\n";
 ["On that page please enter the reset code:\n\n"] = "Auf dieser Seite gib bitte den folgenden Rücksetzcode ein:\n\n";
 ["One issue"] = "Ein Thema";
 ["One issue you are interested in"] = "Ein Thema, das Dich interessiert";
@@ -350,7 +338,6 @@ return {
 ["Please choose a policy"] = "Bitte wähle ein Regelwerk";
 ["Please choose two different versions of the draft to compare"] = "Bitte wähle zwei verschiedene Versionen des Drafts, um sie zu vergleichen.";
 ["Please choose two versions of the draft to compare"] = "Bitte wähle zwei Versionen des Drafts, um sie zu vergleichen.";
-["Please confirm your email address by clicking the following link:\n\n"] = "Bitte bestätige Deine E-Mail-Adresse, indem Du den folgenden Link anklickst:\n\n";
 ["Please enter the email reset code you have received:"] = "Bitte gib den Rücksetzcode ein, den Du erhalten hast:";
 ["Please enter the invite code you've received."] = "Bitte gib den Invite-Code ein, den Du erhalten hast.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Bitte gib Deine E-Mail-Adresse ein. Diese Adresse wird für automatische Benachrichtigungen (wenn Du diese anforderst) sowie zum Zurücksetzen des Kennworts verwendet. Diese Adresse wird nicht veröffentlicht. Nach Abschluß der Registration wirst Du eine E-Mail mit einem Link zum Bestätigen der Adresse erhalten.";
@@ -364,6 +351,7 @@ return {
 ["Potential support"] = "Potentielle Unterstützung";
 ["Potential supported"] = "Potentiell unterstützt";
 ["Potential supporter"] = "Potentielle Unterstützer";
+["Preview"] = "Vorschau";
 ["Previous initiative"] = "Vorherige Initiative";
 ["Previous issue"] = "Vorheriges Thema";
 ["Profession"] = "Beruf";
@@ -431,6 +419,7 @@ return {
 ["Show member"] = "Mitglied anzeigen";
 ["Show name history"] = "Namenshistorie zeigen";
 ["Show only events which match... (or associtated)"] = "Zeige nur Ereignisse welche folgendes erfüllen... (oder-verknüpft)";
+["So I'm"] = "Also bin ich";
 ["Software"] = "Software";
 ["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = "Einige auf JavaScript basierende Funktionen (insbesondere der Abstimmung) sind nicht benutzbar.\nFür diese Beta verwende bitte eine aktuelle Version von Firefox, Safari, Opera(?), Konqueror oder einen anderen (mehr) den Standards entsprechenden Browser.\nEin alternativer Zugriff ohne JavaScript wird bald zur Verfügung stehen.";
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Sorry, aber für diesen Account ist keine bestätigte E-Mail-Adresse hinterlegt. Bitte wende Dich an den Administrator oder den Support.";
@@ -462,7 +451,6 @@ return {
 ["Supported initiatives"] = "Unterstützte Initiativen";
 ["Supporter"] = "Unterstützer";
 ["Tabs"] = "Registerkarten";
-["Terms accepted"] = "Bedingungen akzeptiert";
 ["Terms of use"] = "Nutzungsbedingungen";
 ["The API key has been changed too fast."] = "Der API-Schlüssel wurde zu schnell geändert.";
 ["The code you've entered is invalid"] = "Der Code, den Du eingeben hast, ist nicht gültig!";
@@ -510,7 +498,6 @@ return {
 ["Tuesday"] = "Dienstag";
 ["Type of tabs"] = "Tabulatortyp";
 ["Unconfirmed address"] = "Unbestätigte E-Mail";
-["Unknown author"] = "Unbekannter Autor";
 ["Updated drafts"] = "Neue Entwürfe";
 ["Upload images"] = "Bilder hochladen";
 ["Verification time"] = "Zeit für die Überprüfung";
@@ -557,7 +544,6 @@ return {
 ["You didn't saved any member as contact yet."] = "Du hast noch kein Mitglied als Kontakt gespeichert!";
 ["You have saved this member as contact"] = "Du hast das Mitglied als Kontakt gespeichert";
 ["You have saved this member as contact."] = "Du hast das Mitglied als Kontakt gespeichert.";
-["You have to accept the terms of use to complete registration."] = "Du musst die Nutzungsbedingungen akzeptieren um die Registration abzuschliessen.";
 ["You have to mark 'Are you sure' to revoke!"] = "Zum Zurückziehen musst Du 'Sicher?' auswählen";
 ["You need to be logged in, to use all features of this system."] = "Du musst eingeloggt sein, um alle Funktionen dieses Systems nutzen zu können.";
 ["You want to vote later"] = "Du willst später abstimmen";
@@ -576,10 +562,10 @@ return {
 ["Your global delegation has been updated."] = "Deine globale Delegation wurde geändert";
 ["Your login has been changed to '#{login}'"] = "Dein Anmeldename wurde auf '#{login}' geändert";
 ["Your name has been changed"] = "Dein Name wurde geändert";
-["Your opinion has been deleted"] = "Deine Meinung wurde gelöscht";
-["Your opinion has been updated"] = "Deine Meinung wurde aktualisiert";
 ["Your page has been updated"] = "Deine Seite wurde aktualisiert";
 ["Your password has been updated successfully"] = "Das Kennwort wurde erfolgreich geändert";
+["Your rating has been deleted"] = "Deine Bewertung wurde gelöscht";
+["Your rating has been updated"] = "Deine Bewertung wurde aktualisiert";
 ["Your suggestion has been added"] = "Deine Anregung wurde hinzufügt";
 ["Your support has been added to this initiative"] = "Deine Unterstützung wurde der Initiative hinzugefügt";
 ["Your support has been removed from this initiative"] = "Deine Unterstützung wurde der Initiave entzogen";
@@ -589,20 +575,24 @@ return {
 ["Z-A"] = "Z-A";
 ["[Registered members only]"] = "[nur für Registrierte]";
 ["[not displayed public]"] = "[nicht öffentlich]";
+["a bit unsatisfied"] = "etwas unzufrieden";
 ["activated"] = "aktiviert";
 ["and #{count} more initiatives"] = "und #{count} weitere Initiativen";
 ["deactivated"] = "deaktiviert";
-["delete<br /><br />"] = "löschen<br /><br />";
 ["disabled"] = "ausgeschaltet";
 ["email"] = "E-Mail";
+["implemented"] = "umgesetzt";
 ["last 24 hours"] = "letzte 24 Stunden";
 ["login name"] = "Anmeldename";
+["more unsatisfied"] = "sehr unzufrieden";
 ["must"] = "muss";
 ["must not"] = "darf nicht";
 ["must/should"] = "muss/soll";
 ["must/should not"] = "muss/soll nicht";
 ["neutral"] = "neutral";
+["not implemented"] = "nicht umgesetzt";
 ["requested"] = "angefragt";
+["satisfied"] = "zufrieden";
 ["should"] = "soll";
 ["should not"] = "soll nicht";
 ["to reset your password please click on the following link:\n\n"] = "um Dein Kennwort zurückzusetzen klicke bitte den folgenden Link an:\n\n";

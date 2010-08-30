@@ -73,7 +73,7 @@ if tempvoting_string then
   end
 end
 
-local initiatives = issue:get_reference_selector("initiatives"):add_where("initiative.admitted"):exec()
+local initiatives = issue:get_reference_selector("initiatives"):add_where("initiative.admitted"):add_order_by("initiative.satisfied_supporter_count DESC"):exec()
 
 local min_grade = -1;
 local max_grade = 1;

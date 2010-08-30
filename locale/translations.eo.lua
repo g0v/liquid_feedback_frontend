@@ -95,7 +95,7 @@ return {
 ["Choose member"] = "Elekti membron";
 ["Click for details"] = "Klaki por detaloj";
 ["Closed"] = "Fermita";
-["Collective opinion"] = "Opinioresumo";
+["Collective opinion of supporters"] = false;
 ["Commit suggestion"] = "Enmeti sugeston";
 ["Compare"] = "Kompari";
 ["Confirm"] = "Konfirmi";
@@ -155,9 +155,7 @@ return {
 ["Email address confirmation"] = "Konfirmo de la retadreson";
 ["Email address is confirmed now"] = "Retadreso nun estas konfirmita";
 ["Email address too short!"] = "Retadreso estas tro mallonga!";
-["Email confirmation request"] = "Konfirmopeto de via retadreso";
 ["Email unconfirmed"] = false;
-["Empty help text: #{id}.#{lang}.txt"] = "Malplena helpoteksto: #{id}.#{lang}.txt";
 ["Error while converting image. Please note, that only JPG files are supported!"] = false;
 ["Error while resolving openid. Internal message: '#{errmsg}'"] = "Eraro dum trovado de openid. Interna mesaĝo: '#{errmsg}'";
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Eraro dum ĝisdatigo de la membro, la datumbazo raportas sekvan eraron:<br /><br /> (#{errormessage})";
@@ -179,9 +177,8 @@ return {
 ["Help for: #{text}"] = "Helpo por: #{text}";
 ["Hide"] = "Kaŝi";
 ["Hide filter details"] = "Kaŝi filtrodetalojn";
-["Hide this help message"] = "Kaŝi tiun ĉi helpotekston";
 ["Home"] = "Ĉefpaĝo";
-["I accept the terms of use by checking the following checkbox:"] = "Mi akceptas la uzokondiĉojn per la selekto de la sekva markobutono:";
+["I consider suggestion as"] = false;
 ["Id"] = "Identigilo";
 ["Ident number"] = "Identonumero";
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Se tiu ligilo ne funkcias, bonvolu malfermi la sekvan URLon per via retumilo:\n\n";
@@ -235,7 +232,6 @@ return {
 ["JavaScript is disabled or not available."] = "JavaScript ne estas ŝaltita aŭ disponebla.";
 ["Last author"] = "Lasta aŭtoro";
 ["Last snapshot:"] = "Lasta fulmrigardo:";
-["Legend:"] = "Legendo:";
 ["License"] = "Licenco";
 ["Locked?"] = "Ĉu blokita?";
 ["Login"] = "Ensaluti";
@@ -246,10 +242,6 @@ return {
 ["Majority"] = "Plimulto";
 ["Manage filter"] = "Administri filtrilojn";
 ["Manage timeline filters"] = "Administri tempolinio-filtrilojn";
-["Mark suggestion as implemented and express dissatisfaction"] = "Marki sugeston kiel realigitan kaj esprimi malkontentecon";
-["Mark suggestion as implemented and express satisfaction"] = "Marki sugeston kiel realigitan kaj esprimi kontentecon";
-["Mark suggestion as not implemented and express dissatisfaction"] = "Marki sugeston kiel ne realigitan kaj esprimi malkontentecon";
-["Mark suggestion as not implemented and express satisfaction"] = "Marki sugeston kiel ne realigitan kaj esprimi kontentecon";
 ["Max potential support"] = "Maksimumo da eblaj subtenantoj";
 ["Max support"] = "Maksimuma subteno";
 ["Member"] = "Membro";
@@ -277,7 +269,6 @@ return {
 ["Membership updated"] = "Membreco ĝisdatigita";
 ["Memberships"] = "Membrecoj";
 ["Message of the day"] = "Mesaĝoj";
-["Missing help text: #{id}.#{lang}.txt"] = "Mankas helpoteksto: #{id}.#{lang}.txt";
 ["Mobile phone"] = "Poŝtelefono";
 ["Monday"] = "Lundo";
 ["Move down"] = "Movi malsupren";
@@ -288,7 +279,6 @@ return {
 ["New address"] = false;
 ["New draft"] = "Nova skizo";
 ["New draft has been added to initiative"] = "La nova skizo estas aldonita al la iniciato";
-["New draft revision"] = "Nova revizio de la skizo";
 ["New initiative"] = "Nova iniciato";
 ["New issue"] = "Nova temo";
 ["New password"] = "Nova pasvorto";
@@ -317,11 +307,9 @@ return {
 ["Number of incoming delegations, follow link to see more details"] = "Nombro de alvenantaj delegacioj, sekvu ligilon por pli da detaloj";
 ["Number of initiatives to preview"] = "Nombro de iniciatoj por antaŭmontri";
 ["OK"] = "Bone";
-["Old draft revision"] = "Malnova revizio de la skizo";
 ["Old password"] = "Malnova pasvorto";
 ["Old password is wrong"] = "La malnova pasvorto estas malĝusta";
 ["Oldest"] = "Plej malnova";
-["On that page please enter the confirmation code:\n\n"] = "Bonvolu enigi sur tiu paĝo la konfirmokodon:\n\n";
 ["On that page please enter the reset code:\n\n"] = "Bonvolu enigu sur tiu paĝo la remetokodon:\n\n";
 ["One issue"] = "Unu temo";
 ["One issue you are interested in"] = "Unu temo, kiu vin interesas";
@@ -350,7 +338,6 @@ return {
 ["Please choose a policy"] = "Bonvolu elekti regularon";
 ["Please choose two different versions of the draft to compare"] = "Bonvolu elekti du malsamajn versiojn de la skizo por kompari ilin.";
 ["Please choose two versions of the draft to compare"] = "Bonvolu elekti du versiojn de la skizo por kompari ili.";
-["Please confirm your email address by clicking the following link:\n\n"] = "Bonvolu konfirmi vian retadreson klakante sekvan ligilon:\n\n";
 ["Please enter the email reset code you have received:"] = "Bonvolu enigi retpoŝtoremetokodon, kiun vi ricevis:";
 ["Please enter the invite code you've received."] = "Bonvolu enigi la invitokodon, kiun vi ricevis.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Bonvolu enigi vian retadreson. Tiu adreso estas uzita por aŭtomataj sciigoj (se vi petas tiajn) kaj por remeti la pasvorton. Tiu adreso ne estos publikigita. Post la fino de la registrado, vi ricevos retpoŝton kun ligilo al la konfirmo de la adreso.";
@@ -364,6 +351,7 @@ return {
 ["Potential support"] = "Eventuala subteno";
 ["Potential supported"] = "Eble subtenota";
 ["Potential supporter"] = "Eventuala subtenonto";
+["Preview"] = false;
 ["Previous initiative"] = "Antaŭa initciato";
 ["Previous issue"] = "Antaŭa temo";
 ["Profession"] = "Profesio";
@@ -431,6 +419,7 @@ return {
 ["Show member"] = "Montri membron";
 ["Show name history"] = "Montri nomohistorion";
 ["Show only events which match... (or associtated)"] = "Montri nur eventojn, kiuj kongruas... (aŭ kunligitaj)";
+["So I'm"] = false;
 ["Software"] = "Programaro";
 ["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = "Kelkaj funkcioj bazitaj je JavaScript (precipe la voĉdono) ne funkcios.\nBonvolu, uzi por tiu betaversio aktualan version de Firefox, Safari, Opera(?), Konqueror aŭ alian (pli) normokonforman retumilon.\nAlternativa atingo sen JavaScript estos baldaŭ disponebla.";
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Pardonu, por tiu konto ne ekzistas konfirmita retadreson. Bonvolu vin turni al administranto aŭ al la helpantaro.";
@@ -462,7 +451,6 @@ return {
 ["Supported initiatives"] = "Iniciatoj subtenitaj";
 ["Supporter"] = "Subtenantoj";
 ["Tabs"] = "Langetoj";
-["Terms accepted"] = "Kondiĉoj akceptitaj";
 ["Terms of use"] = "Uzokondiĉoj";
 ["The API key has been changed too fast."] = "La API-ŝlosilo estas ŝanĝita tro rapide.";
 ["The code you've entered is invalid"] = "La kodo, kiun vi enigis ne estas valida!";
@@ -510,7 +498,6 @@ return {
 ["Tuesday"] = "Mardo";
 ["Type of tabs"] = "Tipo de langetoj";
 ["Unconfirmed address"] = false;
-["Unknown author"] = "Aŭtoro nekonata";
 ["Updated drafts"] = "Skizoj ĝisdatigitaj";
 ["Upload images"] = "Alŝuti bildojn";
 ["Verification time"] = "Tempo por la kontrolo";
@@ -557,7 +544,6 @@ return {
 ["You didn't saved any member as contact yet."] = "Vi ankoraŭ ne konservis membron kiel kontakton!";
 ["You have saved this member as contact"] = "Vi konservis membron kiel kontakton";
 ["You have saved this member as contact."] = "Vi konservis membron kiel kontakton.";
-["You have to accept the terms of use to complete registration."] = "Vi devas akcepti la uzokondiĉojn por fini la registradon.";
 ["You have to mark 'Are you sure' to revoke!"] = "Por nuligi vi devas elekti 'Certa?'";
 ["You need to be logged in, to use all features of this system."] = "Vi devas esti ensalutinta por uzi ĉiujn funkciojn de tiu sistemo.";
 ["You want to vote later"] = "Vi volas baloti pli malfrue";
@@ -576,10 +562,10 @@ return {
 ["Your global delegation has been updated."] = "Via ĝenerala delegacio estas ĝisdatigita";
 ["Your login has been changed to '#{login}'"] = "Via salutnomo estas ĝisdatigita al '#{login}'";
 ["Your name has been changed"] = "Via nomo estas ĝisdatigita";
-["Your opinion has been deleted"] = "Via opinio estas viŝita";
-["Your opinion has been updated"] = "Via opinio estas ĝisdatigita";
 ["Your page has been updated"] = "Via paĝo estas ĝisdatigita";
 ["Your password has been updated successfully"] = "Via pasvorto estas sukcese ĝisdatigita";
+["Your rating has been deleted"] = false;
+["Your rating has been updated"] = false;
 ["Your suggestion has been added"] = "Via sugesto estas aldonita";
 ["Your support has been added to this initiative"] = "Via subteno estas aldonita al la iniciato";
 ["Your support has been removed from this initiative"] = "Via subteno estas forigita de la iniciato";
@@ -589,20 +575,24 @@ return {
 ["Z-A"] = "Z-A";
 ["[Registered members only]"] = "[Nur registritaj membroj]";
 ["[not displayed public]"] = "[ne afiŝita publike]";
+["a bit unsatisfied"] = false;
 ["activated"] = false;
 ["and #{count} more initiatives"] = "kaj #{count} pliaj iniciatoj";
 ["deactivated"] = false;
-["delete<br /><br />"] = "forviŝi<br /><br />";
 ["disabled"] = "malaktiva";
 ["email"] = "retpoŝto";
+["implemented"] = false;
 ["last 24 hours"] = "lastaj 24 horoj";
 ["login name"] = "Salutnomo";
+["more unsatisfied"] = false;
 ["must"] = "devas";
 ["must not"] = "ne rajtas";
 ["must/should"] = "devus";
 ["must/should not"] = "ne devus";
 ["neutral"] = "neŭtrala";
+["not implemented"] = false;
 ["requested"] = "petita";
+["satisfied"] = false;
 ["should"] = "devus";
 ["should not"] = "ne devus";
 ["to reset your password please click on the following link:\n\n"] = "por remeti vian pasvorton bonvolu klaki sekvan ligilon:\n\n";

@@ -14,6 +14,8 @@ slot.select("actions", function()
   }
 end)
 
+
+
 ui.form{
   record = initiative.current_draft,
   attr = { class = "vertical" },
@@ -21,7 +23,7 @@ ui.form{
   action = "add",
   params = { initiative_id = initiative.id },
   routing = {
-    default = {
+    ok = {
       mode = "redirect",
       module = "initiative",
       view = "show",
@@ -31,6 +33,22 @@ ui.form{
   content = function()
 
     ui.field.text{ label = _"Author", value = app.session.member.name, readonly = true }
+
+    if param.get("preview") then
+      ui.container{
+        attr = { class = "draft_content wiki" },
+        content = function()
+          slot.put(format.wiki_text(param.get("content"), param.get("formatting_engine")))
+        end
+      }
+      slot.put("<br />")
+      ui.submit{ text = _"Save" }
+      slot.put("<br />")
+      slot.put("<br />")
+    end
+    slot.put("<br />")
+
+
     ui.field.select{
       label = _"Wiki engine",
       name = "formatting_engine",
@@ -45,9 +63,11 @@ ui.form{
       label = _"Content",
       name = "content",
       multiline = true,
-      attr = { style = "height: 50ex;" }
+      attr = { style = "height: 50ex;" },
+      value = param.get("content")
    }
 
+    ui.submit{ name = "preview", text = _"Preview" }
     ui.submit{ text = _"Save" }
   end
 }

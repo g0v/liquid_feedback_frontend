@@ -84,21 +84,20 @@ ui_filters{
               end
             },
             {
-              label = _"Collective opinion",
+              label = _"Collective opinion of supporters",
               label_attr = { style = "width: 101px;" },
               content = function(record)
                 if record.minus2_unfulfilled_count then
-                  local max_value = record.initiative.issue.population
+                  local max_value = record.initiative.supporter_count
                   ui.bargraph{
                     max_value = max_value,
-                    width = 50,
+                    width = 100,
                     bars = {
-                      { color = "#ddd", value = max_value - record.minus2_unfulfilled_count - record.minus1_unfulfilled_count - record.minus2_fulfilled_count - record.minus1_fulfilled_count },
-                      { color = "#f88", value = record.minus1_unfulfilled_count + record.minus1_fulfilled_count },
-                      { color = "#a00", value = record.minus2_unfulfilled_count + record.minus2_fulfilled_count },
                       { color = "#0a0", value = record.plus2_unfulfilled_count + record.plus2_fulfilled_count },
                       { color = "#8f8", value = record.plus1_unfulfilled_count + record.plus1_fulfilled_count },
-                      { color = "#ddd", value = max_value - record.plus1_unfulfilled_count - record.plus2_unfulfilled_count - record.plus1_fulfilled_count - record.plus2_fulfilled_count },
+                      { color = "#eee", value = max_value - record.minus2_unfulfilled_count - record.minus1_unfulfilled_count - record.minus2_fulfilled_count - record.minus1_fulfilled_count - record.plus1_unfulfilled_count - record.plus2_unfulfilled_count - record.plus1_fulfilled_count - record.plus2_fulfilled_count},
+                      { color = "#f88", value = record.minus1_unfulfilled_count + record.minus1_fulfilled_count },
+                      { color = "#a00", value = record.minus2_unfulfilled_count + record.minus2_fulfilled_count },
                     }
                   }
                 end
@@ -106,6 +105,7 @@ ui_filters{
             },
             {
               label = _"My opinion",
+              label_attr = { style = "width: 130px; font-style: italic;" },
               content = function(record)
                 local degree
                 local opinion
@@ -120,67 +120,53 @@ ui_filters{
                   content = function()
                     if app.session.member_id then
                       if initiative.issue.state == "voting" or initiative.issue.state == "closed" then
-                        ui.tag{
-                          tag = "span",
-                          attr = { class = "action" .. (degree == -2 and " active_red2" or "") },
-                          content = _"must not"
-                        }
-                        ui.tag{
-                          tag = "span",
-                          attr = { class = "action" .. (degree == -1 and " active_red1" or "") },
-                          content = _"should not"
-                        }
-                        ui.tag{
-                          tag = "span",
-                          attr = { class = "action" .. (degree == nil and " active" or "") },
-                          content = _"neutral"
-                        }
-                        ui.tag{
-                          tag = "span",
-                          attr = { class = "action" .. (degree == 1 and " active_green1" or "") },
-                          content = _"should"
-                        }
-                        ui.tag{
-                          tag = "span",
-                          attr = { class = "action" .. (degree == 2 and " active_green2" or "") },
-                          content = _"must"
-                        }
+                        if degree == -2 then
+                          ui.tag{
+                            tag = "span",
+                            attr = {
+                              class = "action" .. (degree == -2 and " active_red2" or "")
+                            },
+                            content = _"must not"
+                          }
+                        end
+                        if degree == -1 then
+                          ui.tag{
+                            tag = "span",
+                            attr = { class = "action" .. (degree == -1 and " active_red1" or "") },
+                            content = _"should not"
+                          }
+                        end
+                        if degree == nil then
+                          ui.tag{
+                            tag = "span",
+                            attr = { class = "action" .. (degree == nil and " active" or "") },
+                            content = _"neutral"
+                          }
+                        end
+                        if degree == 1 then
+                          ui.tag{
+                            tag = "span",
+                            attr = { class = "action" .. (degree == 1 and " active_green1" or "") },
+                            content = _"should"
+                          }
+                        end
+                        if degree == 2 then
+                          ui.tag{
+                            tag = "span",
+                            attr = { class = "action" .. (degree == 2 and " active_green2" or "") },
+                            content = _"must"
+                          }
+                        end
                       else
                         ui.link{
-                          attr = { class = "action" .. (degree == -2 and " active_red2" or "") },
-                          text = _"must not",
+                          attr = { class = "action" .. (degree == 2 and " active_green2" or "") },
+                          text = _"must",
                           module = "opinion",
                           action = "update",
                           routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
                           params = {
                             suggestion_id = record.id,
-                            degree = -2
-                          },
-                          partial = partial
-                        }
-                        slot.put(" ")
-                        ui.link{
-                          attr = { class = "action" .. (degree == -1 and " active_red1" or "") },
-                          text = _"should not",
-                          module = "opinion",
-                          action = "update",
-                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                          params = {
-                            suggestion_id = record.id,
-                            degree = -1
-                          },
-                          partial = partial
-                        }
-                        slot.put(" ")
-                        ui.link{
-                          attr = { class = "action" .. (degree == nil and " active" or "") },
-                          text = _"neutral",
-                          module = "opinion",
-                          action = "update",
-                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                          params = {
-                            suggestion_id = record.id,
-                            delete = true
+                            degree = 2
                           },
                           partial = partial
                         }
@@ -199,14 +185,40 @@ ui_filters{
                         }
                         slot.put(" ")
                         ui.link{
-                          attr = { class = "action" .. (degree == 2 and " active_green2" or "") },
-                          text = _"must",
+                          attr = { class = "action" .. (degree == nil and " active" or "") },
+                          text = _"neutral",
                           module = "opinion",
                           action = "update",
                           routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
                           params = {
                             suggestion_id = record.id,
-                            degree = 2
+                            delete = true
+                          },
+                          partial = partial
+                        }
+                        slot.put(" ")
+                        ui.link{
+                          attr = { class = "action" .. (degree == -1 and " active_red1" or "") },
+                          text = _"should not",
+                          module = "opinion",
+                          action = "update",
+                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                          params = {
+                            suggestion_id = record.id,
+                            degree = -1
+                          },
+                          partial = partial
+                        }
+                        slot.put(" ")
+                        ui.link{
+                          attr = { class = "action" .. (degree == -2 and " active_red2" or "") },
+                          text = _"must not",
+                          module = "opinion",
+                          action = "update",
+                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                          params = {
+                            suggestion_id = record.id,
+                            degree = -2
                           },
                           partial = partial
                         }
@@ -219,45 +231,22 @@ ui_filters{
               end
             },
             {
-              content = function(record)
-                local opinion
-                if app.session.member_id then
-                  opinion = Opinion:by_pk(app.session.member.id, record.id)
-                end
-                if opinion and not opinion.fulfilled then
-                  ui.image{ static = "icons/16/cross.png" }
-                end
-              end
-            },
-            {
               label = _"Suggestion currently not implemented",
               label_attr = { style = "width: 101px;" },
               content = function(record)
                 if record.minus2_unfulfilled_count then
-                  local max_value = record.initiative.issue.population
+                  local max_value = record.initiative.supporter_count
                   ui.bargraph{
                     max_value = max_value,
-                    width = 50,
+                    width = 100,
                     bars = {
-                      { color = "#ddd", value = max_value - record.minus2_unfulfilled_count - record.minus1_unfulfilled_count },
-                      { color = "#f88", value = record.minus1_unfulfilled_count },
-                      { color = "#a00", value = record.minus2_unfulfilled_count },
                       { color = "#0a0", value = record.plus2_unfulfilled_count },
                       { color = "#8f8", value = record.plus1_unfulfilled_count },
-                      { color = "#ddd", value = max_value - record.plus1_unfulfilled_count - record.plus2_unfulfilled_count },
+                      { color = "#eee", value = max_value - record.minus2_unfulfilled_count - record.minus1_unfulfilled_count - record.plus1_unfulfilled_count - record.plus2_unfulfilled_count },
+                      { color = "#f88", value = record.minus1_unfulfilled_count },
+                      { color = "#a00", value = record.minus2_unfulfilled_count },
                     }
                   }
-                end
-              end
-            },
-            {
-              content = function(record)
-                local opinion
-                if app.session.member_id then
-                  opinion = Opinion:by_pk(app.session.member.id, record.id)
-                end
-                if opinion and opinion.fulfilled then
-                    ui.image{ static = "icons/16/tick.png" }
                 end
               end
             },
@@ -266,24 +255,24 @@ ui_filters{
               label_attr = { style = "width: 101px;" },
               content = function(record)
                 if record.minus2_fulfilled_count then
-                  local max_value = record.initiative.issue.population
+                  local max_value = record.initiative.supporter_count
                   ui.bargraph{
                     max_value = max_value,
-                    width = 50,
+                    width = 100,
                     bars = {
-                      { color = "#ddd", value = max_value - record.minus2_fulfilled_count - record.minus1_fulfilled_count },
-                      { color = "#f88", value = record.minus1_fulfilled_count },
-                      { color = "#a00", value = record.minus2_fulfilled_count },
                       { color = "#0a0", value = record.plus2_fulfilled_count },
                       { color = "#8f8", value = record.plus1_fulfilled_count },
-                      { color = "#ddd", value = max_value - record.plus1_fulfilled_count - record.plus2_fulfilled_count },
+                      { color = "#eee", value = max_value - record.minus2_fulfilled_count - record.minus1_fulfilled_count - record.plus1_fulfilled_count - record.plus2_fulfilled_count},
+                      { color = "#f88", value = record.minus1_fulfilled_count },
+                      { color = "#a00", value = record.minus2_fulfilled_count },
                     }
                   }
                 end
               end
             },
             {
-              label_attr = { style = "width: 200px;" },
+              label = app.session.member_id and _"I consider suggestion as" or nil,
+              label_attr = { style = "width: 100px; font-style: italic;" },
               content = function(record)
                 local degree
                 local opinion
@@ -294,48 +283,38 @@ ui_filters{
                   degree = opinion.degree
                 end
                 if opinion then
-                  if not opinion.fulfilled then
-                    local text = ""
-                    if opinion.degree > 0 then
-                      text = _"Mark suggestion as implemented and express satisfaction"
-                    else
-                      text = _"Mark suggestion as implemented and express dissatisfaction"
-                    end
-                    ui.link{
-                      attr = { class = "action" },
-                      text = text,
-                      module = "opinion",
-                      action = "update",
-                      routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                      params = {
-                        suggestion_id = record.id,
-                        fulfilled = true
-                      },
-                      partial = partial
-                    }
-                  else
-                    if opinion.degree > 0 then
-                      text = _"Mark suggestion as not implemented and express dissatisfaction"
-                    else
-                      text = _"Mark suggestion as not implemented and express satisfaction"
-                    end
-                    ui.link{
-                      attr = { class = "action" },
-                      text = text,
-                      module = "opinion",
-                      action = "update",
-                      routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
-                      params = {
-                        suggestion_id = record.id,
-                        fulfilled = false
-                      },
-                      partial = partial
-                    }
-                  end
+
+                  ui.link{
+                    attr = { class = opinion.fulfilled and "action active" or "action" },
+                    text = _"implemented",
+                    module = "opinion",
+                    action = "update",
+                    routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                    params = {
+                      suggestion_id = record.id,
+                      fulfilled = true
+                    },
+                    partial = partial
+                  }
+                  slot.put("<br />")
+                  ui.link{
+                    attr = { class = not opinion.fulfilled and "action active" or "action" },
+                    text = _"not implemented",
+                    module = "opinion",
+                    action = "update",
+                    routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                    params = {
+                      suggestion_id = record.id,
+                      fulfilled = false
+                    },
+                    partial = partial
+                  }
+
                 end
               end
             },
             {
+              label = app.session.member_id and _"So I'm" or nil,
               content = function(record)
                 local opinion
                 if app.session.member_id then
@@ -343,9 +322,14 @@ ui_filters{
                 end
                 if opinion then
                   if (opinion.fulfilled and opinion.degree > 0) or (not opinion.fulfilled and opinion.degree < 0) then
-                    ui.image{ static = "icons/16/thumb_up_green.png" }
+                    local title = _"satisfied"
+                    ui.image{ attr = { alt = title, title = title }, static = "icons/emoticon_happy.png" }
+                  elseif opinion.degree == 1 or opinion.degree == -1 then
+                    local title = _"a bit unsatisfied"
+                    ui.image{ attr = { alt = title, title = title }, static = "icons/emoticon_unhappy.png" }
                   else
-                    ui.image{ static = "icons/16/thumb_down_red.png" }
+                    local title = _"more unsatisfied"
+                    ui.image{ attr = { alt = title, title = title }, static = "icons/emoticon_unhappy_red.png" }
                   end
                 end
               end

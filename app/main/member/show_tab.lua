@@ -152,12 +152,13 @@ tabs[#tabs+1] = {
 }
 
 local supported_initiatives_selector = member:get_reference_selector("supported_initiatives")
+
 tabs[#tabs+1] = {
   name = "supported_initiatives",
   label = _"Supported initiatives" .. " (" .. tostring(supported_initiatives_selector:count()) .. ")",
   icon = { static = "icons/16/thumb_up_green.png" },
-  module = "initiative",
-  view = "_list",
+  module = "member",
+  view = "_list_supported_initiatives",
   params = { initiatives_selector = supported_initiatives_selector },
 }
 
@@ -166,8 +167,8 @@ tabs[#tabs+1] = {
   name = "initiatied_initiatives",
   label = _"Initiated initiatives" .. " (" .. tostring(initiated_initiatives_selector:count()) .. ")",
   icon = { static = "icons/16/user_edit.png" },
-  module = "initiative",
-  view = "_list",
+  module = "member",
+  view = "_list_supported_initiatives",
   params = { initiatives_selector = initiated_initiatives_selector },
 }
 

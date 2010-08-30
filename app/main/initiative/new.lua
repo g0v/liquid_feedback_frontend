@@ -41,7 +41,7 @@ ui.form{
         foreign_records = tmp,
         foreign_id = "id",
         foreign_name = "name",
-        value = (area.default_policy or {}).id
+        value = area.default_policy and area.default_policy.id or param.get("policy_id", atom.integer)
       }
       ui.tag{
         tag = "div",
@@ -70,9 +70,57 @@ ui.form{
         end
       }
     end
+    
+    if param.get("preview") then
+      ui.heading{ level = 1, content = encode.html(param.get("name")) }
+      local discussion_url = param.get("discussion_url")
+      ui.container{
+        attr = { class = "ui_field_label" },
+        content = _"Discussion with initiators"
+      }
+      ui.tag{
+        tag = "span",
+        content = function()
+          if discussion_url:find("^https?://") then
+            if discussion_url and #discussion_url > 0 then
+              ui.link{
+                attr = {
+                  class = "actions",
+                  target = "_blank",
+                  title = discussion_url
+                },
+                content = discussion_url,
+                external = discussion_url
+              }
+            end
+          else
+            slot.put(encode.html(discussion_url))
+          end
+        end
+      }
+      ui.container{
+        attr = { class = "draft_content wiki" },
+        content = function()
+          slot.put(format.wiki_text(param.get("draft"), param.get("formatting_engine")))
+        end
+      }
+      slot.put("<br />")
+      ui.submit{ text = _"Save" }
+      slot.put("<br />")
+      slot.put("<br />")
+    end
     slot.put("<br />")
-    ui.field.text{ label = _"Title of initiative", name = "name" }
-    ui.field.text{ label = _"Discussion URL", name = "discussion_url" }
+
+    ui.field.text{
+      label = _"Title of initiative",
+      name  = "name",
+      value = param.get("name")
+    }
+    ui.field.text{
+      label = _"Discussion URL",
+      name = "discussion_url",
+      value = param.get("discussion_url")
+    }
     ui.field.select{
       label = _"Wiki engine",
       name = "formatting_engine",
@@ -81,9 +129,17 @@ ui.form{
         { id = "compat", name = _"Traditional wiki syntax" }
       },
       foreign_id = "id",
-      foreign_name = "name"
+      foreign_name = "name",
+      value = param.get("formatting_engine")
     }
-    ui.field.text{ label = _"Draft", name = "draft", multiline = true, attr = { style = "height: 50ex;" } }
+    ui.field.text{
+      label = _"Draft",
+      name = "draft",
+      multiline = true, 
+      attr = { style = "height: 50ex;" },
+      value = param.get("draft")
+    }
+    ui.submit{ name = "preview", text = _"Preview" }
     ui.submit{ text = _"Save" }
   end
 }

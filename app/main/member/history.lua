@@ -55,7 +55,7 @@ ui.tag{
           }
           ui.tag{
             tag = "td",
-            content =  member.active and _'activated' or _'deactivated',
+            content = entry.active and _'activated' or _'deactivated',
           }
           ui.tag{
             tag = "td",
