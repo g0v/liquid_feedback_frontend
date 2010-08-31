@@ -158,14 +158,14 @@ local fields = {
     name = "created",
     field = "initiative.created",
     func = function(record)
-      return format.timestamp(record.created)
+      return format_timestamp(record.created)
     end
   },
   {
     name = "revoked",
     field = "initiative.revoked",
     func = function(record)
-      return format.timestamp(record.revoked)
+      return format_timestamp(record.revoked)
     end
   },
   { name = "suggested_initiative_id",   field = "initiative.suggested_initiative_id" },
@@ -186,7 +186,7 @@ local fields = {
   {
     name = "current_draft_created",
     func = function(record)
-      return format.timestamp(record.current_draft.created)
+      return format_timestamp(record.current_draft.created)
     end
   },
   {
