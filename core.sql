@@ -658,7 +658,7 @@ CREATE TABLE "delegation" (
           ("scope" = 'issue'  AND "area_id" ISNULL  AND "issue_id" NOTNULL) ),
         UNIQUE ("area_id", "truster_id"),
         UNIQUE ("issue_id", "truster_id") );
-CREATE UNIQUE INDEX "delegation_global_truster_id_trustee_id_unique_idx"
+CREATE UNIQUE INDEX "delegation_global_truster_id_unique_idx"
   ON "delegation" ("truster_id") WHERE "scope" = 'global';
 CREATE INDEX "delegation_truster_id_idx" ON "delegation" ("truster_id");
 CREATE INDEX "delegation_trustee_id_idx" ON "delegation" ("trustee_id");

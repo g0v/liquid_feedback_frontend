@@ -10,7 +10,7 @@ DROP INDEX "delegation_global_truster_id_trustee_id_unique_idx";
 
 ALTER TABLE "delegation" ADD UNIQUE ("area_id", "truster_id");
 ALTER TABLE "delegation" ADD UNIQUE ("issue_id", "truster_id");
-CREATE UNIQUE INDEX "delegation_global_truster_id_trustee_id_unique_idx"
+CREATE UNIQUE INDEX "delegation_global_truster_id_unique_idx"
   ON "delegation" ("truster_id") WHERE "scope" = 'global';
 
 COMMIT;
