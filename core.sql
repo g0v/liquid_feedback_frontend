@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.2.7', 1, 2, 7))
+  SELECT * FROM (VALUES ('1.2.8', 1, 2, 8))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -656,10 +656,10 @@ CREATE TABLE "delegation" (
           ("scope" = 'global' AND "area_id" ISNULL  AND "issue_id" ISNULL ) OR
           ("scope" = 'area'   AND "area_id" NOTNULL AND "issue_id" ISNULL ) OR
           ("scope" = 'issue'  AND "area_id" ISNULL  AND "issue_id" NOTNULL) ),
-        UNIQUE ("area_id", "truster_id", "trustee_id"),
-        UNIQUE ("issue_id", "truster_id", "trustee_id") );
+        UNIQUE ("area_id", "truster_id"),
+        UNIQUE ("issue_id", "truster_id") );
 CREATE UNIQUE INDEX "delegation_global_truster_id_trustee_id_unique_idx"
-  ON "delegation" ("truster_id", "trustee_id") WHERE "scope" = 'global';
+  ON "delegation" ("truster_id") WHERE "scope" = 'global';
 CREATE INDEX "delegation_truster_id_idx" ON "delegation" ("truster_id");
 CREATE INDEX "delegation_trustee_id_idx" ON "delegation" ("trustee_id");
 
