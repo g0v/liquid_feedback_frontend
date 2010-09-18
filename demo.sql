@@ -28,7 +28,8 @@ INSERT INTO "member" ("login", "name") VALUES
   ('user22', 'User #22'),  -- id 22
   ('user23', 'User #23');  -- id 23
 
-UPDATE "member" SET "password" = "login";
+-- set password to "login"
+UPDATE "member" SET "password" = '$1$PcI6b1Bg$2SHjAZH2nMLFp0fxHis.Q0';
 
 INSERT INTO "policy" (
         "index",
