@@ -12,11 +12,12 @@ if initiative.issue.ranks_available and initiative.admitted then
       slot.put("&nbsp;")
       local positive_votes = initiative.positive_votes
       local negative_votes = initiative.negative_votes
-      slot.put(_"Yes" .. ": <b>" .. tostring(positive_votes) .. "</b>")
+      local sum_votes = initiative.positive_votes + initiative.negative_votes
+      slot.put(_"Yes" .. ": <b>" .. tostring(positive_votes) .. " (" .. string.format("%.f", positive_votes * 100 / sum_votes ) .. "%)" .. "</b>")
       slot.put(" &middot; ")
       slot.put(_"Abstention" .. ": <b>" .. tostring(max_value - initiative.negative_votes - initiative.positive_votes)  .. "</b>")
       slot.put(" &middot; ")
-      slot.put(_"No" .. ": <b>" .. tostring(initiative.negative_votes) .. "</b>")
+      slot.put(_"No" .. ": <b>" .. tostring(initiative.negative_votes) .. " (" .. string.format( "%.f", negative_votes * 100 / sum_votes ) .. "%)" .. "</b>")
       slot.put(" &middot; ")
       slot.put("<b>")
       if initiative.rank == 1 then
