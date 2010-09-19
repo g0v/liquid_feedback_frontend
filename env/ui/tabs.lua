@@ -25,6 +25,7 @@ if config.user_tab_mode == "accordeon" or config.user_tab_mode == "accordeon_fir
           active = true
         end
       end
+	 
       local link_tabs = {}
       if config.user_tab_mode == "accordeon" 
         or config.user_tab_mode == "accordeon_first_expanded"
@@ -48,14 +49,8 @@ if config.user_tab_mode == "accordeon" or config.user_tab_mode == "accordeon_fir
       if not active then
         link_tabs[tab.name] = true
       end
-      local link_tab_string = ""
-      for link_tab in pairs(link_tabs) do
-        if #link_tab_string > 0 then
-          link_tab_string = link_tab_string .. "|"
-        end
-        link_tab_string = link_tab_string .. link_tab
-      end
-      params["tab"] = link_tab_string
+
+      params["tab"] = tab.name
       local onclick
       if not tab.content then
         onclick =
