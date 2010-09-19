@@ -44,6 +44,11 @@ end)
 
 slot.put_into("title", encode.html(config.app_title))
 
+if app.session.member then
+	app.html_title.title = app.session.member.name
+end
+
+
 slot.select("actions", function()
 
   if app.session.member then

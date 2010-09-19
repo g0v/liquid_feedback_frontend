@@ -1,5 +1,8 @@
 local member = Member:by_id(param.get_id())
 
+app.html_title.title = member.name
+app.html_title.subtitle = _("Member")
+
 slot.select("title", function()
   execute.view{
     module = "member_image",

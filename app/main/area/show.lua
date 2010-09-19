@@ -1,5 +1,8 @@
 local area = Area:new_selector():add_where{ "id = ?", param.get_id() }:single_object_mode():exec()
 
+app.html_title.title = area.name
+app.html_title.subtitle = _("Area")
+
 if config.feature_rss_enabled then
   util.html_rss_head{ title = _"Initiatives in this area (last created first)", module = "initiative", view = "list_rss", params = { area_id = area.id } }
   util.html_rss_head{ title = _"Initiatives in this area (last updated first)", module = "initiative", view = "list_rss", params = { area_id = area.id } }

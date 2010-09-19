@@ -1,5 +1,7 @@
 local issue = Issue:by_id(param.get_id())
 
+app.html_title.title = _("Issue ##{id}", { id = issue.id })
+
 execute.view{
   module = "issue",
   view = "_show_head",
