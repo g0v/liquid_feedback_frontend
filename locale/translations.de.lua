@@ -196,6 +196,7 @@ return {
 ["Initiative successfully created"] = "Initiative erfolgreich erzeugt";
 ["Initiative successfully updated"] = "Initiative erfolgreich aktualisiert";
 ["Initiative: '#{name}'"] = "Initiative: '#{name}'";
+["Initiative ##{id}"] = "Initiative ##{id}";
 ["Initiatives"] = "Initiativen";
 ["Initiatives in this area (last created first)"] = "Initiativen in diesem Themenbereich (zuletzt angelegte zuerst)";
 ["Initiatives in this area (last updated first)"] = "Initiativen in diesem Themenbereich (zuletzt aktualisierte zuerst)";
@@ -441,6 +442,7 @@ return {
 ["Suggest no initiative"] = "Keine Initiative empfehlen";
 ["Suggested initiative"] = "Empfohlene Initiative";
 ["Suggestion"] = "Anregung";
+["Suggestion ##{id}"] = "Anregung ##{id}";
 ["Suggestion currently implemented"] = "Anregung zur Zeit umgesetzt";
 ["Suggestion currently not implemented"] = "Anregung zur Zeit nicht umgesetzt";
 ["Suggestion for initiative: '#{name}'"] = "Anregung für Initiative '#{name}'";

@@ -26,6 +26,10 @@ if config.user_tab_mode == "accordeon" or config.user_tab_mode == "accordeon_fir
         end
       end
 	 
+      if active and not first then
+	    app.html_title.prefix = tab.label
+      end
+
       local link_tabs = {}
       if config.user_tab_mode == "accordeon" 
         or config.user_tab_mode == "accordeon_first_expanded"
@@ -209,6 +213,9 @@ else -- 'classic tab'
           end
         }
         for i, tab in ipairs(tabs) do
+          if tab.name == current_tab and i > 1 then
+						app.html_title.prefix = tab.label
+	        end
           if tab.name == current_tab or not current_tab and i == 1 then
             ui.container{
               attr = { class = "ui_tabs_content" },
