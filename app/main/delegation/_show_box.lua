@@ -1,4 +1,4 @@
-function change_delegation(scope, area_id, issue, delegation)
+function change_delegation(scope, area_id, issue, delegation, initiative_id)
   local image
   local text
   if scope == "global" and delegation then
@@ -34,6 +34,7 @@ function change_delegation(scope, area_id, issue, delegation)
         view = "new",
         params = {
           issue_id = issue and issue.id or nil,
+          initiative_id = initiative_id or nil,
           area_id = area_id
         },
       }
@@ -62,11 +63,13 @@ end
 local delegation
 local area_id
 local issue_id
+local initiative_id
 
 local scope = "global"
 
 if param.get("initiative_id", atom.integer) then
-  issue_id = Initiative:by_id(param.get("initiative_id", atom.integer)).issue_id
+  initiative_id = param.get("initiative_id", atom.integer)
+  issue_id = Initiative:by_id(initiative_id).issue_id
   scope = "issue"
 end
 
@@ -84,6 +87,7 @@ end
 
 local delegation
 local issue
+
 if issue_id then
   issue = Issue:by_id(issue_id)
   delegation = Delegation:by_pk(app.session.member.id, nil, issue_id)
@@ -149,7 +153,7 @@ slot.select("actions", function()
               :exec()
     
             if not issue or (issue.state ~= "finished" and issue.state ~= "cancelled") then
-              change_delegation(scope, area_id, issue, delegation)
+              change_delegation(scope, area_id, issue, delegation, initiative_id)
             end
 
             for i, record in ipairs(delegation_chain) do
@@ -210,6 +214,6 @@ slot.select("actions", function()
       end
     }
   else
-    change_delegation(scope, area_id, issue)
+    change_delegation(scope, area_id, issue, nil, initiative_id)
   end
 end)

@@ -1,5 +1,6 @@
 #!/usr/bin/env lua
 return {
+["--- Initiators ---"] = false;
 ["##{id}"] = false;
 ["##{issue_id}.#{id} #{name}"] = false;
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = false;

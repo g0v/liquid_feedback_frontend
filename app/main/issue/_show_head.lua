@@ -1,4 +1,5 @@
 local issue = param.get("issue", "table")
+local initiative = param.get("initiative", "table")
 
 local direct_voter
 
@@ -68,7 +69,8 @@ slot.select("actions", function()
       execute.view{
         module = "delegation",
         view = "_show_box",
-        params = { issue_id = issue.id }
+        params = { issue_id = issue.id,
+                   initiative_id = initiative and initiative.id or nil}
       }
     end
 

@@ -19,7 +19,8 @@ end)
 execute.view{
   module = "issue",
   view = "_show_head",
-  params = { issue = initiative.issue }
+  params = { issue = initiative.issue,
+             initiative = initiative }
 }
 
 --slot.put_into("html_head", '<link rel="alternate" type="application/rss+xml" title="RSS" href="../show/' .. tostring(initiative.id) .. '.rss" />')
