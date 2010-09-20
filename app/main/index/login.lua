@@ -11,6 +11,7 @@ ui.tag{
 }
 
 slot.put_into("title", encode.html(config.app_title))
+app.html_title.title = _"Login"
 
 slot.select("title", function()
   ui.container{
