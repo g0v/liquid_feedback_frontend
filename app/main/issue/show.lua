@@ -1,6 +1,8 @@
 local issue = Issue:by_id(param.get_id())
 
-app.html_title.title = _("Issue ##{id}", { id = issue.id })
+if not app.html_title.title then
+	app.html_title.title = _("Issue ##{id}", { id = issue.id })
+end
 
 execute.view{
   module = "issue",
