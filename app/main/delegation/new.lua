@@ -10,6 +10,8 @@ if issue then
   util.help("delegation.new.issue")
 end
 
+local initiative = Initiative:by_id(param.get("initiative_id", atom.integer))
+
 if not area and not issue then
   slot.put_into("title", encode.html(_"Set global delegation"))
   util.help("delegation.new.global")
@@ -80,8 +82,20 @@ ui.form{
         name = _"No delegation"
       }
     }
+
     for i, record in ipairs(contact_members) do
       records[#records+1] = record
+    end
+    disabled_records = {}
+    -- add initiative authors
+    if initiative then
+      records[#records+1] = {id="_", name=_"--- Initiators ---"}
+      disabled_records["_"] = true
+      for i,record in ipairs(initiative.initiators) do
+        trace.debug(record)
+        trace.debug(record.member.name)
+        records[#records+1] = record.member
+      end
     end
 
     ui.field.select{
@@ -90,7 +104,9 @@ ui.form{
       foreign_records = records,
       foreign_id = "id",
       foreign_name = "name",
+      disabled_records = disabled_records
     }
+
     ui.submit{ text = _"Save" }
   end
 }
