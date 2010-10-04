@@ -24,6 +24,12 @@ ui.form{
     ui.field.text{    label = _"Name",        name = "name" }
     ui.field.boolean{ label = _"Active?",     name = "active" }
     ui.field.text{    label = _"Description", name = "description", multiline = true }
+    ui.multiselect{   label = _"Policies",    name = "allowed_policies[]",
+                      foreign_records = Policy:new_selector():add_where{ "active='t'"}:exec(),
+                      foreign_id      = "id",
+                      foreign_name    = "name",
+                      connecting_records = area.allowed_policies,
+                      foreign_reference  = "id" }
     ui.submit{ text = _"Save" }
   end
 }
