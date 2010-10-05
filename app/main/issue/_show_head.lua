@@ -117,7 +117,7 @@ slot.select("content_navigation", function()
       end
     end
 
-    mk_link(-1, "Previous", "resultset_previous.png")
+    mk_link(-1, _("Previous issue"), "resultset_previous.png")
     if issue.area then
       ui.link{
         content = function()
@@ -136,7 +136,7 @@ slot.select("content_navigation", function()
         }
       }
     end
-    mk_link(1, "Next", "resultset_next.png", 1)
+    mk_link(1, _("Next issue"), "resultset_next.png", 1)
   end
 end
 
