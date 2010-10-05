@@ -5,7 +5,7 @@ ui.list{
   columns = {
     {
       label = _"Member name",
-      name = "member_name"
+      content = function(arg) return Member.object.ui_field_text(arg.member) end
     },
     {
       label = _"Degree",

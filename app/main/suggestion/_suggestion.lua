@@ -5,10 +5,8 @@ ui.form{
   record = suggestion,
   readonly = true,
   content = function()
-    if app.session.member_id or config.public_access == "pseudonym" then
-      ui.field.text{ label = _"Author",      value = suggestion.author.name }
-    else
-      ui.field.text{ label = _"Author",      value = _"[not displayed public]" }
+    if suggestion.author then 
+      suggestion.author:ui_field_text{label=_"Author"} 
     end
     ui.field.text{ label = _"Title",        name = "name" }
     ui.container{

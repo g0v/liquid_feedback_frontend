@@ -15,10 +15,8 @@ ui.form{
         {
           label = _"Author",
           content = function(record)
-            if app.session.member_id or config.public_access == "pseudonym" then
-              ui.field.text{ readonly = true, value = record.author.name }
-            else
-              ui.field.text{ readonly = true, value = _"[not displayed public]" }
+            if record.author then
+              return record.author:ui_field_text()
             end
           end
         },

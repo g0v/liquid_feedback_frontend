@@ -368,3 +368,22 @@ function Member.object_get:notify_email_locked()
       :count() == 1
   )
 end
+
+function Member.object:ui_field_text(args)
+  args = args or {}
+  if app.session.member_id or config.public_access == "pseudonym" then
+    -- ugly workaround for getting html into a replaced string and to the user
+    ui.container{label = args.label, label_attr={class="ui_field_label"}, content = function()
+        slot.put(string.format('<span><a href="%s">%s</a></span>',
+                                                encode.url{
+                                                  module    = "member",
+                                                  view      = "show",
+                                                  id        = self.id,
+                                                },
+                                                encode.html(self.name)))
+      end
+    }
+  else
+    ui.field.text{ label = args.label,      value = _"[not displayed public]" }
+  end
+end
