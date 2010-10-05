@@ -34,7 +34,7 @@ ui.form{
     if not supported then
       ui.field.text{
         attr = { class = "warning" },
-        value = _"You are currently not supporting this initiative. By adding suggestions to this initiative you will automatically become a potential supporter."
+        value = _"You are currently not supporting this initiative directly. By adding suggestions to this initiative you will automatically become a potential supporter."
       }
     end
     ui.field.text{ label = _"Title (80 chars max)",        name = "name" }

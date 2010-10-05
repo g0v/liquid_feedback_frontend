@@ -529,7 +529,7 @@ return {
 ["You are already not supporting this initiative"] = false;
 ["You are already supporting the latest draft"] = false;
 ["You are currently not invited to any initiative."] = false;
-["You are currently not supporting this initiative. By adding suggestions to this initiative you will automatically become a potential supporter."] = false;
+["You are currently not supporting this initiative directly. By adding suggestions to this initiative you will automatically become a potential supporter."] = false;
 ["You are iniator of this initiative"] = false;
 ["You are interested in this issue"] = false;
 ["You are invited to become initiator of this initiative."] = false;
