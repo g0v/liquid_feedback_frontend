@@ -37,6 +37,111 @@ slot.select("title", function()
 end)
 
 
+slot.select("content_navigation", function()
+
+  if app.session.member_id then
+
+    local this = 0
+    local issues_selector = Issue:new_selector()
+
+    -- FIXME: !DRY
+    local issue_filter_map = {
+      new = "new.png",
+      accepted = "comments.png",
+      half_frozen = "lock.png",
+      frozen ="email_open.png",
+      finished = "tick.png",
+      cancelled = "cross.png",
+    }
+
+
+    local mk_link = function(index, text, icon, ltr)
+       content = function()
+          if ltr then
+            slot.put(text)
+            ui.image{ static = "icons/16/"..icon }
+          else
+            ui.image{ static = "icons/16/"..icon }
+            slot.put(text)
+          end
+      end
+      if records[this+index] then
+        ui.link{
+          content = content,
+          module = "issue",
+          view = "show",
+          id = records[this+index].id,
+        }
+      else
+        ui.container{
+          content = content,
+        }
+      end
+    end
+
+    issues_selector
+       :add_where{"issue.area_id = ?", issue.area.id}
+
+    local filters = execute.load_chunk{module="issue", chunk="_filters.lua", params = {filter = "frozen"}}
+
+    local state = issue.state
+
+    -- FIXME: fix filter names to reflect issue.state values
+    if state == "voting" then
+      state = "frozen"
+    elseif state == "frozen" then
+      state = "half_frozen"
+    end
+
+    filter = filters:get_filter("filter", state)
+    if filter then
+      filter.selector_modifier(issues_selector)
+
+      -- add subfilter to voting pager, so only not voted entries will be shown
+      -- as this seems the most usefull exception
+      if filter.name == "frozen" then
+        filter_voting_name = "not_voted"
+        local vfilter = filters:get_filter("filter_voting", "not_voted")
+        if vfilter then
+          vfilter.selector_modifier(issues_selector)
+        end
+      end
+    end
+
+    records = issues_selector:exec()
+
+    for i,cissue in ipairs(records) do
+      if cissue.id == issue.id then
+        this = i
+        break
+      end
+    end
+
+    mk_link(-1, "Previous", "resultset_previous.png")
+    if issue.area then
+      ui.link{
+        content = function()
+          if issue_filter_map[state] then
+            ui.image{ static = "icons/16/"..issue_filter_map[state] }
+          end
+          slot.put(issue.area.name)
+        end,
+        module = "area",
+        view = "show",
+        id = issue.area.id,
+        params = {
+          filter = filter and filter.name or nil,
+          filter_voting = filter_voting_name,
+          tab = "issues"
+        }
+      }
+    end
+    mk_link(1, "Next", "resultset_next.png", 1)
+  end
+end
+
+)
+
 slot.select("actions", function()
 
   if app.session.member_id then

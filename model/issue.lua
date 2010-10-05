@@ -208,7 +208,7 @@ function Issue.object_get:state_time_left()
     last_event_time = self.fully_frozen
     duration = self.voting_time
   end
-  return db:query{ "SELECT ?::timestamp + ?::interval - now() as time_left", last_event_time, duration }[1].time_left
+  return db:query{ "SELECT ?::timestamp + ?::interval - CURRENT_TIMESTAMP(0) as time_left", last_event_time, duration }[1].time_left
 end
 
 function Issue.object_get:next_states()
