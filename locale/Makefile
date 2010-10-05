@@ -11,9 +11,6 @@ TARGET = all
 
 
 help_html: $(HTML_HELP)
-	echo $(HTML_SOURCE)
-	echo $(HTML_HELP)
-#	for FILE in help/*.txt; do echo $FILE; rocketwiki-lqfb < $FILE ; done
 
 clean:
 	rm -f $(HTML_HELP)
