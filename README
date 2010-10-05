@@ -61,7 +61,11 @@ your webserver appropriatly.
 
 7. Compile help messages from wiki to html
 
-cd /opt/liquid_feedback_frontend/locale/help
+cd /opt/liquid_feedback_frontend/locale/
+make
+
+or by hand:
+
 for file in *.txt; do /opt/rocketwiki-lqfb/rocketwiki-lqfb < $file > $file.html; done
 
 
