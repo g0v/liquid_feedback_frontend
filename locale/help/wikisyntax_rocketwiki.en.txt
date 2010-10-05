@@ -1,0 +1,72 @@
+<- [wikisyntax.html Wiki Help]
+
+==== RocketWiki ====
+- ++Headings++
+-- ==== Main Heading (H1) ====
+-- === Heading (H2) ===
+-- == Sub-Heading (H3) ==
+-- = Sub-Sub-Heading (H4) =
+- ++Horizontal line++
+-- ---
+- ++Unnumbered lists++
+-- - Toplevel Entry
+-- -- Sub Entry
+- ++Numbered list++
+-- # Toplevel Entry
+-- ## Sub Entry
+- ++Font style++
+-- {{**bold**}}
+-- {{//italic//}}
+-- {{__underlined__}}
+-- {{++big++}}
+-- {{%%small%%}}
+-- {{||monospaced||}}
+-- {{&&no line break&&}}
+-- {{$$stylename: use a specific CSS style$$}}
+-- {{{{no special interpretation of formatting characters}}}}
+- ++Quotes++
+-- {{""normal english quotes""}}
+-- {{"""single english quotes"""}}
+-- {{,,normal german quotes''}}
+-- {{,,,single german quotes'''}}
+-- {{<<normal french quotes>>}}
+-- {{<<<single french quotes>>>}}
+- ++Text flow++
+-- non-breaking(_)space
+-- soft(-)hypen
+- ++Special characters++
+-- {{{EUR}}} sign
+-- German umlauts: {{{Ae} {Oe} {Ue} {ae} {oe} {ue}}}
+-- German SZ-ligature: {{{sz} or {ss}}}
+-- Mid{{{.}}}dot
+-- Ellipsis {{{...}}}
+-- Arrows {{{->} {=>} {<->}}} etc. 
+-- {{{C} 2009, Registered{R}, Trademark{TM}}}
+-- {{360{deg} 0{'} 0{''}}} => 360{deg} 0{'} 0{''}
+-- {{{1/4} + {1/2} = {3/4}}} => {1/4} + {1/2} = {3/4}
+-- {{10{%o} = 1%}} => 10{%o} = 1%
+-- {{(5 {-} 1) {x} 3 {/} 4 {=} 3}} => (5 {-} 1) {x} 3 {/} 4 {=} 3
+- ++Dashes++
+-- En{{{--}}}Dash
+-- Em{{{---}}}Dash
+- ++Images++
+-- {{[http://example.org/embedded_image.jpg]}}
+-- {{[http://example.org/embedded_image.jpeg]}}
+-- {{[http://example.org/embedded_image.gif]}}
+-- {{[http://example.org/embedded_image.png]}}
+-- {{[stylename: http://example.org/image_with_CSS_style.png]}}
+-- {{[http://example.org/image.png Image with alternative text]}}
+- ++Links++
+-- {{[http://example.org/ normal link with text]}}
+-- {{[http://example.org/ http://example.org/image_for_link.png]}}
+-- {{[http://example.org/ http://example.org/image.png Alternative text]}}
+-- {{[http://example.org/image.png! Link to image]}}
+- ++DIVs++
+-- @@id:
+    DIV contents
+   @@
+- ++CSS styles for multiple paragraphs++
+-- $$style:
+     ...
+   $$
+

@@ -1,2 +1,5 @@
 tmp
 .+~
+
+syntax: regexp
+^locale/help/.*\.html

@@ -56,8 +56,38 @@ ui.form{
         { id = "rocketwiki", name = "RocketWiki" },
         { id = "compat", name = _"Traditional wiki syntax" }
       },
+      attr = {id = "formatting_engine"},
       foreign_id = "id",
       foreign_name = "name"
+    }
+    ui.tag{
+      tag = "div",
+      content = function()
+        ui.tag{
+          tag = "label",
+          attr = { class = "ui_field_label" },
+          content = function() slot.put("&nbsp;") end,
+        }
+        ui.tag{
+          content = function()
+            ui.link{
+              text = _"Syntax help",
+              module = "help",
+              view = "show",
+              id = "wikisyntax",
+              attr = {onClick="this.href=this.href.replace(/wikisyntax[^.]*/g, 'wikisyntax_'+getElementById('formatting_engine').value)"}
+            }
+            slot.put(" ")
+            ui.link{
+              text = _"(new window)",
+              module = "help",
+              view = "show",
+              id = "wikisyntax",
+              attr = {target = "_blank", onClick="this.href=this.href.replace(/wikisyntax[^.]*/g, 'wikisyntax_'+getElementById('formatting_engine').value)"}
+            }
+          end
+        }
+      end
     }
     ui.field.text{
       label = _"Content",
