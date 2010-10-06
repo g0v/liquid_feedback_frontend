@@ -159,7 +159,8 @@ tabs[#tabs+1] = {
   icon = { static = "icons/16/thumb_up_green.png" },
   module = "member",
   view = "_list_supported_initiatives",
-  params = { initiatives_selector = supported_initiatives_selector },
+  params = { initiatives_selector = supported_initiatives_selector,
+             member = member },
 }
 
 local initiated_initiatives_selector = member:get_reference_selector("initiated_initiatives"):add_where("initiator.accepted = true")
@@ -169,7 +170,8 @@ tabs[#tabs+1] = {
   icon = { static = "icons/16/user_edit.png" },
   module = "member",
   view = "_list_supported_initiatives",
-  params = { initiatives_selector = initiated_initiatives_selector },
+  params = { initiatives_selector = initiated_initiatives_selector, 
+             member = member},
 }
 
 local incoming_delegations_selector = member:get_reference_selector("incoming_delegations")
