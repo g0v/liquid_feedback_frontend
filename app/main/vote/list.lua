@@ -12,6 +12,21 @@ if member_id then
   readonly = true
 end
 
+if issue.closed then
+  slot.put_into("error", _"This issue is already closed.")
+
+  slot.select("actions", function()
+    ui.link{
+      content = _("Issue ##{id}", { id = issue.id }),
+      module = "issue",
+      view = "show",
+      id = issue.id
+    }
+    end
+  )
+  return
+end
+
 if member then
   slot.put_into("title", _("Ballot of '#{member_name}' for issue ##{issue_id}", {
     member_name = member.name,
