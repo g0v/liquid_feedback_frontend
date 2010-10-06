@@ -555,8 +555,8 @@ return {
 ["Your are interested"] = "Du bist interessiert";
 ["Your are potential supporter"] = "Du bist potentieller Unterstützer";
 ["Your are supporter"] = "Du bist Unterstützer";
-["Your delegation for this area has been deleted."] = "Deine Delegation für dieses Themenbereich wurde gelöscht";
-["Your delegation for this area has been updated."] = "Deine Delegation für dieses Themenbereich wurde geändert";
+["Your delegation for this area has been deleted."] = "Deine Delegation für diesen Themenbereich wurde gelöscht";
+["Your delegation for this area has been updated."] = "Deine Delegation für diesen Themenbereich wurde geändert";
 ["Your delegation for this issue has been deleted."] = "Deine Delegation für dieses Thema wurde gelöscht";
 ["Your delegation for this issue has been updated."] = "Deine Delegation für dieses Thema wurde geändert";
 ["Your display settings have been updated"] = "Deine Anzeige-Einstellungen wurden aktualisiert";
