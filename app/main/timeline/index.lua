@@ -4,6 +4,7 @@ execute.view{
 }
 
 local active_name = ""
+local areas_ignored = {}
 local options_box_count = param.get("options_box_count", atom.number) or 1
 if options_box_count > 10 then
   options_box_count = 10
@@ -43,6 +44,7 @@ slot.select("actions", function()
       image  = { static = "icons/16/time.png" },
       attr   = { class = active and "action_active" or nil },
       text   = name,
+      form_attr = { class = "inline" },
       module = 'timeline',
       action = 'update',
       params = {
@@ -280,6 +282,25 @@ ui.form{
 
         slot.put("</table>")
 
+        local areas = Area:new_selector():add_where("active='t'"):exec()
+        for i, area in ipairs(areas) do
+          if param.get("option_ignore_area_"..tostring(area.id)) then
+            areas_ignored[#areas_ignored+1] = area.id
+          end
+        end
+
+        ui.multiselect{
+          style = "checkbox",
+          selected_ids = areas_ignored, 
+          container_attr = { class = "ignore_area_list" },
+          container2_attr = { class = "ignore_area_item" },
+          label = _"Ignore Areas",
+          name = "option_ignore_area[]",
+          foreign_records = areas,
+          foreign_id      = "id",
+          foreign_name    = "name"
+        }
+
       end
     }
   end
@@ -342,6 +363,9 @@ for event, event_name in pairs(event_names) do
         :add_field({"EXISTS(SELECT NULL FROM opinion WHERE opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)) LIMIT 1)", app.session.member.id }, "is_potential_supporter", group)
   --    :left_join("member", nil, "member.id = timeline.member_id", group)
 
+      if #areas_ignored > 0 then
+        tmp:add_where{"area.id NOT IN ($)", areas_ignored}
+      end
 
     tmp:add_where{ "event = ?", event }
 

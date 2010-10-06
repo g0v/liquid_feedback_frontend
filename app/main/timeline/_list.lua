@@ -17,6 +17,7 @@ else
   ui.paginate{
     per_page = param.get("per_page", atom.number) or 25,
     selector = timeline_selector,
+    container_attr = { class = "ui_paginate timeline_results" },
     content = function()
       local timelines = timeline_selector:exec()
       timelines:load("issue")

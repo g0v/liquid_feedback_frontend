@@ -183,6 +183,7 @@ return {
 ["Id"] = "Id";
 ["Ident number"] = "Ident-Nummer";
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Sollte der Link nicht funktionieren, öffne bitte die folgenden URL in Deinem Web-Browser:\n\n";
+["Ignore Areas"] = "Ignoriere Bereiche";
 ["Images"] = "Bilder";
 ["In discussion"] = "In Diskussion";
 ["Incoming delegations"] = "Eingehende Delegationen";

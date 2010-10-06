@@ -183,6 +183,7 @@ return {
 ["Id"] = false;
 ["Ident number"] = false;
 ["If this link is not working, please open following url in your web browser:\n\n"] = false;
+["Ignore Areas"] = false;
 ["Images"] = false;
 ["In discussion"] = false;
 ["Incoming delegations"] = false;

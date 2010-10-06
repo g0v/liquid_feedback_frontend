@@ -70,6 +70,9 @@ h2 {
   font-size: 125%;
 }
 
+.inline {
+  display: inline;
+}
 
 /*************************************************************************
  * Notices, warnings and errors
@@ -1176,4 +1179,49 @@ a.not_voted {
   cursor: move;
 }
 
+/*************************************************************************
+ * timeline
+ */
+div.ignore_area_list {
+  float: left; 
+  width: 90%; 
+  margin: 20px 0 1em 0; 
+}
 
+div.ignore_area_list > 
+label.ui_field_label {
+  text-align: left ;
+  width: 100%;
+  border-bottom:1px solid #000000;
+  color: #000000;
+  font-size:75%;
+  font-weight:bold;
+  vertical-align:bottom;
+  text-transform:none;
+  padding:0.5ex 0.5em
+}
+
+div.ignore_area_item {
+  clear: none;
+  float: left; 
+  width: 20em;
+  margin: 0.1ex 0.5em;
+}
+
+div.ignore_area_item > input {
+  float: none;
+  clear: none;
+  display: inline;
+}
+
+div.ignore_area_item >
+label.ui_field_label {
+  float: none;
+  clear: none;
+  text-align: left;
+  display: inline;
+}
+
+div.timeline_results {
+  clear: both;
+}
