@@ -158,12 +158,16 @@ ui_filters{
                           }
                         end
                       else
+                        -- we need to put initiative_id into the parameters to have a redirect target in case the suggestion is gone after the action
+                        params = param.get_all_cgi()
+                        params['initiative_id'] = initiative.id
+
                         ui.link{
                           attr = { class = "action" .. (degree == 2 and " active_green2" or "") },
                           text = _"must",
                           module = "opinion",
                           action = "update",
-                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = params } },
                           params = {
                             suggestion_id = record.id,
                             degree = 2
@@ -176,7 +180,7 @@ ui_filters{
                           text = _"should",
                           module = "opinion",
                           action = "update",
-                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = params} },
                           params = {
                             suggestion_id = record.id,
                             degree = 1
@@ -189,7 +193,7 @@ ui_filters{
                           text = _"neutral",
                           module = "opinion",
                           action = "update",
-                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = params } },
                           params = {
                             suggestion_id = record.id,
                             delete = true
@@ -202,7 +206,7 @@ ui_filters{
                           text = _"should not",
                           module = "opinion",
                           action = "update",
-                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = params } },
                           params = {
                             suggestion_id = record.id,
                             degree = -1
@@ -215,7 +219,7 @@ ui_filters{
                           text = _"must not",
                           module = "opinion",
                           action = "update",
-                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = param.get_all_cgi() } },
+                          routing = { default = { mode = "redirect", module = request.get_module(), view = request.get_view(), id = param.get_id_cgi(), params = params } },
                           params = {
                             suggestion_id = record.id,
                             degree = -2
