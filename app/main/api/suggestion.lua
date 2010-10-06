@@ -19,6 +19,10 @@ if max_id then
   suggestions_selector:add_where{"suggestion.id <= ?", max_id}
 end
 
+if initiative_id then
+  suggestions_selector:add_where{"suggestion.initiative_id = ?", initiative_id}
+end
+
 if order == "id_desc" then
   suggestions_selector:add_order_by("suggestion.id DESC")
 else
