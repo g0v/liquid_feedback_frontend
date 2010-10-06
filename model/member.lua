@@ -357,7 +357,15 @@ function Member.object:get_setting_map_by_key_and_subkey(key, subkey)
 end
 
 function Member.object:set_setting_map(key, subkey, value)
-  
+  setting_map = self:get_setting_map_by_key_and_subkey(key, subkey)
+  if not setting_map then
+    setting_map = SettingMap:new()
+    setting_map.member_id = self.id
+    setting_map.key = key
+    setting_map.subkey = subkey
+  end
+  setting_map.value = value
+  setting_map:save()
 end
 
 function Member.object_get:notify_email_locked()

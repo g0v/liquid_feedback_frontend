@@ -3,6 +3,7 @@ execute.view{
   view = "_constants"
 }
 
+local active_name = ""
 local options_box_count = param.get("options_box_count", atom.number) or 1
 if options_box_count > 10 then
   options_box_count = 10
@@ -36,6 +37,7 @@ slot.select("actions", function()
     local name = setting_map.subkey
     if options_string == current_options then
       active = true
+      active_name = name
     end
     ui.link{
       image  = { static = "icons/16/time.png" },
@@ -65,6 +67,9 @@ slot.select("actions", function()
     end,
     module = "timeline",
     view = "save_filter",
+    params = {
+      current_name = active_name
+    },
     attr = { 
       onclick = "el=document.getElementById('timeline_save');el.checked=true;el.form.submit();return(false);"
     }
@@ -77,7 +82,6 @@ ui.form{
   module = "timeline",
   action = "update",
   content = function()
-
     ui.container{
 
       content = function()
@@ -164,7 +168,7 @@ ui.form{
           name = "show_options",
           value = param.get("show_options", atom.boolean)
         }
-
+        ui.hidden_field{ name = "current_name", value = active_name }
         ui.field.boolean{
           attr = { id = "timeline_save", style = "display: none;", onchange="this.form.submit();" },
           name = "save",

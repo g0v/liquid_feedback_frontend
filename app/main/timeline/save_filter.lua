@@ -19,6 +19,7 @@ ui.form{
     ui.field.text{
       label = _"Name",
       name = "name",
+      value = param.get("current_name")
     }
     ui.submit{
       text = _"Save"

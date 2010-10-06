@@ -8,12 +8,16 @@ local timeline_filter
 
 local subkey = param.get("name")
 
-setting_map = SettingMap:new()
-setting_map.member_id = app.session.member.id
-setting_map.key = "timeline_filters"
-setting_map.subkey = subkey
-setting_map.value = options_string
-setting_map:save()
+if not subkey or subkey == "" then
+  slot.put_into("error", _"This name is really too short!")
+  request.redirect{
+    module = "timeline",
+    view = "save_filter",
+  }
+  return
+end
+
+app.session.member:set_setting_map("timeline_filters", subkey, options_string)
 
 local timeline_params = {}
 if options_string then

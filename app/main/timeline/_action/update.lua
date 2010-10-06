@@ -48,7 +48,6 @@ if not setting or setting.value ~= options_string then
 end
 
 local date = param.get("date")
-trace.debug(param.get("search_from"))
 
 if param.get("search_from") == "last_24h" then
   date = "last_24h"
@@ -95,7 +94,10 @@ timeline_params.show_options = param.get("show_options", atom.boolean)
 if param.get("save", atom.boolean) then
   request.redirect{
     module = "timeline",
-    view = "save_filter"
+    view = "save_filter",
+    params = {
+      current_name = param.get("current_name")
+    }
   }
 else
   request.redirect{
