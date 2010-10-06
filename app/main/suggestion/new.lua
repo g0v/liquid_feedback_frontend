@@ -38,7 +38,7 @@ ui.form{
       }
     end
     ui.field.text{ label = _"Title (80 chars max)",        name = "name" }
-    ui.field.text{ label = _"Description", name = "description", multiline = true }
+    ui.field.text{ label = _"Description", name = "description", multiline = true, attr={id="suggestion_description"}}
     ui.field.select{
       label = _"Degree",
       name = "degree",

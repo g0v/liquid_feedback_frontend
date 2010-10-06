@@ -13,7 +13,7 @@ ui.form{
       attr = { class = "suggestion_content wiki" },
       content = function()
         ui.tag{
-          tag = "p",
+          tag = "pre",
           content = suggestion.description
         }
       end

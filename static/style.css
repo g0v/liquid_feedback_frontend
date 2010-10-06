@@ -950,6 +950,12 @@ z-index: 2;
   padding-right: 1ex;
 }
 
+
+.suggestion_content,
+#suggestion_description {
+  font-family: monospace;
+}
+
 .diff {
   background-color: #eee;
   border: 1px solid #ccc;
