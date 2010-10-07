@@ -7,7 +7,7 @@ CREATE OR REPLACE VIEW "liquid_feedback_version" AS
 
 ALTER TABLE "supporter" ADD "auto_support" BOOLEAN NOT NULL DEFAULT 'f';
 
-CREATE FUNCTION update_supporter_drafts()
+CREATE FUNCTION VOLATILE update_supporter_drafts()
   RETURNS trigger
   LANGUAGE 'plpgsql' AS $$
   BEGIN

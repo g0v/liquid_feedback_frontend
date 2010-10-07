@@ -625,7 +625,7 @@ COMMENT ON COLUMN "supporter"."draft_id" IS 'Latest seen draft, defaults to curr
 
 CREATE FUNCTION update_supporter_drafts()
   RETURNS trigger
-  LANGUAGE 'plpgsql' AS $$
+  LANGUAGE 'plpgsql' VOLATILE AS $$
   BEGIN
     UPDATE supporter SET draft_id = NEW.id 
     WHERE initiative_id = NEW.initiative_id AND
