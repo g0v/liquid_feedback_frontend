@@ -86,7 +86,9 @@
 // function is always called once with the pre-selected date (or with null,
 // if no date is initially selected). Whenever the selected date is changed
 // or unselected later, the callback function is called again with the new
-// date (or with null, in case of deselection).
+// date (or with null, in case of deselection). When the relaxed argument is set
+// the calendar will not normalize the parsed date. Thats usefull if you wan't to
+// allow relaxed input.
 //
 // EXAMPLE:
 //
@@ -777,7 +779,6 @@ function gregor_addGui(args) {
     element.value = gregor_formatDate(state.format, date);
     if (select_callback) select_callback(date);
   };
-
   // function to parse text field and update calendar sheet state
   var updateSheet = function(terminated) {
     var date = gregor_parseDate(
@@ -793,7 +794,9 @@ function gregor_addGui(args) {
 
   // Initial synchronization
   if (state.selected === undefined) updateSheet(true);
-  element.value = gregor_formatDate(state.format, state.selected);
+  if (!state.relaxed)
+    element.value = gregor_formatDate(state.format, state.selected);
+
   if (select_callback) select_callback(state.selected);
 
   // variables storing popup status
@@ -828,7 +831,8 @@ function gregor_addGui(args) {
     window.setTimeout(function() {
       if (visible && !focus && !protection) {
         updateSheet(true);
-        element.value = gregor_formatDate(state.format, state.selected);
+        if(!state.relaxed)
+          element.value = gregor_formatDate(state.format, state.selected);
         if (select_callback) select_callback(state.selected);
         state.element.parentNode.removeChild(state.element);
         visible = false;

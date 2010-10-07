@@ -138,7 +138,7 @@ ui.form{
         }
     
         ui.script{ static = "gregor.js/gregor.js" }
-        util.gregor("timeline_search_date", "document.getElementById('timeline_search_date').form.submit();")
+        util.gregor("timeline_search_date", true)
     
     
         ui.link{
@@ -337,7 +337,22 @@ for event, event_name in pairs(event_names) do
       if date == "last_24h" then
         tmp:add_where{ "occurrence > now() - '24 hours'::interval" }
       else
-        tmp:add_where{ "occurrence::date = ?::date", date }
+        local start,stop = string.gmatch(date, "(%d+-%d+-%d+):(%d+-%d+-%d+)")()
+        if start and stop then
+          tmp:add_where{ "occurrence::date >= ?::date AND occurrence::date <= ?::date", start, stop }
+        else
+          local age = string.gmatch(date, "age:(.+)")()
+          if age then
+            tmp:add_where{ "occurrence >= now() - ?::interval", age }
+          else 
+            local since = string.gmatch(date, "since:%s*(%d+-%d+-%d+)%s*")()
+            if since then
+              tmp:add_where{ "occurrence::date >= ?::date", since }
+            else
+              tmp:add_where{ "occurrence::date = ?::date", date }
+            end
+          end
+        end
       end
       tmp
         :left_join("draft", nil, "draft.id = timeline.draft_id")
