@@ -52,7 +52,7 @@ if show_as_homepage and app.session.member_id == member.id then
       broken_delegations:add_where{"member.active = 'f'"}
     end
 
-  if broken_delegations:count() then
+  if broken_delegations:count() > 0 then
     tabs[#tabs+1] = {
       class = "red",
       name = "problem_delegations",
