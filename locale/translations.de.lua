@@ -412,6 +412,7 @@ return {
 ["Show"] = "Zeige";
 ["Show active members"] = "Zeige aktive Mitglieder";
 ["Show alternative initiatives"] = "Zeige alternative Initiativen";
+["Show alternative initiatives (#{count})"] = "Zeige alternative Initiativen (#{count})";
 ["Show areas in use"] = "Zeige verwendete Themenbereiche";
 ["Show areas not in use"] = "Zeige nicht verwendente Themenbereiche";
 ["Show diff"] = "Änderungen anzeigen";

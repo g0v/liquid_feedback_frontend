@@ -7,8 +7,13 @@ end
 slot.select("actions", function()
   ui.link{
     content = function()
+      local count = Initiative:new_selector():add_where{ "issue_id = ?", initiative.issue.id}:count()-1
       ui.image{ static = "icons/16/script.png" }
-      slot.put(_"Show alternative initiatives")
+      if count and count > 0 then
+        slot.put(_("Show alternative initiatives (#{count})", {count=count}))
+      else
+        slot.put(_"Show alternative initiatives")
+      end
     end,
     module = "issue",
     view = "show",

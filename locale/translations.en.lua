@@ -411,6 +411,7 @@ return {
 ["Show"] = false;
 ["Show active members"] = false;
 ["Show alternative initiatives"] = false;
+["Show alternative initiatives (#{count})"] = false;
 ["Show areas in use"] = false;
 ["Show areas not in use"] = false;
 ["Show diff"] = false;
