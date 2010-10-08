@@ -275,6 +275,11 @@ h2 {
   background-color: #d7d7d7;
 }
 
+.content_navigation_seperator {
+  height: 1.4em;
+  border-left: 1px solid black;
+}
+
 .actions a:hover {
   background-color: #d7d7d7;
 }

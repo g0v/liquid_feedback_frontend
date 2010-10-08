@@ -40,7 +40,7 @@ end)
 slot.select("content_navigation", function()
 
   if app.session.member_id then
-
+    local records
     local this = 0
     local issues_selector = Issue:new_selector()
 
@@ -55,9 +55,9 @@ slot.select("content_navigation", function()
     }
 
 
-    local mk_link = function(index, text, icon, ltr)
+    local mk_link = function(index, text, icon, module)
        content = function()
-          if ltr then
+          if index > 0 then
             slot.put(text)
             ui.image{ static = "icons/16/"..icon }
           else
@@ -68,7 +68,7 @@ slot.select("content_navigation", function()
       if records[this+index] then
         ui.link{
           content = content,
-          module = "issue",
+          module = module,
           view = "show",
           id = records[this+index].id,
         }
@@ -117,7 +117,7 @@ slot.select("content_navigation", function()
       end
     end
 
-    mk_link(-1, _("Previous issue"), "resultset_previous.png")
+    mk_link(-1, _("Previous issue"), "resultset_previous.png", "issue")
     if issue.area then
       ui.link{
         content = function()
@@ -136,7 +136,22 @@ slot.select("content_navigation", function()
         }
       }
     end
-    mk_link(1, _("Next issue"), "resultset_next.png", 1)
+    mk_link(1, _("Next issue"), "resultset_next.png", "issue")
+
+    -- show pager for initiatives if available
+    if initiative then
+      ui.container{ content = function() end, attr = {class = "content_navigation_seperator"}}
+
+      records = issue:get_reference_selector("initiatives"):exec()
+      for i,cissue in ipairs(records) do
+        if cissue.id == initiative.id then
+          this = i
+          break
+        end
+      end
+      mk_link(-1, _("Previous initiative"), "resultset_previous.png", "initiative")
+      mk_link(1, _("Next initiative"), "resultset_next.png", "initiative")
+    end
   end
 end
 
