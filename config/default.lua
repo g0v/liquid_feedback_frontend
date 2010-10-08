@@ -34,6 +34,9 @@ config.member_image_default_file = {
 
 config.auto_support = true
 
+-- after how long is a user considered inactive and the trustee will see warning
+config.delegation_warning_time = '6 weeks'
+
 config.mail_subject_prefix = "[LiquidFeedback] "
 
 config.fastpath_url_func = nil
