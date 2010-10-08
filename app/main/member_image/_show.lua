@@ -6,6 +6,7 @@ local image = member:get_reference_selector("images")
   :add_where{ "image_type = ?", image_type }
   :optional_object_mode()
   :exec()
+
 if image or show_dummy then
   if config.fastpath_url_func then
     ui.image{
@@ -13,15 +14,22 @@ if image or show_dummy then
       external = config.fastpath_url_func(member.id, image_type)
     }
   else
-    ui.image{
-      attr = { class = "member_image member_image_" .. image_type },
-      module = "member_image",
-      view = "show",
-      extension = "jpg",
-      id = member.id,
-      params = {
-        image_type = image_type
+    if not image then
+      ui.image{
+        attr = { class = "member_image member_image_" .. image_type },
+        external = encode.url{ static = (config.member_image_default_file[image_type] or 'icons/16/lightning.png')},
       }
-    }
+    else
+      ui.image{
+        attr = { class = "member_image member_image_" .. image_type },
+        module = "member_image",
+        view = "show",
+        extension = "jpg",
+        id = member.id,
+        params = {
+          image_type = image_type
+        }
+      }
+    end
   end
 end
