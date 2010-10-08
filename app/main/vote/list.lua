@@ -17,7 +17,9 @@ if issue.closed then
   if not member then
     slot.put_into("error", _"This issue is already closed.")
   end
-  member = app.session.member
+  if not member then
+    member = app.session.member
+  end
   readonly = true
 end
 
