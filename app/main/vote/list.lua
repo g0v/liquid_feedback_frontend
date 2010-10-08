@@ -4,6 +4,7 @@ local member_id = param.get("member_id", atom.integer)
 local member
 
 local readonly = false
+
 if member_id then
   if not issue.closed then
     error("access denied")
@@ -13,25 +14,32 @@ if member_id then
 end
 
 if issue.closed then
-  slot.put_into("error", _"This issue is already closed.")
-
-  slot.select("actions", function()
-    ui.link{
-      content = _("Issue ##{id}", { id = issue.id }),
-      module = "issue",
-      view = "show",
-      id = issue.id
-    }
-    end
-  )
-  return
+  if not member then
+    slot.put_into("error", _"This issue is already closed.")
+  end
+  member = app.session.member
+  readonly = true
 end
 
 if member then
-  slot.put_into("title", _("Ballot of '#{member_name}' for issue ##{issue_id}", {
-    member_name = member.name,
-    issue_id = issue.id
-  }))
+  local str = _("Ballot of '#{member_name}' for issue ##{issue_id}",
+                  {member_name = string.format('<a href="%s">%s</a>',
+                                          encode.url{
+                                            module    = "member",
+                                            view      = "show",
+                                            id        = member.id,
+                                          },
+                                          encode.html(member.name)),
+                   issue_id = string.format('<a href="%s">%s</a>',
+                                          encode.url{
+                                            module    = "issue",
+                                            view      = "show",
+                                            id        = issue.id,
+                                          },
+                                          encode.html(tostring(issue.id)))
+                  }
+              )
+  slot.put_into("title", str)
 else
   member = app.session.member
   slot.put_into("title", _"Voting")
