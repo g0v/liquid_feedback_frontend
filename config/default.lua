@@ -32,6 +32,8 @@ config.member_image_default_file = {
   photo = nil
 }
 
+config.auto_support = true
+
 config.mail_subject_prefix = "[LiquidFeedback] "
 
 config.fastpath_url_func = nil

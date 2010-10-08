@@ -39,7 +39,11 @@ if not initiative.issue.fully_frozen and not initiative.issue.closed then
           ui.image{
             static = "icons/16/thumb_up_green.png"
           }
-          slot.put(_"Your are supporter")
+          if supporter.auto_support then
+            slot.put(_"Your are supporter (Autosupport enabled)")
+          else
+            slot.put(_"Your are supporter")
+          end
           ui.image{
             static = "icons/16/dropdown.png"
           }
@@ -56,7 +60,11 @@ if not initiative.issue.fully_frozen and not initiative.issue.closed then
           ui.image{
             static = "icons/16/thumb_up.png"
           }
-          slot.put(_"Your are potential supporter")
+          if supporter.auto_support then
+            slot.put(_"Your are potential supporter (WARNING: Autosupport enabled)")
+          else
+            slot.put(_"Your are potential supporter")
+          end
           ui.image{
             static = "icons/16/dropdown.png"
           }
@@ -77,6 +85,31 @@ if not initiative.issue.fully_frozen and not initiative.issue.closed then
           end
         }
         if supporter then
+          if config.auto_support then
+            if supporter.auto_support then
+              ui.link{
+                image   = { static = "icons/16/cancel.png" },
+                text    = _"Disable autosupport for this initiative",
+                module  = "initiative",
+                action  = "add_support",
+                id      = initiative.id,
+                routing = routing,
+                partial = partial,
+                params = { auto_support = false }
+              }
+            else
+              ui.link{
+                image   = { static = "icons/16/tick.png" },
+                text    = _"Enable autosupport for this initiative",
+                module  = "initiative",
+                action  = "add_support",
+                id      = initiative.id,
+                routing = routing,
+                partial = partial,
+                params = { auto_support = true }
+              }
+            end
+          end
           ui.link{
             image   = { static = "icons/16/thumb_down_red.png" },
             text    = _"Remove my support from this initiative",

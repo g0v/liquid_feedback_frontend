@@ -1,6 +1,8 @@
 local image_type = param.get("image_type")
 local record = MemberImage:by_pk(param.get_id(), image_type, true)
 
+print('Cache-Control: max-age=300'); -- let the client cache the image for 5 minutes
+
 if record == nil then
   local default_file = config.member_image_default_file[image_type]
   if default_file then
