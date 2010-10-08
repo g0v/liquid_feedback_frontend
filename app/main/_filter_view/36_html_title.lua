@@ -17,7 +17,8 @@ if app.html_title.title then
 -- but only if it does not contain config.app_title
 -- (otherwise config.app_title would appear twice in title)
 elseif slot.get_content( "title" ) ~= encode.html( config.app_title ) then
-	app.html_title.title = slot.get_content( "title" ) .. " - "
+  -- replace all html from the title first
+	app.html_title.title = string.gsub(slot.get_content( "title" ), "</?[A-Za-z][A-Za-z0-9:_%-]*[^>]*>", ""):gsub("%s+", " ") .. " - "
 end
 
 -- add "-" to subtitle
