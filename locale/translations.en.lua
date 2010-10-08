@@ -119,6 +119,7 @@ return {
 ["Date format is not valid. Please use following format: YYYY-MM-DD"] = false;
 ["Degree"] = false;
 ["Delegations"] = false;
+["Delegation problems"] = false;
 ["Delete API key"] = false;
 ["Delete filter"] = false;
 ["Description"] = false;

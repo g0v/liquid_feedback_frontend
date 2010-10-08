@@ -119,6 +119,7 @@ return {
 ["Date format is not valid. Please use following format: YYYY-MM-DD"] = "Datumsformat nicht korrekt. Bitte verwende: JJJJ-MM-TT, also z.B. 1945-05-23";
 ["Degree"] = "Grad";
 ["Delegations"] = "Delegationen";
+["Delegation problems"] = "Delegationsprobleme";
 ["Delete API key"] = "API-Schlüssel löschen";
 ["Delete filter"] = "Filter löschen";
 ["Description"] = "Beschreibung";
