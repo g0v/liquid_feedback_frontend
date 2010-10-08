@@ -446,6 +446,7 @@ CREATE TABLE "initiative" (
           CHECK (("agreed" NOTNULL AND "agreed" = TRUE) OR "rank" ISNULL) );
 CREATE INDEX "initiative_created_idx" ON "initiative" ("created");
 CREATE INDEX "initiative_revoked_idx" ON "initiative" ("revoked");
+CREATE INDEX "initiative_issue_id_idx" ON "initiative" ("issue_id");
 CREATE INDEX "initiative_text_search_data_idx" ON "initiative" USING gin ("text_search_data");
 CREATE TRIGGER "update_text_search_data"
   BEFORE INSERT OR UPDATE ON "initiative"

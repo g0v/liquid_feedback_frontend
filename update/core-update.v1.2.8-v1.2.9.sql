@@ -98,4 +98,6 @@ CREATE OR REPLACE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
 
 COMMENT ON FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE) IS 'Deactivate member and clear certain settings and data of this member (data protection)';
 
+CREATE INDEX "initiative_issue_id_idx" ON "initiative" ("issue_id");
+
 COMMIT;
