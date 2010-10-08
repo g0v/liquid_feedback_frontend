@@ -563,6 +563,34 @@ h2 {
   border-color: #b96;
 }
 
+.ui_tabs_links a.red {
+  background-color: #c33;
+  color: #000;
+}
+
+.ui_tabs_links a.red:hover {
+  background-color: #ebb;
+}
+
+.ui_tabs_links a.red.selected {
+  background-color: #644;
+  color: #fff;
+  text-decoration: none;
+  padding: 1ex;
+}
+
+.web20 .ui_tabs_accordeon_head.red {
+  background-color: #c23;
+  border-color: #b66;
+  xpadding: 1ex;
+  xmargin-bottom: 2ex;
+}
+
+.web20 .ui_tabs_accordeon_content.red {
+  border-color: #b66;
+}
+
+
 /*************************************************************************
  * ui.filters
  */

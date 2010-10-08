@@ -43,6 +43,22 @@ if show_as_homepage and app.session.member_id == member.id then
     }
   end
 
+  local broken_delegations = Delegation:new_selector()
+    :join("member", nil, "delegation.trustee_id = member.id")
+    :add_where{"member.active = 'f' AND delegation.truster_id = ?", member.id}
+
+  if broken_delegations:count() then
+    tabs[#tabs+1] = {
+      class = "red",
+      name = "problem_delegations",
+      label = _"Delegation problems" .. " (" .. tostring(broken_delegations:count()) .. ")",
+      icon = { static = "icons/16/table_go.png" },
+      module = "delegation",
+      view = "_list",
+      params = { delegations_selector = broken_delegations, outgoing = true },
+    }
+  end
+
   local selector = Area:new_selector()
     :reset_fields()
     :add_field("area.id", nil, { "grouped" })
