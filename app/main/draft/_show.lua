@@ -1,4 +1,5 @@
 local draft = param.get("draft", "table")
+local source = param.get("source", atom.boolean)
 
 ui.form{
   attr = { class = "vertical" },
@@ -46,7 +47,14 @@ ui.form{
     ui.container{
       attr = { class = "draft_content wiki" },
       content = function()
-        slot.put(draft:get_content("html"))
+        if source then
+          ui.tag{
+            tag = "pre",
+            content = draft.content
+          }
+        else
+          slot.put(draft:get_content("html"))
+        end
       end
     }
   end

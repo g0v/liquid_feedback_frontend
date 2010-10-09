@@ -20,34 +20,13 @@ end
 local old_draft = Draft:by_id(old_draft_id)
 local new_draft = Draft:by_id(new_draft_id)
 
-local initiative = new_draft.initiative
-local issue = initiative.issue
+execute.view{
+  module = "draft",
+  view = "_head",
+  params = { draft = new_draft}
+}
 
-slot.select("title", function()
-  ui.link{
-    content = issue.area.name,
-    module = "area",
-    view = "show",
-    id = issue.area.id
-  }
-  slot.put(" &middot; ")
-  ui.link{
-    content = _("Issue ##{id}", { id = issue.id }),
-    module = "issue",
-    view = "show",
-    id = issue.id
-  }
-  slot.put(" &middot; ")
-  ui.link{
-    content = _("Initiative: ")..initiative.name,
-    module = "initiative",
-    view = "show",
-    id = initiative.id
-  }
-  slot.put(" &middot; ")
-  slot.put_into("title", _"Diff")
-
-end)
+slot.put_into("title", " &middot; " .. _"Diff")
 
 if app.session.member_id and not new_draft.initiative.revoked then
   local supporter = Supporter:new_selector():add_where{"member_id = ?", app.session.member_id}:count()
