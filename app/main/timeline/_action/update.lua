@@ -28,12 +28,12 @@ if not options_string then
   end
 end
 
-if param.get_list("option_ignore_area", atom.string) then
-  options_string = options_string.." ignore_area:"..table.concat(param.get_list("option_ignore_area", atom.string), "|")
-end
-
 if not options_string then
   options_string = "issue_created:* issue_finished_after_voting:* issue_accepted:* issue_voting_started:* suggestion_created:* issue_canceled:* initiative_created:* issue_finished_without_voting:* draft_created:* initiative_revoked:* issue_half_frozen:* "
+end
+
+if param.get_list("option_ignore_area", atom.string) then
+  options_string = options_string.." ignore_area:"..table.concat(param.get_list("option_ignore_area", atom.string), "|")
 end
 
 local setting_key = "liquidfeedback_frontend_timeline_current_options"
