@@ -23,7 +23,11 @@ if initiative_id then
   suggestions_selector:add_where{"suggestion.initiative_id = ?", initiative_id}
 end
 
-if order == "id_desc" then
+if order == "created_desc" then
+  suggestions_selector:add_order_by("suggestion.created DESC")
+elseif order == "created_asc" or order == "created" then
+  suggestions_selector:add_order_by("suggestion.id")
+elseif order == "id_desc" then
   suggestions_selector:add_order_by("suggestion.id DESC")
 else
   suggestions_selector:add_order_by("suggestion.id")
@@ -39,6 +43,8 @@ local fields = {
 
   { name = "id",                       field = "suggestion.id" },
   { name = "initiative_id",            field = "suggestion.initiative_id" },
+  { name = "created",                  field = "suggestion.created" },
+  { name = "author_id",                field = "suggestion.author_id" },
   { name = "name",                     field = "suggestion.name" },
   { name = "description",              field = "suggestion.description" },
   { name = "minus2_unfulfilled_count", field = "suggestion.minus2_unfulfilled_count" },
