@@ -99,7 +99,7 @@ if not initiative.issue.fully_frozen and not initiative.issue.closed then
               }
             else
               ui.link{
-                image   = { static = "icons/16/tick.png" },
+                image   = { static = "icons/16/arrow_refresh.png" },
                 text    = _"Enable autosupport for this initiative",
                 module  = "initiative",
                 action  = "add_support",
