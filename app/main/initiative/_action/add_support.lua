@@ -33,7 +33,9 @@ if not supporter then
   supporter.member_id = member.id
   supporter.initiative_id = initiative.id
   supporter.draft_id = last_draft.id
-  supporter.auto_support = auto_support
+  if config.auto_support and auto_support ~= nil then
+    supporter.auto_support = auto_support
+  end
   supporter:save()
   slot.put_into("notice", _"Your support has been added to this initiative")
   if supporter.auto_active then
