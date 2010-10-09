@@ -269,8 +269,8 @@ INSERT INTO "policy" (
         '1 second',
         '1 second',
         '1 second',
-        0, 0,
-        0, 0
+        0, 100,
+        0, 100
     ), (
         1,
         TRUE,
@@ -280,8 +280,8 @@ INSERT INTO "policy" (
         '2 days',
         '1 second',
         '1 second',
-        0, 0,
-        0, 0
+        0, 100,
+        0, 100
     ), (
         1,
         TRUE,
@@ -291,8 +291,8 @@ INSERT INTO "policy" (
         '5 minutes',
         '2 days',
         '1 second',
-        0, 0,
-        0, 0
+        0, 100,
+        0, 100
     ), (
         1,
         TRUE,
@@ -302,8 +302,8 @@ INSERT INTO "policy" (
         '5 minutes',
         '1 second',
         '2 days',
-        0, 0,
-        0, 0
+        0, 100,
+        0, 100
     );
 END;
 
