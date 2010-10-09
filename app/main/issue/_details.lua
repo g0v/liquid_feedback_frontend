@@ -14,6 +14,10 @@ ui.form{
       label = _"Issue quorum",
       value = format.percentage(policy.issue_quorum_num / policy.issue_quorum_den)
     }
+    ui.field.text{
+      label = _"Currently required",
+      value = math.ceil(issue.population * policy.issue_quorum_num / policy.issue_quorum_den)
+    }
     ui.field.timestamp{  label = _"Accepted at",           name = "accepted" }
     ui.field.text{       label = _"Discussion time",       value = issue.discussion_time }
     ui.field.vote_now{   label = _"Vote now",              name = "vote_now" }
@@ -23,6 +27,10 @@ ui.form{
     ui.field.text{
       label   = _"Initiative quorum",
       value = format.percentage(policy.initiative_quorum_num / policy.initiative_quorum_den)
+    }
+    ui.field.text{
+      label   = _"Currently required",
+      value = math.ceil(issue.population * (issue.policy.initiative_quorum_num / issue.policy.initiative_quorum_den)),
     }
     ui.field.timestamp{  label = _"Fully frozen at",       name = "fully_frozen" }
     ui.field.text{       label = _"Voting time",           value = issue.voting_time }

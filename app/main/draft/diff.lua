@@ -1,5 +1,3 @@
-slot.put_into("title", _"Diff")
-
 local old_draft_id = param.get("old_draft_id", atom.integer)
 local new_draft_id = param.get("new_draft_id", atom.integer)
 
@@ -21,6 +19,62 @@ end
 
 local old_draft = Draft:by_id(old_draft_id)
 local new_draft = Draft:by_id(new_draft_id)
+
+local initiative = new_draft.initiative
+local issue = initiative.issue
+
+slot.select("title", function()
+  ui.link{
+    content = issue.area.name,
+    module = "area",
+    view = "show",
+    id = issue.area.id
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    content = _("Issue ##{id}", { id = issue.id }),
+    module = "issue",
+    view = "show",
+    id = issue.id
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    content = _("Initiative: ")..initiative.name,
+    module = "initiative",
+    view = "show",
+    id = initiative.id
+  }
+  slot.put(" &middot; ")
+  slot.put_into("title", _"Diff")
+
+end)
+
+if app.session.member_id and not new_draft.initiative.revoked then
+  local supporter = Supporter:new_selector():add_where{"member_id = ?", app.session.member_id}:count()
+  if supporter then
+    ui.container{
+      attr = { class = "draft_updated_info" },
+      content = function()
+        slot.put(_"The draft of this initiative has been updated!")
+        slot.put(" ")
+        ui.link{
+          text   = _"Refresh support to current draft",
+          module = "initiative",
+          action = "add_support",
+          id     = new_draft.initiative.id,
+          routing = {
+            default = {
+              mode = "redirect",
+              module = "initiative",
+              view = "show",
+              id = new_draft.initiative.id
+            }
+          }
+        }
+      end
+    }
+  end
+end
 
 local old_draft_content = string.gsub(string.gsub(old_draft.content, "\n", " ###ENTER###\n"), " ", "\n")
 local new_draft_content = string.gsub(string.gsub(new_draft.content, "\n", " ###ENTER###\n"), " ", "\n")

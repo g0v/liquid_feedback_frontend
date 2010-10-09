@@ -112,6 +112,8 @@ ui.container{
                   ui.bargraph{
                     max_value = max_value,
                     width = 100,
+                    quorum = max_value * (initiative.issue.policy.initiative_quorum_num / initiative.issue.policy.initiative_quorum_den),
+                    quorum_color = "#00F",
                     bars = {
                       { color = "#0a0", value = (initiative.satisfied_supporter_count or 0) },
                       { color = "#bbb", value = (initiative.supporter_count or 0) - (initiative.satisfied_supporter_count or 0) },
