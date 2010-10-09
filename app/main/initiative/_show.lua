@@ -13,11 +13,15 @@ if initiative.issue.ranks_available and initiative.admitted then
       local positive_votes = initiative.positive_votes
       local negative_votes = initiative.negative_votes
       local sum_votes = initiative.positive_votes + initiative.negative_votes
-      slot.put(_"Yes" .. ": <b>" .. tostring(positive_votes) .. " (" .. string.format("%.f", positive_votes * 100 / sum_votes ) .. "%)" .. "</b>")
+      local function perc(votes, sum)
+        if sum > 0 and votes > 0 then return " (" .. string.format( "%.f", votes * 100 / sum ) .. "%)" end
+        return ""
+      end
+      slot.put(_"Yes" .. ": <b>" .. tostring(positive_votes) .. perc(positive_votes, sum_votes) .. "</b>")
       slot.put(" &middot; ")
       slot.put(_"Abstention" .. ": <b>" .. tostring(max_value - initiative.negative_votes - initiative.positive_votes)  .. "</b>")
       slot.put(" &middot; ")
-      slot.put(_"No" .. ": <b>" .. tostring(initiative.negative_votes) .. " (" .. string.format( "%.f", negative_votes * 100 / sum_votes ) .. "%)" .. "</b>")
+      slot.put(_"No" .. ": <b>" .. tostring(initiative.negative_votes) .. perc(negative_votes, sum_votes) .. "</b>")
       slot.put(" &middot; ")
       slot.put("<b>")
       if initiative.rank == 1 then
