@@ -21,10 +21,12 @@ ui.form{
       label   = _"Initiative quorum",
       value = format.percentage(policy.initiative_quorum_num / policy.initiative_quorum_den)
     }
-    ui.field.text{
-      label   = _"Currently required",
-      value = math.ceil(initiative.issue.population * (policy.initiative_quorum_num / policy.initiative_quorum_den)),
-    }
+    if initiative.issue.population then
+      ui.field.text{
+        label   = _"Currently required",
+        value = math.ceil(initiative.issue.population * (policy.initiative_quorum_num / policy.initiative_quorum_den)),
+      }
+    end
   -- ui.field.date{ label = _"Revoked at", name = "revoked" }
     ui.field.boolean{ label = _"Admitted", name = "admitted" }
   end
