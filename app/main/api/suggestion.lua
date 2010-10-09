@@ -44,7 +44,8 @@ local fields = {
   { name = "id",                       field = "suggestion.id" },
   { name = "initiative_id",            field = "suggestion.initiative_id" },
   { name = "created",                  field = "suggestion.created" },
-  { name = "author_id",                field = "suggestion.author_id" },
+-- FIXME: private api
+--  { name = "author_id",                field = "suggestion.author_id" },
   { name = "name",                     field = "suggestion.name" },
   { name = "description",              field = "suggestion.description" },
   { name = "minus2_unfulfilled_count", field = "suggestion.minus2_unfulfilled_count" },
