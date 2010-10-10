@@ -369,6 +369,7 @@ for event, event_name in pairs(event_names) do
       local group
       if event == "draft_created" then
         group = { "grouped" }
+        tmp:add_where{"EXISTS(SELECT 1 from draft as cdraft WHERE draft.initiative_id = cdraft.initiative_id AND cdraft.id != draft.id ORDER BY cdraft.id DESC)"}
       end
 
       tmp
