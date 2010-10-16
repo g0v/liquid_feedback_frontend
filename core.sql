@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.2.8', 1, 2, 8))
+  SELECT * FROM (VALUES ('1.2.9', 1, 2, 9))
   AS "subquery"("string", "major", "minor", "revision");
 
 
