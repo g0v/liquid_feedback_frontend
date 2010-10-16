@@ -446,7 +446,6 @@ CREATE TABLE "initiative" (
           CHECK (("agreed" NOTNULL AND "agreed" = TRUE) OR "rank" ISNULL) );
 CREATE INDEX "initiative_created_idx" ON "initiative" ("created");
 CREATE INDEX "initiative_revoked_idx" ON "initiative" ("revoked");
-CREATE INDEX "initiative_issue_id_idx" ON "initiative" ("issue_id");
 CREATE INDEX "initiative_text_search_data_idx" ON "initiative" USING gin ("text_search_data");
 CREATE TRIGGER "update_text_search_data"
   BEFORE INSERT OR UPDATE ON "initiative"
@@ -615,32 +614,16 @@ CREATE TABLE "supporter" (
         "initiative_id"         INT4,
         "member_id"             INT4,
         "draft_id"              INT8            NOT NULL,
-        "auto_support"          BOOLEAN         NOT NULL DEFAULT 'f',
+        "auto_support"          BOOLEAN         NOT NULL DEFAULT FALSE,
         FOREIGN KEY ("issue_id", "member_id") REFERENCES "interest" ("issue_id", "member_id") ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY ("initiative_id", "draft_id") REFERENCES "draft" ("initiative_id", "id") ON DELETE CASCADE ON UPDATE CASCADE );
 CREATE INDEX "supporter_member_id_idx" ON "supporter" ("member_id");
 
 COMMENT ON TABLE "supporter" IS 'Members who support an initiative (conditionally); Frontends must ensure that supporters are not added or removed from fully_frozen or closed initiatives.';
 
-COMMENT ON COLUMN "supporter"."draft_id" IS 'Latest seen draft, defaults to current draft of the initiative (implemented by trigger "default_for_draft_id")';
+COMMENT ON COLUMN "supporter"."draft_id"     IS 'Latest seen draft, defaults to current draft of the initiative (implemented by trigger "default_for_draft_id")';
+COMMENT ON COLUMN "supporter"."auto_support" IS 'Supporting member does not want to confirm new drafts of the initiative';
 
-CREATE FUNCTION update_supporter_drafts()
-  RETURNS trigger
-  LANGUAGE 'plpgsql' VOLATILE AS $$
-  BEGIN
-    UPDATE supporter SET draft_id = NEW.id 
-    WHERE initiative_id = NEW.initiative_id AND
-          (auto_support = 't' OR member_id = NEW.author_id);
-    RETURN new;
-  END
-$$;
-
-CREATE TRIGGER "update_draft_supporter"
-  AFTER INSERT ON "draft"
-  FOR EACH ROW EXECUTE PROCEDURE
-  update_supporter_drafts();
-
-COMMENT ON FUNCTION "update_supporter_drafts"() IS 'Automaticly update the supported draft_id to the latest version when auto_support is enabled';
 
 CREATE TABLE "opinion" (
         "initiative_id"         INT4            NOT NULL,
@@ -687,26 +670,6 @@ COMMENT ON TABLE "delegation" IS 'Delegation of vote-weight to other members';
 COMMENT ON COLUMN "delegation"."area_id"  IS 'Reference to area, if delegation is area-wide, otherwise NULL';
 COMMENT ON COLUMN "delegation"."issue_id" IS 'Reference to issue, if delegation is issue-wide, otherwise NULL';
 
-CREATE FUNCTION "check_delegation"()
-  RETURNS TRIGGER
-  LANGUAGE 'plpgsql' VOLATILE AS $$
-  BEGIN
-    IF EXISTS (
-      SELECT NULL FROM "member" WHERE 
-        "id" = NEW."trustee_id" AND active = 'n'
-    ) THEN
-      RAISE EXCEPTION 'Cannot delegate to an inactive member';
-    END IF;
-    RETURN NEW;
-  END;
-$$;
-
-CREATE TRIGGER "update_delegation"
-  BEFORE INSERT OR UPDATE ON "delegation"
-  FOR EACH ROW EXECUTE PROCEDURE
-  check_delegation();
-
-COMMENT ON FUNCTION "check_delegation"() IS 'Sanity checks for new delegation. Dont allow delegations to inactive members';
 
 CREATE TABLE "direct_population_snapshot" (
         PRIMARY KEY ("issue_id", "event", "member_id"),
@@ -3416,7 +3379,6 @@ CREATE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
       DELETE FROM "suggestion_setting" WHERE "member_id" = "member_id_p";
       DELETE FROM "membership"         WHERE "member_id" = "member_id_p";
       DELETE FROM "delegation"         WHERE "truster_id" = "member_id_p";
-      DELETE FROM "delegation"         WHERE "trustee_id" = "member_id_p";
       DELETE FROM "direct_voter" USING "issue"
         WHERE "direct_voter"."issue_id" = "issue"."id"
         AND "issue"."closed" ISNULL
