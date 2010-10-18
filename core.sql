@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.2.9', 1, 2, 9))
+  SELECT * FROM (VALUES ('1.3.0', 1, 3, 0))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -389,7 +389,7 @@ COMMENT ON TABLE "issue" IS 'Groups of initiatives';
 
 COMMENT ON COLUMN "issue"."accepted"              IS 'Point in time, when one initiative of issue reached the "issue_quorum"';
 COMMENT ON COLUMN "issue"."half_frozen"           IS 'Point in time, when "discussion_time" has elapsed, or members voted for voting; Frontends must ensure that for half_frozen issues a) initiatives are not revoked, b) no new drafts are created, c) no initiators are added or removed.';
-COMMENT ON COLUMN "issue"."fully_frozen"          IS 'Point in time, when "verification_time" has elapsed; Frontends must ensure that for fully_frozen issues additionally to the restrictions for half_frozen issues a) initiatives are not created, b) no interest is created or removed, c) no supporters are added or removed, d) no opinions are created, changed or deleted.';
+COMMENT ON COLUMN "issue"."fully_frozen"          IS 'Point in time, when "verification_time" has elapsed and voting has started; Frontends must ensure that for fully_frozen issues additionally to the restrictions for half_frozen issues a) initiatives are not created, b) no interest is created or removed, c) no supporters are added or removed, d) no opinions are created, changed or deleted.';
 COMMENT ON COLUMN "issue"."closed"                IS 'Point in time, when "admission_time" or "voting_time" have elapsed, and issue is no longer active; Frontends must ensure that for closed issues additionally to the restrictions for half_frozen and fully_frozen issues a) no voter is added or removed to/from the direct_voter table, b) no votes are added, modified or removed.';
 COMMENT ON COLUMN "issue"."ranks_available"       IS 'TRUE = ranks have been calculated';
 COMMENT ON COLUMN "issue"."cleaned"               IS 'Point in time, when discussion data and votes had been deleted';
@@ -579,14 +579,14 @@ CREATE INDEX "membership_member_id_idx" ON "membership" ("member_id");
 
 COMMENT ON TABLE "membership" IS 'Interest of members in topic areas';
 
-COMMENT ON COLUMN "membership"."autoreject" IS 'TRUE = member votes against all initiatives in case of not explicitly taking part in the voting procedure; If there exists an "interest" entry, the interest entry has precedence';
+COMMENT ON COLUMN "membership"."autoreject" IS 'TRUE = member votes against all initiatives, if he is neither direct_ or delegating_voter; Entries in the "interest" table can override this setting.';
 
 
 CREATE TABLE "interest" (
         PRIMARY KEY ("issue_id", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "autoreject"            BOOLEAN         NOT NULL,
+        "autoreject"            BOOLEAN,
         "voting_requested"      BOOLEAN );
 CREATE INDEX "interest_member_id_idx" ON "interest" ("member_id");
 
@@ -594,6 +594,24 @@ COMMENT ON TABLE "interest" IS 'Interest of members in a particular issue; Front
 
 COMMENT ON COLUMN "interest"."autoreject"       IS 'TRUE = member votes against all initiatives in case of not explicitly taking part in the voting procedure';
 COMMENT ON COLUMN "interest"."voting_requested" IS 'TRUE = member wants to vote now, FALSE = member wants to vote later, NULL = policy rules should apply';
+
+
+CREATE TABLE "ignored_issue" (
+        PRIMARY KEY ("issue_id", "member_id"),
+        "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "new"                   BOOLEAN         NOT NULL DEFAULT FALSE,
+        "accepted"              BOOLEAN         NOT NULL DEFAULT FALSE,
+        "half_frozen"           BOOLEAN         NOT NULL DEFAULT FALSE,
+        "fully_frozen"          BOOLEAN         NOT NULL DEFAULT FALSE );
+CREATE INDEX "ignored_issue_member_id_idx" ON "ignored_issue" ("member_id");
+
+COMMENT ON TABLE "ignored_issue" IS 'Table to store member specific options to ignore issues in selected states';
+
+COMMENT ON COLUMN "ignored_issue"."new"          IS 'Selects issues which are neither closed nor accepted';
+COMMENT ON COLUMN "ignored_issue"."accepted"     IS 'Selects issues which are accepted but not (half_)frozen or closed';
+COMMENT ON COLUMN "ignored_issue"."half_frozen"  IS 'Selects issues which are half_frozen but not fully_frozen or closed';
+COMMENT ON COLUMN "ignored_issue"."fully_frozen" IS 'Selects issues which are fully_frozen (in voting) and not closed';
 
 
 CREATE TABLE "initiator" (
@@ -649,11 +667,13 @@ COMMENT ON TYPE "delegation_scope" IS 'Scope for delegations: ''global'', ''area
 CREATE TABLE "delegation" (
         "id"                    SERIAL8         PRIMARY KEY,
         "truster_id"            INT4            NOT NULL REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "trustee_id"            INT4            NOT NULL REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "trustee_id"            INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "scope"              "delegation_scope" NOT NULL,
         "area_id"               INT4            REFERENCES "area" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         CONSTRAINT "cant_delegate_to_yourself" CHECK ("truster_id" != "trustee_id"),
+        CONSTRAINT "no_global_delegation_to_null"
+          CHECK ("trustee_id" NOTNULL OR "scope" != 'global'),
         CONSTRAINT "area_id_and_issue_id_set_according_to_scope" CHECK (
           ("scope" = 'global' AND "area_id" ISNULL  AND "issue_id" ISNULL ) OR
           ("scope" = 'area'   AND "area_id" NOTNULL AND "issue_id" ISNULL ) OR
@@ -1148,31 +1168,6 @@ COMMENT ON FUNCTION "copy_timings_trigger"() IS 'Implementation of trigger "copy
 COMMENT ON TRIGGER "copy_timings" ON "issue" IS 'If timing fields are NULL, copy values from policy.';
 
 
-CREATE FUNCTION "copy_autoreject_trigger"()
-  RETURNS TRIGGER
-  LANGUAGE 'plpgsql' VOLATILE AS $$
-    BEGIN
-      IF NEW."autoreject" ISNULL THEN
-        SELECT "membership"."autoreject" INTO NEW."autoreject"
-          FROM "issue" JOIN "membership"
-          ON "issue"."area_id" = "membership"."area_id"
-          WHERE "issue"."id" = NEW."issue_id"
-          AND "membership"."member_id" = NEW."member_id";
-      END IF;
-      IF NEW."autoreject" ISNULL THEN 
-        NEW."autoreject" := FALSE;
-      END IF;
-      RETURN NEW;
-    END;
-  $$;
-
-CREATE TRIGGER "copy_autoreject" BEFORE INSERT OR UPDATE ON "interest"
-  FOR EACH ROW EXECUTE PROCEDURE "copy_autoreject_trigger"();
-
-COMMENT ON FUNCTION "copy_autoreject_trigger"()    IS 'Implementation of trigger "copy_autoreject" on table "interest"';
-COMMENT ON TRIGGER "copy_autoreject" ON "interest" IS 'If "autoreject" is NULL, then copy it from the area setting, or set to FALSE, if no membership existent';
-
-
 CREATE FUNCTION "supporter_default_for_draft_id_trigger"()
   RETURNS TRIGGER
   LANGUAGE 'plpgsql' VOLATILE AS $$
@@ -1263,7 +1258,7 @@ CREATE VIEW "active_delegation" AS
   JOIN "member" ON "delegation"."truster_id" = "member"."id"
   WHERE "member"."active" = TRUE;
 
-COMMENT ON VIEW "active_delegation" IS 'Delegations where the truster_id refers to an active member';
+COMMENT ON VIEW "active_delegation" IS 'Helper view for views "global_delegation", "area_delegation" and "issue_delegation": Contains delegations where the truster_id refers to an active member and includes those delegations where trustee_id is NULL';
 
 
 CREATE VIEW "global_delegation" AS
@@ -1288,7 +1283,7 @@ CREATE VIEW "area_delegation" AS
     "delegation"."truster_id",
     "delegation"."scope" DESC;
 
-COMMENT ON VIEW "area_delegation" IS 'Resulting area delegations from active members';
+COMMENT ON VIEW "area_delegation" IS 'Resulting area delegations from active members; can include rows with trustee_id set to NULL';
 
 
 CREATE VIEW "issue_delegation" AS
@@ -1307,7 +1302,7 @@ CREATE VIEW "issue_delegation" AS
     "delegation"."truster_id",
     "delegation"."scope" DESC;
 
-COMMENT ON VIEW "issue_delegation" IS 'Resulting issue delegations from active members';
+COMMENT ON VIEW "issue_delegation" IS 'Resulting issue delegations from active members; can include rows with trustee_id set to NULL';
 
 
 CREATE FUNCTION "membership_weight_with_skipping"
@@ -1702,6 +1697,7 @@ CREATE TYPE "delegation_chain_row" AS (
         "overridden"            BOOLEAN,
         "scope_in"              "delegation_scope",
         "scope_out"             "delegation_scope",
+        "disabled_out"          BOOLEAN,
         "loop"                  "delegation_chain_loop_tag" );
 
 COMMENT ON TYPE "delegation_chain_row" IS 'Type of rows returned by "delegation_chain"(...) functions';
@@ -1711,6 +1707,7 @@ COMMENT ON COLUMN "delegation_chain_row"."participation" IS 'In case of delegati
 COMMENT ON COLUMN "delegation_chain_row"."overridden"    IS 'True, if an entry with lower index has "participation" set to true';
 COMMENT ON COLUMN "delegation_chain_row"."scope_in"      IS 'Scope of used incoming delegation';
 COMMENT ON COLUMN "delegation_chain_row"."scope_out"     IS 'Scope of used outgoing delegation';
+COMMENT ON COLUMN "delegation_chain_row"."disabled_out"  IS 'Outgoing delegation is explicitly disabled by a delegation with trustee_id set to NULL';
 COMMENT ON COLUMN "delegation_chain_row"."loop"          IS 'Not null, if member is part of a loop, see "delegation_chain_loop_tag" type';
 
 
@@ -1741,6 +1738,7 @@ CREATE FUNCTION "delegation_chain"
       "output_row"."member_active" := TRUE;
       "output_row"."participation" := FALSE;
       "output_row"."overridden"    := FALSE;
+      "output_row"."disabled_out"  := FALSE;
       "output_row"."scope_out"     := NULL;
       LOOP
         IF "visited_member_ids" @> ARRAY["output_row"."member_id"] THEN
@@ -1808,6 +1806,11 @@ CREATE FUNCTION "delegation_chain"
           "output_row"."scope_out" := "delegation_row"."scope";
           "output_rows" := "output_rows" || "output_row";
           "output_row"."member_id" := "delegation_row"."trustee_id";
+        ELSIF "delegation_row"."scope" NOTNULL THEN
+          "output_row"."scope_out" := "delegation_row"."scope";
+          "output_row"."disabled_out" := TRUE;
+          "output_rows" := "output_rows" || "output_row";
+          EXIT;
         ELSE
           "output_row"."scope_out" := NULL;
           "output_rows" := "output_rows" || "output_row";
@@ -1821,7 +1824,7 @@ CREATE FUNCTION "delegation_chain"
       "loop_v" := FALSE;
       LOOP
         "output_row" := "output_rows"["i"];
-        EXIT WHEN "output_row"."member_id" ISNULL;
+        EXIT WHEN "output_row" ISNULL;
         IF "loop_v" THEN
           IF "i" + 1 = "row_count" THEN
             "output_row"."loop" := 'last';
@@ -3379,6 +3382,7 @@ CREATE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
       DELETE FROM "suggestion_setting" WHERE "member_id" = "member_id_p";
       DELETE FROM "membership"         WHERE "member_id" = "member_id_p";
       DELETE FROM "delegation"         WHERE "truster_id" = "member_id_p";
+      DELETE FROM "ignored_voting"     WHERE "member_id" = "member_id_p";
       DELETE FROM "direct_voter" USING "issue"
         WHERE "direct_voter"."issue_id" = "issue"."id"
         AND "issue"."closed" ISNULL
@@ -3431,6 +3435,7 @@ CREATE FUNCTION "delete_private_data"()
       DELETE FROM "issue_setting";
       DELETE FROM "initiative_setting";
       DELETE FROM "suggestion_setting";
+      DELETE FROM "ignored_voting";
       DELETE FROM "direct_voter" USING "issue"
         WHERE "direct_voter"."issue_id" = "issue"."id"
         AND "issue"."closed" ISNULL;
