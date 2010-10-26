@@ -6,7 +6,7 @@ CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.2.8', 1, 2, 8))
+  SELECT * FROM (VALUES ('1.2.9', 1, 2, 9))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -2765,6 +2765,8 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       FOR "member_id_v" IN
         SELECT "interest"."member_id"
           FROM "interest"
+          JOIN "member"
+            ON "interest"."member_id" = "member"."id"
           LEFT JOIN "direct_voter"
             ON "interest"."member_id" = "direct_voter"."member_id"
             AND "interest"."issue_id" = "direct_voter"."issue_id"
@@ -2773,10 +2775,13 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
             AND "interest"."issue_id" = "delegating_voter"."issue_id"
           WHERE "interest"."issue_id" = "issue_id_p"
           AND "interest"."autoreject" = TRUE
+          AND "member"."active"
           AND "direct_voter"."member_id" ISNULL
           AND "delegating_voter"."member_id" ISNULL
         UNION SELECT "membership"."member_id"
           FROM "membership"
+          JOIN "member"
+            ON "membership"."member_id" = "member"."id"
           LEFT JOIN "interest"
             ON "membership"."member_id" = "interest"."member_id"
             AND "interest"."issue_id" = "issue_id_p"
@@ -2788,6 +2793,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
             AND "delegating_voter"."issue_id" = "issue_id_p"
           WHERE "membership"."area_id" = "issue_row"."area_id"
           AND "membership"."autoreject" = TRUE
+          AND "member"."active"
           AND "interest"."autoreject" ISNULL
           AND "direct_voter"."member_id" ISNULL
           AND "delegating_voter"."member_id" ISNULL
