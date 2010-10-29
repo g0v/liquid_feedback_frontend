@@ -28,7 +28,8 @@ INSERT INTO "member" ("login", "name") VALUES
   ('user22', 'User #22'),  -- id 22
   ('user23', 'User #23');  -- id 23
 
-UPDATE "member" SET "password" = "login";
+-- set password to "login"
+UPDATE "member" SET "password" = '$1$PcI6b1Bg$2SHjAZH2nMLFp0fxHis.Q0';
 
 INSERT INTO "policy" (
         "index",
@@ -244,5 +245,65 @@ SELECT "time_warp"();
 
 DROP FUNCTION "time_warp"();
 
+-- Test policies that help with testing specific frontend parts
+
+INSERT INTO "policy" (
+        "index",
+        "active",
+        "name",
+        "description",
+        "admission_time",
+        "discussion_time",
+        "verification_time",
+        "voting_time",
+        "issue_quorum_num",
+        "issue_quorum_den",
+        "initiative_quorum_num",
+        "initiative_quorum_den"
+    ) VALUES (
+        1,
+        TRUE,
+        'Test New',
+        DEFAULT,
+        '2 days',
+        '1 second',
+        '1 second',
+        '1 second',
+        0, 100,
+        0, 100
+    ), (
+        1,
+        TRUE,
+        'Test Accept',
+        DEFAULT,
+        '1 second',
+        '2 days',
+        '1 second',
+        '1 second',
+        0, 100,
+        0, 100
+    ), (
+        1,
+        TRUE,
+        'Test Frozen',
+        DEFAULT,
+        '1 second',
+        '5 minutes',
+        '2 days',
+        '1 second',
+        0, 100,
+        0, 100
+    ), (
+        1,
+        TRUE,
+        'Test Voting',
+        DEFAULT,
+        '1 second',
+        '5 minutes',
+        '1 second',
+        '2 days',
+        0, 100,
+        0, 100
+    );
 END;
 
