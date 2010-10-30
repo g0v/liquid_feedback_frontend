@@ -608,10 +608,10 @@ CREATE INDEX "ignored_issue_member_id_idx" ON "ignored_issue" ("member_id");
 
 COMMENT ON TABLE "ignored_issue" IS 'Table to store member specific options to ignore issues in selected states';
 
-COMMENT ON COLUMN "ignored_issue"."new"          IS 'Selects issues which are neither closed nor accepted';
-COMMENT ON COLUMN "ignored_issue"."accepted"     IS 'Selects issues which are accepted but not (half_)frozen or closed';
-COMMENT ON COLUMN "ignored_issue"."half_frozen"  IS 'Selects issues which are half_frozen but not fully_frozen or closed';
-COMMENT ON COLUMN "ignored_issue"."fully_frozen" IS 'Selects issues which are fully_frozen (in voting) and not closed';
+COMMENT ON COLUMN "ignored_issue"."new"          IS 'Apply when issue is neither closed nor accepted';
+COMMENT ON COLUMN "ignored_issue"."accepted"     IS 'Apply when issue is accepted but not (half_)frozen or closed';
+COMMENT ON COLUMN "ignored_issue"."half_frozen"  IS 'Apply when issue is half_frozen but not fully_frozen or closed';
+COMMENT ON COLUMN "ignored_issue"."fully_frozen" IS 'Apply when issue is fully_frozen (in voting) and not closed';
 
 
 CREATE TABLE "initiator" (
