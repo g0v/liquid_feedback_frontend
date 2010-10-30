@@ -16,6 +16,13 @@ slot.select("interest", function()
           static = "icons/16/user_green.png"
         }
         slot.put(_"You are member")
+
+        if membership.autoreject == true then
+          ui.image{
+            static = "icons/16/thumb_down_red.png"
+          }
+        end
+
         ui.image{
           static = "icons/16/dropdown.png"
         }

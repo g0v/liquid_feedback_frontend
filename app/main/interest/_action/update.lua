@@ -29,10 +29,7 @@ if not interest then
   interest.autoreject = false
 end
 
-local autoreject = param.get("autoreject", atom.boolean)
-if autoreject ~= nil then
-  interest.autoreject = autoreject
-end
+interest.autoreject = param.get("autoreject", atom.boolean)
 
 interest:save()
 

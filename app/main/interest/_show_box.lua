@@ -2,6 +2,7 @@
 local issue = param.get("issue", "table")
 
 local interest = Interest:by_pk(issue.id, app.session.member.id)
+local membership = Membership:by_pk(issue.area_id, app.session.member_id)
 
 if interest then
   slot.select("actions", function()
@@ -20,9 +21,17 @@ if interest then
             }
             slot.put(_"Your are interested")
 
-            if interest.autoreject then
+            if interest.autoreject == true or
+              (interest.autoreject == nil and membership.autoreject == true)
+            then
               ui.image{
                 static = "icons/16/thumb_down_red.png"
+              }
+            end
+
+            if interest.autoreject == false then
+              ui.image{
+                static = "icons/16/thumb_down_red_crossed.png"
               }
             end
 
@@ -56,22 +65,65 @@ if interest then
               slot.put("<br />")
               slot.put("<br />")
             end
-            if interest.autoreject then
-              ui.field.text{ value = _"Autoreject is on." }
+            if interest.autoreject == nil then
+              if membership then
+                if membership.autoreject then
+                  ui.field.text{ value = _"Autoreject is inherited from area. (Currently turned on)" }
+                else
+                  ui.field.text{ value = _"Autoreject is inherited from area. (Currently turned off)" }
+                end
+              else
+                ui.field.text{ value = _"Autoreject is inherited from area. (No member of this area)" }
+              end
+              slot.put("<br />")
               if issue.state ~= "finished" and issue.state ~= "cancelled" then
                 ui.link{
-                  text    = _"Remove autoreject",
+                  text    = _"Turn on autoreject for issue",
+                  module  = "interest",
+                  action  = "update",
+                  params  = { issue_id = issue.id, autoreject = true },
+                  routing = { default = { mode = "redirect", module = "issue", view = "show", id = issue.id } }
+                }
+                ui.link{
+                  text    = _"Turn off autoreject for issue",
                   module  = "interest",
                   action  = "update",
                   params  = { issue_id = issue.id, autoreject = false },
                   routing = { default = { mode = "redirect", module = "issue", view = "show", id = issue.id } }
                 }
               end
-            else
-              ui.field.text{ value = _"Autoreject is off." }
+            elseif interest.autoreject == true then
+              ui.field.text{ value = _"Autoreject for this issue is turned on." }
+              slot.put("<br />")
               if issue.state ~= "finished" and issue.state ~= "cancelled" then
                 ui.link{
-                  text    = _"Set autoreject",
+                  text    = _"Inherit autoreject from area",
+                  module  = "interest",
+                  action  = "update",
+                  params  = { issue_id = issue.id, autoreject = nil },
+                  routing = { default = { mode = "redirect", module = "issue", view = "show", id = issue.id } }
+                }
+                ui.link{
+                  text    = _"Turn off autoreject for issue",
+                  module  = "interest",
+                  action  = "update",
+                  params  = { issue_id = issue.id, autoreject = false },
+                  routing = { default = { mode = "redirect", module = "issue", view = "show", id = issue.id } }
+                }
+              end
+            elseif interest.autoreject == false then
+              ui.field.text{ value = _"Autoreject for this issue is turned off." }
+              slot.put("<br />")
+              if issue.state ~= "finished" and issue.state ~= "cancelled" then
+                ui.link{
+                  text    = _"Inherit autoreject from area",
+                  module  = "interest",
+                  action  = "update",
+                  params  = { issue_id = issue.id, autoreject = nil },
+                  routing = { default = { mode = "redirect", module = "issue", view = "show", id = issue.id } }
+                }
+                ui.link{
+                  text    = _"Turn on autoreject for issue",
                   module  = "interest",
                   action  = "update",
                   params  = { issue_id = issue.id, autoreject = true },

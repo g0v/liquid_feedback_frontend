@@ -1,8 +1,8 @@
 #!/usr/bin/env lua
 return {
-["--- Initiators ---"] = "--- Initiatoren ---";
 ["##{id}"] = false;
 ["##{issue_id}.#{id} #{name}"] = false;
+["#{author} at #{date}"] = "#{author} am #{date}";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} Themen";
 ["#{number} Image(s) has been deleted"] = "Es wurde(n) #{number} Bild(er) gelöscht";
@@ -11,6 +11,7 @@ return {
 ["(change URL)"] = "(URL ändern)";
 ["(new window)"] = "(neues Fenster)";
 ["+ #{weight}"] = "+ #{weight}";
+["+getElementById("] = false;
 ["A-Z"] = "A-Z";
 ["API key"] = "API-Schlüssel";
 ["API key has been deleted"] = "API-Schlüssel wurde gelöscht";
@@ -60,6 +61,13 @@ return {
 ["Area wide delegation active"] = "Delegation für Themenbereich aktiv";
 ["Areas"] = "Themenbereiche";
 ["Author"] = "Autor";
+["Auto support is now disabled"] = false;
+["Auto support is now enabled"] = false;
+["Autoreject for this issue is turned off."] = "Auto-Ablehnen ist für dieses Thema ausgeschaltet";
+["Autoreject for this issue is turned on."] = "Auto-Ablehnen ist für dieses Thema eingeschaltet";
+["Autoreject is inherited from area. (Currently turned off)"] = "Auto-Ablehnen wird vom Themenbereich übernommen. (Zur Zeit abgeschaltet)";
+["Autoreject is inherited from area. (Currently turned on)"] = "Auto-Ablehnen wird vom Themenbereich übernommen. (Zur Zeit angeschaltet)";
+["Autoreject is inherited from area. (No member of this area)"] = "Auto-Ablehnen wird vom Themenbereich übernommen. (Keine Mitgliedschaft)";
 ["Autoreject is off."] = "Auto-Ablehnen ist aus";
 ["Autoreject is on."] = "Auto-Ablehnen ist an";
 ["Avatar"] = "Avatar";
@@ -115,11 +123,13 @@ return {
 ["Current status"] = "Aktueller Status";
 ["Current votings in areas you are member of and issues you are interested in:"] = "Jetzt laufende Abstimmungen zu Themen aus Deinen Themenbereichen oder solchen an denen Du interessiert bist:";
 ["Currently no API key is set."] = "Zur Zeit ist kein API-Schlüssel festgelegt.";
+["Currently required"] = false;
 ["Date"] = "Datum";
 ["Date format is not valid. Please use following format: YYYY-MM-DD"] = "Datumsformat nicht korrekt. Bitte verwende: JJJJ-MM-TT, also z.B. 1945-05-23";
+["Default Policy"] = false;
 ["Degree"] = "Grad";
-["Delegations"] = "Delegationen";
 ["Delegation problems"] = "Delegationsprobleme";
+["Delegations"] = "Delegationen";
 ["Delete API key"] = "API-Schlüssel löschen";
 ["Delete filter"] = "Filter löschen";
 ["Description"] = "Beschreibung";
@@ -128,6 +138,7 @@ return {
 ["Diff"] = "Differenz";
 ["Direct member count"] = "Anzahl Direktmitglieder";
 ["Direct membership"] = "Direkte Mitgliedschaft";
+["Disable autosupport for this initiative"] = false;
 ["Disapproval (prefer to last block) [many entries]"] = "Ablehnung (jedoch Bevorzugung gegenüber letztem Ablehnungsblock)";
 ["Disapproval (prefer to last block) [single entry]"] = "Ablehnung (jedoch Bevorzugung gegenüber letztem Ablehnungsblock)";
 ["Disapproval (prefer to lower block) [many entries]"] = "Ablehnung (jedoch Bevorzugung gegenüber unterem Ablehnungsblock)";
@@ -157,7 +168,10 @@ return {
 ["Email address confirmation"] = "Bestätigung der E-Mail-Adresse";
 ["Email address is confirmed now"] = "E-Mail-Adresse ist jetzt bestätigt";
 ["Email address too short!"] = "E-Mail-Adresse ist zu kurz!";
+["Email confirmation request"] = false;
 ["Email unconfirmed"] = "Unbestätigte E-Mail-Adresse";
+["Empty help text: #{id}.#{lang}.txt"] = false;
+["Enable autosupport for this initiative"] = false;
 ["Error while converting image. Please note, that only JPG files are supported!"] = "Fehler beim Konvertieren des Bilds. Bitte beachte, dass nur JPG-Dateien unterstützt werden.";
 ["Error while resolving openid. Internal message: '#{errmsg}'"] = "Fehler beim Auflösen der OpenID. Interne Fehlermeldung: '#{errmsg}'";
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Fehler beim aktualisieren des Mitglieds, die Datenbank berichtet folgenden Fehler:<br /><br /> (#{errormessage})";
@@ -176,9 +190,12 @@ return {
 ["Go up"] = "Nach oben";
 ["Half frozen at"] = "Halb eingefroren am/um";
 ["Hello "] = "Hallo ";
+["Help #{id}"] = false;
 ["Help for: #{text}"] = "Hilfe zu: #{text}";
 ["Hide"] = "Verstecken";
 ["Hide filter details"] = "Filter-Details verstecken";
+["Hide this help message"] = "Diese Hilfenachricht verstecken";
+["History"] = "Historie";
 ["Home"] = "Startseite";
 ["I consider suggestion as"] = "Ich halte die Anregung für";
 ["Id"] = "Id";
@@ -189,16 +206,18 @@ return {
 ["In discussion"] = "In Diskussion";
 ["Incoming delegations"] = "Eingehende Delegationen";
 ["Information about the available policies"] = "Informationen zu den verfügbaren Regelwerken";
+["Inherit autoreject from area"] = "Auto-Ablehnen vom Themengebiet übernehmen";
 ["Initiated"] = "Initiiert";
 ["Initiated initiatives"] = "Initiierte Initiativen";
+["Initiative ##{id}"] = "Initiative ##{id}";
 ["Initiative events"] = "Initiativen-Ereignisse";
 ["Initiative is revoked now"] = "Initiative ist jetzt zurückgezogen";
 ["Initiative quorum"] = "Quorum Inititive";
 ["Initiative revoked"] = "Initiative zurückgezogen";
 ["Initiative successfully created"] = "Initiative erfolgreich erzeugt";
 ["Initiative successfully updated"] = "Initiative erfolgreich aktualisiert";
+["Initiative: "] = false;
 ["Initiative: '#{name}'"] = "Initiative: '#{name}'";
-["Initiative ##{id}"] = "Initiative ##{id}";
 ["Initiatives"] = "Initiativen";
 ["Initiatives in this area (last created first)"] = "Initiativen in diesem Themenbereich (zuletzt angelegte zuerst)";
 ["Initiatives in this area (last updated first)"] = "Initiativen in diesem Themenbereich (zuletzt aktualisierte zuerst)";
@@ -214,6 +233,7 @@ return {
 ["Interested"] = "Interessiert";
 ["Interested members"] = "Interessierte Mitglieder";
 ["Internal posts"] = "Interne Ämter";
+["Invalid query"] = false;
 ["Invalid username or password!"] = "Ungültiger Benutzername oder Kennwort";
 ["Invitation has been refused"] = "Einladung wurde widerrufen";
 ["Invite an initiator to initiative"] = "Initiator zur Initiative einladen";
@@ -236,6 +256,7 @@ return {
 ["JavaScript is disabled or not available."] = "JavaScript ist abgeschaltet oder nicht verfügbar.";
 ["Last author"] = "Letzter Autor";
 ["Last snapshot:"] = "Letzte Auszählung:";
+["Legend:"] = false;
 ["License"] = "Lizenz";
 ["Locked?"] = "Gesperrt?";
 ["Login"] = "Anmeldung";
@@ -273,6 +294,7 @@ return {
 ["Membership updated"] = "Mitgliedschaft aktualisiert";
 ["Memberships"] = "Mitgliedschaften";
 ["Message of the day"] = "Hinweise";
+["Missing help text: #{id}.#{lang}.txt"] = false;
 ["Mobile phone"] = "Mobiltelefon";
 ["Monday"] = "Montag";
 ["Move down"] = "Runter schieben";
@@ -295,6 +317,7 @@ return {
 ["Next state"] = "Nächster Zustand";
 ["No"] = "Nein";
 ["No changes to your images were made"] = "An Deinen Bildern wurde nichts geändert";
+["No default"] = false;
 ["No delegation"] = "Keine Delegation";
 ["No events selected to list"] = "Keine Ereignisse ausgewählt";
 ["No membership at all"] = "Gar keine Mitgliedschaft";
@@ -314,6 +337,7 @@ return {
 ["Old password"] = "Altes Kennwort";
 ["Old password is wrong"] = "Das alte Kennwort ist falsch";
 ["Oldest"] = "Älteste";
+["On that page please enter the confirmation code:\n\n"] = false;
 ["On that page please enter the reset code:\n\n"] = "Auf dieser Seite gib bitte den folgenden Rücksetzcode ein:\n\n";
 ["One issue"] = "Ein Thema";
 ["One issue you are interested in"] = "Ein Thema, das Dich interessiert";
@@ -342,6 +366,7 @@ return {
 ["Please choose a policy"] = "Bitte wähle ein Regelwerk";
 ["Please choose two different versions of the draft to compare"] = "Bitte wähle zwei verschiedene Versionen des Drafts, um sie zu vergleichen.";
 ["Please choose two versions of the draft to compare"] = "Bitte wähle zwei Versionen des Drafts, um sie zu vergleichen.";
+["Please confirm your email address by clicking the following link:\n\n"] = false;
 ["Please enter the email reset code you have received:"] = "Bitte gib den Rücksetzcode ein, den Du erhalten hast:";
 ["Please enter the invite code you've received."] = "Bitte gib den Invite-Code ein, den Du erhalten hast.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Bitte gib Deine E-Mail-Adresse ein. Diese Adresse wird für automatische Benachrichtigungen (wenn Du diese anforderst) sowie zum Zurücksetzen des Kennworts verwendet. Diese Adresse wird nicht veröffentlicht. Nach Abschluß der Registration wirst Du eine E-Mail mit einem Link zum Bestätigen der Adresse erhalten.";
@@ -380,6 +405,7 @@ return {
 ["Remove my membership"] = "Mitgliedschaft aufgeben";
 ["Remove my request to vote later"] = "Meinen Wunsch später abzustimmen zurückziehen";
 ["Remove my support from this initiative"] = "Meine Unterstützung der Initiative entziehen";
+["Rendered"] = false;
 ["Repeat new password"] = "Neues Kennwort wiederholen";
 ["Request password reset link"] = "Link zum Rücksetzen des Kennworts anfordern";
 ["Resend activation email to '#{email}'"] = "E-Mail mit Aktivierungslink erneut an '#{email}' senden";
@@ -432,6 +458,7 @@ return {
 ["Sorry, it was not possible to verify your OpenID."] = "Sorry, es war nicht möglich deine OpenID zu verifizieren.";
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Sorry, Du hast Dein persönliches Flood-Limit erreicht. Bitte sei langsamer...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Sorry, Dein Antragskontingent ist zur Zeit ausgeschöpft. Bitte versuche es später erneut!";
+["Source"] = false;
 ["State"] = "Zustand";
 ["Statement"] = "Statement";
 ["Status"] = false;
@@ -448,6 +475,7 @@ return {
 ["Suggestion ##{id}"] = "Anregung ##{id}";
 ["Suggestion currently implemented"] = "Anregung zur Zeit umgesetzt";
 ["Suggestion currently not implemented"] = "Anregung zur Zeit nicht umgesetzt";
+["Suggestion does not exist anymore"] = "Anregung existiert nicht mehr";
 ["Suggestion for initiative: '#{name}'"] = "Anregung für Initiative '#{name}'";
 ["Suggestions"] = "Anregungen";
 ["Sunday"] = "Sonntag";
@@ -456,6 +484,7 @@ return {
 ["Supported"] = "Unterstützt";
 ["Supported initiatives"] = "Unterstützte Initiativen";
 ["Supporter"] = "Unterstützer";
+["Syntax help"] = "Syntax-Hilfe";
 ["Tabs"] = "Registerkarten";
 ["Terms of use"] = "Nutzungsbedingungen";
 ["The API key has been changed too fast."] = "Der API-Schlüssel wurde zu schnell geändert.";
@@ -502,8 +531,11 @@ return {
 ["Traditional wiki syntax"] = "Traditionelle Wiki-Syntax";
 ["Trustee"] = "Bevollmächtigter";
 ["Tuesday"] = "Dienstag";
+["Turn off autoreject for issue"] = "Auto-Ablehnen für dieses Thema ausschalten";
+["Turn on autoreject for issue"] = "Auto-Ablehnen für dieses Thema einschalten";
 ["Type of tabs"] = "Tabulatortyp";
 ["Unconfirmed address"] = "Unbestätigte E-Mail";
+["Unknown author"] = "Unbekannter Autor";
 ["Updated drafts"] = "Neue Entwürfe";
 ["Upload images"] = "Bilder hochladen";
 ["Verification time"] = "Zeit für die Überprüfung";
@@ -557,7 +589,9 @@ return {
 ["Your API key:"] = "Dein API-Schlüssel:";
 ["Your are interested"] = "Du bist interessiert";
 ["Your are potential supporter"] = "Du bist potentieller Unterstützer";
+["Your are potential supporter (WARNING: Autosupport enabled)"] = false;
 ["Your are supporter"] = "Du bist Unterstützer";
+["Your are supporter (Autosupport enabled)"] = false;
 ["Your delegation for this area has been deleted."] = "Deine Delegation für diesen Themenbereich wurde gelöscht";
 ["Your delegation for this area has been updated."] = "Deine Delegation für diesen Themenbereich wurde geändert";
 ["Your delegation for this issue has been deleted."] = "Deine Delegation für dieses Thema wurde gelöscht";
@@ -585,6 +619,7 @@ return {
 ["activated"] = "aktiviert";
 ["and #{count} more initiatives"] = "und #{count} weitere Initiativen";
 ["deactivated"] = "deaktiviert";
+["delete<br /><br />"] = false;
 ["disabled"] = "ausgeschaltet";
 ["email"] = "E-Mail";
 ["implemented"] = "umgesetzt";
