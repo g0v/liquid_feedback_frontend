@@ -46,7 +46,7 @@ if show_as_homepage and app.session.member_id == member.id then
   local broken_delegations = Delegation:new_selector()
     :join("member", nil, "delegation.trustee_id = member.id")
     :add_where{"delegation.truster_id = ?", member.id}
-    if config.delegation_warning_time then
+    if config.delegation_warning_time and config.last_login_enabled then
       broken_delegations:add_where{"member.active = 'f' OR (member.last_login IS NULL OR age(member.last_login) > ?::interval)", config.delegation_warning_time}
     else
       broken_delegations:add_where{"member.active = 'f'"}
