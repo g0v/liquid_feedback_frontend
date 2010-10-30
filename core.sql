@@ -1,5 +1,6 @@
 
-CREATE LANGUAGE plpgsql;  -- Triggers are implemented in PL/pgSQL
+-- Execute the following command manually for PostgreSQL prior version 9.0:
+-- CREATE LANGUAGE plpgsql;
 
 -- NOTE: In PostgreSQL every UNIQUE constraint implies creation of an index
 
