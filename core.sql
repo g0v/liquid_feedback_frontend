@@ -632,15 +632,13 @@ CREATE TABLE "supporter" (
         "initiative_id"         INT4,
         "member_id"             INT4,
         "draft_id"              INT8            NOT NULL,
-        "auto_support"          BOOLEAN         NOT NULL DEFAULT FALSE,
         FOREIGN KEY ("issue_id", "member_id") REFERENCES "interest" ("issue_id", "member_id") ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY ("initiative_id", "draft_id") REFERENCES "draft" ("initiative_id", "id") ON DELETE CASCADE ON UPDATE CASCADE );
 CREATE INDEX "supporter_member_id_idx" ON "supporter" ("member_id");
 
 COMMENT ON TABLE "supporter" IS 'Members who support an initiative (conditionally); Frontends must ensure that supporters are not added or removed from fully_frozen or closed initiatives.';
 
-COMMENT ON COLUMN "supporter"."draft_id"     IS 'Latest seen draft, defaults to current draft of the initiative (implemented by trigger "default_for_draft_id")';
-COMMENT ON COLUMN "supporter"."auto_support" IS 'Supporting member does not want to confirm new drafts of the initiative';
+COMMENT ON COLUMN "supporter"."draft_id" IS 'Latest seen draft, defaults to current draft of the initiative (implemented by trigger "default_for_draft_id")';
 
 
 CREATE TABLE "opinion" (
