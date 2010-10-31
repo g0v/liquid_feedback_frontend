@@ -22,7 +22,7 @@ if interest then
             slot.put(_"Your are interested")
 
             if interest.autoreject == true or
-              (interest.autoreject == nil and membership.autoreject == true)
+              (interest.autoreject == nil and membership and membership.autoreject == true)
             then
               ui.image{
                 static = "icons/16/thumb_down_red.png"
