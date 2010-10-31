@@ -3327,6 +3327,8 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
           WHERE "issue_id" = "issue_id_p";
         DELETE FROM "direct_population_snapshot"
           WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "ignored_issue"
+          WHERE "issue_id" = "issue_id_p";
         DELETE FROM "delegation"
           WHERE "issue_id" = "issue_id_p";
         DELETE FROM "supporter"
@@ -3386,8 +3388,8 @@ CREATE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
       DELETE FROM "initiative_setting" WHERE "member_id" = "member_id_p";
       DELETE FROM "suggestion_setting" WHERE "member_id" = "member_id_p";
       DELETE FROM "membership"         WHERE "member_id" = "member_id_p";
+      DELETE FROM "ignored_issue"      WHERE "member_id" = "member_id_p";
       DELETE FROM "delegation"         WHERE "truster_id" = "member_id_p";
-      DELETE FROM "ignored_voting"     WHERE "member_id" = "member_id_p";
       DELETE FROM "direct_voter" USING "issue"
         WHERE "direct_voter"."issue_id" = "issue"."id"
         AND "issue"."closed" ISNULL
@@ -3440,7 +3442,7 @@ CREATE FUNCTION "delete_private_data"()
       DELETE FROM "issue_setting";
       DELETE FROM "initiative_setting";
       DELETE FROM "suggestion_setting";
-      DELETE FROM "ignored_voting";
+      DELETE FROM "ignored_issue";
       DELETE FROM "direct_voter" USING "issue"
         WHERE "direct_voter"."issue_id" = "issue"."id"
         AND "issue"."closed" ISNULL;
