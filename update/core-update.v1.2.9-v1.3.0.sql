@@ -4,11 +4,6 @@ CREATE OR REPLACE VIEW "liquid_feedback_version" AS
   SELECT * FROM (VALUES ('1.3.0', 1, 3, 0))
   AS "subquery"("string", "major", "minor", "revision");
 
-ALTER TABLE "supporter" ADD COLUMN
-  "auto_support" BOOLEAN NOT NULL DEFAULT FALSE;
-
-COMMENT ON COLUMN "supporter"."auto_support" IS 'Supporting member does not want to confirm new drafts of the initiative';
-
 
 -- update comment for column "fully_frozen" of table "issue"
 
@@ -40,10 +35,10 @@ CREATE INDEX "ignored_issue_member_id_idx" ON "ignored_issue" ("member_id");
 
 COMMENT ON TABLE "ignored_issue" IS 'Table to store member specific options to ignore issues in selected states';
 
-COMMENT ON COLUMN "ignored_issue"."new"          IS 'Selects issues which are neither closed nor accepted';
-COMMENT ON COLUMN "ignored_issue"."accepted"     IS 'Selects issues which are accepted but not (half_)frozen or closed';
-COMMENT ON COLUMN "ignored_issue"."half_frozen"  IS 'Selects issues which are half_frozen but not fully_frozen or closed';
-COMMENT ON COLUMN "ignored_issue"."fully_frozen" IS 'Selects issues which are fully_frozen (in voting) and not closed';
+COMMENT ON COLUMN "ignored_issue"."new"          IS 'Apply when issue is neither closed nor accepted';
+COMMENT ON COLUMN "ignored_issue"."accepted"     IS 'Apply when issue is accepted but not (half_)frozen or closed';
+COMMENT ON COLUMN "ignored_issue"."half_frozen"  IS 'Apply when issue is half_frozen but not fully_frozen or closed';
+COMMENT ON COLUMN "ignored_issue"."fully_frozen" IS 'Apply when issue is fully_frozen (in voting) and not closed';
 
 
 -- allow area and issue delegations with trustee_id set to NULL
@@ -70,7 +65,7 @@ COMMENT ON VIEW "area_delegation" IS 'Resulting area delegations from active mem
 COMMENT ON VIEW "issue_delegation" IS 'Resulting issue delegations from active members; can include rows with trustee_id set to NULL';
 
 
---
+-- support for explicitly disabled delegations in "delegation_chain" functions
 
 DROP FUNCTION "delegation_chain"
   ( "member"."id"%TYPE,
