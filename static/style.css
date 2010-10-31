@@ -971,6 +971,10 @@ z-index: 2;
   margin-left: 0.5em;
 }
 
+.member_thumb .flags .in_delegation_chain {
+  font-weight: bold;
+}
+
 
 .member .right {
   float: right;
@@ -979,6 +983,10 @@ z-index: 2;
 .member_thumb.not_accepted,
 .member_thumb.not_informed {
   opacity: 0.5;
+}
+
+.member_thumb.in_delegation_chain {
+  border-color: #f70;
 }
 
 .member_statement,

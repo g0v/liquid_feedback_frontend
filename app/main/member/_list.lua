@@ -4,6 +4,12 @@ local issue = param.get("issue", "table")
 local trustee = param.get("trustee", "table")
 local initiator = param.get("initiator", "table")
 
+if initiative or issue then
+  local issue_id = issue and issue.id or initiative.issue_id
+  members_selector:left_join("delegating_interest_snapshot", "_member_list__delegating_interest", { "_member_list__delegating_interest.event = issue.latest_snapshot_event AND _member_list__delegating_interest.issue_id = issue.id AND _member_list__delegating_interest.member_id = ?", app.session.member_id })
+  members_selector:add_field("_member_list__delegating_interest.delegate_member_ids", "delegate_member_ids")
+end
+
 ui.add_partial_param_names{ "member_list" }
 
 local filter = {
@@ -52,75 +58,6 @@ ui.filters{
           attr = { class = "member_list" },
           content = function()
             local members = members_selector:exec()
-            local columns = { 
-              {
-                label = _"Name",
-                content = function(member)
-                  ui.link{
-                    module = "member",
-                    view = "show",
-                    id = member.id,
-                    content = function()
-                      ui.image{
-                        attr = { width = 48, height = 48 },
-                        module    = "member",
-                        view      = "avatar",
-                        id        = member.id,
-                        extension = "jpg"
-                      }
-                    end
-                  }
-                end
-              },
-              {
-                label = _"Name",
-                content = function(member)
-                  ui.link{
-                    module = "member",
-                    view = "show",
-                    id = member.id,
-                    content = member.name
-                  }
-                  if member.admin then
-                    ui.image{
-                      attr = { 
-                        alt   = _"Administrator",
-                        title = _"Administrator"
-                      },
-                      static = "icons/16/cog.png"
-                    }
-                  end
-                  -- TODO performance
-                  local contact = Contact:by_pk(app.session.member.id, member.id)
-                  if contact then
-                    ui.image{
-                      attr = { 
-                        alt   = _"Saved as contact",
-                        title = _"Saved as contact"
-                      },
-                      static = "icons/16/book_edit.png"
-                    }
-                  end
-                end
-              }
-            }
-
-            if initiative then
-              columns[#columns+1] = {
-                label = _"Delegations",
-                field_attr = { style = "text-align: right;" },
-                content = function(member)
-                  if member.weight > 1 then
-                    ui.link{
-                      content = member.weight,
-                      module = "support",
-                      view = "show_incoming",
-                      params = { member_id = member.id, initiative_id = initiative.id }
-                    }
-                  end
-                end
-              }
-            end
 
             for i, member in ipairs(members) do
               execute.view{
@@ -135,6 +72,7 @@ ui.filters{
                 }
               }
             end
+
 
           end
         }
