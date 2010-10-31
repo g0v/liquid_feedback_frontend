@@ -21,7 +21,7 @@ if member.is_informed == false then
   container_class = container_class .. " not_informed"
 end
 
-local in_delegation_chain = false  
+local in_delegation_chain = false 
 if member.delegate_member_ids then
   for member_id in member.delegate_member_ids:gmatch("(%w+)") do
     if tonumber(member_id) == member.id then
@@ -30,7 +30,7 @@ if member.delegate_member_ids then
   end
 end
 
-if in_delegation_chain then
+if in_delegation_chain or member.id == app.session.member_id then
   container_class = container_class .. " in_delegation_chain"
 end
 
