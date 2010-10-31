@@ -12,10 +12,7 @@ ui.form{
     ui.container{
       attr = { class = "suggestion_content wiki" },
       content = function()
-        ui.tag{
-          tag = "pre",
-          content = suggestion.description
-        }
+        slot.put(encode.html_newlines(suggestion.description))
       end
     }
   end

@@ -999,9 +999,8 @@ z-index: 2;
 }
 
 
-.suggestion_content,
 #suggestion_description {
-  font-family: monospace;
+  height: 15ex;
 }
 
 .diff {
