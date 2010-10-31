@@ -43,8 +43,11 @@ else
       delegation.scope = "global"
     end
   end
-
-  delegation.trustee_id = trustee_id
+  if trustee_id == 0 then
+    delegation.trustee_id = nil
+  else
+    delegation.trustee_id = trustee_id
+  end
 
   delegation:save()
 

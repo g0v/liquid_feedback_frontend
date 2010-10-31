@@ -76,12 +76,41 @@ ui.form{
     }
   },
   content = function()
-    local records = {
-      {
-        id = "-1",
-        name = _"No delegation"
+    local records
+
+    if issue then
+      records = {
+        {
+          id = -1,
+          name = _"Inherit delegation from area"
+        },
+        {
+          id = 0,
+          name = _"No delegation (override area delegation)"
+        },
+
       }
-    }
+    elseif area then
+      records = {
+        {
+          id = -1,
+          name = _"Inherit global delegation"
+        },
+        {
+          id = 0,
+          name = _"No delegation (override global delegation)"
+        }
+      }
+
+    else
+      records = {
+        {
+          id = -1,
+          name = _"No delegation"
+        }
+      }
+
+    end
 
     for i, record in ipairs(contact_members) do
       records[#records+1] = record

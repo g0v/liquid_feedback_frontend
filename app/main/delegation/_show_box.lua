@@ -117,15 +117,26 @@ slot.select("actions", function()
             onclick = "document.getElementById('delegation_content').style.display = 'block';"
           },
           content = function()
-            ui.image{
-              static = "icons/16/error.png"
-            }
-            if delegation.issue_id then
-              slot.put(_"Issue delegation active")
-            elseif delegation.area_id then
-              slot.put(_"Area wide delegation active")
+            if delegation.trustee_id then
+              ui.image{
+                static = "icons/16/table_go.png"
+              }
+              if delegation.issue_id then
+                slot.put(_"Issue delegation active")
+              elseif delegation.area_id then
+                slot.put(_"Area wide delegation active")
+              else
+                slot.put(_"Global delegation active")
+              end
             else
-              slot.put(_"Global delegation active")
+              ui.image{
+                static = "icons/16/table_go_crossed.png"
+              }
+              if delegation.issue_id then
+                slot.put(_"Delegation turned off for issue")
+              elseif delegation.area_id then
+                slot.put(_"Delegation turned off for area")
+              end
             end
             ui.image{
               static = "icons/16/dropdown.png"
