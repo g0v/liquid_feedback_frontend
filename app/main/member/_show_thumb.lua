@@ -30,7 +30,7 @@ if member.delegate_member_ids then
   end
 end
 
-if in_delegation_chain or member.id == app.session.member_id then
+if in_delegation_chain or ((issue or initiative) and member.id == app.session.member_id) then
   container_class = container_class .. " in_delegation_chain"
 end
 
