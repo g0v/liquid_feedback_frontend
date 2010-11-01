@@ -79,26 +79,46 @@ ui.form{
     local records
 
     if issue then
+      local delegate_name = ""
+      local scope = "no delegation set"
+      local area_delegation = Delegation:by_pk(app.session.member_id, issue.area_id)
+      if area_delegation then
+        delegate_name = area_delegation.trustee.name
+        scope = _"area"
+      else
+      local global_delegation = Delegation:by_pk(app.session.member_id)
+      if global_delegation then
+        delegate_name = global_delegation.trustee.name
+        scope = _"global"
+      end
+    end
       records = {
         {
           id = -1,
-          name = _"Inherit delegation from area"
+          name = _("Apply global or area delegation for this issue (Currently: #{delegate_name} [#{scope}])", { delegate_name = delegate_name, scope = scope })
         },
         {
           id = 0,
-          name = _"No delegation (override area delegation)"
+          name = _"Abandon global and area delegations for this issue"
         },
 
       }
     elseif area then
+      local delegate_name = ""
+      local scope = "no delegation set"
+      local global_delegation = Delegation:by_pk(app.session.member_id)
+      if global_delegation then
+        delegate_name = global_delegation.trustee.name
+        scope = _"global"
+      end
       records = {
         {
           id = -1,
-          name = _"Inherit global delegation"
+          name = _("Apply global delegation for this area (Currently: #{delegate_name} [#{scope}])", { delegate_name = delegate_name, scope = scope })
         },
         {
           id = 0,
-          name = _"No delegation (override global delegation)"
+          name = _"Abandon global delegation for this area"
         }
       }
 
@@ -111,21 +131,21 @@ ui.form{
       }
 
     end
-
+    -- add saved members
+    records[#records+1] = {id="_", name= "--- " .. _"Saved contacts" .. " ---"}
     for i, record in ipairs(contact_members) do
       records[#records+1] = record
     end
-    disabled_records = {}
     -- add initiative authors
     if initiative then
-      records[#records+1] = {id="_", name=_"--- Initiators ---"}
-      disabled_records["_"] = true
+      records[#records+1] = {id="_", name= "--- " .. _"Initiators" .. " ---"}
       for i,record in ipairs(initiative.initiators) do
-        trace.debug(record)
-        trace.debug(record.member.name)
         records[#records+1] = record.member
       end
     end
+
+    disabled_records = {}
+    disabled_records["_"] = true
 
     ui.field.select{
       label = _"Trustee",

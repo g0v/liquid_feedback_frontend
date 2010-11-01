@@ -124,7 +124,7 @@ slot.select("actions", function()
               if delegation.issue_id then
                 slot.put(_"Issue delegation active")
               elseif delegation.area_id then
-                slot.put(_"Area wide delegation active")
+                slot.put(_"Area delegation active")
               else
                 slot.put(_"Global delegation active")
               end

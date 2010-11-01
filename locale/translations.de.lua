@@ -16,6 +16,8 @@ return {
 ["API key"] = "API-Schlüssel";
 ["API key has been deleted"] = "API-Schlüssel wurde gelöscht";
 ["API key has been updated"] = "API-Schlüssel wurde aktualisiert";
+["Abandon global and area delegations for this issue"] = "Globale und Themenbereichs-Delegation für dieses Thema aussetzen";
+["Abandon global delegation for this area"] = "Globale Delegation für diesen Themenbereich aussetzen";
 ["About"] = "About";
 ["About / Impressum"] = false;
 ["About LiquidFeedback"] = "Über LiquidFeedback";
@@ -40,6 +42,8 @@ return {
 ["Admitted"] = "zugelassen";
 ["Alternative initiatives"] = "Alternative Initiativen";
 ["Any"] = "Alle";
+["Apply global delegation for this area (Currently: #{delegate_name} [#{scope}])"] = "Globale Delegation für dieses Themengebiet anwenden (Zur Zeit: #{delegate_name} [#{scope}])";
+["Apply global or area delegation for this issue (Currently: #{delegate_name} [#{scope}])"] = "Globale oder Themengebiets-Delegation für dieses Thema anwenden (Zur Zeit: #{delegate_name} [#{scope}])";
 ["Approval (#th preference) [many entries]"] = "Zustimmung (#.-Wünsche)";
 ["Approval (#th preference) [single entry]"] = "Zustimmung (#.-Wunsch)";
 ["Approval (first preference) [many entries]"] = "Zustimmung (Erstwünsche)";
@@ -55,9 +59,9 @@ return {
 ["Area"] = "Themenbereich";
 ["Area '#{name}'"] = "Themenbereich '#{name}'";
 ["Area delegation"] = "Delegation für Themenbereich";
+["Area delegation active"] = "Delegation für Themenbereich aktiv";
 ["Area list"] = "Liste der Themenbereiche";
 ["Area successfully updated"] = "Themenbereich erfolgreich aktualisiert";
-["Area wide delegation active"] = "Delegation für Themenbereich aktiv";
 ["Areas"] = "Themenbereiche";
 ["Author"] = "Autor";
 ["Auto support is now disabled"] = false;
@@ -208,8 +212,6 @@ return {
 ["Incoming delegations"] = "Eingehende Delegationen";
 ["Information about the available policies"] = "Informationen zu den verfügbaren Regelwerken";
 ["Inherit autoreject from area"] = "Auto-Ablehnen vom Themengebiet übernehmen";
-["Inherit delegation from area"] = "Delegation von Themengebiet übernehmen";
-["Inherit global delegation"] = "Globale Delegation übernehmen";
 ["Initiated"] = "Initiiert";
 ["Initiated initiatives"] = "Initiierte Initiativen";
 ["Initiative ##{id}"] = "Initiative ##{id}";
@@ -322,8 +324,6 @@ return {
 ["No changes to your images were made"] = "An Deinen Bildern wurde nichts geändert";
 ["No default"] = "Kein Standard";
 ["No delegation"] = "Keine Delegation";
-["No delegation (override area delegation)"] = "Keine Delegation (überschreibe Themengebietsdelegation)";
-["No delegation (override global delegation)"] = "Keine Delegation (überschreibe globale)";
 ["No events selected to list"] = "Keine Ereignisse ausgewählt";
 ["No membership at all"] = "Gar keine Mitgliedschaft";
 ["No support at all"] = "Gar keine Unterstützung";
@@ -426,6 +426,7 @@ return {
 ["Save current filter"] = "Aktuellen Filter speichern";
 ["Save timeline filters"] = "Zeitachsen-Filter speichern";
 ["Saved as contact"] = "Als Kontakt gespeichert";
+["Saved contacts"] = "Gespeicherte Kontakte";
 ["Search"] = "Suchen";
 ["Search initiatives"] = "Suche Initiativen";
 ["Search issues"] = "Suche Themen";
@@ -623,10 +624,12 @@ return {
 ["a bit unsatisfied"] = "etwas unzufrieden";
 ["activated"] = "aktiviert";
 ["and #{count} more initiatives"] = "und #{count} weitere Initiativen";
+["area"] = "Themengebiet";
 ["deactivated"] = "deaktiviert";
 ["delete<br /><br />"] = false;
 ["disabled"] = "ausgeschaltet";
 ["email"] = "E-Mail";
+["global"] = "Global";
 ["implemented"] = "umgesetzt";
 ["last 24 hours"] = "letzte 24 Stunden";
 ["login name"] = "Anmeldename";

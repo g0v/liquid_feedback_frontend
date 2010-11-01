@@ -4,8 +4,8 @@ local issue = param.get("issue", "table")
 local trustee = param.get("trustee", "table")
 local initiator = param.get("initiator", "table")
 
+
 if initiative or issue then
-  local issue_id = issue and issue.id or initiative.issue_id
   members_selector:left_join("delegating_interest_snapshot", "_member_list__delegating_interest", { "_member_list__delegating_interest.event = issue.latest_snapshot_event AND _member_list__delegating_interest.issue_id = issue.id AND _member_list__delegating_interest.member_id = ?", app.session.member_id })
   members_selector:add_field("_member_list__delegating_interest.delegate_member_ids", "delegate_member_ids")
 end
