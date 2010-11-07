@@ -34,8 +34,6 @@ config.member_image_default_file = {
 
 config.default_lang = "de"
 
-config.auto_support = true
-
 -- after how long is a user considered inactive and the trustee will see warning\
 -- will not work unless config.last_login_enabled is set to true
 -- notation is according to postgresql intervals, nil turns off feature
