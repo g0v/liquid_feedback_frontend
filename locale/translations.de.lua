@@ -11,7 +11,6 @@ return {
 ["(change URL)"] = "(URL ändern)";
 ["(new window)"] = "(neues Fenster)";
 ["+ #{weight}"] = "+ #{weight}";
-["+getElementById("] = false;
 ["A-Z"] = "A-Z";
 ["API key"] = "API-Schlüssel";
 ["API key has been deleted"] = "API-Schlüssel wurde gelöscht";

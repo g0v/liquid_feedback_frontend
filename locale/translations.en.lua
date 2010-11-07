@@ -1,8 +1,8 @@
 #!/usr/bin/env lua
 return {
-["--- Initiators ---"] = false;
 ["##{id}"] = false;
 ["##{issue_id}.#{id} #{name}"] = false;
+["#{author} at #{date}"] = false;
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = false;
 ["#{issues_to_vote_count} issue(s)"] = false;
 ["#{number} Image(s) has been deleted"] = false;
@@ -15,6 +15,8 @@ return {
 ["API key"] = false;
 ["API key has been deleted"] = false;
 ["API key has been updated"] = false;
+["Abandon global and area delegations for this issue"] = false;
+["Abandon global delegation for this area"] = false;
 ["About"] = false;
 ["About / Impressum"] = false;
 ["About LiquidFeedback"] = false;
@@ -35,11 +37,12 @@ return {
 ["Admin"] = false;
 ["Admin menu"] = false;
 ["Admin?"] = false;
-["Administrator"] = false;
 ["Admission time"] = false;
 ["Admitted"] = false;
 ["Alternative initiatives"] = false;
 ["Any"] = false;
+["Apply global delegation for this area (Currently: #{delegate_name} [#{scope}])"] = false;
+["Apply global or area delegation for this issue (Currently: #{delegate_name} [#{scope}])"] = false;
 ["Approval (#th preference) [many entries]"] = "Approval (#th preference)";
 ["Approval (#th preference) [single entry]"] = "Approval (#th preference)";
 ["Approval (first preference) [many entries]"] = "Approval (first preference)";
@@ -55,11 +58,18 @@ return {
 ["Area"] = false;
 ["Area '#{name}'"] = false;
 ["Area delegation"] = false;
+["Area delegation active"] = false;
 ["Area list"] = false;
 ["Area successfully updated"] = false;
-["Area wide delegation active"] = false;
 ["Areas"] = false;
 ["Author"] = false;
+["Auto support is now disabled"] = false;
+["Auto support is now enabled"] = false;
+["Autoreject for this issue is turned off."] = false;
+["Autoreject for this issue is turned on."] = false;
+["Autoreject is inherited from area. (Currently turned off)"] = false;
+["Autoreject is inherited from area. (Currently turned on)"] = false;
+["Autoreject is inherited from area. (No member of this area)"] = false;
 ["Autoreject is off."] = false;
 ["Autoreject is on."] = false;
 ["Avatar"] = false;
@@ -115,11 +125,15 @@ return {
 ["Current status"] = false;
 ["Current votings in areas you are member of and issues you are interested in:"] = false;
 ["Currently no API key is set."] = false;
+["Currently required"] = false;
 ["Date"] = false;
 ["Date format is not valid. Please use following format: YYYY-MM-DD"] = false;
+["Default Policy"] = false;
 ["Degree"] = false;
-["Delegations"] = false;
 ["Delegation problems"] = false;
+["Delegation turned off for area"] = false;
+["Delegation turned off for issue"] = false;
+["Delegations"] = false;
 ["Delete API key"] = false;
 ["Delete filter"] = false;
 ["Description"] = false;
@@ -128,6 +142,7 @@ return {
 ["Diff"] = false;
 ["Direct member count"] = false;
 ["Direct membership"] = false;
+["Disable autosupport for this initiative"] = false;
 ["Disapproval (prefer to last block) [many entries]"] = "Disapproval (prefer to last block)";
 ["Disapproval (prefer to last block) [single entry]"] = "Disapproval (prefer to last block)";
 ["Disapproval (prefer to lower block) [many entries]"] = "Disapproval (prefer to lower block)";
@@ -157,7 +172,10 @@ return {
 ["Email address confirmation"] = false;
 ["Email address is confirmed now"] = false;
 ["Email address too short!"] = false;
+["Email confirmation request"] = false;
 ["Email unconfirmed"] = false;
+["Empty help text: #{id}.#{lang}.txt"] = false;
+["Enable autosupport for this initiative"] = false;
 ["Error while converting image. Please note, that only JPG files are supported!"] = false;
 ["Error while resolving openid. Internal message: '#{errmsg}'"] = false;
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = false;
@@ -176,9 +194,12 @@ return {
 ["Go up"] = false;
 ["Half frozen at"] = false;
 ["Hello "] = false;
+["Help #{id}"] = false;
 ["Help for: #{text}"] = false;
 ["Hide"] = false;
 ["Hide filter details"] = false;
+["Hide this help message"] = false;
+["History"] = false;
 ["Home"] = false;
 ["I consider suggestion as"] = false;
 ["Id"] = false;
@@ -189,14 +210,17 @@ return {
 ["In discussion"] = false;
 ["Incoming delegations"] = false;
 ["Information about the available policies"] = false;
+["Inherit autoreject from area"] = false;
 ["Initiated"] = false;
 ["Initiated initiatives"] = false;
+["Initiative ##{id}"] = false;
 ["Initiative events"] = false;
 ["Initiative is revoked now"] = false;
 ["Initiative quorum"] = false;
 ["Initiative revoked"] = false;
 ["Initiative successfully created"] = false;
 ["Initiative successfully updated"] = false;
+["Initiative: "] = false;
 ["Initiative: '#{name}'"] = false;
 ["Initiatives"] = false;
 ["Initiatives in this area (last created first)"] = false;
@@ -213,6 +237,7 @@ return {
 ["Interested"] = false;
 ["Interested members"] = false;
 ["Internal posts"] = false;
+["Invalid query"] = false;
 ["Invalid username or password!"] = false;
 ["Invitation has been refused"] = false;
 ["Invite an initiator to initiative"] = false;
@@ -235,6 +260,7 @@ return {
 ["JavaScript is disabled or not available."] = false;
 ["Last author"] = false;
 ["Last snapshot:"] = false;
+["Legend:"] = false;
 ["License"] = false;
 ["Locked?"] = false;
 ["Login"] = false;
@@ -272,6 +298,7 @@ return {
 ["Membership updated"] = false;
 ["Memberships"] = false;
 ["Message of the day"] = false;
+["Missing help text: #{id}.#{lang}.txt"] = false;
 ["Mobile phone"] = false;
 ["Monday"] = false;
 ["Move down"] = false;
@@ -294,6 +321,7 @@ return {
 ["Next state"] = false;
 ["No"] = false;
 ["No changes to your images were made"] = false;
+["No default"] = false;
 ["No delegation"] = false;
 ["No events selected to list"] = false;
 ["No membership at all"] = false;
@@ -313,6 +341,7 @@ return {
 ["Old password"] = false;
 ["Old password is wrong"] = false;
 ["Oldest"] = false;
+["On that page please enter the confirmation code:\n\n"] = false;
 ["On that page please enter the reset code:\n\n"] = false;
 ["One issue"] = false;
 ["One issue you are interested in"] = false;
@@ -341,6 +370,7 @@ return {
 ["Please choose a policy"] = false;
 ["Please choose two different versions of the draft to compare"] = false;
 ["Please choose two versions of the draft to compare"] = false;
+["Please confirm your email address by clicking the following link:\n\n"] = false;
 ["Please enter the email reset code you have received:"] = false;
 ["Please enter the invite code you've received."] = false;
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = false;
@@ -379,6 +409,7 @@ return {
 ["Remove my membership"] = false;
 ["Remove my request to vote later"] = false;
 ["Remove my support from this initiative"] = false;
+["Rendered"] = false;
 ["Repeat new password"] = false;
 ["Request password reset link"] = false;
 ["Resend activation email to '#{email}'"] = false;
@@ -394,6 +425,7 @@ return {
 ["Save current filter"] = false;
 ["Save timeline filters"] = false;
 ["Saved as contact"] = false;
+["Saved contacts"] = false;
 ["Search"] = false;
 ["Search initiatives"] = false;
 ["Search issues"] = false;
@@ -431,6 +463,7 @@ return {
 ["Sorry, it was not possible to verify your OpenID."] = false;
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = false;
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = false;
+["Source"] = false;
 ["State"] = false;
 ["Statement"] = false;
 ["Status"] = false;
@@ -444,8 +477,10 @@ return {
 ["Suggest no initiative"] = false;
 ["Suggested initiative"] = false;
 ["Suggestion"] = false;
+["Suggestion ##{id}"] = false;
 ["Suggestion currently implemented"] = false;
 ["Suggestion currently not implemented"] = false;
+["Suggestion does not exist anymore"] = false;
 ["Suggestion for initiative: '#{name}'"] = false;
 ["Suggestions"] = false;
 ["Sunday"] = false;
@@ -454,6 +489,7 @@ return {
 ["Supported"] = false;
 ["Supported initiatives"] = false;
 ["Supporter"] = false;
+["Syntax help"] = false;
 ["Tabs"] = false;
 ["Terms of use"] = false;
 ["The API key has been changed too fast."] = false;
@@ -500,8 +536,11 @@ return {
 ["Traditional wiki syntax"] = false;
 ["Trustee"] = false;
 ["Tuesday"] = false;
+["Turn off autoreject for issue"] = false;
+["Turn on autoreject for issue"] = false;
 ["Type of tabs"] = false;
 ["Unconfirmed address"] = false;
+["Unknown author"] = false;
 ["Updated drafts"] = false;
 ["Upload images"] = false;
 ["Verification time"] = false;
@@ -555,7 +594,9 @@ return {
 ["Your API key:"] = false;
 ["Your are interested"] = false;
 ["Your are potential supporter"] = false;
+["Your are potential supporter (WARNING: Autosupport enabled)"] = false;
 ["Your are supporter"] = false;
+["Your are supporter (Autosupport enabled)"] = false;
 ["Your delegation for this area has been deleted."] = false;
 ["Your delegation for this area has been updated."] = false;
 ["Your delegation for this issue has been deleted."] = false;
@@ -582,9 +623,12 @@ return {
 ["a bit unsatisfied"] = false;
 ["activated"] = false;
 ["and #{count} more initiatives"] = false;
+["area"] = false;
 ["deactivated"] = false;
+["delete<br /><br />"] = false;
 ["disabled"] = false;
 ["email"] = false;
+["global"] = false;
 ["implemented"] = false;
 ["last 24 hours"] = false;
 ["login name"] = false;
