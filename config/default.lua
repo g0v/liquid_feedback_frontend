@@ -49,7 +49,7 @@ config.download_use_terms = "=== Nutzungsbedingungen ===\nAlles ist verboten"
 
 config.public_access = false  -- Available options: "anonymous", "pseudonym"
 
-config.api_enabled = false
+config.api_enabled = true
 
 config.feature_rss_enabled = false -- feature is broken
 
