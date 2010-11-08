@@ -26,3 +26,18 @@ function Contact:by_pk(member_id, other_member_id)
     :optional_object_mode()
     :exec()
 end
+
+function Contact:build_selector(args)
+  local selector = Contact:new_selector()
+  if args.member_id then
+    selector:add_where{ "member_id = ?", args.member_id }
+  end
+  if order then
+    if order == "name" then
+      selector:add_order_by("name")
+    else
+      error("invalid order")
+    end
+  end
+  return selector
+end
