@@ -1,7 +1,7 @@
 #!/usr/bin/env lua
 return {
-["##{id}"] = false;
-["##{issue_id}.#{id} #{name}"] = false;
+["##{id}"] = "##{id}";
+["##{issue_id}.#{id} #{name}"] = "##{issue_id}.#{id} #{name}";
 ["#{author} at #{date}"] = "#{author} am #{date}";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} Themen";
@@ -116,9 +116,12 @@ return {
 ["Contacts"] = "Kontakte";
 ["Content"] = "Inhalt";
 ["Counting of votes"] = "Auszählung";
+["Create / edit area"] = "Themengebiet anlegen / bearbeiten";
+["Create / edit policy"] = "Regelwerk anlegen / bearbeiten";
 ["Create alternative initiative"] = "Alternative Initiative hinzufügen";
 ["Create new area"] = "Neuen Themenbereich anlegen";
 ["Create new issue"] = "Neues Thema anlegen";
+["Create new policy"] = "Neues Regelwerk anlegen";
 ["Created at"] = "Erzeugt am/um";
 ["Current draft"] = "Aktueller Entwurf";
 ["Current name"] = "Aktueller Name";
@@ -195,11 +198,12 @@ return {
 ["Go up"] = "Nach oben";
 ["Half frozen at"] = "Halb eingefroren am/um";
 ["Hello "] = "Hallo ";
-["Help #{id}"] = false;
+["Help #{id}"] = "Hilfe #{id}";
 ["Help for: #{text}"] = "Hilfe zu: #{text}";
 ["Hide"] = "Verstecken";
 ["Hide filter details"] = "Filter-Details verstecken";
 ["Hide this help message"] = "Diese Hilfenachricht verstecken";
+["Hint"] = "Hinweis";
 ["History"] = "Historie";
 ["Home"] = "Startseite";
 ["I consider suggestion as"] = "Ich halte die Anregung für";
@@ -210,6 +214,7 @@ return {
 ["Images"] = "Bilder";
 ["In discussion"] = "In Diskussion";
 ["Incoming delegations"] = "Eingehende Delegationen";
+["Index"] = "Positionsnummer";
 ["Information about the available policies"] = "Informationen zu den verfügbaren Regelwerken";
 ["Inherit autoreject from area"] = "Auto-Ablehnen vom Themengebiet übernehmen";
 ["Initiated"] = "Initiiert";
@@ -218,10 +223,12 @@ return {
 ["Initiative events"] = "Initiativen-Ereignisse";
 ["Initiative is revoked now"] = "Initiative ist jetzt zurückgezogen";
 ["Initiative quorum"] = "Quorum Inititive";
+["Initiative quorum denumerator"] = "Initiativ-Quorum Zähler";
+["Initiative quorum numerator"] = "Initiativ-Quorum Nenner";
 ["Initiative revoked"] = "Initiative zurückgezogen";
 ["Initiative successfully created"] = "Initiative erfolgreich erzeugt";
 ["Initiative successfully updated"] = "Initiative erfolgreich aktualisiert";
-["Initiative: "] = false;
+["Initiative: "] = "Initiative: ";
 ["Initiative: '#{name}'"] = "Initiative: '#{name}'";
 ["Initiatives"] = "Initiativen";
 ["Initiatives in this area (last created first)"] = "Initiativen in diesem Themenbereich (zuletzt angelegte zuerst)";
@@ -238,6 +245,7 @@ return {
 ["Interested"] = "Interessiert";
 ["Interested members"] = "Interessierte Mitglieder";
 ["Internal posts"] = "Interne Ämter";
+["Interval format:"] = "Intervall-Format";
 ["Invalid query"] = false;
 ["Invalid username or password!"] = "Ungültiger Benutzername oder Kennwort";
 ["Invitation has been refused"] = "Einladung wurde widerrufen";
@@ -257,6 +265,8 @@ return {
 ["Issue frozen"] = "Thema eingefroren";
 ["Issue policy"] = "Regelwerk für Thema";
 ["Issue quorum"] = "Quorum Thema";
+["Issue quorum denumerator"] = "Themen-Quorum Zähler";
+["Issue quorum numerator"] = "Themen-Quorum Nenner";
 ["Issues"] = "Themen";
 ["JavaScript is disabled or not available."] = "JavaScript ist abgeschaltet oder nicht verfügbar.";
 ["Last author"] = "Letzter Autor";
@@ -270,6 +280,8 @@ return {
 ["Logout"] = "Abmelden";
 ["Logout successful"] = "Abmeldung erfolgreich";
 ["Majority"] = "Mehrheit";
+["Majority denumerator"] = "Mehrheit Zähler";
+["Majority numerator"] = "Mehrheit Nenner";
 ["Manage filter"] = "Filter verwalten";
 ["Manage timeline filters"] = "Zeitachsen-Filter verwalten";
 ["Max potential support"] = "Max. potentielle Unterstützer";
@@ -380,6 +392,8 @@ return {
 ["Policies"] = "Regelwerke";
 ["Policy"] = "Regelwerk";
 ["Policy '#{name}'"] = "Regelwerk '#{name}'";
+["Policy list"] = "Liste der Regelwerke";
+["Policy successfully updated"] = "Regelwerk erfolgreich aktualisiert";
 ["Population"] = "Grundgesamtheit";
 ["Posts"] = "Ämter";
 ["Potential support"] = "Potentielle Unterstützung";
@@ -456,6 +470,8 @@ return {
 ["Show member"] = "Mitglied anzeigen";
 ["Show name history"] = "Namenshistorie zeigen";
 ["Show only events which match... (or associtated)"] = "Zeige nur Ereignisse welche folgendes erfüllen... (oder-verknüpft)";
+["Show policies in use"] = "Zeige Regelwerke in Verwendung";
+["Show policies not in use"] = "Zeige deaktivierte Regelwerke";
 ["So I'm"] = "Also bin ich";
 ["Software"] = "Software";
 ["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = "Einige auf JavaScript basierende Funktionen (insbesondere der Abstimmung) sind nicht benutzbar.\nFür diese Beta verwende bitte eine aktuelle Version von Firefox, Safari, Opera(?), Konqueror oder einen anderen (mehr) den Standards entsprechenden Browser.\nEin alternativer Zugriff ohne JavaScript wird bald zur Verfügung stehen.";
@@ -473,6 +489,7 @@ return {
 ["Step 3/5: Username"] = "Schritt 3/5: Benutzername";
 ["Step 4/5: Login name"] = "Schritt 4/5: Anmeldename";
 ["Step 5/5: Terms of use and password"] = "Schritt 5/5: Nutzungsbedingungen und Kennwort";
+["Strict majority"] = "Strikte Mehrheit";
 ["Stylesheet URL"] = "Stylesheet URL";
 ["Stylesheet URL has been updated"] = "Stylesheet URL wurde aktualisiert";
 ["Suggest no initiative"] = "Keine Initiative empfehlen";
