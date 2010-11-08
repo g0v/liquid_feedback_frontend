@@ -83,7 +83,7 @@ ui.form{
       local scope = "no delegation set"
       local area_delegation = Delegation:by_pk(app.session.member_id, issue.area_id)
       if area_delegation then
-        delegate_name = area_delegation.trustee.name
+        delegate_name = area_delegation.trustee and area_delegation.trustee.name or _"abandoned"
         scope = _"area"
       else
       local global_delegation = Delegation:by_pk(app.session.member_id)

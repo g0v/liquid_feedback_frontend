@@ -59,11 +59,15 @@ ui.paginate{
           if incoming then
             delegation_scope(delegation)
           else
-            execute.view{
-              module = "member",
-              view = "_show_thumb",
-              params = { member = delegation.trustee }
-            }
+            if delegation.trustee then
+              execute.view{
+                module = "member",
+                view = "_show_thumb",
+                params = { member = delegation.trustee }
+              }
+            else
+              ui.tag{ content = _"Delegation abandoned" }
+            end
           end
         end
       }
