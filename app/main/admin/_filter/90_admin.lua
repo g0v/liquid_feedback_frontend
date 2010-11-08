@@ -1,4 +1,4 @@
-if request.get_module() == "admin" and not app.session.member.admin then
+if not app.session.member.admin then
   error('access denied')
 end
 

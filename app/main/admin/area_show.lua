@@ -1,11 +1,17 @@
 local id = param.get_id()
 
-local area
-if id then
-  area = Area:new_selector():add_where{ "id = ?", id }:single_object_mode():exec()
-end
+local area = Area:by_id(id) or Area:new()
 
-slot.put_into("title", _"Create new area")
+slot.put_into("title", _"Create / edit area")
+
+slot.select("actions", function()
+  ui.link{
+    attr = { class = { "admin_only" } },
+    text = _"Cancel",
+    module = "admin",
+    view = "area_list"
+  }
+end)
 
 ui.form{
   attr = { class = "vertical" },
@@ -19,9 +25,9 @@ ui.form{
       view = "area_list"
     }
   },
-  id = area and area.id or nil,
+  id = id,
   content = function()
-    policies = Policy:new_selector():add_where{ "active='t'"}:exec()
+    policies = Policy:build_selector{ active = true }:exec()
     local def_policy = {
       {
         id = "-1",
@@ -35,7 +41,7 @@ ui.form{
     ui.field.text{    label = _"Name",        name = "name" }
     ui.field.boolean{ label = _"Active?",     name = "active" }
     ui.field.text{    label = _"Description", name = "description", multiline = true }
-    ui.field.select{   label = _"Default Policy",   name = "default_policy",
+    ui.field.select{  label = _"Default Policy",   name = "default_policy",
                  value=area.default_policy and area.default_policy.id or "-1",
                  foreign_records = def_policy,
                  foreign_id      = "id",
@@ -45,8 +51,9 @@ ui.form{
                       foreign_records = policies,
                       foreign_id      = "id",
                       foreign_name    = "name",
-                      connecting_records = area.allowed_policies,
-                      foreign_reference  = "id" }
+                      connecting_records = area.allowed_policies or {},
+                      foreign_reference  = "id",
+    }
     ui.submit{ text = _"Save" }
   end
 }

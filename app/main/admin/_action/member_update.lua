@@ -1,16 +1,4 @@
-if not app.session.member.admin then
-  error('access denied')
-end
-
-local id = param.get_id()
-
-local member
-
-if id then
-  member = Member:new_selector():add_where{"id = ?", id}:single_object_mode():exec()
-else
-  member = Member:new()
-end
+local member = Member:by_id(param.get_id()) or Member:new()
 
 param.update(member, "login", "admin", "name", "active")
 

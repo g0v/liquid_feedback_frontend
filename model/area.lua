@@ -58,3 +58,10 @@ function Area.object_get:default_policy()
     :exec()
 end
 
+function Area:build_selector(args)
+  local selector = Area:new_selector()
+  if args.active ~= nil then
+    selector:add_where{ "active = ?", args.active }
+  end
+  return selector
+end

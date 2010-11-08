@@ -223,6 +223,25 @@ Member:add_reference{
   ref                   = 'supported_initiatives'
 }
 
+function Member:build_selector(args)
+  local selector = self:new_selector()
+  if args.active ~= nil then
+    selector:add_where{ "member.active = ?", args.active }
+  end
+  if args.order then
+    if args.order == "id" then
+      selector:add_order_by("id")
+    elseif args.order == "login" then
+      selector:add_order_by("login")
+    elseif args.order == "name" then
+      selector:add_order_by("name")
+    else
+      error("invalid order")
+    end
+  end
+  return selector
+end
+
 function Member.object:set_password(password)
   local hash = os.crypt(
     password,

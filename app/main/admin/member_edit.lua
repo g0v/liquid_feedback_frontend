@@ -1,8 +1,8 @@
 local id = param.get_id()
 
-local member
-if id then
-  member = Member:new_selector():add_where{"id = ?", id}:optional_object_mode():exec()
+local member = Member:by_id(id)
+
+if member then
   slot.put_into("title", encode.html(_("Member: '#{login}' (#{name})", { login = member.login, name = member.name })))
 else
   slot.put_into("title", encode.html(_"Register new member"))

@@ -1,4 +1,13 @@
+local show_locked = param.get("show_locked", atom.boolean)
+
+local members_selector = Member:build_selector{ 
+  active = not show_locked,
+  order = "login"
+}
+
+
 slot.put_into("title", _"Member list")
+
 
 slot.select("actions", function()
   ui.link{
@@ -7,7 +16,7 @@ slot.select("actions", function()
     module = "admin",
     view = "member_edit"
   }
-  if param.get("show_locked") then
+  if show_locked then
     ui.link{
       attr = { class = { "admin_only" } },
       text = _"Show active members",
@@ -25,20 +34,10 @@ slot.select("actions", function()
   end
 end)
 
-local members_selector
-
-if param.get("show_locked", atom.boolean) then
-  members_selector = Member:new_selector()
-    :add_where("not active")
-    :add_order_by("login")
-else
-  members_selector = Member:new_selector()
-    :add_where("active")
-    :add_order_by("login")
-end
 
 ui.paginate{
   selector = members_selector,
+  per_page = 30,
   content = function() 
     ui.list{
       records = members_selector:exec(),
@@ -68,22 +67,20 @@ ui.paginate{
         },
         {
           content = function(record)
-            if app.session.member.admin and not record.active then
+            if not record.active then
               ui.field.text{ value = "locked" }
             end
           end
         },
         {
           content = function(record)
-            if app.session.member.admin then
-              ui.link{
-                attr = { class = "action admin_only" },
-                text = _"Edit",
-                module = "admin",
-                view = "member_edit",
-                id = record.id
-              }
-            end
+            ui.link{
+              attr = { class = "action admin_only" },
+              text = _"Edit",
+              module = "admin",
+              view = "member_edit",
+              id = record.id
+            }
           end
         }
       }

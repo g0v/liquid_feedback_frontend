@@ -9,3 +9,12 @@ Policy:add_reference{
   ref           = 'issues',
   back_ref      = 'policy'
 }
+
+function Policy:build_selector(args)
+  local selector = self:new_selector()
+  if args.active ~= nil then
+    selector:add_where{ "active = ?", args.active }
+  end
+  selector:add_order_by("index")
+  return selector
+end
