@@ -1,4 +1,4 @@
-local area = param.get("area", "table") or Area:by_id(param.get("area_id", atom.integer))
+local area = param.get("area", "table") or Area:by_id(param.get_id())
 
 local issues_selector = area:get_reference_selector("issues")
 local members_selector = area:get_reference_selector("members")
