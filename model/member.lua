@@ -223,10 +223,18 @@ Member:add_reference{
   ref                   = 'supported_initiatives'
 }
 
+Member:new_selector()
+  :add_order_by("member.name")
+  :exec()
+
 function Member:build_selector(args)
   local selector = self:new_selector()
   if args.active ~= nil then
     selector:add_where{ "member.active = ?", args.active }
+  end
+  if args.is_contact_of_member_id then
+    selector:join("contact", "__model_member__contact", "member.id = __model_member__contact.other_member_id")
+    selector:add_where{ "__model_member__contact.member_id = ?", args.is_contact_of_member_id }
   end
   if args.order then
     if args.order == "id" then

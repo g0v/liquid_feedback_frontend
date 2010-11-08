@@ -51,13 +51,10 @@ slot.select("actions", function()
 end)
 
 
-
-local contact_members = Member:new_selector()
-  :add_where{ "contact.member_id = ?", app.session.member.id }
-  :join("contact", nil, "member.id = contact.other_member_id")
-  :add_order_by("member.name")
-  :exec()
-
+local contact_members = Member:build_selector{
+  is_contact_of_member_id = app.session.member_id,
+  order = "name"
+}:exec()
 
 ui.form{
   attr = { class = "vertical" },
