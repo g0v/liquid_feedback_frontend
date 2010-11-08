@@ -3,11 +3,16 @@ local initiative = param.get("initiative", "table")
 local issue = param.get("issue", "table")
 local trustee = param.get("trustee", "table")
 local initiator = param.get("initiator", "table")
-
+local for_votes = param.get("for_votes", atom.boolean)
 
 if initiative or issue then
-  members_selector:left_join("delegating_interest_snapshot", "_member_list__delegating_interest", { "_member_list__delegating_interest.event = issue.latest_snapshot_event AND _member_list__delegating_interest.issue_id = issue.id AND _member_list__delegating_interest.member_id = ?", app.session.member_id })
-  members_selector:add_field("_member_list__delegating_interest.delegate_member_ids", "delegate_member_ids")
+  if for_votes then
+    members_selector:left_join("delegating_voter", "_member_list__delegating_voter", { "_member_list__delegating_voter.issue_id = issue.id AND _member_list__delegating_voter.member_id = ?", app.session.member_id })
+    members_selector:add_field("_member_list__delegating_voter.delegate_member_ids", "delegate_member_ids")
+  else
+    members_selector:left_join("delegating_interest_snapshot", "_member_list__delegating_interest", { "_member_list__delegating_interest.event = issue.latest_snapshot_event AND _member_list__delegating_interest.issue_id = issue.id AND _member_list__delegating_interest.member_id = ?", app.session.member_id })
+    members_selector:add_field("_member_list__delegating_interest.delegate_member_ids", "delegate_member_ids")
+  end
 end
 
 ui.add_partial_param_names{ "member_list" }
