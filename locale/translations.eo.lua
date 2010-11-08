@@ -11,6 +11,7 @@ return {
 ["(change URL)"] = "(ŝanĝi URLon)";
 ["(new window)"] = "(nova fenestro)";
 ["+ #{weight}"] = "+ #{weight}";
+["+getElementById("] = false;
 ["A-Z"] = "A-Z";
 ["API key"] = "API-ŝlosilo";
 ["API key has been deleted"] = "API-ŝlosilo estas viŝita";
@@ -130,6 +131,7 @@ return {
 ["Date format is not valid. Please use following format: YYYY-MM-DD"] = false;
 ["Default Policy"] = false;
 ["Degree"] = "Grado";
+["Delegation abandoned"] = false;
 ["Delegation problems"] = false;
 ["Delegation turned off for area"] = false;
 ["Delegation turned off for issue"] = false;
@@ -621,6 +623,7 @@ return {
 ["[Registered members only]"] = "[Nur registritaj membroj]";
 ["[not displayed public]"] = "[ne afiŝita publike]";
 ["a bit unsatisfied"] = false;
+["abandoned"] = false;
 ["activated"] = false;
 ["and #{count} more initiatives"] = "kaj #{count} pliaj iniciatoj";
 ["area"] = false;

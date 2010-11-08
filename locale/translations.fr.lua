@@ -130,6 +130,7 @@ return {
 ["Date format is not valid. Please use following format: YYYY-MM-DD"] = false;
 ["Default Policy"] = false;
 ["Degree"] = false;
+["Delegation abandoned"] = false;
 ["Delegation problems"] = false;
 ["Delegation turned off for area"] = false;
 ["Delegation turned off for issue"] = false;
@@ -621,6 +622,7 @@ return {
 ["[Registered members only]"] = false;
 ["[not displayed public]"] = false;
 ["a bit unsatisfied"] = false;
+["abandoned"] = false;
 ["activated"] = false;
 ["and #{count} more initiatives"] = false;
 ["area"] = false;

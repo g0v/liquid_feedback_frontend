@@ -130,6 +130,7 @@ return {
 ["Date format is not valid. Please use following format: YYYY-MM-DD"] = "Datumsformat nicht korrekt. Bitte verwende: JJJJ-MM-TT, also z.B. 1945-05-23";
 ["Default Policy"] = "Standard-Regelwerk";
 ["Degree"] = "Grad";
+["Delegation abandoned"] = "Delegation ausgesetzt";
 ["Delegation problems"] = "Delegationsprobleme";
 ["Delegation turned off for area"] = "Delegation für Themengebiet ausgesetzt";
 ["Delegation turned off for issue"] = "Delegation für Thema ausgesetzt";
@@ -391,7 +392,7 @@ return {
 ["Profile"] = "Profil";
 ["Publish"] = "Veröffentlichen";
 ["Published"] = "veröffentlicht";
-["Quorum"] = false;
+["Quorum"] = "Quorum";
 ["Rank"] = "Rang";
 ["Real name"] = "Realname";
 ["Refresh support to current draft"] = "Unterstützung auf aktuellen Entwurf aktualisieren";
@@ -466,7 +467,7 @@ return {
 ["Source"] = "Quelltext";
 ["State"] = "Zustand";
 ["Statement"] = "Statement";
-["Status"] = false;
+["Status"] = "Status";
 ["Step 1/5: Invite code"] = "Schritt 1/5: Invite-Code";
 ["Step 2/5: Email address"] = "Schritt 2/5: E-Mail-Adresse";
 ["Step 3/5: Username"] = "Schritt 3/5: Benutzername";
@@ -621,11 +622,12 @@ return {
 ["[Registered members only]"] = "[nur für Registrierte]";
 ["[not displayed public]"] = "[nicht öffentlich]";
 ["a bit unsatisfied"] = "etwas unzufrieden";
+["abandoned"] = "ausgesetzt";
 ["activated"] = "aktiviert";
 ["and #{count} more initiatives"] = "und #{count} weitere Initiativen";
 ["area"] = "Themengebiet";
 ["deactivated"] = "deaktiviert";
-["delete<br /><br />"] = false;
+["delete<br /><br />"] = "löschen<br /><br />";
 ["disabled"] = "ausgeschaltet";
 ["email"] = "E-Mail";
 ["global"] = "Global";
