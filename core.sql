@@ -2313,29 +2313,26 @@ CREATE FUNCTION "create_interest_snapshot"
         ( "issue_id", "initiative_id", "event", "member_id",
           "informed", "satisfied" )
         SELECT
-          "issue_id_p"      AS "issue_id",
-          "initiative"."id" AS "initiative_id",
-          'periodic'        AS "event",
-          "member"."id"     AS "member_id",
+          "issue_id_p"            AS "issue_id",
+          "initiative"."id"       AS "initiative_id",
+          'periodic'              AS "event",
+          "supporter"."member_id" AS "member_id",
           "supporter"."draft_id" = "current_draft"."id" AS "informed",
           NOT EXISTS (
             SELECT NULL FROM "critical_opinion"
             WHERE "initiative_id" = "initiative"."id"
-            AND "member_id" = "member"."id"
+            AND "member_id" = "supporter"."member_id"
           ) AS "satisfied"
-        FROM "supporter"
-        JOIN "member"
-        ON "supporter"."member_id" = "member"."id"
-        JOIN "initiative"
+        FROM "initiative"
+        JOIN "supporter"
         ON "supporter"."initiative_id" = "initiative"."id"
         JOIN "current_draft"
         ON "initiative"."id" = "current_draft"."initiative_id"
         JOIN "direct_interest_snapshot"
-        ON "member"."id" = "direct_interest_snapshot"."member_id"
+        ON "supporter"."member_id" = "direct_interest_snapshot"."member_id"
         AND "initiative"."issue_id" = "direct_interest_snapshot"."issue_id"
         AND "event" = 'periodic'
-        WHERE "member"."active"
-        AND "initiative"."issue_id" = "issue_id_p";
+        WHERE "initiative"."issue_id" = "issue_id_p";
       RETURN;
     END;
   $$;
