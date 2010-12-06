@@ -61,11 +61,17 @@ CREATE FUNCTION "time_warp"() RETURNS VOID
     END;
   $$;
 
-INSERT INTO "area" ("name") VALUES
-  ('Area #1'),  -- id 1
-  ('Area #2'),  -- id 2
-  ('Area #3'),  -- id 3
-  ('Area #4');  -- id 4
+INSERT INTO "unit" ("name") VALUES ('Main');
+
+INSERT INTO "privilege" ("unit_id", "member_id", "voting_right")
+  SELECT 1 AS "unit_id", "id" AS "member_id", TRUE AS "voting_right"
+  FROM "member";
+
+INSERT INTO "area" ("unit_id", "name") VALUES
+  (1, 'Area #1'),  -- id 1
+  (1, 'Area #2'),  -- id 2
+  (1, 'Area #3'),  -- id 3
+  (1, 'Area #4');  -- id 4
 
 INSERT INTO "allowed_policy" ("area_id", "policy_id", "default_policy")
   VALUES (1, 1, TRUE), (2, 1, TRUE), (3, 1, TRUE), (4, 1, TRUE);
@@ -90,23 +96,23 @@ INSERT INTO "membership" ("area_id", "member_id", "autoreject") VALUES
 
 -- global delegations
 INSERT INTO "delegation"
-  ("truster_id", "scope", "trustee_id") VALUES
-  ( 1, 'global',  9),
-  ( 2, 'global', 11),
-  ( 3, 'global', 12),
-  ( 4, 'global', 13),
-  ( 5, 'global', 14),
-  ( 6, 'global',  7),
-  ( 7, 'global',  8),
-  ( 8, 'global',  6),
-  (10, 'global',  9),
-  (11, 'global',  9),
-  (12, 'global', 21),
-  (15, 'global', 10),
-  (16, 'global', 17),
-  (17, 'global', 19),
-  (18, 'global', 19),
-  (23, 'global', 22);
+  ("truster_id", "scope", "unit_id", "trustee_id") VALUES
+  ( 1, 'unit', 1,  9),
+  ( 2, 'unit', 1, 11),
+  ( 3, 'unit', 1, 12),
+  ( 4, 'unit', 1, 13),
+  ( 5, 'unit', 1, 14),
+  ( 6, 'unit', 1,  7),
+  ( 7, 'unit', 1,  8),
+  ( 8, 'unit', 1,  6),
+  (10, 'unit', 1,  9),
+  (11, 'unit', 1,  9),
+  (12, 'unit', 1, 21),
+  (15, 'unit', 1, 10),
+  (16, 'unit', 1, 17),
+  (17, 'unit', 1, 19),
+  (18, 'unit', 1, 19),
+  (23, 'unit', 1, 22);
 
 -- delegations for topics
 INSERT INTO "delegation"

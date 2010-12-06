@@ -2,6 +2,17 @@
 
 BEGIN;
 
+INSERT INTO "unit" (
+        "active",
+        "name",
+        "description"
+    ) VALUES (
+        true,
+        'Default unit',
+        'Default unit created by init script.'
+    );
+        
+
 INSERT INTO "member" (
         "login",
         "password",
@@ -63,10 +74,12 @@ INSERT INTO "policy" (
         1, 100 );
 
 INSERT INTO "area" (
+        "unit_id",
         "active",
         "name",
         "description"
     ) VALUES (
+        1,
         TRUE,
         'Generic area',
         DEFAULT );

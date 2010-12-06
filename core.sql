@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.3.0', 1, 3, 0))
+  SELECT * FROM (VALUES ('1.4.0', 1, 4, 0))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -132,7 +132,8 @@ COMMENT ON COLUMN "member_history"."until" IS 'Timestamp until the data was vali
 
 
 CREATE TABLE "invite_code" (
-        "code"                  TEXT            PRIMARY KEY,
+        "id"                    SERIAL8         PRIMARY KEY,
+        "code"                  TEXT            NOT NULL UNIQUE,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "used"                  TIMESTAMPTZ,
         "member_id"             INT4            UNIQUE REFERENCES "member" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
@@ -280,8 +281,34 @@ COMMENT ON COLUMN "policy"."majority_den"          IS 'Denominator of fraction o
 COMMENT ON COLUMN "policy"."majority_strict"       IS 'If TRUE, then the majority must be strictly greater than "majority_num"/"majority_den", otherwise it may also be equal.';
 
 
+CREATE TABLE "unit" (
+        "id"                    SERIAL4         PRIMARY KEY,
+        "parent_id"             INT4            REFERENCES "unit" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
+        "name"                  TEXT            NOT NULL,
+        "description"           TEXT            NOT NULL DEFAULT '',
+        "member_count"          INT4,
+        "text_search_data"      TSVECTOR );
+CREATE INDEX "unit_root_idx" ON "unit" ("id") WHERE "parent_id" ISNULL;
+CREATE INDEX "unit_parent_id_idx" ON "unit" ("parent_id");
+CREATE INDEX "unit_active_idx" ON "unit" ("active");
+CREATE INDEX "unit_text_search_data_idx" ON "unit" USING gin ("text_search_data");
+CREATE TRIGGER "update_text_search_data"
+  BEFORE INSERT OR UPDATE ON "unit"
+  FOR EACH ROW EXECUTE PROCEDURE
+  tsvector_update_trigger('text_search_data', 'pg_catalog.simple',
+    "name", "description" );
+
+COMMENT ON TABLE "unit" IS 'Organizational units organized as trees; Delegations are not inherited through these trees.';
+
+COMMENT ON COLUMN "unit"."parent_id"    IS 'Parent id of tree node; Multiple roots allowed';
+COMMENT ON COLUMN "unit"."active"       IS 'TRUE means new issues can be created in units of this area';
+COMMENT ON COLUMN "unit"."member_count" IS 'Count of members as determined by column "voting_right" in table "privilege"';
+
+
 CREATE TABLE "area" (
         "id"                    SERIAL4         PRIMARY KEY,
+        "unit_id"               INT4            NOT NULL REFERENCES "unit" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
         "name"                  TEXT            NOT NULL,
         "description"           TEXT            NOT NULL DEFAULT '',
@@ -289,6 +316,7 @@ CREATE TABLE "area" (
         "member_weight"         INT4,
         "autoreject_weight"     INT4,
         "text_search_data"      TSVECTOR );
+CREATE INDEX "area_unit_id_idx" ON "area" ("unit_id");
 CREATE INDEX "area_active_idx" ON "area" ("active");
 CREATE INDEX "area_text_search_data_idx" ON "area" USING gin ("text_search_data");
 CREATE TRIGGER "update_text_search_data"
@@ -571,6 +599,33 @@ CREATE TABLE "suggestion_setting" (
 COMMENT ON TABLE "suggestion_setting" IS 'Place for frontend to store suggestion specific settings of members as strings';
 
 
+CREATE TABLE "invite_code_unit" (
+        PRIMARY KEY ("invite_code_id", "unit_id"),
+        "invite_code_id"        INT8            REFERENCES "invite_code" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "unit_id"               INT4            REFERENCES "unit" ("id") ON DELETE CASCADE ON UPDATE CASCADE );
+
+COMMENT ON TABLE "invite_code_unit" IS 'Units where accounts created with a given invite codes get voting rights';
+
+
+CREATE TABLE "privilege" (
+        PRIMARY KEY ("unit_id", "member_id"),
+        "unit_id"               INT4            REFERENCES "unit" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "admin_manager"         BOOLEAN         NOT NULL DEFAULT FALSE,
+        "unit_manager"          BOOLEAN         NOT NULL DEFAULT FALSE,
+        "area_manager"          BOOLEAN         NOT NULL DEFAULT FALSE,
+        "voting_right_manager"  BOOLEAN         NOT NULL DEFAULT FALSE,
+        "voting_right"          BOOLEAN         NOT NULL DEFAULT TRUE );
+
+COMMENT ON TABLE "privilege" IS 'Members rights related to each unit';
+
+COMMENT ON COLUMN "privilege"."admin_manager"        IS 'Grant/revoke admin privileges to/from other users';
+COMMENT ON COLUMN "privilege"."unit_manager"         IS 'Create or lock sub units';
+COMMENT ON COLUMN "privilege"."area_manager"         IS 'Create or lock areas and set area parameters';
+COMMENT ON COLUMN "privilege"."voting_right_manager" IS 'Select which members are allowed to discuss and vote inside the unit';
+COMMENT ON COLUMN "privilege"."voting_right"         IS 'Right to discuss and vote';
+
+
 CREATE TABLE "membership" (
         PRIMARY KEY ("area_id", "member_id"),
         "area_id"               INT4            REFERENCES "area" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -658,9 +713,9 @@ COMMENT ON TABLE "opinion" IS 'Opinion on suggestions (criticism related to init
 COMMENT ON COLUMN "opinion"."degree" IS '2 = fulfillment required for support; 1 = fulfillment desired; -1 = fulfillment unwanted; -2 = fulfillment cancels support';
 
 
-CREATE TYPE "delegation_scope" AS ENUM ('global', 'area', 'issue');
+CREATE TYPE "delegation_scope" AS ENUM ('unit', 'area', 'issue');
 
-COMMENT ON TYPE "delegation_scope" IS 'Scope for delegations: ''global'', ''area'', or ''issue'' (order is relevant)';
+COMMENT ON TYPE "delegation_scope" IS 'Scope for delegations: ''unit'', ''area'', or ''issue'' (order is relevant)';
 
 
 CREATE TABLE "delegation" (
@@ -668,24 +723,25 @@ CREATE TABLE "delegation" (
         "truster_id"            INT4            NOT NULL REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "trustee_id"            INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "scope"              "delegation_scope" NOT NULL,
+        "unit_id"               INT4            REFERENCES "unit" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "area_id"               INT4            REFERENCES "area" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         CONSTRAINT "cant_delegate_to_yourself" CHECK ("truster_id" != "trustee_id"),
-        CONSTRAINT "no_global_delegation_to_null"
-          CHECK ("trustee_id" NOTNULL OR "scope" != 'global'),
+        CONSTRAINT "no_unit_delegation_to_null"
+          CHECK ("trustee_id" NOTNULL OR "scope" != 'unit'),
         CONSTRAINT "area_id_and_issue_id_set_according_to_scope" CHECK (
-          ("scope" = 'global' AND "area_id" ISNULL  AND "issue_id" ISNULL ) OR
-          ("scope" = 'area'   AND "area_id" NOTNULL AND "issue_id" ISNULL ) OR
-          ("scope" = 'issue'  AND "area_id" ISNULL  AND "issue_id" NOTNULL) ),
+          ("scope" = 'unit'  AND "unit_id" NOTNULL AND "area_id" ISNULL  AND "issue_id" ISNULL ) OR
+          ("scope" = 'area'  AND "unit_id" ISNULL  AND "area_id" NOTNULL AND "issue_id" ISNULL ) OR
+          ("scope" = 'issue' AND "unit_id" ISNULL  AND "area_id" ISNULL  AND "issue_id" NOTNULL) ),
+        UNIQUE ("unit_id", "truster_id"),
         UNIQUE ("area_id", "truster_id"),
         UNIQUE ("issue_id", "truster_id") );
-CREATE UNIQUE INDEX "delegation_global_truster_id_unique_idx"
-  ON "delegation" ("truster_id") WHERE "scope" = 'global';
 CREATE INDEX "delegation_truster_id_idx" ON "delegation" ("truster_id");
 CREATE INDEX "delegation_trustee_id_idx" ON "delegation" ("trustee_id");
 
 COMMENT ON TABLE "delegation" IS 'Delegation of vote-weight to other members';
 
+COMMENT ON COLUMN "delegation"."unit_id"  IS 'Reference to unit, if delegation is unit-wide, otherwise NULL';
 COMMENT ON COLUMN "delegation"."area_id"  IS 'Reference to area, if delegation is area-wide, otherwise NULL';
 COMMENT ON COLUMN "delegation"."issue_id" IS 'Reference to issue, if delegation is issue-wide, otherwise NULL';
 
@@ -1252,19 +1308,24 @@ COMMENT ON TRIGGER "autocreate_supporter" ON "opinion" IS 'Opinions can only be 
 ------------------------------------------
 
 
-CREATE VIEW "active_delegation" AS
-  SELECT "delegation".* FROM "delegation"
-  JOIN "member" ON "delegation"."truster_id" = "member"."id"
-  WHERE "member"."active" = TRUE;
+CREATE VIEW "unit_delegation" AS
+  SELECT
+    "unit"."id" AS "unit_id",
+    "delegation"."id",
+    "delegation"."truster_id",
+    "delegation"."trustee_id",
+    "delegation"."scope"
+  FROM "unit"
+  JOIN "delegation"
+    ON "delegation"."unit_id" = "unit"."id"
+  JOIN "member"
+    ON "delegation"."truster_id" = "member"."id"
+  JOIN "privilege"
+    ON "delegation"."unit_id" = "privilege"."unit_id"
+    AND "delegation"."truster_id" = "privilege"."member_id"
+  WHERE "member"."active" AND "privilege"."voting_right";
 
-COMMENT ON VIEW "active_delegation" IS 'Helper view for views "global_delegation", "area_delegation" and "issue_delegation": Contains delegations where the truster_id refers to an active member and includes those delegations where trustee_id is NULL';
-
-
-CREATE VIEW "global_delegation" AS
-  SELECT "id", "truster_id", "trustee_id"
-  FROM "active_delegation" WHERE "scope" = 'global';
-
-COMMENT ON VIEW "global_delegation" IS 'Global delegations from active members';
+COMMENT ON VIEW "unit_delegation" IS 'Unit delegations where trusters are active and have voting right';
 
 
 CREATE VIEW "area_delegation" AS
@@ -1274,15 +1335,22 @@ CREATE VIEW "area_delegation" AS
     "delegation"."truster_id",
     "delegation"."trustee_id",
     "delegation"."scope"
-  FROM "area" JOIN "active_delegation" AS "delegation"
-  ON "delegation"."scope" = 'global'
-  OR "delegation"."area_id" = "area"."id"
+  FROM "area"
+  JOIN "delegation"
+    ON "delegation"."unit_id" = "area"."unit_id"
+    OR "delegation"."area_id" = "area"."id"
+  JOIN "member"
+    ON "delegation"."truster_id" = "member"."id"
+  JOIN "privilege"
+    ON "area"."unit_id" = "privilege"."unit_id"
+    AND "delegation"."truster_id" = "privilege"."member_id"
+  WHERE "member"."active" AND "privilege"."voting_right"
   ORDER BY
     "area"."id",
     "delegation"."truster_id",
     "delegation"."scope" DESC;
 
-COMMENT ON VIEW "area_delegation" IS 'Resulting area delegations from active members; can include rows with trustee_id set to NULL';
+COMMENT ON VIEW "area_delegation" IS 'Area delegations where trusters are active and have voting right';
 
 
 CREATE VIEW "issue_delegation" AS
@@ -1292,16 +1360,25 @@ CREATE VIEW "issue_delegation" AS
     "delegation"."truster_id",
     "delegation"."trustee_id",
     "delegation"."scope"
-  FROM "issue" JOIN "active_delegation" AS "delegation"
-  ON "delegation"."scope" = 'global'
-  OR "delegation"."area_id" = "issue"."area_id"
-  OR "delegation"."issue_id" = "issue"."id"
+  FROM "issue"
+  JOIN "area"
+    ON "area"."id" = "issue"."area_id"
+  JOIN "delegation"
+    ON "delegation"."unit_id" = "area"."unit_id"
+    OR "delegation"."area_id" = "area"."id"
+    OR "delegation"."issue_id" = "issue"."id"
+  JOIN "member"
+    ON "delegation"."truster_id" = "member"."id"
+  JOIN "privilege"
+    ON "area"."unit_id" = "privilege"."unit_id"
+    AND "delegation"."truster_id" = "privilege"."member_id"
+  WHERE "member"."active" AND "privilege"."voting_right"
   ORDER BY
     "issue"."id",
     "delegation"."truster_id",
     "delegation"."scope" DESC;
 
-COMMENT ON VIEW "issue_delegation" IS 'Resulting issue delegations from active members; can include rows with trustee_id set to NULL';
+COMMENT ON VIEW "issue_delegation" IS 'Issue delegations where trusters are active and have voting right';
 
 
 CREATE FUNCTION "membership_weight_with_skipping"
@@ -1371,6 +1448,22 @@ CREATE VIEW "member_count_view" AS
 COMMENT ON VIEW "member_count_view" IS 'View used to update "member_count" table';
 
 
+CREATE VIEW "unit_member_count" AS
+  SELECT
+    "unit"."id" AS "unit_id",
+    sum("member"."id") AS "member_count"
+  FROM "unit"
+  LEFT JOIN "privilege"
+  ON "privilege"."unit_id" = "unit"."id" 
+  AND "privilege"."voting_right"
+  LEFT JOIN "member"
+  ON "member"."id" = "privilege"."member_id"
+  AND "member"."active"
+  GROUP BY "unit"."id";
+
+COMMENT ON VIEW "unit_member_count" IS 'View used to update "member_count" column of "unit" table';
+
+
 CREATE VIEW "area_member_count" AS
   SELECT
     "area"."id" AS "area_id",
@@ -1392,12 +1485,16 @@ CREATE VIEW "area_member_count" AS
   FROM "area"
   LEFT JOIN "membership"
   ON "area"."id" = "membership"."area_id"
+  LEFT JOIN "privilege"
+  ON "privilege"."unit_id" = "area"."unit_id"
+  AND "privilege"."member_id" = "membership"."member_id"
+  AND "privilege"."voting_right"
   LEFT JOIN "member"
-  ON "membership"."member_id" = "member"."id"
+  ON "member"."id" = "privilege"."member_id"  -- NOTE: no membership here!
   AND "member"."active"
   GROUP BY "area"."id";
 
-COMMENT ON VIEW "area_member_count" IS 'View used to update "member_count" column of table "area"';
+COMMENT ON VIEW "area_member_count" IS 'View used to update "direct_member_count", "member_weight" and "autoreject_weight" columns of table "area"';
 
 
 CREATE VIEW "opening_draft" AS
@@ -1691,7 +1788,7 @@ COMMENT ON TYPE "delegation_chain_loop_tag" IS 'Type for loop tags in "delegatio
 CREATE TYPE "delegation_chain_row" AS (
         "index"                 INT4,
         "member_id"             INT4,
-        "member_active"         BOOLEAN,
+        "member_valid"          BOOLEAN,
         "participation"         BOOLEAN,
         "overridden"            BOOLEAN,
         "scope_in"              "delegation_scope",
@@ -1712,13 +1809,16 @@ COMMENT ON COLUMN "delegation_chain_row"."loop"          IS 'Not null, if member
 
 CREATE FUNCTION "delegation_chain"
   ( "member_id_p"           "member"."id"%TYPE,
+    "unit_id_p"             "unit"."id"%TYPE,
     "area_id_p"             "area"."id"%TYPE,
     "issue_id_p"            "issue"."id"%TYPE,
     "simulate_trustee_id_p" "member"."id"%TYPE )
   RETURNS SETOF "delegation_chain_row"
   LANGUAGE 'plpgsql' STABLE AS $$
     DECLARE
-      "issue_row"          "issue"%ROWTYPE;
+      "scope_v"            "delegation_scope";
+      "unit_id_v"          "unit"."id"%TYPE;
+      "area_id_v"          "area"."id"%TYPE;
       "visited_member_ids" INT4[];  -- "member"."id"%TYPE[]
       "loop_member_id_v"   "member"."id"%TYPE;
       "output_row"         "delegation_chain_row";
@@ -1728,13 +1828,41 @@ CREATE FUNCTION "delegation_chain"
       "i"                  INT4;
       "loop_v"             BOOLEAN;
     BEGIN
-      SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
+      IF
+        "unit_id_p" NOTNULL AND
+        "area_id_p" ISNULL AND
+        "issue_id_p" ISNULL
+      THEN
+        "scope_v" := 'unit';
+        "unit_id_v" := "unit_id_p";
+      ELSIF
+        "unit_id_p" ISNULL AND
+        "area_id_p" NOTNULL AND
+        "issue_id_p" ISNULL
+      THEN
+        "scope_v" := 'area';
+        "area_id_v" := "area_id_p";
+        SELECT "unit_id" INTO "unit_id_v"
+          FROM "area" WHERE "id" = "area_id_v";
+      ELSIF
+        "unit_id_p" ISNULL AND
+        "area_id_p" ISNULL AND
+        "issue_id_p" NOTNULL
+      THEN
+        "scope_v" := 'issue';
+        SELECT "area_id" INTO "area_id_v"
+          FROM "issue" WHERE "id" = "issue_id_p";
+        SELECT "unit_id" INTO "unit_id_v"
+          FROM "area"  WHERE "id" = "area_id_v";
+      ELSE
+        RAISE EXCEPTION 'Exactly one of unit_id_p, area_id_p, or issue_id_p must be NOTNULL.';
+      END IF;
       "visited_member_ids" := '{}';
       "loop_member_id_v"   := NULL;
       "output_rows"        := '{}';
       "output_row"."index"         := 0;
       "output_row"."member_id"     := "member_id_p";
-      "output_row"."member_active" := TRUE;
+      "output_row"."member_valid"  := TRUE;
       "output_row"."participation" := FALSE;
       "output_row"."overridden"    := FALSE;
       "output_row"."disabled_out"  := FALSE;
@@ -1751,14 +1879,17 @@ CREATE FUNCTION "delegation_chain"
         END IF;
         "output_row"."scope_in" := "output_row"."scope_out";
         IF EXISTS (
-          SELECT NULL FROM "member" 
-          WHERE "id" = "output_row"."member_id" AND "active"
+          SELECT NULL FROM "member" JOIN "privilege"
+          ON "privilege"."member_id" = "member"."id"
+          AND "privilege"."unit_id" = "unit_id_v"
+          WHERE "id" = "output_row"."member_id"
+          AND "member"."active" AND "privilege"."voting_right"
         ) THEN
-          IF "area_id_p" ISNULL AND "issue_id_p" ISNULL THEN
+          IF "scope_v" = 'unit' THEN
             SELECT * INTO "delegation_row" FROM "delegation"
               WHERE "truster_id" = "output_row"."member_id"
-              AND "scope" = 'global';
-          ELSIF "area_id_p" NOTNULL AND "issue_id_p" ISNULL THEN
+              AND "unit_id" = "unit_id_v";
+          ELSIF "scope_v" = 'area' THEN
             "output_row"."participation" := EXISTS (
               SELECT NULL FROM "membership"
               WHERE "area_id" = "area_id_p"
@@ -1766,9 +1897,12 @@ CREATE FUNCTION "delegation_chain"
             );
             SELECT * INTO "delegation_row" FROM "delegation"
               WHERE "truster_id" = "output_row"."member_id"
-              AND ("scope" = 'global' OR "area_id" = "area_id_p")
+              AND (
+                "unit_id" = "unit_id_v" OR
+                "area_id" = "area_id_v"
+              )
               ORDER BY "scope" DESC;
-          ELSIF "area_id_p" ISNULL AND "issue_id_p" NOTNULL THEN
+          ELSIF "scope_v" = 'issue' THEN
             "output_row"."participation" := EXISTS (
               SELECT NULL FROM "interest"
               WHERE "issue_id" = "issue_id_p"
@@ -1776,16 +1910,15 @@ CREATE FUNCTION "delegation_chain"
             );
             SELECT * INTO "delegation_row" FROM "delegation"
               WHERE "truster_id" = "output_row"."member_id"
-              AND ("scope" = 'global' OR
-                "area_id" = "issue_row"."area_id" OR
+              AND (
+                "unit_id" = "unit_id_v" OR
+                "area_id" = "area_id_v" OR
                 "issue_id" = "issue_id_p"
               )
               ORDER BY "scope" DESC;
-          ELSE
-            RAISE EXCEPTION 'Either area_id or issue_id or both must be NULL.';
           END IF;
         ELSE
-          "output_row"."member_active" := FALSE;
+          "output_row"."member_valid"  := FALSE;
           "output_row"."participation" := FALSE;
           "output_row"."scope_out"     := NULL;
           "delegation_row" := ROW(NULL);
@@ -1794,11 +1927,7 @@ CREATE FUNCTION "delegation_chain"
           "output_row"."member_id" = "member_id_p" AND
           "simulate_trustee_id_p" NOTNULL
         THEN
-          "output_row"."scope_out" := CASE
-            WHEN "area_id_p" ISNULL  AND "issue_id_p" ISNULL  THEN 'global'
-            WHEN "area_id_p" NOTNULL AND "issue_id_p" ISNULL  THEN 'area'
-            WHEN "area_id_p" ISNULL  AND "issue_id_p" NOTNULL THEN 'issue'
-          END;
+          "output_row"."scope_out" := "scope_v";
           "output_rows" := "output_rows" || "output_row";
           "output_row"."member_id" := "simulate_trustee_id_p";
         ELSIF "delegation_row"."trustee_id" NOTNULL THEN
@@ -1836,7 +1965,7 @@ CREATE FUNCTION "delegation_chain"
           "output_row"."loop" := 'first';
           "loop_v" := TRUE;
         END IF;
-        IF "area_id_p" ISNULL AND "issue_id_p" ISNULL THEN
+        IF "scope_v" = 'unit' THEN
           "output_row"."participation" := NULL;
         END IF;
         RETURN NEXT "output_row";
@@ -1848,13 +1977,16 @@ CREATE FUNCTION "delegation_chain"
 
 COMMENT ON FUNCTION "delegation_chain"
   ( "member"."id"%TYPE,
+    "unit"."id"%TYPE,
     "area"."id"%TYPE,
     "issue"."id"%TYPE,
     "member"."id"%TYPE )
   IS 'Helper function for frontends to display delegation chains; Not part of internal voting logic';
 
+
 CREATE FUNCTION "delegation_chain"
   ( "member_id_p" "member"."id"%TYPE,
+    "unit_id_p"   "unit"."id"%TYPE,
     "area_id_p"   "area"."id"%TYPE,
     "issue_id_p"  "issue"."id"%TYPE )
   RETURNS SETOF "delegation_chain_row"
@@ -1875,6 +2007,7 @@ CREATE FUNCTION "delegation_chain"
 
 COMMENT ON FUNCTION "delegation_chain"
   ( "member"."id"%TYPE,
+    "unit"."id"%TYPE,
     "area"."id"%TYPE,
     "issue"."id"%TYPE )
   IS 'Shortcut for "delegation_chain"(...) function where 4th parameter is null';
@@ -2011,6 +2144,7 @@ CREATE FUNCTION "lock_issue"
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
       LOCK TABLE "member"     IN SHARE MODE;
+      LOCK TABLE "privilege"  IN SHARE MODE;
       LOCK TABLE "membership" IN SHARE MODE;
       LOCK TABLE "policy"     IN SHARE MODE;
       PERFORM NULL FROM "issue" WHERE "id" = "issue_id_p" FOR UPDATE;
@@ -2046,11 +2180,16 @@ CREATE FUNCTION "calculate_member_counts"()
     BEGIN
       LOCK TABLE "member"       IN SHARE MODE;
       LOCK TABLE "member_count" IN EXCLUSIVE MODE;
+      LOCK TABLE "unit"         IN EXCLUSIVE MODE;
       LOCK TABLE "area"         IN EXCLUSIVE MODE;
+      LOCK TABLE "privilege"    IN SHARE MODE;
       LOCK TABLE "membership"   IN SHARE MODE;
       DELETE FROM "member_count";
       INSERT INTO "member_count" ("total_count")
         SELECT "total_count" FROM "member_count_view";
+      UPDATE "unit" SET "member_count" = "view"."member_count"
+        FROM "unit_member_count" AS "view"
+        WHERE "view"."unit_id" = "unit"."id";
       UPDATE "area" SET
         "direct_member_count" = "view"."direct_member_count",
         "member_weight"       = "view"."member_weight",
@@ -2161,17 +2300,25 @@ CREATE FUNCTION "create_population_snapshot"
         JOIN "area" ON "issue"."area_id" = "area"."id"
         JOIN "membership" ON "area"."id" = "membership"."area_id"
         JOIN "member" ON "membership"."member_id" = "member"."id"
+        JOIN "privilege"
+          ON "privilege"."unit_id" = "area"."unit_id"
+          AND "privilege"."member_id" = "member"."id"
         WHERE "issue"."id" = "issue_id_p"
-        AND "member"."active"
+        AND "member"."active" AND "privilege"."voting_right"
         UNION
         SELECT
           "issue_id_p"                 AS "issue_id",
           'periodic'::"snapshot_event" AS "event",
           "member"."id"                AS "member_id"
-        FROM "interest" JOIN "member"
-        ON "interest"."member_id" = "member"."id"
-        WHERE "interest"."issue_id" = "issue_id_p"
-        AND "member"."active";
+        FROM "issue"
+        JOIN "area" ON "issue"."area_id" = "area"."id"
+        JOIN "interest" ON "issue"."id" = "interest"."issue_id"
+        JOIN "member" ON "interest"."member_id" = "member"."id"
+        JOIN "privilege"
+          ON "privilege"."unit_id" = "area"."unit_id"
+          AND "privilege"."member_id" = "member"."id"
+        WHERE "issue"."id" = "issue_id_p"
+        AND "member"."active" AND "privilege"."voting_right";
       FOR "member_id_v" IN
         SELECT "member_id" FROM "direct_population_snapshot"
         WHERE "issue_id" = "issue_id_p"
@@ -2289,10 +2436,15 @@ CREATE FUNCTION "create_interest_snapshot"
           'periodic'    AS "event",
           "member"."id" AS "member_id",
           "interest"."voting_requested"
-        FROM "interest" JOIN "member"
-        ON "interest"."member_id" = "member"."id"
-        WHERE "interest"."issue_id" = "issue_id_p"
-        AND "member"."active";
+        FROM "issue"
+        JOIN "area" ON "issue"."area_id" = "area"."id"
+        JOIN "interest" ON "issue"."id" = "interest"."issue_id"
+        JOIN "member" ON "interest"."member_id" = "member"."id"
+        JOIN "privilege"
+          ON "privilege"."unit_id" = "area"."unit_id"
+          AND "privilege"."member_id" = "member"."id"
+        WHERE "issue"."id" = "issue_id_p"
+        AND "member"."active" AND "privilege"."voting_right";
       FOR "member_id_v" IN
         SELECT "member_id" FROM "direct_interest_snapshot"
         WHERE "issue_id" = "issue_id_p"
@@ -2746,20 +2898,35 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     DECLARE
-      "issue_row"   "issue"%ROWTYPE;
+      "area_id_v"   "area"."id"%TYPE;
+      "unit_id_v"   "unit"."id"%TYPE;
       "member_id_v" "member"."id"%TYPE;
     BEGIN
       PERFORM "lock_issue"("issue_id_p");
-      SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
+      SELECT "id" INTO "area_id_v" FROM "issue" WHERE "id" = "issue_id_p";
+      SELECT "id" INTO "unit_id_v" FROM "area"  WHERE "id" = "area_id_v";
       DELETE FROM "delegating_voter"
         WHERE "issue_id" = "issue_id_p";
       DELETE FROM "direct_voter"
         WHERE "issue_id" = "issue_id_p"
         AND "autoreject" = TRUE;
-      DELETE FROM "direct_voter" USING "member"
-        WHERE "direct_voter"."member_id" = "member"."id"
-        AND "direct_voter"."issue_id" = "issue_id_p"
-        AND "member"."active" = FALSE;
+      DELETE FROM "direct_voter"
+        USING (
+          SELECT
+            "direct_voter"."member_id"
+          FROM "direct_voter"
+          JOIN "member" ON "direct_voter"."member_id" = "member"."id"
+          LEFT JOIN "privilege"
+          ON "privilege"."unit_id" = "unit_id_v"
+          AND "privilege"."member_id" = "direct_voter"."member_id"
+          WHERE "direct_voter"."issue_id" = "issue_id_p" AND (
+            "member"."active" = FALSE OR
+            "privilege"."voting_right" ISNULL OR
+            "privilege"."voting_right" = FALSE
+          )
+        ) AS "subquery"
+        WHERE "direct_voter"."issue_id" = "issue_id_p"
+        AND "direct_voter"."member_id" = "subquery"."member_id";
       UPDATE "direct_voter" SET "weight" = 1
         WHERE "issue_id" = "issue_id_p";
       PERFORM "add_vote_delegations"("issue_id_p");
@@ -2792,7 +2959,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
           LEFT JOIN "delegating_voter"
             ON "membership"."member_id" = "delegating_voter"."member_id"
             AND "delegating_voter"."issue_id" = "issue_id_p"
-          WHERE "membership"."area_id" = "issue_row"."area_id"
+          WHERE "membership"."area_id" = "area_id_v"
           AND "membership"."autoreject" = TRUE
           AND "member"."active"
           AND "interest"."autoreject" ISNULL
