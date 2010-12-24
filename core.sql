@@ -1952,7 +1952,7 @@ CREATE FUNCTION "delegation_chain"
       "loop_v" := FALSE;
       LOOP
         "output_row" := "output_rows"["i"];
-        EXIT WHEN "output_row" ISNULL;
+        EXIT WHEN "output_row" ISNULL;  -- NOTE: ISNULL and NOT ... NOTNULL produce different results!
         IF "loop_v" THEN
           IF "i" + 1 = "row_count" THEN
             "output_row"."loop" := 'last';
