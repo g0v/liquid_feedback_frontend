@@ -3353,6 +3353,7 @@ CREATE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
         "last_login"                   = NULL,
         "login"                        = NULL,
         "password"                     = NULL,
+        "locked"                       = TRUE,
         "active"                       = FALSE,
         "notify_email"                 = NULL,
         "notify_email_unconfirmed"     = NULL,
