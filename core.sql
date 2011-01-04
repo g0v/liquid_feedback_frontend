@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.3.0', 1, 3, 0))
+  SELECT * FROM (VALUES ('1.3.1', 1, 3, 1))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -60,6 +60,7 @@ CREATE TABLE "member" (
         "last_login"            TIMESTAMPTZ,
         "login"                 TEXT            UNIQUE,
         "password"              TEXT,
+        "locked"                BOOLEAN         NOT NULL DEFAULT FALSE,
         "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
         "admin"                 BOOLEAN         NOT NULL DEFAULT FALSE,
         "notify_email"          TEXT,
@@ -99,7 +100,8 @@ COMMENT ON TABLE "member" IS 'Users of the system, e.g. members of an organizati
 
 COMMENT ON COLUMN "member"."login"                IS 'Login name';
 COMMENT ON COLUMN "member"."password"             IS 'Password (preferably as crypto-hash, depending on the frontend or access layer)';
-COMMENT ON COLUMN "member"."active"               IS 'Inactive members can not login and their supports/votes are not counted by the system.';
+COMMENT ON COLUMN "member"."locked"               IS 'Locked members can not log in.';
+COMMENT ON COLUMN "member"."active"               IS 'Memberships, support and votes are taken into account when corresponding members are marked as active. When the user does not log in for an extended period of time, this flag may be set to FALSE. If the user is not locked, he/she may reset the active flag by logging in.';
 COMMENT ON COLUMN "member"."admin"                IS 'TRUE for admins, which can administrate other users and setup policies and areas';
 COMMENT ON COLUMN "member"."notify_email"         IS 'Email address where notifications of the system are sent to';
 COMMENT ON COLUMN "member"."notify_email_unconfirmed"   IS 'Unconfirmed email address provided by the member to be copied into "notify_email" field after verification';
