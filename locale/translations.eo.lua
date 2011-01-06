@@ -177,7 +177,7 @@ return {
 ["Email unconfirmed"] = "Retpoŝto nekonfirmita";
 ["Empty help text: #{id}.#{lang}.txt"] = "Malplena helpteksto: #{id}.#{lang}.txt";
 ["Enable autosupport for this initiative"] = "Ŝalti aŭtomatan konsenton por tiu iniciato";
-["Error while converting image. Please note, that only JPG files are supported!"] = "Eraro konvertante bildon. Bonvole rimarku, ke nur JPEG-bildoj estas subtenata.";
+["Error while converting image. Please note, that only JPG files are supported!"] = "Eraro konvertante bildon. Bonvole rimarku, ke nur JPEG-bildoj estas subtenataj.";
 ["Error while resolving openid. Internal message: '#{errmsg}'"] = "Eraro dum trovado de openid. Interna mesaĝo: '#{errmsg}'";
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Eraro dum ĝisdatigo de la membro, la datumbazo raportas sekvan eraron:<br /><br /> (#{errormessage})";
 ["External memberships"] = "Eksteraj membrecoj";
@@ -518,7 +518,7 @@ return {
 ["This member account has been created at #{created}"] = "Tiu membrokonto estis kreita je #{created}.";
 ["This member has rejected to become initiator of this initiative"] = "Tiu membro rifuzis inviton por esti inicionto";
 ["This member is already initiator of this initiative"] = "Tiu membro estas jam iniciinto de tiu iniciato";
-["This member is already invited to become initiator of this initiative"] = "Tiuĉi membro estis jam invitita por esti inicionto de tiu iniciato";
+["This member is already invited to become initiator of this initiative"] = "Tiu membro estis jam invitita por esti inicionto de tiu iniciato";
 ["This member is deactivated."] = "Tiu membro estas malaktivigita.";
 ["This member is participating, the rest of delegation chain is suspended while discussing"] = "Tiu membro partoprenas, la resta delegaciĉeno estas blokita dum la diskuto";
 ["This name is already taken, please choose another one!"] = "Tiu nomo estas jam prenita, bonvolu elekti alian!";
@@ -569,7 +569,7 @@ return {
 ["Wiki engine"] = "Viki-modulo";
 ["Yes"] = "Jes";
 ["You are already initator"] = "Vi estas jam iniciinto";
-["You are already not supporting this initiative"] = "Vi jam ne subtenas tiun iniciaton";
+["You are already not supporting this initiative"] = "Vi jam malsubtenas tiun iniciaton";
 ["You are already supporting the latest draft"] = "Vi jam subtenas la plej novan skizon";
 ["You are currently not invited to any initiative."] = "Vi aktuale estas invitita al neniu iniciato.";
 ["You are currently not supporting this initiative directly. By adding suggestions to this initiative you will automatically become a potential supporter."] = "Vi aktuale ne subtenas tiun iniciaton rekte. Aldonante sugestojn al tiu iniciaton vi iĝas aŭtomate ebla subtenonto.";
@@ -621,7 +621,7 @@ return {
 ["Z-A"] = "Z-A";
 ["[Registered members only]"] = "[Nur registritaj membroj]";
 ["[not displayed public]"] = "[ne afiŝita publike]";
-["a bit unsatisfied"] = "iomete kontenta";
+["a bit unsatisfied"] = "iomete malkontenta";
 ["abandoned"] = "malaplikita";
 ["activated"] = "aktivigita";
 ["and #{count} more initiatives"] = "kaj #{count} pliaj iniciatoj";
