@@ -4,6 +4,14 @@ CREATE OR REPLACE VIEW "liquid_feedback_version" AS
   SELECT * FROM (VALUES ('1.3.1', 1, 3, 1))
   AS "subquery"("string", "major", "minor", "revision");
 
+CREATE TABLE "system_setting" (
+        "member_ttl"            INTERVAL );
+CREATE UNIQUE INDEX "system_setting_singleton_idx" ON "system_setting" ((1));
+
+COMMENT ON TABLE "system_setting" IS 'This table contains only one row with different settings in each column.';
+COMMENT ON INDEX "system_setting_singleton_idx" IS 'This index ensures that "system_setting" only contains one row maximum.';
+COMMENT ON COLUMN "system_setting"."member_ttl" IS 'Time after members get their "active" flag set to FALSE, if they do not login anymore.';
+
 ALTER TABLE "member" ADD COLUMN "last_login_public" DATE;
 ALTER TABLE "member" ADD COLUMN "locked" BOOLEAN NOT NULL DEFAULT FALSE;
 
@@ -12,18 +20,27 @@ COMMENT ON COLUMN "member"."last_login_public" IS 'Date of last login (time stri
 COMMENT ON COLUMN "member"."locked"            IS 'Locked members can not log in.';
 COMMENT ON COLUMN "member"."active"            IS 'Memberships, support and votes are taken into account when corresponding members are marked as active. When the user does not log in for an extended period of time, this flag may be set to FALSE. If the user is not locked, he/she may reset the active flag by logging in.';
 
-CREATE FUNCTION "publish_last_login"()
+CREATE FUNCTION "check_last_login"()
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
+    DECLARE
+      "system_setting_row" "system_setting"%ROWTYPE;
     BEGIN
+      SELECT * INTO "system_setting_row" FROM "system_setting";
       LOCK TABLE "member" IN SHARE ROW EXCLUSIVE MODE;
       UPDATE "member" SET "last_login_public" = "last_login"::date
         WHERE "last_login"::date < 'today';
+      IF "system_setting_row"."member_ttl" NOTNULL THEN
+        UPDATE "member" SET "active" = FALSE
+          WHERE "active" = TRUE
+          AND "last_login_public" <
+            (now() - "system_setting_row"."member_ttl")::date;
+      END IF;
       RETURN;
     END;
   $$;
 
-COMMENT ON FUNCTION "publish_last_login"() IS 'Updates "last_login_public" field, which contains the date but not the time of the last login. For privacy reasons this function does not update "last_login_public", if the last login of a member has been today.';
+COMMENT ON FUNCTION "check_last_login"() IS 'Updates "last_login_public" field, which contains the date but not the time of the last login, and deactivates members who do not login for the time specified in "system_setting"."member_ttl". For privacy reasons this function does not update "last_login_public", if the last login of a member has been today.';
 
 CREATE OR REPLACE FUNCTION "create_interest_snapshot"
   ( "issue_id_p" "issue"."id"%TYPE )
@@ -103,7 +120,7 @@ CREATE OR REPLACE FUNCTION "check_everything"()
       "issue_id_v" "issue"."id"%TYPE;
     BEGIN
       DELETE FROM "expired_session";
-      PERFORM "publish_last_login"();
+      PERFORM "check_last_login"();
       PERFORM "calculate_member_counts"();
       FOR "issue_id_v" IN SELECT "id" FROM "open_issue" LOOP
         PERFORM "check_issue"("issue_id_v");

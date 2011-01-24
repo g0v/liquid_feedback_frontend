@@ -70,16 +70,16 @@ int main(int argc, char **argv) {
     PQclear(status);
   }
 
-  // publish last login:
-  status = PQexec(db, "SELECT \"publish_last_login\"()");
+  // check last login:
+  status = PQexec(db, "SELECT \"check_last_login\"()");
   if (!status) {
-    fprintf(stderr, "Error in pqlib while sending SQL command publishing last logins\n");
+    fprintf(stderr, "Error in pqlib while sending SQL command checking last logins\n");
     err = 1;
   } else if (
     PQresultStatus(status) != PGRES_COMMAND_OK &&
     PQresultStatus(status) != PGRES_TUPLES_OK
   ) {
-    fprintf(stderr, "Error while executing SQL command publishing last logins:\n%s", PQresultErrorMessage(status));
+    fprintf(stderr, "Error while executing SQL command checking last logins:\n%s", PQresultErrorMessage(status));
     err = 1;
     PQclear(status);
   } else {
