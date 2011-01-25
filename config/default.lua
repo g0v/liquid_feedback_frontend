@@ -35,8 +35,7 @@ config.member_image_default_file = {
 config.default_lang = "de"
 
 -- after how long is a user considered inactive and the trustee will see warning
--- will not work unless config.last_login_enabled is set to true
--- notation is according to postgresql intervals, nil turns off feature
+-- notation is according to postgresql intervals
 config.delegation_warning_time = '6 months'
 
 config.mail_subject_prefix = "[LiquidFeedback] "
