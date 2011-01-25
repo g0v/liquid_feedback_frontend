@@ -281,7 +281,7 @@ end
 function Member:by_login_and_password(login, password)
   local selector = self:new_selector()
   selector:add_where{'"login" = ?', login }
-  selector:add_where('"active"')
+  selector:add_where('NOT "locked"')
   selector:optional_object_mode()
   local member = selector:exec()
   if member and member:check_password(password) then

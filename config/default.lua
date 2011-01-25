@@ -34,10 +34,10 @@ config.member_image_default_file = {
 
 config.default_lang = "de"
 
--- after how long is a user considered inactive and the trustee will see warning\
+-- after how long is a user considered inactive and the trustee will see warning
 -- will not work unless config.last_login_enabled is set to true
 -- notation is according to postgresql intervals, nil turns off feature
-config.delegation_warning_time = '6 weeks'
+config.delegation_warning_time = '6 months'
 
 config.mail_subject_prefix = "[LiquidFeedback] "
 
@@ -52,9 +52,6 @@ config.public_access = false  -- Available options: "anonymous", "pseudonym"
 config.api_enabled = true
 
 config.feature_rss_enabled = false -- feature is broken
-
--- Saving last login of user in database
-config.last_login_enabled = true
 
 -- OpenID authentication is not fully implemented yet, DO NOT USE BEFORE THIS NOTICE HAS BEEN REMOVED!
 config.auth_openid_enabled = false
