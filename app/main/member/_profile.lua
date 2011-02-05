@@ -102,13 +102,16 @@ ui.form{
     end
     slot.put('<br style="clear: right;" />')
 
+    if member.statement and #member.statement > 0 then
+      ui.container{
+        attr = { class = "member_statement wiki" },
+        content = function()
+          slot.put(format.wiki_text(member.statement))
+        end
+      }
+    end
+    
+    ui.field.text{ label = _"Last usage (updated daily)", value = format.date(member.last_login_public) or _"not yet" }
+    
   end
 }
-if member.statement and #member.statement > 0 then
-  ui.container{
-    attr = { class = "member_statement wiki" },
-    content = function()
-      slot.put(format.wiki_text(member.statement))
-    end
-  }
-end
