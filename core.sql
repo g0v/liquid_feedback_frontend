@@ -2064,7 +2064,16 @@ CREATE FUNCTION "check_last_login"()
       SELECT * INTO "system_setting_row" FROM "system_setting";
       LOCK TABLE "member" IN SHARE ROW EXCLUSIVE MODE;
       UPDATE "member" SET "last_login_public" = "last_login"::date
-        WHERE "last_login"::date < 'today';
+        FROM (
+          SELECT DISTINCT "member"."id"
+          FROM "member" LEFT JOIN "member_history"
+          ON "member"."id" = "member_history"."member_id"
+          WHERE "member"."last_login"::date < 'today' OR (
+            "member_history"."until"::date >= 'today' AND
+            "member_history"."active" = FALSE AND "member"."active" = TRUE
+          )
+        ) AS "subquery"
+        WHERE "member"."id" = "subquery"."id";
       IF "system_setting_row"."member_ttl" NOTNULL THEN
         UPDATE "member" SET "active" = FALSE
           WHERE "active" = TRUE
@@ -2075,7 +2084,7 @@ CREATE FUNCTION "check_last_login"()
     END;
   $$;
 
-COMMENT ON FUNCTION "check_last_login"() IS 'Updates "last_login_public" field, which contains the date but not the time of the last login, and deactivates members who do not login for the time specified in "system_setting"."member_ttl". For privacy reasons this function does not update "last_login_public", if the last login of a member has been today.';
+COMMENT ON FUNCTION "check_last_login"() IS 'Updates "last_login_public" field, which contains the date but not the time of the last login, and deactivates members who do not login for the time specified in "system_setting"."member_ttl". For privacy reasons this function does not update "last_login_public", if the last login of a member has been today (except when member was reactivated today).';
 
 
 CREATE FUNCTION "calculate_member_counts"()
