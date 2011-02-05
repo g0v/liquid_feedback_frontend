@@ -665,4 +665,5 @@ return {
 ["to reset your password please click on the following link:\n\n"] = "um Dein Kennwort zurückzusetzen klicke bitte den folgenden Link an:\n\n";
 ["until"] = "bis";
 ["xmpp"] = "Jabber (XMPP)";
+["Last login (updated daily)"] = "Letzte Anmeldung (täglich aktualisiert)";
 }
