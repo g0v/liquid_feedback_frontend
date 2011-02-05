@@ -1,10 +1,10 @@
 local member = Member:by_login_and_password(param.get('login'), param.get('password'))
 
 if member then
+  member.last_login = "now"
+  member.active = true
+  member:save()
   app.session.member = member
-  if config.last_login_enabled then
-    db:query{ "UPDATE member SET last_login = now() WHERE id = ?", member.id }
-  end
   app.session:save()
   slot.select("notice", function()
     ui.tag{ content = _'Login successful!' }
