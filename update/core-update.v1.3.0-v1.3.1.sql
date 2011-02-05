@@ -15,6 +15,8 @@ COMMENT ON COLUMN "system_setting"."member_ttl" IS 'Time after members get their
 ALTER TABLE "member" ADD COLUMN "last_login_public" DATE;
 ALTER TABLE "member" ADD COLUMN "locked" BOOLEAN NOT NULL DEFAULT FALSE;
 
+UPDATE "member" SET "locked" = TRUE WHERE "active" = FALSE;
+
 COMMENT ON COLUMN "member"."last_login"        IS 'Timestamp of last login';
 COMMENT ON COLUMN "member"."last_login_public" IS 'Date of last login (time stripped for privacy reasons, updated only after day change)';
 COMMENT ON COLUMN "member"."locked"            IS 'Locked members can not log in.';
@@ -29,10 +31,20 @@ CREATE FUNCTION "check_last_login"()
       SELECT * INTO "system_setting_row" FROM "system_setting";
       LOCK TABLE "member" IN SHARE ROW EXCLUSIVE MODE;
       UPDATE "member" SET "last_login_public" = "last_login"::date
-        WHERE "last_login"::date < 'today';
+        FROM (
+          SELECT DISTINCT "member"."id"
+          FROM "member" LEFT JOIN "member_history"
+          ON "member"."id" = "member_history"."member_id"
+          WHERE "member"."last_login"::date < 'today' OR (
+            "member_history"."until"::date >= 'today' AND
+            "member_history"."active" = FALSE AND "member"."active" = TRUE
+          )
+        ) AS "subquery"
+        WHERE "member"."id" = "subquery"."id";
       IF "system_setting_row"."member_ttl" NOTNULL THEN
         UPDATE "member" SET "active" = FALSE
           WHERE "active" = TRUE
+          AND "last_login"::date < 'today'
           AND "last_login_public" <
             (now() - "system_setting_row"."member_ttl")::date;
       END IF;
@@ -40,7 +52,7 @@ CREATE FUNCTION "check_last_login"()
     END;
   $$;
 
-COMMENT ON FUNCTION "check_last_login"() IS 'Updates "last_login_public" field, which contains the date but not the time of the last login, and deactivates members who do not login for the time specified in "system_setting"."member_ttl". For privacy reasons this function does not update "last_login_public", if the last login of a member has been today.';
+COMMENT ON FUNCTION "check_last_login"() IS 'Updates "last_login_public" field, which contains the date but not the time of the last login, and deactivates members who do not login for the time specified in "system_setting"."member_ttl". For privacy reasons this function does not update "last_login_public", if the last login of a member has been today (except when member was reactivated today).';
 
 CREATE OR REPLACE FUNCTION "create_interest_snapshot"
   ( "issue_id_p" "issue"."id"%TYPE )
