@@ -2077,6 +2077,7 @@ CREATE FUNCTION "check_last_login"()
       IF "system_setting_row"."member_ttl" NOTNULL THEN
         UPDATE "member" SET "active" = FALSE
           WHERE "active" = TRUE
+          AND "last_login"::date < 'today'
           AND "last_login_public" <
             (now() - "system_setting_row"."member_ttl")::date;
       END IF;
