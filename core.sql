@@ -54,10 +54,21 @@ COMMENT ON FUNCTION "highlight"
 -------------------------
 
 
+CREATE TABLE "system_setting" (
+        "member_ttl"            INTERVAL );
+CREATE UNIQUE INDEX "system_setting_singleton_idx" ON "system_setting" ((1));
+
+COMMENT ON TABLE "system_setting" IS 'This table contains only one row with different settings in each column.';
+COMMENT ON INDEX "system_setting_singleton_idx" IS 'This index ensures that "system_setting" only contains one row maximum.';
+
+COMMENT ON COLUMN "system_setting"."member_ttl" IS 'Time after members get their "active" flag set to FALSE, if they do not login anymore.';
+
+
 CREATE TABLE "member" (
         "id"                    SERIAL4         PRIMARY KEY,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "last_login"            TIMESTAMPTZ,
+        "last_login_public"     DATE,
         "login"                 TEXT            UNIQUE,
         "password"              TEXT,
         "locked"                BOOLEAN         NOT NULL DEFAULT FALSE,
@@ -98,6 +109,8 @@ CREATE TRIGGER "update_text_search_data"
 
 COMMENT ON TABLE "member" IS 'Users of the system, e.g. members of an organization';
 
+COMMENT ON COLUMN "member"."last_login"           IS 'Timestamp of last login';
+COMMENT ON COLUMN "member"."last_login_public"    IS 'Date of last login (time stripped for privacy reasons, updated only after day change)';
 COMMENT ON COLUMN "member"."login"                IS 'Login name';
 COMMENT ON COLUMN "member"."password"             IS 'Password (preferably as crypto-hash, depending on the frontend or access layer)';
 COMMENT ON COLUMN "member"."locked"               IS 'Locked members can not log in.';
@@ -2172,9 +2185,42 @@ COMMENT ON FUNCTION "lock_issue"
 
 
 
--------------------------------
--- Materialize member counts --
--------------------------------
+------------------------------------------------------------------------
+-- Regular tasks, except calculcation of snapshots and voting results --
+------------------------------------------------------------------------
+
+CREATE FUNCTION "check_last_login"()
+  RETURNS VOID
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    DECLARE
+      "system_setting_row" "system_setting"%ROWTYPE;
+    BEGIN
+      SELECT * INTO "system_setting_row" FROM "system_setting";
+      LOCK TABLE "member" IN SHARE ROW EXCLUSIVE MODE;
+      UPDATE "member" SET "last_login_public" = "last_login"::date
+        FROM (
+          SELECT DISTINCT "member"."id"
+          FROM "member" LEFT JOIN "member_history"
+          ON "member"."id" = "member_history"."member_id"
+          WHERE "member"."last_login"::date < 'today' OR (
+            "member_history"."until"::date >= 'today' AND
+            "member_history"."active" = FALSE AND "member"."active" = TRUE
+          )
+        ) AS "subquery"
+        WHERE "member"."id" = "subquery"."id";
+      IF "system_setting_row"."member_ttl" NOTNULL THEN
+        UPDATE "member" SET "active" = FALSE
+          WHERE "active" = TRUE
+          AND "last_login"::date < 'today'
+          AND "last_login_public" <
+            (now() - "system_setting_row"."member_ttl")::date;
+      END IF;
+      RETURN;
+    END;
+  $$;
+
+COMMENT ON FUNCTION "check_last_login"() IS 'Updates "last_login_public" field, which contains the date but not the time of the last login, and deactivates members who do not login for the time specified in "system_setting"."member_ttl". For privacy reasons this function does not update "last_login_public", if the last login of a member has been today (except when member was reactivated today).';
+
 
 CREATE FUNCTION "calculate_member_counts"()
   RETURNS VOID
@@ -3447,6 +3493,7 @@ CREATE FUNCTION "check_everything"()
       "issue_id_v" "issue"."id"%TYPE;
     BEGIN
       DELETE FROM "expired_session";
+      PERFORM "check_last_login"();
       PERFORM "calculate_member_counts"();
       FOR "issue_id_v" IN SELECT "id" FROM "open_issue" LOOP
         PERFORM "check_issue"("issue_id_v");
@@ -3458,7 +3505,7 @@ CREATE FUNCTION "check_everything"()
     END;
   $$;
 
-COMMENT ON FUNCTION "check_everything"() IS 'Perform "check_issue" for every open issue, and if possible, automatically calculate ranks. Use this function only for development and debugging purposes, as long transactions with exclusive locking may result.';
+COMMENT ON FUNCTION "check_everything"() IS 'Amongst other regular tasks this function performs "check_issue" for every open issue, and if possible, automatically calculates ranks. Use this function only for development and debugging purposes, as long transactions with exclusive locking may result. In productive environments you should call the lf_update program instead.';
 
 
 
@@ -3518,8 +3565,10 @@ CREATE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
     BEGIN
       UPDATE "member" SET
         "last_login"                   = NULL,
+        "last_login_public"            = NULL,
         "login"                        = NULL,
         "password"                     = NULL,
+        "locked"                       = TRUE,
         "active"                       = FALSE,
         "notify_email"                 = NULL,
         "notify_email_unconfirmed"     = NULL,
@@ -3616,7 +3665,7 @@ CREATE FUNCTION "delete_private_data"()
     END;
   $$;
 
-COMMENT ON FUNCTION "delete_private_data"() IS 'DO NOT USE on productive database, but only on a copy! This function deletes all data which should not be publicly available, and can be used to create a database dump for publication.';
+COMMENT ON FUNCTION "delete_private_data"() IS 'Used by lf_export script. DO NOT USE on productive database, but only on a copy! This function deletes all data which should not be publicly available, and can be used to create a database dump for publication.';
 
 
 
