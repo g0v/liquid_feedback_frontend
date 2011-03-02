@@ -64,6 +64,17 @@ COMMENT ON INDEX "system_setting_singleton_idx" IS 'This index ensures that "sys
 COMMENT ON COLUMN "system_setting"."member_ttl" IS 'Time after members get their "active" flag set to FALSE, if they do not login anymore.';
 
 
+CREATE TABLE "contingent" (
+        "time_frame"            INTERVAL        PRIMARY KEY,
+        "text_entry_limit"      INT4,
+        "initiative_limit"      INT4 );
+
+COMMENT ON TABLE "contingent" IS 'Amount of text entries or initiatives a user may create within a given time frame. Only one row needs to be fulfilled for a member to be allowed to post. This table must not be empty.';
+
+COMMENT ON COLUMN "contingent"."text_entry_limit" IS 'Number of new drafts or suggestions to be submitted by each member within the given time frame';
+COMMENT ON COLUMN "contingent"."initiative_limit" IS 'Number of new initiatives to be opened by each member within a given time frame';
+
+
 CREATE TABLE "member" (
         "id"                    SERIAL4         PRIMARY KEY,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
@@ -375,10 +386,16 @@ CREATE TYPE "snapshot_event" AS ENUM ('periodic', 'end_of_admission', 'half_free
 COMMENT ON TYPE "snapshot_event" IS 'Reason for snapshots: ''periodic'' = due to periodic recalculation, ''end_of_admission'' = saved state at end of admission period, ''half_freeze'' = saved state at end of discussion period, ''full_freeze'' = saved state at end of verification period';
 
 
+CREATE TYPE "issue_state" AS ENUM ('admission', 'discussion', 'verification', 'voting', 'canceled_all_initiatives_revoked', 'canceled_issue_not_accepted', 'calculation', 'canceled_no_initiative_admitted', 'finished_without_winner', 'finished_with_winner');
+
+COMMENT ON TYPE "issue_state" IS 'State of issues';
+
+
 CREATE TABLE "issue" (
         "id"                    SERIAL4         PRIMARY KEY,
         "area_id"               INT4            NOT NULL REFERENCES "area" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "policy_id"             INT4            NOT NULL REFERENCES "policy" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+        "state"                 "issue_state"   NOT NULL DEFAULT 'admission',
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "accepted"              TIMESTAMPTZ,
         "half_frozen"           TIMESTAMPTZ,
@@ -396,7 +413,7 @@ CREATE TABLE "issue" (
         "vote_now"              INT4,
         "vote_later"            INT4,
         "voter_count"           INT4,
-        CONSTRAINT "valid_state" CHECK (
+        CONSTRAINT "valid_state" CHECK ((
           ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
           ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" NOTNULL AND "ranks_available" = FALSE) OR
           ("accepted" NOTNULL AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
@@ -405,7 +422,18 @@ CREATE TABLE "issue" (
           ("accepted" NOTNULL AND "half_frozen" NOTNULL AND "fully_frozen" ISNULL  AND "closed" NOTNULL AND "ranks_available" = FALSE) OR
           ("accepted" NOTNULL AND "half_frozen" NOTNULL AND "fully_frozen" NOTNULL AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
           ("accepted" NOTNULL AND "half_frozen" NOTNULL AND "fully_frozen" NOTNULL AND "closed" NOTNULL AND "ranks_available" = FALSE) OR
-          ("accepted" NOTNULL AND "half_frozen" NOTNULL AND "fully_frozen" NOTNULL AND "closed" NOTNULL AND "ranks_available" = TRUE) ),
+          ("accepted" NOTNULL AND "half_frozen" NOTNULL AND "fully_frozen" NOTNULL AND "closed" NOTNULL AND "ranks_available" = TRUE)) AND (
+          ("state" = 'admission'    AND "closed" ISNULL AND "accepted" ISNULL) OR
+          ("state" = 'discussion'   AND "closed" ISNULL AND "accepted" NOTNULL AND "half_frozen" ISNULL) OR
+          ("state" = 'verification' AND "closed" ISNULL AND "half_frozen" NOTNULL AND "fully_frozen" ISNULL) OR
+          ("state" = 'voting'       AND "closed" ISNULL AND "fully_frozen" NOTNULL) OR
+          ("state" = 'canceled_all_initiatives_revoked' AND "closed" NOTNULL AND "fully_frozen" ISNULL) OR
+          ("state" = 'canceled_issue_not_accepted'      AND "closed" NOTNULL AND "accepted" ISNULL) OR
+          ("state" = 'calculation'                      AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = FALSE) OR
+          ("state" = 'canceled_no_initiative_admitted'  AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = TRUE) OR
+          ("state" = 'finished_without_winner'          AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = TRUE) OR
+          ("state" = 'finished_with_winner'             AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = TRUE)
+          )),
         CONSTRAINT "state_change_order" CHECK (
           "created"      <= "accepted" AND
           "accepted"     <= "half_frozen" AND
@@ -641,16 +669,31 @@ COMMENT ON COLUMN "privilege"."voting_right_manager" IS 'Select which members ar
 COMMENT ON COLUMN "privilege"."voting_right"         IS 'Right to discuss and vote';
 
 
+CREATE TYPE "notify_level" AS ENUM ('never', 'supported', 'interested', 'always');
+
+COMMENT ON TYPE "notify_level" IS 'Type used to indicate when a member wants to get certain notifications';
+
+
 CREATE TABLE "membership" (
         PRIMARY KEY ("area_id", "member_id"),
         "area_id"               INT4            REFERENCES "area" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "autoreject"            BOOLEAN         NOT NULL DEFAULT FALSE );
+        "autoreject"            BOOLEAN         NOT NULL DEFAULT FALSE,
+        "notify_issue"          "notify_level"  NOT NULL DEFAULT 'always' CHECK ("notify_issue" IN ('never', 'always')),
+        "notify_state"          "notify_level"  NOT NULL DEFAULT 'interested' CHECK ("notify_state" IN ('never', 'interested', 'always')),
+        "notify_initiative"     "notify_level"  NOT NULL DEFAULT 'interested' CHECK ("notify_initiative" IN ('never', 'interested', 'always')),
+        "notify_draft"          "notify_level"  NOT NULL DEFAULT 'supported',
+        "notify_suggestion"     "notify_level"  NOT NULL DEFAULT 'supported');
 CREATE INDEX "membership_member_id_idx" ON "membership" ("member_id");
 
 COMMENT ON TABLE "membership" IS 'Interest of members in topic areas';
 
-COMMENT ON COLUMN "membership"."autoreject" IS 'TRUE = member votes against all initiatives, if he is neither direct_ or delegating_voter; Entries in the "interest" table can override this setting.';
+COMMENT ON COLUMN "membership"."autoreject"        IS 'TRUE = member votes against all initiatives, if he is neither direct_ or delegating_voter; Entries in the "interest" table can override this setting.';
+COMMENT ON COLUMN "membership"."notify_issue"      IS 'Selects when member gets notifications about a new issue (first initiative)';
+COMMENT ON COLUMN "membership"."notify_state"      IS 'Selects when member gets notifications about issue state changes';
+COMMENT ON COLUMN "membership"."notify_initiative" IS 'Selects when member gets notifications about new initiatives';
+COMMENT ON COLUMN "membership"."notify_draft"      IS 'Selects when member gets notifications about new drafts';
+COMMENT ON COLUMN "membership"."notify_suggestion" IS 'Selects when member gets notifications about new suggestions';
 
 
 CREATE TABLE "interest" (
@@ -891,15 +934,75 @@ COMMENT ON TABLE "vote" IS 'Manual and delegated votes without abstentions; Fron
 COMMENT ON COLUMN "vote"."grade" IS 'Values smaller than zero mean reject, values greater than zero mean acceptance, zero or missing row means abstention. Preferences are expressed by different positive or negative numbers.';
 
 
-CREATE TABLE "contingent" (
-        "time_frame"            INTERVAL        PRIMARY KEY,
-        "text_entry_limit"      INT4,
-        "initiative_limit"      INT4 );
+CREATE TABLE "issue_comment" (
+        PRIMARY KEY ("issue_id", "member_id"),
+        "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "changed"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
+        "formatting_engine"     TEXT,
+        "content"               TEXT            NOT NULL,
+        "text_search_data"      TSVECTOR );
+CREATE INDEX "issue_comment_member_id_idx" ON "issue_comment" ("member_id");
+CREATE INDEX "issue_comment_text_search_data_idx" ON "issue_comment" USING gin ("text_search_data");
+CREATE TRIGGER "update_text_search_data"
+  BEFORE INSERT OR UPDATE ON "issue_comment"
+  FOR EACH ROW EXECUTE PROCEDURE
+  tsvector_update_trigger('text_search_data', 'pg_catalog.simple', "content");
 
-COMMENT ON TABLE "contingent" IS 'Amount of text entries or initiatives a user may create within a given time frame. Only one row needs to be fulfilled for a member to be allowed to post. This table must not be empty.';
+COMMENT ON TABLE "issue_comment" IS 'Place to store free comments of members related to issues';
 
-COMMENT ON COLUMN "contingent"."text_entry_limit" IS 'Number of new drafts or suggestions to be submitted by each member within the given time frame';
-COMMENT ON COLUMN "contingent"."initiative_limit" IS 'Number of new initiatives to be opened by each member within a given time frame';
+COMMENT ON COLUMN "issue_comment"."changed" IS 'Time the comment was last changed';
+
+
+CREATE TABLE "rendered_issue_comment" (
+        PRIMARY KEY ("issue_id", "member_id", "format"),
+        FOREIGN KEY ("issue_id", "member_id")
+          REFERENCES "issue_comment" ("issue_id", "member_id")
+          ON DELETE CASCADE ON UPDATE CASCADE,
+        "issue_id"              INT4,
+        "member_id"             INT4,
+        "format"                TEXT,
+        "content"               TEXT            NOT NULL );
+
+COMMENT ON TABLE "rendered_issue_comment" IS 'This table may be used by frontends to cache "rendered" issue comments (e.g. HTML output generated from wiki text)';
+
+
+CREATE TABLE "voting_comment" (
+        PRIMARY KEY ("issue_id", "member_id"),
+        "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "changed"               TIMESTAMPTZ,
+        "formatting_engine"     TEXT,
+        "content"               TEXT            NOT NULL,
+        "text_search_data"      TSVECTOR );
+CREATE INDEX "voting_comment_member_id_idx" ON "voting_comment" ("member_id");
+CREATE INDEX "voting_comment_text_search_data_idx" ON "voting_comment" USING gin ("text_search_data");
+CREATE TRIGGER "update_text_search_data"
+  BEFORE INSERT OR UPDATE ON "voting_comment"
+  FOR EACH ROW EXECUTE PROCEDURE
+  tsvector_update_trigger('text_search_data', 'pg_catalog.simple', "content");
+
+COMMENT ON TABLE "voting_comment" IS 'Storage for comments of voters to be published after voting has finished.';
+
+COMMENT ON COLUMN "voting_comment"."changed" IS 'Is to be set or updated by the frontend, if comment was inserted or updated AFTER the issue has been closed. Otherwise it shall be set to NULL.';
+
+
+CREATE TABLE "rendered_voting_comment" (
+        PRIMARY KEY ("issue_id", "member_id", "format"),
+        FOREIGN KEY ("issue_id", "member_id")
+          REFERENCES "voting_comment" ("issue_id", "member_id")
+          ON DELETE CASCADE ON UPDATE CASCADE,
+        "issue_id"              INT4,
+        "member_id"             INT4,
+        "format"                TEXT,
+        "content"               TEXT            NOT NULL );
+
+COMMENT ON TABLE "rendered_voting_comment" IS 'This table may be used by frontends to cache "rendered" voting comments (e.g. HTML output generated from wiki text)';
+
+
+CREATE TABLE "event" ();
+
+COMMENT ON TABLE "event" IS 'TODO';
 
 
 
@@ -2790,6 +2893,7 @@ CREATE FUNCTION "freeze_after_snapshot"
         FROM "policy" WHERE "id" = "issue_row"."policy_id";
       PERFORM "set_snapshot_event"("issue_id_p", 'full_freeze');
       UPDATE "issue" SET
+        "state"        = 'voting',
         "accepted"     = coalesce("accepted", now()),
         "half_frozen"  = coalesce("half_frozen", now()),
         "fully_frozen" = now()
@@ -3031,6 +3135,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       END LOOP;
       PERFORM "add_vote_delegations"("issue_id_p");
       UPDATE "issue" SET
+        "state"  = 'calculation',
         "closed" = now(),
         "voter_count" = (
           SELECT coalesce(sum("weight"), 0)
@@ -3344,7 +3449,21 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
         END LOOP;
       END IF;
       -- mark issue as finished
-      UPDATE "issue" SET "ranks_available" = TRUE
+      UPDATE "issue" SET
+        "state" =
+          CASE WHEN NOT EXISTS (
+            SELECT NULL FROM "initiative"
+            WHERE "issue_id" = "issue_id_p" AND "admitted"
+          ) THEN
+            'canceled_no_initiative_admitted'::"issue_state"
+          ELSE
+            CASE WHEN "dimension_v" = 0 THEN
+              'finished_without_winner'::"issue_state"
+            ELSE
+              'finished_with_winner'::"issue_state"
+            END
+          END,
+        "ranks_available" = TRUE
         WHERE "id" = "issue_id_p";
       RETURN;
     END;
@@ -3392,15 +3511,21 @@ CREATE FUNCTION "check_issue"
           ) THEN
             -- accept issues, if supporter count is high enough
             PERFORM "set_snapshot_event"("issue_id_p", 'end_of_admission');
-            "issue_row"."accepted" = now();  -- NOTE: "issue_row" used later
-            UPDATE "issue" SET "accepted" = "issue_row"."accepted"
+            -- NOTE: "issue_row" used later
+            "issue_row"."state" := 'discussion';
+            "issue_row"."accepted" := now();
+            UPDATE "issue" SET
+              "state"    = "issue_row"."state",
+              "accepted" = "issue_row"."accepted"
               WHERE "id" = "issue_row"."id";
           ELSIF
             now() >= "issue_row"."created" + "issue_row"."admission_time"
           THEN
             -- close issues, if admission time has expired
             PERFORM "set_snapshot_event"("issue_id_p", 'end_of_admission');
-            UPDATE "issue" SET "closed" = now()
+            UPDATE "issue" SET
+              "state" = 'canceled_issue_not_accepted',
+              "closed" = now()
               WHERE "id" = "issue_row"."id";
           END IF;
         END IF;
@@ -3427,8 +3552,12 @@ CREATE FUNCTION "check_issue"
             )
           THEN
             PERFORM "set_snapshot_event"("issue_id_p", 'half_freeze');
-            "issue_row"."half_frozen" = now();  -- NOTE: "issue_row" used later
-            UPDATE "issue" SET "half_frozen" = "issue_row"."half_frozen"
+            -- NOTE: "issue_row" used later
+            "issue_row"."state" := 'verification';
+            "issue_row"."half_frozen" := now();
+            UPDATE "issue" SET
+              "state"       = "issue_row"."state",
+              "half_frozen" = "issue_row"."half_frozen"
               WHERE "id" = "issue_row"."id";
           END IF;
         END IF;
@@ -3440,8 +3569,10 @@ CREATE FUNCTION "check_issue"
             SELECT NULL FROM "initiative"
             WHERE "issue_id" = "issue_id_p" AND "revoked" ISNULL
           ) AND (
+            -- and issue has not been accepted yet
+            "issue_row"."accepted" ISNULL OR
             NOT EXISTS (
-              -- and no initiatives have been revoked lately
+              -- or no initiatives have been revoked lately
               SELECT NULL FROM "initiative"
               WHERE "issue_id" = "issue_id_p"
               AND now() < "revoked" + "issue_row"."verification_time"
@@ -3453,8 +3584,12 @@ CREATE FUNCTION "check_issue"
             )
           )
         THEN
-          "issue_row"."closed" = now();  -- NOTE: "issue_row" used later
-          UPDATE "issue" SET "closed" = "issue_row"."closed"
+          -- NOTE: "issue_row" used later
+          "issue_row"."state" := 'canceled_all_initiatives_revoked';
+          "issue_row"."closed" := now();
+          UPDATE "issue" SET
+            "state"  = "issue_row"."state",
+            "closed" = "issue_row"."closed"
             WHERE "id" = "issue_row"."id";
         END IF;
         -- fully freeze issue after verification time:
@@ -3475,6 +3610,8 @@ CREATE FUNCTION "check_issue"
           now() >= "issue_row"."fully_frozen" + "issue_row"."voting_time"
         THEN
           PERFORM "close_voting"("issue_id_p");
+          -- calculate ranks will not consume much time and can be done now
+          PERFORM "calculate_ranks"("issue_id_p");
         END IF;
       END IF;
       RETURN;
