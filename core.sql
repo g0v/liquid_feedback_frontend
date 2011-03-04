@@ -386,7 +386,11 @@ CREATE TYPE "snapshot_event" AS ENUM ('periodic', 'end_of_admission', 'half_free
 COMMENT ON TYPE "snapshot_event" IS 'Reason for snapshots: ''periodic'' = due to periodic recalculation, ''end_of_admission'' = saved state at end of admission period, ''half_freeze'' = saved state at end of discussion period, ''full_freeze'' = saved state at end of verification period';
 
 
-CREATE TYPE "issue_state" AS ENUM ('admission', 'discussion', 'verification', 'voting', 'canceled_all_initiatives_revoked', 'canceled_issue_not_accepted', 'calculation', 'canceled_no_initiative_admitted', 'finished_without_winner', 'finished_with_winner');
+CREATE TYPE "issue_state" AS ENUM (
+        'admission', 'discussion', 'verification', 'voting',
+        'canceled_all_initiatives_revoked', 'canceled_issue_not_accepted',
+        'calculation', 'canceled_no_initiative_admitted',
+        'finished_without_winner', 'finished_with_winner');
 
 COMMENT ON TYPE "issue_state" IS 'State of issues';
 
@@ -495,6 +499,7 @@ CREATE TABLE "initiative" (
         "discussion_url"        TEXT,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "revoked"               TIMESTAMPTZ,
+        "revoked_by_member_id"  INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
         "suggested_initiative_id" INT4          REFERENCES "initiative" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "admitted"              BOOLEAN,
         "supporter_count"                    INT4,
@@ -506,6 +511,8 @@ CREATE TABLE "initiative" (
         "agreed"                BOOLEAN,
         "rank"                  INT4,
         "text_search_data"      TSVECTOR,
+        CONSTRAINT "all_or_none_of_revoked_and_revoked_by_member_id_must_be_null"
+          CHECK ("revoked" NOTNULL = "revoked_by_member_id" NOTNULL),
         CONSTRAINT "non_revoked_initiatives_cant_suggest_other"
           CHECK ("revoked" NOTNULL OR "suggested_initiative_id" ISNULL),
         CONSTRAINT "revoked_initiatives_cant_be_admitted"
@@ -527,9 +534,10 @@ CREATE TRIGGER "update_text_search_data"
 
 COMMENT ON TABLE "initiative" IS 'Group of members publishing drafts for resolutions to be passed; Frontends must ensure that initiatives of half_frozen issues are not revoked, and that initiatives of fully_frozen or closed issues are neither revoked nor created.';
 
-COMMENT ON COLUMN "initiative"."discussion_url" IS 'URL pointing to a discussion platform for this initiative';
-COMMENT ON COLUMN "initiative"."revoked"        IS 'Point in time, when one initiator decided to revoke the initiative';
-COMMENT ON COLUMN "initiative"."admitted"       IS 'TRUE, if initiative reaches the "initiative_quorum" when freezing the issue';
+COMMENT ON COLUMN "initiative"."discussion_url"       IS 'URL pointing to a discussion platform for this initiative';
+COMMENT ON COLUMN "initiative"."revoked"              IS 'Point in time, when one initiator decided to revoke the initiative';
+COMMENT ON COLUMN "initiative"."revoked_by_member_id" IS 'Member, who decided to revoked the initiative';
+COMMENT ON COLUMN "initiative"."admitted"             IS 'TRUE, if initiative reaches the "initiative_quorum" when freezing the issue';
 COMMENT ON COLUMN "initiative"."supporter_count"                    IS 'Calculated from table "direct_supporter_snapshot"';
 COMMENT ON COLUMN "initiative"."informed_supporter_count"           IS 'Calculated from table "direct_supporter_snapshot"';
 COMMENT ON COLUMN "initiative"."satisfied_supporter_count"          IS 'Calculated from table "direct_supporter_snapshot"';
@@ -1000,15 +1008,70 @@ CREATE TABLE "rendered_voting_comment" (
 COMMENT ON TABLE "rendered_voting_comment" IS 'This table may be used by frontends to cache "rendered" voting comments (e.g. HTML output generated from wiki text)';
 
 
-CREATE TABLE "event" ();
+CREATE TYPE "event_type" AS ENUM (
+        'issue_state_changed',
+        'initiative_created_in_new_issue',
+        'initiative_created_in_existing_issue',
+        'initiative_revoked',
+        'new_draft_created',
+        'suggestion_created');
 
-COMMENT ON TABLE "event" IS 'TODO';
+COMMENT ON TYPE "event_type" IS 'Type used for column "event" of table "event"';
+
+
+CREATE TABLE "event" (
+        "id"                    SERIAL8         PRIMARY KEY,
+        "occurrence"            TIMESTAMPTZ     NOT NULL DEFAULT now(),
+        "event"                 "event_type"    NOT NULL,
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+        "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "state"                 "issue_state"   CHECK ("state" != 'calculation'),
+        "initiative_id"         INT4,
+        "draft_id"              INT8,
+        "suggestion_id"         INT8,
+        FOREIGN KEY ("issue_id", "initiative_id")
+          REFERENCES "initiative" ("issue_id", "id")
+          ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY ("initiative_id", "draft_id")
+          REFERENCES "draft" ("initiative_id", "id")
+          ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY ("initiative_id", "suggestion_id")
+          REFERENCES "suggestion" ("initiative_id", "id")
+          ON DELETE CASCADE ON UPDATE CASCADE,
+        CONSTRAINT "null_constraints_for_issue_state_changed" CHECK (
+          "event" != 'issue_state_changed' OR (
+            "member_id"     ISNULL  AND
+            "issue_id"      NOTNULL AND
+            "initiative_id" ISNULL  AND
+            "draft_id"      ISNULL  AND
+            "suggestion_id" ISNULL  )),
+        CONSTRAINT "null_constraints_for_initiative_creation_or_revocation_or_new_draft" CHECK (
+          "event" NOT IN (
+            'initiative_created_in_new_issue',
+            'initiative_created_in_existing_issue',
+            'initiative_revoked',
+            'new_draft_created'
+          ) OR (
+            "member_id"     NOTNULL AND
+            "issue_id"      NOTNULL AND
+            "initiative_id" NOTNULL AND
+            "draft_id"      NOTNULL AND
+            "suggestion_id" ISNULL  )),
+        CONSTRAINT "null_constraints_for_suggestion_creation" CHECK (
+          "event" != 'suggestion_created' OR (
+            "member_id"     NOTNULL AND
+            "issue_id"      NOTNULL AND
+            "initiative_id" NOTNULL AND
+            "draft_id"      ISNULL  AND
+            "suggestion_id" NOTNULL )) );
+
+COMMENT ON TABLE "event" IS 'Event table, automatically filled by triggers';
 
 
 
---------------------------------
--- Writing of history entries --
---------------------------------
+----------------------------------------------
+-- Writing of history entries and event log --
+----------------------------------------------
 
 CREATE FUNCTION "write_member_history_trigger"()
   RETURNS TRIGGER
@@ -1032,6 +1095,127 @@ CREATE TRIGGER "write_member_history"
 
 COMMENT ON FUNCTION "write_member_history_trigger"()  IS 'Implementation of trigger "write_member_history" on table "member"';
 COMMENT ON TRIGGER "write_member_history" ON "member" IS 'When changing certain fields of a member, create a history entry in "member_history" table';
+
+
+CREATE FUNCTION "write_event_issue_state_changed_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      IF NEW."state" != OLD."state" AND NEW."state" != 'calculation' THEN
+        INSERT INTO "event" ("event", "issue_id", "state")
+          VALUES ('issue_state_changed', NEW."id", NEW."state");
+      END IF;
+      RETURN NULL;
+    END;
+  $$;
+
+CREATE TRIGGER "write_event_issue_state_changed"
+  AFTER UPDATE ON "issue" FOR EACH ROW EXECUTE PROCEDURE
+  "write_event_issue_state_changed_trigger"();
+
+COMMENT ON FUNCTION "write_event_issue_state_changed_trigger"() IS 'Implementation of trigger "write_event_issue_state_changed" on table "issue"';
+COMMENT ON TRIGGER "write_event_issue_state_changed" ON "issue" IS 'Create entry in "event" table on "state" change';
+
+
+CREATE FUNCTION "write_event_initiative_or_draft_created_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    DECLARE
+      "initiative_row" "initiative"%ROWTYPE;
+      "event_v"        "event_type";
+    BEGIN
+      SELECT * INTO "initiative_row" FROM "initiative"
+        WHERE "id" = NEW."initiative_id";
+      IF EXISTS (
+        SELECT NULL FROM "draft"
+        WHERE "initiative_id" = NEW."initiative_id"
+        AND "id" != NEW."id"
+      ) THEN
+        "event_v" := 'new_draft_created';
+      ELSE
+        IF EXISTS (
+          SELECT NULL FROM "initiative"
+          WHERE "issue_id" = "initiative_row"."issue_id"
+          AND "id" != "initiative_row"."id"
+        ) THEN
+          "event_v" := 'initiative_created_in_existing_issue';
+        ELSE
+          "event_v" := 'initiative_created_in_new_issue';
+        END IF;
+      END IF;
+      INSERT INTO "event" (
+          "event", "member_id",
+          "issue_id", "initiative_id", "draft_id"
+        ) VALUES (
+          "event_v",
+          NEW."author_id",
+          "initiative_row"."issue_id",
+          "initiative_row"."id",
+          NEW."id" );
+      RETURN NULL;
+    END;
+  $$;
+
+CREATE TRIGGER "write_event_initiative_or_draft_created"
+  AFTER INSERT ON "draft" FOR EACH ROW EXECUTE PROCEDURE
+  "write_event_initiative_or_draft_created_trigger"();
+
+COMMENT ON FUNCTION "write_event_initiative_or_draft_created_trigger"() IS 'Implementation of trigger "write_event_initiative_or_draft_created" on table "issue"';
+COMMENT ON TRIGGER "write_event_initiative_or_draft_created" ON "draft" IS 'Create entry in "event" table on draft creation';
+
+
+CREATE FUNCTION "write_event_initiative_revoked_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      IF OLD."revoked" ISNULL AND NEW."revoked" NOTNULL THEN
+        INSERT INTO "event" (
+            "event", "member_id", "issue_id", "initiative_id"
+          ) VALUES (
+            'initiative_revoked',
+            NEW."revoked_by_member_id",
+            NEW."issue_id",
+            NEW."id" );
+      END IF;
+      RETURN NULL;
+    END;
+  $$;
+
+CREATE TRIGGER "write_event_initiative_revoked"
+  AFTER UPDATE ON "initiative" FOR EACH ROW EXECUTE PROCEDURE
+  "write_event_initiative_revoked_trigger"();
+
+COMMENT ON FUNCTION "write_event_initiative_revoked_trigger"()      IS 'Implementation of trigger "write_event_initiative_revoked" on table "issue"';
+COMMENT ON TRIGGER "write_event_initiative_revoked" ON "initiative" IS 'Create entry in "event" table, when an initiative is revoked';
+
+
+CREATE FUNCTION "write_event_suggestion_created_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    DECLARE
+      "initiative_row" "initiative"%ROWTYPE;
+    BEGIN
+      SELECT * INTO "initiative_row" FROM "initiative"
+        WHERE "id" = NEW."initiative_id";
+      INSERT INTO "event" (
+          "event", "member_id",
+          "issue_id", "initiative_id", "suggestion_id"
+        ) VALUES (
+          'suggestion_created',
+          NEW."author_id",
+          "initiative_row"."issue_id",
+          "initiative_row"."id",
+          NEW."id" );
+      RETURN NULL;
+    END;
+  $$;
+
+CREATE TRIGGER "write_event_suggestion_created"
+  AFTER INSERT ON "suggestion" FOR EACH ROW EXECUTE PROCEDURE
+  "write_event_suggestion_created_trigger"();
+
+COMMENT ON FUNCTION "write_event_suggestion_created_trigger"()      IS 'Implementation of trigger "write_event_suggestion_created" on table "issue"';
+COMMENT ON TRIGGER "write_event_suggestion_created" ON "suggestion" IS 'Create entry in "event" table on suggestion creation';
 
 
 
@@ -1766,7 +1950,7 @@ CREATE TYPE "timeline_event" AS ENUM (
   'draft_created',
   'suggestion_created');
 
-COMMENT ON TYPE "timeline_event" IS 'Types of event in timeline tables';
+COMMENT ON TYPE "timeline_event" IS 'Types of event in timeline tables (DEPRECATED)';
 
 
 CREATE VIEW "timeline_issue" AS
@@ -1812,7 +1996,7 @@ CREATE VIEW "timeline_issue" AS
       "id" AS "issue_id"
     FROM "issue" WHERE "closed" NOTNULL AND "fully_frozen" NOTNULL;
 
-COMMENT ON VIEW "timeline_issue" IS 'Helper view for "timeline" view';
+COMMENT ON VIEW "timeline_issue" IS 'Helper view for "timeline" view (DEPRECATED)';
 
 
 CREATE VIEW "timeline_initiative" AS
@@ -1828,7 +2012,7 @@ CREATE VIEW "timeline_initiative" AS
       "id" AS "initiative_id"
     FROM "initiative" WHERE "revoked" NOTNULL;
 
-COMMENT ON VIEW "timeline_initiative" IS 'Helper view for "timeline" view';
+COMMENT ON VIEW "timeline_initiative" IS 'Helper view for "timeline" view (DEPRECATED)';
 
 
 CREATE VIEW "timeline_draft" AS
@@ -1838,7 +2022,7 @@ CREATE VIEW "timeline_draft" AS
     "id" AS "draft_id"
   FROM "draft";
 
-COMMENT ON VIEW "timeline_draft" IS 'Helper view for "timeline" view';
+COMMENT ON VIEW "timeline_draft" IS 'Helper view for "timeline" view (DEPRECATED)';
 
 
 CREATE VIEW "timeline_suggestion" AS
@@ -1848,7 +2032,7 @@ CREATE VIEW "timeline_suggestion" AS
     "id" AS "suggestion_id"
   FROM "suggestion";
 
-COMMENT ON VIEW "timeline_suggestion" IS 'Helper view for "timeline" view';
+COMMENT ON VIEW "timeline_suggestion" IS 'Helper view for "timeline" view (DEPRECATED)';
 
 
 CREATE VIEW "timeline" AS
@@ -1888,7 +2072,7 @@ CREATE VIEW "timeline" AS
       "suggestion_id"
     FROM "timeline_suggestion";
 
-COMMENT ON VIEW "timeline" IS 'Aggregation of different events in the system';
+COMMENT ON VIEW "timeline" IS 'Aggregation of different events in the system (DEPRECATED)';
 
 
 
