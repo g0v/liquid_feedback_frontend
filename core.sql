@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.4.0', 1, 4, 0))
+  SELECT * FROM (VALUES ('1.4.0_rc1', 1, 4, 0))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -75,6 +75,12 @@ COMMENT ON COLUMN "contingent"."text_entry_limit" IS 'Number of new drafts or su
 COMMENT ON COLUMN "contingent"."initiative_limit" IS 'Number of new initiatives to be opened by each member within a given time frame';
 
 
+CREATE TYPE "notify_level" AS ENUM
+  ('none', 'voting', 'verification', 'discussion', 'all');
+
+COMMENT ON TYPE "notify_level" IS 'Level of notification: ''none'' = no notifications, ''voting'' = notifications about finished issues and issues in voting, ''verification'' = notifications about finished issues, issues in voting and verification phase, ''discussion'' = notifications about everything except issues in admission phase, ''all'' = notifications about everything';
+
+
 CREATE TABLE "member" (
         "id"                    SERIAL4         PRIMARY KEY,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
@@ -90,6 +96,8 @@ CREATE TABLE "member" (
         "notify_email_secret"          TEXT     UNIQUE,
         "notify_email_secret_expiry"   TIMESTAMPTZ,
         "notify_email_lock_expiry"     TIMESTAMPTZ,
+        "notify_level"          "notify_level"  NOT NULL DEFAULT 'none',
+        "notify_event_id"       INT8,
         "password_reset_secret"        TEXT     UNIQUE,
         "password_reset_secret_expiry" TIMESTAMPTZ,
         "name"                  TEXT            NOT NULL UNIQUE,
@@ -132,6 +140,8 @@ COMMENT ON COLUMN "member"."notify_email_unconfirmed"   IS 'Unconfirmed email ad
 COMMENT ON COLUMN "member"."notify_email_secret"        IS 'Secret sent to the address in "notify_email_unconformed"';
 COMMENT ON COLUMN "member"."notify_email_secret_expiry" IS 'Expiry date/time for "notify_email_secret"';
 COMMENT ON COLUMN "member"."notify_email_lock_expiry"   IS 'Date/time until no further email confirmation mails may be sent (abuse protection)';
+COMMENT ON COLUMN "member"."notify_level"         IS 'Selects which event notifications are to be sent to the "notify_email" mail address';
+COMMENT ON COLUMN "member"."notify_event_id"      IS 'Latest "id" of an "event" the member was notified about';
 COMMENT ON COLUMN "member"."name"                 IS 'Distinct name of the member';
 COMMENT ON COLUMN "member"."identification"       IS 'Optional identification number or code of the member';
 COMMENT ON COLUMN "member"."organizational_unit"  IS 'Branch or division of the organization the member belongs to';
@@ -247,12 +257,25 @@ CREATE TABLE "contact" (
         "public"                BOOLEAN         NOT NULL DEFAULT FALSE,
         CONSTRAINT "cant_save_yourself_as_contact"
           CHECK ("member_id" != "other_member_id") );
+CREATE INDEX "contact_other_member_id_idx" ON "contact" ("other_member_id");
 
 COMMENT ON TABLE "contact" IS 'Contact lists';
 
 COMMENT ON COLUMN "contact"."member_id"       IS 'Member having the contact list';
 COMMENT ON COLUMN "contact"."other_member_id" IS 'Member referenced in the contact list';
 COMMENT ON COLUMN "contact"."public"          IS 'TRUE = display contact publically';
+
+
+CREATE TABLE "ignored_member" (
+        PRIMARY KEY ("member_id", "other_member_id"),
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "other_member_id"       INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE );
+CREATE INDEX "ignored_member_other_member_id_idx" ON "ignored_member" ("other_member_id");
+
+COMMENT ON TABLE "ignored_member" IS 'Possibility to filter other members';
+
+COMMENT ON COLUMN "ignored_member"."member_id"       IS 'Member ignoring someone';
+COMMENT ON COLUMN "ignored_member"."other_member_id" IS 'Member being ignored';
 
 
 CREATE TABLE "session" (
@@ -388,8 +411,12 @@ COMMENT ON TYPE "snapshot_event" IS 'Reason for snapshots: ''periodic'' = due to
 
 CREATE TYPE "issue_state" AS ENUM (
         'admission', 'discussion', 'verification', 'voting',
-        'canceled_all_initiatives_revoked', 'canceled_issue_not_accepted',
-        'calculation', 'canceled_no_initiative_admitted',
+        'canceled_revoked_before_accepted',
+        'canceled_issue_not_accepted',
+        'canceled_after_revocation_during_discussion',
+        'canceled_after_revocation_during_verification',
+        'calculation',
+        'canceled_no_initiative_admitted',
         'finished_without_winner', 'finished_with_winner');
 
 COMMENT ON TYPE "issue_state" IS 'State of issues';
@@ -431,12 +458,14 @@ CREATE TABLE "issue" (
           ("state" = 'discussion'   AND "closed" ISNULL AND "accepted" NOTNULL AND "half_frozen" ISNULL) OR
           ("state" = 'verification' AND "closed" ISNULL AND "half_frozen" NOTNULL AND "fully_frozen" ISNULL) OR
           ("state" = 'voting'       AND "closed" ISNULL AND "fully_frozen" NOTNULL) OR
-          ("state" = 'canceled_all_initiatives_revoked' AND "closed" NOTNULL AND "fully_frozen" ISNULL) OR
-          ("state" = 'canceled_issue_not_accepted'      AND "closed" NOTNULL AND "accepted" ISNULL) OR
-          ("state" = 'calculation'                      AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = FALSE) OR
-          ("state" = 'canceled_no_initiative_admitted'  AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = TRUE) OR
-          ("state" = 'finished_without_winner'          AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = TRUE) OR
-          ("state" = 'finished_with_winner'             AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = TRUE)
+          ("state" = 'canceled_revoked_before_accepted'              AND "closed" NOTNULL AND "accepted" ISNULL) OR
+          ("state" = 'canceled_issue_not_accepted'                   AND "closed" NOTNULL AND "accepted" ISNULL) OR
+          ("state" = 'canceled_after_revocation_during_discussion'   AND "closed" NOTNULL AND "half_frozen"  ISNULL) OR
+          ("state" = 'canceled_after_revocation_during_verification' AND "closed" NOTNULL AND "fully_frozen" ISNULL) OR
+          ("state" = 'calculation'                     AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = FALSE) OR
+          ("state" = 'canceled_no_initiative_admitted' AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = TRUE) OR
+          ("state" = 'finished_without_winner'         AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = TRUE) OR
+          ("state" = 'finished_with_winner'            AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = TRUE)
           )),
         CONSTRAINT "state_change_order" CHECK (
           "created"      <= "accepted" AND
@@ -560,6 +589,15 @@ CREATE TABLE "battle" (
 COMMENT ON TABLE "battle" IS 'Number of members preferring one initiative to another; Filled by "battle_view" when closing an issue';
 
 
+CREATE TABLE "ignored_initiative" (
+        PRIMARY KEY ("initiative_id", "member_id"),
+        "initiative_id"         INT4            REFERENCES "initiative" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE );
+CREATE INDEX "ignored_initiative_member_id_idx" ON "ignored_initiative" ("member_id");
+
+COMMENT ON TABLE "ignored_initiative" IS 'Possibility to filter initiatives';
+
+
 CREATE TABLE "initiative_setting" (
         PRIMARY KEY ("member_id", "key", "initiative_id"),
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -677,31 +715,16 @@ COMMENT ON COLUMN "privilege"."voting_right_manager" IS 'Select which members ar
 COMMENT ON COLUMN "privilege"."voting_right"         IS 'Right to discuss and vote';
 
 
-CREATE TYPE "notify_level" AS ENUM ('never', 'supported', 'interested', 'always');
-
-COMMENT ON TYPE "notify_level" IS 'Type used to indicate when a member wants to get certain notifications';
-
-
 CREATE TABLE "membership" (
         PRIMARY KEY ("area_id", "member_id"),
         "area_id"               INT4            REFERENCES "area" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "autoreject"            BOOLEAN         NOT NULL DEFAULT FALSE,
-        "notify_issue"          "notify_level"  NOT NULL DEFAULT 'always' CHECK ("notify_issue" IN ('never', 'always')),
-        "notify_state"          "notify_level"  NOT NULL DEFAULT 'interested' CHECK ("notify_state" IN ('never', 'interested', 'always')),
-        "notify_initiative"     "notify_level"  NOT NULL DEFAULT 'interested' CHECK ("notify_initiative" IN ('never', 'interested', 'always')),
-        "notify_draft"          "notify_level"  NOT NULL DEFAULT 'supported',
-        "notify_suggestion"     "notify_level"  NOT NULL DEFAULT 'supported');
+        "autoreject"            BOOLEAN         NOT NULL DEFAULT FALSE );
 CREATE INDEX "membership_member_id_idx" ON "membership" ("member_id");
 
 COMMENT ON TABLE "membership" IS 'Interest of members in topic areas';
 
 COMMENT ON COLUMN "membership"."autoreject"        IS 'TRUE = member votes against all initiatives, if he is neither direct_ or delegating_voter; Entries in the "interest" table can override this setting.';
-COMMENT ON COLUMN "membership"."notify_issue"      IS 'Selects when member gets notifications about a new issue (first initiative)';
-COMMENT ON COLUMN "membership"."notify_state"      IS 'Selects when member gets notifications about issue state changes';
-COMMENT ON COLUMN "membership"."notify_initiative" IS 'Selects when member gets notifications about new initiatives';
-COMMENT ON COLUMN "membership"."notify_draft"      IS 'Selects when member gets notifications about new drafts';
-COMMENT ON COLUMN "membership"."notify_suggestion" IS 'Selects when member gets notifications about new suggestions';
 
 
 CREATE TABLE "interest" (
@@ -716,24 +739,6 @@ COMMENT ON TABLE "interest" IS 'Interest of members in a particular issue; Front
 
 COMMENT ON COLUMN "interest"."autoreject"       IS 'TRUE = member votes against all initiatives in case of not explicitly taking part in the voting procedure';
 COMMENT ON COLUMN "interest"."voting_requested" IS 'TRUE = member wants to vote now, FALSE = member wants to vote later, NULL = policy rules should apply';
-
-
-CREATE TABLE "ignored_issue" (
-        PRIMARY KEY ("issue_id", "member_id"),
-        "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "new"                   BOOLEAN         NOT NULL DEFAULT FALSE,
-        "accepted"              BOOLEAN         NOT NULL DEFAULT FALSE,
-        "half_frozen"           BOOLEAN         NOT NULL DEFAULT FALSE,
-        "fully_frozen"          BOOLEAN         NOT NULL DEFAULT FALSE );
-CREATE INDEX "ignored_issue_member_id_idx" ON "ignored_issue" ("member_id");
-
-COMMENT ON TABLE "ignored_issue" IS 'Table to store member specific options to ignore issues in selected states';
-
-COMMENT ON COLUMN "ignored_issue"."new"          IS 'Apply when issue is neither closed nor accepted';
-COMMENT ON COLUMN "ignored_issue"."accepted"     IS 'Apply when issue is accepted but not (half_)frozen or closed';
-COMMENT ON COLUMN "ignored_issue"."half_frozen"  IS 'Apply when issue is half_frozen but not fully_frozen or closed';
-COMMENT ON COLUMN "ignored_issue"."fully_frozen" IS 'Apply when issue is fully_frozen (in voting) and not closed';
 
 
 CREATE TABLE "initiator" (
@@ -897,6 +902,15 @@ COMMENT ON COLUMN "direct_supporter_snapshot"."informed"  IS 'Supporter has seen
 COMMENT ON COLUMN "direct_supporter_snapshot"."satisfied" IS 'Supporter has no "critical_opinion"s';
 
 
+CREATE TABLE "non_voter" (
+        PRIMARY KEY ("issue_id", "member_id"),
+        "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE );
+CREATE INDEX "non_voter_member_id_idx" ON "non_voter" ("member_id");
+
+COMMENT ON TABLE "non_voter" IS 'Members who decided to not vote directly on an issue';
+
+
 CREATE TABLE "direct_voter" (
         PRIMARY KEY ("issue_id", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -1042,6 +1056,7 @@ CREATE TABLE "event" (
           "event" != 'issue_state_changed' OR (
             "member_id"     ISNULL  AND
             "issue_id"      NOTNULL AND
+            "state"         NOTNULL AND
             "initiative_id" ISNULL  AND
             "draft_id"      ISNULL  AND
             "suggestion_id" ISNULL  )),
@@ -1054,6 +1069,7 @@ CREATE TABLE "event" (
           ) OR (
             "member_id"     NOTNULL AND
             "issue_id"      NOTNULL AND
+            "state"         NOTNULL AND
             "initiative_id" NOTNULL AND
             "draft_id"      NOTNULL AND
             "suggestion_id" ISNULL  )),
@@ -1061,6 +1077,7 @@ CREATE TABLE "event" (
           "event" != 'suggestion_created' OR (
             "member_id"     NOTNULL AND
             "issue_id"      NOTNULL AND
+            "state"         NOTNULL AND
             "initiative_id" NOTNULL AND
             "draft_id"      ISNULL  AND
             "suggestion_id" NOTNULL )) );
@@ -1122,10 +1139,13 @@ CREATE FUNCTION "write_event_initiative_or_draft_created_trigger"()
   LANGUAGE 'plpgsql' VOLATILE AS $$
     DECLARE
       "initiative_row" "initiative"%ROWTYPE;
+      "issue_row"      "issue"%ROWTYPE;
       "event_v"        "event_type";
     BEGIN
       SELECT * INTO "initiative_row" FROM "initiative"
         WHERE "id" = NEW."initiative_id";
+      SELECT * INTO "issue_row" FROM "issue"
+        WHERE "id" = "initiative_row"."issue_id";
       IF EXISTS (
         SELECT NULL FROM "draft"
         WHERE "initiative_id" = NEW."initiative_id"
@@ -1145,11 +1165,12 @@ CREATE FUNCTION "write_event_initiative_or_draft_created_trigger"()
       END IF;
       INSERT INTO "event" (
           "event", "member_id",
-          "issue_id", "initiative_id", "draft_id"
+          "issue_id", "state", "initiative_id", "draft_id"
         ) VALUES (
           "event_v",
           NEW."author_id",
           "initiative_row"."issue_id",
+          "issue_row"."state",
           "initiative_row"."id",
           NEW."id" );
       RETURN NULL;
@@ -1167,14 +1188,19 @@ COMMENT ON TRIGGER "write_event_initiative_or_draft_created" ON "draft" IS 'Crea
 CREATE FUNCTION "write_event_initiative_revoked_trigger"()
   RETURNS TRIGGER
   LANGUAGE 'plpgsql' VOLATILE AS $$
+    DECLARE
+      "issue_row"      "issue"%ROWTYPE;
     BEGIN
+      SELECT * INTO "issue_row" FROM "issue"
+        WHERE "id" = NEW."issue_id";
       IF OLD."revoked" ISNULL AND NEW."revoked" NOTNULL THEN
         INSERT INTO "event" (
-            "event", "member_id", "issue_id", "initiative_id"
+            "event", "member_id", "issue_id", "state", "initiative_id"
           ) VALUES (
             'initiative_revoked',
             NEW."revoked_by_member_id",
             NEW."issue_id",
+            "issue_row"."state",
             NEW."id" );
       END IF;
       RETURN NULL;
@@ -1194,16 +1220,20 @@ CREATE FUNCTION "write_event_suggestion_created_trigger"()
   LANGUAGE 'plpgsql' VOLATILE AS $$
     DECLARE
       "initiative_row" "initiative"%ROWTYPE;
+      "issue_row"      "issue"%ROWTYPE;
     BEGIN
       SELECT * INTO "initiative_row" FROM "initiative"
         WHERE "id" = NEW."initiative_id";
+      SELECT * INTO "issue_row" FROM "issue"
+        WHERE "id" = "initiative_row"."issue_id";
       INSERT INTO "event" (
           "event", "member_id",
-          "issue_id", "initiative_id", "suggestion_id"
+          "issue_id", "state", "initiative_id", "suggestion_id"
         ) VALUES (
           'suggestion_created',
           NEW."author_id",
           "initiative_row"."issue_id",
+          "issue_row"."state",
           "initiative_row"."id",
           NEW."id" );
       RETURN NULL;
@@ -1935,6 +1965,124 @@ CREATE VIEW "member_contingent_left" AS
   FROM "member_contingent" GROUP BY "member_id";
 
 COMMENT ON VIEW "member_contingent_left" IS 'Amount of text entries or initiatives which can be posted now instantly by a member. This view should be used by a frontend to determine, if the contingent for posting is exhausted.';
+
+
+CREATE VIEW "event_seen_by_member" AS
+  SELECT
+    "member"."id" AS "seen_by_member_id",
+    CASE WHEN "event"."state" IN (
+      'voting',
+      'finished_without_winner',
+      'finished_with_winner'
+    ) THEN
+      'voting'::"notify_level"
+    ELSE
+      CASE WHEN "event"."state" IN (
+        'verification',
+        'canceled_after_revocation_during_verification',
+        'canceled_no_initiative_admitted'
+      ) THEN
+        'verification'::"notify_level"
+      ELSE
+        CASE WHEN "event"."state" IN (
+          'discussion',
+          'canceled_after_revocation_during_discussion'
+        ) THEN
+          'discussion'::"notify_level"
+        ELSE
+          'all'::"notify_level"
+        END
+      END
+    END AS "notify_level",
+    "event".*
+  FROM "member" CROSS JOIN "event"
+  LEFT JOIN "issue"
+    ON "event"."issue_id" = "issue"."id"
+  LEFT JOIN "membership"
+    ON "member"."id" = "membership"."member_id"
+    AND "issue"."area_id" = "membership"."area_id"
+  LEFT JOIN "interest"
+    ON "member"."id" = "interest"."member_id"
+    AND "event"."issue_id" = "interest"."issue_id"
+  LEFT JOIN "supporter"
+    ON "member"."id" = "supporter"."member_id"
+    AND "event"."initiative_id" = "supporter"."initiative_id"
+  LEFT JOIN "ignored_member"
+    ON "member"."id" = "ignored_member"."member_id"
+    AND "event"."member_id" = "ignored_member"."other_member_id"
+  LEFT JOIN "ignored_initiative"
+    ON "member"."id" = "ignored_initiative"."member_id"
+    AND "event"."initiative_id" = "ignored_initiative"."initiative_id"
+  WHERE (
+    "supporter"."member_id" NOTNULL OR
+    "interest"."member_id" NOTNULL OR
+    ( "membership"."member_id" NOTNULL AND
+      "event"."event" IN (
+        'issue_state_changed',
+        'initiative_created_in_new_issue',
+        'initiative_created_in_existing_issue',
+        'initiative_revoked' ) ) )
+  AND "ignored_member"."member_id" ISNULL
+  AND "ignored_initiative"."member_id" ISNULL;
+
+COMMENT ON VIEW "event_seen_by_member" IS 'Events as seen by a member, depending on its memberships, interests and support';
+
+
+CREATE VIEW "pending_notification" AS
+  SELECT
+    "member"."id" AS "seen_by_member_id",
+    "event".*
+  FROM "member" CROSS JOIN "event"
+  LEFT JOIN "issue"
+    ON "event"."issue_id" = "issue"."id"
+  LEFT JOIN "membership"
+    ON "member"."id" = "membership"."member_id"
+    AND "issue"."area_id" = "membership"."area_id"
+  LEFT JOIN "interest"
+    ON "member"."id" = "interest"."member_id"
+    AND "event"."issue_id" = "interest"."issue_id"
+  LEFT JOIN "supporter"
+    ON "member"."id" = "supporter"."member_id"
+    AND "event"."initiative_id" = "supporter"."initiative_id"
+  LEFT JOIN "ignored_member"
+    ON "member"."id" = "ignored_member"."member_id"
+    AND "event"."member_id" = "ignored_member"."other_member_id"
+  LEFT JOIN "ignored_initiative"
+    ON "member"."id" = "ignored_initiative"."member_id"
+    AND "event"."initiative_id" = "ignored_initiative"."initiative_id"
+  WHERE (
+    "member"."notify_event_id" ISNULL OR
+    ( "member"."notify_event_id" NOTNULL AND
+      "member"."notify_event_id" < "event"."id" ) )
+  AND (
+    ( "member"."notify_level" >= 'all' ) OR
+    ( "member"."notify_level" >= 'voting' AND
+      "event"."state" IN (
+        'voting',
+        'finished_without_winner',
+        'finished_with_winner' ) ) OR
+    ( "member"."notify_level" >= 'verification' AND
+      "event"."state" IN (
+        'verification',
+        'canceled_after_revocation_during_verification',
+        'canceled_no_initiative_admitted' ) ) OR
+    ( "member"."notify_level" >= 'discussion' AND
+      "event"."state" IN (
+        'discussion',
+        'canceled_after_revocation_during_discussion' ) ) )
+  AND (
+    "supporter"."member_id" NOTNULL OR
+    "interest"."member_id" NOTNULL OR
+    ( "membership"."member_id" NOTNULL AND
+      "event"."event" IN (
+        'issue_state_changed',
+        'initiative_created_in_new_issue',
+        'initiative_created_in_existing_issue',
+        'initiative_revoked' ) ) )
+  AND "ignored_member"."member_id" ISNULL
+  AND "ignored_initiative"."member_id" ISNULL;
+
+COMMENT ON VIEW "pending_notification" IS 'Events to be sent to "notify_email" address of member referred to by "seen_by_member_id"';
 
 
 CREATE TYPE "timeline_event" AS ENUM (
@@ -3076,12 +3224,6 @@ CREATE FUNCTION "freeze_after_snapshot"
       SELECT * INTO "policy_row"
         FROM "policy" WHERE "id" = "issue_row"."policy_id";
       PERFORM "set_snapshot_event"("issue_id_p", 'full_freeze');
-      UPDATE "issue" SET
-        "state"        = 'voting',
-        "accepted"     = coalesce("accepted", now()),
-        "half_frozen"  = coalesce("half_frozen", now()),
-        "fully_frozen" = now()
-        WHERE "id" = "issue_id_p";
       FOR "initiative_row" IN
         SELECT * FROM "initiative"
         WHERE "issue_id" = "issue_id_p" AND "revoked" ISNULL
@@ -3099,11 +3241,29 @@ CREATE FUNCTION "freeze_after_snapshot"
             WHERE "id" = "initiative_row"."id";
         END IF;
       END LOOP;
-      IF NOT EXISTS (
+      IF EXISTS (
         SELECT NULL FROM "initiative"
         WHERE "issue_id" = "issue_id_p" AND "admitted" = TRUE
       ) THEN
-        PERFORM "close_voting"("issue_id_p");
+        UPDATE "issue" SET
+          "state"        = 'voting',
+          "accepted"     = coalesce("accepted", now()),
+          "half_frozen"  = coalesce("half_frozen", now()),
+          "fully_frozen" = now()
+          WHERE "id" = "issue_id_p";
+      ELSE
+        UPDATE "issue" SET
+          "state"        = 'canceled_no_initiative_admitted',
+          "accepted"     = coalesce("accepted", now()),
+          "half_frozen"  = coalesce("half_frozen", now()),
+          "fully_frozen" = now(),
+          "closed"       = now()
+          WHERE "id" = "issue_id_p";
+        -- NOTE: The following DELETE statements have effect only when
+        --       issue state has been manipulated
+        DELETE FROM "direct_voter"     WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "delegating_voter" WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "battle"           WHERE "issue_id" = "issue_id_p";
       END IF;
       RETURN;
     END;
@@ -3769,7 +3929,13 @@ CREATE FUNCTION "check_issue"
           )
         THEN
           -- NOTE: "issue_row" used later
-          "issue_row"."state" := 'canceled_all_initiatives_revoked';
+          IF "issue_row"."accepted" ISNULL THEN
+            "issue_row"."state" := 'canceled_revoked_before_accepted';
+          ELSIF "issue_row"."half_frozen" ISNULL THEN
+            "issue_row"."state" := 'canceled_after_revocation_during_discussion';
+          ELSE
+            "issue_row"."state" := 'canceled_after_revocation_during_verification';
+          END IF;
           "issue_row"."closed" := now();
           UPDATE "issue" SET
             "state"  = "issue_row"."state",
@@ -3861,7 +4027,7 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
           WHERE "issue_id" = "issue_id_p";
         DELETE FROM "direct_population_snapshot"
           WHERE "issue_id" = "issue_id_p";
-        DELETE FROM "ignored_issue"
+        DELETE FROM "non_voter"
           WHERE "issue_id" = "issue_id_p";
         DELETE FROM "delegation"
           WHERE "issue_id" = "issue_id_p";
@@ -3919,13 +4085,16 @@ CREATE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
       DELETE FROM "member_relation_setting" WHERE "member_id" = "member_id_p";
       DELETE FROM "member_image"       WHERE "member_id" = "member_id_p";
       DELETE FROM "contact"            WHERE "member_id" = "member_id_p";
+      DELETE FROM "ignored_member"     WHERE "member_id" = "member_id_p";
+      DELETE FROM "session"            WHERE "member_id" = "member_id_p";
       DELETE FROM "area_setting"       WHERE "member_id" = "member_id_p";
       DELETE FROM "issue_setting"      WHERE "member_id" = "member_id_p";
+      DELETE FROM "ignored_initiative" WHERE "member_id" = "member_id_p";
       DELETE FROM "initiative_setting" WHERE "member_id" = "member_id_p";
       DELETE FROM "suggestion_setting" WHERE "member_id" = "member_id_p";
       DELETE FROM "membership"         WHERE "member_id" = "member_id_p";
-      DELETE FROM "ignored_issue"      WHERE "member_id" = "member_id_p";
       DELETE FROM "delegation"         WHERE "truster_id" = "member_id_p";
+      DELETE FROM "non_voter"          WHERE "member_id" = "member_id_p";
       DELETE FROM "direct_voter" USING "issue"
         WHERE "direct_voter"."issue_id" = "issue"."id"
         AND "issue"."closed" ISNULL
@@ -3973,12 +4142,14 @@ CREATE FUNCTION "delete_private_data"()
       DELETE FROM "member_relation_setting";
       DELETE FROM "member_image";
       DELETE FROM "contact";
+      DELETE FROM "ignored_member";
       DELETE FROM "session";
       DELETE FROM "area_setting";
       DELETE FROM "issue_setting";
+      DELETE FROM "ignored_initiative";
       DELETE FROM "initiative_setting";
       DELETE FROM "suggestion_setting";
-      DELETE FROM "ignored_issue";
+      DELETE FROM "non_voter";
       DELETE FROM "direct_voter" USING "issue"
         WHERE "direct_voter"."issue_id" = "issue"."id"
         AND "issue"."closed" ISNULL;
