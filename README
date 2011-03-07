@@ -26,3 +26,12 @@ To uninstall the software, delete the lf_update binary
 and drop the database by entering the following command:
 $ dropdb liquid_feedback
 
+Updating is done using the update scripts in the update/ directory.
+After updating it is recommended to recreate the schema as follows:
+$ pg_dump --disable-triggers --data-only DATABASE_NAME > tmp.sql
+$ dropdb DATABASE_NAME
+$ createdb DATABASE_NAME
+$ psql -v ON_ERROR_STOP=1 -f core.sql DATABASE_NAME
+$ psql -v ON_ERROR_STOP=1 -f tmp.sql DATABASE_NAME
+$ rm tmp.sql
+
