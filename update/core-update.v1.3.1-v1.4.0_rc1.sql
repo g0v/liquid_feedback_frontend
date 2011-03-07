@@ -135,7 +135,9 @@ CREATE TABLE "invite_code_unit" (
 
 COMMENT ON TABLE "invite_code_unit" IS 'Units where accounts created with a given invite codes get voting rights';
 
--- TODO: Table is filled after this transaction (see below)
+INSERT INTO "invite_code_unit" ("invite_code_id", "unit_id")
+  SELECT "id" AS "invite_code_id", 1 AS "unit_id"
+  FROM "invite_code" WHERE "used" ISNULL;
 
 
 -- New table "privilege":
@@ -2010,6 +2012,16 @@ UPDATE "issue" SET "state" =
   ELSE
     'canceled_revoked_before_accepted'::"issue_state"  -- NOTE: corrected later
   END;
+UPDATE "issue" SET "state" = 'finished_with_winner'
+  FROM "initiative"
+  WHERE "issue"."id" = "initiative"."issue_id"
+  AND "issue"."state" = 'finished_without_winner'
+  AND "initiative"."agreed";
+UPDATE "issue" SET "state" = 'canceled_issue_not_accepted'
+  FROM "initiative"
+  WHERE "issue"."id" = "initiative"."issue_id"
+  AND "issue"."state" = 'canceled_revoked_before_accepted'
+  AND "initiative"."revoked" ISNULL;
 
 ALTER TABLE "issue" ALTER "state" SET NOT NULL;
 
@@ -2039,17 +2051,6 @@ ALTER TABLE "issue" ADD CONSTRAINT "valid_state" CHECK ((
     ("state" = 'finished_with_winner'            AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = TRUE)
   ));
 
-UPDATE "issue" SET "state" = 'finished_with_winner'
-  FROM "initiative"
-  WHERE "issue"."id" = "initiative"."issue_id"
-  AND "issue"."state" = 'finished_without_winner'
-  AND "initiative"."agreed";
-UPDATE "issue" SET "state" = 'canceled_issue_not_accepted'
-  FROM "initiative"
-  WHERE "issue"."id" = "initiative"."issue_id"
-  AND "issue"."state" = 'canceled_revoked_before_accepted'
-  AND "initiative"."revoked" ISNULL;
-
 
 -- Guess "revoked_by_member_id" values based on author of current draft:
 
@@ -2063,13 +2064,6 @@ ALTER TABLE "initiative" ADD
   CHECK ("revoked" NOTNULL = "revoked_by_member_id" NOTNULL);
 
 
--- Attach existing and unused invite codes with unit id 1:
-
-INSERT INTO "invite_code_unit" ("invite_code_id", "unit_id")
-  SELECT "id" AS "invite_code_id", 1 AS "unit_id"
-  FROM "invite_code" WHERE "used" ISNULL;
-
-
 -- Fill "unit_id" column with default value where neccessary:
 
 UPDATE "delegation" SET "unit_id" = 1 WHERE "scope" = 'unit';
@@ -2079,3 +2073,5 @@ ALTER TABLE "delegation" ADD CONSTRAINT "area_id_and_issue_id_set_according_to_s
     ("scope" = 'unit'  AND "unit_id" NOTNULL AND "area_id" ISNULL  AND "issue_id" ISNULL ) OR
     ("scope" = 'area'  AND "unit_id" ISNULL  AND "area_id" NOTNULL AND "issue_id" ISNULL ) OR
     ("scope" = 'issue' AND "unit_id" ISNULL  AND "area_id" ISNULL  AND "issue_id" NOTNULL) );
+
+
