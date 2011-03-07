@@ -173,7 +173,7 @@ CREATE TYPE "delegation_scope" AS ENUM ('unit', 'area', 'issue');
 COMMENT ON TYPE "delegation_scope" IS 'Scope for delegations: ''unit'', ''area'', or ''issue'' (order is relevant)';
 
 
--- Delete views and functions being dependent on TYPE "delegation_scope":
+-- Delete views and functions being dependent on type "delegation_scope":
 
 DROP FUNCTION "delegation_chain"
   ( "member_id_p" "member"."id"%TYPE,
@@ -194,7 +194,7 @@ DROP VIEW "global_delegation";
 DROP VIEW "active_delegation";
 
 
--- Modify "delegation" table to use new "delegation_scope" TYPE:
+-- Modify "delegation" table to use new "delegation_scope" type:
 
 ALTER TABLE "delegation" DROP CONSTRAINT "no_global_delegation_to_null";
 ALTER TABLE "delegation" DROP CONSTRAINT "area_id_and_issue_id_set_according_to_scope";
@@ -218,7 +218,7 @@ COMMENT ON COLUMN "delegation"."unit_id"  IS 'Reference to unit, if delegation i
 -- NOTE: Column "unit_id" filled after transaction (see below)
 
 
--- Modify snapshot tables to use new "delegation_scope" TYPE:
+-- Modify snapshot tables to use new "delegation_scope" type:
 
 ALTER TABLE "delegating_population_snapshot" ALTER "scope" TYPE "delegation_scope"
   USING CASE WHEN "scope" = 'global'
@@ -247,7 +247,7 @@ CREATE INDEX "non_voter_member_id_idx" ON "non_voter" ("member_id");
 COMMENT ON TABLE "non_voter" IS 'Members who decided to not vote directly on an issue';
 
 
--- New table "issue_comment":
+-- New tables "issue_comment" and "rendered_issue_comment":
 
 CREATE TABLE "issue_comment" (
         PRIMARY KEY ("issue_id", "member_id"),
@@ -268,9 +268,6 @@ COMMENT ON TABLE "issue_comment" IS 'Place to store free comments of members rel
 
 COMMENT ON COLUMN "issue_comment"."changed" IS 'Time the comment was last changed';
 
-
--- New table "rendered_issue_comment":
-
 CREATE TABLE "rendered_issue_comment" (
         PRIMARY KEY ("issue_id", "member_id", "format"),
         FOREIGN KEY ("issue_id", "member_id")
@@ -284,7 +281,7 @@ CREATE TABLE "rendered_issue_comment" (
 COMMENT ON TABLE "rendered_issue_comment" IS 'This table may be used by frontends to cache "rendered" issue comments (e.g. HTML output generated from wiki text)';
 
 
--- New table "voting_comment":
+-- New tables "voting_comment" and "rendered_voting_comment":
 
 CREATE TABLE "voting_comment" (
         PRIMARY KEY ("issue_id", "member_id"),
@@ -304,9 +301,6 @@ CREATE TRIGGER "update_text_search_data"
 COMMENT ON TABLE "voting_comment" IS 'Storage for comments of voters to be published after voting has finished.';
 
 COMMENT ON COLUMN "voting_comment"."changed" IS 'Is to be set or updated by the frontend, if comment was inserted or updated AFTER the issue has been closed. Otherwise it shall be set to NULL.';
-
-
--- New table "rendered_voting_comment":
 
 CREATE TABLE "rendered_voting_comment" (
         PRIMARY KEY ("issue_id", "member_id", "format"),
@@ -1004,7 +998,7 @@ COMMENT ON FUNCTION "delegation_chain"
   IS 'Shortcut for "delegation_chain"(...) function where 4th parameter is null';
 
 
--- Modified core functions:
+-- Other modified functions:
 
 CREATE OR REPLACE FUNCTION "lock_issue"
   ( "issue_id_p" "issue"."id"%TYPE )
@@ -1977,7 +1971,7 @@ DROP TYPE "delegation_scope_old";
 COMMIT;
 
 
--- Generate issue states:
+-- Generate issue states and add constraints:
 
 UPDATE "issue" SET "state" =
   CASE
@@ -2046,7 +2040,7 @@ ALTER TABLE "issue" ADD CONSTRAINT "valid_state" CHECK ((
   ));
 
 
--- Guess "revoked_by_member_id" values based on author of current draft:
+-- Guess "revoked_by_member_id" values based on author of current draft and add constraint:
 
 UPDATE "initiative" SET "revoked_by_member_id" = "author_id"
   FROM "current_draft"
@@ -2058,7 +2052,7 @@ ALTER TABLE "initiative" ADD
   CHECK ("revoked" NOTNULL = "revoked_by_member_id" NOTNULL);
 
 
--- Fill "unit_id" column with default value where neccessary:
+-- Fill "unit_id" column with default value where neccessary and add constraints:
 
 UPDATE "delegation" SET "unit_id" = 1 WHERE "scope" = 'unit';
 
