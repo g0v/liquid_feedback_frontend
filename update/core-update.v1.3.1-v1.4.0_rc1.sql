@@ -1238,11 +1238,12 @@ CREATE OR REPLACE FUNCTION "freeze_after_snapshot"
           WHERE "id" = "issue_id_p";
       ELSE
         UPDATE "issue" SET
-          "state"        = 'canceled_no_initiative_admitted',
-          "accepted"     = coalesce("accepted", now()),
-          "half_frozen"  = coalesce("half_frozen", now()),
-          "fully_frozen" = now(),
-          "closed"       = now()
+          "state"           = 'canceled_no_initiative_admitted',
+          "accepted"        = coalesce("accepted", now()),
+          "half_frozen"     = coalesce("half_frozen", now()),
+          "fully_frozen"    = now(),
+          "closed"          = now(),
+          "ranks_available" = TRUE
           WHERE "id" = "issue_id_p";
         -- NOTE: The following DELETE statements have effect only when
         --       issue state has been manipulated
@@ -1575,17 +1576,10 @@ CREATE OR REPLACE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
       -- mark issue as finished
       UPDATE "issue" SET
         "state" =
-          CASE WHEN NOT EXISTS (
-            SELECT NULL FROM "initiative"
-            WHERE "issue_id" = "issue_id_p" AND "admitted"
-          ) THEN
-            'canceled_no_initiative_admitted'::"issue_state"
+          CASE WHEN "dimension_v" = 0 THEN
+            'finished_without_winner'::"issue_state"
           ELSE
-            CASE WHEN "dimension_v" = 0 THEN
-              'finished_without_winner'::"issue_state"
-            ELSE
-              'finished_with_winner'::"issue_state"
-            END
+            'finished_with_winner'::"issue_state"
           END,
         "ranks_available" = TRUE
         WHERE "id" = "issue_id_p";
