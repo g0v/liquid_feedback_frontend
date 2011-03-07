@@ -724,7 +724,7 @@ CREATE INDEX "membership_member_id_idx" ON "membership" ("member_id");
 
 COMMENT ON TABLE "membership" IS 'Interest of members in topic areas';
 
-COMMENT ON COLUMN "membership"."autoreject"        IS 'TRUE = member votes against all initiatives, if he is neither direct_ or delegating_voter; Entries in the "interest" table can override this setting.';
+COMMENT ON COLUMN "membership"."autoreject" IS 'TRUE = member votes against all initiatives, if he is neither direct_ or delegating_voter; Entries in the "interest" table can override this setting.';
 
 
 CREATE TABLE "interest" (
@@ -1083,6 +1083,11 @@ CREATE TABLE "event" (
             "suggestion_id" NOTNULL )) );
 
 COMMENT ON TABLE "event" IS 'Event table, automatically filled by triggers';
+
+COMMENT ON COLUMN "event"."occurrence" IS 'Point in time, when event occurred';
+COMMENT ON COLUMN "event"."event"      IS 'Type of event (see TYPE "event_type")';
+COMMENT ON COLUMN "event"."member_id"  IS 'Member who caused the event, if applicable';
+COMMENT ON COLUMN "event"."state"      IS 'If issue_id is set: state of affected issue; If state changed: new state';
 
 
 
