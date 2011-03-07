@@ -2075,3 +2075,152 @@ ALTER TABLE "delegation" ADD CONSTRAINT "area_id_and_issue_id_set_according_to_s
     ("scope" = 'issue' AND "unit_id" ISNULL  AND "area_id" ISNULL  AND "issue_id" NOTNULL) );
 
 
+-- Filling of "event" table with old (reconstructed) events:
+
+DELETE FROM "event";
+SELECT setval('event_id_seq', 1, false);
+
+INSERT INTO "event"
+  ( "occurrence", "event", "member_id", "issue_id", "state",
+    "initiative_id", "draft_id", "suggestion_id" )
+  SELECT * FROM (
+    SELECT * FROM (
+      SELECT DISTINCT ON ("initiative"."id")
+        "timeline"."occurrence",
+        CASE WHEN "issue_creation"."issue_id" NOTNULL THEN
+          'initiative_created_in_new_issue'::"event_type"
+        ELSE
+          'initiative_created_in_existing_issue'::"event_type"
+        END,
+        "draft"."author_id",
+        "issue"."id",
+        CASE
+          WHEN "timeline"."occurrence" < "issue"."accepted" THEN
+            'admission'::"issue_state"
+          WHEN "timeline"."occurrence" < "issue"."half_frozen" THEN
+            'discussion'::"issue_state"
+          ELSE
+            'verification'::"issue_state"
+        END,
+        "initiative"."id",
+        "draft"."id",
+        NULL::INT8
+      FROM "timeline"
+      JOIN "initiative" ON "timeline"."initiative_id" = "initiative"."id"
+      JOIN "issue" ON "issue"."id" = "initiative"."issue_id"
+      LEFT JOIN "timeline" AS "issue_creation"
+        ON "initiative"."issue_id" = "issue_creation"."issue_id"
+        AND "issue_creation"."event" = 'issue_created'
+        AND "timeline"."occurrence" = "issue_creation"."occurrence"
+      JOIN "draft"
+        ON "initiative"."id" = "draft"."initiative_id"
+      WHERE "timeline"."event" = 'initiative_created'
+      ORDER BY "initiative"."id", "draft"."id"
+    ) AS "subquery"  -- NOTE: subquery needed due to DISTINCT/ORDER
+  UNION ALL
+    SELECT
+      "timeline"."occurrence",
+      'issue_state_changed'::"event_type",
+      NULL,
+      "issue"."id",
+      CASE
+        WHEN "timeline"."event" IN (
+          'issue_canceled',
+          'issue_finished_without_voting',
+          'issue_finished_after_voting'
+        ) THEN
+          "issue"."state"
+        WHEN "timeline"."event" = 'issue_accepted' THEN
+          'discussion'::"issue_state"
+        WHEN "timeline"."event" = 'issue_half_frozen' THEN
+          'verification'::"issue_state"
+        WHEN "timeline"."event" = 'issue_voting_started' THEN
+          'voting'::"issue_state"
+      END,
+      NULL,
+      NULL,
+      NULL
+    FROM "timeline"
+    JOIN "issue" ON "timeline"."issue_id" = "issue"."id"
+    WHERE "timeline"."event" IN (
+      'issue_canceled',
+      'issue_accepted',
+      'issue_half_frozen',
+      'issue_finished_without_voting',
+      'issue_voting_started',
+      'issue_finished_after_voting' )
+  UNION ALL
+    SELECT
+      "timeline"."occurrence",
+      'initiative_revoked'::"event_type",
+      "initiative"."revoked_by_member_id",
+      "issue"."id",
+      CASE
+        WHEN "timeline"."occurrence" < "issue"."accepted" THEN
+          'admission'::"issue_state"
+        WHEN "timeline"."occurrence" < "issue"."half_frozen" THEN
+          'discussion'::"issue_state"
+        ELSE
+          'verification'::"issue_state"
+      END,
+      "initiative"."id",
+      "current_draft"."id",
+      NULL
+    FROM "timeline"
+    JOIN "initiative" ON "timeline"."initiative_id" = "initiative"."id"
+    JOIN "issue" ON "issue"."id" = "initiative"."issue_id"
+    JOIN "current_draft" ON "initiative"."id" = "current_draft"."initiative_id"
+    WHERE "timeline"."event" = 'initiative_revoked'
+  UNION ALL
+    SELECT
+      "timeline"."occurrence",
+      'new_draft_created'::"event_type",
+      "draft"."author_id",
+      "issue"."id",
+      CASE
+        WHEN "timeline"."occurrence" < "issue"."accepted" THEN
+          'admission'::"issue_state"
+        WHEN "timeline"."occurrence" < "issue"."half_frozen" THEN
+          'discussion'::"issue_state"
+        ELSE
+          'verification'::"issue_state"
+      END,
+      "initiative"."id",
+      "draft"."id",
+      NULL
+    FROM "timeline"
+    JOIN "draft" ON "timeline"."draft_id" = "draft"."id"
+    JOIN "initiative" ON "draft"."initiative_id" = "initiative"."id"
+    JOIN "issue" ON "initiative"."issue_id" = "issue"."id"
+    LEFT JOIN "timeline" AS "initiative_creation"
+      ON "initiative"."id" = "initiative_creation"."initiative_id"
+      AND "initiative_creation"."event" = 'initiative_created'
+      AND "timeline"."occurrence" = "initiative_creation"."occurrence"
+    WHERE "timeline"."event" = 'draft_created'
+    AND "initiative_creation"."initiative_id" ISNULL
+  UNION ALL
+    SELECT
+      "timeline"."occurrence",
+      'suggestion_created'::"event_type",
+      "suggestion"."author_id",
+      "issue"."id",
+      CASE
+        WHEN "timeline"."occurrence" < "issue"."accepted" THEN
+          'admission'::"issue_state"
+        WHEN "timeline"."occurrence" < "issue"."half_frozen" THEN
+          'discussion'::"issue_state"
+        ELSE
+          'verification'::"issue_state"
+      END,
+      "initiative"."id",
+      NULL,
+      "suggestion"."id"
+    FROM "timeline"
+    JOIN "suggestion" ON "timeline"."suggestion_id" = "suggestion"."id"
+    JOIN "initiative" ON "suggestion"."initiative_id" = "initiative"."id"
+    JOIN "issue" ON "initiative"."issue_id" = "issue"."id"
+    WHERE "timeline"."event" = 'suggestion_created'
+  ) AS "subquery"
+  ORDER BY "occurrence";
+
+
