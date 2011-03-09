@@ -981,7 +981,7 @@ CREATE FUNCTION "delegation_chain"
     BEGIN
       FOR "result_row" IN
         SELECT * FROM "delegation_chain"(
-          "member_id_p", "area_id_p", "issue_id_p", NULL
+          "member_id_p", "unit_id_p", "area_id_p", "issue_id_p", NULL
         )
       LOOP
         RETURN NEXT "result_row";
