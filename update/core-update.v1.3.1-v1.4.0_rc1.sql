@@ -136,8 +136,7 @@ CREATE TABLE "invite_code_unit" (
 COMMENT ON TABLE "invite_code_unit" IS 'Units where accounts created with a given invite codes get voting rights';
 
 INSERT INTO "invite_code_unit" ("invite_code_id", "unit_id")
-  SELECT "id" AS "invite_code_id", 1 AS "unit_id"
-  FROM "invite_code" WHERE "used" ISNULL;
+  SELECT "id" AS "invite_code_id", 1 AS "unit_id" FROM "invite_code";
 
 
 -- New table "privilege":
@@ -159,6 +158,10 @@ COMMENT ON COLUMN "privilege"."unit_manager"         IS 'Create or lock sub unit
 COMMENT ON COLUMN "privilege"."area_manager"         IS 'Create or lock areas and set area parameters';
 COMMENT ON COLUMN "privilege"."voting_right_manager" IS 'Select which members are allowed to discuss and vote inside the unit';
 COMMENT ON COLUMN "privilege"."voting_right"         IS 'Right to discuss and vote';
+
+INSERT INTO "privilege" ("unit_id", "member_id", "voting_right")
+  SELECT 1 AS "unit_id", "id" AS "member_id", TRUE AS "voting_right"
+  FROM "member";
 
 
 -- Remove table "ignored_issue", which is no longer existent:
