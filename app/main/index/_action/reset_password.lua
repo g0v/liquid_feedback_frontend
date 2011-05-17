@@ -1,3 +1,5 @@
+trace.disable()
+    
 local secret = param.get("secret")
 
 if not secret then

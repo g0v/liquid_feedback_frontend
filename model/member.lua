@@ -313,6 +313,7 @@ function Member:get_search_selector(search_string)
 end
 
 function Member.object:set_notify_email(notify_email)
+  trace.disable()
   local expiry = db:query("SELECT now() + '7 days'::interval as expiry", "object").expiry
   self.notify_email_unconfirmed = notify_email
   self.notify_email_secret = multirand.string( 24, "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz" )
