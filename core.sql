@@ -537,8 +537,12 @@ CREATE TABLE "initiative" (
         "satisfied_informed_supporter_count" INT4,
         "positive_votes"        INT4,
         "negative_votes"        INT4,
-        "agreed"                BOOLEAN,
+        "attainable"            BOOLEAN,
+        "favored"               BOOLEAN,
+        "unfavored"             BOOLEAN,
+        "eligible"              BOOLEAN,
         "rank"                  INT4,
+        "winner"                BOOLEAN,
         "text_search_data"      TSVECTOR,
         CONSTRAINT "all_or_none_of_revoked_and_revoked_by_member_id_must_be_null"
           CHECK ("revoked" NOTNULL = "revoked_by_member_id" NOTNULL),
@@ -546,12 +550,18 @@ CREATE TABLE "initiative" (
           CHECK ("revoked" NOTNULL OR "suggested_initiative_id" ISNULL),
         CONSTRAINT "revoked_initiatives_cant_be_admitted"
           CHECK ("revoked" ISNULL OR "admitted" ISNULL),
-        CONSTRAINT "non_admitted_initiatives_cant_contain_voting_results"
-          CHECK (("admitted" NOTNULL AND "admitted" = TRUE) OR ("positive_votes" ISNULL AND "negative_votes" ISNULL AND "agreed" ISNULL)),
-        CONSTRAINT "all_or_none_of_positive_votes_negative_votes_and_agreed_must_be_null"
-          CHECK ("positive_votes" NOTNULL = "negative_votes" NOTNULL AND "positive_votes" NOTNULL = "agreed" NOTNULL),
-        CONSTRAINT "non_agreed_initiatives_cant_get_a_rank"
-          CHECK (("agreed" NOTNULL AND "agreed" = TRUE) OR "rank" ISNULL) );
+        CONSTRAINT "non_admitted_initiatives_cant_contain_voting_results" CHECK (
+          ( "admitted" NOTNULL AND "admitted" = TRUE ) OR
+          ( "positive_votes" ISNULL AND "negative_votes" ISNULL AND
+            "attainable" ISNULL AND "favored" ISNULL AND "unfavored" ISNULL AND
+            "eligible" ISNULL AND "rank" ISNULL AND "winner" ISNULL ) ),
+        CONSTRAINT "all_or_none_of_positive_votes_negative_votes_and_attainable_must_be_null"
+          CHECK ("positive_votes" NOTNULL = "negative_votes" NOTNULL AND "positive_votes" NOTNULL = "attainable" NOTNULL),
+        CONSTRAINT "favored_forbids_unfavored" CHECK (NOT ("favored" AND "unfavored")),
+        CONSTRAINT "attainable_and_favored_result_in_eligible" CHECK (
+          ( "favored" ISNULL AND "eligible" ISNULL ) OR
+          ( "attainable" NOTNULL AND "favored" NOTNULL AND "eligible" NOTNULL AND
+            ("attainable" AND "favored") = "eligible" ) ) );
 CREATE INDEX "initiative_created_idx" ON "initiative" ("created");
 CREATE INDEX "initiative_revoked_idx" ON "initiative" ("revoked");
 CREATE INDEX "initiative_text_search_data_idx" ON "initiative" USING gin ("text_search_data");
@@ -573,20 +583,30 @@ COMMENT ON COLUMN "initiative"."satisfied_supporter_count"          IS 'Calculat
 COMMENT ON COLUMN "initiative"."satisfied_informed_supporter_count" IS 'Calculated from table "direct_supporter_snapshot"';
 COMMENT ON COLUMN "initiative"."positive_votes" IS 'Calculated from table "direct_voter"';
 COMMENT ON COLUMN "initiative"."negative_votes" IS 'Calculated from table "direct_voter"';
-COMMENT ON COLUMN "initiative"."agreed"         IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "majority_num"/"majority_den"';
-COMMENT ON COLUMN "initiative"."rank"           IS 'Rank of approved initiatives (winner is 1), calculated from table "direct_voter"';
+COMMENT ON COLUMN "initiative"."attainable"     IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "majority_num"/"majority_den"';
+COMMENT ON COLUMN "initiative"."favored"        IS 'TRUE, if initiative has a schulze-ranking better than the status quo (without tie-breaking)';
+COMMENT ON COLUMN "initiative"."unfavored"      IS 'TRUE, if initiative has a schulze-ranking worse than the status quo (without tie-breaking)';
+COMMENT ON COLUMN "initiative"."eligible"       IS 'TRUE, if initiative is "attainable" and "favored"';
+COMMENT ON COLUMN "initiative"."rank"           IS 'Schulze-Ranking after tie-breaking';
+COMMENT ON COLUMN "initiative"."winner"         IS 'TRUE, if initiative is final winner (best ranked initiative being "eligible")';
 
 
 CREATE TABLE "battle" (
-        PRIMARY KEY ("issue_id", "winning_initiative_id", "losing_initiative_id"),
-        "issue_id"              INT4,
+        "issue_id"              INT4            NOT NULL,
         "winning_initiative_id" INT4,
         FOREIGN KEY ("issue_id", "winning_initiative_id") REFERENCES "initiative" ("issue_id", "id") ON DELETE CASCADE ON UPDATE CASCADE,
         "losing_initiative_id"  INT4,
         FOREIGN KEY ("issue_id", "losing_initiative_id") REFERENCES "initiative" ("issue_id", "id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "count"                 INT4            NOT NULL);
+        "count"                 INT4            NOT NULL,
+        CONSTRAINT "initiative_ids_not_equal" CHECK (
+          "winning_initiative_id" != "losing_initiative_id" OR
+          ( ("winning_initiative_id" NOTNULL AND "losing_initiative_id" ISNULL) OR
+            ("winning_initiative_id" ISNULL AND "losing_initiative_id" NOTNULL) ) ) );
+CREATE UNIQUE INDEX "battle_winning_losing_idx" ON "battle" ("issue_id", "winning_initiative_id", "losing_initiative_id");
+CREATE UNIQUE INDEX "battle_winning_null_idx" ON "battle" ("issue_id", "winning_initiative_id") WHERE "losing_initiative_id" ISNULL;
+CREATE UNIQUE INDEX "battle_null_losing_idx" ON "battle" ("issue_id", "losing_initiative_id") WHERE "winning_initiative_id" ISNULL;
 
-COMMENT ON TABLE "battle" IS 'Number of members preferring one initiative to another; Filled by "battle_view" when closing an issue';
+COMMENT ON TABLE "battle" IS 'Number of members preferring one initiative to another; Filled by "battle_view" when closing an issue; NULL as initiative_id denotes virtual "status-quo" initiative';
 
 
 CREATE TABLE "ignored_initiative" (
@@ -1870,6 +1890,18 @@ CREATE VIEW "critical_opinion" AS
 COMMENT ON VIEW "critical_opinion" IS 'Opinions currently causing dissatisfaction';
 
 
+CREATE VIEW "battle_participant" AS
+    SELECT "initiative"."id", "initiative"."issue_id"
+    FROM "issue" JOIN "initiative"
+    ON "issue"."id" = "initiative"."issue_id"
+    WHERE "initiative"."admitted"
+  UNION ALL
+    SELECT NULL, "id" AS "issue_id"
+    FROM "issue";
+
+COMMENT ON VIEW "battle_participant" IS 'Helper view for "battle_view" containing admitted initiatives plus virtual "status-quo" initiative denoted by NULL reference';
+
+
 CREATE VIEW "battle_view" AS
   SELECT
     "issue"."id" AS "issue_id",
@@ -1884,12 +1916,10 @@ CREATE VIEW "battle_view" AS
   FROM "issue"
   LEFT JOIN "direct_voter"
   ON "issue"."id" = "direct_voter"."issue_id"
-  JOIN "initiative" AS "winning_initiative"
+  JOIN "battle_participant" AS "winning_initiative"
     ON "issue"."id" = "winning_initiative"."issue_id"
-    AND "winning_initiative"."agreed"
-  JOIN "initiative" AS "losing_initiative"
+  JOIN "battle_participant" AS "losing_initiative"
     ON "issue"."id" = "losing_initiative"."issue_id"
-    AND "losing_initiative"."agreed"
   LEFT JOIN "vote" AS "better_vote"
     ON "direct_voter"."member_id" = "better_vote"."member_id"
     AND "winning_initiative"."id" = "better_vote"."initiative_id"
@@ -1898,13 +1928,16 @@ CREATE VIEW "battle_view" AS
     AND "losing_initiative"."id" = "worse_vote"."initiative_id"
   WHERE "issue"."closed" NOTNULL
   AND "issue"."cleaned" ISNULL
-  AND "winning_initiative"."id" != "losing_initiative"."id"
+  AND (
+    "winning_initiative"."id" != "losing_initiative"."id" OR
+    ( ("winning_initiative"."id" NOTNULL AND "losing_initiative"."id" ISNULL) OR
+      ("winning_initiative"."id" ISNULL AND "losing_initiative"."id" NOTNULL) ) )
   GROUP BY
     "issue"."id",
     "winning_initiative"."id",
     "losing_initiative"."id";
 
-COMMENT ON VIEW "battle_view" IS 'Number of members preferring one initiative to another; Used to fill "battle" table';
+COMMENT ON VIEW "battle_view" IS 'Number of members preferring one initiative (or status-quo) to another initiative (or status-quo); Used to fill "battle" table';
 
 
 CREATE VIEW "expired_session" AS
@@ -3495,7 +3528,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       UPDATE "initiative" SET
         "positive_votes" = "vote_counts"."positive_votes",
         "negative_votes" = "vote_counts"."negative_votes",
-        "agreed" = CASE WHEN "majority_strict" THEN
+        "attainable" = CASE WHEN "majority_strict" THEN
           "vote_counts"."positive_votes" * "majority_den" >
           "majority_num" *
           ("vote_counts"."positive_votes"+"vote_counts"."negative_votes")
@@ -3652,12 +3685,9 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
       "initiative_id_v" "initiative"."id"%TYPE;
     BEGIN
       PERFORM NULL FROM "issue" WHERE "id" = "issue_id_p" FOR UPDATE;
-      SELECT count(1) INTO "dimension_v" FROM "initiative"
-        WHERE "issue_id" = "issue_id_p" AND "agreed";
-      IF "dimension_v" = 1 THEN
-        UPDATE "initiative" SET "rank" = 1
-          WHERE "issue_id" = "issue_id_p" AND "agreed";
-      ELSIF "dimension_v" > 1 THEN
+      SELECT count(1) INTO "dimension_v"
+        FROM "battle_participant" WHERE "issue_id" = "issue_id_p";
+      IF "dimension_v" > 1 THEN
         -- Create "vote_matrix" with absolute number of votes in pairwise
         -- comparison:
         "vote_matrix" := "square_matrix_init_string"("dimension_v");  -- TODO: replace by "array_fill" function (PostgreSQL 8.4)
@@ -3665,7 +3695,9 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
         "j" := 2;
         FOR "battle_row" IN
           SELECT * FROM "battle" WHERE "issue_id" = "issue_id_p"
-          ORDER BY "winning_initiative_id", "losing_initiative_id"
+          ORDER BY
+          "winning_initiative_id" NULLS LAST,
+          "losing_initiative_id" NULLS LAST
         LOOP
           "vote_matrix"["i"]["j"] := "battle_row"."count";
           IF "j" = "dimension_v" THEN
@@ -3769,18 +3801,23 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           EXIT WHEN "done_v" = "dimension_v";
           "rank_v" := "rank_v" + 1;
         END LOOP;
-        -- write preliminary ranks:
+        -- write preliminary results:
         "i" := 1;
         FOR "initiative_id_v" IN
           SELECT "id" FROM "initiative"
-          WHERE "issue_id" = "issue_id_p" AND "agreed"
+          WHERE "issue_id" = "issue_id_p" AND "admitted"
           ORDER BY "id"
         LOOP
-          UPDATE "initiative" SET "rank" = "rank_ary"["i"]
+          UPDATE "initiative" SET
+            "favored"   = "rank_ary"["i"] < "rank_ary"["dimension_v"],
+            "unfavored" = "rank_ary"["i"] > "rank_ary"["dimension_v"],
+            "eligible"  = "attainable" AND
+                          "rank_ary"["i"] < "rank_ary"["dimension_v"],
+            "rank" = "rank_ary"["i"]
             WHERE "id" = "initiative_id_v";
           "i" := "i" + 1;
         END LOOP;
-        IF "i" != "dimension_v" + 1 THEN
+        IF "i" != "dimension_v" THEN
           RAISE EXCEPTION 'Wrong winner count (should not happen)';
         END IF;
         -- straighten ranks (start counting with 1, no equal ranks):
@@ -3797,6 +3834,13 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
             WHERE "id" = "initiative_id_v";
           "rank_v" := "rank_v" + 1;
         END LOOP;
+        -- mark final winner:
+        UPDATE "initiative" SET "winner" =
+          ( "eligible" = TRUE AND
+            "rank" = (
+              SELECT min("rank") FROM "initiative"
+              WHERE "issue_id" = "issue_id_p"
+              AND "eligible" = TRUE ) );
       END IF;
       -- mark issue as finished
       UPDATE "issue" SET
