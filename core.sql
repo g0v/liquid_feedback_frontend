@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.4.0_rc2', 1, 4, -1))
+  SELECT * FROM (VALUES ('1.4.0_rc1', 1, 4, -1))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -543,6 +543,7 @@ CREATE TABLE "initiative" (
         "eligible"              BOOLEAN,
         "rank"                  INT4,
         "winner"                BOOLEAN,
+        "promising"             BOOLEAN,
         "text_search_data"      TSVECTOR,
         CONSTRAINT "all_or_none_of_revoked_and_revoked_by_member_id_must_be_null"
           CHECK ("revoked" NOTNULL = "revoked_by_member_id" NOTNULL),
@@ -554,14 +555,16 @@ CREATE TABLE "initiative" (
           ( "admitted" NOTNULL AND "admitted" = TRUE ) OR
           ( "positive_votes" ISNULL AND "negative_votes" ISNULL AND
             "attainable" ISNULL AND "favored" ISNULL AND "unfavored" ISNULL AND
-            "eligible" ISNULL AND "rank" ISNULL AND "winner" ISNULL ) ),
+            "eligible" ISNULL AND "rank" ISNULL AND
+            "winner" ISNULL AND "promising" ISNULL ) ),
         CONSTRAINT "all_or_none_of_positive_votes_negative_votes_and_attainable_must_be_null"
           CHECK ("positive_votes" NOTNULL = "negative_votes" NOTNULL AND "positive_votes" NOTNULL = "attainable" NOTNULL),
-        CONSTRAINT "favored_forbids_unfavored" CHECK (NOT ("favored" AND "unfavored")),
+        CONSTRAINT "favored_excludes_unfavored" CHECK (NOT ("favored" AND "unfavored")),
         CONSTRAINT "attainable_and_favored_result_in_eligible" CHECK (
           ( "favored" ISNULL AND "eligible" ISNULL ) OR
           ( "attainable" NOTNULL AND "favored" NOTNULL AND "eligible" NOTNULL AND
-            ("attainable" AND "favored") = "eligible" ) ) );
+            ("attainable" AND "favored") = "eligible" ) ),
+        CONSTRAINT "winner_excludes_promising" CHECK (NOT ("winner" AND "promising")) );
 CREATE INDEX "initiative_created_idx" ON "initiative" ("created");
 CREATE INDEX "initiative_revoked_idx" ON "initiative" ("revoked");
 CREATE INDEX "initiative_text_search_data_idx" ON "initiative" USING gin ("text_search_data");
@@ -589,6 +592,7 @@ COMMENT ON COLUMN "initiative"."unfavored"      IS 'TRUE, if initiative has a sc
 COMMENT ON COLUMN "initiative"."eligible"       IS 'TRUE, if initiative is "attainable" and "favored"';
 COMMENT ON COLUMN "initiative"."rank"           IS 'Schulze-Ranking after tie-breaking';
 COMMENT ON COLUMN "initiative"."winner"         IS 'TRUE, if initiative is final winner (best ranked initiative being "eligible")';
+COMMENT ON COLUMN "initiative"."promising"      IS 'TRUE, if initiative would win against current winner, when voting is repeated with ballots based on same preferences. Non "attainable" initiatives may never be "winner", but they can be "promising".';
 
 
 CREATE TABLE "battle" (
@@ -3671,18 +3675,19 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     DECLARE
-      "dimension_v"     INTEGER;
-      "vote_matrix"     INT4[][];  -- absolute votes
-      "matrix"          INT8[][];  -- defeat strength / best paths
-      "i"               INTEGER;
-      "j"               INTEGER;
-      "k"               INTEGER;
-      "battle_row"      "battle"%ROWTYPE;
-      "rank_ary"        INT4[];
-      "rank_v"          INT4;
-      "done_v"          INTEGER;
-      "winners_ary"     INTEGER[];
-      "initiative_id_v" "initiative"."id"%TYPE;
+      "dimension_v"       INTEGER;
+      "vote_matrix"       INT4[][];  -- absolute votes
+      "matrix"            INT8[][];  -- defeat strength / best paths
+      "i"                 INTEGER;
+      "j"                 INTEGER;
+      "k"                 INTEGER;
+      "battle_row"        "battle"%ROWTYPE;
+      "rank_ary"          INT4[];
+      "rank_v"            INT4;
+      "done_v"            INTEGER;
+      "winners_ary"       INTEGER[];
+      "initiative_id_v"   "initiative"."id"%TYPE;
+      "promising_added_v" BOOLEAN;
     BEGIN
       PERFORM NULL FROM "issue" WHERE "id" = "issue_id_p" FOR UPDATE;
       SELECT count(1) INTO "dimension_v"
@@ -3813,39 +3818,79 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
             "unfavored" = "rank_ary"["i"] > "rank_ary"["dimension_v"],
             "eligible"  = "attainable" AND
                           "rank_ary"["i"] < "rank_ary"["dimension_v"],
-            "rank" = "rank_ary"["i"]
+            "rank" = "rank_ary"["i"],
+            "winner" = FALSE,
+            "promising" = FALSE
             WHERE "id" = "initiative_id_v";
           "i" := "i" + 1;
         END LOOP;
         IF "i" != "dimension_v" THEN
           RAISE EXCEPTION 'Wrong winner count (should not happen)';
         END IF;
+        -- mark final winner:
+        SELECT "id" INTO "initiative_id_v" FROM "initiative"
+          WHERE "issue_id" = "issue_id_p" AND "admitted" AND "eligible"
+          ORDER BY "rank", "id"
+          LIMIT 1;
+        UPDATE "initiative" SET "winner" = TRUE WHERE "id" = "initiative_id_v";
+        -- determine promising initiatives:
+        LOOP
+          "promising_added_v" := FALSE;
+          FOR "initiative_id_v" IN
+            SELECT "new_initiative"."id"
+            FROM "issue"
+            JOIN "policy" ON "issue"."policy_id" = "policy"."id"
+            JOIN "initiative" "old_initiative"
+              ON "old_initiative"."issue_id" = "issue_id_p"
+              AND "old_initiative"."admitted"
+              AND ("old_initiative"."winner" OR "old_initiative"."promising")
+            JOIN "initiative" "new_initiative"
+              ON "new_initiative"."issue_id" = "issue_id_p"
+              AND "new_initiative"."admitted"
+              AND NOT ("new_initiative"."winner" OR "new_initiative"."promising")
+            JOIN "battle" "battle_win"
+              ON "battle_win"."issue_id" = "issue_id_p"
+              AND "battle_win"."winning_initiative_id" = "new_initiative"."id"
+              AND "battle_win"."losing_initiative_id" = "old_initiative"."id"
+            JOIN "battle" "battle_lose"
+              ON "battle_lose"."issue_id" = "issue_id_p"
+              AND "battle_lose"."losing_initiative_id" = "new_initiative"."id"
+              AND "battle_lose"."winning_initiative_id" = "old_initiative"."id"
+            WHERE "issue"."id" = "issue_id_p"
+            AND "new_initiative"."rank" < "old_initiative"."rank"
+            -- NOTE: non-straightened ranks are used
+            AND CASE WHEN "policy"."majority_strict" THEN
+              "battle_win"."count" * "policy"."majority_den" >
+              "policy"."majority_num" *
+              ("battle_win"."count"+"battle_lose"."count")
+            ELSE
+              "battle_win"."count" * "policy"."majority_den" >=
+              "policy"."majority_num" *
+              ("battle_win"."count"+"battle_lose"."count")
+            END
+          LOOP
+            UPDATE "initiative" SET "promising" = TRUE
+              WHERE "id" = "initiative_id_v";
+            "promising_added_v" := TRUE;
+          END LOOP;
+          EXIT WHEN NOT "promising_added_v";
+        END LOOP;
         -- straighten ranks (start counting with 1, no equal ranks):
         "rank_v" := 1;
         FOR "initiative_id_v" IN
           SELECT "id" FROM "initiative"
-          WHERE "issue_id" = "issue_id_p" AND "rank" NOTNULL
-          ORDER BY
-            "rank",
-            "vote_ratio"("positive_votes", "negative_votes") DESC,
-            "id"
+          WHERE "issue_id" = "issue_id_p" AND "admitted"
+          ORDER BY "rank", "id"
         LOOP
           UPDATE "initiative" SET "rank" = "rank_v"
             WHERE "id" = "initiative_id_v";
           "rank_v" := "rank_v" + 1;
         END LOOP;
-        -- mark final winner:
-        UPDATE "initiative" SET "winner" =
-          ( "eligible" = TRUE AND
-            "rank" = (
-              SELECT min("rank") FROM "initiative"
-              WHERE "issue_id" = "issue_id_p"
-              AND "eligible" = TRUE ) );
       END IF;
       -- mark issue as finished
       UPDATE "issue" SET
         "state" =
-          CASE WHEN "dimension_v" = 0 THEN
+          CASE WHEN "dimension_v" = 0 THEN  -- TODO: Broken! To be fixed!
             'finished_without_winner'::"issue_state"
           ELSE
             'finished_with_winner'::"issue_state"
