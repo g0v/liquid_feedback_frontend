@@ -3821,7 +3821,8 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           ( "majority" = TRUE AND
             "rank" = (
               SELECT min("rank") FROM "initiative"
-              WHERE "issue_id" = "issue_id_p" ) );
+              WHERE "issue_id" = "issue_id_p"
+              AND "majority" = TRUE ) );
       END IF;
       -- mark issue as finished
       UPDATE "issue" SET
