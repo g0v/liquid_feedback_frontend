@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.4.0_rc1', 1, 4, -1))
+  SELECT * FROM (VALUES ('1.4.0_rc2', 1, 4, -1))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -3405,8 +3405,8 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       "member_id_v" "member"."id"%TYPE;
     BEGIN
       PERFORM "lock_issue"("issue_id_p");
-      SELECT "id" INTO "area_id_v" FROM "issue" WHERE "id" = "issue_id_p";
-      SELECT "id" INTO "unit_id_v" FROM "area"  WHERE "id" = "area_id_v";
+      SELECT "area_id" INTO "area_id_v" FROM "issue" WHERE "id" = "issue_id_p";
+      SELECT "unit_id" INTO "unit_id_v" FROM "area"  WHERE "id" = "area_id_v";
       DELETE FROM "delegating_voter"
         WHERE "issue_id" = "issue_id_p";
       DELETE FROM "direct_voter"
