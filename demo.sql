@@ -186,35 +186,6 @@ INSERT INTO "opinion" ("member_id", "suggestion_id", "degree", "fulfilled") VALU
 INSERT INTO "opinion" ("member_id", "suggestion_id", "degree", "fulfilled") VALUES
   (19, 1, 2, FALSE);
 
-INSERT INTO "issue" ("area_id", "policy_id") VALUES
-  (4, 1);  -- id 2
-
-INSERT INTO "initiative" ("issue_id", "name") VALUES
-  (2, 'Initiative A'),  -- id 8
-  (2, 'Initiative B');  -- id 9
-
-INSERT INTO "draft" ("initiative_id", "author_id", "content") VALUES
-  (8, 1, 'Lorem ipsum...'),  -- id 8
-  (9, 2, 'Lorem ipsum...');  -- id 9
-
-INSERT INTO "initiator" ("initiative_id", "member_id") VALUES
-  (8, 1),
-  (9, 2);
-
-INSERT INTO "supporter" ("member_id", "initiative_id", "draft_id") VALUES
-  (1, 8, 8),
-  (1, 9, 9),
-  (2, 8, 8),
-  (2, 9, 9),
-  (3, 8, 8),
-  (3, 9, 9),
-  (4, 8, 8),
-  (4, 9, 9),
-  (5, 8, 8),
-  (5, 9, 9),
-  (6, 8, 8),
-  (6, 9, 9);
-
 SELECT "time_warp"();
 SELECT "time_warp"();
 SELECT "time_warp"();
@@ -275,70 +246,6 @@ INSERT INTO "vote" ("member_id", "issue_id", "initiative_id", "grade") VALUES
   (20, 1, 4,  1),
   (20, 1, 5,  1),
   (21, 1, 5, -1);
-
-INSERT INTO "direct_voter" ("member_id", "issue_id") VALUES
-  ( 1, 2),
-  ( 2, 2),
-  ( 3, 2),
-  ( 4, 2),
-  ( 5, 2),
-  ( 6, 2),
-  ( 7, 2),
-  ( 8, 2),
-  ( 9, 2),
-  (10, 2),
-  (11, 2),
-  (12, 2),
-  (13, 2),
-  (14, 2),
-  (15, 2),
-  (16, 2),
-  (17, 2),
-  (18, 2),
-  (19, 2),
-  (20, 2);
-
-INSERT INTO "vote" ("member_id", "issue_id", "initiative_id", "grade") VALUES
-  ( 1, 2, 8,  2),
-  ( 1, 2, 9,  1),
-  ( 2, 2, 8,  2),
-  ( 2, 2, 9,  1),
-  ( 3, 2, 8,  2),
-  ( 3, 2, 9,  1),
-  ( 4, 2, 8,  2),
-  ( 4, 2, 9,  1),
-  ( 5, 2, 8,  2),
-  ( 5, 2, 9,  1),
-  ( 6, 2, 8,  2),
-  ( 6, 2, 9,  1),
-  ( 7, 2, 8,  2),
-  ( 7, 2, 9,  1),
-  ( 8, 2, 8,  2),
-  ( 8, 2, 9,  1),
-  ( 9, 2, 8,  2),
-  ( 9, 2, 9,  1),
-  (10, 2, 8, -1),
-  (10, 2, 9,  1),
-  (11, 2, 8, -1),
-  (11, 2, 9,  1),
-  (12, 2, 8, -1),
-  (12, 2, 9,  1),
-  (13, 2, 8, -1),
-  (13, 2, 9,  1),
-  (14, 2, 8, -1),
-  (14, 2, 9,  1),
-  (15, 2, 8, -1),
-  (15, 2, 9,  1),
-  (16, 2, 8, -1),
-  (16, 2, 9,  1),
-  (17, 2, 8, -1),
-  (17, 2, 9, -2),
-  (18, 2, 8, -1),
-  (18, 2, 9, -2),
-  (19, 2, 8, -1),
-  (19, 2, 9, -2),
-  (20, 2, 8, -1),
-  (20, 2, 9, -2);
 
 SELECT "time_warp"();
 
