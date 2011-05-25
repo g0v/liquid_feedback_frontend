@@ -592,7 +592,7 @@ COMMENT ON COLUMN "initiative"."unfavored"      IS 'TRUE, if initiative has a sc
 COMMENT ON COLUMN "initiative"."eligible"       IS 'TRUE, if initiative is "attainable" and "favored"';
 COMMENT ON COLUMN "initiative"."rank"           IS 'Schulze-Ranking after tie-breaking';
 COMMENT ON COLUMN "initiative"."winner"         IS 'TRUE, if initiative is final winner (best ranked initiative being "eligible")';
-COMMENT ON COLUMN "initiative"."promising"      IS 'TRUE, if initiative would win against current winner, when voting is repeated with ballots based on same preferences. Non "attainable" initiatives may never be "winner", but they can be "promising".';
+COMMENT ON COLUMN "initiative"."promising"      IS 'TRUE, if and only if this initiative is not a winner and there is a number n>0, such that repeating the calculation of the winner n times with the previous winner as status quo causes this initiative to win. The calculations use the same preferences and include the previous status quo as an explicit option. Non "attainable" initiatives may never be "winner", but they can be "promising".';
 
 
 CREATE TABLE "battle" (
@@ -3835,9 +3835,8 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
         UPDATE "initiative" SET "winner" = TRUE WHERE "id" = "initiative_id_v";
         -- determine promising initiatives:
         LOOP
-          "promising_added_v" := FALSE;
-          FOR "initiative_id_v" IN
-            SELECT "new_initiative"."id"
+          -- NOTE: non-straightened ranks are used
+          SELECT "new_initiative"."id" INTO "initiative_id_v"
             FROM "issue"
             JOIN "policy" ON "issue"."policy_id" = "policy"."id"
             JOIN "initiative" "old_initiative"
@@ -3847,6 +3846,7 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
             JOIN "initiative" "new_initiative"
               ON "new_initiative"."issue_id" = "issue_id_p"
               AND "new_initiative"."admitted"
+              AND "new_initiative"."favored"
               AND NOT ("new_initiative"."winner" OR "new_initiative"."promising")
             JOIN "battle" "battle_win"
               ON "battle_win"."issue_id" = "issue_id_p"
@@ -3858,7 +3858,6 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
               AND "battle_lose"."winning_initiative_id" = "old_initiative"."id"
             WHERE "issue"."id" = "issue_id_p"
             AND "new_initiative"."rank" < "old_initiative"."rank"
-            -- NOTE: non-straightened ranks are used
             AND CASE WHEN "policy"."majority_strict" THEN
               "battle_win"."count" * "policy"."majority_den" >
               "policy"."majority_num" *
@@ -3868,12 +3867,14 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
               "policy"."majority_num" *
               ("battle_win"."count"+"battle_lose"."count")
             END
-          LOOP
+            ORDER BY "new_initiative"."rank"
+            LIMIT 1;
+          IF FOUND THEN
             UPDATE "initiative" SET "promising" = TRUE
               WHERE "id" = "initiative_id_v";
-            "promising_added_v" := TRUE;
-          END LOOP;
-          EXIT WHEN NOT "promising_added_v";
+          ELSE
+            EXIT;
+          END IF;
         END LOOP;
         -- straighten ranks (start counting with 1, no equal ranks):
         "rank_v" := 1;
