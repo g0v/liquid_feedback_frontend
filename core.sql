@@ -310,7 +310,8 @@ CREATE TABLE "policy" (
         "initiative_quorum_den" INT4            NOT NULL,
         "majority_num"          INT4            NOT NULL DEFAULT 1,
         "majority_den"          INT4            NOT NULL DEFAULT 2,
-        "majority_strict"       BOOLEAN         NOT NULL DEFAULT TRUE );
+        "majority_strict"       BOOLEAN         NOT NULL DEFAULT TRUE,
+        "majority_indirect"     BOOLEAN         NOT NULL DEFAULT TRUE );
 CREATE INDEX "policy_active_idx" ON "policy" ("active");
 
 COMMENT ON TABLE "policy" IS 'Policies for a particular proceeding type (timelimits, quorum)';
@@ -328,6 +329,7 @@ COMMENT ON COLUMN "policy"."initiative_quorum_den" IS 'Denominator of satisfied 
 COMMENT ON COLUMN "policy"."majority_num"          IS   'Numerator of fraction of majority to be reached during voting by an initiative to be aggreed upon';
 COMMENT ON COLUMN "policy"."majority_den"          IS 'Denominator of fraction of majority to be reached during voting by an initiative to be aggreed upon';
 COMMENT ON COLUMN "policy"."majority_strict"       IS 'If TRUE, then the majority must be strictly greater than "majority_num"/"majority_den", otherwise it may also be equal.';
+COMMENT ON COLUMN "policy"."majority_indirect"     IS 'If TRUE, then also indirect majorities (though beat paths) are taken into account, when an initiative has at least as many "positive_votes" as "negative_votes".'
 
 
 CREATE TABLE "unit" (
@@ -3444,6 +3446,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       PERFORM "lock_issue"("issue_id_p");
       SELECT "area_id" INTO "area_id_v" FROM "issue" WHERE "id" = "issue_id_p";
       SELECT "unit_id" INTO "unit_id_v" FROM "area"  WHERE "id" = "area_id_v";
+      -- consider delegations and auto-reject:
       DELETE FROM "delegating_voter"
         WHERE "issue_id" = "issue_id_p";
       DELETE FROM "direct_voter"
@@ -3521,6 +3524,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
           FROM "initiative" WHERE "issue_id" = "issue_id_p";
       END LOOP;
       PERFORM "add_vote_delegations"("issue_id_p");
+      -- set voter count and mark issue as being calculated:
       UPDATE "issue" SET
         "state"  = 'calculation',
         "closed" = now(),
@@ -3529,6 +3533,8 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
           FROM "direct_voter" WHERE "issue_id" = "issue_id_p"
         )
         WHERE "id" = "issue_id_p";
+      -- calculate "positive_votes" and "negative_votes"
+      -- and set "attainable" flag without regarding indirect majorities:
       UPDATE "initiative" SET
         "positive_votes" = "vote_counts"."positive_votes",
         "negative_votes" = "vote_counts"."negative_votes",
@@ -3573,6 +3579,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
         WHERE "vote_counts"."initiative_id" = "initiative"."id"
         AND "issue"."id" = "initiative"."issue_id"
         AND "policy"."id" = "issue"."policy_id";
+      -- materialize battle_view:
       -- NOTE: "closed" column of issue must be set at this point
       DELETE FROM "battle" WHERE "issue_id" = "issue_id_p";
       INSERT INTO "battle" (
@@ -3584,6 +3591,46 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
         "winning_initiative_id", "losing_initiative_id",
         "count"
         FROM "battle_view" WHERE "issue_id" = "issue_id_p";
+      -- take indirect majorities into account,
+      -- if "policy"."majority_indirect" = TRUE:
+      LOOP
+        UPDATE "initiative" SET "attainable" = TRUE
+          FROM (
+            SELECT "new_initiative"."id" AS "initiative_id"
+            FROM "issue"
+            JOIN "policy" ON "issue"."policy_id" = "policy"."id"
+            JOIN "initiative" "old_initiative"
+              ON "old_initiative"."issue_id" = "issue_id_p"
+              AND "old_initiative"."admitted"
+              AND "old_initiative"."attainable"
+            JOIN "initiative" "new_initiative"
+              ON "new_initiative"."issue_id" = "issue_id_p"
+              AND "new_initiative"."admitted"
+              AND NOT "new_initiative"."attainable"
+              AND "new_initiative"."positive_votes" >= "new_initiative"."negative_votes"
+            JOIN "battle" "battle_win"
+              ON "battle_win"."issue_id" = "issue_id_p"
+              AND "battle_win"."winning_initiative_id" = "new_initiative"."id"
+              AND "battle_win"."losing_initiative_id" = "old_initiative"."id"
+            JOIN "battle" "battle_lose"
+              ON "battle_lose"."issue_id" = "issue_id_p"
+              AND "battle_lose"."losing_initiative_id" = "new_initiative"."id"
+              AND "battle_lose"."winning_initiative_id" = "old_initiative"."id"
+            WHERE "issue"."id" = "issue_id_p"
+            AND "policy"."majority_indirect"
+            AND CASE WHEN "policy"."majority_strict" THEN
+              "battle_win"."count" * "policy"."majority_den" >
+              "policy"."majority_num" *
+              ("battle_win"."count"+"battle_lose"."count")
+            ELSE
+              "battle_win"."count" * "policy"."majority_den" >=
+              "policy"."majority_num" *
+              ("battle_win"."count"+"battle_lose"."count")
+            END
+          ) AS "subquery"
+          WHERE "id" = "subquery"."initiative_id";
+        EXIT WHEN NOT FOUND;
+      END LOOP;
     END;
   $$;
 
