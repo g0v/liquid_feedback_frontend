@@ -329,7 +329,7 @@ COMMENT ON COLUMN "policy"."initiative_quorum_den" IS 'Denominator of satisfied 
 COMMENT ON COLUMN "policy"."majority_num"          IS   'Numerator of fraction of majority to be reached during voting by an initiative to be aggreed upon';
 COMMENT ON COLUMN "policy"."majority_den"          IS 'Denominator of fraction of majority to be reached during voting by an initiative to be aggreed upon';
 COMMENT ON COLUMN "policy"."majority_strict"       IS 'If TRUE, then the majority must be strictly greater than "majority_num"/"majority_den", otherwise it may also be equal.';
-COMMENT ON COLUMN "policy"."majority_indirect"     IS 'If TRUE, then also indirect majorities (though beat paths) are taken into account, when an initiative has at least as many "positive_votes" as "negative_votes".'
+COMMENT ON COLUMN "policy"."majority_indirect"     IS 'If TRUE, then also indirect majorities (though beat paths) are taken into account, when an initiative has at least as many "positive_votes" as "negative_votes".';
 
 
 CREATE TABLE "unit" (
