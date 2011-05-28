@@ -3687,7 +3687,6 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
       "done_v"            INTEGER;
       "winners_ary"       INTEGER[];
       "initiative_id_v"   "initiative"."id"%TYPE;
-      "promising_added_v" BOOLEAN;
     BEGIN
       PERFORM NULL FROM "issue" WHERE "id" = "issue_id_p" FOR UPDATE;
       SELECT count(1) INTO "dimension_v"
@@ -3836,45 +3835,44 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
         -- determine promising initiatives:
         LOOP
           -- NOTE: non-straightened ranks are used
-          SELECT "new_initiative"."id" INTO "initiative_id_v"
-            FROM "issue"
-            JOIN "policy" ON "issue"."policy_id" = "policy"."id"
-            JOIN "initiative" "old_initiative"
-              ON "old_initiative"."issue_id" = "issue_id_p"
-              AND "old_initiative"."admitted"
-              AND ("old_initiative"."winner" OR "old_initiative"."promising")
-            JOIN "initiative" "new_initiative"
-              ON "new_initiative"."issue_id" = "issue_id_p"
-              AND "new_initiative"."admitted"
-              AND "new_initiative"."favored"
-              AND NOT ("new_initiative"."winner" OR "new_initiative"."promising")
-            JOIN "battle" "battle_win"
-              ON "battle_win"."issue_id" = "issue_id_p"
-              AND "battle_win"."winning_initiative_id" = "new_initiative"."id"
-              AND "battle_win"."losing_initiative_id" = "old_initiative"."id"
-            JOIN "battle" "battle_lose"
-              ON "battle_lose"."issue_id" = "issue_id_p"
-              AND "battle_lose"."losing_initiative_id" = "new_initiative"."id"
-              AND "battle_lose"."winning_initiative_id" = "old_initiative"."id"
-            WHERE "issue"."id" = "issue_id_p"
-            AND "new_initiative"."rank" < "old_initiative"."rank"
-            AND CASE WHEN "policy"."majority_strict" THEN
-              "battle_win"."count" * "policy"."majority_den" >
-              "policy"."majority_num" *
-              ("battle_win"."count"+"battle_lose"."count")
-            ELSE
-              "battle_win"."count" * "policy"."majority_den" >=
-              "policy"."majority_num" *
-              ("battle_win"."count"+"battle_lose"."count")
-            END
-            ORDER BY "new_initiative"."rank"
-            LIMIT 1;
-          IF FOUND THEN
-            UPDATE "initiative" SET "promising" = TRUE
-              WHERE "id" = "initiative_id_v";
-          ELSE
-            EXIT;
-          END IF;
+          UPDATE "initiative" SET "promising" = TRUE
+            FROM (
+              SELECT "new_initiative"."id" AS "initiative_id"
+              FROM "issue"
+              JOIN "policy" ON "issue"."policy_id" = "policy"."id"
+              JOIN "initiative" "old_initiative"
+                ON "old_initiative"."issue_id" = "issue_id_p"
+                AND "old_initiative"."admitted"
+                AND ("old_initiative"."winner" OR "old_initiative"."promising")
+              JOIN "initiative" "new_initiative"
+                ON "new_initiative"."issue_id" = "issue_id_p"
+                AND "new_initiative"."admitted"
+                AND "new_initiative"."favored"
+                AND NOT ("new_initiative"."winner" OR "new_initiative"."promising")
+              JOIN "battle" "battle_win"
+                ON "battle_win"."issue_id" = "issue_id_p"
+                AND "battle_win"."winning_initiative_id" = "new_initiative"."id"
+                AND "battle_win"."losing_initiative_id" = "old_initiative"."id"
+              JOIN "battle" "battle_lose"
+                ON "battle_lose"."issue_id" = "issue_id_p"
+                AND "battle_lose"."losing_initiative_id" = "new_initiative"."id"
+                AND "battle_lose"."winning_initiative_id" = "old_initiative"."id"
+              WHERE "issue"."id" = "issue_id_p"
+              AND "new_initiative"."rank" < "old_initiative"."rank"
+              AND CASE WHEN "policy"."majority_strict" THEN
+                "battle_win"."count" * "policy"."majority_den" >
+                "policy"."majority_num" *
+                ("battle_win"."count"+"battle_lose"."count")
+              ELSE
+                "battle_win"."count" * "policy"."majority_den" >=
+                "policy"."majority_num" *
+                ("battle_win"."count"+"battle_lose"."count")
+              END
+              ORDER BY "new_initiative"."rank"
+              LIMIT 1
+            ) AS "subquery"
+            WHERE "id" = "subquery"."initiative_id";
+          EXIT WHEN NOT FOUND;
         END LOOP;
         -- straighten ranks (start counting with 1, no equal ranks):
         "rank_v" := 1;
