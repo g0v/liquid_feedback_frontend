@@ -3834,10 +3834,7 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
          UPDATE "initiative" SET "disqualified" = TRUE
           FROM (
             SELECT "losing_initiative"."id" AS "initiative_id"
-            FROM "issue"
-            JOIN "initiative" "losing_initiative"
-              ON "losing_initiative"."issue_id" = "issue_id_p"
-              AND "losing_initiative"."admitted"
+            FROM "initiative" "losing_initiative"
             JOIN "battle_participant" "winning_participant"
               ON "winning_participant"."issue_id" = "issue_id_p"
             LEFT JOIN "initiative" "winning_initiative"
@@ -3859,7 +3856,8 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
                 ( "battle_lose"."losing_initiative_id" ISNULL AND
                   "winning_initiative"."id" ISNULL ) )
               AND "battle_lose"."winning_initiative_id" = "losing_initiative"."id"
-            WHERE "issue"."id" = "issue_id_p"
+            WHERE "losing_initiative"."issue_id" = "issue_id_p"
+            AND "losing_initiative"."admitted"
             AND (
               ("winning_initiative"."id" ISNULL AND "losing_initiative"."unfavored") OR
               ( "winning_initiative"."preliminary_rank" <
