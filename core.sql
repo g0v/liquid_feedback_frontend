@@ -3835,7 +3835,6 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           FROM (
             SELECT "losing_initiative"."id" AS "initiative_id"
             FROM "issue"
-            JOIN "policy" ON "issue"."policy_id" = "policy"."id"
             JOIN "initiative" "losing_initiative"
               ON "losing_initiative"."issue_id" = "issue_id_p"
               AND "losing_initiative"."admitted"
@@ -3865,15 +3864,7 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
               ("winning_initiative"."id" ISNULL AND "losing_initiative"."unfavored") OR
               ( "winning_initiative"."preliminary_rank" <
                 "losing_initiative"."preliminary_rank" ) )
-            AND CASE WHEN "policy"."majority_strict" THEN
-              "battle_win"."count" * "policy"."majority_den" >
-              "policy"."majority_num" *
-              ("battle_win"."count"+"battle_lose"."count")
-            ELSE
-              "battle_win"."count" * "policy"."majority_den" >=
-              "policy"."majority_num" *
-              ("battle_win"."count"+"battle_lose"."count")
-            END
+            AND "battle_win"."count" > "battle_lose"."count"
           ) AS "subquery"
           WHERE "id" = "subquery"."initiative_id";
         -- calculate final ranks (start counting with 1, no equal ranks):
