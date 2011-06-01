@@ -445,8 +445,6 @@ CREATE TABLE "issue" (
         "snapshot"              TIMESTAMPTZ,
         "latest_snapshot_event" "snapshot_event",
         "population"            INT4,
-        "vote_now"              INT4,
-        "vote_later"            INT4,
         "voter_count"           INT4,
         CONSTRAINT "valid_state" CHECK ((
           ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
@@ -506,11 +504,9 @@ COMMENT ON COLUMN "issue"."admission_time"        IS 'Copied from "policy" table
 COMMENT ON COLUMN "issue"."discussion_time"       IS 'Copied from "policy" table at creation of issue';
 COMMENT ON COLUMN "issue"."verification_time"     IS 'Copied from "policy" table at creation of issue';
 COMMENT ON COLUMN "issue"."voting_time"           IS 'Copied from "policy" table at creation of issue';
-COMMENT ON COLUMN "issue"."snapshot"              IS 'Point in time, when snapshot tables have been updated and "population", "vote_now", "vote_later" and *_count values were precalculated';
+COMMENT ON COLUMN "issue"."snapshot"              IS 'Point in time, when snapshot tables have been updated and "population" and *_count values were precalculated';
 COMMENT ON COLUMN "issue"."latest_snapshot_event" IS 'Event type of latest snapshot for issue; Can be used to select the latest snapshot data in the snapshot tables';
 COMMENT ON COLUMN "issue"."population"            IS 'Sum of "weight" column in table "direct_population_snapshot"';
-COMMENT ON COLUMN "issue"."vote_now"              IS 'Number of votes in favor of voting now, as calculated from table "direct_interest_snapshot"';
-COMMENT ON COLUMN "issue"."vote_later"            IS 'Number of votes against voting now, as calculated from table "direct_interest_snapshot"';
 COMMENT ON COLUMN "issue"."voter_count"           IS 'Total number of direct and delegating voters; This value is related to the final voting, while "population" is related to snapshots before the final voting';
 
 
@@ -752,14 +748,12 @@ CREATE TABLE "interest" (
         PRIMARY KEY ("issue_id", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "autoreject"            BOOLEAN,
-        "voting_requested"      BOOLEAN );
+        "autoreject"            BOOLEAN );
 CREATE INDEX "interest_member_id_idx" ON "interest" ("member_id");
 
 COMMENT ON TABLE "interest" IS 'Interest of members in a particular issue; Frontends must ensure that interest for fully_frozen or closed issues is not added or removed.';
 
 COMMENT ON COLUMN "interest"."autoreject"       IS 'TRUE = member votes against all initiatives in case of not explicitly taking part in the voting procedure';
-COMMENT ON COLUMN "interest"."voting_requested" IS 'TRUE = member wants to vote now, FALSE = member wants to vote later, NULL = policy rules should apply';
 
 
 CREATE TABLE "initiator" (
@@ -875,15 +869,13 @@ CREATE TABLE "direct_interest_snapshot" (
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "event"                 "snapshot_event",
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT,
-        "weight"                INT4,
-        "voting_requested"      BOOLEAN );
+        "weight"                INT4 );
 CREATE INDEX "direct_interest_snapshot_member_id_idx" ON "direct_interest_snapshot" ("member_id");
 
 COMMENT ON TABLE "direct_interest_snapshot" IS 'Snapshot of active members having an "interest" in the "issue"';
 
 COMMENT ON COLUMN "direct_interest_snapshot"."event"            IS 'Reason for snapshot, see "snapshot_event" type for details';
 COMMENT ON COLUMN "direct_interest_snapshot"."weight"           IS 'Weight of member (1 or higher) according to "delegating_interest_snapshot"';
-COMMENT ON COLUMN "direct_interest_snapshot"."voting_requested" IS 'Copied from column "voting_requested" of table "interest"';
 
 
 CREATE TABLE "delegating_interest_snapshot" (
@@ -2952,12 +2944,11 @@ CREATE FUNCTION "create_interest_snapshot"
         WHERE "issue_id" = "issue_id_p"
         AND "event" = 'periodic';
       INSERT INTO "direct_interest_snapshot"
-        ("issue_id", "event", "member_id", "voting_requested")
+        ("issue_id", "event", "member_id")
         SELECT
           "issue_id_p"  AS "issue_id",
           'periodic'    AS "event",
-          "member"."id" AS "member_id",
-          "interest"."voting_requested"
+          "member"."id" AS "member_id"
         FROM "issue"
         JOIN "area" ON "issue"."area_id" = "area"."id"
         JOIN "interest" ON "issue"."id" = "interest"."issue_id"
@@ -3035,20 +3026,6 @@ CREATE FUNCTION "create_snapshot"
           FROM "direct_population_snapshot"
           WHERE "issue_id" = "issue_id_p"
           AND "event" = 'periodic'
-        ),
-        "vote_now" = (
-          SELECT coalesce(sum("weight"), 0)
-          FROM "direct_interest_snapshot"
-          WHERE "issue_id" = "issue_id_p"
-          AND "event" = 'periodic'
-          AND "voting_requested" = TRUE
-        ),
-        "vote_later" = (
-          SELECT coalesce(sum("weight"), 0)
-          FROM "direct_interest_snapshot"
-          WHERE "issue_id" = "issue_id_p"
-          AND "event" = 'periodic'
-          AND "voting_requested" = FALSE
         )
         WHERE "id" = "issue_id_p";
       FOR "initiative_id_v" IN
@@ -3922,7 +3899,6 @@ CREATE FUNCTION "check_issue"
     DECLARE
       "issue_row"         "issue"%ROWTYPE;
       "policy_row"        "policy"%ROWTYPE;
-      "voting_requested_v" BOOLEAN;
     BEGIN
       PERFORM "lock_issue"("issue_id_p");
       SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
@@ -3970,21 +3946,8 @@ CREATE FUNCTION "check_issue"
           "issue_row"."accepted" NOTNULL AND
           "issue_row"."half_frozen" ISNULL
         THEN
-          SELECT
-            CASE
-              WHEN "vote_now" * 2 > "issue_row"."population" THEN
-                TRUE
-              WHEN "vote_later" * 2 > "issue_row"."population" THEN
-                FALSE
-              ELSE NULL
-            END
-            INTO "voting_requested_v"
-            FROM "issue" WHERE "id" = "issue_id_p";
           IF
-            "voting_requested_v" OR (
-              "voting_requested_v" ISNULL AND
-              now() >= "issue_row"."accepted" + "issue_row"."discussion_time"
-            )
+            now() >= "issue_row"."accepted" + "issue_row"."discussion_time"
           THEN
             PERFORM "set_snapshot_event"("issue_id_p", 'half_freeze');
             -- NOTE: "issue_row" used later
