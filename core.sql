@@ -741,19 +741,26 @@ CREATE INDEX "membership_member_id_idx" ON "membership" ("member_id");
 
 COMMENT ON TABLE "membership" IS 'Interest of members in topic areas';
 
-COMMENT ON COLUMN "membership"."autoreject" IS 'TRUE = member votes against all initiatives, if he is neither direct_ or delegating_voter; Entries in the "interest" table can override this setting.';
+COMMENT ON COLUMN "membership"."autoreject" IS 'TRUE = member votes against all initiatives, if he/she is neither direct_ or delegating_voter; Entries in the "issue_autoreject" table can override this setting.';
 
 
 CREATE TABLE "interest" (
         PRIMARY KEY ("issue_id", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "autoreject"            BOOLEAN );
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE );
 CREATE INDEX "interest_member_id_idx" ON "interest" ("member_id");
 
 COMMENT ON TABLE "interest" IS 'Interest of members in a particular issue; Frontends must ensure that interest for fully_frozen or closed issues is not added or removed.';
 
-COMMENT ON COLUMN "interest"."autoreject"       IS 'TRUE = member votes against all initiatives in case of not explicitly taking part in the voting procedure';
+
+CREATE TABLE "issue_autoreject" (
+        PRIMARY KEY ("issue_id", "member_id"),
+        "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "autoreject"            BOOLEAN         NOT NULL );
+CREATE INDEX "issue_autoreject_member_id_idx" ON "issue_autoreject" ("member_id");
+
+COMMENT ON TABLE "issue_autoreject" IS 'If autoreject=TRUE, then member votes against all initiatives, if he/she is neither direct_ or delegating_voter; Values of either TRUE or FALSE override settings in "membership" table.';
 
 
 CREATE TABLE "initiator" (
@@ -840,10 +847,10 @@ CREATE TABLE "direct_population_snapshot" (
         "weight"                INT4 );
 CREATE INDEX "direct_population_snapshot_member_id_idx" ON "direct_population_snapshot" ("member_id");
 
-COMMENT ON TABLE "direct_population_snapshot" IS 'Snapshot of active members having either a "membership" in the "area" or an "interest" in the "issue"';
+COMMENT ON TABLE "direct_population_snapshot" IS 'Snapshot of active members having either a "membership" in the "area", an "interest" in the "issue", or "issue_autoreject"."autoreject" set to TRUE';
 
-COMMENT ON COLUMN "direct_population_snapshot"."event"           IS 'Reason for snapshot, see "snapshot_event" type for details';
-COMMENT ON COLUMN "direct_population_snapshot"."weight"          IS 'Weight of member (1 or higher) according to "delegating_population_snapshot"';
+COMMENT ON COLUMN "direct_population_snapshot"."event"  IS 'Reason for snapshot, see "snapshot_event" type for details';
+COMMENT ON COLUMN "direct_population_snapshot"."weight" IS 'Weight of member (1 or higher) according to "delegating_population_snapshot"';
 
 
 CREATE TABLE "delegating_population_snapshot" (
@@ -2832,6 +2839,20 @@ CREATE FUNCTION "create_population_snapshot"
           ON "privilege"."unit_id" = "area"."unit_id"
           AND "privilege"."member_id" = "member"."id"
         WHERE "issue"."id" = "issue_id_p"
+        AND "member"."active" AND "privilege"."voting_right"
+        UNION
+        SELECT
+          "issue_id_p"                 AS "issue_id",
+          'periodic'::"snapshot_event" AS "event",
+          "member"."id"                AS "member_id"
+        FROM "issue"
+        JOIN "area" ON "issue"."area_id" = "area"."id"
+        JOIN "issue_autoreject" ON "issue"."id" = "issue_autoreject"."issue_id"
+        JOIN "member" ON "issue_autoreject"."member_id" = "member"."id"
+        JOIN "privilege"
+          ON "privilege"."unit_id" = "area"."unit_id"
+          AND "privilege"."member_id" = "member"."id"
+        WHERE "issue"."id" = "issue_id_p"
         AND "member"."active" AND "privilege"."voting_right";
       FOR "member_id_v" IN
         SELECT "member_id" FROM "direct_population_snapshot"
@@ -3445,35 +3466,36 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
         WHERE "issue_id" = "issue_id_p";
       PERFORM "add_vote_delegations"("issue_id_p");
       FOR "member_id_v" IN
-        SELECT "interest"."member_id"
-          FROM "interest"
+        SELECT "issue_autoreject"."member_id"
+          FROM "issue_autoreject"
           JOIN "member"
-            ON "interest"."member_id" = "member"."id"
+            ON "issue_autoreject"."member_id" = "member"."id"
           JOIN "privilege"
             ON "privilege"."unit_id" = "unit_id_v"
             AND "privilege"."member_id" = "member"."id"
           LEFT JOIN "direct_voter"
-            ON "interest"."member_id" = "direct_voter"."member_id"
-            AND "interest"."issue_id" = "direct_voter"."issue_id"
+            ON "issue_autoreject"."member_id" = "direct_voter"."member_id"
+            AND "issue_autoreject"."issue_id" = "direct_voter"."issue_id"
           LEFT JOIN "delegating_voter"
-            ON "interest"."member_id" = "delegating_voter"."member_id"
-            AND "interest"."issue_id" = "delegating_voter"."issue_id"
-          WHERE "interest"."issue_id" = "issue_id_p"
-          AND "interest"."autoreject" = TRUE
+            ON "issue_autoreject"."member_id" = "delegating_voter"."member_id"
+            AND "issue_autoreject"."issue_id" = "delegating_voter"."issue_id"
+          WHERE "issue_autoreject"."issue_id" = "issue_id_p"
+          AND "issue_autoreject"."autoreject" = TRUE
           AND "member"."active"
           AND "privilege"."voting_right"
           AND "direct_voter"."member_id" ISNULL
           AND "delegating_voter"."member_id" ISNULL
-        UNION SELECT "membership"."member_id"
+        UNION
+        SELECT "membership"."member_id"
           FROM "membership"
           JOIN "member"
             ON "membership"."member_id" = "member"."id"
           JOIN "privilege"
             ON "privilege"."unit_id" = "unit_id_v"
             AND "privilege"."member_id" = "member"."id"
-          LEFT JOIN "interest"
-            ON "membership"."member_id" = "interest"."member_id"
-            AND "interest"."issue_id" = "issue_id_p"
+          LEFT JOIN "issue_autoreject"
+            ON "membership"."member_id" = "issue_autoreject"."member_id"
+            AND "issue_autoreject"."issue_id" = "issue_id_p"
           LEFT JOIN "direct_voter"
             ON "membership"."member_id" = "direct_voter"."member_id"
             AND "direct_voter"."issue_id" = "issue_id_p"
@@ -3484,7 +3506,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
           AND "membership"."autoreject" = TRUE
           AND "member"."active"
           AND "privilege"."voting_right"
-          AND "interest"."autoreject" ISNULL
+          AND "issue_autoreject"."autoreject" ISNULL
           AND "direct_voter"."member_id" ISNULL
           AND "delegating_voter"."member_id" ISNULL
       LOOP
@@ -3502,6 +3524,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
             "id"          AS "initiative_id",
             -1            AS "grade"
           FROM "initiative" WHERE "issue_id" = "issue_id_p";
+        -- TODO: admitted initiatives only?
       END LOOP;
       PERFORM "add_vote_delegations"("issue_id_p");
       -- set voter count and mark issue as being calculated:
