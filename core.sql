@@ -3437,6 +3437,9 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
           FROM "interest"
           JOIN "member"
             ON "interest"."member_id" = "member"."id"
+          JOIN "privilege"
+            ON "privilege"."unit_id" = "unit_id_v"
+            AND "privilege"."member_id" = "member"."id"
           LEFT JOIN "direct_voter"
             ON "interest"."member_id" = "direct_voter"."member_id"
             AND "interest"."issue_id" = "direct_voter"."issue_id"
@@ -3446,12 +3449,16 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
           WHERE "interest"."issue_id" = "issue_id_p"
           AND "interest"."autoreject" = TRUE
           AND "member"."active"
+          AND "privilege"."voting_right"
           AND "direct_voter"."member_id" ISNULL
           AND "delegating_voter"."member_id" ISNULL
         UNION SELECT "membership"."member_id"
           FROM "membership"
           JOIN "member"
             ON "membership"."member_id" = "member"."id"
+          JOIN "privilege"
+            ON "privilege"."unit_id" = "unit_id_v"
+            AND "privilege"."member_id" = "member"."id"
           LEFT JOIN "interest"
             ON "membership"."member_id" = "interest"."member_id"
             AND "interest"."issue_id" = "issue_id_p"
@@ -3464,6 +3471,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
           WHERE "membership"."area_id" = "area_id_v"
           AND "membership"."autoreject" = TRUE
           AND "member"."active"
+          AND "privilege"."voting_right"
           AND "interest"."autoreject" ISNULL
           AND "direct_voter"."member_id" ISNULL
           AND "delegating_voter"."member_id" ISNULL
