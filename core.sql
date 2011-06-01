@@ -310,7 +310,9 @@ CREATE TABLE "policy" (
         "initiative_quorum_den" INT4            NOT NULL,
         "majority_num"          INT4            NOT NULL DEFAULT 1,
         "majority_den"          INT4            NOT NULL DEFAULT 2,
-        "majority_strict"       BOOLEAN         NOT NULL DEFAULT TRUE );
+        "majority_strict"       BOOLEAN         NOT NULL DEFAULT TRUE,
+        "majority_positive"     INT4            NOT NULL DEFAULT 0,
+        "majority_non_negative" INT4            NOT NULL DEFAULT 0 );
 CREATE INDEX "policy_active_idx" ON "policy" ("active");
 
 COMMENT ON TABLE "policy" IS 'Policies for a particular proceeding type (timelimits, quorum)';
@@ -325,9 +327,11 @@ COMMENT ON COLUMN "policy"."issue_quorum_num"      IS   'Numerator of potential 
 COMMENT ON COLUMN "policy"."issue_quorum_den"      IS 'Denominator of potential supporter quorum to be reached by one initiative of an issue to be "accepted"';
 COMMENT ON COLUMN "policy"."initiative_quorum_num" IS   'Numerator of satisfied supporter quorum  to be reached by an initiative to be "admitted" for voting';
 COMMENT ON COLUMN "policy"."initiative_quorum_den" IS 'Denominator of satisfied supporter quorum to be reached by an initiative to be "admitted" for voting';
-COMMENT ON COLUMN "policy"."majority_num"          IS   'Numerator of fraction of majority to be reached during voting by an initiative to be aggreed upon';
-COMMENT ON COLUMN "policy"."majority_den"          IS 'Denominator of fraction of majority to be reached during voting by an initiative to be aggreed upon';
+COMMENT ON COLUMN "policy"."majority_num"          IS   'Numerator of fraction of majority to be reached during voting by an initiative to be "attainable"';
+COMMENT ON COLUMN "policy"."majority_den"          IS 'Denominator of fraction of majority to be reached during voting by an initiative to be "attainable"';
 COMMENT ON COLUMN "policy"."majority_strict"       IS 'If TRUE, then the majority must be strictly greater than "majority_num"/"majority_den", otherwise it may also be equal.';
+COMMENT ON COLUMN "policy"."majority_positive"     IS 'Absolute number of "positive_votes" neccessary for an initiative to be "attainable".';
+COMMENT ON COLUMN "policy"."majority_non_negative" IS 'Absolute number of sum of "positive_votes" and abstentions neccessary for an initiative to be "attainable".';
 
 
 CREATE TABLE "unit" (
@@ -579,7 +583,7 @@ COMMENT ON COLUMN "initiative"."satisfied_supporter_count"          IS 'Calculat
 COMMENT ON COLUMN "initiative"."satisfied_informed_supporter_count" IS 'Calculated from table "direct_supporter_snapshot"';
 COMMENT ON COLUMN "initiative"."positive_votes"       IS 'Calculated from table "direct_voter"';
 COMMENT ON COLUMN "initiative"."negative_votes"       IS 'Calculated from table "direct_voter"';
-COMMENT ON COLUMN "initiative"."attainable"           IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "majority_num"/"majority_den"';
+COMMENT ON COLUMN "initiative"."attainable"           IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "majority_num"/"majority_den", and "positive_votes" is greater-equal than "majority_positive", and ("positive_votes"+abstentions) is greater-equal than "majority_non_negative"';
 COMMENT ON COLUMN "initiative"."favored"              IS 'TRUE, if initiative has a schulze-ranking better than the status quo (without tie-breaking)';
 COMMENT ON COLUMN "initiative"."unfavored"            IS 'TRUE, if initiative has a schulze-ranking worse than the status quo (without tie-breaking)';
 COMMENT ON COLUMN "initiative"."preliminary_rank"     IS 'Schulze-Ranking without tie-breaking';
@@ -3528,15 +3532,19 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       UPDATE "initiative" SET
         "positive_votes" = "vote_counts"."positive_votes",
         "negative_votes" = "vote_counts"."negative_votes",
-        "attainable" = CASE WHEN "majority_strict" THEN
-          "vote_counts"."positive_votes" * "majority_den" >
-          "majority_num" *
-          ("vote_counts"."positive_votes"+"vote_counts"."negative_votes")
-        ELSE
-          "vote_counts"."positive_votes" * "majority_den" >=
-          "majority_num" *
-          ("vote_counts"."positive_votes"+"vote_counts"."negative_votes")
-        END
+        "attainable" =
+          CASE WHEN "majority_strict" THEN
+            "vote_counts"."positive_votes" * "majority_den" >
+            "majority_num" *
+            ("vote_counts"."positive_votes"+"vote_counts"."negative_votes")
+          ELSE
+            "vote_counts"."positive_votes" * "majority_den" >=
+            "majority_num" *
+            ("vote_counts"."positive_votes"+"vote_counts"."negative_votes")
+          END
+          AND "vote_counts"."positive_votes" >= "policy"."majority_positive"
+          AND "issue"."voter_count"-"vote_counts"."negative_votes" >=
+              "policy"."majority_non_negative"
         FROM
           ( SELECT
               "initiative"."id" AS "initiative_id",
