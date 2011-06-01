@@ -584,8 +584,8 @@ COMMENT ON COLUMN "initiative"."favored"              IS 'TRUE, if initiative ha
 COMMENT ON COLUMN "initiative"."unfavored"            IS 'TRUE, if initiative has a schulze-ranking worse than the status quo (without tie-breaking)';
 COMMENT ON COLUMN "initiative"."preliminary_rank"     IS 'Schulze-Ranking without tie-breaking';
 COMMENT ON COLUMN "initiative"."final_rank"           IS 'Schulze-Ranking after tie-breaking';
-COMMENT ON COLUMN "initiative"."disqualified"         IS 'TRUE, if initiative may not win, because it is directly beaten with a simple majority by a better ranked initiative or by a better ranked status quo (without tie-breaking)';
-COMMENT ON COLUMN "initiative"."winner"               IS 'TRUE, if initiative is final winner (best ranked initiative being "attainable", "favored", and not "disqualified")';
+COMMENT ON COLUMN "initiative"."disqualified"         IS 'TRUE, if initiative may not win, because it either (a) has no better rank than the status quo, or (b) because there exists a better ranked initiative X, which directly beats this initiative, and either more voters prefer X to this initiative than voters preferring X to the status quo or less voters prefer this initiative to X than voters preferring the status quo to X';
+COMMENT ON COLUMN "initiative"."winner"               IS 'TRUE, if initiative is final winner (best ranked initiative being "attainable" and not "disqualified")';
 
 
 CREATE TABLE "battle" (
@@ -3813,7 +3813,7 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
             "favored"          = "rank_ary"["i"] < "rank_ary"["dimension_v"],
             "unfavored"        = "rank_ary"["i"] > "rank_ary"["dimension_v"],
             "preliminary_rank" = "rank_ary"["i"],
-            "disqualified"     = FALSE,
+            "disqualified"     = "rank_ary"["i"] >= "rank_ary"["dimension_v"],
             "winner"           = FALSE
             WHERE "id" = "initiative_id_v";
           "i" := "i" + 1;
@@ -3835,34 +3835,25 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           FROM (
             SELECT "losing_initiative"."id" AS "initiative_id"
             FROM "initiative" "losing_initiative"
-            JOIN "battle_participant" "winning_participant"
-              ON "winning_participant"."issue_id" = "issue_id_p"
-            LEFT JOIN "initiative" "winning_initiative"
-              ON "winning_initiative"."id" = "winning_participant"."id"
-            -- NOTE: winner may be status quo:
-            -- "losing_initiative"."id" is always NOTNULL
-            -- while "winning_initiative"."id" may be NULL
+            JOIN "initiative" "winning_initiative"
+              ON "winning_initiative"."issue_id" = "issue_id_p"
+              AND "winning_initiative"."admitted"
             JOIN "battle" "battle_win"
               ON "battle_win"."issue_id" = "issue_id_p"
-              AND (
-                "battle_win"."winning_initiative_id" = "winning_initiative"."id" OR
-                ( "battle_win"."winning_initiative_id" ISNULL AND
-                  "winning_initiative"."id" ISNULL ) )
+              AND "battle_win"."winning_initiative_id" = "winning_initiative"."id"
               AND "battle_win"."losing_initiative_id" = "losing_initiative"."id"
             JOIN "battle" "battle_lose"
               ON "battle_lose"."issue_id" = "issue_id_p"
-              AND (
-                "battle_lose"."losing_initiative_id" = "winning_initiative"."id" OR
-                ( "battle_lose"."losing_initiative_id" ISNULL AND
-                  "winning_initiative"."id" ISNULL ) )
+              AND "battle_lose"."losing_initiative_id" = "winning_initiative"."id"
               AND "battle_lose"."winning_initiative_id" = "losing_initiative"."id"
             WHERE "losing_initiative"."issue_id" = "issue_id_p"
             AND "losing_initiative"."admitted"
-            AND (
-              ("winning_initiative"."id" ISNULL AND "losing_initiative"."unfavored") OR
-              ( "winning_initiative"."preliminary_rank" <
-                "losing_initiative"."preliminary_rank" ) )
+            AND "winning_initiative"."preliminary_rank" <
+                "losing_initiative"."preliminary_rank"
             AND "battle_win"."count" > "battle_lose"."count"
+            AND (
+              "battle_win"."count" > "winning_initiative"."positive_votes" OR
+              "battle_lose"."count" < "losing_initiative"."negative_votes" )
           ) AS "subquery"
           WHERE "id" = "subquery"."initiative_id";
         -- calculate final ranks (start counting with 1, no equal ranks):
@@ -3882,7 +3873,7 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
             SELECT "id" AS "initiative_id"
             FROM "initiative"
             WHERE "issue_id" = "issue_id_p"
-            AND "attainable" AND "favored" AND NOT "disqualified"
+            AND "attainable" AND NOT "disqualified"
             ORDER BY "final_rank"
             LIMIT 1
           ) AS "subquery"
