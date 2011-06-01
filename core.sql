@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.4.0_rc2', 1, 4, -1))
+  SELECT * FROM (VALUES ('1.4.0_rc1', 1, 4, -1))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -310,7 +310,9 @@ CREATE TABLE "policy" (
         "initiative_quorum_den" INT4            NOT NULL,
         "majority_num"          INT4            NOT NULL DEFAULT 1,
         "majority_den"          INT4            NOT NULL DEFAULT 2,
-        "majority_strict"       BOOLEAN         NOT NULL DEFAULT TRUE );
+        "majority_strict"       BOOLEAN         NOT NULL DEFAULT TRUE,
+        "majority_positive"     INT4            NOT NULL DEFAULT 0,
+        "majority_non_negative" INT4            NOT NULL DEFAULT 0 );
 CREATE INDEX "policy_active_idx" ON "policy" ("active");
 
 COMMENT ON TABLE "policy" IS 'Policies for a particular proceeding type (timelimits, quorum)';
@@ -325,9 +327,11 @@ COMMENT ON COLUMN "policy"."issue_quorum_num"      IS   'Numerator of potential 
 COMMENT ON COLUMN "policy"."issue_quorum_den"      IS 'Denominator of potential supporter quorum to be reached by one initiative of an issue to be "accepted"';
 COMMENT ON COLUMN "policy"."initiative_quorum_num" IS   'Numerator of satisfied supporter quorum  to be reached by an initiative to be "admitted" for voting';
 COMMENT ON COLUMN "policy"."initiative_quorum_den" IS 'Denominator of satisfied supporter quorum to be reached by an initiative to be "admitted" for voting';
-COMMENT ON COLUMN "policy"."majority_num"          IS   'Numerator of fraction of majority to be reached during voting by an initiative to be aggreed upon';
-COMMENT ON COLUMN "policy"."majority_den"          IS 'Denominator of fraction of majority to be reached during voting by an initiative to be aggreed upon';
+COMMENT ON COLUMN "policy"."majority_num"          IS   'Numerator of fraction of majority to be reached during voting by an initiative to be "attainable"';
+COMMENT ON COLUMN "policy"."majority_den"          IS 'Denominator of fraction of majority to be reached during voting by an initiative to be "attainable"';
 COMMENT ON COLUMN "policy"."majority_strict"       IS 'If TRUE, then the majority must be strictly greater than "majority_num"/"majority_den", otherwise it may also be equal.';
+COMMENT ON COLUMN "policy"."majority_positive"     IS 'Absolute number of "positive_votes" neccessary for an initiative to be "attainable".';
+COMMENT ON COLUMN "policy"."majority_non_negative" IS 'Absolute number of sum of "positive_votes" and abstentions neccessary for an initiative to be "attainable".';
 
 
 CREATE TABLE "unit" (
@@ -441,8 +445,6 @@ CREATE TABLE "issue" (
         "snapshot"              TIMESTAMPTZ,
         "latest_snapshot_event" "snapshot_event",
         "population"            INT4,
-        "vote_now"              INT4,
-        "vote_later"            INT4,
         "voter_count"           INT4,
         CONSTRAINT "valid_state" CHECK ((
           ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
@@ -502,11 +504,9 @@ COMMENT ON COLUMN "issue"."admission_time"        IS 'Copied from "policy" table
 COMMENT ON COLUMN "issue"."discussion_time"       IS 'Copied from "policy" table at creation of issue';
 COMMENT ON COLUMN "issue"."verification_time"     IS 'Copied from "policy" table at creation of issue';
 COMMENT ON COLUMN "issue"."voting_time"           IS 'Copied from "policy" table at creation of issue';
-COMMENT ON COLUMN "issue"."snapshot"              IS 'Point in time, when snapshot tables have been updated and "population", "vote_now", "vote_later" and *_count values were precalculated';
+COMMENT ON COLUMN "issue"."snapshot"              IS 'Point in time, when snapshot tables have been updated and "population" and *_count values were precalculated';
 COMMENT ON COLUMN "issue"."latest_snapshot_event" IS 'Event type of latest snapshot for issue; Can be used to select the latest snapshot data in the snapshot tables';
 COMMENT ON COLUMN "issue"."population"            IS 'Sum of "weight" column in table "direct_population_snapshot"';
-COMMENT ON COLUMN "issue"."vote_now"              IS 'Number of votes in favor of voting now, as calculated from table "direct_interest_snapshot"';
-COMMENT ON COLUMN "issue"."vote_later"            IS 'Number of votes against voting now, as calculated from table "direct_interest_snapshot"';
 COMMENT ON COLUMN "issue"."voter_count"           IS 'Total number of direct and delegating voters; This value is related to the final voting, while "population" is related to snapshots before the final voting';
 
 
@@ -537,8 +537,13 @@ CREATE TABLE "initiative" (
         "satisfied_informed_supporter_count" INT4,
         "positive_votes"        INT4,
         "negative_votes"        INT4,
-        "agreed"                BOOLEAN,
-        "rank"                  INT4,
+        "attainable"            BOOLEAN,
+        "favored"               BOOLEAN,
+        "unfavored"             BOOLEAN,
+        "preliminary_rank"      INT4,
+        "final_rank"            INT4,
+        "disqualified"          BOOLEAN,
+        "winner"                BOOLEAN,
         "text_search_data"      TSVECTOR,
         CONSTRAINT "all_or_none_of_revoked_and_revoked_by_member_id_must_be_null"
           CHECK ("revoked" NOTNULL = "revoked_by_member_id" NOTNULL),
@@ -546,12 +551,13 @@ CREATE TABLE "initiative" (
           CHECK ("revoked" NOTNULL OR "suggested_initiative_id" ISNULL),
         CONSTRAINT "revoked_initiatives_cant_be_admitted"
           CHECK ("revoked" ISNULL OR "admitted" ISNULL),
-        CONSTRAINT "non_admitted_initiatives_cant_contain_voting_results"
-          CHECK (("admitted" NOTNULL AND "admitted" = TRUE) OR ("positive_votes" ISNULL AND "negative_votes" ISNULL AND "agreed" ISNULL)),
-        CONSTRAINT "all_or_none_of_positive_votes_negative_votes_and_agreed_must_be_null"
-          CHECK ("positive_votes" NOTNULL = "negative_votes" NOTNULL AND "positive_votes" NOTNULL = "agreed" NOTNULL),
-        CONSTRAINT "non_agreed_initiatives_cant_get_a_rank"
-          CHECK (("agreed" NOTNULL AND "agreed" = TRUE) OR "rank" ISNULL) );
+        CONSTRAINT "non_admitted_initiatives_cant_contain_voting_results" CHECK (
+          ( "admitted" NOTNULL AND "admitted" = TRUE ) OR
+          ( "positive_votes" ISNULL AND "negative_votes" ISNULL AND
+            "attainable" ISNULL AND "favored" ISNULL AND "unfavored" ISNULL AND
+            "disqualified" ISNULL AND "preliminary_rank" ISNULL AND
+            "final_rank" ISNULL AND "winner" ISNULL ) ),
+        CONSTRAINT "favored_excludes_unfavored" CHECK (NOT ("favored" AND "unfavored")) );
 CREATE INDEX "initiative_created_idx" ON "initiative" ("created");
 CREATE INDEX "initiative_revoked_idx" ON "initiative" ("revoked");
 CREATE INDEX "initiative_text_search_data_idx" ON "initiative" USING gin ("text_search_data");
@@ -571,22 +577,33 @@ COMMENT ON COLUMN "initiative"."supporter_count"                    IS 'Calculat
 COMMENT ON COLUMN "initiative"."informed_supporter_count"           IS 'Calculated from table "direct_supporter_snapshot"';
 COMMENT ON COLUMN "initiative"."satisfied_supporter_count"          IS 'Calculated from table "direct_supporter_snapshot"';
 COMMENT ON COLUMN "initiative"."satisfied_informed_supporter_count" IS 'Calculated from table "direct_supporter_snapshot"';
-COMMENT ON COLUMN "initiative"."positive_votes" IS 'Calculated from table "direct_voter"';
-COMMENT ON COLUMN "initiative"."negative_votes" IS 'Calculated from table "direct_voter"';
-COMMENT ON COLUMN "initiative"."agreed"         IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "majority_num"/"majority_den"';
-COMMENT ON COLUMN "initiative"."rank"           IS 'Rank of approved initiatives (winner is 1), calculated from table "direct_voter"';
+COMMENT ON COLUMN "initiative"."positive_votes"       IS 'Calculated from table "direct_voter"';
+COMMENT ON COLUMN "initiative"."negative_votes"       IS 'Calculated from table "direct_voter"';
+COMMENT ON COLUMN "initiative"."attainable"           IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "majority_num"/"majority_den", and "positive_votes" is greater-equal than "majority_positive", and ("positive_votes"+abstentions) is greater-equal than "majority_non_negative"';
+COMMENT ON COLUMN "initiative"."favored"              IS 'TRUE, if initiative has a schulze-ranking better than the status quo (without tie-breaking)';
+COMMENT ON COLUMN "initiative"."unfavored"            IS 'TRUE, if initiative has a schulze-ranking worse than the status quo (without tie-breaking)';
+COMMENT ON COLUMN "initiative"."preliminary_rank"     IS 'Schulze-Ranking without tie-breaking';
+COMMENT ON COLUMN "initiative"."final_rank"           IS 'Schulze-Ranking after tie-breaking';
+COMMENT ON COLUMN "initiative"."disqualified"         IS 'TRUE, if initiative may not win, because it either (a) has no better rank than the status quo, or (b) because there exists a better ranked initiative X, which directly beats this initiative, and either more voters prefer X to this initiative than voters preferring X to the status quo or less voters prefer this initiative to X than voters preferring the status quo to X';
+COMMENT ON COLUMN "initiative"."winner"               IS 'TRUE, if initiative is final winner (best ranked initiative being "attainable" and not "disqualified")';
 
 
 CREATE TABLE "battle" (
-        PRIMARY KEY ("issue_id", "winning_initiative_id", "losing_initiative_id"),
-        "issue_id"              INT4,
+        "issue_id"              INT4            NOT NULL,
         "winning_initiative_id" INT4,
         FOREIGN KEY ("issue_id", "winning_initiative_id") REFERENCES "initiative" ("issue_id", "id") ON DELETE CASCADE ON UPDATE CASCADE,
         "losing_initiative_id"  INT4,
         FOREIGN KEY ("issue_id", "losing_initiative_id") REFERENCES "initiative" ("issue_id", "id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "count"                 INT4            NOT NULL);
+        "count"                 INT4            NOT NULL,
+        CONSTRAINT "initiative_ids_not_equal" CHECK (
+          "winning_initiative_id" != "losing_initiative_id" OR
+          ( ("winning_initiative_id" NOTNULL AND "losing_initiative_id" ISNULL) OR
+            ("winning_initiative_id" ISNULL AND "losing_initiative_id" NOTNULL) ) ) );
+CREATE UNIQUE INDEX "battle_winning_losing_idx" ON "battle" ("issue_id", "winning_initiative_id", "losing_initiative_id");
+CREATE UNIQUE INDEX "battle_winning_null_idx" ON "battle" ("issue_id", "winning_initiative_id") WHERE "losing_initiative_id" ISNULL;
+CREATE UNIQUE INDEX "battle_null_losing_idx" ON "battle" ("issue_id", "losing_initiative_id") WHERE "winning_initiative_id" ISNULL;
 
-COMMENT ON TABLE "battle" IS 'Number of members preferring one initiative to another; Filled by "battle_view" when closing an issue';
+COMMENT ON TABLE "battle" IS 'Number of members preferring one initiative to another; Filled by "battle_view" when closing an issue; NULL as initiative_id denotes virtual "status-quo" initiative';
 
 
 CREATE TABLE "ignored_initiative" (
@@ -731,14 +748,12 @@ CREATE TABLE "interest" (
         PRIMARY KEY ("issue_id", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "autoreject"            BOOLEAN,
-        "voting_requested"      BOOLEAN );
+        "autoreject"            BOOLEAN );
 CREATE INDEX "interest_member_id_idx" ON "interest" ("member_id");
 
 COMMENT ON TABLE "interest" IS 'Interest of members in a particular issue; Frontends must ensure that interest for fully_frozen or closed issues is not added or removed.';
 
 COMMENT ON COLUMN "interest"."autoreject"       IS 'TRUE = member votes against all initiatives in case of not explicitly taking part in the voting procedure';
-COMMENT ON COLUMN "interest"."voting_requested" IS 'TRUE = member wants to vote now, FALSE = member wants to vote later, NULL = policy rules should apply';
 
 
 CREATE TABLE "initiator" (
@@ -854,15 +869,13 @@ CREATE TABLE "direct_interest_snapshot" (
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "event"                 "snapshot_event",
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT,
-        "weight"                INT4,
-        "voting_requested"      BOOLEAN );
+        "weight"                INT4 );
 CREATE INDEX "direct_interest_snapshot_member_id_idx" ON "direct_interest_snapshot" ("member_id");
 
 COMMENT ON TABLE "direct_interest_snapshot" IS 'Snapshot of active members having an "interest" in the "issue"';
 
 COMMENT ON COLUMN "direct_interest_snapshot"."event"            IS 'Reason for snapshot, see "snapshot_event" type for details';
 COMMENT ON COLUMN "direct_interest_snapshot"."weight"           IS 'Weight of member (1 or higher) according to "delegating_interest_snapshot"';
-COMMENT ON COLUMN "direct_interest_snapshot"."voting_requested" IS 'Copied from column "voting_requested" of table "interest"';
 
 
 CREATE TABLE "delegating_interest_snapshot" (
@@ -1870,6 +1883,18 @@ CREATE VIEW "critical_opinion" AS
 COMMENT ON VIEW "critical_opinion" IS 'Opinions currently causing dissatisfaction';
 
 
+CREATE VIEW "battle_participant" AS
+    SELECT "initiative"."id", "initiative"."issue_id"
+    FROM "issue" JOIN "initiative"
+    ON "issue"."id" = "initiative"."issue_id"
+    WHERE "initiative"."admitted"
+  UNION ALL
+    SELECT NULL, "id" AS "issue_id"
+    FROM "issue";
+
+COMMENT ON VIEW "battle_participant" IS 'Helper view for "battle_view" containing admitted initiatives plus virtual "status-quo" initiative denoted by NULL reference';
+
+
 CREATE VIEW "battle_view" AS
   SELECT
     "issue"."id" AS "issue_id",
@@ -1884,12 +1909,10 @@ CREATE VIEW "battle_view" AS
   FROM "issue"
   LEFT JOIN "direct_voter"
   ON "issue"."id" = "direct_voter"."issue_id"
-  JOIN "initiative" AS "winning_initiative"
+  JOIN "battle_participant" AS "winning_initiative"
     ON "issue"."id" = "winning_initiative"."issue_id"
-    AND "winning_initiative"."agreed"
-  JOIN "initiative" AS "losing_initiative"
+  JOIN "battle_participant" AS "losing_initiative"
     ON "issue"."id" = "losing_initiative"."issue_id"
-    AND "losing_initiative"."agreed"
   LEFT JOIN "vote" AS "better_vote"
     ON "direct_voter"."member_id" = "better_vote"."member_id"
     AND "winning_initiative"."id" = "better_vote"."initiative_id"
@@ -1898,13 +1921,16 @@ CREATE VIEW "battle_view" AS
     AND "losing_initiative"."id" = "worse_vote"."initiative_id"
   WHERE "issue"."closed" NOTNULL
   AND "issue"."cleaned" ISNULL
-  AND "winning_initiative"."id" != "losing_initiative"."id"
+  AND (
+    "winning_initiative"."id" != "losing_initiative"."id" OR
+    ( ("winning_initiative"."id" NOTNULL AND "losing_initiative"."id" ISNULL) OR
+      ("winning_initiative"."id" ISNULL AND "losing_initiative"."id" NOTNULL) ) )
   GROUP BY
     "issue"."id",
     "winning_initiative"."id",
     "losing_initiative"."id";
 
-COMMENT ON VIEW "battle_view" IS 'Number of members preferring one initiative to another; Used to fill "battle" table';
+COMMENT ON VIEW "battle_view" IS 'Number of members preferring one initiative (or status-quo) to another initiative (or status-quo); Used to fill "battle" table';
 
 
 CREATE VIEW "expired_session" AS
@@ -2918,12 +2944,11 @@ CREATE FUNCTION "create_interest_snapshot"
         WHERE "issue_id" = "issue_id_p"
         AND "event" = 'periodic';
       INSERT INTO "direct_interest_snapshot"
-        ("issue_id", "event", "member_id", "voting_requested")
+        ("issue_id", "event", "member_id")
         SELECT
           "issue_id_p"  AS "issue_id",
           'periodic'    AS "event",
-          "member"."id" AS "member_id",
-          "interest"."voting_requested"
+          "member"."id" AS "member_id"
         FROM "issue"
         JOIN "area" ON "issue"."area_id" = "area"."id"
         JOIN "interest" ON "issue"."id" = "interest"."issue_id"
@@ -3001,20 +3026,6 @@ CREATE FUNCTION "create_snapshot"
           FROM "direct_population_snapshot"
           WHERE "issue_id" = "issue_id_p"
           AND "event" = 'periodic'
-        ),
-        "vote_now" = (
-          SELECT coalesce(sum("weight"), 0)
-          FROM "direct_interest_snapshot"
-          WHERE "issue_id" = "issue_id_p"
-          AND "event" = 'periodic'
-          AND "voting_requested" = TRUE
-        ),
-        "vote_later" = (
-          SELECT coalesce(sum("weight"), 0)
-          FROM "direct_interest_snapshot"
-          WHERE "issue_id" = "issue_id_p"
-          AND "event" = 'periodic'
-          AND "voting_requested" = FALSE
         )
         WHERE "id" = "issue_id_p";
       FOR "initiative_id_v" IN
@@ -3407,6 +3418,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       PERFORM "lock_issue"("issue_id_p");
       SELECT "area_id" INTO "area_id_v" FROM "issue" WHERE "id" = "issue_id_p";
       SELECT "unit_id" INTO "unit_id_v" FROM "area"  WHERE "id" = "area_id_v";
+      -- consider delegations and auto-reject:
       DELETE FROM "delegating_voter"
         WHERE "issue_id" = "issue_id_p";
       DELETE FROM "direct_voter"
@@ -3492,6 +3504,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
           FROM "initiative" WHERE "issue_id" = "issue_id_p";
       END LOOP;
       PERFORM "add_vote_delegations"("issue_id_p");
+      -- set voter count and mark issue as being calculated:
       UPDATE "issue" SET
         "state"  = 'calculation',
         "closed" = now(),
@@ -3500,18 +3513,23 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
           FROM "direct_voter" WHERE "issue_id" = "issue_id_p"
         )
         WHERE "id" = "issue_id_p";
+      -- calculate "positive_votes", "negative_votes" and "attainable":
       UPDATE "initiative" SET
         "positive_votes" = "vote_counts"."positive_votes",
         "negative_votes" = "vote_counts"."negative_votes",
-        "agreed" = CASE WHEN "majority_strict" THEN
-          "vote_counts"."positive_votes" * "majority_den" >
-          "majority_num" *
-          ("vote_counts"."positive_votes"+"vote_counts"."negative_votes")
-        ELSE
-          "vote_counts"."positive_votes" * "majority_den" >=
-          "majority_num" *
-          ("vote_counts"."positive_votes"+"vote_counts"."negative_votes")
-        END
+        "attainable" =
+          CASE WHEN "majority_strict" THEN
+            "vote_counts"."positive_votes" * "majority_den" >
+            "majority_num" *
+            ("vote_counts"."positive_votes"+"vote_counts"."negative_votes")
+          ELSE
+            "vote_counts"."positive_votes" * "majority_den" >=
+            "majority_num" *
+            ("vote_counts"."positive_votes"+"vote_counts"."negative_votes")
+          END
+          AND "vote_counts"."positive_votes" >= "policy"."majority_positive"
+          AND "issue"."voter_count"-"vote_counts"."negative_votes" >=
+              "policy"."majority_non_negative"
         FROM
           ( SELECT
               "initiative"."id" AS "initiative_id",
@@ -3544,6 +3562,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
         WHERE "vote_counts"."initiative_id" = "initiative"."id"
         AND "issue"."id" = "initiative"."issue_id"
         AND "policy"."id" = "issue"."policy_id";
+      -- materialize battle_view:
       -- NOTE: "closed" column of issue must be set at this point
       DELETE FROM "battle" WHERE "issue_id" = "issue_id_p";
       INSERT INTO "battle" (
@@ -3646,26 +3665,23 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     DECLARE
-      "dimension_v"     INTEGER;
-      "vote_matrix"     INT4[][];  -- absolute votes
-      "matrix"          INT8[][];  -- defeat strength / best paths
-      "i"               INTEGER;
-      "j"               INTEGER;
-      "k"               INTEGER;
-      "battle_row"      "battle"%ROWTYPE;
-      "rank_ary"        INT4[];
-      "rank_v"          INT4;
-      "done_v"          INTEGER;
-      "winners_ary"     INTEGER[];
-      "initiative_id_v" "initiative"."id"%TYPE;
+      "dimension_v"       INTEGER;
+      "vote_matrix"       INT4[][];  -- absolute votes
+      "matrix"            INT8[][];  -- defeat strength / best paths
+      "i"                 INTEGER;
+      "j"                 INTEGER;
+      "k"                 INTEGER;
+      "battle_row"        "battle"%ROWTYPE;
+      "rank_ary"          INT4[];
+      "rank_v"            INT4;
+      "done_v"            INTEGER;
+      "winners_ary"       INTEGER[];
+      "initiative_id_v"   "initiative"."id"%TYPE;
     BEGIN
       PERFORM NULL FROM "issue" WHERE "id" = "issue_id_p" FOR UPDATE;
-      SELECT count(1) INTO "dimension_v" FROM "initiative"
-        WHERE "issue_id" = "issue_id_p" AND "agreed";
-      IF "dimension_v" = 1 THEN
-        UPDATE "initiative" SET "rank" = 1
-          WHERE "issue_id" = "issue_id_p" AND "agreed";
-      ELSIF "dimension_v" > 1 THEN
+      SELECT count(1) INTO "dimension_v"
+        FROM "battle_participant" WHERE "issue_id" = "issue_id_p";
+      IF "dimension_v" > 1 THEN
         -- Create "vote_matrix" with absolute number of votes in pairwise
         -- comparison:
         "vote_matrix" := "square_matrix_init_string"("dimension_v");  -- TODO: replace by "array_fill" function (PostgreSQL 8.4)
@@ -3673,7 +3689,9 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
         "j" := 2;
         FOR "battle_row" IN
           SELECT * FROM "battle" WHERE "issue_id" = "issue_id_p"
-          ORDER BY "winning_initiative_id", "losing_initiative_id"
+          ORDER BY
+          "winning_initiative_id" NULLS LAST,
+          "losing_initiative_id" NULLS LAST
         LOOP
           "vote_matrix"["i"]["j"] := "battle_row"."count";
           IF "j" = "dimension_v" THEN
@@ -3777,42 +3795,93 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           EXIT WHEN "done_v" = "dimension_v";
           "rank_v" := "rank_v" + 1;
         END LOOP;
-        -- write preliminary ranks:
+        -- write preliminary results:
         "i" := 1;
         FOR "initiative_id_v" IN
           SELECT "id" FROM "initiative"
-          WHERE "issue_id" = "issue_id_p" AND "agreed"
+          WHERE "issue_id" = "issue_id_p" AND "admitted"
           ORDER BY "id"
         LOOP
-          UPDATE "initiative" SET "rank" = "rank_ary"["i"]
+          UPDATE "initiative" SET
+            "favored"          = "rank_ary"["i"] < "rank_ary"["dimension_v"],
+            "unfavored"        = "rank_ary"["i"] > "rank_ary"["dimension_v"],
+            "preliminary_rank" = "rank_ary"["i"],
+            "disqualified"     = "rank_ary"["i"] >= "rank_ary"["dimension_v"],
+            "winner"           = FALSE
             WHERE "id" = "initiative_id_v";
           "i" := "i" + 1;
         END LOOP;
-        IF "i" != "dimension_v" + 1 THEN
+        IF "i" != "dimension_v" THEN
           RAISE EXCEPTION 'Wrong winner count (should not happen)';
         END IF;
-        -- straighten ranks (start counting with 1, no equal ranks):
+        -- remove possible gap in preliminary ranks:
+        IF NOT EXISTS (
+          SELECT NULL FROM "initiative"
+          WHERE "issue_id" = "issue_id_p"
+          AND "favored"=FALSE AND "unfavored"=FALSE
+        ) THEN
+          UPDATE "initiative" SET "preliminary_rank" = "preliminary_rank" - 1
+            WHERE "issue_id" = "issue_id_p" AND "unfavored";
+        END IF;
+        -- disqualify certain initiatives to enforce a stable result:
+         UPDATE "initiative" SET "disqualified" = TRUE
+          FROM (
+            SELECT "losing_initiative"."id" AS "initiative_id"
+            FROM "initiative" "losing_initiative"
+            JOIN "initiative" "winning_initiative"
+              ON "winning_initiative"."issue_id" = "issue_id_p"
+              AND "winning_initiative"."admitted"
+            JOIN "battle" "battle_win"
+              ON "battle_win"."issue_id" = "issue_id_p"
+              AND "battle_win"."winning_initiative_id" = "winning_initiative"."id"
+              AND "battle_win"."losing_initiative_id" = "losing_initiative"."id"
+            JOIN "battle" "battle_lose"
+              ON "battle_lose"."issue_id" = "issue_id_p"
+              AND "battle_lose"."losing_initiative_id" = "winning_initiative"."id"
+              AND "battle_lose"."winning_initiative_id" = "losing_initiative"."id"
+            WHERE "losing_initiative"."issue_id" = "issue_id_p"
+            AND "losing_initiative"."admitted"
+            AND "winning_initiative"."preliminary_rank" <
+                "losing_initiative"."preliminary_rank"
+            AND "battle_win"."count" > "battle_lose"."count"
+            AND (
+              "battle_win"."count" > "winning_initiative"."positive_votes" OR
+              "battle_lose"."count" < "losing_initiative"."negative_votes" )
+          ) AS "subquery"
+          WHERE "id" = "subquery"."initiative_id";
+        -- calculate final ranks (start counting with 1, no equal ranks):
         "rank_v" := 1;
         FOR "initiative_id_v" IN
           SELECT "id" FROM "initiative"
-          WHERE "issue_id" = "issue_id_p" AND "rank" NOTNULL
-          ORDER BY
-            "rank",
-            "vote_ratio"("positive_votes", "negative_votes") DESC,
-            "id"
+          WHERE "issue_id" = "issue_id_p" AND "admitted"
+          ORDER BY "preliminary_rank", "id"
         LOOP
-          UPDATE "initiative" SET "rank" = "rank_v"
+          UPDATE "initiative" SET "final_rank" = "rank_v"
             WHERE "id" = "initiative_id_v";
           "rank_v" := "rank_v" + 1;
         END LOOP;
+        -- mark final winner:
+        UPDATE "initiative" SET "winner" = TRUE
+          FROM (
+            SELECT "id" AS "initiative_id"
+            FROM "initiative"
+            WHERE "issue_id" = "issue_id_p"
+            AND "attainable" AND NOT "disqualified"
+            ORDER BY "final_rank"
+            LIMIT 1
+          ) AS "subquery"
+         WHERE "id" = "subquery"."initiative_id";
       END IF;
-      -- mark issue as finished
+      -- mark issue as finished:
       UPDATE "issue" SET
         "state" =
-          CASE WHEN "dimension_v" = 0 THEN
-            'finished_without_winner'::"issue_state"
-          ELSE
+          CASE WHEN EXISTS (
+            SELECT NULL FROM "initiative"
+            WHERE "issue_id" = "issue_id_p" AND "winner"
+          ) THEN
             'finished_with_winner'::"issue_state"
+          ELSE
+            'finished_without_winner'::"issue_state"
           END,
         "ranks_available" = TRUE
         WHERE "id" = "issue_id_p";
@@ -3838,7 +3907,6 @@ CREATE FUNCTION "check_issue"
     DECLARE
       "issue_row"         "issue"%ROWTYPE;
       "policy_row"        "policy"%ROWTYPE;
-      "voting_requested_v" BOOLEAN;
     BEGIN
       PERFORM "lock_issue"("issue_id_p");
       SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
@@ -3886,21 +3954,8 @@ CREATE FUNCTION "check_issue"
           "issue_row"."accepted" NOTNULL AND
           "issue_row"."half_frozen" ISNULL
         THEN
-          SELECT
-            CASE
-              WHEN "vote_now" * 2 > "issue_row"."population" THEN
-                TRUE
-              WHEN "vote_later" * 2 > "issue_row"."population" THEN
-                FALSE
-              ELSE NULL
-            END
-            INTO "voting_requested_v"
-            FROM "issue" WHERE "id" = "issue_id_p";
           IF
-            "voting_requested_v" OR (
-              "voting_requested_v" ISNULL AND
-              now() >= "issue_row"."accepted" + "issue_row"."discussion_time"
-            )
+            now() >= "issue_row"."accepted" + "issue_row"."discussion_time"
           THEN
             PERFORM "set_snapshot_event"("issue_id_p", 'half_freeze');
             -- NOTE: "issue_row" used later
@@ -4018,6 +4073,7 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
         FROM "issue" WHERE "id" = "issue_id_p"
         FOR UPDATE;
       IF "issue_row"."cleaned" ISNULL THEN
+        -- TODO: might be broken due to new constraints!
         UPDATE "issue" SET
           "closed" = NULL,
           "ranks_available" = FALSE
