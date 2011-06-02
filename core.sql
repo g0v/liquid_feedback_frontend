@@ -4035,9 +4035,9 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
         FROM "issue" WHERE "id" = "issue_id_p"
         FOR UPDATE;
       IF "issue_row"."cleaned" ISNULL THEN
-        -- TODO: might be broken due to new constraints!
         UPDATE "issue" SET
-          "closed" = NULL,
+          "state"           = 'voting',
+          "closed"          = NULL,
           "ranks_available" = FALSE
           WHERE "id" = "issue_id_p";
         DELETE FROM "delegating_voter"
@@ -4059,6 +4059,7 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
         DELETE FROM "supporter"
           WHERE "issue_id" = "issue_id_p";
         UPDATE "issue" SET
+          "state"           = "issue_row"."state",
           "closed"          = "issue_row"."closed",
           "ranks_available" = "issue_row"."ranks_available",
           "cleaned"         = now()
