@@ -3623,67 +3623,6 @@ CREATE FUNCTION "defeat_strength"
 COMMENT ON FUNCTION "defeat_strength"(INT4, INT4) IS 'Calculates defeat strength (INT8!) of a pairwise defeat primarily by the absolute number of votes for the winner and secondarily by the absolute number of votes for the loser';
 
 
-CREATE FUNCTION "array_init_string"("dim_p" INTEGER)
-  RETURNS TEXT
-  LANGUAGE 'plpgsql' IMMUTABLE AS $$
-    DECLARE
-      "i"          INTEGER;
-      "ary_text_v" TEXT;
-    BEGIN
-      IF "dim_p" >= 1 THEN
-        "ary_text_v" := '{NULL';
-        "i" := "dim_p";
-        LOOP
-          "i" := "i" - 1;
-          EXIT WHEN "i" = 0;
-          "ary_text_v" := "ary_text_v" || ',NULL';
-        END LOOP;
-        "ary_text_v" := "ary_text_v" || '}';
-        RETURN "ary_text_v";
-      ELSE
-        RAISE EXCEPTION 'Dimension needs to be at least 1.';
-      END IF;
-    END;
-  $$;
-
-COMMENT ON FUNCTION "array_init_string"(INTEGER) IS 'Needed for PostgreSQL < 8.4, due to missing "array_fill" function';
-
-
-CREATE FUNCTION "square_matrix_init_string"("dim_p" INTEGER)
-  RETURNS TEXT
-  LANGUAGE 'plpgsql' IMMUTABLE AS $$
-    DECLARE
-      "i"          INTEGER;
-      "row_text_v" TEXT;
-      "ary_text_v" TEXT;
-    BEGIN
-      IF "dim_p" >= 1 THEN
-        "row_text_v" := '{NULL';
-        "i" := "dim_p";
-        LOOP
-          "i" := "i" - 1;
-          EXIT WHEN "i" = 0;
-          "row_text_v" := "row_text_v" || ',NULL';
-        END LOOP;
-        "row_text_v" := "row_text_v" || '}';
-        "ary_text_v" := '{' || "row_text_v";
-        "i" := "dim_p";
-        LOOP
-          "i" := "i" - 1;
-          EXIT WHEN "i" = 0;
-          "ary_text_v" := "ary_text_v" || ',' || "row_text_v";
-        END LOOP;
-        "ary_text_v" := "ary_text_v" || '}';
-        RETURN "ary_text_v";
-      ELSE
-        RAISE EXCEPTION 'Dimension needs to be at least 1.';
-      END IF;
-    END;
-  $$;
-
-COMMENT ON FUNCTION "square_matrix_init_string"(INTEGER) IS 'Needed for PostgreSQL < 8.4, due to missing "array_fill" function';
-
-
 CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
@@ -3707,7 +3646,7 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
       IF "dimension_v" > 1 THEN
         -- Create "vote_matrix" with absolute number of votes in pairwise
         -- comparison:
-        "vote_matrix" := "square_matrix_init_string"("dimension_v");  -- TODO: replace by "array_fill" function (PostgreSQL 8.4)
+        "vote_matrix" := array_fill(NULL::INT4, ARRAY["dimension_v", "dimension_v"]);
         "i" := 1;
         "j" := 2;
         FOR "battle_row" IN
@@ -3732,7 +3671,7 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
         END IF;
         -- Store defeat strengths in "matrix" using "defeat_strength"
         -- function:
-        "matrix" := "square_matrix_init_string"("dimension_v");  -- TODO: replace by "array_fill" function (PostgreSQL 8.4)
+        "matrix" := array_fill(NULL::INT8, ARRAY["dimension_v", "dimension_v"]);
         "i" := 1;
         LOOP
           "j" := 1;
@@ -3779,7 +3718,7 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           "i" := "i" + 1;
         END LOOP;
         -- Determine order of winners:
-        "rank_ary" := "array_init_string"("dimension_v");  -- TODO: replace by "array_fill" function (PostgreSQL 8.4)
+        "rank_ary" := array_fill(NULL::INT4, ARRAY["dimension_v"]);
         "rank_v" := 1;
         "done_v" := 0;
         LOOP
