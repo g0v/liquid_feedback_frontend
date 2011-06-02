@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.4.0_rc1', 1, 4, -1))
+  SELECT * FROM (VALUES ('1.5.0_devel', 1, 5, -1))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -3523,8 +3523,8 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
             "issue_id_p"  AS "issue_id",
             "id"          AS "initiative_id",
             -1            AS "grade"
-          FROM "initiative" WHERE "issue_id" = "issue_id_p";
-        -- TODO: admitted initiatives only?
+          FROM "initiative"
+          WHERE "issue_id" = "issue_id_p" AND "admitted";
       END LOOP;
       PERFORM "add_vote_delegations"("issue_id_p");
       -- set voter count and mark issue as being calculated:
