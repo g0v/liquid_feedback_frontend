@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.4.0_rc2', 1, 4, -1))
+  SELECT * FROM (VALUES ('1.4.0_rc4', 1, 4, -1))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -3489,7 +3489,8 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
             "issue_id_p"  AS "issue_id",
             "id"          AS "initiative_id",
             -1            AS "grade"
-          FROM "initiative" WHERE "issue_id" = "issue_id_p";
+          FROM "initiative"
+          WHERE "issue_id" = "issue_id_p" AND "admitted";
       END LOOP;
       PERFORM "add_vote_delegations"("issue_id_p");
       UPDATE "issue" SET
@@ -4019,7 +4020,8 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
         FOR UPDATE;
       IF "issue_row"."cleaned" ISNULL THEN
         UPDATE "issue" SET
-          "closed" = NULL,
+          "state"           = 'voting',
+          "closed"          = NULL,
           "ranks_available" = FALSE
           WHERE "id" = "issue_id_p";
         DELETE FROM "delegating_voter"
@@ -4041,6 +4043,7 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
         DELETE FROM "supporter"
           WHERE "issue_id" = "issue_id_p";
         UPDATE "issue" SET
+          "state"           = "issue_row"."state",
           "closed"          = "issue_row"."closed",
           "ranks_available" = "issue_row"."ranks_available",
           "cleaned"         = now()
