@@ -337,7 +337,7 @@ COMMENT ON COLUMN "policy"."majority_positive"     IS 'Absolute number of "posit
 COMMENT ON COLUMN "policy"."majority_non_negative" IS 'Absolute number of sum of "positive_votes" and abstentions neccessary for an initiative to be "attainable".';
 COMMENT ON COLUMN "policy"."majority_indirect"     IS 'If TRUE, then the majority specified by "majority_num", "majority_den", "majority_strict", "majority_positive" and "majority_non_negative" might be indirect; if FALSE, then the status quo must be beaten directly with that majority';
 COMMENT ON COLUMN "policy"."no_reverse_beat_path"  IS 'Causes initiatives with "reverse_beat_path" flag to not be "eligible", thus disallowing them to be winner. See comment on column "initiative"."reverse_beat_path".';
-COMMENT ON COLUMN "policy"."no_multistage_majority" IS 'Causes initiatives with "multistage_majority" flag to not be "eligible", thus disallowing them to be winner. See comment on column "initiative"."multistage_majority".';
+COMMENT ON COLUMN "policy"."no_multistage_majority" IS 'Causes initiatives with "multistage_majority" flag to not be "eligible", thus disallowing them to be winner. See comment on column "initiative"."multistage_majority". This flag is ignored, if "policy"."majority_indirect" is set to TRUE.';
 
 
 CREATE TABLE "unit" (
@@ -3843,6 +3843,7 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
             AND "initiative"."favored_to_status_quo"
             AND (
               "policy"."no_multistage_majority" = FALSE OR
+              "policy"."majority_indirect" = TRUE OR
               "initiative"."multistage_majority" = FALSE )
             AND (
               "policy"."no_reverse_beat_path" = FALSE OR
