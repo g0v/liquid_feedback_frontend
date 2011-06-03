@@ -313,8 +313,9 @@ CREATE TABLE "policy" (
         "majority_strict"       BOOLEAN         NOT NULL DEFAULT TRUE,
         "majority_positive"     INT4            NOT NULL DEFAULT 0,
         "majority_non_negative" INT4            NOT NULL DEFAULT 0,
-        "no_multistage_majority" BOOLEAN        NOT NULL DEFAULT FALSE,
-        "no_reverse_beat_path"  BOOLEAN         NOT NULL DEFAULT FALSE );
+        "majority_indirect"     BOOLEAN         NOT NULL DEFAULT TRUE,
+        "no_reverse_beat_path"  BOOLEAN         NOT NULL DEFAULT TRUE,
+        "no_multistage_majority" BOOLEAN        NOT NULL DEFAULT FALSE );
 CREATE INDEX "policy_active_idx" ON "policy" ("active");
 
 COMMENT ON TABLE "policy" IS 'Policies for a particular proceeding type (timelimits, quorum)';
@@ -334,8 +335,9 @@ COMMENT ON COLUMN "policy"."majority_den"          IS 'Denominator of fraction o
 COMMENT ON COLUMN "policy"."majority_strict"       IS 'If TRUE, then the majority must be strictly greater than "majority_num"/"majority_den", otherwise it may also be equal.';
 COMMENT ON COLUMN "policy"."majority_positive"     IS 'Absolute number of "positive_votes" neccessary for an initiative to be "attainable".';
 COMMENT ON COLUMN "policy"."majority_non_negative" IS 'Absolute number of sum of "positive_votes" and abstentions neccessary for an initiative to be "attainable".';
-COMMENT ON COLUMN "policy"."no_multistage_majority" IS 'Causes initiatives with "multistage_majority" flag to not be "eligible", thus disallowing them to be winner. See comment on column "initiative"."multistage_majority".';
+COMMENT ON COLUMN "policy"."majority_indirect"     IS 'If TRUE, then the majority specified by "majority_num", "majority_den", "majority_strict", "majority_positive" and "majority_non_negative" might be indirect; if FALSE, then the status quo must be beaten directly with that majority';
 COMMENT ON COLUMN "policy"."no_reverse_beat_path"  IS 'Causes initiatives with "reverse_beat_path" flag to not be "eligible", thus disallowing them to be winner. See comment on column "initiative"."reverse_beat_path".';
+COMMENT ON COLUMN "policy"."no_multistage_majority" IS 'Causes initiatives with "multistage_majority" flag to not be "eligible", thus disallowing them to be winner. See comment on column "initiative"."multistage_majority".';
 
 
 CREATE TABLE "unit" (
@@ -3543,55 +3545,6 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
           FROM "direct_voter" WHERE "issue_id" = "issue_id_p"
         )
         WHERE "id" = "issue_id_p";
-      -- calculate "positive_votes", "negative_votes" and "attainable":
-      UPDATE "initiative" SET
-        "positive_votes" = "vote_counts"."positive_votes",
-        "negative_votes" = "vote_counts"."negative_votes",
-        "attainable" =
-          CASE WHEN "majority_strict" THEN
-            "vote_counts"."positive_votes" * "majority_den" >
-            "majority_num" *
-            ("vote_counts"."positive_votes"+"vote_counts"."negative_votes")
-          ELSE
-            "vote_counts"."positive_votes" * "majority_den" >=
-            "majority_num" *
-            ("vote_counts"."positive_votes"+"vote_counts"."negative_votes")
-          END
-          AND "vote_counts"."positive_votes" >= "policy"."majority_positive"
-          AND "issue"."voter_count"-"vote_counts"."negative_votes" >=
-              "policy"."majority_non_negative"
-        FROM
-          ( SELECT
-              "initiative"."id" AS "initiative_id",
-              coalesce(
-                sum(
-                  CASE WHEN "grade" > 0 THEN "direct_voter"."weight" ELSE 0 END
-                ),
-                0
-              ) AS "positive_votes",
-              coalesce(
-                sum(
-                  CASE WHEN "grade" < 0 THEN "direct_voter"."weight" ELSE 0 END
-                ),
-                0
-              ) AS "negative_votes"
-            FROM "initiative"
-            JOIN "issue" ON "initiative"."issue_id" = "issue"."id"
-            JOIN "policy" ON "issue"."policy_id" = "policy"."id"
-            LEFT JOIN "direct_voter"
-              ON "direct_voter"."issue_id" = "initiative"."issue_id"
-            LEFT JOIN "vote"
-              ON "vote"."initiative_id" = "initiative"."id"
-              AND "vote"."member_id" = "direct_voter"."member_id"
-            WHERE "initiative"."issue_id" = "issue_id_p"
-            AND "initiative"."admitted"  -- NOTE: NULL case is handled too
-            GROUP BY "initiative"."id"
-          ) AS "vote_counts",
-          "issue",
-          "policy"
-        WHERE "vote_counts"."initiative_id" = "initiative"."id"
-        AND "issue"."id" = "initiative"."issue_id"
-        AND "policy"."id" = "issue"."policy_id";
       -- materialize battle_view:
       -- NOTE: "closed" column of issue must be set at this point
       DELETE FROM "battle" WHERE "issue_id" = "issue_id_p";
@@ -3604,6 +3557,18 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
         "winning_initiative_id", "losing_initiative_id",
         "count"
         FROM "battle_view" WHERE "issue_id" = "issue_id_p";
+      -- copy "positive_votes" and "negative_votes" from "battle" table:
+      UPDATE "initiative" SET
+        "positive_votes" = "battle_win"."count",
+        "negative_votes" = "battle_lose"."count"
+        FROM "battle" AS "battle_win", "battle" AS "battle_lose"
+        WHERE
+          "battle_win"."issue_id" = "issue_id_p" AND
+          "battle_win"."winning_initiative_id" = "initiative"."id" AND
+          "battle_win"."losing_initiative_id" ISNULL AND
+          "battle_lose"."issue_id" = "issue_id_p" AND
+          "battle_lose"."losing_initiative_id" = "initiative"."id" AND
+          "battle_lose"."winning_initiative_id" ISNULL;
     END;
   $$;
 
@@ -3634,6 +3599,8 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     DECLARE
+      "issue_row"         "issue"%ROWTYPE;
+      "policy_row"        "policy"%ROWTYPE;
       "dimension_v"       INTEGER;
       "vote_matrix"       INT4[][];  -- absolute votes
       "matrix"            INT8[][];  -- defeat strength / best paths
@@ -3647,7 +3614,11 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
       "winners_ary"       INTEGER[];
       "initiative_id_v"   "initiative"."id"%TYPE;
     BEGIN
-      PERFORM NULL FROM "issue" WHERE "id" = "issue_id_p" FOR UPDATE;
+      SELECT * INTO "issue_row"
+        FROM "issue" WHERE "id" = "issue_id_p"
+        FOR UPDATE;
+      SELECT * INTO "policy_row"
+        FROM "policy" WHERE "id" = "issue_row"."policy_id";
       SELECT count(1) INTO "dimension_v"
         FROM "battle_participant" WHERE "issue_id" = "issue_id_p";
       IF "dimension_v" > 1 THEN
@@ -3772,6 +3743,17 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           ORDER BY "id"
         LOOP
           UPDATE "initiative" SET
+            "attainable" =
+              CASE WHEN "policy_row"."majority_strict" THEN
+                "positive_votes" * "policy_row"."majority_den" >
+                "policy_row"."majority_num" * ("positive_votes"+"negative_votes")
+              ELSE
+                "positive_votes" * "policy_row"."majority_den" >=
+                "policy_row"."majority_num" * ("positive_votes"+"negative_votes")
+              END
+              AND "positive_votes" >= "policy_row"."majority_positive"
+              AND "issue_row"."voter_count"-"negative_votes" >=
+                  "policy_row"."majority_non_negative",
             "favored_to_status_quo"   = "rank_ary"["i"] < "rank_ary"["dimension_v"],
             "unfavored_to_status_quo" = "rank_ary"["i"] > "rank_ary"["dimension_v"],
             "schulze_rank"            = "rank_ary"["i"],
@@ -3783,17 +3765,43 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
         IF "i" != "dimension_v" THEN
           RAISE EXCEPTION 'Wrong winner count (should not happen)';
         END IF;
-
-        -- remove possible gap in preliminary ranks:
-        --IF NOT EXISTS (
-        --  SELECT NULL FROM "initiative"
-        --  WHERE "issue_id" = "issue_id_p"
-        --  AND "favored_to_status_quo"=FALSE AND "unfavored_to_status_quo"=FALSE
-        --) THEN
-        --  UPDATE "initiative" SET "schulze_rank" = "schulze_rank" - 1
-        --    WHERE "issue_id" = "issue_id_p" AND "unfavored";
-        --END IF;
-
+        if "policy_row"."majority_indirect" THEN
+          -- take indirect majorities into account:
+          LOOP
+            UPDATE "initiative" SET "attainable" = TRUE
+              FROM (
+                SELECT "new_initiative"."id" AS "initiative_id"
+                FROM "initiative" "old_initiative"
+                JOIN "initiative" "new_initiative"
+                  ON "new_initiative"."issue_id" = "issue_id_p"
+                  AND "new_initiative"."attainable" = FALSE
+                JOIN "battle" "battle_win"
+                  ON "battle_win"."issue_id" = "issue_id_p"
+                  AND "battle_win"."winning_initiative_id" = "new_initiative"."id"
+                  AND "battle_win"."losing_initiative_id" = "old_initiative"."id"
+                JOIN "battle" "battle_lose"
+                  ON "battle_lose"."issue_id" = "issue_id_p"
+                  AND "battle_lose"."losing_initiative_id" = "new_initiative"."id"
+                  AND "battle_lose"."winning_initiative_id" = "old_initiative"."id"
+                WHERE "old_initiative"."issue_id" = "issue_id_p"
+                AND "old_initiative"."attainable" = TRUE
+                AND CASE WHEN "policy_row"."majority_strict" THEN
+                  "battle_win"."count" * "policy_row"."majority_den" >
+                  "policy_row"."majority_num" *
+                  ("battle_win"."count"+"battle_lose"."count")
+                ELSE
+                  "battle_win"."count" * "policy_row"."majority_den" >=
+                  "policy_row"."majority_num" *
+                  ("battle_win"."count"+"battle_lose"."count")
+                END
+                AND "battle_win"."count" >= "policy_row"."majority_positive"
+                AND "issue_row"."voter_count"-"battle_lose"."count" >=
+                    "policy_row"."majority_non_negative"
+              ) AS "subquery"
+              WHERE "id" = "subquery"."initiative_id";
+            EXIT WHEN NOT FOUND;
+          END LOOP;
+        END IF;
         -- set "multistage_majority" for remaining matching initiatives:
          UPDATE "initiative" SET "multistage_majority" = TRUE
           FROM (

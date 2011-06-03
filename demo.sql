@@ -32,24 +32,26 @@ INSERT INTO "member" ("login", "name") VALUES
 UPDATE "member" SET "password" = '$1$PcI6b1Bg$2SHjAZH2nMLFp0fxHis.Q0';
 
 INSERT INTO "policy" (
-        "index",
-        "name",
-        "admission_time",
-        "discussion_time",
-        "verification_time",
-        "voting_time",
-        "issue_quorum_num", "issue_quorum_den",
-        "initiative_quorum_num", "initiative_quorum_den",
-	"majority_num", "majority_den", "majority_strict",
-	"no_multistage_majority", "no_reverse_beat_path"
-    ) VALUES (
-        1,
-        'Default policy',
-        '1 hour', '1 hour', '1 hour', '1 hour',
-        25, 100,
-        20, 100,
-        1, 2, TRUE,
-        TRUE, FALSE );
+    "index",
+    "name",
+    "admission_time",
+    "discussion_time",
+    "verification_time",
+    "voting_time",
+    "issue_quorum_num", "issue_quorum_den",
+    "initiative_quorum_num", "initiative_quorum_den",
+    "majority_num", "majority_den", "majority_strict",
+    "majority_indirect",
+    "no_reverse_beat_path", "no_multistage_majority"
+  ) VALUES (
+    1,
+    'Default policy',
+    '1 hour', '1 hour', '1 hour', '1 hour',
+    25, 100,
+    20, 100,
+    1, 2, TRUE,
+    TRUE,
+    TRUE, FALSE );
 
 CREATE FUNCTION "time_warp"() RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
