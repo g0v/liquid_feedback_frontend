@@ -681,6 +681,8 @@ CREATE TABLE "suggestion" (
         UNIQUE ("initiative_id", "id"),  -- index needed for foreign-key on table "opinion"
         "initiative_id"         INT4            NOT NULL REFERENCES "initiative" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "id"                    SERIAL8         PRIMARY KEY,
+        "draft_id"              INT8            NOT NULL,
+        FOREIGN KEY ("initiative_id", "draft_id") REFERENCES "draft" ("initiative_id", "id") ON DELETE NO ACTION ON UPDATE CASCADE,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "author_id"             INT4            NOT NULL REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
         "name"                  TEXT            NOT NULL,
@@ -706,6 +708,7 @@ CREATE TRIGGER "update_text_search_data"
 
 COMMENT ON TABLE "suggestion" IS 'Suggestions to initiators, to change the current draft; must not be deleted explicitly, as they vanish automatically if the last opinion is deleted';
 
+COMMENT ON COLUMN "suggestion"."draft_id"                 IS 'Draft, which the author has seen when composing the suggestion; should always be set by a frontend, but defaults to current draft of the initiative (implemented by trigger "default_for_draft_id")';
 COMMENT ON COLUMN "suggestion"."minus2_unfulfilled_count" IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
 COMMENT ON COLUMN "suggestion"."minus2_fulfilled_count"   IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
 COMMENT ON COLUMN "suggestion"."minus1_unfulfilled_count" IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
@@ -812,12 +815,12 @@ CREATE TABLE "supporter" (
         "member_id"             INT4,
         "draft_id"              INT8            NOT NULL,
         FOREIGN KEY ("issue_id", "member_id") REFERENCES "interest" ("issue_id", "member_id") ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY ("initiative_id", "draft_id") REFERENCES "draft" ("initiative_id", "id") ON DELETE CASCADE ON UPDATE CASCADE );
+        FOREIGN KEY ("initiative_id", "draft_id") REFERENCES "draft" ("initiative_id", "id") ON DELETE NO ACTION ON UPDATE CASCADE );
 CREATE INDEX "supporter_member_id_idx" ON "supporter" ("member_id");
 
 COMMENT ON TABLE "supporter" IS 'Members who support an initiative (conditionally); Frontends must ensure that supporters are not added or removed from fully_frozen or closed initiatives.';
 
-COMMENT ON COLUMN "supporter"."draft_id" IS 'Latest seen draft, defaults to current draft of the initiative (implemented by trigger "default_for_draft_id")';
+COMMENT ON COLUMN "supporter"."draft_id" IS 'Latest seen draft; should always be set by a frontend, but defaults to current draft of the initiative (implemented by trigger "default_for_draft_id")';
 
 
 CREATE TABLE "opinion" (
@@ -1610,7 +1613,7 @@ COMMENT ON FUNCTION "copy_timings_trigger"() IS 'Implementation of trigger "copy
 COMMENT ON TRIGGER "copy_timings" ON "issue" IS 'If timing fields are NULL, copy values from policy.';
 
 
-CREATE FUNCTION "supporter_default_for_draft_id_trigger"()
+CREATE FUNCTION "default_for_draft_id_trigger"()
   RETURNS TRIGGER
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
@@ -1622,11 +1625,14 @@ CREATE FUNCTION "supporter_default_for_draft_id_trigger"()
     END;
   $$;
 
+CREATE TRIGGER "default_for_draft_id" BEFORE INSERT OR UPDATE ON "suggestion"
+  FOR EACH ROW EXECUTE PROCEDURE "default_for_draft_id_trigger"();
 CREATE TRIGGER "default_for_draft_id" BEFORE INSERT OR UPDATE ON "supporter"
-  FOR EACH ROW EXECUTE PROCEDURE "supporter_default_for_draft_id_trigger"();
+  FOR EACH ROW EXECUTE PROCEDURE "default_for_draft_id_trigger"();
 
-COMMENT ON FUNCTION "supporter_default_for_draft_id_trigger"() IS 'Implementation of trigger "default_for_draft" on table "supporter"';
-COMMENT ON TRIGGER "default_for_draft_id" ON "supporter"       IS 'If "draft_id" is NULL, then use the current draft of the initiative as default';
+COMMENT ON FUNCTION "default_for_draft_id_trigger"() IS 'Implementation of trigger "default_for_draft" on tables "supporter" and "suggestion"';
+COMMENT ON TRIGGER "default_for_draft_id" ON "suggestion" IS 'If "draft_id" is NULL, then use the current draft of the initiative as default';
+COMMENT ON TRIGGER "default_for_draft_id" ON "supporter"  IS 'If "draft_id" is NULL, then use the current draft of the initiative as default';
 
 
 
