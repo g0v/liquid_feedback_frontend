@@ -330,14 +330,14 @@ COMMENT ON COLUMN "policy"."issue_quorum_num"      IS   'Numerator of potential 
 COMMENT ON COLUMN "policy"."issue_quorum_den"      IS 'Denominator of potential supporter quorum to be reached by one initiative of an issue to be "accepted"';
 COMMENT ON COLUMN "policy"."initiative_quorum_num" IS   'Numerator of satisfied supporter quorum  to be reached by an initiative to be "admitted" for voting';
 COMMENT ON COLUMN "policy"."initiative_quorum_den" IS 'Denominator of satisfied supporter quorum to be reached by an initiative to be "admitted" for voting';
-COMMENT ON COLUMN "policy"."majority_num"          IS   'Numerator of fraction of majority to be reached during voting by an initiative to be "attainable"';
-COMMENT ON COLUMN "policy"."majority_den"          IS 'Denominator of fraction of majority to be reached during voting by an initiative to be "attainable"';
+COMMENT ON COLUMN "policy"."majority_num"          IS   'Numerator of fraction of majority to be reached during voting by an initiative to be an "attainable" winner';
+COMMENT ON COLUMN "policy"."majority_den"          IS 'Denominator of fraction of majority to be reached during voting by an initiative to be an "attainable" winner';
 COMMENT ON COLUMN "policy"."majority_strict"       IS 'If TRUE, then the majority must be strictly greater than "majority_num"/"majority_den", otherwise it may also be equal.';
-COMMENT ON COLUMN "policy"."majority_positive"     IS 'Absolute number of "positive_votes" neccessary for an initiative to be "attainable".';
-COMMENT ON COLUMN "policy"."majority_non_negative" IS 'Absolute number of sum of "positive_votes" and abstentions neccessary for an initiative to be "attainable".';
-COMMENT ON COLUMN "policy"."majority_indirect"     IS 'If TRUE, then the majority specified by "majority_num", "majority_den", "majority_strict", "majority_positive" and "majority_non_negative" might be indirect; if FALSE, then the status quo must be beaten directly with that majority';
-COMMENT ON COLUMN "policy"."no_reverse_beat_path"  IS 'Causes initiatives with "reverse_beat_path" flag to not be "eligible", thus disallowing them to be winner. See comment on column "initiative"."reverse_beat_path".';
-COMMENT ON COLUMN "policy"."no_multistage_majority" IS 'Causes initiatives with "multistage_majority" flag to not be "eligible", thus disallowing them to be winner. See comment on column "initiative"."multistage_majority". This flag does not affect the winner, if "policy"."majority_indirect" is set to TRUE or "policy"."majority_num" is set to zero.';
+COMMENT ON COLUMN "policy"."majority_positive"     IS 'Absolute number of "positive_votes" neccessary for an initiative to be an "attainable" winner.';
+COMMENT ON COLUMN "policy"."majority_non_negative" IS 'Absolute number of sum of "positive_votes" and abstentions neccessary for an initiative to be an "attainable" winner.';
+COMMENT ON COLUMN "policy"."majority_indirect"     IS 'If TRUE, then the majority specified by "majority_num", "majority_den", "majority_strict", "majority_positive" and "majority_non_negative" may be indirect through a beat path; if FALSE, then the status quo must be beaten directly with that majority';
+COMMENT ON COLUMN "policy"."no_reverse_beat_path"  IS 'Causes initiatives with "reverse_beat_path" flag to not be "eligible", thus disallowing them to be winner. See comment on column "initiative"."reverse_beat_path". This option ensures both that a winning initiative is never tied in a (weak) condorcet paradox with the status quo and a winning initiative always beats the status quo directly with a simple majority.';
+COMMENT ON COLUMN "policy"."no_multistage_majority" IS 'Causes initiatives with "multistage_majority" flag to not be "eligible", thus disallowing them to be winner. See comment on column "initiative"."multistage_majority". This disqualifies initiatives which could cause an instable result. An instable result in this meaning is a result such that repeating the ballot with same preferences but with the winner of the first ballot as status quo would lead to a different winner in the second ballot. If (a) "majority_indirect" is TRUE, or (b) "no_reverse_beat_path" is TRUE and "majority_num"/"majority_den" is only a simple majority, or (c) "majority_num" is zero, then results are always stable and this flag does not have any effect on the winner (but still affects the "eligible" flag of an "initiative").';
 
 
 CREATE TABLE "unit" (
@@ -547,8 +547,8 @@ CREATE TABLE "initiative" (
         "favored_to_status_quo" BOOLEAN,
         "unfavored_to_status_quo" BOOLEAN,
         "schulze_rank"          INT4,
-        "multistage_majority"   BOOLEAN,
         "reverse_beat_path"     BOOLEAN,
+        "multistage_majority"   BOOLEAN,
         "eligible"              BOOLEAN,
         "winner"                BOOLEAN,
         "text_search_data"      TSVECTOR,
@@ -591,9 +591,9 @@ COMMENT ON COLUMN "initiative"."attainable"              IS 'TRUE, if "positive_
 COMMENT ON COLUMN "initiative"."favored_to_status_quo"   IS 'TRUE, if initiative has a schulze-ranking better than the status quo (without tie-breaking)';
 COMMENT ON COLUMN "initiative"."unfavored_to_status_quo" IS 'TRUE, if initiative has a schulze-ranking worse than the status quo (without tie-breaking)';
 COMMENT ON COLUMN "initiative"."schulze_rank"            IS 'Schulze-Ranking without tie-breaking';
+COMMENT ON COLUMN "initiative"."reverse_beat_path"       IS 'TRUE, if there is a beat path (may include ties), from this initiative to the status quo';
 COMMENT ON COLUMN "initiative"."multistage_majority"     IS 'TRUE, if either (a) this initiative has no better rank than the status quo, or (b) there exists a better ranked initiative X, which directly beats this initiative, and either more voters prefer X to this initiative than voters preferring X to the status quo or less voters prefer this initiative to X than voters preferring the status quo to X';
-COMMENT ON COLUMN "initiative"."reverse_beat_path"       IS 'TRUE, if there a beat path (may include ties), from this initiative to the status quo';
-COMMENT ON COLUMN "initiative"."eligible"                IS 'Initiative is "attainable" and depending on selected policy has no "multistage_majority" or "reverse_beat_path"';
+COMMENT ON COLUMN "initiative"."eligible"                IS 'Initiative is "attainable" and depending on selected policy has no "reverse_beat_path" or "multistage_majority"';
 COMMENT ON COLUMN "initiative"."winner"                  IS 'Winner is the "eligible" initiative with best "schulze_rank" and in case of ties with lowest "id"';
 
 
