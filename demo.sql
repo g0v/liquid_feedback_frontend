@@ -185,7 +185,7 @@ INSERT INTO "supporter" ("member_id", "initiative_id", "draft_id") VALUES
   (20,  4,  4),
   (20,  5,  5);
 
-INSERT INTO "suggestion" ("initiative_id", "author_id", "name", "description") VALUES
+INSERT INTO "suggestion" ("initiative_id", "author_id", "name", "content") VALUES
   (1, 19, 'Suggestion #1', 'Lorem ipsum...');  -- id 1
 INSERT INTO "opinion" ("member_id", "suggestion_id", "degree", "fulfilled") VALUES
   (14, 1, 2, FALSE);

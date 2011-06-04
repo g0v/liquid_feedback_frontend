@@ -115,6 +115,7 @@ CREATE TABLE "member" (
         "profession"            TEXT,
         "external_memberships"  TEXT,
         "external_posts"        TEXT,
+        "formatting_engine"     TEXT,
         "statement"             TEXT,
         "text_search_data"      TSVECTOR );
 CREATE INDEX "member_active_idx" ON "member" ("active");
@@ -150,6 +151,7 @@ COMMENT ON COLUMN "member"."realname"             IS 'Real name of the member, m
 COMMENT ON COLUMN "member"."email"                IS 'Published email address of the member; not used for system notifications';
 COMMENT ON COLUMN "member"."external_memberships" IS 'Other organizations the member is involved in';
 COMMENT ON COLUMN "member"."external_posts"       IS 'Posts (offices) outside the organization';
+COMMENT ON COLUMN "member"."formatting_engine"    IS 'Allows different formatting engines (i.e. wiki formats) to be used for "member"."statement"';
 COMMENT ON COLUMN "member"."statement"            IS 'Freely chosen text of the member for his homepage within the system';
 
 
@@ -165,6 +167,15 @@ COMMENT ON TABLE "member_history" IS 'Filled by trigger; keeps information about
 
 COMMENT ON COLUMN "member_history"."id"    IS 'Primary key, which can be used to sort entries correctly (and time warp resistant)';
 COMMENT ON COLUMN "member_history"."until" IS 'Timestamp until the data was valid';
+
+
+CREATE TABLE "rendered_member_statement" (
+        PRIMARY KEY ("member_id", "format"),
+        "member_id"             INT8            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "format"                TEXT,
+        "content"               TEXT            NOT NULL );
+
+COMMENT ON TABLE "rendered_member_statement" IS 'This table may be used by frontends to cache "rendered" member statements (e.g. HTML output generated from wiki text)';
 
 
 CREATE TABLE "invite_code" (
@@ -673,7 +684,8 @@ CREATE TABLE "suggestion" (
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "author_id"             INT4            NOT NULL REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
         "name"                  TEXT            NOT NULL,
-        "description"           TEXT            NOT NULL DEFAULT '',
+        "formatting_engine"     TEXT,
+        "content"               TEXT            NOT NULL DEFAULT '',
         "text_search_data"      TSVECTOR,
         "minus2_unfulfilled_count" INT4,
         "minus2_fulfilled_count"   INT4,
@@ -690,7 +702,7 @@ CREATE TRIGGER "update_text_search_data"
   BEFORE INSERT OR UPDATE ON "suggestion"
   FOR EACH ROW EXECUTE PROCEDURE
   tsvector_update_trigger('text_search_data', 'pg_catalog.simple',
-    "name", "description");
+    "name", "content");
 
 COMMENT ON TABLE "suggestion" IS 'Suggestions to initiators, to change the current draft; must not be deleted explicitly, as they vanish automatically if the last opinion is deleted';
 
@@ -702,6 +714,15 @@ COMMENT ON COLUMN "suggestion"."plus1_unfulfilled_count"  IS 'Calculated from ta
 COMMENT ON COLUMN "suggestion"."plus1_fulfilled_count"    IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
 COMMENT ON COLUMN "suggestion"."plus2_unfulfilled_count"  IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
 COMMENT ON COLUMN "suggestion"."plus2_fulfilled_count"    IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
+
+
+CREATE TABLE "rendered_suggestion" (
+        PRIMARY KEY ("suggestion_id", "format"),
+        "suggestion_id"         INT8            REFERENCES "suggestion" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "format"                TEXT,
+        "content"               TEXT            NOT NULL );
+
+COMMENT ON TABLE "rendered_suggestion" IS 'This table may be used by frontends to cache "rendered" drafts (e.g. HTML output generated from wiki text)';
 
 
 CREATE TABLE "suggestion_setting" (
