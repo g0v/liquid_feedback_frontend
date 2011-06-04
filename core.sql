@@ -4111,6 +4111,8 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
           WHERE "issue_id" = "issue_id_p";
         DELETE FROM "supporter"
           WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "issue_autoreject"
+          WHERE "issue_id" = "issue_id_p";
         UPDATE "issue" SET
           "state"           = "issue_row"."state",
           "closed"          = "issue_row"."closed",
