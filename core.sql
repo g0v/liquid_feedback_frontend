@@ -4024,6 +4024,10 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
           "closed"          = NULL,
           "ranks_available" = FALSE
           WHERE "id" = "issue_id_p";
+        DELETE FROM "issue_comment"
+          WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "voting_comment"
+          WHERE "issue_id" = "issue_id_p";
         DELETE FROM "delegating_voter"
           WHERE "issue_id" = "issue_id_p";
         DELETE FROM "direct_voter"
