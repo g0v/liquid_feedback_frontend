@@ -319,14 +319,18 @@ CREATE TABLE "policy" (
         "issue_quorum_den"      INT4            NOT NULL,
         "initiative_quorum_num" INT4            NOT NULL,
         "initiative_quorum_den" INT4            NOT NULL,
-        "majority_num"          INT4            NOT NULL DEFAULT 1,
-        "majority_den"          INT4            NOT NULL DEFAULT 2,
-        "majority_strict"       BOOLEAN         NOT NULL DEFAULT TRUE,
-        "majority_positive"     INT4            NOT NULL DEFAULT 0,
-        "majority_non_negative" INT4            NOT NULL DEFAULT 0,
-        "majority_indirect"     BOOLEAN         NOT NULL DEFAULT TRUE,
-        "no_reverse_beat_path"  BOOLEAN         NOT NULL DEFAULT TRUE,
-        "no_multistage_majority" BOOLEAN        NOT NULL DEFAULT FALSE );
+        "direct_majority_num"           INT4    NOT NULL DEFAULT 1,
+        "direct_majority_den"           INT4    NOT NULL DEFAULT 2,
+        "direct_majority_strict"        BOOLEAN NOT NULL DEFAULT TRUE,
+        "direct_majority_positive"      INT4    NOT NULL DEFAULT 0,
+        "direct_majority_non_negative"  INT4    NOT NULL DEFAULT 0,
+        "indirect_majority_num"         INT4    NOT NULL DEFAULT 1,
+        "indirect_majority_den"         INT4    NOT NULL DEFAULT 2,
+        "indirect_majority_strict"      BOOLEAN NOT NULL DEFAULT TRUE,
+        "indirect_majority_positive"    INT4    NOT NULL DEFAULT 0,
+        "indirect_majority_non_negative" INT4   NOT NULL DEFAULT 0,
+        "no_reverse_beat_path"          BOOLEAN NOT NULL DEFAULT TRUE,
+        "no_multistage_majority"        BOOLEAN NOT NULL DEFAULT FALSE );
 CREATE INDEX "policy_active_idx" ON "policy" ("active");
 
 COMMENT ON TABLE "policy" IS 'Policies for a particular proceeding type (timelimits, quorum)';
@@ -341,14 +345,18 @@ COMMENT ON COLUMN "policy"."issue_quorum_num"      IS   'Numerator of potential 
 COMMENT ON COLUMN "policy"."issue_quorum_den"      IS 'Denominator of potential supporter quorum to be reached by one initiative of an issue to be "accepted"';
 COMMENT ON COLUMN "policy"."initiative_quorum_num" IS   'Numerator of satisfied supporter quorum  to be reached by an initiative to be "admitted" for voting';
 COMMENT ON COLUMN "policy"."initiative_quorum_den" IS 'Denominator of satisfied supporter quorum to be reached by an initiative to be "admitted" for voting';
-COMMENT ON COLUMN "policy"."majority_num"          IS   'Numerator of fraction of majority to be reached during voting by an initiative to be an "attainable" winner';
-COMMENT ON COLUMN "policy"."majority_den"          IS 'Denominator of fraction of majority to be reached during voting by an initiative to be an "attainable" winner';
-COMMENT ON COLUMN "policy"."majority_strict"       IS 'If TRUE, then the majority must be strictly greater than "majority_num"/"majority_den", otherwise it may also be equal.';
-COMMENT ON COLUMN "policy"."majority_positive"     IS 'Absolute number of "positive_votes" neccessary for an initiative to be an "attainable" winner.';
-COMMENT ON COLUMN "policy"."majority_non_negative" IS 'Absolute number of sum of "positive_votes" and abstentions neccessary for an initiative to be an "attainable" winner.';
-COMMENT ON COLUMN "policy"."majority_indirect"     IS 'If TRUE, then the majority specified by "majority_num", "majority_den", "majority_strict", "majority_positive" and "majority_non_negative" may be indirect through a beat path; if FALSE, then the status quo must be beaten directly with that majority';
+COMMENT ON COLUMN "policy"."direct_majority_num"            IS 'Numerator of fraction of neccessary direct majority for initiatives to be attainable as winner';
+COMMENT ON COLUMN "policy"."direct_majority_den"            IS 'Denominator of fraction of neccessary direct majority for initaitives to be attainable as winner';
+COMMENT ON COLUMN "policy"."direct_majority_strict"         IS 'If TRUE, then the direct majority must be strictly greater than "direct_majority_num"/"direct_majority_den", otherwise it may also be equal.';
+COMMENT ON COLUMN "policy"."direct_majority_positive"       IS 'Absolute number of "positive_votes" neccessary for an initiative to be attainable as winner';
+COMMENT ON COLUMN "policy"."direct_majority_non_negative"   IS 'Absolute number of sum of "positive_votes" and abstentions neccessary for an initiative to be attainable as winner';
+COMMENT ON COLUMN "policy"."indirect_majority_num"          IS 'Numerator of fraction of neccessary indirect majority (through beat path) for initiatives to be attainable as winner';
+COMMENT ON COLUMN "policy"."indirect_majority_den"          IS 'Denominator of fraction of neccessary indirect majority (through beat path) for initiatives to be attainable as winner';
+COMMENT ON COLUMN "policy"."indirect_majority_strict"       IS 'If TRUE, then the indirect majority must be strictly greater than "indirect_majority_num"/"indirect_majority_den", otherwise it may also be equal.';
+COMMENT ON COLUMN "policy"."indirect_majority_positive"     IS 'Absolute number of votes in favor of the winner neccessary in a beat path to the status quo for an initaitive to be attainable as winner';
+COMMENT ON COLUMN "policy"."indirect_majority_non_negative" IS 'Absolute number of sum of votes in favor and abstentions in a beat path to the status quo for an initiative to be attainable as winner';
 COMMENT ON COLUMN "policy"."no_reverse_beat_path"  IS 'Causes initiatives with "reverse_beat_path" flag to not be "eligible", thus disallowing them to be winner. See comment on column "initiative"."reverse_beat_path". This option ensures both that a winning initiative is never tied in a (weak) condorcet paradox with the status quo and a winning initiative always beats the status quo directly with a simple majority.';
-COMMENT ON COLUMN "policy"."no_multistage_majority" IS 'Causes initiatives with "multistage_majority" flag to not be "eligible", thus disallowing them to be winner. See comment on column "initiative"."multistage_majority". This disqualifies initiatives which could cause an instable result. An instable result in this meaning is a result such that repeating the ballot with same preferences but with the winner of the first ballot as status quo would lead to a different winner in the second ballot. If (a) "majority_indirect" is TRUE, or (b) "no_reverse_beat_path" is TRUE and "majority_num"/"majority_den" is only a simple majority, or (c) "majority_num" is zero, then results are always stable and this flag does not have any effect on the winner (but still affects the "eligible" flag of an "initiative").';
+COMMENT ON COLUMN "policy"."no_multistage_majority" IS 'Causes initiatives with "multistage_majority" flag to not be "eligible", thus disallowing them to be winner. See comment on column "initiative"."multistage_majority". This disqualifies initiatives which could cause an instable result. An instable result in this meaning is a result such that repeating the ballot with same preferences but with the winner of the first ballot as status quo would lead to a different winner in the second ballot. If there are no direct majorities required for the winner, or if in direct comparison only simple majorities are required and "no_reverse_beat_path" is true, then results are always stable and this flag does not have any effect on the winner (but still affects the "eligible" flag of an "initiative").';
 
 
 CREATE TABLE "unit" (
@@ -554,9 +562,10 @@ CREATE TABLE "initiative" (
         "satisfied_informed_supporter_count" INT4,
         "positive_votes"        INT4,
         "negative_votes"        INT4,
-        "attainable"            BOOLEAN,
-        "favored_to_status_quo" BOOLEAN,
-        "unfavored_to_status_quo" BOOLEAN,
+        "direct_majority"       BOOLEAN,
+        "indirect_majority"     BOOLEAN,
+        "better_than_status_quo" BOOLEAN,
+        "worse_than_status_quo" BOOLEAN,
         "schulze_rank"          INT4,
         "reverse_beat_path"     BOOLEAN,
         "multistage_majority"   BOOLEAN,
@@ -571,12 +580,13 @@ CREATE TABLE "initiative" (
           CHECK ("revoked" ISNULL OR "admitted" ISNULL),
         CONSTRAINT "non_admitted_initiatives_cant_contain_voting_results" CHECK (
           ( "admitted" NOTNULL AND "admitted" = TRUE ) OR
-          ( "positive_votes" ISNULL AND "negative_votes" ISNULL AND "attainable" ISNULL AND
-            "favored_to_status_quo" ISNULL AND "unfavored_to_status_quo" ISNULL AND
+          ( "positive_votes" ISNULL AND "negative_votes" ISNULL AND
+            "direct_majority" ISNULL AND "indirect_majority" ISNULL AND
+            "better_than_status_quo" ISNULL AND "worse_than_status_quo" ISNULL AND
             "schulze_rank" ISNULL AND
-            "multistage_majority" ISNULL AND "reverse_beat_path" ISNULL AND
-            "winner" ISNULL ) ),
-        CONSTRAINT "favored_excludes_unfavored" CHECK (NOT ("favored_to_status_quo" AND "unfavored_to_status_quo")) );
+            "reverse_beat_path" ISNULL AND "multistage_majority" ISNULL AND
+            "eligible" ISNULL AND "winner" ISNULL ) ),
+        CONSTRAINT "better_excludes_worse" CHECK (NOT ("better_than_status_quo" AND "worse_than_status_quo")) );
 CREATE INDEX "initiative_created_idx" ON "initiative" ("created");
 CREATE INDEX "initiative_revoked_idx" ON "initiative" ("revoked");
 CREATE INDEX "initiative_text_search_data_idx" ON "initiative" USING gin ("text_search_data");
@@ -598,9 +608,10 @@ COMMENT ON COLUMN "initiative"."satisfied_supporter_count"          IS 'Calculat
 COMMENT ON COLUMN "initiative"."satisfied_informed_supporter_count" IS 'Calculated from table "direct_supporter_snapshot"';
 COMMENT ON COLUMN "initiative"."positive_votes"          IS 'Calculated from table "direct_voter"';
 COMMENT ON COLUMN "initiative"."negative_votes"          IS 'Calculated from table "direct_voter"';
-COMMENT ON COLUMN "initiative"."attainable"              IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "majority_num"/"majority_den", and "positive_votes" is greater-equal than "majority_positive", and ("positive_votes"+abstentions) is greater-equal than "majority_non_negative"';
-COMMENT ON COLUMN "initiative"."favored_to_status_quo"   IS 'TRUE, if initiative has a schulze-ranking better than the status quo (without tie-breaking)';
-COMMENT ON COLUMN "initiative"."unfavored_to_status_quo" IS 'TRUE, if initiative has a schulze-ranking worse than the status quo (without tie-breaking)';
+COMMENT ON COLUMN "initiative"."direct_majority"         IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "direct_majority_num"/"direct_majority_den", and "positive_votes" is greater-equal than "direct_majority_positive", and ("positive_votes"+abstentions) is greater-equal than "direct_majority_non_negative"';
+COMMENT ON COLUMN "initiative"."indirect_majority"       IS 'Same as "direct_majority", but also considering indirect beat paths';
+COMMENT ON COLUMN "initiative"."better_than_status_quo"  IS 'TRUE, if initiative has a schulze-ranking better than the status quo (without tie-breaking)';
+COMMENT ON COLUMN "initiative"."worse_than_status_quo"   IS 'TRUE, if initiative has a schulze-ranking worse than the status quo (without tie-breaking)';
 COMMENT ON COLUMN "initiative"."schulze_rank"            IS 'Schulze-Ranking without tie-breaking';
 COMMENT ON COLUMN "initiative"."reverse_beat_path"       IS 'TRUE, if there is a beat path (may include ties), from this initiative to the status quo';
 COMMENT ON COLUMN "initiative"."multistage_majority"     IS 'TRUE, if either (a) this initiative has no better rank than the status quo, or (b) there exists a better ranked initiative X, which directly beats this initiative, and either more voters prefer X to this initiative than voters preferring X to the status quo or less voters prefer this initiative to X than voters preferring the status quo to X';
@@ -3770,65 +3781,74 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           ORDER BY "id"
         LOOP
           UPDATE "initiative" SET
-            "attainable" =
-              CASE WHEN "policy_row"."majority_strict" THEN
-                "positive_votes" * "policy_row"."majority_den" >
-                "policy_row"."majority_num" * ("positive_votes"+"negative_votes")
+            "direct_majority" =
+              CASE WHEN "policy_row"."direct_majority_strict" THEN
+                "positive_votes" * "policy_row"."direct_majority_den" >
+                "policy_row"."direct_majority_num" * ("positive_votes"+"negative_votes")
               ELSE
-                "positive_votes" * "policy_row"."majority_den" >=
-                "policy_row"."majority_num" * ("positive_votes"+"negative_votes")
+                "positive_votes" * "policy_row"."direct_majority_den" >=
+                "policy_row"."direct_majority_num" * ("positive_votes"+"negative_votes")
               END
-              AND "positive_votes" >= "policy_row"."majority_positive"
+              AND "positive_votes" >= "policy_row"."direct_majority_positive"
               AND "issue_row"."voter_count"-"negative_votes" >=
-                  "policy_row"."majority_non_negative",
-            "favored_to_status_quo"   = "rank_ary"["i"] < "rank_ary"["dimension_v"],
-            "unfavored_to_status_quo" = "rank_ary"["i"] > "rank_ary"["dimension_v"],
-            "schulze_rank"            = "rank_ary"["i"],
-            "multistage_majority"     = "rank_ary"["i"] >= "rank_ary"["dimension_v"],
-            "reverse_beat_path"       = "matrix"["dimension_v"]["i"] >= 0
+                  "policy_row"."direct_majority_non_negative",
+              "indirect_majority" =
+              CASE WHEN "policy_row"."indirect_majority_strict" THEN
+                "positive_votes" * "policy_row"."indirect_majority_den" >
+                "policy_row"."indirect_majority_num" * ("positive_votes"+"negative_votes")
+              ELSE
+                "positive_votes" * "policy_row"."indirect_majority_den" >=
+                "policy_row"."indirect_majority_num" * ("positive_votes"+"negative_votes")
+              END
+              AND "positive_votes" >= "policy_row"."indirect_majority_positive"
+              AND "issue_row"."voter_count"-"negative_votes" >=
+                  "policy_row"."indirect_majority_non_negative",
+            "better_than_status_quo" = "rank_ary"["i"] < "rank_ary"["dimension_v"],
+            "worse_than_status_quo"  = "rank_ary"["i"] > "rank_ary"["dimension_v"],
+            "schulze_rank"           = "rank_ary"["i"],
+            "multistage_majority"    = "rank_ary"["i"] >= "rank_ary"["dimension_v"],
+            "reverse_beat_path"      = "matrix"["dimension_v"]["i"] >= 0
             WHERE "id" = "initiative_id_v";
           "i" := "i" + 1;
         END LOOP;
         IF "i" != "dimension_v" THEN
           RAISE EXCEPTION 'Wrong winner count (should not happen)';
         END IF;
-        if "policy_row"."majority_indirect" THEN
-          -- take indirect majorities into account:
-          LOOP
-            UPDATE "initiative" SET "attainable" = TRUE
-              FROM (
-                SELECT "new_initiative"."id" AS "initiative_id"
-                FROM "initiative" "old_initiative"
-                JOIN "initiative" "new_initiative"
-                  ON "new_initiative"."issue_id" = "issue_id_p"
-                  AND "new_initiative"."attainable" = FALSE
-                JOIN "battle" "battle_win"
-                  ON "battle_win"."issue_id" = "issue_id_p"
-                  AND "battle_win"."winning_initiative_id" = "new_initiative"."id"
-                  AND "battle_win"."losing_initiative_id" = "old_initiative"."id"
-                JOIN "battle" "battle_lose"
-                  ON "battle_lose"."issue_id" = "issue_id_p"
-                  AND "battle_lose"."losing_initiative_id" = "new_initiative"."id"
-                  AND "battle_lose"."winning_initiative_id" = "old_initiative"."id"
-                WHERE "old_initiative"."issue_id" = "issue_id_p"
-                AND "old_initiative"."attainable" = TRUE
-                AND CASE WHEN "policy_row"."majority_strict" THEN
-                  "battle_win"."count" * "policy_row"."majority_den" >
-                  "policy_row"."majority_num" *
-                  ("battle_win"."count"+"battle_lose"."count")
-                ELSE
-                  "battle_win"."count" * "policy_row"."majority_den" >=
-                  "policy_row"."majority_num" *
-                  ("battle_win"."count"+"battle_lose"."count")
-                END
-                AND "battle_win"."count" >= "policy_row"."majority_positive"
-                AND "issue_row"."voter_count"-"battle_lose"."count" >=
-                    "policy_row"."majority_non_negative"
-              ) AS "subquery"
-              WHERE "id" = "subquery"."initiative_id";
-            EXIT WHEN NOT FOUND;
-          END LOOP;
-        END IF;
+        -- take indirect majorities into account:
+        LOOP
+          UPDATE "initiative" SET "indirect_majority" = TRUE
+            FROM (
+              SELECT "new_initiative"."id" AS "initiative_id"
+              FROM "initiative" "old_initiative"
+              JOIN "initiative" "new_initiative"
+                ON "new_initiative"."issue_id" = "issue_id_p"
+                AND "new_initiative"."indirect_majority" = FALSE
+              JOIN "battle" "battle_win"
+                ON "battle_win"."issue_id" = "issue_id_p"
+                AND "battle_win"."winning_initiative_id" = "new_initiative"."id"
+                AND "battle_win"."losing_initiative_id" = "old_initiative"."id"
+              JOIN "battle" "battle_lose"
+                ON "battle_lose"."issue_id" = "issue_id_p"
+                AND "battle_lose"."losing_initiative_id" = "new_initiative"."id"
+                AND "battle_lose"."winning_initiative_id" = "old_initiative"."id"
+              WHERE "old_initiative"."issue_id" = "issue_id_p"
+              AND "old_initiative"."indirect_majority" = TRUE
+              AND CASE WHEN "policy_row"."indirect_majority_strict" THEN
+                "battle_win"."count" * "policy_row"."indirect_majority_den" >
+                "policy_row"."indirect_majority_num" *
+                ("battle_win"."count"+"battle_lose"."count")
+              ELSE
+                "battle_win"."count" * "policy_row"."indirect_majority_den" >=
+                "policy_row"."indirect_majority_num" *
+                ("battle_win"."count"+"battle_lose"."count")
+              END
+              AND "battle_win"."count" >= "policy_row"."indirect_majority_positive"
+              AND "issue_row"."voter_count"-"battle_lose"."count" >=
+                  "policy_row"."indirect_majority_non_negative"
+            ) AS "subquery"
+            WHERE "id" = "subquery"."initiative_id";
+          EXIT WHEN NOT FOUND;
+        END LOOP;
         -- set "multistage_majority" for remaining matching initiatives:
          UPDATE "initiative" SET "multistage_majority" = TRUE
           FROM (
@@ -3866,8 +3886,9 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
             JOIN "initiative"
               ON "issue"."id" = "initiative"."issue_id"
             WHERE "issue_id" = "issue_id_p"
-            AND "initiative"."attainable"
-            AND "initiative"."favored_to_status_quo"
+            AND "initiative"."direct_majority"
+            AND "initiative"."indirect_majority"
+            AND "initiative"."better_than_status_quo"
             AND (
               "policy"."no_multistage_majority" = FALSE OR
               "initiative"."multistage_majority" = FALSE )

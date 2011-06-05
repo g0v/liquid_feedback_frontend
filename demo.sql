@@ -40,8 +40,7 @@ INSERT INTO "policy" (
     "voting_time",
     "issue_quorum_num", "issue_quorum_den",
     "initiative_quorum_num", "initiative_quorum_den",
-    "majority_num", "majority_den", "majority_strict",
-    "majority_indirect",
+    "direct_majority_num", "direct_majority_den", "direct_majority_strict",
     "no_reverse_beat_path", "no_multistage_majority"
   ) VALUES (
     1,
@@ -50,7 +49,6 @@ INSERT INTO "policy" (
     25, 100,
     20, 100,
     1, 2, TRUE,
-    TRUE,
     TRUE, FALSE );
 
 CREATE FUNCTION "time_warp"() RETURNS VOID
