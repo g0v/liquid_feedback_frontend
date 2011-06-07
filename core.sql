@@ -571,6 +571,7 @@ CREATE TABLE "initiative" (
         "multistage_majority"   BOOLEAN,
         "eligible"              BOOLEAN,
         "winner"                BOOLEAN,
+        "rank"                  INT4,
         "text_search_data"      TSVECTOR,
         CONSTRAINT "all_or_none_of_revoked_and_revoked_by_member_id_must_be_null"
           CHECK ("revoked" NOTNULL = "revoked_by_member_id" NOTNULL),
@@ -582,11 +583,12 @@ CREATE TABLE "initiative" (
           ( "admitted" NOTNULL AND "admitted" = TRUE ) OR
           ( "positive_votes" ISNULL AND "negative_votes" ISNULL AND
             "direct_majority" ISNULL AND "indirect_majority" ISNULL AND
-            "better_than_status_quo" ISNULL AND "worse_than_status_quo" ISNULL AND
             "schulze_rank" ISNULL AND
+            "better_than_status_quo" ISNULL AND "worse_than_status_quo" ISNULL AND
             "reverse_beat_path" ISNULL AND "multistage_majority" ISNULL AND
-            "eligible" ISNULL AND "winner" ISNULL ) ),
-        CONSTRAINT "better_excludes_worse" CHECK (NOT ("better_than_status_quo" AND "worse_than_status_quo")) );
+            "eligible" ISNULL AND "winner" ISNULL AND "rank" ISNULL ) ),
+        CONSTRAINT "better_excludes_worse" CHECK (NOT ("better_than_status_quo" AND "worse_than_status_quo")),
+        CONSTRAINT "unique_rank_per_issue" UNIQUE ("issue_id", "rank") );
 CREATE INDEX "initiative_created_idx" ON "initiative" ("created");
 CREATE INDEX "initiative_revoked_idx" ON "initiative" ("revoked");
 CREATE INDEX "initiative_text_search_data_idx" ON "initiative" USING gin ("text_search_data");
@@ -3797,6 +3799,18 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           LIMIT 1
         ) AS "subquery"
         WHERE "id" = "subquery"."initiative_id";
+      -- write (final) ranks:
+      "rank_v" := 1;
+      FOR "initiative_id_v" IN
+        SELECT "id"
+        FROM "initiative"
+        WHERE "issue_id" = "issue_id_p" AND "admitted"
+        ORDER BY "winner" DESC, "schulze_rank", "id"
+      LOOP
+        UPDATE "initiative" SET "rank" = "rank_v"
+          WHERE "id" = "initiative_id_v";
+        "rank_v" := "rank_v" + 1;
+      END LOOP;
       -- set schulze rank of status quo and mark issue as finished:
       UPDATE "issue" SET
         "status_quo_schulze_rank" = "rank_ary"["dimension_v"],
