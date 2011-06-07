@@ -3706,7 +3706,8 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           "better_than_status_quo" = "rank_ary"["i"] < "rank_ary"["dimension_v"],
           "worse_than_status_quo"  = "rank_ary"["i"] > "rank_ary"["dimension_v"],
           "multistage_majority"    = "rank_ary"["i"] >= "rank_ary"["dimension_v"],
-          "reverse_beat_path"      = "matrix"["dimension_v"]["i"] >= 0
+          "reverse_beat_path"      = "matrix"["dimension_v"]["i"] >= 0,
+          "winner"                 = FALSE
           WHERE "id" = "initiative_id_v";
         "i" := "i" + 1;
       END LOOP;
