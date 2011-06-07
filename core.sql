@@ -392,7 +392,6 @@ CREATE TABLE "area" (
         "description"           TEXT            NOT NULL DEFAULT '',
         "direct_member_count"   INT4,
         "member_weight"         INT4,
-        "autoreject_weight"     INT4,
         "text_search_data"      TSVECTOR );
 CREATE INDEX "area_unit_id_idx" ON "area" ("unit_id");
 CREATE INDEX "area_active_idx" ON "area" ("active");
@@ -408,7 +407,6 @@ COMMENT ON TABLE "area" IS 'Subject areas';
 COMMENT ON COLUMN "area"."active"              IS 'TRUE means new issues can be created in this area';
 COMMENT ON COLUMN "area"."direct_member_count" IS 'Number of active members of that area (ignoring their weight), as calculated from view "area_member_count"';
 COMMENT ON COLUMN "area"."member_weight"       IS 'Same as "direct_member_count" but respecting delegations';
-COMMENT ON COLUMN "area"."autoreject_weight"   IS 'Sum of weight of members using the autoreject feature';
 
 
 CREATE TABLE "area_setting" (
@@ -779,13 +777,10 @@ COMMENT ON COLUMN "privilege"."voting_right"         IS 'Right to discuss and vo
 CREATE TABLE "membership" (
         PRIMARY KEY ("area_id", "member_id"),
         "area_id"               INT4            REFERENCES "area" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "autoreject"            BOOLEAN         NOT NULL DEFAULT FALSE );
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE );
 CREATE INDEX "membership_member_id_idx" ON "membership" ("member_id");
 
 COMMENT ON TABLE "membership" IS 'Interest of members in topic areas';
-
-COMMENT ON COLUMN "membership"."autoreject" IS 'TRUE = member votes against all initiatives, if he/she is neither direct_ or delegating_voter; Entries in the "issue_autoreject" table can override this setting.';
 
 
 CREATE TABLE "interest" (
@@ -795,16 +790,6 @@ CREATE TABLE "interest" (
 CREATE INDEX "interest_member_id_idx" ON "interest" ("member_id");
 
 COMMENT ON TABLE "interest" IS 'Interest of members in a particular issue; Frontends must ensure that interest for fully_frozen or closed issues is not added or removed.';
-
-
-CREATE TABLE "issue_autoreject" (
-        PRIMARY KEY ("issue_id", "member_id"),
-        "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "autoreject"            BOOLEAN         NOT NULL );
-CREATE INDEX "issue_autoreject_member_id_idx" ON "issue_autoreject" ("member_id");
-
-COMMENT ON TABLE "issue_autoreject" IS 'If autoreject=TRUE, then member votes against all initiatives, if he/she is neither direct_ or delegating_voter; Values of either TRUE or FALSE override settings in "membership" table.';
 
 
 CREATE TABLE "initiator" (
@@ -891,7 +876,7 @@ CREATE TABLE "direct_population_snapshot" (
         "weight"                INT4 );
 CREATE INDEX "direct_population_snapshot_member_id_idx" ON "direct_population_snapshot" ("member_id");
 
-COMMENT ON TABLE "direct_population_snapshot" IS 'Snapshot of active members having either a "membership" in the "area", an "interest" in the "issue", or "issue_autoreject"."autoreject" set to TRUE';
+COMMENT ON TABLE "direct_population_snapshot" IS 'Snapshot of active members having either a "membership" in the "area" or an "interest" in the "issue"';
 
 COMMENT ON COLUMN "direct_population_snapshot"."event"  IS 'Reason for snapshot, see "snapshot_event" type for details';
 COMMENT ON COLUMN "direct_population_snapshot"."weight" IS 'Weight of member (1 or higher) according to "delegating_population_snapshot"';
@@ -979,14 +964,12 @@ CREATE TABLE "direct_voter" (
         PRIMARY KEY ("issue_id", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT,
-        "weight"                INT4,
-        "autoreject"            BOOLEAN         NOT NULL DEFAULT FALSE );
+        "weight"                INT4 );
 CREATE INDEX "direct_voter_member_id_idx" ON "direct_voter" ("member_id");
 
 COMMENT ON TABLE "direct_voter" IS 'Members having directly voted for/against initiatives of an issue; Frontends must ensure that no voters are added or removed to/from this table when the issue has been closed.';
 
 COMMENT ON COLUMN "direct_voter"."weight"     IS 'Weight of member (1 or higher) according to "delegating_voter" table';
-COMMENT ON COLUMN "direct_voter"."autoreject" IS 'Votes were inserted due to "autoreject" feature';
 
 
 CREATE TABLE "delegating_voter" (
@@ -1878,14 +1861,7 @@ CREATE VIEW "area_member_count" AS
           "membership_weight"("area"."id", "member"."id")
         ELSE 0 END
       )
-    ) AS "member_weight",
-    coalesce(
-      sum(
-        CASE WHEN "member"."id" NOTNULL AND "membership"."autoreject" THEN
-          "membership_weight"("area"."id", "member"."id")
-        ELSE 0 END
-      )
-    ) AS "autoreject_weight"
+    ) AS "member_weight"
   FROM "area"
   LEFT JOIN "membership"
   ON "area"."id" = "membership"."area_id"
@@ -1898,7 +1874,7 @@ CREATE VIEW "area_member_count" AS
   AND "member"."active"
   GROUP BY "area"."id";
 
-COMMENT ON VIEW "area_member_count" IS 'View used to update "direct_member_count", "member_weight" and "autoreject_weight" columns of table "area"';
+COMMENT ON VIEW "area_member_count" IS 'View used to update "direct_member_count" and "member_weight" columns of table "area"';
 
 
 CREATE VIEW "opening_draft" AS
@@ -2760,8 +2736,7 @@ CREATE FUNCTION "calculate_member_counts"()
         WHERE "view"."unit_id" = "unit"."id";
       UPDATE "area" SET
         "direct_member_count" = "view"."direct_member_count",
-        "member_weight"       = "view"."member_weight",
-        "autoreject_weight"   = "view"."autoreject_weight"
+        "member_weight"       = "view"."member_weight"
         FROM "area_member_count" AS "view"
         WHERE "view"."area_id" = "area"."id";
       RETURN;
@@ -2882,20 +2857,6 @@ CREATE FUNCTION "create_population_snapshot"
         JOIN "area" ON "issue"."area_id" = "area"."id"
         JOIN "interest" ON "issue"."id" = "interest"."issue_id"
         JOIN "member" ON "interest"."member_id" = "member"."id"
-        JOIN "privilege"
-          ON "privilege"."unit_id" = "area"."unit_id"
-          AND "privilege"."member_id" = "member"."id"
-        WHERE "issue"."id" = "issue_id_p"
-        AND "member"."active" AND "privilege"."voting_right"
-        UNION
-        SELECT
-          "issue_id_p"                 AS "issue_id",
-          'periodic'::"snapshot_event" AS "event",
-          "member"."id"                AS "member_id"
-        FROM "issue"
-        JOIN "area" ON "issue"."area_id" = "area"."id"
-        JOIN "issue_autoreject" ON "issue"."id" = "issue_autoreject"."issue_id"
-        JOIN "member" ON "issue_autoreject"."member_id" = "member"."id"
         JOIN "privilege"
           ON "privilege"."unit_id" = "area"."unit_id"
           AND "privilege"."member_id" = "member"."id"
@@ -3486,12 +3447,10 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       PERFORM "lock_issue"("issue_id_p");
       SELECT "area_id" INTO "area_id_v" FROM "issue" WHERE "id" = "issue_id_p";
       SELECT "unit_id" INTO "unit_id_v" FROM "area"  WHERE "id" = "area_id_v";
-      -- consider delegations and auto-reject:
+      -- delete delegating votes (in cases of manual reset of issue state):
       DELETE FROM "delegating_voter"
         WHERE "issue_id" = "issue_id_p";
-      DELETE FROM "direct_voter"
-        WHERE "issue_id" = "issue_id_p"
-        AND "autoreject" = TRUE;
+      -- delete votes from non-privileged voters:
       DELETE FROM "direct_voter"
         USING (
           SELECT
@@ -3509,70 +3468,9 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
         ) AS "subquery"
         WHERE "direct_voter"."issue_id" = "issue_id_p"
         AND "direct_voter"."member_id" = "subquery"."member_id";
+      -- consider delegations:
       UPDATE "direct_voter" SET "weight" = 1
         WHERE "issue_id" = "issue_id_p";
-      PERFORM "add_vote_delegations"("issue_id_p");
-      FOR "member_id_v" IN
-        SELECT "issue_autoreject"."member_id"
-          FROM "issue_autoreject"
-          JOIN "member"
-            ON "issue_autoreject"."member_id" = "member"."id"
-          JOIN "privilege"
-            ON "privilege"."unit_id" = "unit_id_v"
-            AND "privilege"."member_id" = "member"."id"
-          LEFT JOIN "direct_voter"
-            ON "issue_autoreject"."member_id" = "direct_voter"."member_id"
-            AND "issue_autoreject"."issue_id" = "direct_voter"."issue_id"
-          LEFT JOIN "delegating_voter"
-            ON "issue_autoreject"."member_id" = "delegating_voter"."member_id"
-            AND "issue_autoreject"."issue_id" = "delegating_voter"."issue_id"
-          WHERE "issue_autoreject"."issue_id" = "issue_id_p"
-          AND "issue_autoreject"."autoreject" = TRUE
-          AND "member"."active"
-          AND "privilege"."voting_right"
-          AND "direct_voter"."member_id" ISNULL
-          AND "delegating_voter"."member_id" ISNULL
-        UNION
-        SELECT "membership"."member_id"
-          FROM "membership"
-          JOIN "member"
-            ON "membership"."member_id" = "member"."id"
-          JOIN "privilege"
-            ON "privilege"."unit_id" = "unit_id_v"
-            AND "privilege"."member_id" = "member"."id"
-          LEFT JOIN "issue_autoreject"
-            ON "membership"."member_id" = "issue_autoreject"."member_id"
-            AND "issue_autoreject"."issue_id" = "issue_id_p"
-          LEFT JOIN "direct_voter"
-            ON "membership"."member_id" = "direct_voter"."member_id"
-            AND "direct_voter"."issue_id" = "issue_id_p"
-          LEFT JOIN "delegating_voter"
-            ON "membership"."member_id" = "delegating_voter"."member_id"
-            AND "delegating_voter"."issue_id" = "issue_id_p"
-          WHERE "membership"."area_id" = "area_id_v"
-          AND "membership"."autoreject" = TRUE
-          AND "member"."active"
-          AND "privilege"."voting_right"
-          AND "issue_autoreject"."autoreject" ISNULL
-          AND "direct_voter"."member_id" ISNULL
-          AND "delegating_voter"."member_id" ISNULL
-      LOOP
-        INSERT INTO "direct_voter"
-          ("member_id", "issue_id", "weight", "autoreject") VALUES
-          ("member_id_v", "issue_id_p", 1, TRUE);
-        INSERT INTO "vote" (
-          "member_id",
-          "issue_id",
-          "initiative_id",
-          "grade"
-          ) SELECT
-            "member_id_v" AS "member_id",
-            "issue_id_p"  AS "issue_id",
-            "id"          AS "initiative_id",
-            -1            AS "grade"
-          FROM "initiative"
-          WHERE "issue_id" = "issue_id_p" AND "admitted";
-      END LOOP;
       PERFORM "add_vote_delegations"("issue_id_p");
       -- set voter count and mark issue as being calculated:
       UPDATE "issue" SET
@@ -4135,8 +4033,6 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
         DELETE FROM "delegation"
           WHERE "issue_id" = "issue_id_p";
         DELETE FROM "supporter"
-          WHERE "issue_id" = "issue_id_p";
-        DELETE FROM "issue_autoreject"
           WHERE "issue_id" = "issue_id_p";
         UPDATE "issue" SET
           "state"           = "issue_row"."state",

@@ -80,23 +80,23 @@ INSERT INTO "area" ("unit_id", "name") VALUES
 INSERT INTO "allowed_policy" ("area_id", "policy_id", "default_policy")
   VALUES (1, 1, TRUE), (2, 1, TRUE), (3, 1, TRUE), (4, 1, TRUE);
 
-INSERT INTO "membership" ("area_id", "member_id", "autoreject") VALUES
-  (1,  9, FALSE),
-  (1, 19, FALSE),
-  (2,  9, TRUE),
-  (2, 10, TRUE),
-  (2, 17, TRUE),
-  (3,  9, FALSE),
-  (3, 11, FALSE),
-  (3, 12, TRUE),
-  (3, 14, FALSE),
-  (3, 20, FALSE),
-  (3, 21, TRUE),
-  (3, 22, TRUE),
-  (4,  6, FALSE),
-  (4,  9, FALSE),
-  (4, 13, FALSE),
-  (4, 22, FALSE);
+INSERT INTO "membership" ("area_id", "member_id") VALUES
+  (1,  9),
+  (1, 19),
+  (2,  9),
+  (2, 10),
+  (2, 17),
+  (3,  9),
+  (3, 11),
+  (3, 12),
+  (3, 14),
+  (3, 20),
+  (3, 21),
+  (3, 22),
+  (4,  6),
+  (4,  9),
+  (4, 13),
+  (4, 22);
 
 -- global delegations
 INSERT INTO "delegation"
