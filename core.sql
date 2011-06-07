@@ -3805,7 +3805,11 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
         SELECT "id"
         FROM "initiative"
         WHERE "issue_id" = "issue_id_p" AND "admitted"
-        ORDER BY "winner" DESC, "schulze_rank", "id"
+        ORDER BY
+          "winner" DESC,
+          ("direct_majority" AND "indirect_majority") DESC,
+          "schulze_rank",
+          "id"
       LOOP
         UPDATE "initiative" SET "rank" = "rank_v"
           WHERE "id" = "initiative_id_v";
