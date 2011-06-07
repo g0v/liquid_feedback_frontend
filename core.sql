@@ -3702,9 +3702,9 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
             AND "positive_votes" >= "policy_row"."indirect_majority_positive"
             AND "issue_row"."voter_count"-"negative_votes" >=
                 "policy_row"."indirect_majority_non_negative",
+          "schulze_rank"           = "rank_ary"["i"],
           "better_than_status_quo" = "rank_ary"["i"] < "rank_ary"["dimension_v"],
           "worse_than_status_quo"  = "rank_ary"["i"] > "rank_ary"["dimension_v"],
-          "schulze_rank"           = "rank_ary"["i"],
           "multistage_majority"    = "rank_ary"["i"] >= "rank_ary"["dimension_v"],
           "reverse_beat_path"      = "matrix"["dimension_v"]["i"] >= 0
           WHERE "id" = "initiative_id_v";
@@ -3775,27 +3775,17 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
         ) AS "subquery"
         WHERE "id" = "subquery"."initiative_id";
       -- mark eligible initiatives:
-      "rank_v" := 1;
       UPDATE "initiative" SET "eligible" = TRUE
-        FROM (
-          SELECT "initiative"."id" AS "initiative_id"
-          FROM "issue"
-          JOIN "policy"
-            ON "issue"."policy_id" = "policy"."id"
-          JOIN "initiative"
-            ON "issue"."id" = "initiative"."issue_id"
-          WHERE "issue_id" = "issue_id_p"
-          AND "initiative"."direct_majority"
-          AND "initiative"."indirect_majority"
-          AND "initiative"."better_than_status_quo"
-          AND (
-            "policy"."no_multistage_majority" = FALSE OR
-            "initiative"."multistage_majority" = FALSE )
-          AND (
-            "policy"."no_reverse_beat_path" = FALSE OR
-            "initiative"."reverse_beat_path" = FALSE )
-        ) AS "subquery"
-        WHERE "id" = "subquery"."initiative_id";
+        WHERE "issue_id" = "issue_id_p"
+        AND "initiative"."direct_majority"
+        AND "initiative"."indirect_majority"
+        AND "initiative"."better_than_status_quo"
+        AND (
+          "policy_row"."no_multistage_majority" = FALSE OR
+          "initiative"."multistage_majority" = FALSE )
+        AND (
+          "policy_row"."no_reverse_beat_path" = FALSE OR
+          "initiative"."reverse_beat_path" = FALSE );
       -- mark final winner:
       UPDATE "initiative" SET "winner" = TRUE
         FROM (
