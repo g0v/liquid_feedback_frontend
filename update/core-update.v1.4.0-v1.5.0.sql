@@ -83,6 +83,10 @@ COMMENT ON COLUMN "issue"."status_quo_schulze_rank" IS 'Schulze rank of status q
 
 DROP VIEW "battle_view";
 
+ALTER TABLE "initiative" DROP CONSTRAINT "non_admitted_initiatives_cant_contain_voting_results";
+ALTER TABLE "initiative" DROP CONSTRAINT "all_or_none_of_positive_votes_negative_votes_and_agreed_must_be_null";
+ALTER TABLE "initiative" DROP CONSTRAINT "non_agreed_initiatives_cant_get_a_rank";
+
 ALTER TABLE "initiative" DROP COLUMN "agreed";
 ALTER TABLE "initiative" ADD COLUMN "direct_majority"        BOOLEAN;
 ALTER TABLE "initiative" ADD COLUMN "indirect_majority"      BOOLEAN;
@@ -93,10 +97,6 @@ ALTER TABLE "initiative" ADD COLUMN "reverse_beat_path"      BOOLEAN;
 ALTER TABLE "initiative" ADD COLUMN "multistage_majority"    BOOLEAN;
 ALTER TABLE "initiative" ADD COLUMN "eligible"               BOOLEAN;
 ALTER TABLE "initiative" ADD COLUMN "winner"                 BOOLEAN;
-
-ALTER TABLE "initiative" DROP CONSTRAINT "non_admitted_initiatives_cant_contain_voting_results";
-ALTER TABLE "initiative" DROP CONSTRAINT  "all_or_none_of_positive_votes_negative_votes_and_agreed_must_be_null";
-ALTER TABLE "initiative" DROP CONSTRAINT "non_agreed_initiatives_cant_get_a_rank";
 
 ALTER TABLE "initiative" ADD CONSTRAINT "non_admitted_initiatives_cant_contain_voting_results" CHECK (
   ( "admitted" NOTNULL AND "admitted" = TRUE ) OR
