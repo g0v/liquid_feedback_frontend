@@ -81,6 +81,8 @@ COMMENT ON COLUMN "issue"."half_frozen"             IS 'Point in time, when "dis
 COMMENT ON COLUMN "issue"."snapshot"                IS 'Point in time, when snapshot tables have been updated and "population" and *_count values were precalculated';
 COMMENT ON COLUMN "issue"."status_quo_schulze_rank" IS 'Schulze rank of status quo, as calculated by "calculate_ranks" function';
 
+DROP VIEW "battle_view";
+
 ALTER TABLE "initiative" DROP COLUMN "agreed";
 ALTER TABLE "initiative" ADD COLUMN "direct_majority"        BOOLEAN;
 ALTER TABLE "initiative" ADD COLUMN "indirect_majority"      BOOLEAN;
@@ -235,7 +237,7 @@ CREATE VIEW "battle_participant" AS
 
 COMMENT ON VIEW "battle_participant" IS 'Helper view for "battle_view" containing admitted initiatives plus virtual "status-quo" initiative denoted by NULL reference';
 
-CREATE OR REPLACE VIEW "battle_view" AS
+CREATE VIEW "battle_view" AS
   SELECT
     "issue"."id" AS "issue_id",
     "winning_initiative"."id" AS "winning_initiative_id",
