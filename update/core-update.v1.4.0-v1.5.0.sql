@@ -1,3 +1,5 @@
+SELECT "calculate_ranks"("id") FROM "issue_with_ranks_missing";
+
 BEGIN;
 
 CREATE OR REPLACE VIEW "liquid_feedback_version" AS
@@ -79,6 +81,7 @@ COMMENT ON COLUMN "issue"."half_frozen"             IS 'Point in time, when "dis
 COMMENT ON COLUMN "issue"."snapshot"                IS 'Point in time, when snapshot tables have been updated and "population" and *_count values were precalculated';
 COMMENT ON COLUMN "issue"."status_quo_schulze_rank" IS 'Schulze rank of status quo, as calculated by "calculate_ranks" function';
 
+ALTER TABLE "initiative" DROP COLUMN "agreed";
 ALTER TABLE "initiative" ADD COLUMN "direct_majority"        BOOLEAN;
 ALTER TABLE "initiative" ADD COLUMN "indirect_majority"      BOOLEAN;
 ALTER TABLE "initiative" ADD COLUMN "schulze_rank"           INT4;
@@ -1025,9 +1028,66 @@ CREATE OR REPLACE FUNCTION "check_issue"
     END;
   $$;
 
--- TODO: recalculate voting results
-
 COMMIT;
+
+BEGIN;
+
+UPDATE "initiative" SET
+    "direct_majority"        = "rank" NOTNULL,
+    "indirect_majority"      = "rank" NOTNULL,
+    "schulze_rank"           = "rank",
+    "better_than_status_quo" = "rank" NOTNULL,
+    "worse_than_status_quo"  = "rank" ISNULL,
+    "reverse_beat_path"      = "rank" ISNULL,
+    "multistage_majority"    = "rank" ISNULL,
+    "eligible"               = "rank" NOTNULL,
+    "winner"                 = ("rank" = 1)
+  FROM "issue"
+  WHERE "issue"."id" = "initiative"."issue_id"
+  AND "issue"."state" IN ('finished_without_winner', 'finished_with_winner')
+  AND "initiative"."admitted";
+
+UPDATE "issue" SET "status_quo_schulze_rank" = "subquery"."rank"
+  FROM (
+    SELECT
+      "issue"."id" AS "issue_id",
+      COALESCE(max("initiative"."rank") + 1) AS "rank"
+    FROM "issue" JOIN "initiative"
+    ON "issue"."id" = "initiative"."issue_id"
+    WHERE "issue"."state" IN ('finished_without_winner', 'finished_with_winner')
+    AND "initiative"."admitted"
+    GROUP BY "issue"."id"
+  ) AS "subquery"
+  WHERE "issue"."id" = "subquery"."issue_id";
+
+CREATE FUNCTION "update__set_remaining_ranks"("issue_id_p" "issue"."id"%TYPE)
+  RETURNS VOID
+  LANGUAGE 'plpgsql' AS $$
+    DECLARE
+      "rank_v"          INT4;
+      "initiative_id_v" INT4;
+    BEGIN
+      SELECT "status_quo_schulze_rank" INTO "rank_v"
+        FROM "issue" WHERE "id" = "issue_id_p";
+      FOR "initiative_id_v" IN
+        SELECT "id" FROM "initiative"
+        WHERE "issue_id" = "issue_id_p" AND "admitted" AND "rank" ISNULL
+        ORDER BY "vote_ratio"("positive_votes", "negative_votes") DESC
+      LOOP
+        UPDATE "initiative" SET
+          "schulze_rank" = "rank_v" + 1,
+          "rank"         = "rank_v"
+          WHERE "id" = "initiative_id_v";
+        "rank_v" := "rank_v" + 1;
+      END LOOP;
+      RETURN;
+    END;
+  $$;
+
+SELECT "update__set_remaining_ranks"("id") FROM "issue"
+  WHERE "state" IN ('finished_without_winner', 'finished_with_winner');
+
+DROP FUNCTION "update__set_remaining_ranks"("issue"."id"%TYPE);
 
 UPDATE "suggestion" SET "draft_id" = "subquery"."draft_id"
   FROM (
@@ -1040,5 +1100,7 @@ UPDATE "suggestion" SET "draft_id" = "subquery"."draft_id"
     ORDER BY "suggestion"."id", "draft"."created" DESC
   ) AS "subquery"
   WHERE "suggestion"."id" = "subquery"."suggestion_id";
+
+COMMIT;
 
 ALTER TABLE "suggestion" ALTER COLUMN "draft_id" SET NOT NULL;
