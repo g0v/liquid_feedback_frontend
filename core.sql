@@ -84,12 +84,14 @@ COMMENT ON TYPE "notify_level" IS 'Level of notification: ''none'' = no notifica
 CREATE TABLE "member" (
         "id"                    SERIAL4         PRIMARY KEY,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
+        "invite_code"           TEXT            UNIQUE,
+        "activated"             TIMESTAMPTZ,
         "last_login"            TIMESTAMPTZ,
         "last_login_public"     DATE,
         "login"                 TEXT            UNIQUE,
         "password"              TEXT,
         "locked"                BOOLEAN         NOT NULL DEFAULT FALSE,
-        "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
+        "active"                BOOLEAN         NOT NULL DEFAULT FALSE,
         "admin"                 BOOLEAN         NOT NULL DEFAULT FALSE,
         "notify_email"          TEXT,
         "notify_email_unconfirmed"     TEXT,
@@ -117,7 +119,9 @@ CREATE TABLE "member" (
         "external_posts"        TEXT,
         "formatting_engine"     TEXT,
         "statement"             TEXT,
-        "text_search_data"      TSVECTOR );
+        "text_search_data"      TSVECTOR,
+        CONSTRAINT "not_active_without_activated"
+          CHECK ("activated" NOTNULL OR "active" = FALSE) );
 CREATE INDEX "member_active_idx" ON "member" ("active");
 CREATE INDEX "member_text_search_data_idx" ON "member" USING gin ("text_search_data");
 CREATE TRIGGER "update_text_search_data"
@@ -129,12 +133,15 @@ CREATE TRIGGER "update_text_search_data"
 
 COMMENT ON TABLE "member" IS 'Users of the system, e.g. members of an organization';
 
+COMMENT ON COLUMN "member"."created"              IS 'Creation of member record and/or invite code';
+COMMENT ON COLUMN "member"."invite_code"          IS 'Optional invite code, to allow a member to initialize his/her account the first time';
+COMMENT ON COLUMN "member"."activated"            IS 'Timestamp of first activation of account (set automatically by "set_activated_timestamp" trigger)';
 COMMENT ON COLUMN "member"."last_login"           IS 'Timestamp of last login';
 COMMENT ON COLUMN "member"."last_login_public"    IS 'Date of last login (time stripped for privacy reasons, updated only after day change)';
 COMMENT ON COLUMN "member"."login"                IS 'Login name';
 COMMENT ON COLUMN "member"."password"             IS 'Password (preferably as crypto-hash, depending on the frontend or access layer)';
 COMMENT ON COLUMN "member"."locked"               IS 'Locked members can not log in.';
-COMMENT ON COLUMN "member"."active"               IS 'Memberships, support and votes are taken into account when corresponding members are marked as active. When the user does not log in for an extended period of time, this flag may be set to FALSE. If the user is not locked, he/she may reset the active flag by logging in.';
+COMMENT ON COLUMN "member"."active"               IS 'Memberships, support and votes are taken into account when corresponding members are marked as active. When the user does not log in for an extended period of time, this flag may be set to FALSE. If the user is not locked, he/she may reset the active flag by logging in (has to be set to TRUE by frontend).';
 COMMENT ON COLUMN "member"."admin"                IS 'TRUE for admins, which can administrate other users and setup policies and areas';
 COMMENT ON COLUMN "member"."notify_email"         IS 'Email address where notifications of the system are sent to';
 COMMENT ON COLUMN "member"."notify_email_unconfirmed"   IS 'Unconfirmed email address provided by the member to be copied into "notify_email" field after verification';
@@ -176,24 +183,6 @@ CREATE TABLE "rendered_member_statement" (
         "content"               TEXT            NOT NULL );
 
 COMMENT ON TABLE "rendered_member_statement" IS 'This table may be used by frontends to cache "rendered" member statements (e.g. HTML output generated from wiki text)';
-
-
-CREATE TABLE "invite_code" (
-        "id"                    SERIAL8         PRIMARY KEY,
-        "code"                  TEXT            NOT NULL UNIQUE,
-        "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
-        "used"                  TIMESTAMPTZ,
-        "member_id"             INT4            UNIQUE REFERENCES "member" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
-        "comment"               TEXT,
-        CONSTRAINT "only_used_codes_may_refer_to_member" CHECK ("used" NOTNULL OR "member_id" ISNULL) );
-
-COMMENT ON TABLE "invite_code" IS 'Invite codes can be used once to create a new member account.';
-
-COMMENT ON COLUMN "invite_code"."code"      IS 'Secret code';
-COMMENT ON COLUMN "invite_code"."created"   IS 'Time of creation of the secret code';
-COMMENT ON COLUMN "invite_code"."used"      IS 'NULL, if not used yet, otherwise tells when this code was used to create a member account';
-COMMENT ON COLUMN "invite_code"."member_id" IS 'References the member whose account was created with this code';
-COMMENT ON COLUMN "invite_code"."comment"   IS 'Comment on the code, which is to be used for administrative reasons only';
 
 
 CREATE TABLE "setting" (
@@ -758,14 +747,6 @@ CREATE TABLE "suggestion_setting" (
 COMMENT ON TABLE "suggestion_setting" IS 'Place for frontend to store suggestion specific settings of members as strings';
 
 
-CREATE TABLE "invite_code_unit" (
-        PRIMARY KEY ("invite_code_id", "unit_id"),
-        "invite_code_id"        INT8            REFERENCES "invite_code" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "unit_id"               INT4            REFERENCES "unit" ("id") ON DELETE CASCADE ON UPDATE CASCADE );
-
-COMMENT ON TABLE "invite_code_unit" IS 'Units where accounts created with a given invite codes get voting rights';
-
-
 CREATE TABLE "privilege" (
         PRIMARY KEY ("unit_id", "member_id"),
         "unit_id"               INT4            REFERENCES "unit" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -1149,9 +1130,35 @@ COMMENT ON COLUMN "event"."state"      IS 'If issue_id is set: state of affected
 
 
 
+---------------------------------------------------
+-- Triggers related to member account activation --
+---------------------------------------------------
+
+
+CREATE FUNCTION "set_member_activated_timestamp_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      IF NEW."activated" ISNULL AND NEW."active" THEN
+        NEW."activated" := now();
+      END IF;
+      RETURN NEW;
+    END;
+  $$;
+
+CREATE TRIGGER "set_activated_timestamp"
+  BEFORE INSERT OR UPDATE ON "member" FOR EACH ROW EXECUTE PROCEDURE
+  "set_member_activated_timestamp_trigger"();
+
+COMMENT ON FUNCTION "set_member_activated_timestamp_trigger"() IS 'Implementation of trigger "set_activated_timestamp" on table "member"';
+COMMENT ON TRIGGER "set_activated_timestamp" ON "member"       IS 'Set "activated" to now(), if it is NULL and "active" is set to TRUE';
+
+
+
 ----------------------------------------------
 -- Writing of history entries and event log --
 ----------------------------------------------
+
 
 CREATE FUNCTION "write_member_history_trigger"()
   RETURNS TRIGGER

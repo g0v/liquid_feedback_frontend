@@ -3,30 +3,30 @@
 
 BEGIN;
 
-INSERT INTO "member" ("login", "name") VALUES
-  ('user1',  'User #1'),   -- id  1
-  ('user2',  'User #2'),   -- id  2
-  ('user3',  'User #3'),   -- id  3
-  ('user4',  'User #4'),   -- id  4
-  ('user5',  'User #5'),   -- id  5
-  ('user6',  'User #6'),   -- id  6
-  ('user7',  'User #7'),   -- id  7
-  ('user8',  'User #8'),   -- id  8
-  ('user9',  'User #9'),   -- id  9
-  ('user10', 'User #10'),  -- id 10
-  ('user11', 'User #11'),  -- id 11
-  ('user12', 'User #12'),  -- id 12
-  ('user13', 'User #13'),  -- id 13
-  ('user14', 'User #14'),  -- id 14
-  ('user15', 'User #15'),  -- id 15
-  ('user16', 'User #16'),  -- id 16
-  ('user17', 'User #17'),  -- id 17
-  ('user18', 'User #18'),  -- id 18
-  ('user19', 'User #19'),  -- id 19
-  ('user20', 'User #20'),  -- id 20
-  ('user21', 'User #21'),  -- id 21
-  ('user22', 'User #22'),  -- id 22
-  ('user23', 'User #23');  -- id 23
+INSERT INTO "member" ("active", "login", "name") VALUES
+  (TRUE, 'user1',  'User #1'),   -- id  1
+  (TRUE, 'user2',  'User #2'),   -- id  2
+  (TRUE, 'user3',  'User #3'),   -- id  3
+  (TRUE, 'user4',  'User #4'),   -- id  4
+  (TRUE, 'user5',  'User #5'),   -- id  5
+  (TRUE, 'user6',  'User #6'),   -- id  6
+  (TRUE, 'user7',  'User #7'),   -- id  7
+  (TRUE, 'user8',  'User #8'),   -- id  8
+  (TRUE, 'user9',  'User #9'),   -- id  9
+  (TRUE, 'user10', 'User #10'),  -- id 10
+  (TRUE, 'user11', 'User #11'),  -- id 11
+  (TRUE, 'user12', 'User #12'),  -- id 12
+  (TRUE, 'user13', 'User #13'),  -- id 13
+  (TRUE, 'user14', 'User #14'),  -- id 14
+  (TRUE, 'user15', 'User #15'),  -- id 15
+  (TRUE, 'user16', 'User #16'),  -- id 16
+  (TRUE, 'user17', 'User #17'),  -- id 17
+  (TRUE, 'user18', 'User #18'),  -- id 18
+  (TRUE, 'user19', 'User #19'),  -- id 19
+  (TRUE, 'user20', 'User #20'),  -- id 20
+  (TRUE, 'user21', 'User #21'),  -- id 21
+  (TRUE, 'user22', 'User #22'),  -- id 22
+  (TRUE, 'user23', 'User #23');  -- id 23
 
 -- set password to "login"
 UPDATE "member" SET "password" = '$1$PcI6b1Bg$2SHjAZH2nMLFp0fxHis.Q0';
