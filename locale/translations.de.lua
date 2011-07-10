@@ -223,8 +223,8 @@ return {
 ["Initiative events"] = "Initiativen-Ereignisse";
 ["Initiative is revoked now"] = "Initiative ist jetzt zurückgezogen";
 ["Initiative quorum"] = "Quorum Inititive";
-["Initiative quorum denumerator"] = "Initiativ-Quorum Zähler";
-["Initiative quorum numerator"] = "Initiativ-Quorum Nenner";
+["Initiative quorum denumerator"] = "Initiativ-Quorum Nenner";
+["Initiative quorum numerator"] = "Initiativ-Quorum Zähler";
 ["Initiative revoked"] = "Initiative zurückgezogen";
 ["Initiative successfully created"] = "Initiative erfolgreich erzeugt";
 ["Initiative successfully updated"] = "Initiative erfolgreich aktualisiert";
@@ -265,8 +265,8 @@ return {
 ["Issue frozen"] = "Thema eingefroren";
 ["Issue policy"] = "Regelwerk für Thema";
 ["Issue quorum"] = "Quorum Thema";
-["Issue quorum denumerator"] = "Themen-Quorum Zähler";
-["Issue quorum numerator"] = "Themen-Quorum Nenner";
+["Issue quorum denumerator"] = "Themen-Quorum Nenner";
+["Issue quorum numerator"] = "Themen-Quorum Zähler";
 ["Issues"] = "Themen";
 ["JavaScript is disabled or not available."] = "JavaScript ist abgeschaltet oder nicht verfügbar.";
 ["Last author"] = "Letzter Autor";
@@ -280,8 +280,8 @@ return {
 ["Logout"] = "Abmelden";
 ["Logout successful"] = "Abmeldung erfolgreich";
 ["Majority"] = "Mehrheit";
-["Majority denumerator"] = "Mehrheit Zähler";
-["Majority numerator"] = "Mehrheit Nenner";
+["Majority denumerator"] = "Mehrheit Nenner";
+["Majority numerator"] = "Mehrheit Zähler";
 ["Manage filter"] = "Filter verwalten";
 ["Manage timeline filters"] = "Zeitachsen-Filter verwalten";
 ["Max potential support"] = "Max. potentielle Unterstützer";
