@@ -3,7 +3,7 @@ SELECT "calculate_ranks"("id") FROM "issue_with_ranks_missing";
 BEGIN;
 
 CREATE OR REPLACE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.5.0_devel', 1, 5, -1))
+  SELECT * FROM (VALUES ('1.5.0_rc1', 1, 5, -1))
   AS "subquery"("string", "major", "minor", "revision");
 
 ALTER TABLE "member" ADD COLUMN "invite_code" TEXT UNIQUE;
