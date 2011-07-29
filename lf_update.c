@@ -54,22 +54,6 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  // delete expired sessions:
-  status = PQexec(db, "DELETE FROM \"expired_session\"");
-  if (!status) {
-    fprintf(stderr, "Error in pqlib while sending SQL command deleting expired sessions\n");
-    err = 1;
-  } else if (
-    PQresultStatus(status) != PGRES_COMMAND_OK &&
-    PQresultStatus(status) != PGRES_TUPLES_OK
-  ) {
-    fprintf(stderr, "Error while executing SQL command deleting expired sessions:\n%s", PQresultErrorMessage(status));
-    err = 1;
-    PQclear(status);
-  } else {
-    PQclear(status);
-  }
-
   // check last login:
   status = PQexec(db, "SELECT \"check_last_login\"()");
   if (!status) {

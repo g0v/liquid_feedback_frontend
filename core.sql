@@ -280,22 +280,6 @@ COMMENT ON COLUMN "ignored_member"."member_id"       IS 'Member ignoring someone
 COMMENT ON COLUMN "ignored_member"."other_member_id" IS 'Member being ignored';
 
 
-CREATE TABLE "session" (
-        "ident"                 TEXT            PRIMARY KEY,
-        "additional_secret"     TEXT,
-        "expiry"                TIMESTAMPTZ     NOT NULL DEFAULT now() + '24 hours',
-        "member_id"             INT8            REFERENCES "member" ("id") ON DELETE SET NULL,
-        "lang"                  TEXT );
-CREATE INDEX "session_expiry_idx" ON "session" ("expiry");
-
-COMMENT ON TABLE "session" IS 'Sessions, i.e. for a web-frontend';
-
-COMMENT ON COLUMN "session"."ident"             IS 'Secret session identifier (i.e. random string)';
-COMMENT ON COLUMN "session"."additional_secret" IS 'Additional field to store a secret, which can be used against CSRF attacks';
-COMMENT ON COLUMN "session"."member_id"         IS 'Reference to member, who is logged in';
-COMMENT ON COLUMN "session"."lang"              IS 'Language code of the selected language';
-
-
 CREATE TABLE "policy" (
         "id"                    SERIAL4         PRIMARY KEY,
         "index"                 INT4            NOT NULL,
@@ -1956,16 +1940,6 @@ CREATE VIEW "battle_view" AS
     "losing_initiative"."id";
 
 COMMENT ON VIEW "battle_view" IS 'Number of members preferring one initiative (or status-quo) to another initiative (or status-quo); Used to fill "battle" table';
-
-
-CREATE VIEW "expired_session" AS
-  SELECT * FROM "session" WHERE now() > "expiry";
-
-CREATE RULE "delete" AS ON DELETE TO "expired_session" DO INSTEAD
-  DELETE FROM "session" WHERE "ident" = OLD."ident";
-
-COMMENT ON VIEW "expired_session" IS 'View containing all expired sessions where DELETE is possible';
-COMMENT ON RULE "delete" ON "expired_session" IS 'Rule allowing DELETE on rows in "expired_session" view, i.e. DELETE FROM "expired_session"';
 
 
 CREATE VIEW "open_issue" AS
@@ -3976,7 +3950,6 @@ CREATE FUNCTION "check_everything"()
     DECLARE
       "issue_id_v" "issue"."id"%TYPE;
     BEGIN
-      DELETE FROM "expired_session";
       PERFORM "check_last_login"();
       PERFORM "calculate_member_counts"();
       FOR "issue_id_v" IN SELECT "id" FROM "open_issue" LOOP
@@ -4089,7 +4062,6 @@ CREATE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
       DELETE FROM "member_image"       WHERE "member_id" = "member_id_p";
       DELETE FROM "contact"            WHERE "member_id" = "member_id_p";
       DELETE FROM "ignored_member"     WHERE "member_id" = "member_id_p";
-      DELETE FROM "session"            WHERE "member_id" = "member_id_p";
       DELETE FROM "area_setting"       WHERE "member_id" = "member_id_p";
       DELETE FROM "issue_setting"      WHERE "member_id" = "member_id_p";
       DELETE FROM "ignored_initiative" WHERE "member_id" = "member_id_p";
@@ -4146,7 +4118,6 @@ CREATE FUNCTION "delete_private_data"()
       DELETE FROM "member_image";
       DELETE FROM "contact";
       DELETE FROM "ignored_member";
-      DELETE FROM "session";
       DELETE FROM "area_setting";
       DELETE FROM "issue_setting";
       DELETE FROM "ignored_initiative";
