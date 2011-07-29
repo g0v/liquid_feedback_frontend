@@ -3,30 +3,30 @@
 
 BEGIN;
 
-INSERT INTO "member" ("activated", "active", "login", "name") VALUES
-  ('now', TRUE, 'user1',  'User #1'),   -- id  1
-  ('now', TRUE, 'user2',  'User #2'),   -- id  2
-  ('now', TRUE, 'user3',  'User #3'),   -- id  3
-  ('now', TRUE, 'user4',  'User #4'),   -- id  4
-  ('now', TRUE, 'user5',  'User #5'),   -- id  5
-  ('now', TRUE, 'user6',  'User #6'),   -- id  6
-  ('now', TRUE, 'user7',  'User #7'),   -- id  7
-  ('now', TRUE, 'user8',  'User #8'),   -- id  8
-  ('now', TRUE, 'user9',  'User #9'),   -- id  9
-  ('now', TRUE, 'user10', 'User #10'),  -- id 10
-  ('now', TRUE, 'user11', 'User #11'),  -- id 11
-  ('now', TRUE, 'user12', 'User #12'),  -- id 12
-  ('now', TRUE, 'user13', 'User #13'),  -- id 13
-  ('now', TRUE, 'user14', 'User #14'),  -- id 14
-  ('now', TRUE, 'user15', 'User #15'),  -- id 15
-  ('now', TRUE, 'user16', 'User #16'),  -- id 16
-  ('now', TRUE, 'user17', 'User #17'),  -- id 17
-  ('now', TRUE, 'user18', 'User #18'),  -- id 18
-  ('now', TRUE, 'user19', 'User #19'),  -- id 19
-  ('now', TRUE, 'user20', 'User #20'),  -- id 20
-  ('now', TRUE, 'user21', 'User #21'),  -- id 21
-  ('now', TRUE, 'user22', 'User #22'),  -- id 22
-  ('now', TRUE, 'user23', 'User #23');  -- id 23
+INSERT INTO "member" ("activated", "last_activity", "active", "login", "name") VALUES
+  ('now', 'now', TRUE, 'user1',  'User #1'),   -- id  1
+  ('now', 'now', TRUE, 'user2',  'User #2'),   -- id  2
+  ('now', 'now', TRUE, 'user3',  'User #3'),   -- id  3
+  ('now', 'now', TRUE, 'user4',  'User #4'),   -- id  4
+  ('now', 'now', TRUE, 'user5',  'User #5'),   -- id  5
+  ('now', 'now', TRUE, 'user6',  'User #6'),   -- id  6
+  ('now', 'now', TRUE, 'user7',  'User #7'),   -- id  7
+  ('now', 'now', TRUE, 'user8',  'User #8'),   -- id  8
+  ('now', 'now', TRUE, 'user9',  'User #9'),   -- id  9
+  ('now', 'now', TRUE, 'user10', 'User #10'),  -- id 10
+  ('now', 'now', TRUE, 'user11', 'User #11'),  -- id 11
+  ('now', 'now', TRUE, 'user12', 'User #12'),  -- id 12
+  ('now', 'now', TRUE, 'user13', 'User #13'),  -- id 13
+  ('now', 'now', TRUE, 'user14', 'User #14'),  -- id 14
+  ('now', 'now', TRUE, 'user15', 'User #15'),  -- id 15
+  ('now', 'now', TRUE, 'user16', 'User #16'),  -- id 16
+  ('now', 'now', TRUE, 'user17', 'User #17'),  -- id 17
+  ('now', 'now', TRUE, 'user18', 'User #18'),  -- id 18
+  ('now', 'now', TRUE, 'user19', 'User #19'),  -- id 19
+  ('now', 'now', TRUE, 'user20', 'User #20'),  -- id 20
+  ('now', 'now', TRUE, 'user21', 'User #21'),  -- id 21
+  ('now', 'now', TRUE, 'user22', 'User #22'),  -- id 22
+  ('now', 'now', TRUE, 'user23', 'User #23');  -- id 23
 
 -- set password to "login"
 UPDATE "member" SET "password" = '$1$PcI6b1Bg$2SHjAZH2nMLFp0fxHis.Q0';

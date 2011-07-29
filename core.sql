@@ -61,7 +61,7 @@ CREATE UNIQUE INDEX "system_setting_singleton_idx" ON "system_setting" ((1));
 COMMENT ON TABLE "system_setting" IS 'This table contains only one row with different settings in each column.';
 COMMENT ON INDEX "system_setting_singleton_idx" IS 'This index ensures that "system_setting" only contains one row maximum.';
 
-COMMENT ON COLUMN "system_setting"."member_ttl" IS 'Time after members get their "active" flag set to FALSE, if they do not login anymore.';
+COMMENT ON COLUMN "system_setting"."member_ttl" IS 'Time after members get their "active" flag set to FALSE, if they do not show any activity.';
 
 
 CREATE TABLE "contingent" (
@@ -87,8 +87,8 @@ CREATE TABLE "member" (
         "invite_code"           TEXT            UNIQUE,
         "admin_comment"         TEXT,
         "activated"             TIMESTAMPTZ,
+        "last_activity"         DATE,
         "last_login"            TIMESTAMPTZ,
-        "last_login_public"     DATE,
         "login"                 TEXT            UNIQUE,
         "password"              TEXT,
         "locked"                BOOLEAN         NOT NULL DEFAULT FALSE,
@@ -121,8 +121,8 @@ CREATE TABLE "member" (
         "formatting_engine"     TEXT,
         "statement"             TEXT,
         "text_search_data"      TSVECTOR,
-        CONSTRAINT "not_active_without_activated"
-          CHECK ("activated" NOTNULL OR "active" = FALSE) );
+        CONSTRAINT "active_requires_activated_and_last_activity"
+          CHECK ("active" = FALSE OR ("activated" NOTNULL AND "last_activity" NOTNULL)) );
 CREATE INDEX "member_active_idx" ON "member" ("active");
 CREATE INDEX "member_text_search_data_idx" ON "member" USING gin ("text_search_data");
 CREATE TRIGGER "update_text_search_data"
@@ -137,13 +137,13 @@ COMMENT ON TABLE "member" IS 'Users of the system, e.g. members of an organizati
 COMMENT ON COLUMN "member"."created"              IS 'Creation of member record and/or invite code';
 COMMENT ON COLUMN "member"."invite_code"          IS 'Optional invite code, to allow a member to initialize his/her account the first time';
 COMMENT ON COLUMN "member"."admin_comment"        IS 'Hidden comment for administrative purposes';
-COMMENT ON COLUMN "member"."activated"            IS 'Timestamp of activation of account (i.e. usage of "invite_code"); needs to be set for "active" members';
+COMMENT ON COLUMN "member"."activated"            IS 'Timestamp of activation of account (i.e. usage of "invite_code"); required to be set for "active" members';
+COMMENT ON COLUMN "member"."last_activity"        IS 'Date of last activity of member; required to be set for "active" members';
 COMMENT ON COLUMN "member"."last_login"           IS 'Timestamp of last login';
-COMMENT ON COLUMN "member"."last_login_public"    IS 'Date of last login (time stripped for privacy reasons, updated only after day change)';
 COMMENT ON COLUMN "member"."login"                IS 'Login name';
 COMMENT ON COLUMN "member"."password"             IS 'Password (preferably as crypto-hash, depending on the frontend or access layer)';
 COMMENT ON COLUMN "member"."locked"               IS 'Locked members can not log in.';
-COMMENT ON COLUMN "member"."active"               IS 'Memberships, support and votes are taken into account when corresponding members are marked as active. When the user does not log in for an extended period of time, this flag may be set to FALSE. If the user is not locked, he/she may reset the active flag by logging in (has to be set to TRUE by frontend on every login).';
+COMMENT ON COLUMN "member"."active"               IS 'Memberships, support and votes are taken into account when corresponding members are marked as active. Automatically set to FALSE, if "last_activity" is older than "system_setting"."member_ttl".';
 COMMENT ON COLUMN "member"."admin"                IS 'TRUE for admins, which can administrate other users and setup policies and areas';
 COMMENT ON COLUMN "member"."notify_email"         IS 'Email address where notifications of the system are sent to';
 COMMENT ON COLUMN "member"."notify_email_unconfirmed"   IS 'Unconfirmed email address provided by the member to be copied into "notify_email" field after verification';
@@ -2654,7 +2654,7 @@ COMMENT ON FUNCTION "lock_issue"
 -- Regular tasks, except calculcation of snapshots and voting results --
 ------------------------------------------------------------------------
 
-CREATE FUNCTION "check_last_login"()
+CREATE FUNCTION "check_activity"()
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     DECLARE
@@ -2662,29 +2662,16 @@ CREATE FUNCTION "check_last_login"()
     BEGIN
       SELECT * INTO "system_setting_row" FROM "system_setting";
       LOCK TABLE "member" IN SHARE ROW EXCLUSIVE MODE;
-      UPDATE "member" SET "last_login_public" = "last_login"::date
-        FROM (
-          SELECT DISTINCT "member"."id"
-          FROM "member" LEFT JOIN "member_history"
-          ON "member"."id" = "member_history"."member_id"
-          WHERE "member"."last_login"::date < 'today' OR (
-            "member_history"."until"::date >= 'today' AND
-            "member_history"."active" = FALSE AND "member"."active" = TRUE
-          )
-        ) AS "subquery"
-        WHERE "member"."id" = "subquery"."id";
       IF "system_setting_row"."member_ttl" NOTNULL THEN
         UPDATE "member" SET "active" = FALSE
           WHERE "active" = TRUE
-          AND "last_login"::date < 'today'
-          AND "last_login_public" <
-            (now() - "system_setting_row"."member_ttl")::date;
+          AND "last_activity" < (now() - "system_setting_row"."member_ttl")::DATE;
       END IF;
       RETURN;
     END;
   $$;
 
-COMMENT ON FUNCTION "check_last_login"() IS 'Updates "last_login_public" field, which contains the date but not the time of the last login, and deactivates members who do not login for the time specified in "system_setting"."member_ttl". For privacy reasons this function does not update "last_login_public", if the last login of a member has been today (except when member was reactivated today).';
+COMMENT ON FUNCTION "check_activity"() IS 'Deactivates members when "last_activity" is older than "system_setting"."member_ttl".';
 
 
 CREATE FUNCTION "calculate_member_counts"()
@@ -3950,7 +3937,7 @@ CREATE FUNCTION "check_everything"()
     DECLARE
       "issue_id_v" "issue"."id"%TYPE;
     BEGIN
-      PERFORM "check_last_login"();
+      PERFORM "check_activity"();
       PERFORM "calculate_member_counts"();
       FOR "issue_id_v" IN SELECT "id" FROM "open_issue" LOOP
         PERFORM "check_issue"("issue_id_v");
@@ -4028,7 +4015,6 @@ CREATE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
     BEGIN
       UPDATE "member" SET
         "last_login"                   = NULL,
-        "last_login_public"            = NULL,
         "login"                        = NULL,
         "password"                     = NULL,
         "locked"                       = TRUE,

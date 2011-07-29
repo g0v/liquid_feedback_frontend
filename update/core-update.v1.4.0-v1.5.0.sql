@@ -9,13 +9,16 @@ CREATE OR REPLACE VIEW "liquid_feedback_version" AS
 ALTER TABLE "member" ADD COLUMN "invite_code" TEXT UNIQUE;
 ALTER TABLE "member" ADD COLUMN "admin_comment" TEXT;
 ALTER TABLE "member" ADD COLUMN "activated" TIMESTAMPTZ;
+ALTER TABLE "member" ADD COLUMN "last_activity" DATE;
+ALTER TABLE "member" DROP COLUMN "last_login_public";
 ALTER TABLE "member" ALTER COLUMN "active" SET DEFAULT FALSE;
 ALTER TABLE "member" ADD COLUMN "formatting_engine" TEXT;
 
 COMMENT ON COLUMN "member"."created"           IS 'Creation of member record and/or invite code';
 COMMENT ON COLUMN "member"."invite_code"       IS 'Optional invite code, to allow a member to initialize his/her account the first time';
-COMMENT ON COLUMN "member"."activated"         IS 'Timestamp of activation of account (i.e. usage of "invite_code"); needs to be set for "active" members';
-COMMENT ON COLUMN "member"."active"            IS 'Memberships, support and votes are taken into account when corresponding members are marked as active. When the user does not log in for an extended period of time, this flag may be set to FALSE. If the user is not locked, he/she may reset the active flag by logging in (has to be set to TRUE by frontend on every login).';
+COMMENT ON COLUMN "member"."activated"         IS 'Timestamp of activation of account (i.e. usage of "invite_code"); required to be set for "active" members';
+COMMENT ON COLUMN "member"."last_activity"     IS 'Date of last activity of member; required to be set for "active" members';
+COMMENT ON COLUMN "member"."active"            IS 'Memberships, support and votes are taken into account when corresponding members are marked as active. Automatically set to FALSE, if "last_activity" is older than "system_setting"."member_ttl".';
 COMMENT ON COLUMN "member"."formatting_engine" IS 'Allows different formatting engines (i.e. wiki formats) to be used for "member"."statement"';
 
 CREATE TABLE "rendered_member_statement" (
@@ -287,6 +290,27 @@ CREATE VIEW "battle_view" AS
     "losing_initiative"."id";
 
 COMMENT ON VIEW "battle_view" IS 'Number of members preferring one initiative (or status-quo) to another initiative (or status-quo); Used to fill "battle" table';
+
+DROP FUNCTION "check_last_login"();
+
+CREATE FUNCTION "check_activity"()
+  RETURNS VOID
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    DECLARE
+      "system_setting_row" "system_setting"%ROWTYPE;
+    BEGIN
+      SELECT * INTO "system_setting_row" FROM "system_setting";
+      LOCK TABLE "member" IN SHARE ROW EXCLUSIVE MODE;
+      IF "system_setting_row"."member_ttl" NOTNULL THEN
+        UPDATE "member" SET "active" = FALSE
+          WHERE "active" = TRUE
+          AND "last_activity" < (now() - "system_setting_row"."member_ttl")::DATE;
+      END IF;
+      RETURN;
+    END;
+  $$;
+
+COMMENT ON FUNCTION "check_activity"() IS 'Deactivates members when "last_activity" is older than "system_setting"."member_ttl".';
 
 CREATE OR REPLACE FUNCTION "create_interest_snapshot"
   ( "issue_id_p" "issue"."id"%TYPE )
@@ -1050,7 +1074,7 @@ CREATE OR REPLACE FUNCTION "check_everything"()
     DECLARE
       "issue_id_v" "issue"."id"%TYPE;
     BEGIN
-      PERFORM "check_last_login"();
+      PERFORM "check_activity"();
       PERFORM "calculate_member_counts"();
       FOR "issue_id_v" IN SELECT "id" FROM "open_issue" LOOP
         PERFORM "check_issue"("issue_id_v");
@@ -1068,7 +1092,6 @@ CREATE OR REPLACE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
     BEGIN
       UPDATE "member" SET
         "last_login"                   = NULL,
-        "last_login_public"            = NULL,
         "login"                        = NULL,
         "password"                     = NULL,
         "locked"                       = TRUE,
@@ -1172,7 +1195,13 @@ COMMIT;
 
 BEGIN;
 
-UPDATE "member" SET "activated" = "created";
+UPDATE "member" SET
+  "activated" = "created",
+  "last_activity" = CASE WHEN "active" THEN
+    coalesce("last_login"::DATE, now())
+  ELSE
+    "last_login"::DATE
+  END;
 
 UPDATE "member" SET
   "created" = "invite_code"."created",
@@ -1254,6 +1283,6 @@ UPDATE "suggestion" SET "draft_id" = "subquery"."draft_id"
 
 COMMIT;
 
-ALTER TABLE "member" ADD CONSTRAINT "not_active_without_activated"
-  CHECK ("activated" NOTNULL OR "active" = FALSE);
+ALTER TABLE "member" ADD CONSTRAINT "active_requires_activated_and_last_activity"
+  CHECK ("active" = FALSE OR ("activated" NOTNULL AND "last_activity" NOTNULL));
 ALTER TABLE "suggestion" ALTER COLUMN "draft_id" SET NOT NULL;
