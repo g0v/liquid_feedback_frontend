@@ -16,6 +16,7 @@ ALTER TABLE "member" ADD COLUMN "formatting_engine" TEXT;
 
 COMMENT ON COLUMN "member"."created"           IS 'Creation of member record and/or invite code';
 COMMENT ON COLUMN "member"."invite_code"       IS 'Optional invite code, to allow a member to initialize his/her account the first time';
+COMMENT ON COLUMN "member"."admin_comment"     IS 'Hidden comment for administrative purposes';
 COMMENT ON COLUMN "member"."activated"         IS 'Timestamp of activation of account (i.e. usage of "invite_code"); required to be set for "active" members';
 COMMENT ON COLUMN "member"."last_activity"     IS 'Date of last activity of member; required to be set for "active" members';
 COMMENT ON COLUMN "member"."active"            IS 'Memberships, support and votes are taken into account when corresponding members are marked as active. Automatically set to FALSE, if "last_activity" is older than "system_setting"."member_ttl".';
@@ -171,8 +172,6 @@ CREATE UNIQUE INDEX "battle_winning_null_idx" ON "battle" ("issue_id", "winning_
 CREATE UNIQUE INDEX "battle_null_losing_idx" ON "battle" ("issue_id", "losing_initiative_id") WHERE "winning_initiative_id" ISNULL;
 
 ALTER TABLE "suggestion" ADD COLUMN "draft_id" INT8;
--- more later
-
 ALTER TABLE "suggestion" ADD FOREIGN KEY ("initiative_id", "draft_id") REFERENCES "draft" ("initiative_id", "id") ON DELETE NO ACTION ON UPDATE CASCADE;
 ALTER TABLE "suggestion" ADD COLUMN "formatting_engine" TEXT;
 ALTER TABLE "suggestion" RENAME COLUMN "description" TO "content";
@@ -1249,7 +1248,7 @@ UPDATE "issue" SET "status_quo_schulze_rank" = "subquery"."rank"
   FROM (
     SELECT
       "issue"."id" AS "issue_id",
-      COALESCE(max("initiative"."rank") + 1) AS "rank"
+      COALESCE(max("initiative"."rank") + 1, 1) AS "rank"
     FROM "issue" JOIN "initiative"
     ON "issue"."id" = "initiative"."issue_id"
     WHERE "issue"."state" IN ('finished_without_winner', 'finished_with_winner')
