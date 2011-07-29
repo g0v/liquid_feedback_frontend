@@ -85,6 +85,7 @@ CREATE TABLE "member" (
         "id"                    SERIAL4         PRIMARY KEY,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "invite_code"           TEXT            UNIQUE,
+        "admin_comment"         TEXT,
         "activated"             TIMESTAMPTZ,
         "last_login"            TIMESTAMPTZ,
         "last_login_public"     DATE,
@@ -135,13 +136,14 @@ COMMENT ON TABLE "member" IS 'Users of the system, e.g. members of an organizati
 
 COMMENT ON COLUMN "member"."created"              IS 'Creation of member record and/or invite code';
 COMMENT ON COLUMN "member"."invite_code"          IS 'Optional invite code, to allow a member to initialize his/her account the first time';
-COMMENT ON COLUMN "member"."activated"            IS 'Timestamp of first activation of account (set automatically by "set_activated_timestamp" trigger)';
+COMMENT ON COLUMN "member"."admin_comment"        IS 'Hidden comment for administrative purposes';
+COMMENT ON COLUMN "member"."activated"            IS 'Timestamp of activation of account (i.e. usage of "invite_code"); needs to be set for "active" members';
 COMMENT ON COLUMN "member"."last_login"           IS 'Timestamp of last login';
 COMMENT ON COLUMN "member"."last_login_public"    IS 'Date of last login (time stripped for privacy reasons, updated only after day change)';
 COMMENT ON COLUMN "member"."login"                IS 'Login name';
 COMMENT ON COLUMN "member"."password"             IS 'Password (preferably as crypto-hash, depending on the frontend or access layer)';
 COMMENT ON COLUMN "member"."locked"               IS 'Locked members can not log in.';
-COMMENT ON COLUMN "member"."active"               IS 'Memberships, support and votes are taken into account when corresponding members are marked as active. When the user does not log in for an extended period of time, this flag may be set to FALSE. If the user is not locked, he/she may reset the active flag by logging in (has to be set to TRUE by frontend).';
+COMMENT ON COLUMN "member"."active"               IS 'Memberships, support and votes are taken into account when corresponding members are marked as active. When the user does not log in for an extended period of time, this flag may be set to FALSE. If the user is not locked, he/she may reset the active flag by logging in (has to be set to TRUE by frontend on every login).';
 COMMENT ON COLUMN "member"."admin"                IS 'TRUE for admins, which can administrate other users and setup policies and areas';
 COMMENT ON COLUMN "member"."notify_email"         IS 'Email address where notifications of the system are sent to';
 COMMENT ON COLUMN "member"."notify_email_unconfirmed"   IS 'Unconfirmed email address provided by the member to be copied into "notify_email" field after verification';
@@ -1127,31 +1129,6 @@ COMMENT ON COLUMN "event"."occurrence" IS 'Point in time, when event occurred';
 COMMENT ON COLUMN "event"."event"      IS 'Type of event (see TYPE "event_type")';
 COMMENT ON COLUMN "event"."member_id"  IS 'Member who caused the event, if applicable';
 COMMENT ON COLUMN "event"."state"      IS 'If issue_id is set: state of affected issue; If state changed: new state';
-
-
-
----------------------------------------------------
--- Triggers related to member account activation --
----------------------------------------------------
-
-
-CREATE FUNCTION "set_member_activated_timestamp_trigger"()
-  RETURNS TRIGGER
-  LANGUAGE 'plpgsql' VOLATILE AS $$
-    BEGIN
-      IF NEW."activated" ISNULL AND NEW."active" THEN
-        NEW."activated" := now();
-      END IF;
-      RETURN NEW;
-    END;
-  $$;
-
-CREATE TRIGGER "set_activated_timestamp"
-  BEFORE INSERT OR UPDATE ON "member" FOR EACH ROW EXECUTE PROCEDURE
-  "set_member_activated_timestamp_trigger"();
-
-COMMENT ON FUNCTION "set_member_activated_timestamp_trigger"() IS 'Implementation of trigger "set_activated_timestamp" on table "member"';
-COMMENT ON TRIGGER "set_activated_timestamp" ON "member"       IS 'Set "activated" to now(), if it is NULL and "active" is set to TRUE';
 
 
 

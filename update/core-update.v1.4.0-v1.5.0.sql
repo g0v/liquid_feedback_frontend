@@ -6,7 +6,16 @@ CREATE OR REPLACE VIEW "liquid_feedback_version" AS
   SELECT * FROM (VALUES ('1.5.0_devel', 1, 5, -1))
   AS "subquery"("string", "major", "minor", "revision");
 
+ALTER TABLE "member" ADD COLUMN "invite_code" TEXT UNIQUE;
+ALTER TABLE "member" ADD COLUMN "admin_comment" TEXT;
+ALTER TABLE "member" ADD COLUMN "activated" TIMESTAMPTZ;
+ALTER TABLE "member" ALTER COLUMN "active" SET DEFAULT FALSE;
 ALTER TABLE "member" ADD COLUMN "formatting_engine" TEXT;
+
+COMMENT ON COLUMN "member"."created"           IS 'Creation of member record and/or invite code';
+COMMENT ON COLUMN "member"."invite_code"       IS 'Optional invite code, to allow a member to initialize his/her account the first time';
+COMMENT ON COLUMN "member"."activated"         IS 'Timestamp of activation of account (i.e. usage of "invite_code"); needs to be set for "active" members';
+COMMENT ON COLUMN "member"."active"            IS 'Memberships, support and votes are taken into account when corresponding members are marked as active. When the user does not log in for an extended period of time, this flag may be set to FALSE. If the user is not locked, he/she may reset the active flag by logging in (has to be set to TRUE by frontend on every login).';
 COMMENT ON COLUMN "member"."formatting_engine" IS 'Allows different formatting engines (i.e. wiki formats) to be used for "member"."statement"';
 
 CREATE TABLE "rendered_member_statement" (
@@ -1034,6 +1043,18 @@ COMMIT;
 
 BEGIN;
 
+UPDATE "member" SET "activated" = "created";
+
+UPDATE "member" SET
+  "created" = "invite_code"."created",
+  "invite_code" = "invite_code"."code",
+  "admin_comment" = "invite_code"."comment"
+  FROM "invite_code"
+  WHERE "member"."id" = "invite_code"."member_id";
+
+DROP TABLE "invite_code_unit";
+DROP TABLE "invite_code";
+
 UPDATE "initiative" SET
     "direct_majority"        = "rank" NOTNULL,
     "indirect_majority"      = "rank" NOTNULL,
@@ -1105,4 +1126,6 @@ UPDATE "suggestion" SET "draft_id" = "subquery"."draft_id"
 
 COMMIT;
 
+ALTER TABLE "member" ADD CONSTRAINT "not_active_without_activated"
+  CHECK ("activated" NOTNULL OR "active" = FALSE);
 ALTER TABLE "suggestion" ALTER COLUMN "draft_id" SET NOT NULL;
