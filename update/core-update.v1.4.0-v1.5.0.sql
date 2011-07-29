@@ -21,6 +21,24 @@ COMMENT ON COLUMN "member"."last_activity"     IS 'Date of last activity of memb
 COMMENT ON COLUMN "member"."active"            IS 'Memberships, support and votes are taken into account when corresponding members are marked as active. Automatically set to FALSE, if "last_activity" is older than "system_setting"."member_ttl".';
 COMMENT ON COLUMN "member"."formatting_engine" IS 'Allows different formatting engines (i.e. wiki formats) to be used for "member"."statement"';
 
+CREATE TYPE "application_access_level" AS ENUM
+  ('member', 'full', 'pseudonymous', 'anonymous');
+
+COMMENT ON TYPE "application_access_level" IS 'Access privileges for applications using the API';
+
+CREATE TABLE "member_application" (
+        "id"                    SERIAL8         PRIMARY KEY,
+        UNIQUE ("member_id", "name"),
+        "member_id"             INT4            NOT NULL REFERENCES "member" ("id")
+                                                ON DELETE CASCADE ON UPDATE CASCADE,
+        "name"                  TEXT            NOT NULL,
+        "comment"               TEXT,
+        "access_level" "application_access_level" NOT NULL,
+        "key"                   TEXT            NOT NULL,
+        "last_usage"            TIMESTAMPTZ );
+
+COMMENT ON TABLE "member_application" IS 'Registered application being allowed to use the API';
+
 CREATE TABLE "rendered_member_statement" (
         PRIMARY KEY ("member_id", "format"),
         "member_id"             INT8            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
