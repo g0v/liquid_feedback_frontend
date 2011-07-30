@@ -178,7 +178,7 @@ CREATE TABLE "member_application" (
         "name"                  TEXT            NOT NULL,
         "comment"               TEXT,
         "access_level" "application_access_level" NOT NULL,
-        "key"                   TEXT            NOT NULL,
+        "key"                   TEXT            NOT NULL UNIQUE,
         "last_usage"            TIMESTAMPTZ );
 
 COMMENT ON TABLE "member_application" IS 'Registered application being allowed to use the API';
