@@ -329,6 +329,31 @@ CREATE FUNCTION "check_activity"()
 
 COMMENT ON FUNCTION "check_activity"() IS 'Deactivates members when "last_activity" is older than "system_setting"."member_ttl".';
 
+CREATE OR REPLACE FUNCTION "calculate_member_counts"()
+  RETURNS VOID
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      LOCK TABLE "member"       IN SHARE MODE;
+      LOCK TABLE "member_count" IN EXCLUSIVE MODE;
+      LOCK TABLE "unit"         IN EXCLUSIVE MODE;
+      LOCK TABLE "area"         IN EXCLUSIVE MODE;
+      LOCK TABLE "privilege"    IN SHARE MODE;
+      LOCK TABLE "membership"   IN SHARE MODE;
+      DELETE FROM "member_count";
+      INSERT INTO "member_count" ("total_count")
+        SELECT "total_count" FROM "member_count_view";
+      UPDATE "unit" SET "member_count" = "view"."member_count"
+        FROM "unit_member_count" AS "view"
+        WHERE "view"."unit_id" = "unit"."id";
+      UPDATE "area" SET
+        "direct_member_count" = "view"."direct_member_count",
+        "member_weight"       = "view"."member_weight"
+        FROM "area_member_count" AS "view"
+        WHERE "view"."area_id" = "area"."id";
+      RETURN;
+    END;
+  $$;
+
 CREATE OR REPLACE FUNCTION "create_interest_snapshot"
   ( "issue_id_p" "issue"."id"%TYPE )
   RETURNS VOID
