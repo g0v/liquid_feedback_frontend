@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('1.4.0', 1, 4, 0))
+  SELECT * FROM (VALUES ('2.0.0', 2, 0, 0))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -61,7 +61,7 @@ CREATE UNIQUE INDEX "system_setting_singleton_idx" ON "system_setting" ((1));
 COMMENT ON TABLE "system_setting" IS 'This table contains only one row with different settings in each column.';
 COMMENT ON INDEX "system_setting_singleton_idx" IS 'This index ensures that "system_setting" only contains one row maximum.';
 
-COMMENT ON COLUMN "system_setting"."member_ttl" IS 'Time after members get their "active" flag set to FALSE, if they do not login anymore.';
+COMMENT ON COLUMN "system_setting"."member_ttl" IS 'Time after members get their "active" flag set to FALSE, if they do not show any activity.';
 
 
 CREATE TABLE "contingent" (
@@ -84,12 +84,15 @@ COMMENT ON TYPE "notify_level" IS 'Level of notification: ''none'' = no notifica
 CREATE TABLE "member" (
         "id"                    SERIAL4         PRIMARY KEY,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
+        "invite_code"           TEXT            UNIQUE,
+        "admin_comment"         TEXT,
+        "activated"             TIMESTAMPTZ,
+        "last_activity"         DATE,
         "last_login"            TIMESTAMPTZ,
-        "last_login_public"     DATE,
         "login"                 TEXT            UNIQUE,
         "password"              TEXT,
         "locked"                BOOLEAN         NOT NULL DEFAULT FALSE,
-        "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
+        "active"                BOOLEAN         NOT NULL DEFAULT FALSE,
         "admin"                 BOOLEAN         NOT NULL DEFAULT FALSE,
         "notify_email"          TEXT,
         "notify_email_unconfirmed"     TEXT,
@@ -115,8 +118,11 @@ CREATE TABLE "member" (
         "profession"            TEXT,
         "external_memberships"  TEXT,
         "external_posts"        TEXT,
+        "formatting_engine"     TEXT,
         "statement"             TEXT,
-        "text_search_data"      TSVECTOR );
+        "text_search_data"      TSVECTOR,
+        CONSTRAINT "active_requires_activated_and_last_activity"
+          CHECK ("active" = FALSE OR ("activated" NOTNULL AND "last_activity" NOTNULL)) );
 CREATE INDEX "member_active_idx" ON "member" ("active");
 CREATE INDEX "member_text_search_data_idx" ON "member" USING gin ("text_search_data");
 CREATE TRIGGER "update_text_search_data"
@@ -128,12 +134,16 @@ CREATE TRIGGER "update_text_search_data"
 
 COMMENT ON TABLE "member" IS 'Users of the system, e.g. members of an organization';
 
+COMMENT ON COLUMN "member"."created"              IS 'Creation of member record and/or invite code';
+COMMENT ON COLUMN "member"."invite_code"          IS 'Optional invite code, to allow a member to initialize his/her account the first time';
+COMMENT ON COLUMN "member"."admin_comment"        IS 'Hidden comment for administrative purposes';
+COMMENT ON COLUMN "member"."activated"            IS 'Timestamp of activation of account (i.e. usage of "invite_code"); required to be set for "active" members';
+COMMENT ON COLUMN "member"."last_activity"        IS 'Date of last activity of member; required to be set for "active" members';
 COMMENT ON COLUMN "member"."last_login"           IS 'Timestamp of last login';
-COMMENT ON COLUMN "member"."last_login_public"    IS 'Date of last login (time stripped for privacy reasons, updated only after day change)';
 COMMENT ON COLUMN "member"."login"                IS 'Login name';
 COMMENT ON COLUMN "member"."password"             IS 'Password (preferably as crypto-hash, depending on the frontend or access layer)';
 COMMENT ON COLUMN "member"."locked"               IS 'Locked members can not log in.';
-COMMENT ON COLUMN "member"."active"               IS 'Memberships, support and votes are taken into account when corresponding members are marked as active. When the user does not log in for an extended period of time, this flag may be set to FALSE. If the user is not locked, he/she may reset the active flag by logging in.';
+COMMENT ON COLUMN "member"."active"               IS 'Memberships, support and votes are taken into account when corresponding members are marked as active. Automatically set to FALSE, if "last_activity" is older than "system_setting"."member_ttl".';
 COMMENT ON COLUMN "member"."admin"                IS 'TRUE for admins, which can administrate other users and setup policies and areas';
 COMMENT ON COLUMN "member"."notify_email"         IS 'Email address where notifications of the system are sent to';
 COMMENT ON COLUMN "member"."notify_email_unconfirmed"   IS 'Unconfirmed email address provided by the member to be copied into "notify_email" field after verification';
@@ -150,7 +160,28 @@ COMMENT ON COLUMN "member"."realname"             IS 'Real name of the member, m
 COMMENT ON COLUMN "member"."email"                IS 'Published email address of the member; not used for system notifications';
 COMMENT ON COLUMN "member"."external_memberships" IS 'Other organizations the member is involved in';
 COMMENT ON COLUMN "member"."external_posts"       IS 'Posts (offices) outside the organization';
+COMMENT ON COLUMN "member"."formatting_engine"    IS 'Allows different formatting engines (i.e. wiki formats) to be used for "member"."statement"';
 COMMENT ON COLUMN "member"."statement"            IS 'Freely chosen text of the member for his homepage within the system';
+
+
+CREATE TYPE "application_access_level" AS ENUM
+  ('member', 'full', 'pseudonymous', 'anonymous');
+
+COMMENT ON TYPE "application_access_level" IS 'Access privileges for applications using the API';
+
+
+CREATE TABLE "member_application" (
+        "id"                    SERIAL8         PRIMARY KEY,
+        UNIQUE ("member_id", "name"),
+        "member_id"             INT4            NOT NULL REFERENCES "member" ("id")
+                                                ON DELETE CASCADE ON UPDATE CASCADE,
+        "name"                  TEXT            NOT NULL,
+        "comment"               TEXT,
+        "access_level" "application_access_level" NOT NULL,
+        "key"                   TEXT            NOT NULL UNIQUE,
+        "last_usage"            TIMESTAMPTZ );
+
+COMMENT ON TABLE "member_application" IS 'Registered application being allowed to use the API';
 
 
 CREATE TABLE "member_history" (
@@ -167,22 +198,13 @@ COMMENT ON COLUMN "member_history"."id"    IS 'Primary key, which can be used to
 COMMENT ON COLUMN "member_history"."until" IS 'Timestamp until the data was valid';
 
 
-CREATE TABLE "invite_code" (
-        "id"                    SERIAL8         PRIMARY KEY,
-        "code"                  TEXT            NOT NULL UNIQUE,
-        "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
-        "used"                  TIMESTAMPTZ,
-        "member_id"             INT4            UNIQUE REFERENCES "member" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
-        "comment"               TEXT,
-        CONSTRAINT "only_used_codes_may_refer_to_member" CHECK ("used" NOTNULL OR "member_id" ISNULL) );
+CREATE TABLE "rendered_member_statement" (
+        PRIMARY KEY ("member_id", "format"),
+        "member_id"             INT8            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "format"                TEXT,
+        "content"               TEXT            NOT NULL );
 
-COMMENT ON TABLE "invite_code" IS 'Invite codes can be used once to create a new member account.';
-
-COMMENT ON COLUMN "invite_code"."code"      IS 'Secret code';
-COMMENT ON COLUMN "invite_code"."created"   IS 'Time of creation of the secret code';
-COMMENT ON COLUMN "invite_code"."used"      IS 'NULL, if not used yet, otherwise tells when this code was used to create a member account';
-COMMENT ON COLUMN "invite_code"."member_id" IS 'References the member whose account was created with this code';
-COMMENT ON COLUMN "invite_code"."comment"   IS 'Comment on the code, which is to be used for administrative reasons only';
+COMMENT ON TABLE "rendered_member_statement" IS 'This table may be used by frontends to cache "rendered" member statements (e.g. HTML output generated from wiki text)';
 
 
 CREATE TABLE "setting" (
@@ -278,22 +300,6 @@ COMMENT ON COLUMN "ignored_member"."member_id"       IS 'Member ignoring someone
 COMMENT ON COLUMN "ignored_member"."other_member_id" IS 'Member being ignored';
 
 
-CREATE TABLE "session" (
-        "ident"                 TEXT            PRIMARY KEY,
-        "additional_secret"     TEXT,
-        "expiry"                TIMESTAMPTZ     NOT NULL DEFAULT now() + '24 hours',
-        "member_id"             INT8            REFERENCES "member" ("id") ON DELETE SET NULL,
-        "lang"                  TEXT );
-CREATE INDEX "session_expiry_idx" ON "session" ("expiry");
-
-COMMENT ON TABLE "session" IS 'Sessions, i.e. for a web-frontend';
-
-COMMENT ON COLUMN "session"."ident"             IS 'Secret session identifier (i.e. random string)';
-COMMENT ON COLUMN "session"."additional_secret" IS 'Additional field to store a secret, which can be used against CSRF attacks';
-COMMENT ON COLUMN "session"."member_id"         IS 'Reference to member, who is logged in';
-COMMENT ON COLUMN "session"."lang"              IS 'Language code of the selected language';
-
-
 CREATE TABLE "policy" (
         "id"                    SERIAL4         PRIMARY KEY,
         "index"                 INT4            NOT NULL,
@@ -308,9 +314,18 @@ CREATE TABLE "policy" (
         "issue_quorum_den"      INT4            NOT NULL,
         "initiative_quorum_num" INT4            NOT NULL,
         "initiative_quorum_den" INT4            NOT NULL,
-        "majority_num"          INT4            NOT NULL DEFAULT 1,
-        "majority_den"          INT4            NOT NULL DEFAULT 2,
-        "majority_strict"       BOOLEAN         NOT NULL DEFAULT TRUE );
+        "direct_majority_num"           INT4    NOT NULL DEFAULT 1,
+        "direct_majority_den"           INT4    NOT NULL DEFAULT 2,
+        "direct_majority_strict"        BOOLEAN NOT NULL DEFAULT TRUE,
+        "direct_majority_positive"      INT4    NOT NULL DEFAULT 0,
+        "direct_majority_non_negative"  INT4    NOT NULL DEFAULT 0,
+        "indirect_majority_num"         INT4    NOT NULL DEFAULT 1,
+        "indirect_majority_den"         INT4    NOT NULL DEFAULT 2,
+        "indirect_majority_strict"      BOOLEAN NOT NULL DEFAULT TRUE,
+        "indirect_majority_positive"    INT4    NOT NULL DEFAULT 0,
+        "indirect_majority_non_negative" INT4   NOT NULL DEFAULT 0,
+        "no_reverse_beat_path"          BOOLEAN NOT NULL DEFAULT TRUE,
+        "no_multistage_majority"        BOOLEAN NOT NULL DEFAULT FALSE );
 CREATE INDEX "policy_active_idx" ON "policy" ("active");
 
 COMMENT ON TABLE "policy" IS 'Policies for a particular proceeding type (timelimits, quorum)';
@@ -325,9 +340,18 @@ COMMENT ON COLUMN "policy"."issue_quorum_num"      IS   'Numerator of potential 
 COMMENT ON COLUMN "policy"."issue_quorum_den"      IS 'Denominator of potential supporter quorum to be reached by one initiative of an issue to be "accepted"';
 COMMENT ON COLUMN "policy"."initiative_quorum_num" IS   'Numerator of satisfied supporter quorum  to be reached by an initiative to be "admitted" for voting';
 COMMENT ON COLUMN "policy"."initiative_quorum_den" IS 'Denominator of satisfied supporter quorum to be reached by an initiative to be "admitted" for voting';
-COMMENT ON COLUMN "policy"."majority_num"          IS   'Numerator of fraction of majority to be reached during voting by an initiative to be aggreed upon';
-COMMENT ON COLUMN "policy"."majority_den"          IS 'Denominator of fraction of majority to be reached during voting by an initiative to be aggreed upon';
-COMMENT ON COLUMN "policy"."majority_strict"       IS 'If TRUE, then the majority must be strictly greater than "majority_num"/"majority_den", otherwise it may also be equal.';
+COMMENT ON COLUMN "policy"."direct_majority_num"            IS 'Numerator of fraction of neccessary direct majority for initiatives to be attainable as winner';
+COMMENT ON COLUMN "policy"."direct_majority_den"            IS 'Denominator of fraction of neccessary direct majority for initaitives to be attainable as winner';
+COMMENT ON COLUMN "policy"."direct_majority_strict"         IS 'If TRUE, then the direct majority must be strictly greater than "direct_majority_num"/"direct_majority_den", otherwise it may also be equal.';
+COMMENT ON COLUMN "policy"."direct_majority_positive"       IS 'Absolute number of "positive_votes" neccessary for an initiative to be attainable as winner';
+COMMENT ON COLUMN "policy"."direct_majority_non_negative"   IS 'Absolute number of sum of "positive_votes" and abstentions neccessary for an initiative to be attainable as winner';
+COMMENT ON COLUMN "policy"."indirect_majority_num"          IS 'Numerator of fraction of neccessary indirect majority (through beat path) for initiatives to be attainable as winner';
+COMMENT ON COLUMN "policy"."indirect_majority_den"          IS 'Denominator of fraction of neccessary indirect majority (through beat path) for initiatives to be attainable as winner';
+COMMENT ON COLUMN "policy"."indirect_majority_strict"       IS 'If TRUE, then the indirect majority must be strictly greater than "indirect_majority_num"/"indirect_majority_den", otherwise it may also be equal.';
+COMMENT ON COLUMN "policy"."indirect_majority_positive"     IS 'Absolute number of votes in favor of the winner neccessary in a beat path to the status quo for an initaitive to be attainable as winner';
+COMMENT ON COLUMN "policy"."indirect_majority_non_negative" IS 'Absolute number of sum of votes in favor and abstentions in a beat path to the status quo for an initiative to be attainable as winner';
+COMMENT ON COLUMN "policy"."no_reverse_beat_path"  IS 'Causes initiatives with "reverse_beat_path" flag to not be "eligible", thus disallowing them to be winner. See comment on column "initiative"."reverse_beat_path". This option ensures both that a winning initiative is never tied in a (weak) condorcet paradox with the status quo and a winning initiative always beats the status quo directly with a simple majority.';
+COMMENT ON COLUMN "policy"."no_multistage_majority" IS 'Causes initiatives with "multistage_majority" flag to not be "eligible", thus disallowing them to be winner. See comment on column "initiative"."multistage_majority". This disqualifies initiatives which could cause an instable result. An instable result in this meaning is a result such that repeating the ballot with same preferences but with the winner of the first ballot as status quo would lead to a different winner in the second ballot. If there are no direct majorities required for the winner, or if in direct comparison only simple majorities are required and "no_reverse_beat_path" is true, then results are always stable and this flag does not have any effect on the winner (but still affects the "eligible" flag of an "initiative").';
 
 
 CREATE TABLE "unit" (
@@ -363,7 +387,6 @@ CREATE TABLE "area" (
         "description"           TEXT            NOT NULL DEFAULT '',
         "direct_member_count"   INT4,
         "member_weight"         INT4,
-        "autoreject_weight"     INT4,
         "text_search_data"      TSVECTOR );
 CREATE INDEX "area_unit_id_idx" ON "area" ("unit_id");
 CREATE INDEX "area_active_idx" ON "area" ("active");
@@ -379,7 +402,6 @@ COMMENT ON TABLE "area" IS 'Subject areas';
 COMMENT ON COLUMN "area"."active"              IS 'TRUE means new issues can be created in this area';
 COMMENT ON COLUMN "area"."direct_member_count" IS 'Number of active members of that area (ignoring their weight), as calculated from view "area_member_count"';
 COMMENT ON COLUMN "area"."member_weight"       IS 'Same as "direct_member_count" but respecting delegations';
-COMMENT ON COLUMN "area"."autoreject_weight"   IS 'Sum of weight of members using the autoreject feature';
 
 
 CREATE TABLE "area_setting" (
@@ -441,9 +463,8 @@ CREATE TABLE "issue" (
         "snapshot"              TIMESTAMPTZ,
         "latest_snapshot_event" "snapshot_event",
         "population"            INT4,
-        "vote_now"              INT4,
-        "vote_later"            INT4,
         "voter_count"           INT4,
+        "status_quo_schulze_rank" INT4,
         CONSTRAINT "valid_state" CHECK ((
           ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
           ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" NOTNULL AND "ranks_available" = FALSE) OR
@@ -492,22 +513,21 @@ CREATE INDEX "issue_closed_idx_canceled" ON "issue" ("closed") WHERE "fully_froz
 
 COMMENT ON TABLE "issue" IS 'Groups of initiatives';
 
-COMMENT ON COLUMN "issue"."accepted"              IS 'Point in time, when one initiative of issue reached the "issue_quorum"';
-COMMENT ON COLUMN "issue"."half_frozen"           IS 'Point in time, when "discussion_time" has elapsed, or members voted for voting; Frontends must ensure that for half_frozen issues a) initiatives are not revoked, b) no new drafts are created, c) no initiators are added or removed.';
-COMMENT ON COLUMN "issue"."fully_frozen"          IS 'Point in time, when "verification_time" has elapsed and voting has started; Frontends must ensure that for fully_frozen issues additionally to the restrictions for half_frozen issues a) initiatives are not created, b) no interest is created or removed, c) no supporters are added or removed, d) no opinions are created, changed or deleted.';
-COMMENT ON COLUMN "issue"."closed"                IS 'Point in time, when "admission_time" or "voting_time" have elapsed, and issue is no longer active; Frontends must ensure that for closed issues additionally to the restrictions for half_frozen and fully_frozen issues a) no voter is added or removed to/from the direct_voter table, b) no votes are added, modified or removed.';
-COMMENT ON COLUMN "issue"."ranks_available"       IS 'TRUE = ranks have been calculated';
-COMMENT ON COLUMN "issue"."cleaned"               IS 'Point in time, when discussion data and votes had been deleted';
-COMMENT ON COLUMN "issue"."admission_time"        IS 'Copied from "policy" table at creation of issue';
-COMMENT ON COLUMN "issue"."discussion_time"       IS 'Copied from "policy" table at creation of issue';
-COMMENT ON COLUMN "issue"."verification_time"     IS 'Copied from "policy" table at creation of issue';
-COMMENT ON COLUMN "issue"."voting_time"           IS 'Copied from "policy" table at creation of issue';
-COMMENT ON COLUMN "issue"."snapshot"              IS 'Point in time, when snapshot tables have been updated and "population", "vote_now", "vote_later" and *_count values were precalculated';
-COMMENT ON COLUMN "issue"."latest_snapshot_event" IS 'Event type of latest snapshot for issue; Can be used to select the latest snapshot data in the snapshot tables';
-COMMENT ON COLUMN "issue"."population"            IS 'Sum of "weight" column in table "direct_population_snapshot"';
-COMMENT ON COLUMN "issue"."vote_now"              IS 'Number of votes in favor of voting now, as calculated from table "direct_interest_snapshot"';
-COMMENT ON COLUMN "issue"."vote_later"            IS 'Number of votes against voting now, as calculated from table "direct_interest_snapshot"';
-COMMENT ON COLUMN "issue"."voter_count"           IS 'Total number of direct and delegating voters; This value is related to the final voting, while "population" is related to snapshots before the final voting';
+COMMENT ON COLUMN "issue"."accepted"                IS 'Point in time, when one initiative of issue reached the "issue_quorum"';
+COMMENT ON COLUMN "issue"."half_frozen"             IS 'Point in time, when "discussion_time" has elapsed; Frontends must ensure that for half_frozen issues a) initiatives are not revoked, b) no new drafts are created, c) no initiators are added or removed.';
+COMMENT ON COLUMN "issue"."fully_frozen"            IS 'Point in time, when "verification_time" has elapsed and voting has started; Frontends must ensure that for fully_frozen issues additionally to the restrictions for half_frozen issues a) initiatives are not created, b) no interest is created or removed, c) no supporters are added or removed, d) no opinions are created, changed or deleted.';
+COMMENT ON COLUMN "issue"."closed"                  IS 'Point in time, when "admission_time" or "voting_time" have elapsed, and issue is no longer active; Frontends must ensure that for closed issues additionally to the restrictions for half_frozen and fully_frozen issues a) no voter is added or removed to/from the direct_voter table, b) no votes are added, modified or removed.';
+COMMENT ON COLUMN "issue"."ranks_available"         IS 'TRUE = ranks have been calculated';
+COMMENT ON COLUMN "issue"."cleaned"                 IS 'Point in time, when discussion data and votes had been deleted';
+COMMENT ON COLUMN "issue"."admission_time"          IS 'Copied from "policy" table at creation of issue';
+COMMENT ON COLUMN "issue"."discussion_time"         IS 'Copied from "policy" table at creation of issue';
+COMMENT ON COLUMN "issue"."verification_time"       IS 'Copied from "policy" table at creation of issue';
+COMMENT ON COLUMN "issue"."voting_time"             IS 'Copied from "policy" table at creation of issue';
+COMMENT ON COLUMN "issue"."snapshot"                IS 'Point in time, when snapshot tables have been updated and "population" and *_count values were precalculated';
+COMMENT ON COLUMN "issue"."latest_snapshot_event"   IS 'Event type of latest snapshot for issue; Can be used to select the latest snapshot data in the snapshot tables';
+COMMENT ON COLUMN "issue"."population"              IS 'Sum of "weight" column in table "direct_population_snapshot"';
+COMMENT ON COLUMN "issue"."voter_count"             IS 'Total number of direct and delegating voters; This value is related to the final voting, while "population" is related to snapshots before the final voting';
+COMMENT ON COLUMN "issue"."status_quo_schulze_rank" IS 'Schulze rank of status quo, as calculated by "calculate_ranks" function';
 
 
 CREATE TABLE "issue_setting" (
@@ -537,7 +557,15 @@ CREATE TABLE "initiative" (
         "satisfied_informed_supporter_count" INT4,
         "positive_votes"        INT4,
         "negative_votes"        INT4,
-        "agreed"                BOOLEAN,
+        "direct_majority"       BOOLEAN,
+        "indirect_majority"     BOOLEAN,
+        "schulze_rank"          INT4,
+        "better_than_status_quo" BOOLEAN,
+        "worse_than_status_quo" BOOLEAN,
+        "reverse_beat_path"     BOOLEAN,
+        "multistage_majority"   BOOLEAN,
+        "eligible"              BOOLEAN,
+        "winner"                BOOLEAN,
         "rank"                  INT4,
         "text_search_data"      TSVECTOR,
         CONSTRAINT "all_or_none_of_revoked_and_revoked_by_member_id_must_be_null"
@@ -546,12 +574,22 @@ CREATE TABLE "initiative" (
           CHECK ("revoked" NOTNULL OR "suggested_initiative_id" ISNULL),
         CONSTRAINT "revoked_initiatives_cant_be_admitted"
           CHECK ("revoked" ISNULL OR "admitted" ISNULL),
-        CONSTRAINT "non_admitted_initiatives_cant_contain_voting_results"
-          CHECK (("admitted" NOTNULL AND "admitted" = TRUE) OR ("positive_votes" ISNULL AND "negative_votes" ISNULL AND "agreed" ISNULL)),
-        CONSTRAINT "all_or_none_of_positive_votes_negative_votes_and_agreed_must_be_null"
-          CHECK ("positive_votes" NOTNULL = "negative_votes" NOTNULL AND "positive_votes" NOTNULL = "agreed" NOTNULL),
-        CONSTRAINT "non_agreed_initiatives_cant_get_a_rank"
-          CHECK (("agreed" NOTNULL AND "agreed" = TRUE) OR "rank" ISNULL) );
+        CONSTRAINT "non_admitted_initiatives_cant_contain_voting_results" CHECK (
+          ( "admitted" NOTNULL AND "admitted" = TRUE ) OR
+          ( "positive_votes" ISNULL AND "negative_votes" ISNULL AND
+            "direct_majority" ISNULL AND "indirect_majority" ISNULL AND
+            "schulze_rank" ISNULL AND
+            "better_than_status_quo" ISNULL AND "worse_than_status_quo" ISNULL AND
+            "reverse_beat_path" ISNULL AND "multistage_majority" ISNULL AND
+            "eligible" ISNULL AND "winner" ISNULL AND "rank" ISNULL ) ),
+        CONSTRAINT "better_excludes_worse" CHECK (NOT ("better_than_status_quo" AND "worse_than_status_quo")),
+        CONSTRAINT "minimum_requirement_to_be_eligible" CHECK (
+          "eligible" = FALSE OR
+          ("direct_majority" AND "indirect_majority" AND "better_than_status_quo") ),
+        CONSTRAINT "winner_must_be_eligible" CHECK ("winner"=FALSE OR "eligible"=TRUE),
+        CONSTRAINT "winner_must_have_first_rank" CHECK ("winner"=FALSE OR "rank"=1),
+        CONSTRAINT "eligible_at_first_rank_is_winner" CHECK ("eligible"=FALSE OR "rank"!=1 OR "winner"=TRUE),
+        CONSTRAINT "unique_rank_per_issue" UNIQUE ("issue_id", "rank") );
 CREATE INDEX "initiative_created_idx" ON "initiative" ("created");
 CREATE INDEX "initiative_revoked_idx" ON "initiative" ("revoked");
 CREATE INDEX "initiative_text_search_data_idx" ON "initiative" USING gin ("text_search_data");
@@ -571,22 +609,36 @@ COMMENT ON COLUMN "initiative"."supporter_count"                    IS 'Calculat
 COMMENT ON COLUMN "initiative"."informed_supporter_count"           IS 'Calculated from table "direct_supporter_snapshot"';
 COMMENT ON COLUMN "initiative"."satisfied_supporter_count"          IS 'Calculated from table "direct_supporter_snapshot"';
 COMMENT ON COLUMN "initiative"."satisfied_informed_supporter_count" IS 'Calculated from table "direct_supporter_snapshot"';
-COMMENT ON COLUMN "initiative"."positive_votes" IS 'Calculated from table "direct_voter"';
-COMMENT ON COLUMN "initiative"."negative_votes" IS 'Calculated from table "direct_voter"';
-COMMENT ON COLUMN "initiative"."agreed"         IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "majority_num"/"majority_den"';
-COMMENT ON COLUMN "initiative"."rank"           IS 'Rank of approved initiatives (winner is 1), calculated from table "direct_voter"';
+COMMENT ON COLUMN "initiative"."positive_votes"          IS 'Calculated from table "direct_voter"';
+COMMENT ON COLUMN "initiative"."negative_votes"          IS 'Calculated from table "direct_voter"';
+COMMENT ON COLUMN "initiative"."direct_majority"         IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "direct_majority_num"/"direct_majority_den", and "positive_votes" is greater-equal than "direct_majority_positive", and ("positive_votes"+abstentions) is greater-equal than "direct_majority_non_negative"';
+COMMENT ON COLUMN "initiative"."indirect_majority"       IS 'Same as "direct_majority", but also considering indirect beat paths';
+COMMENT ON COLUMN "initiative"."schulze_rank"            IS 'Schulze-Ranking without tie-breaking';
+COMMENT ON COLUMN "initiative"."better_than_status_quo"  IS 'TRUE, if initiative has a schulze-ranking better than the status quo (without tie-breaking)';
+COMMENT ON COLUMN "initiative"."worse_than_status_quo"   IS 'TRUE, if initiative has a schulze-ranking worse than the status quo (without tie-breaking)';
+COMMENT ON COLUMN "initiative"."reverse_beat_path"       IS 'TRUE, if there is a beat path (may include ties), from this initiative to the status quo';
+COMMENT ON COLUMN "initiative"."multistage_majority"     IS 'TRUE, if either (a) this initiative has no better rank than the status quo, or (b) there exists a better ranked initiative X, which directly beats this initiative, and either more voters prefer X to this initiative than voters preferring X to the status quo or less voters prefer this initiative to X than voters preferring the status quo to X';
+COMMENT ON COLUMN "initiative"."eligible"                IS 'Initiative is "attainable" and depending on selected policy has no "reverse_beat_path" or "multistage_majority"';
+COMMENT ON COLUMN "initiative"."winner"                  IS 'Winner is the "eligible" initiative with best "schulze_rank" and in case of ties with lowest "id"';
+COMMENT ON COLUMN "initiative"."rank"                    IS 'Unique ranking for all "admitted" initiatives per issue; lower rank is better; a winner always has rank 1, but rank 1 does not imply that an initiative is winner; initiatives with "direct_majority" AND "indirect_majority" always have a better (lower) rank than other initiatives';
 
 
 CREATE TABLE "battle" (
-        PRIMARY KEY ("issue_id", "winning_initiative_id", "losing_initiative_id"),
-        "issue_id"              INT4,
+        "issue_id"              INT4            NOT NULL,
         "winning_initiative_id" INT4,
         FOREIGN KEY ("issue_id", "winning_initiative_id") REFERENCES "initiative" ("issue_id", "id") ON DELETE CASCADE ON UPDATE CASCADE,
         "losing_initiative_id"  INT4,
         FOREIGN KEY ("issue_id", "losing_initiative_id") REFERENCES "initiative" ("issue_id", "id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "count"                 INT4            NOT NULL);
+        "count"                 INT4            NOT NULL,
+        CONSTRAINT "initiative_ids_not_equal" CHECK (
+          "winning_initiative_id" != "losing_initiative_id" OR
+          ( ("winning_initiative_id" NOTNULL AND "losing_initiative_id" ISNULL) OR
+            ("winning_initiative_id" ISNULL AND "losing_initiative_id" NOTNULL) ) ) );
+CREATE UNIQUE INDEX "battle_winning_losing_idx" ON "battle" ("issue_id", "winning_initiative_id", "losing_initiative_id");
+CREATE UNIQUE INDEX "battle_winning_null_idx" ON "battle" ("issue_id", "winning_initiative_id") WHERE "losing_initiative_id" ISNULL;
+CREATE UNIQUE INDEX "battle_null_losing_idx" ON "battle" ("issue_id", "losing_initiative_id") WHERE "winning_initiative_id" ISNULL;
 
-COMMENT ON TABLE "battle" IS 'Number of members preferring one initiative to another; Filled by "battle_view" when closing an issue';
+COMMENT ON TABLE "battle" IS 'Number of members preferring one initiative to another; Filled by "battle_view" when closing an issue; NULL as initiative_id denotes virtual "status-quo" initiative';
 
 
 CREATE TABLE "ignored_initiative" (
@@ -644,10 +696,13 @@ CREATE TABLE "suggestion" (
         UNIQUE ("initiative_id", "id"),  -- index needed for foreign-key on table "opinion"
         "initiative_id"         INT4            NOT NULL REFERENCES "initiative" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "id"                    SERIAL8         PRIMARY KEY,
+        "draft_id"              INT8            NOT NULL,
+        FOREIGN KEY ("initiative_id", "draft_id") REFERENCES "draft" ("initiative_id", "id") ON DELETE NO ACTION ON UPDATE CASCADE,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "author_id"             INT4            NOT NULL REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
         "name"                  TEXT            NOT NULL,
-        "description"           TEXT            NOT NULL DEFAULT '',
+        "formatting_engine"     TEXT,
+        "content"               TEXT            NOT NULL DEFAULT '',
         "text_search_data"      TSVECTOR,
         "minus2_unfulfilled_count" INT4,
         "minus2_fulfilled_count"   INT4,
@@ -664,10 +719,11 @@ CREATE TRIGGER "update_text_search_data"
   BEFORE INSERT OR UPDATE ON "suggestion"
   FOR EACH ROW EXECUTE PROCEDURE
   tsvector_update_trigger('text_search_data', 'pg_catalog.simple',
-    "name", "description");
+    "name", "content");
 
 COMMENT ON TABLE "suggestion" IS 'Suggestions to initiators, to change the current draft; must not be deleted explicitly, as they vanish automatically if the last opinion is deleted';
 
+COMMENT ON COLUMN "suggestion"."draft_id"                 IS 'Draft, which the author has seen when composing the suggestion; should always be set by a frontend, but defaults to current draft of the initiative (implemented by trigger "default_for_draft_id")';
 COMMENT ON COLUMN "suggestion"."minus2_unfulfilled_count" IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
 COMMENT ON COLUMN "suggestion"."minus2_fulfilled_count"   IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
 COMMENT ON COLUMN "suggestion"."minus1_unfulfilled_count" IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
@@ -678,6 +734,15 @@ COMMENT ON COLUMN "suggestion"."plus2_unfulfilled_count"  IS 'Calculated from ta
 COMMENT ON COLUMN "suggestion"."plus2_fulfilled_count"    IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
 
 
+CREATE TABLE "rendered_suggestion" (
+        PRIMARY KEY ("suggestion_id", "format"),
+        "suggestion_id"         INT8            REFERENCES "suggestion" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "format"                TEXT,
+        "content"               TEXT            NOT NULL );
+
+COMMENT ON TABLE "rendered_suggestion" IS 'This table may be used by frontends to cache "rendered" drafts (e.g. HTML output generated from wiki text)';
+
+
 CREATE TABLE "suggestion_setting" (
         PRIMARY KEY ("member_id", "key", "suggestion_id"),
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
@@ -686,14 +751,6 @@ CREATE TABLE "suggestion_setting" (
         "value"                 TEXT            NOT NULL );
 
 COMMENT ON TABLE "suggestion_setting" IS 'Place for frontend to store suggestion specific settings of members as strings';
-
-
-CREATE TABLE "invite_code_unit" (
-        PRIMARY KEY ("invite_code_id", "unit_id"),
-        "invite_code_id"        INT8            REFERENCES "invite_code" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "unit_id"               INT4            REFERENCES "unit" ("id") ON DELETE CASCADE ON UPDATE CASCADE );
-
-COMMENT ON TABLE "invite_code_unit" IS 'Units where accounts created with a given invite codes get voting rights';
 
 
 CREATE TABLE "privilege" (
@@ -718,27 +775,19 @@ COMMENT ON COLUMN "privilege"."voting_right"         IS 'Right to discuss and vo
 CREATE TABLE "membership" (
         PRIMARY KEY ("area_id", "member_id"),
         "area_id"               INT4            REFERENCES "area" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "autoreject"            BOOLEAN         NOT NULL DEFAULT FALSE );
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE );
 CREATE INDEX "membership_member_id_idx" ON "membership" ("member_id");
 
 COMMENT ON TABLE "membership" IS 'Interest of members in topic areas';
-
-COMMENT ON COLUMN "membership"."autoreject" IS 'TRUE = member votes against all initiatives, if he is neither direct_ or delegating_voter; Entries in the "interest" table can override this setting.';
 
 
 CREATE TABLE "interest" (
         PRIMARY KEY ("issue_id", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "autoreject"            BOOLEAN,
-        "voting_requested"      BOOLEAN );
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE );
 CREATE INDEX "interest_member_id_idx" ON "interest" ("member_id");
 
 COMMENT ON TABLE "interest" IS 'Interest of members in a particular issue; Frontends must ensure that interest for fully_frozen or closed issues is not added or removed.';
-
-COMMENT ON COLUMN "interest"."autoreject"       IS 'TRUE = member votes against all initiatives in case of not explicitly taking part in the voting procedure';
-COMMENT ON COLUMN "interest"."voting_requested" IS 'TRUE = member wants to vote now, FALSE = member wants to vote later, NULL = policy rules should apply';
 
 
 CREATE TABLE "initiator" (
@@ -760,12 +809,12 @@ CREATE TABLE "supporter" (
         "member_id"             INT4,
         "draft_id"              INT8            NOT NULL,
         FOREIGN KEY ("issue_id", "member_id") REFERENCES "interest" ("issue_id", "member_id") ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY ("initiative_id", "draft_id") REFERENCES "draft" ("initiative_id", "id") ON DELETE CASCADE ON UPDATE CASCADE );
+        FOREIGN KEY ("initiative_id", "draft_id") REFERENCES "draft" ("initiative_id", "id") ON DELETE NO ACTION ON UPDATE CASCADE );
 CREATE INDEX "supporter_member_id_idx" ON "supporter" ("member_id");
 
 COMMENT ON TABLE "supporter" IS 'Members who support an initiative (conditionally); Frontends must ensure that supporters are not added or removed from fully_frozen or closed initiatives.';
 
-COMMENT ON COLUMN "supporter"."draft_id" IS 'Latest seen draft, defaults to current draft of the initiative (implemented by trigger "default_for_draft_id")';
+COMMENT ON COLUMN "supporter"."draft_id" IS 'Latest seen draft; should always be set by a frontend, but defaults to current draft of the initiative (implemented by trigger "default_for_draft_id")';
 
 
 CREATE TABLE "opinion" (
@@ -827,8 +876,8 @@ CREATE INDEX "direct_population_snapshot_member_id_idx" ON "direct_population_sn
 
 COMMENT ON TABLE "direct_population_snapshot" IS 'Snapshot of active members having either a "membership" in the "area" or an "interest" in the "issue"';
 
-COMMENT ON COLUMN "direct_population_snapshot"."event"           IS 'Reason for snapshot, see "snapshot_event" type for details';
-COMMENT ON COLUMN "direct_population_snapshot"."weight"          IS 'Weight of member (1 or higher) according to "delegating_population_snapshot"';
+COMMENT ON COLUMN "direct_population_snapshot"."event"  IS 'Reason for snapshot, see "snapshot_event" type for details';
+COMMENT ON COLUMN "direct_population_snapshot"."weight" IS 'Weight of member (1 or higher) according to "delegating_population_snapshot"';
 
 
 CREATE TABLE "delegating_population_snapshot" (
@@ -854,15 +903,13 @@ CREATE TABLE "direct_interest_snapshot" (
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "event"                 "snapshot_event",
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT,
-        "weight"                INT4,
-        "voting_requested"      BOOLEAN );
+        "weight"                INT4 );
 CREATE INDEX "direct_interest_snapshot_member_id_idx" ON "direct_interest_snapshot" ("member_id");
 
 COMMENT ON TABLE "direct_interest_snapshot" IS 'Snapshot of active members having an "interest" in the "issue"';
 
 COMMENT ON COLUMN "direct_interest_snapshot"."event"            IS 'Reason for snapshot, see "snapshot_event" type for details';
 COMMENT ON COLUMN "direct_interest_snapshot"."weight"           IS 'Weight of member (1 or higher) according to "delegating_interest_snapshot"';
-COMMENT ON COLUMN "direct_interest_snapshot"."voting_requested" IS 'Copied from column "voting_requested" of table "interest"';
 
 
 CREATE TABLE "delegating_interest_snapshot" (
@@ -915,14 +962,12 @@ CREATE TABLE "direct_voter" (
         PRIMARY KEY ("issue_id", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT,
-        "weight"                INT4,
-        "autoreject"            BOOLEAN         NOT NULL DEFAULT FALSE );
+        "weight"                INT4 );
 CREATE INDEX "direct_voter_member_id_idx" ON "direct_voter" ("member_id");
 
 COMMENT ON TABLE "direct_voter" IS 'Members having directly voted for/against initiatives of an issue; Frontends must ensure that no voters are added or removed to/from this table when the issue has been closed.';
 
 COMMENT ON COLUMN "direct_voter"."weight"     IS 'Weight of member (1 or higher) according to "delegating_voter" table';
-COMMENT ON COLUMN "direct_voter"."autoreject" IS 'Votes were inserted due to "autoreject" feature';
 
 
 CREATE TABLE "delegating_voter" (
@@ -1094,6 +1139,7 @@ COMMENT ON COLUMN "event"."state"      IS 'If issue_id is set: state of affected
 ----------------------------------------------
 -- Writing of history entries and event log --
 ----------------------------------------------
+
 
 CREATE FUNCTION "write_member_history_trigger"()
   RETURNS TRIGGER
@@ -1560,7 +1606,7 @@ COMMENT ON FUNCTION "copy_timings_trigger"() IS 'Implementation of trigger "copy
 COMMENT ON TRIGGER "copy_timings" ON "issue" IS 'If timing fields are NULL, copy values from policy.';
 
 
-CREATE FUNCTION "supporter_default_for_draft_id_trigger"()
+CREATE FUNCTION "default_for_draft_id_trigger"()
   RETURNS TRIGGER
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
@@ -1572,11 +1618,14 @@ CREATE FUNCTION "supporter_default_for_draft_id_trigger"()
     END;
   $$;
 
+CREATE TRIGGER "default_for_draft_id" BEFORE INSERT OR UPDATE ON "suggestion"
+  FOR EACH ROW EXECUTE PROCEDURE "default_for_draft_id_trigger"();
 CREATE TRIGGER "default_for_draft_id" BEFORE INSERT OR UPDATE ON "supporter"
-  FOR EACH ROW EXECUTE PROCEDURE "supporter_default_for_draft_id_trigger"();
+  FOR EACH ROW EXECUTE PROCEDURE "default_for_draft_id_trigger"();
 
-COMMENT ON FUNCTION "supporter_default_for_draft_id_trigger"() IS 'Implementation of trigger "default_for_draft" on table "supporter"';
-COMMENT ON TRIGGER "default_for_draft_id" ON "supporter"       IS 'If "draft_id" is NULL, then use the current draft of the initiative as default';
+COMMENT ON FUNCTION "default_for_draft_id_trigger"() IS 'Implementation of trigger "default_for_draft" on tables "supporter" and "suggestion"';
+COMMENT ON TRIGGER "default_for_draft_id" ON "suggestion" IS 'If "draft_id" is NULL, then use the current draft of the initiative as default';
+COMMENT ON TRIGGER "default_for_draft_id" ON "supporter"  IS 'If "draft_id" is NULL, then use the current draft of the initiative as default';
 
 
 
@@ -1811,14 +1860,7 @@ CREATE VIEW "area_member_count" AS
           "membership_weight"("area"."id", "member"."id")
         ELSE 0 END
       )
-    ) AS "member_weight",
-    coalesce(
-      sum(
-        CASE WHEN "member"."id" NOTNULL AND "membership"."autoreject" THEN
-          "membership_weight"("area"."id", "member"."id")
-        ELSE 0 END
-      )
-    ) AS "autoreject_weight"
+    ) AS "member_weight"
   FROM "area"
   LEFT JOIN "membership"
   ON "area"."id" = "membership"."area_id"
@@ -1831,7 +1873,7 @@ CREATE VIEW "area_member_count" AS
   AND "member"."active"
   GROUP BY "area"."id";
 
-COMMENT ON VIEW "area_member_count" IS 'View used to update "direct_member_count", "member_weight" and "autoreject_weight" columns of table "area"';
+COMMENT ON VIEW "area_member_count" IS 'View used to update "direct_member_count" and "member_weight" columns of table "area"';
 
 
 CREATE VIEW "opening_draft" AS
@@ -1870,6 +1912,18 @@ CREATE VIEW "critical_opinion" AS
 COMMENT ON VIEW "critical_opinion" IS 'Opinions currently causing dissatisfaction';
 
 
+CREATE VIEW "battle_participant" AS
+    SELECT "initiative"."id", "initiative"."issue_id"
+    FROM "issue" JOIN "initiative"
+    ON "issue"."id" = "initiative"."issue_id"
+    WHERE "initiative"."admitted"
+  UNION ALL
+    SELECT NULL, "id" AS "issue_id"
+    FROM "issue";
+
+COMMENT ON VIEW "battle_participant" IS 'Helper view for "battle_view" containing admitted initiatives plus virtual "status-quo" initiative denoted by NULL reference';
+
+
 CREATE VIEW "battle_view" AS
   SELECT
     "issue"."id" AS "issue_id",
@@ -1884,12 +1938,10 @@ CREATE VIEW "battle_view" AS
   FROM "issue"
   LEFT JOIN "direct_voter"
   ON "issue"."id" = "direct_voter"."issue_id"
-  JOIN "initiative" AS "winning_initiative"
+  JOIN "battle_participant" AS "winning_initiative"
     ON "issue"."id" = "winning_initiative"."issue_id"
-    AND "winning_initiative"."agreed"
-  JOIN "initiative" AS "losing_initiative"
+  JOIN "battle_participant" AS "losing_initiative"
     ON "issue"."id" = "losing_initiative"."issue_id"
-    AND "losing_initiative"."agreed"
   LEFT JOIN "vote" AS "better_vote"
     ON "direct_voter"."member_id" = "better_vote"."member_id"
     AND "winning_initiative"."id" = "better_vote"."initiative_id"
@@ -1898,23 +1950,16 @@ CREATE VIEW "battle_view" AS
     AND "losing_initiative"."id" = "worse_vote"."initiative_id"
   WHERE "issue"."closed" NOTNULL
   AND "issue"."cleaned" ISNULL
-  AND "winning_initiative"."id" != "losing_initiative"."id"
+  AND (
+    "winning_initiative"."id" != "losing_initiative"."id" OR
+    ( ("winning_initiative"."id" NOTNULL AND "losing_initiative"."id" ISNULL) OR
+      ("winning_initiative"."id" ISNULL AND "losing_initiative"."id" NOTNULL) ) )
   GROUP BY
     "issue"."id",
     "winning_initiative"."id",
     "losing_initiative"."id";
 
-COMMENT ON VIEW "battle_view" IS 'Number of members preferring one initiative to another; Used to fill "battle" table';
-
-
-CREATE VIEW "expired_session" AS
-  SELECT * FROM "session" WHERE now() > "expiry";
-
-CREATE RULE "delete" AS ON DELETE TO "expired_session" DO INSTEAD
-  DELETE FROM "session" WHERE "ident" = OLD."ident";
-
-COMMENT ON VIEW "expired_session" IS 'View containing all expired sessions where DELETE is possible';
-COMMENT ON RULE "delete" ON "expired_session" IS 'Rule allowing DELETE on rows in "expired_session" view, i.e. DELETE FROM "expired_session"';
+COMMENT ON VIEW "battle_view" IS 'Number of members preferring one initiative (or status-quo) to another initiative (or status-quo); Used to fill "battle" table';
 
 
 CREATE VIEW "open_issue" AS
@@ -2629,7 +2674,7 @@ COMMENT ON FUNCTION "lock_issue"
 -- Regular tasks, except calculcation of snapshots and voting results --
 ------------------------------------------------------------------------
 
-CREATE FUNCTION "check_last_login"()
+CREATE FUNCTION "check_activity"()
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     DECLARE
@@ -2637,29 +2682,16 @@ CREATE FUNCTION "check_last_login"()
     BEGIN
       SELECT * INTO "system_setting_row" FROM "system_setting";
       LOCK TABLE "member" IN SHARE ROW EXCLUSIVE MODE;
-      UPDATE "member" SET "last_login_public" = "last_login"::date
-        FROM (
-          SELECT DISTINCT "member"."id"
-          FROM "member" LEFT JOIN "member_history"
-          ON "member"."id" = "member_history"."member_id"
-          WHERE "member"."last_login"::date < 'today' OR (
-            "member_history"."until"::date >= 'today' AND
-            "member_history"."active" = FALSE AND "member"."active" = TRUE
-          )
-        ) AS "subquery"
-        WHERE "member"."id" = "subquery"."id";
       IF "system_setting_row"."member_ttl" NOTNULL THEN
         UPDATE "member" SET "active" = FALSE
           WHERE "active" = TRUE
-          AND "last_login"::date < 'today'
-          AND "last_login_public" <
-            (now() - "system_setting_row"."member_ttl")::date;
+          AND "last_activity" < (now() - "system_setting_row"."member_ttl")::DATE;
       END IF;
       RETURN;
     END;
   $$;
 
-COMMENT ON FUNCTION "check_last_login"() IS 'Updates "last_login_public" field, which contains the date but not the time of the last login, and deactivates members who do not login for the time specified in "system_setting"."member_ttl". For privacy reasons this function does not update "last_login_public", if the last login of a member has been today (except when member was reactivated today).';
+COMMENT ON FUNCTION "check_activity"() IS 'Deactivates members when "last_activity" is older than "system_setting"."member_ttl".';
 
 
 CREATE FUNCTION "calculate_member_counts"()
@@ -2680,8 +2712,7 @@ CREATE FUNCTION "calculate_member_counts"()
         WHERE "view"."unit_id" = "unit"."id";
       UPDATE "area" SET
         "direct_member_count" = "view"."direct_member_count",
-        "member_weight"       = "view"."member_weight",
-        "autoreject_weight"   = "view"."autoreject_weight"
+        "member_weight"       = "view"."member_weight"
         FROM "area_member_count" AS "view"
         WHERE "view"."area_id" = "area"."id";
       RETURN;
@@ -2918,12 +2949,11 @@ CREATE FUNCTION "create_interest_snapshot"
         WHERE "issue_id" = "issue_id_p"
         AND "event" = 'periodic';
       INSERT INTO "direct_interest_snapshot"
-        ("issue_id", "event", "member_id", "voting_requested")
+        ("issue_id", "event", "member_id")
         SELECT
           "issue_id_p"  AS "issue_id",
           'periodic'    AS "event",
-          "member"."id" AS "member_id",
-          "interest"."voting_requested"
+          "member"."id" AS "member_id"
         FROM "issue"
         JOIN "area" ON "issue"."area_id" = "area"."id"
         JOIN "interest" ON "issue"."id" = "interest"."issue_id"
@@ -3001,20 +3031,6 @@ CREATE FUNCTION "create_snapshot"
           FROM "direct_population_snapshot"
           WHERE "issue_id" = "issue_id_p"
           AND "event" = 'periodic'
-        ),
-        "vote_now" = (
-          SELECT coalesce(sum("weight"), 0)
-          FROM "direct_interest_snapshot"
-          WHERE "issue_id" = "issue_id_p"
-          AND "event" = 'periodic'
-          AND "voting_requested" = TRUE
-        ),
-        "vote_later" = (
-          SELECT coalesce(sum("weight"), 0)
-          FROM "direct_interest_snapshot"
-          WHERE "issue_id" = "issue_id_p"
-          AND "event" = 'periodic'
-          AND "voting_requested" = FALSE
         )
         WHERE "id" = "issue_id_p";
       FOR "initiative_id_v" IN
@@ -3407,11 +3423,10 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       PERFORM "lock_issue"("issue_id_p");
       SELECT "area_id" INTO "area_id_v" FROM "issue" WHERE "id" = "issue_id_p";
       SELECT "unit_id" INTO "unit_id_v" FROM "area"  WHERE "id" = "area_id_v";
+      -- delete delegating votes (in cases of manual reset of issue state):
       DELETE FROM "delegating_voter"
         WHERE "issue_id" = "issue_id_p";
-      DELETE FROM "direct_voter"
-        WHERE "issue_id" = "issue_id_p"
-        AND "autoreject" = TRUE;
+      -- delete votes from non-privileged voters:
       DELETE FROM "direct_voter"
         USING (
           SELECT
@@ -3429,70 +3444,11 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
         ) AS "subquery"
         WHERE "direct_voter"."issue_id" = "issue_id_p"
         AND "direct_voter"."member_id" = "subquery"."member_id";
+      -- consider delegations:
       UPDATE "direct_voter" SET "weight" = 1
         WHERE "issue_id" = "issue_id_p";
       PERFORM "add_vote_delegations"("issue_id_p");
-      FOR "member_id_v" IN
-        SELECT "interest"."member_id"
-          FROM "interest"
-          JOIN "member"
-            ON "interest"."member_id" = "member"."id"
-          JOIN "privilege"
-            ON "privilege"."unit_id" = "unit_id_v"
-            AND "privilege"."member_id" = "member"."id"
-          LEFT JOIN "direct_voter"
-            ON "interest"."member_id" = "direct_voter"."member_id"
-            AND "interest"."issue_id" = "direct_voter"."issue_id"
-          LEFT JOIN "delegating_voter"
-            ON "interest"."member_id" = "delegating_voter"."member_id"
-            AND "interest"."issue_id" = "delegating_voter"."issue_id"
-          WHERE "interest"."issue_id" = "issue_id_p"
-          AND "interest"."autoreject" = TRUE
-          AND "member"."active"
-          AND "privilege"."voting_right"
-          AND "direct_voter"."member_id" ISNULL
-          AND "delegating_voter"."member_id" ISNULL
-        UNION SELECT "membership"."member_id"
-          FROM "membership"
-          JOIN "member"
-            ON "membership"."member_id" = "member"."id"
-          JOIN "privilege"
-            ON "privilege"."unit_id" = "unit_id_v"
-            AND "privilege"."member_id" = "member"."id"
-          LEFT JOIN "interest"
-            ON "membership"."member_id" = "interest"."member_id"
-            AND "interest"."issue_id" = "issue_id_p"
-          LEFT JOIN "direct_voter"
-            ON "membership"."member_id" = "direct_voter"."member_id"
-            AND "direct_voter"."issue_id" = "issue_id_p"
-          LEFT JOIN "delegating_voter"
-            ON "membership"."member_id" = "delegating_voter"."member_id"
-            AND "delegating_voter"."issue_id" = "issue_id_p"
-          WHERE "membership"."area_id" = "area_id_v"
-          AND "membership"."autoreject" = TRUE
-          AND "member"."active"
-          AND "privilege"."voting_right"
-          AND "interest"."autoreject" ISNULL
-          AND "direct_voter"."member_id" ISNULL
-          AND "delegating_voter"."member_id" ISNULL
-      LOOP
-        INSERT INTO "direct_voter"
-          ("member_id", "issue_id", "weight", "autoreject") VALUES
-          ("member_id_v", "issue_id_p", 1, TRUE);
-        INSERT INTO "vote" (
-          "member_id",
-          "issue_id",
-          "initiative_id",
-          "grade"
-          ) SELECT
-            "member_id_v" AS "member_id",
-            "issue_id_p"  AS "issue_id",
-            "id"          AS "initiative_id",
-            -1            AS "grade"
-          FROM "initiative"
-          WHERE "issue_id" = "issue_id_p" AND "admitted";
-      END LOOP;
-      PERFORM "add_vote_delegations"("issue_id_p");
+      -- set voter count and mark issue as being calculated:
       UPDATE "issue" SET
         "state"  = 'calculation',
         "closed" = now(),
@@ -3501,50 +3457,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
           FROM "direct_voter" WHERE "issue_id" = "issue_id_p"
         )
         WHERE "id" = "issue_id_p";
-      UPDATE "initiative" SET
-        "positive_votes" = "vote_counts"."positive_votes",
-        "negative_votes" = "vote_counts"."negative_votes",
-        "agreed" = CASE WHEN "majority_strict" THEN
-          "vote_counts"."positive_votes" * "majority_den" >
-          "majority_num" *
-          ("vote_counts"."positive_votes"+"vote_counts"."negative_votes")
-        ELSE
-          "vote_counts"."positive_votes" * "majority_den" >=
-          "majority_num" *
-          ("vote_counts"."positive_votes"+"vote_counts"."negative_votes")
-        END
-        FROM
-          ( SELECT
-              "initiative"."id" AS "initiative_id",
-              coalesce(
-                sum(
-                  CASE WHEN "grade" > 0 THEN "direct_voter"."weight" ELSE 0 END
-                ),
-                0
-              ) AS "positive_votes",
-              coalesce(
-                sum(
-                  CASE WHEN "grade" < 0 THEN "direct_voter"."weight" ELSE 0 END
-                ),
-                0
-              ) AS "negative_votes"
-            FROM "initiative"
-            JOIN "issue" ON "initiative"."issue_id" = "issue"."id"
-            JOIN "policy" ON "issue"."policy_id" = "policy"."id"
-            LEFT JOIN "direct_voter"
-              ON "direct_voter"."issue_id" = "initiative"."issue_id"
-            LEFT JOIN "vote"
-              ON "vote"."initiative_id" = "initiative"."id"
-              AND "vote"."member_id" = "direct_voter"."member_id"
-            WHERE "initiative"."issue_id" = "issue_id_p"
-            AND "initiative"."admitted"  -- NOTE: NULL case is handled too
-            GROUP BY "initiative"."id"
-          ) AS "vote_counts",
-          "issue",
-          "policy"
-        WHERE "vote_counts"."initiative_id" = "initiative"."id"
-        AND "issue"."id" = "initiative"."issue_id"
-        AND "policy"."id" = "issue"."policy_id";
+      -- materialize battle_view:
       -- NOTE: "closed" column of issue must be set at this point
       DELETE FROM "battle" WHERE "issue_id" = "issue_id_p";
       INSERT INTO "battle" (
@@ -3556,6 +3469,18 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
         "winning_initiative_id", "losing_initiative_id",
         "count"
         FROM "battle_view" WHERE "issue_id" = "issue_id_p";
+      -- copy "positive_votes" and "negative_votes" from "battle" table:
+      UPDATE "initiative" SET
+        "positive_votes" = "battle_win"."count",
+        "negative_votes" = "battle_lose"."count"
+        FROM "battle" AS "battle_win", "battle" AS "battle_lose"
+        WHERE
+          "battle_win"."issue_id" = "issue_id_p" AND
+          "battle_win"."winning_initiative_id" = "initiative"."id" AND
+          "battle_win"."losing_initiative_id" ISNULL AND
+          "battle_lose"."issue_id" = "issue_id_p" AND
+          "battle_lose"."losing_initiative_id" = "initiative"."id" AND
+          "battle_lose"."winning_initiative_id" ISNULL;
     END;
   $$;
 
@@ -3582,238 +3507,297 @@ CREATE FUNCTION "defeat_strength"
 COMMENT ON FUNCTION "defeat_strength"(INT4, INT4) IS 'Calculates defeat strength (INT8!) of a pairwise defeat primarily by the absolute number of votes for the winner and secondarily by the absolute number of votes for the loser';
 
 
-CREATE FUNCTION "array_init_string"("dim_p" INTEGER)
-  RETURNS TEXT
-  LANGUAGE 'plpgsql' IMMUTABLE AS $$
-    DECLARE
-      "i"          INTEGER;
-      "ary_text_v" TEXT;
-    BEGIN
-      IF "dim_p" >= 1 THEN
-        "ary_text_v" := '{NULL';
-        "i" := "dim_p";
-        LOOP
-          "i" := "i" - 1;
-          EXIT WHEN "i" = 0;
-          "ary_text_v" := "ary_text_v" || ',NULL';
-        END LOOP;
-        "ary_text_v" := "ary_text_v" || '}';
-        RETURN "ary_text_v";
-      ELSE
-        RAISE EXCEPTION 'Dimension needs to be at least 1.';
-      END IF;
-    END;
-  $$;
-
-COMMENT ON FUNCTION "array_init_string"(INTEGER) IS 'Needed for PostgreSQL < 8.4, due to missing "array_fill" function';
-
-
-CREATE FUNCTION "square_matrix_init_string"("dim_p" INTEGER)
-  RETURNS TEXT
-  LANGUAGE 'plpgsql' IMMUTABLE AS $$
-    DECLARE
-      "i"          INTEGER;
-      "row_text_v" TEXT;
-      "ary_text_v" TEXT;
-    BEGIN
-      IF "dim_p" >= 1 THEN
-        "row_text_v" := '{NULL';
-        "i" := "dim_p";
-        LOOP
-          "i" := "i" - 1;
-          EXIT WHEN "i" = 0;
-          "row_text_v" := "row_text_v" || ',NULL';
-        END LOOP;
-        "row_text_v" := "row_text_v" || '}';
-        "ary_text_v" := '{' || "row_text_v";
-        "i" := "dim_p";
-        LOOP
-          "i" := "i" - 1;
-          EXIT WHEN "i" = 0;
-          "ary_text_v" := "ary_text_v" || ',' || "row_text_v";
-        END LOOP;
-        "ary_text_v" := "ary_text_v" || '}';
-        RETURN "ary_text_v";
-      ELSE
-        RAISE EXCEPTION 'Dimension needs to be at least 1.';
-      END IF;
-    END;
-  $$;
-
-COMMENT ON FUNCTION "square_matrix_init_string"(INTEGER) IS 'Needed for PostgreSQL < 8.4, due to missing "array_fill" function';
-
-
 CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     DECLARE
-      "dimension_v"     INTEGER;
-      "vote_matrix"     INT4[][];  -- absolute votes
-      "matrix"          INT8[][];  -- defeat strength / best paths
-      "i"               INTEGER;
-      "j"               INTEGER;
-      "k"               INTEGER;
-      "battle_row"      "battle"%ROWTYPE;
-      "rank_ary"        INT4[];
-      "rank_v"          INT4;
-      "done_v"          INTEGER;
-      "winners_ary"     INTEGER[];
-      "initiative_id_v" "initiative"."id"%TYPE;
+      "issue_row"         "issue"%ROWTYPE;
+      "policy_row"        "policy"%ROWTYPE;
+      "dimension_v"       INTEGER;
+      "vote_matrix"       INT4[][];  -- absolute votes
+      "matrix"            INT8[][];  -- defeat strength / best paths
+      "i"                 INTEGER;
+      "j"                 INTEGER;
+      "k"                 INTEGER;
+      "battle_row"        "battle"%ROWTYPE;
+      "rank_ary"          INT4[];
+      "rank_v"            INT4;
+      "done_v"            INTEGER;
+      "winners_ary"       INTEGER[];
+      "initiative_id_v"   "initiative"."id"%TYPE;
     BEGIN
-      PERFORM NULL FROM "issue" WHERE "id" = "issue_id_p" FOR UPDATE;
-      SELECT count(1) INTO "dimension_v" FROM "initiative"
-        WHERE "issue_id" = "issue_id_p" AND "agreed";
-      IF "dimension_v" = 1 THEN
-        UPDATE "initiative" SET "rank" = 1
-          WHERE "issue_id" = "issue_id_p" AND "agreed";
-      ELSIF "dimension_v" > 1 THEN
-        -- Create "vote_matrix" with absolute number of votes in pairwise
-        -- comparison:
-        "vote_matrix" := "square_matrix_init_string"("dimension_v");  -- TODO: replace by "array_fill" function (PostgreSQL 8.4)
-        "i" := 1;
-        "j" := 2;
-        FOR "battle_row" IN
-          SELECT * FROM "battle" WHERE "issue_id" = "issue_id_p"
-          ORDER BY "winning_initiative_id", "losing_initiative_id"
-        LOOP
-          "vote_matrix"["i"]["j"] := "battle_row"."count";
-          IF "j" = "dimension_v" THEN
-            "i" := "i" + 1;
-            "j" := 1;
-          ELSE
-            "j" := "j" + 1;
-            IF "j" = "i" THEN
-              "j" := "j" + 1;
-            END IF;
-          END IF;
-        END LOOP;
-        IF "i" != "dimension_v" OR "j" != "dimension_v" + 1 THEN
-          RAISE EXCEPTION 'Wrong battle count (should not happen)';
-        END IF;
-        -- Store defeat strengths in "matrix" using "defeat_strength"
-        -- function:
-        "matrix" := "square_matrix_init_string"("dimension_v");  -- TODO: replace by "array_fill" function (PostgreSQL 8.4)
-        "i" := 1;
-        LOOP
-          "j" := 1;
-          LOOP
-            IF "i" != "j" THEN
-              "matrix"["i"]["j"] := "defeat_strength"(
-                "vote_matrix"["i"]["j"],
-                "vote_matrix"["j"]["i"]
-              );
-            END IF;
-            EXIT WHEN "j" = "dimension_v";
-            "j" := "j" + 1;
-          END LOOP;
-          EXIT WHEN "i" = "dimension_v";
+      SELECT * INTO "issue_row"
+        FROM "issue" WHERE "id" = "issue_id_p"
+        FOR UPDATE;
+      SELECT * INTO "policy_row"
+        FROM "policy" WHERE "id" = "issue_row"."policy_id";
+      SELECT count(1) INTO "dimension_v"
+        FROM "battle_participant" WHERE "issue_id" = "issue_id_p";
+      -- Create "vote_matrix" with absolute number of votes in pairwise
+      -- comparison:
+      "vote_matrix" := array_fill(NULL::INT4, ARRAY["dimension_v", "dimension_v"]);
+      "i" := 1;
+      "j" := 2;
+      FOR "battle_row" IN
+        SELECT * FROM "battle" WHERE "issue_id" = "issue_id_p"
+        ORDER BY
+        "winning_initiative_id" NULLS LAST,
+        "losing_initiative_id" NULLS LAST
+      LOOP
+        "vote_matrix"["i"]["j"] := "battle_row"."count";
+        IF "j" = "dimension_v" THEN
           "i" := "i" + 1;
-        END LOOP;
-        -- Find best paths:
-        "i" := 1;
-        LOOP
           "j" := 1;
-          LOOP
-            IF "i" != "j" THEN
-              "k" := 1;
-              LOOP
-                IF "i" != "k" AND "j" != "k" THEN
-                  IF "matrix"["j"]["i"] < "matrix"["i"]["k"] THEN
-                    IF "matrix"["j"]["i"] > "matrix"["j"]["k"] THEN
-                      "matrix"["j"]["k"] := "matrix"["j"]["i"];
-                    END IF;
-                  ELSE
-                    IF "matrix"["i"]["k"] > "matrix"["j"]["k"] THEN
-                      "matrix"["j"]["k"] := "matrix"["i"]["k"];
-                    END IF;
+        ELSE
+          "j" := "j" + 1;
+          IF "j" = "i" THEN
+            "j" := "j" + 1;
+          END IF;
+        END IF;
+      END LOOP;
+      IF "i" != "dimension_v" OR "j" != "dimension_v" + 1 THEN
+        RAISE EXCEPTION 'Wrong battle count (should not happen)';
+      END IF;
+      -- Store defeat strengths in "matrix" using "defeat_strength"
+      -- function:
+      "matrix" := array_fill(NULL::INT8, ARRAY["dimension_v", "dimension_v"]);
+      "i" := 1;
+      LOOP
+        "j" := 1;
+        LOOP
+          IF "i" != "j" THEN
+            "matrix"["i"]["j"] := "defeat_strength"(
+              "vote_matrix"["i"]["j"],
+              "vote_matrix"["j"]["i"]
+            );
+          END IF;
+          EXIT WHEN "j" = "dimension_v";
+          "j" := "j" + 1;
+        END LOOP;
+        EXIT WHEN "i" = "dimension_v";
+        "i" := "i" + 1;
+      END LOOP;
+      -- Find best paths:
+      "i" := 1;
+      LOOP
+        "j" := 1;
+        LOOP
+          IF "i" != "j" THEN
+            "k" := 1;
+            LOOP
+              IF "i" != "k" AND "j" != "k" THEN
+                IF "matrix"["j"]["i"] < "matrix"["i"]["k"] THEN
+                  IF "matrix"["j"]["i"] > "matrix"["j"]["k"] THEN
+                    "matrix"["j"]["k"] := "matrix"["j"]["i"];
+                  END IF;
+                ELSE
+                  IF "matrix"["i"]["k"] > "matrix"["j"]["k"] THEN
+                    "matrix"["j"]["k"] := "matrix"["i"]["k"];
                   END IF;
                 END IF;
-                EXIT WHEN "k" = "dimension_v";
-                "k" := "k" + 1;
-              END LOOP;
-            END IF;
-            EXIT WHEN "j" = "dimension_v";
-            "j" := "j" + 1;
-          END LOOP;
+              END IF;
+              EXIT WHEN "k" = "dimension_v";
+              "k" := "k" + 1;
+            END LOOP;
+          END IF;
+          EXIT WHEN "j" = "dimension_v";
+          "j" := "j" + 1;
+        END LOOP;
+        EXIT WHEN "i" = "dimension_v";
+        "i" := "i" + 1;
+      END LOOP;
+      -- Determine order of winners:
+      "rank_ary" := array_fill(NULL::INT4, ARRAY["dimension_v"]);
+      "rank_v" := 1;
+      "done_v" := 0;
+      LOOP
+        "winners_ary" := '{}';
+        "i" := 1;
+        LOOP
+          IF "rank_ary"["i"] ISNULL THEN
+            "j" := 1;
+            LOOP
+              IF
+                "i" != "j" AND
+                "rank_ary"["j"] ISNULL AND
+                "matrix"["j"]["i"] > "matrix"["i"]["j"]
+              THEN
+                -- someone else is better
+                EXIT;
+              END IF;
+              IF "j" = "dimension_v" THEN
+                -- noone is better
+                "winners_ary" := "winners_ary" || "i";
+                EXIT;
+              END IF;
+              "j" := "j" + 1;
+            END LOOP;
+          END IF;
           EXIT WHEN "i" = "dimension_v";
           "i" := "i" + 1;
         END LOOP;
-        -- Determine order of winners:
-        "rank_ary" := "array_init_string"("dimension_v");  -- TODO: replace by "array_fill" function (PostgreSQL 8.4)
-        "rank_v" := 1;
-        "done_v" := 0;
-        LOOP
-          "winners_ary" := '{}';
-          "i" := 1;
-          LOOP
-            IF "rank_ary"["i"] ISNULL THEN
-              "j" := 1;
-              LOOP
-                IF
-                  "i" != "j" AND
-                  "rank_ary"["j"] ISNULL AND
-                  "matrix"["j"]["i"] > "matrix"["i"]["j"]
-                THEN
-                  -- someone else is better
-                  EXIT;
-                END IF;
-                IF "j" = "dimension_v" THEN
-                  -- noone is better
-                  "winners_ary" := "winners_ary" || "i";
-                  EXIT;
-                END IF;
-                "j" := "j" + 1;
-              END LOOP;
-            END IF;
-            EXIT WHEN "i" = "dimension_v";
-            "i" := "i" + 1;
-          END LOOP;
-          "i" := 1;
-          LOOP
-            "rank_ary"["winners_ary"["i"]] := "rank_v";
-            "done_v" := "done_v" + 1;
-            EXIT WHEN "i" = array_upper("winners_ary", 1);
-            "i" := "i" + 1;
-          END LOOP;
-          EXIT WHEN "done_v" = "dimension_v";
-          "rank_v" := "rank_v" + 1;
-        END LOOP;
-        -- write preliminary ranks:
         "i" := 1;
-        FOR "initiative_id_v" IN
-          SELECT "id" FROM "initiative"
-          WHERE "issue_id" = "issue_id_p" AND "agreed"
-          ORDER BY "id"
         LOOP
-          UPDATE "initiative" SET "rank" = "rank_ary"["i"]
-            WHERE "id" = "initiative_id_v";
+          "rank_ary"["winners_ary"["i"]] := "rank_v";
+          "done_v" := "done_v" + 1;
+          EXIT WHEN "i" = array_upper("winners_ary", 1);
           "i" := "i" + 1;
         END LOOP;
-        IF "i" != "dimension_v" + 1 THEN
-          RAISE EXCEPTION 'Wrong winner count (should not happen)';
-        END IF;
-        -- straighten ranks (start counting with 1, no equal ranks):
-        "rank_v" := 1;
-        FOR "initiative_id_v" IN
-          SELECT "id" FROM "initiative"
-          WHERE "issue_id" = "issue_id_p" AND "rank" NOTNULL
-          ORDER BY
-            "rank",
-            "vote_ratio"("positive_votes", "negative_votes") DESC,
-            "id"
-        LOOP
-          UPDATE "initiative" SET "rank" = "rank_v"
-            WHERE "id" = "initiative_id_v";
-          "rank_v" := "rank_v" + 1;
-        END LOOP;
+        EXIT WHEN "done_v" = "dimension_v";
+        "rank_v" := "rank_v" + 1;
+      END LOOP;
+      -- write preliminary results:
+      "i" := 1;
+      FOR "initiative_id_v" IN
+        SELECT "id" FROM "initiative"
+        WHERE "issue_id" = "issue_id_p" AND "admitted"
+        ORDER BY "id"
+      LOOP
+        UPDATE "initiative" SET
+          "direct_majority" =
+            CASE WHEN "policy_row"."direct_majority_strict" THEN
+              "positive_votes" * "policy_row"."direct_majority_den" >
+              "policy_row"."direct_majority_num" * ("positive_votes"+"negative_votes")
+            ELSE
+              "positive_votes" * "policy_row"."direct_majority_den" >=
+              "policy_row"."direct_majority_num" * ("positive_votes"+"negative_votes")
+            END
+            AND "positive_votes" >= "policy_row"."direct_majority_positive"
+            AND "issue_row"."voter_count"-"negative_votes" >=
+                "policy_row"."direct_majority_non_negative",
+            "indirect_majority" =
+            CASE WHEN "policy_row"."indirect_majority_strict" THEN
+              "positive_votes" * "policy_row"."indirect_majority_den" >
+              "policy_row"."indirect_majority_num" * ("positive_votes"+"negative_votes")
+            ELSE
+              "positive_votes" * "policy_row"."indirect_majority_den" >=
+              "policy_row"."indirect_majority_num" * ("positive_votes"+"negative_votes")
+            END
+            AND "positive_votes" >= "policy_row"."indirect_majority_positive"
+            AND "issue_row"."voter_count"-"negative_votes" >=
+                "policy_row"."indirect_majority_non_negative",
+          "schulze_rank"           = "rank_ary"["i"],
+          "better_than_status_quo" = "rank_ary"["i"] < "rank_ary"["dimension_v"],
+          "worse_than_status_quo"  = "rank_ary"["i"] > "rank_ary"["dimension_v"],
+          "multistage_majority"    = "rank_ary"["i"] >= "rank_ary"["dimension_v"],
+          "reverse_beat_path"      = "matrix"["dimension_v"]["i"] >= 0,
+          "winner"                 = FALSE
+          WHERE "id" = "initiative_id_v";
+        "i" := "i" + 1;
+      END LOOP;
+      IF "i" != "dimension_v" THEN
+        RAISE EXCEPTION 'Wrong winner count (should not happen)';
       END IF;
-      -- mark issue as finished
+      -- take indirect majorities into account:
+      LOOP
+        UPDATE "initiative" SET "indirect_majority" = TRUE
+          FROM (
+            SELECT "new_initiative"."id" AS "initiative_id"
+            FROM "initiative" "old_initiative"
+            JOIN "initiative" "new_initiative"
+              ON "new_initiative"."issue_id" = "issue_id_p"
+              AND "new_initiative"."indirect_majority" = FALSE
+            JOIN "battle" "battle_win"
+              ON "battle_win"."issue_id" = "issue_id_p"
+              AND "battle_win"."winning_initiative_id" = "new_initiative"."id"
+              AND "battle_win"."losing_initiative_id" = "old_initiative"."id"
+            JOIN "battle" "battle_lose"
+              ON "battle_lose"."issue_id" = "issue_id_p"
+              AND "battle_lose"."losing_initiative_id" = "new_initiative"."id"
+              AND "battle_lose"."winning_initiative_id" = "old_initiative"."id"
+            WHERE "old_initiative"."issue_id" = "issue_id_p"
+            AND "old_initiative"."indirect_majority" = TRUE
+            AND CASE WHEN "policy_row"."indirect_majority_strict" THEN
+              "battle_win"."count" * "policy_row"."indirect_majority_den" >
+              "policy_row"."indirect_majority_num" *
+              ("battle_win"."count"+"battle_lose"."count")
+            ELSE
+              "battle_win"."count" * "policy_row"."indirect_majority_den" >=
+              "policy_row"."indirect_majority_num" *
+              ("battle_win"."count"+"battle_lose"."count")
+            END
+            AND "battle_win"."count" >= "policy_row"."indirect_majority_positive"
+            AND "issue_row"."voter_count"-"battle_lose"."count" >=
+                "policy_row"."indirect_majority_non_negative"
+          ) AS "subquery"
+          WHERE "id" = "subquery"."initiative_id";
+        EXIT WHEN NOT FOUND;
+      END LOOP;
+      -- set "multistage_majority" for remaining matching initiatives:
+       UPDATE "initiative" SET "multistage_majority" = TRUE
+        FROM (
+          SELECT "losing_initiative"."id" AS "initiative_id"
+          FROM "initiative" "losing_initiative"
+          JOIN "initiative" "winning_initiative"
+            ON "winning_initiative"."issue_id" = "issue_id_p"
+            AND "winning_initiative"."admitted"
+          JOIN "battle" "battle_win"
+            ON "battle_win"."issue_id" = "issue_id_p"
+            AND "battle_win"."winning_initiative_id" = "winning_initiative"."id"
+            AND "battle_win"."losing_initiative_id" = "losing_initiative"."id"
+          JOIN "battle" "battle_lose"
+            ON "battle_lose"."issue_id" = "issue_id_p"
+            AND "battle_lose"."losing_initiative_id" = "winning_initiative"."id"
+            AND "battle_lose"."winning_initiative_id" = "losing_initiative"."id"
+          WHERE "losing_initiative"."issue_id" = "issue_id_p"
+          AND "losing_initiative"."admitted"
+          AND "winning_initiative"."schulze_rank" <
+              "losing_initiative"."schulze_rank"
+          AND "battle_win"."count" > "battle_lose"."count"
+          AND (
+            "battle_win"."count" > "winning_initiative"."positive_votes" OR
+            "battle_lose"."count" < "losing_initiative"."negative_votes" )
+        ) AS "subquery"
+        WHERE "id" = "subquery"."initiative_id";
+      -- mark eligible initiatives:
+      UPDATE "initiative" SET "eligible" = TRUE
+        WHERE "issue_id" = "issue_id_p"
+        AND "initiative"."direct_majority"
+        AND "initiative"."indirect_majority"
+        AND "initiative"."better_than_status_quo"
+        AND (
+          "policy_row"."no_multistage_majority" = FALSE OR
+          "initiative"."multistage_majority" = FALSE )
+        AND (
+          "policy_row"."no_reverse_beat_path" = FALSE OR
+          "initiative"."reverse_beat_path" = FALSE );
+      -- mark final winner:
+      UPDATE "initiative" SET "winner" = TRUE
+        FROM (
+          SELECT "id" AS "initiative_id"
+          FROM "initiative"
+          WHERE "issue_id" = "issue_id_p" AND "eligible"
+          ORDER BY "schulze_rank", "id"
+          LIMIT 1
+        ) AS "subquery"
+        WHERE "id" = "subquery"."initiative_id";
+      -- write (final) ranks:
+      "rank_v" := 1;
+      FOR "initiative_id_v" IN
+        SELECT "id"
+        FROM "initiative"
+        WHERE "issue_id" = "issue_id_p" AND "admitted"
+        ORDER BY
+          "winner" DESC,
+          ("direct_majority" AND "indirect_majority") DESC,
+          "schulze_rank",
+          "id"
+      LOOP
+        UPDATE "initiative" SET "rank" = "rank_v"
+          WHERE "id" = "initiative_id_v";
+        "rank_v" := "rank_v" + 1;
+      END LOOP;
+      -- set schulze rank of status quo and mark issue as finished:
       UPDATE "issue" SET
+        "status_quo_schulze_rank" = "rank_ary"["dimension_v"],
         "state" =
-          CASE WHEN "dimension_v" = 0 THEN
-            'finished_without_winner'::"issue_state"
-          ELSE
+          CASE WHEN EXISTS (
+            SELECT NULL FROM "initiative"
+            WHERE "issue_id" = "issue_id_p" AND "winner"
+          ) THEN
             'finished_with_winner'::"issue_state"
+          ELSE
+            'finished_without_winner'::"issue_state"
           END,
         "ranks_available" = TRUE
         WHERE "id" = "issue_id_p";
@@ -3839,7 +3823,6 @@ CREATE FUNCTION "check_issue"
     DECLARE
       "issue_row"         "issue"%ROWTYPE;
       "policy_row"        "policy"%ROWTYPE;
-      "voting_requested_v" BOOLEAN;
     BEGIN
       PERFORM "lock_issue"("issue_id_p");
       SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
@@ -3887,21 +3870,8 @@ CREATE FUNCTION "check_issue"
           "issue_row"."accepted" NOTNULL AND
           "issue_row"."half_frozen" ISNULL
         THEN
-          SELECT
-            CASE
-              WHEN "vote_now" * 2 > "issue_row"."population" THEN
-                TRUE
-              WHEN "vote_later" * 2 > "issue_row"."population" THEN
-                FALSE
-              ELSE NULL
-            END
-            INTO "voting_requested_v"
-            FROM "issue" WHERE "id" = "issue_id_p";
           IF
-            "voting_requested_v" OR (
-              "voting_requested_v" ISNULL AND
-              now() >= "issue_row"."accepted" + "issue_row"."discussion_time"
-            )
+            now() >= "issue_row"."accepted" + "issue_row"."discussion_time"
           THEN
             PERFORM "set_snapshot_event"("issue_id_p", 'half_freeze');
             -- NOTE: "issue_row" used later
@@ -3987,8 +3957,7 @@ CREATE FUNCTION "check_everything"()
     DECLARE
       "issue_id_v" "issue"."id"%TYPE;
     BEGIN
-      DELETE FROM "expired_session";
-      PERFORM "check_last_login"();
+      PERFORM "check_activity"();
       PERFORM "calculate_member_counts"();
       FOR "issue_id_v" IN SELECT "id" FROM "open_issue" LOOP
         PERFORM "check_issue"("issue_id_v");
@@ -4066,7 +4035,6 @@ CREATE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
     BEGIN
       UPDATE "member" SET
         "last_login"                   = NULL,
-        "last_login_public"            = NULL,
         "login"                        = NULL,
         "password"                     = NULL,
         "locked"                       = TRUE,
@@ -4100,7 +4068,6 @@ CREATE FUNCTION "delete_member"("member_id_p" "member"."id"%TYPE)
       DELETE FROM "member_image"       WHERE "member_id" = "member_id_p";
       DELETE FROM "contact"            WHERE "member_id" = "member_id_p";
       DELETE FROM "ignored_member"     WHERE "member_id" = "member_id_p";
-      DELETE FROM "session"            WHERE "member_id" = "member_id_p";
       DELETE FROM "area_setting"       WHERE "member_id" = "member_id_p";
       DELETE FROM "issue_setting"      WHERE "member_id" = "member_id_p";
       DELETE FROM "ignored_initiative" WHERE "member_id" = "member_id_p";
@@ -4157,7 +4124,6 @@ CREATE FUNCTION "delete_private_data"()
       DELETE FROM "member_image";
       DELETE FROM "contact";
       DELETE FROM "ignored_member";
-      DELETE FROM "session";
       DELETE FROM "area_setting";
       DELETE FROM "issue_setting";
       DELETE FROM "ignored_initiative";
