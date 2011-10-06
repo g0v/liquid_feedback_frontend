@@ -1,4 +1,4 @@
-local warning_text = _"Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."
+local warning_text = _"Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Chrome, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."
 
 ui.script{ static = "js/browser_warning.js" }
 ui.script{ script = "checkBrowser(" .. encode.json(_"Your web browser is not fully supported yet." .. " " .. warning_text:gsub("\n", "\n\n")) .. ");" }

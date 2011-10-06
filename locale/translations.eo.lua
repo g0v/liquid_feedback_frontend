@@ -474,7 +474,7 @@ return {
 ["Show policies not in use"] = "Montri ne uzatajn regularojn";
 ["So I'm"] = "Do mi estas";
 ["Software"] = "Programaro";
-["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = "Kelkaj funkcioj bazitaj je JavaScript (precipe la voĉdono) ne funkcios.\nBonvolu, uzi por tiu betaversio aktualan version de Firefox, Safari, Opera(?), Konqueror aŭ alian (pli) normokonforman retumilon.\nAlternativa atingo sen JavaScript estos baldaŭ disponebla.";
+["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Chrome, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = "Kelkaj funkcioj bazitaj je JavaScript (precipe la voĉdono) ne funkcios.\nBonvolu, uzi por tiu betaversio aktualan version de Firefox, Safari, Chrome, Opera(?), Konqueror aŭ alian (pli) normokonforman retumilon.\nAlternativa atingo sen JavaScript estos baldaŭ disponebla.";
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Pardonu, por tiu konto ne ekzistas konfirmita retadreson. Bonvolu vin turni al administranto aŭ al la helpantaro.";
 ["Sorry, but you are currently not invited"] = "Pardonu, sed aktuale vi ne estas invitita";
 ["Sorry, it was not possible to verify your OpenID."] = "Pardonu, ne eblis kontroli vian OpenID.";

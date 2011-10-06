@@ -458,7 +458,7 @@ return {
 ["Show only events which match... (or associtated)"] = false;
 ["So I'm"] = false;
 ["Software"] = false;
-["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = false;
+["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Chrome, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = false;
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = false;
 ["Sorry, but you are currently not invited"] = false;
 ["Sorry, it was not possible to verify your OpenID."] = false;
