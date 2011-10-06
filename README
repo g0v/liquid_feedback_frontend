@@ -9,10 +9,16 @@ $ psql -v ON_ERROR_STOP=1 -f demo.sql liquid_feedback
 Compile lf_update binary:
 $ make
 
-If you wish, copy the created lf_update file to /usr/local/bin or a
-similar directory. Ensure that "lf_update dbname=liquid_feedback"
-is called regularly. On successful run, lf_update will not produce
-any output and exit with code 0.
+Ensure that "lf_update dbname=liquid_feedback" is called regularly!
+
+It is required that lf_update is executed regulary (i.e. every
+5 minutes via cron) to update cached supporter counts, to change
+the state of issues when neccessary, and to calculate the result
+of votings. If you wish, copy the created lf_update file to
+/usr/local/bin or a similar directory.
+
+On successful run, lf_update will not produce any output
+and exit with code 0.
 
 NOTE: When writing to the database, some INSERTs must be executed
       within the same transaction, e.g. issues can't exist without
