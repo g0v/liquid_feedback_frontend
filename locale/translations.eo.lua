@@ -600,9 +600,9 @@ return {
 ["You can change the following settings:"] = "Vo povas ŝanĝi jenajn agordojn:";
 ["You can change your email address only once per hour. Please try again later."] = "Vi povas ŝanĝi vian retpoŝtadreson nur unufoje hore. Bonvole provu denove pli malfrue.";
 ["You can't suggest the initiative you are revoking"] = "Vi ne povas rekomendi la iniciaton, kiun vi nuligas";
-["You didn't confirmed your email address '#{email}' within 7 days."] = "Vi ne konfirmis vian retpoŝtadreson '#{email}' dum 7 tagoj.";
-["You didn't confirmed your email address '#{email}'. You have received an email with an activation link."] = "Vi ne konfirmis vian retpoŝtadreson '#{email}'. Vi ricevis aktivigan ligilon.";
-["You didn't saved any member as contact yet."] = "Vi ankoraŭ ne konservis membron kiel kontakton!";
+["You didn't confirm your email address '#{email}' within 7 days."] = "Vi ne konfirmis vian retpoŝtadreson '#{email}' dum 7 tagoj.";
+["You didn't confirm your email address '#{email}'. You have received an email with an activation link."] = "Vi ne konfirmis vian retpoŝtadreson '#{email}'. Vi ricevis aktivigan ligilon.";
+["You didn't save any member as contact yet."] = "Vi ankoraŭ ne konservis membron kiel kontakton!";
 ["You have saved this member as contact"] = "Vi konservis tiun membron kiel kontakton";
 ["You have saved this member as contact."] = "Vi konservis tiun membron kiel kontakton.";
 ["You have to mark 'Are you sure' to revoke!"] = "Por nuligi vi devas elekti 'Ĉu certa?'";

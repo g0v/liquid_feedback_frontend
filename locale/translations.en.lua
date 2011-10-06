@@ -583,9 +583,9 @@ return {
 ["You can change the following settings:"] = false;
 ["You can change your email address only once per hour. Please try again later."] = false;
 ["You can't suggest the initiative you are revoking"] = false;
-["You didn't confirmed your email address '#{email}' within 7 days."] = false;
-["You didn't confirmed your email address '#{email}'. You have received an email with an activation link."] = false;
-["You didn't saved any member as contact yet."] = false;
+["You didn't confirm your email address '#{email}' within 7 days."] = false;
+["You didn't confirm your email address '#{email}'. You have received an email with an activation link."] = false;
+["You didn't save any member as contact yet."] = false;
 ["You have saved this member as contact"] = false;
 ["You have saved this member as contact."] = false;
 ["You have to mark 'Are you sure' to revoke!"] = false;

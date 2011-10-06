@@ -600,9 +600,9 @@ return {
 ["You can change the following settings:"] = "Du kannst die folgenden Einstellungen vornehmen:";
 ["You can change your email address only once per hour. Please try again later."] = "Du kannst die E-Mail-Adresse nur einmal in der Stunde ändern, bitte versuche es später erneut.";
 ["You can't suggest the initiative you are revoking"] = "Du kannst nicht die Initiative empfehlen, die Du löschen möchtest";
-["You didn't confirmed your email address '#{email}' within 7 days."] = "Du hast die E-Mail-Adresse '#{email}' nicht innerhalb von 7 Tagen bestätigt.";
-["You didn't confirmed your email address '#{email}'. You have received an email with an activation link."] = "Du hast die E-Mail-Adresse '#{email}' nicht bestätigt. Du hast hierzu eine E-Mail mit einem Aktivierungslink erhalten.";
-["You didn't saved any member as contact yet."] = "Du hast noch kein Mitglied als Kontakt gespeichert!";
+["You didn't confirm your email address '#{email}' within 7 days."] = "Du hast die E-Mail-Adresse '#{email}' nicht innerhalb von 7 Tagen bestätigt.";
+["You didn't confirm your email address '#{email}'. You have received an email with an activation link."] = "Du hast die E-Mail-Adresse '#{email}' nicht bestätigt. Du hast hierzu eine E-Mail mit einem Aktivierungslink erhalten.";
+["You didn't save any member as contact yet."] = "Du hast noch kein Mitglied als Kontakt gespeichert!";
 ["You have saved this member as contact"] = "Du hast das Mitglied als Kontakt gespeichert";
 ["You have saved this member as contact."] = "Du hast das Mitglied als Kontakt gespeichert.";
 ["You have to mark 'Are you sure' to revoke!"] = "Zum Zurückziehen musst Du 'Sicher?' auswählen";
