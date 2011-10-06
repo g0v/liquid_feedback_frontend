@@ -9,14 +9,14 @@ config.app_service_provider = "Snake Oil<br/>10000 Berlin<br/>Germany"
 
 --config.footer_html = '<a href="somewhere">some link</a>'
 
-config.use_terms = "=== Nutzungsbedingungen ===\nAlles ist verboten"
+config.use_terms = "=== Terms of Use ===\nNothing is allowed."
 --config.use_terms_html = ""
 
 config.use_terms_checkboxes = {
   {
-    name = "nutzungsbedingungen_v1",
-    html = "Ich akzeptiere die Bedingungen.",
-    not_accepted_error = "Du musst die Bedingungen akzeptieren, um dich zu registrieren."
+    name = "terms_of_use_v1",
+    html = "I accept the terms of use.",
+    not_accepted_error = "You have to accept the terms of use to be able to register."
   }
 }
 
