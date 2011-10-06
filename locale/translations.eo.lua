@@ -116,9 +116,12 @@ return {
 ["Contacts"] = "Kontaktoj";
 ["Content"] = "Enhavo";
 ["Counting of votes"] = "Nombrado de voĉoj";
-["Create alternative initiative"] = "Krei alternativan iniciaton";
+["Create / edit area"] = "Krei / prilabori temaron"; 
+["Create / edit policy"] = "Krei / prilabori regularon";
+["Create alternative initiative"] = "Krei alternativan iniciaton"; 
 ["Create new area"] = "Krei novan temaron";
 ["Create new issue"] = "Krei novan temon";
+["Create new policy"] = "Krei novan regularon";
 ["Created at"] = "Kreita je";
 ["Current draft"] = "Aktuala skizo";
 ["Current name"] = "Aktuala nomo";
@@ -200,6 +203,7 @@ return {
 ["Hide"] = "Kaŝi";
 ["Hide filter details"] = "Kaŝi filtrodetalojn";
 ["Hide this help message"] = "Kaŝi tiun helpmesaĝon";
+["Hint"] = "Konsilo";
 ["History"] = "Historio";
 ["Home"] = "Ĉefpaĝo";
 ["I consider suggestion as"] = "Mi konsideras la sugeston";
@@ -210,6 +214,7 @@ return {
 ["Images"] = "Bildoj";
 ["In discussion"] = "En diskuto";
 ["Incoming delegations"] = "Alvenantaj delegacioj";
+["Index"] = "indico";
 ["Information about the available policies"] = "Informo pri la disponeblaj regularoj";
 ["Inherit autoreject from area"] = "Transpreni aŭtomatan malkonsenton de la temaro";
 ["Initiated"] = "Lanĉita";
@@ -218,6 +223,8 @@ return {
 ["Initiative events"] = "Iniciato-eventoj";
 ["Initiative is revoked now"] = "Iniciato nun estas retirita";
 ["Initiative quorum"] = "Kvorumo de la iniciato";
+["Initiative quorum denumerator"] = "Denominatoro de iniciato-kvorumo";
+["Initiative quorum numerator"] = "Nominatoro de iniciato-kvorumo";
 ["Initiative revoked"] = "Iniciato retirita";
 ["Initiative successfully created"] = "Iniciato sukcese kreita";
 ["Initiative successfully updated"] = "Iniciato sukcese ĝisdatigita";
@@ -238,6 +245,7 @@ return {
 ["Interested"] = "Interesita";
 ["Interested members"] = "Interesitaj membroj";
 ["Internal posts"] = "Internaj postenoj";
+["Interval format:"] = "Intervala formato";
 ["Invalid query"] = "Malvalida demando";
 ["Invalid username or password!"] = "Malvalida salutnomo aŭ pasvorto";
 ["Invitation has been refused"] = "Invito estas rifuzita";
@@ -257,6 +265,8 @@ return {
 ["Issue frozen"] = "Temo ĝelita";
 ["Issue policy"] = "Regularo por temo";
 ["Issue quorum"] = "Kvorumo por temo";
+["Issue quorum denumerator"] = "Denominatoro de tema kvorumo";
+["Issue quorum numerator"] = "Nominatoro de tema kovorumo";
 ["Issues"] = "Temoj";
 ["JavaScript is disabled or not available."] = "JavaScript ne estas ŝaltita aŭ disponebla.";
 ["Last author"] = "Lasta aŭtoro";
@@ -270,6 +280,8 @@ return {
 ["Logout"] = "Adiaŭi";
 ["Logout successful"] = "Adiaŭo sukcesa";
 ["Majority"] = "Plimulto";
+["Majority denumerator"] = "Denominatoro de plimulto";
+["Majority numerator"] = "Nominatoro de plimulto";
 ["Manage filter"] = "Administri filtrilojn";
 ["Manage timeline filters"] = "Administri tempolinio-filtrilojn";
 ["Max potential support"] = "Maksimumo da eblaj subtenantoj";
@@ -380,6 +392,8 @@ return {
 ["Policies"] = "Regularoj";
 ["Policy"] = "Regularo";
 ["Policy '#{name}'"] = "Regularo '#{name}'";
+["Policy list"] = "Listo de rugularoj";
+["Policy successfully updated"] = "Regularo sukcese ĝisdatigita";
 ["Population"] = "Loĝantaro";
 ["Posts"] = "Postenoj";
 ["Potential support"] = "Eventuala subteno";
@@ -456,6 +470,8 @@ return {
 ["Show member"] = "Montri membron";
 ["Show name history"] = "Montri nomohistorion";
 ["Show only events which match... (or associtated)"] = "Montri nur eventojn, kiuj kongruas... (aŭ kunligitaj)";
+["Show policies in use"] = "Montri uzatajn regularojn";
+["Show policies not in use"] = "Montri ne uzatajn regularojn";
 ["So I'm"] = "Do mi estas";
 ["Software"] = "Programaro";
 ["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = "Kelkaj funkcioj bazitaj je JavaScript (precipe la voĉdono) ne funkcios.\nBonvolu, uzi por tiu betaversio aktualan version de Firefox, Safari, Opera(?), Konqueror aŭ alian (pli) normokonforman retumilon.\nAlternativa atingo sen JavaScript estos baldaŭ disponebla.";
@@ -473,6 +489,7 @@ return {
 ["Step 3/5: Username"] = "Paŝo 3/5: Uzantnomo";
 ["Step 4/5: Login name"] = "Paŝo 4/5: Salutnomo";
 ["Step 5/5: Terms of use and password"] = "Paŝo 5/5: Uzokondiĉoj kaj pasvorto";
+["Strict majority"] = "Strikta plimulto";
 ["Stylesheet URL"] = "URL de la stilfolio";
 ["Stylesheet URL has been updated"] = "URL de la stilfolio estas ĝisdatigita";
 ["Suggest no initiative"] = "Sugesti neniun iniciaton";
