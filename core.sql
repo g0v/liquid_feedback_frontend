@@ -379,6 +379,16 @@ COMMENT ON COLUMN "unit"."active"       IS 'TRUE means new issues can be created
 COMMENT ON COLUMN "unit"."member_count" IS 'Count of members as determined by column "voting_right" in table "privilege"';
 
 
+CREATE TABLE "unit_setting" (
+        PRIMARY KEY ("member_id", "key", "unit_id"),
+        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "key"                   TEXT            NOT NULL,
+        "unit_id"               INT4            REFERENCES "unit" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+        "value"                 TEXT            NOT NULL );
+
+COMMENT ON TABLE "unit_setting" IS 'Place for frontend to store unit specific settings of members as strings';
+
+
 CREATE TABLE "area" (
         "id"                    SERIAL4         PRIMARY KEY,
         "unit_id"               INT4            NOT NULL REFERENCES "unit" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
