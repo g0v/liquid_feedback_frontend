@@ -946,9 +946,11 @@ CREATE TABLE "direct_supporter_snapshot" (
         "initiative_id"         INT4,
         "event"                 "snapshot_event",
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT,
+        "draft_id"              INT8            NOT NULL,
         "informed"              BOOLEAN         NOT NULL,
         "satisfied"             BOOLEAN         NOT NULL,
         FOREIGN KEY ("issue_id", "initiative_id") REFERENCES "initiative" ("issue_id", "id") ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY ("initiative_id", "draft_id") REFERENCES "draft" ("initiative_id", "id") ON DELETE NO ACTION ON UPDATE CASCADE,
         FOREIGN KEY ("issue_id", "event", "member_id") REFERENCES "direct_interest_snapshot" ("issue_id", "event", "member_id") ON DELETE CASCADE ON UPDATE CASCADE );
 CREATE INDEX "direct_supporter_snapshot_member_id_idx" ON "direct_supporter_snapshot" ("member_id");
 
@@ -2991,12 +2993,13 @@ CREATE FUNCTION "create_interest_snapshot"
       END LOOP;
       INSERT INTO "direct_supporter_snapshot"
         ( "issue_id", "initiative_id", "event", "member_id",
-          "informed", "satisfied" )
+          "draft_id", "informed", "satisfied" )
         SELECT
           "issue_id_p"            AS "issue_id",
           "initiative"."id"       AS "initiative_id",
           'periodic'              AS "event",
           "supporter"."member_id" AS "member_id",
+          "supporter"."draft_id"  AS "draft_id",
           "supporter"."draft_id" = "current_draft"."id" AS "informed",
           NOT EXISTS (
             SELECT NULL FROM "critical_opinion"
