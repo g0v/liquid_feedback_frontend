@@ -18,13 +18,18 @@ INSERT INTO "member" (
         "password",
         "active",
         "admin",
-        "name"
+        "name",
+        "activated",
+        "last_activity"
     ) VALUES (
         'admin',
         '$1$.EMPTY.$LDufa24OE2HZFXAXh71Eb1',
         TRUE,
         TRUE,
-        'Administrator' );
+        'Administrator',
+        NOW(),
+        NOW()
+    );
 
 INSERT INTO "policy" (
         "index",
