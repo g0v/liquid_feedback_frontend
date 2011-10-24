@@ -101,7 +101,8 @@ CREATE TYPE "issue_state" AS ENUM (
 
 COMMENT ON TYPE "issue_state" IS 'State of issues';
 
-ALTER TABLE "issue" ADD "state" "issue_state";
+ALTER TABLE "issue" ADD "state" "issue_state" DEFAULT NULL;
+ALTER TABLE "issue" ALTER "state" SET DEFAULT 'admission';
 
 -- NOTE: Filling new column with values is done after this transaction (see below)
 
