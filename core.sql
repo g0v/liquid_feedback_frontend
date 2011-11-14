@@ -4105,6 +4105,7 @@ CREATE FUNCTION "delete_private_data"()
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
       UPDATE "member" SET
+        "invite_code"                  = NULL,
         "last_login"                   = NULL,
         "login"                        = NULL,
         "password"                     = NULL,
@@ -4130,7 +4131,6 @@ CREATE FUNCTION "delete_private_data"()
         "external_posts"               = NULL,
         "statement"                    = NULL;
       -- "text_search_data" is updated by triggers
-      DELETE FROM "invite_code";
       DELETE FROM "setting";
       DELETE FROM "setting_map";
       DELETE FROM "member_relation_setting";
