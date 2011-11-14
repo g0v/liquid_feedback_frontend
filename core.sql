@@ -137,7 +137,7 @@ COMMENT ON TABLE "member" IS 'Users of the system, e.g. members of an organizati
 COMMENT ON COLUMN "member"."created"              IS 'Creation of member record and/or invite code';
 COMMENT ON COLUMN "member"."invite_code"          IS 'Optional invite code, to allow a member to initialize his/her account the first time';
 COMMENT ON COLUMN "member"."admin_comment"        IS 'Hidden comment for administrative purposes';
-COMMENT ON COLUMN "member"."activated"            IS 'Timestamp of activation of account (i.e. usage of "invite_code"); required to be set for "active" members';
+COMMENT ON COLUMN "member"."activated"            IS 'Timestamp of first activation of account (i.e. usage of "invite_code"); required to be set for "active" members';
 COMMENT ON COLUMN "member"."last_activity"        IS 'Date of last activity of member; required to be set for "active" members';
 COMMENT ON COLUMN "member"."last_login"           IS 'Timestamp of last login';
 COMMENT ON COLUMN "member"."login"                IS 'Login name';
@@ -161,7 +161,7 @@ COMMENT ON COLUMN "member"."email"                IS 'Published email address of
 COMMENT ON COLUMN "member"."external_memberships" IS 'Other organizations the member is involved in';
 COMMENT ON COLUMN "member"."external_posts"       IS 'Posts (offices) outside the organization';
 COMMENT ON COLUMN "member"."formatting_engine"    IS 'Allows different formatting engines (i.e. wiki formats) to be used for "member"."statement"';
-COMMENT ON COLUMN "member"."statement"            IS 'Freely chosen text of the member for his homepage within the system';
+COMMENT ON COLUMN "member"."statement"            IS 'Freely chosen text of the member for his/her profile';
 
 
 CREATE TYPE "application_access_level" AS ENUM
@@ -332,12 +332,12 @@ COMMENT ON TABLE "policy" IS 'Policies for a particular proceeding type (timelim
 
 COMMENT ON COLUMN "policy"."index"                 IS 'Determines the order in listings';
 COMMENT ON COLUMN "policy"."active"                IS 'TRUE = policy can be used for new issues';
-COMMENT ON COLUMN "policy"."admission_time"        IS 'Maximum time an issue stays open without being "accepted"';
-COMMENT ON COLUMN "policy"."discussion_time"       IS 'Regular time until an issue is "half_frozen" after being "accepted"';
-COMMENT ON COLUMN "policy"."verification_time"     IS 'Regular time until an issue is "fully_frozen" after being "half_frozen"';
-COMMENT ON COLUMN "policy"."voting_time"           IS 'Time after an issue is "fully_frozen" but not "closed"';
-COMMENT ON COLUMN "policy"."issue_quorum_num"      IS   'Numerator of potential supporter quorum to be reached by one initiative of an issue to be "accepted"';
-COMMENT ON COLUMN "policy"."issue_quorum_den"      IS 'Denominator of potential supporter quorum to be reached by one initiative of an issue to be "accepted"';
+COMMENT ON COLUMN "policy"."admission_time"        IS 'Maximum duration of issue state ''admission''; Maximum time an issue stays open without being "accepted"';
+COMMENT ON COLUMN "policy"."discussion_time"       IS 'Duration of issue state ''discussion''; Regular time until an issue is "half_frozen" after being "accepted"';
+COMMENT ON COLUMN "policy"."verification_time"     IS 'Duration of issue state ''verification''; Regular time until an issue is "fully_frozen" (e.g. entering issue state ''voting'') after being "half_frozen"';
+COMMENT ON COLUMN "policy"."voting_time"           IS 'Duration of issue state ''voting''; Time after an issue is "fully_frozen" but not "closed" (duration of issue state ''voting'')';
+COMMENT ON COLUMN "policy"."issue_quorum_num"      IS   'Numerator of potential supporter quorum to be reached by one initiative of an issue to be "accepted" and enter issue state ''discussion''';
+COMMENT ON COLUMN "policy"."issue_quorum_den"      IS 'Denominator of potential supporter quorum to be reached by one initiative of an issue to be "accepted" and enter issue state ''discussion''';
 COMMENT ON COLUMN "policy"."initiative_quorum_num" IS   'Numerator of satisfied supporter quorum  to be reached by an initiative to be "admitted" for voting';
 COMMENT ON COLUMN "policy"."initiative_quorum_den" IS 'Denominator of satisfied supporter quorum to be reached by an initiative to be "admitted" for voting';
 COMMENT ON COLUMN "policy"."direct_majority_num"            IS 'Numerator of fraction of neccessary direct majority for initiatives to be attainable as winner';
@@ -375,7 +375,7 @@ CREATE TRIGGER "update_text_search_data"
 COMMENT ON TABLE "unit" IS 'Organizational units organized as trees; Delegations are not inherited through these trees.';
 
 COMMENT ON COLUMN "unit"."parent_id"    IS 'Parent id of tree node; Multiple roots allowed';
-COMMENT ON COLUMN "unit"."active"       IS 'TRUE means new issues can be created in units of this area';
+COMMENT ON COLUMN "unit"."active"       IS 'TRUE means new issues can be created in areas of this area';
 COMMENT ON COLUMN "unit"."member_count" IS 'Count of members as determined by column "voting_right" in table "privilege"';
 
 
@@ -628,7 +628,7 @@ COMMENT ON COLUMN "initiative"."better_than_status_quo"  IS 'TRUE, if initiative
 COMMENT ON COLUMN "initiative"."worse_than_status_quo"   IS 'TRUE, if initiative has a schulze-ranking worse than the status quo (without tie-breaking)';
 COMMENT ON COLUMN "initiative"."reverse_beat_path"       IS 'TRUE, if there is a beat path (may include ties), from this initiative to the status quo';
 COMMENT ON COLUMN "initiative"."multistage_majority"     IS 'TRUE, if either (a) this initiative has no better rank than the status quo, or (b) there exists a better ranked initiative X, which directly beats this initiative, and either more voters prefer X to this initiative than voters preferring X to the status quo or less voters prefer this initiative to X than voters preferring the status quo to X';
-COMMENT ON COLUMN "initiative"."eligible"                IS 'Initiative is "attainable" and depending on selected policy has no "reverse_beat_path" or "multistage_majority"';
+COMMENT ON COLUMN "initiative"."eligible"                IS 'Initiative has a "direct_majority" and an "indirect_majority", is "better_than_status_quo" and depending on selected policy the initiative has no "reverse_beat_path" or "multistage_majority"';
 COMMENT ON COLUMN "initiative"."winner"                  IS 'Winner is the "eligible" initiative with best "schulze_rank" and in case of ties with lowest "id"';
 COMMENT ON COLUMN "initiative"."rank"                    IS 'Unique ranking for all "admitted" initiatives per issue; lower rank is better; a winner always has rank 1, but rank 1 does not imply that an initiative is winner; initiatives with "direct_majority" AND "indirect_majority" always have a better (lower) rank than other initiatives';
 
@@ -775,10 +775,10 @@ CREATE TABLE "privilege" (
 
 COMMENT ON TABLE "privilege" IS 'Members rights related to each unit';
 
-COMMENT ON COLUMN "privilege"."admin_manager"        IS 'Grant/revoke admin privileges to/from other users';
-COMMENT ON COLUMN "privilege"."unit_manager"         IS 'Create or lock sub units';
-COMMENT ON COLUMN "privilege"."area_manager"         IS 'Create or lock areas and set area parameters';
-COMMENT ON COLUMN "privilege"."voting_right_manager" IS 'Select which members are allowed to discuss and vote inside the unit';
+COMMENT ON COLUMN "privilege"."admin_manager"        IS 'Grant/revoke admin privileges to/from other members';
+COMMENT ON COLUMN "privilege"."unit_manager"         IS 'Create and disable sub units';
+COMMENT ON COLUMN "privilege"."area_manager"         IS 'Create and disable areas and set area parameters';
+COMMENT ON COLUMN "privilege"."voting_right_manager" IS 'Select which members are allowed to discuss and vote within the unit';
 COMMENT ON COLUMN "privilege"."voting_right"         IS 'Right to discuss and vote';
 
 
@@ -824,6 +824,7 @@ CREATE INDEX "supporter_member_id_idx" ON "supporter" ("member_id");
 
 COMMENT ON TABLE "supporter" IS 'Members who support an initiative (conditionally); Frontends must ensure that supporters are not added or removed from fully_frozen or closed initiatives.';
 
+COMMENT ON COLUMN "supporter"."issue_id" IS 'WARNING: No index: For selections use column "initiative_id" and join via table "initiative" where neccessary';
 COMMENT ON COLUMN "supporter"."draft_id" IS 'Latest seen draft; should always be set by a frontend, but defaults to current draft of the initiative (implemented by trigger "default_for_draft_id")';
 
 
@@ -956,6 +957,7 @@ CREATE INDEX "direct_supporter_snapshot_member_id_idx" ON "direct_supporter_snap
 
 COMMENT ON TABLE "direct_supporter_snapshot" IS 'Snapshot of supporters of initiatives (weight is stored in "direct_interest_snapshot")';
 
+COMMENT ON COLUMN "direct_supporter_snapshot"."issue_id"  IS 'WARNING: No index: For selections use column "initiative_id" and join via table "initiative" where neccessary';
 COMMENT ON COLUMN "direct_supporter_snapshot"."event"     IS 'Reason for snapshot, see "snapshot_event" type for details';
 COMMENT ON COLUMN "direct_supporter_snapshot"."informed"  IS 'Supporter has seen the latest draft of the initiative';
 COMMENT ON COLUMN "direct_supporter_snapshot"."satisfied" IS 'Supporter has no "critical_opinion"s';
@@ -979,7 +981,7 @@ CREATE INDEX "direct_voter_member_id_idx" ON "direct_voter" ("member_id");
 
 COMMENT ON TABLE "direct_voter" IS 'Members having directly voted for/against initiatives of an issue; Frontends must ensure that no voters are added or removed to/from this table when the issue has been closed.';
 
-COMMENT ON COLUMN "direct_voter"."weight"     IS 'Weight of member (1 or higher) according to "delegating_voter" table';
+COMMENT ON COLUMN "direct_voter"."weight" IS 'Weight of member (1 or higher) according to "delegating_voter" table';
 
 
 CREATE TABLE "delegating_voter" (
@@ -1010,7 +1012,8 @@ CREATE INDEX "vote_member_id_idx" ON "vote" ("member_id");
 
 COMMENT ON TABLE "vote" IS 'Manual and delegated votes without abstentions; Frontends must ensure that no votes are added modified or removed when the issue has been closed.';
 
-COMMENT ON COLUMN "vote"."grade" IS 'Values smaller than zero mean reject, values greater than zero mean acceptance, zero or missing row means abstention. Preferences are expressed by different positive or negative numbers.';
+COMMENT ON COLUMN "vote"."issue_id" IS 'WARNING: No index: For selections use column "initiative_id" and join via table "initiative" where neccessary';
+COMMENT ON COLUMN "vote"."grade"    IS 'Values smaller than zero mean reject, values greater than zero mean acceptance, zero or missing row means abstention. Preferences are expressed by different positive or negative numbers.';
 
 
 CREATE TABLE "issue_comment" (
@@ -1138,6 +1141,7 @@ CREATE TABLE "event" (
             "initiative_id" NOTNULL AND
             "draft_id"      ISNULL  AND
             "suggestion_id" NOTNULL )) );
+-- TODO: indicies
 
 COMMENT ON TABLE "event" IS 'Event table, automatically filled by triggers';
 
