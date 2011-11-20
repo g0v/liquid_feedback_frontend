@@ -46,7 +46,7 @@ if initiative then
   filter[#filter] = {
     name = "delegations",
     label = _"Delegations",
-    selector_modifier = function(selector) selector:add_order_by("weight DESC") end
+    selector_modifier = function(selector) selector:add_order_by("direct_voter.weight DESC") end
   }
 end
 
