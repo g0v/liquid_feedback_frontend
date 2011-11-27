@@ -7,7 +7,7 @@ local invite_code = InviteCode:new_selector()
   :exec()
 
 if not invite_code or invite_code.used then
-  slot.put_into("error", _"The code you've entered is invalid")
+  slot.put_into("error", _"The code you've entered is invalid" .. ": '" .. code .. "'")
   request.redirect{
     mode   = "forward",
     module = "index",
