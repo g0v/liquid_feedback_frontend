@@ -1,4 +1,4 @@
-local code = param.get("code")
+local code = util.trim(param.get("code"))
 
 local invite_code = InviteCode:new_selector()
   :add_where{ "code = ?", code }
