@@ -43,11 +43,19 @@ local filter = {
 }
 
 if initiative then
-  filter[#filter] = {
-    name = "delegations",
-    label = _"Delegations",
-    selector_modifier = function(selector) selector:add_order_by("direct_voter.weight DESC") end
-  }
+  if for_votes then
+    filter[#filter] = {
+      name = "delegations",
+      label = _"Delegations",
+      selector_modifier = function(selector) selector:add_order_by("voter_weight DESC") end
+    }
+  else
+    filter[#filter] = {
+      name = "delegations",
+      label = _"Delegations",
+      selector_modifier = function(selector) selector:add_order_by("weight DESC") end
+    }
+  end
 end
 
 ui.filters{
