@@ -239,7 +239,7 @@ return {
 ["Initiator"] = "Iniciinto";
 ["Initiator invites"] = "Invitoj";
 ["Initiators"] = "Iniciintoj";
-["Interest not existant"] = "Ne ekzistas intereso";
+["Interest not existent"] = "Ne ekzistas intereso";
 ["Interest removed"] = "Intereso forigita";
 ["Interest updated"] = "Intereso ĝisdatigita";
 ["Interested"] = "Interesita";
@@ -306,7 +306,7 @@ return {
 ["Member: '#{login}' (#{name})"] = "Membro: '#{login}' (#{name})";
 ["Members"] = "Membroj";
 ["Membership by delegation"] = "Membreco laŭ delegacio";
-["Membership not existant"] = "Membreco ne ekzistas";
+["Membership not existent"] = "Membreco ne ekzistas";
 ["Membership removed"] = "Membreco forigita";
 ["Membership updated"] = "Membreco ĝisdatigita";
 ["Memberships"] = "Membrecoj";
@@ -585,12 +585,12 @@ return {
 ["Wednesday"] = "Merkredo";
 ["Wiki engine"] = "Viki-modulo";
 ["Yes"] = "Jes";
-["You are already initator"] = "Vi estas jam iniciinto";
+["You are already initiator"] = "Vi estas jam iniciinto";
 ["You are already not supporting this initiative"] = "Vi jam malsubtenas tiun iniciaton";
 ["You are already supporting the latest draft"] = "Vi jam subtenas la plej novan skizon";
 ["You are currently not invited to any initiative."] = "Vi aktuale estas invitita al neniu iniciato.";
 ["You are currently not supporting this initiative directly. By adding suggestions to this initiative you will automatically become a potential supporter."] = "Vi aktuale ne subtenas tiun iniciaton rekte. Aldonante sugestojn al tiu iniciaton vi iĝas aŭtomate ebla subtenonto.";
-["You are iniator of this initiative"] = "Vi estas iniciinto de tiu iniciato";
+["You are initiator of this initiative"] = "Vi estas iniciinto de tiu iniciato";
 ["You are interested in this issue"] = "Vin interesas tiu temo";
 ["You are invited to become initiator of this initiative."] = "Vi estas invitita por esti inicionto de tiu iniciato.";
 ["You are member"] = "Vi estas membro";

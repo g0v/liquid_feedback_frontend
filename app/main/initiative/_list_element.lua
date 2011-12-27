@@ -173,7 +173,7 @@ ui.container{
                 end
                 if initiative.is_initiator then
                   slot.put("&nbsp;")
-                  local label = _"You are iniator of this initiative"
+                  local label = _"You are initiator of this initiative"
                   ui.image{
                     attr = { alt = label, title = label },
                     static = "icons/16/user_edit.png"

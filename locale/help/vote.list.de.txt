@@ -1,4 +1,4 @@
-=Abstimmmung=
+﻿=Abstimmung=
 Je nachdem, welche Standardeinstellungen du gewählt hast, befinden sich zu Beginn der Abstimmung alle Initiativen im Feld Enthaltung oder im Feld Ablehnung. Beginne am besten mit deinem Favoriten und ziehe ihn mit der Maus in das Feld Zustimmung. Danach wählst du die nächste Initiative, der du zustimmen möchtest und ziehst sie
 - in die gleiche grüne Box, falls du dieser Initiative gleichberechtigt zustimmen möchtest oder
 - zwischen die Zustimmungs- und Enthaltungsbox, falls diese Initiative dein Ersatzwunsch sein soll.

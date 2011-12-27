@@ -232,7 +232,7 @@ return {
 ["Initiator"] = false;
 ["Initiator invites"] = false;
 ["Initiators"] = false;
-["Interest not existant"] = false;
+["Interest not existent"] = false;
 ["Interest removed"] = false;
 ["Interest updated"] = false;
 ["Interested"] = false;
@@ -294,7 +294,7 @@ return {
 ["Member: '#{login}' (#{name})"] = false;
 ["Members"] = false;
 ["Membership by delegation"] = false;
-["Membership not existant"] = false;
+["Membership not existent"] = false;
 ["Membership removed"] = false;
 ["Membership updated"] = false;
 ["Memberships"] = false;
@@ -568,12 +568,12 @@ return {
 ["Wednesday"] = false;
 ["Wiki engine"] = false;
 ["Yes"] = false;
-["You are already initator"] = false;
+["You are already initiator"] = false;
 ["You are already not supporting this initiative"] = false;
 ["You are already supporting the latest draft"] = false;
 ["You are currently not invited to any initiative."] = false;
 ["You are currently not supporting this initiative directly. By adding suggestions to this initiative you will automatically become a potential supporter."] = false;
-["You are iniator of this initiative"] = false;
+["You are initiator of this initiative"] = false;
 ["You are interested in this issue"] = false;
 ["You are invited to become initiator of this initiative."] = false;
 ["You are member"] = false;

@@ -1,4 +1,4 @@
-#!/usr/bin/env lua
+﻿#!/usr/bin/env lua
 return {
 ["##{id}"] = "##{id}";
 ["##{issue_id}.#{id} #{name}"] = "##{issue_id}.#{id} #{name}";
@@ -83,7 +83,7 @@ return {
 ["Cancel"] = "Abbrechen";
 ["Cancel password reset"] = "Kennwort-Rücksetzung abbrechen";
 ["Cancel refuse of invitation"] = "Ablehnung der Einladung aufheben";
-["Cancel registration"] = "Registration abbrechen";
+["Cancel registration"] = "Registrierung abbrechen";
 ["Cancelled"] = "Abgebrochen";
 ["Change API key"] = "API-Schlüssel ändern";
 ["Change area delegation"] = "Delegation für Themenbereich ändern";
@@ -159,7 +159,7 @@ return {
 ["Discussion"] = "Diskussion";
 ["Discussion URL"] = "Diskussions-URL";
 ["Discussion on issue"] = "Diskussion zum Thema";
-["Discussion time"] = "Zeit für die Diskussions";
+["Discussion time"] = "Zeit für die Diskussion";
 ["Discussion with initiators"] = "Diskussion mit den Initiatoren";
 ["Display settings"] = "Anzeige-Einstellungen";
 ["Download"] = "Download";
@@ -202,7 +202,7 @@ return {
 ["Help for: #{text}"] = "Hilfe zu: #{text}";
 ["Hide"] = "Verstecken";
 ["Hide filter details"] = "Filter-Details verstecken";
-["Hide this help message"] = "Diese Hilfenachricht verstecken";
+["Hide this help message"] = "Diese Hilfenachricht verbergen";
 ["Hint"] = "Hinweis";
 ["History"] = "Historie";
 ["Home"] = "Startseite";
@@ -222,7 +222,7 @@ return {
 ["Initiative ##{id}"] = "Initiative ##{id}";
 ["Initiative events"] = "Initiativen-Ereignisse";
 ["Initiative is revoked now"] = "Initiative ist jetzt zurückgezogen";
-["Initiative quorum"] = "Quorum Inititive";
+["Initiative quorum"] = "Quorum Initiative";
 ["Initiative quorum denumerator"] = "Initiativ-Quorum Nenner";
 ["Initiative quorum numerator"] = "Initiativ-Quorum Zähler";
 ["Initiative revoked"] = "Initiative zurückgezogen";
@@ -239,7 +239,7 @@ return {
 ["Initiator"] = "Initiator";
 ["Initiator invites"] = "Einladungen";
 ["Initiators"] = "Initiatoren";
-["Interest not existant"] = "Interesse existiert nicht";
+["Interest not existent"] = "Interesse existiert nicht";
 ["Interest removed"] = "Interesse entfernt";
 ["Interest updated"] = "Interesse aktualisiert";
 ["Interested"] = "Interessiert";
@@ -306,7 +306,7 @@ return {
 ["Member: '#{login}' (#{name})"] = "Mitlied: '#{login}' (#{name})";
 ["Members"] = "Mitglieder";
 ["Membership by delegation"] = "Mitgliedschaft durch Delegation";
-["Membership not existant"] = "Mitgliedschaft exisitert nicht";
+["Membership not existent"] = "Mitgliedschaft existiert nicht";
 ["Membership removed"] = "Mitgliedschaft entfernt";
 ["Membership updated"] = "Mitgliedschaft aktualisiert";
 ["Memberships"] = "Mitgliedschaften";
@@ -372,7 +372,7 @@ return {
 ["Password has been reset successfully"] = "Kennwort wurde erfolgreich zurückgesetzt";
 ["Password reset request"] = "Kennwort-Rücksetzung anfordern";
 ["Passwords don't match!"] = "Kennwörter stimmen nicht überein!";
-["Passwords must consist of at least 8 characters!"] = "Das Kennwort muß zumindest 8 Zeichen lang sein!";
+["Passwords must consist of at least 8 characters!"] = "Das Kennwort muss zumindest 8 Zeichen lang sein!";
 ["Phases"] = "Phasen";
 ["Phone"] = "Telefon";
 ["Photo"] = "Foto";
@@ -381,12 +381,12 @@ return {
 ["Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you."] = "Wähle einen Namen, z. B. Deinen Real- oder Nicknamen. Dieser wird anderen angezeigt um Dich zu identifizieren.";
 ["Please choose a password and enter it twice. The password is case sensitive."] = "Bitte wähle ein Kennwort und gib es zweimal ein. Groß- und Kleinschreibung wird berücksichtigt.";
 ["Please choose a policy"] = "Bitte wähle ein Regelwerk";
-["Please choose two different versions of the draft to compare"] = "Bitte wähle zwei verschiedene Versionen des Drafts, um sie zu vergleichen.";
-["Please choose two versions of the draft to compare"] = "Bitte wähle zwei Versionen des Drafts, um sie zu vergleichen.";
+["Please choose two different versions of the draft to compare"] = "Bitte wähle zwei verschiedene Versionen des Entwurfs, um sie zu vergleichen.";
+["Please choose two versions of the draft to compare"] = "Bitte wähle zwei Versionen des Entwurfs, um sie zu vergleichen.";
 ["Please confirm your email address by clicking the following link:\n\n"] = "Bitte bestätige Deine E-Mail-Adresse, indem du den folgenden Link anklickst:\n\n";
 ["Please enter the email reset code you have received:"] = "Bitte gib den Rücksetzcode ein, den Du erhalten hast:";
 ["Please enter the invite code you've received."] = "Bitte gib den Invite-Code ein, den Du erhalten hast.";
-["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Bitte gib Deine E-Mail-Adresse ein. Diese Adresse wird für automatische Benachrichtigungen (wenn Du diese anforderst) sowie zum Zurücksetzen des Kennworts verwendet. Diese Adresse wird nicht veröffentlicht. Nach Abschluß der Registration wirst Du eine E-Mail mit einem Link zum Bestätigen der Adresse erhalten.";
+["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Bitte gib Deine E-Mail-Adresse ein. Diese Adresse wird für automatische Benachrichtigungen (wenn Du diese anforderst) sowie zum Zurücksetzen des Kennworts verwendet. Diese Adresse wird nicht veröffentlicht. Nach Abschluss der Registrierung wirst Du eine E-Mail mit einem Link zum Bestätigen der Adresse erhalten.";
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Bitte gib Deinen Anmeldenamen ein. Du wirst eine E-Mail mit einem Link zum Zurücksetzen des Kennworts erhalten.";
 ["Please enter your new password twice."] = "Bitte gib Dein neues Kennwort zweimal ein:";
 ["Policies"] = "Regelwerke";
@@ -461,7 +461,7 @@ return {
 ["Show alternative initiatives"] = "Zeige alternative Initiativen";
 ["Show alternative initiatives (#{count})"] = "Zeige alternative Initiativen (#{count})";
 ["Show areas in use"] = "Zeige verwendete Themenbereiche";
-["Show areas not in use"] = "Zeige nicht verwendente Themenbereiche";
+["Show areas not in use"] = "Zeige nicht verwendete Themenbereiche";
 ["Show diff"] = "Änderungen anzeigen";
 ["Show filter"] = "Zeige Filter";
 ["Show filter details"] = "Zeige Filter-Details";
@@ -585,12 +585,12 @@ return {
 ["Wednesday"] = "Mittwoch";
 ["Wiki engine"] = "Wiki engine";
 ["Yes"] = "Ja";
-["You are already initator"] = "Du bist bereits Initiator";
+["You are already initiator"] = "Du bist bereits Initiator";
 ["You are already not supporting this initiative"] = "Diese Initiative hat bereits keine Unterstützung von Dir";
 ["You are already supporting the latest draft"] = "Du unterstützt bereits den neuesten Entwurf";
 ["You are currently not invited to any initiative."] = "Du bist zur Zeit von keiner Initiative eingeladen.";
 ["You are currently not supporting this initiative directly. By adding suggestions to this initiative you will automatically become a potential supporter."] = "Du bist zur Zeit kein direkter Unterstützer dieser Initiative. Wenn Du eine Anregung hinzufügst wirst Du automatisch potentieller Unterstützer!";
-["You are iniator of this initiative"] = "Du bist Initiator dieser Initiative";
+["You are initiator of this initiative"] = "Du bist Initiator dieser Initiative";
 ["You are interested in this issue"] = "Du bist an diesem Thema interessiert";
 ["You are invited to become initiator of this initiative."] = "Du bist eingeladen Initiator dieser Initiative zu werden.";
 ["You are member"] = "Du bist Mitglied";
@@ -631,7 +631,7 @@ return {
 ["Your rating has been updated"] = "Deine Bewertung wurde aktualisiert";
 ["Your suggestion has been added"] = "Deine Anregung wurde hinzufügt";
 ["Your support has been added to this initiative"] = "Deine Unterstützung wurde der Initiative hinzugefügt";
-["Your support has been removed from this initiative"] = "Deine Unterstützung wurde der Initiave entzogen";
+["Your support has been removed from this initiative"] = "Deine Unterstützung wurde der Initiative entzogen";
 ["Your support has been updated to the latest draft"] = "Deine Unterstützung wurde auf den neuesten Entwurf aktualisiert";
 ["Your vote has been discarded. Delegation rules apply if set."] = "Deine Abstimmung wurde zurückgezogen. Delegationsregeln gelten sofern gesetzt.";
 ["Your web browser is not fully supported yet."] = "Dein Web-Browser wird noch nicht vollständig unterstützt.";

@@ -6,7 +6,7 @@ if param.get("delete", atom.boolean) then
     membership:destroy()
     slot.put_into("notice", _"Membership removed")
   else
-    slot.put_into("notice", _"Membership not existant")
+    slot.put_into("notice", _"Membership not existent")
   end
   return
 end
