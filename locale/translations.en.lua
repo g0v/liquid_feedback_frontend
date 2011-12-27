@@ -57,6 +57,8 @@ return {
 ["Are you sure?"] = false;
 ["Area"] = false;
 ["Area '#{name}'"] = false;
+["Area delegated"] = false;
+["Area delegated to '#{name}'"] = false;
 ["Area delegation"] = false;
 ["Area delegation active"] = false;
 ["Area list"] = false;

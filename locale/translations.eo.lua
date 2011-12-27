@@ -57,6 +57,8 @@ return {
 ["Are you sure?"] = "Ĉu vi estas certa?";
 ["Area"] = "Temaro";
 ["Area '#{name}'"] = "Temaro '#{name}'";
+["Area delegated"] = "Temarodelegacio"; -- FIXME
+["Area delegated to '#{name}'"] = "Temarodelegacio '#{name}'"; -- FIXME
 ["Area delegation"] = "Temarodelegacio";
 ["Area delegation active"] = "Temarodlegacio aplikita";
 ["Area list"] = "Temarolisto";

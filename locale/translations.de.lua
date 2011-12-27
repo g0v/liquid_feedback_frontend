@@ -57,6 +57,8 @@ return {
 ["Are you sure?"] = "Sicher?";
 ["Area"] = "Themenbereich";
 ["Area '#{name}'"] = "Themenbereich '#{name}'";
+["Area delegated"] = "Themenbereich delegiert";
+["Area delegated to '#{name}'"] = "Themenbereich an '#{name}' delegiert";
 ["Area delegation"] = "Delegation für Themenbereich";
 ["Area delegation active"] = "Delegation für Themenbereich aktiv";
 ["Area list"] = "Liste der Themenbereiche";

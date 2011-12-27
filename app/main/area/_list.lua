@@ -18,6 +18,7 @@ if app.session.member_id then
     :add_field({ "(SELECT COUNT(*) FROM issue LEFT JOIN direct_voter ON direct_voter.issue_id = issue.id AND direct_voter.member_id = ? WHERE issue.area_id = area.id AND issue.fully_frozen NOTNULL AND issue.closed ISNULL AND direct_voter.member_id ISNULL)", app.session.member.id }, "issues_to_vote_count")
     :left_join("membership", "_membership", { "_membership.area_id = area.id AND _membership.member_id = ?", app.session.member.id })
     :add_field("_membership.member_id NOTNULL", "is_member", { "grouped" })
+    :add_field({ "(SELECT member.name FROM delegation LEFT JOIN member ON delegation.trustee_id = member.id WHERE delegation.scope = 'area' AND delegation.area_id = area.id AND truster_id = ?)", app.session.member.id }, "area_delegation_name")
 else
   areas_selector:add_field("0", "issues_to_vote_count")
 end
@@ -63,6 +64,17 @@ ui.filters{
               ui.image{
                 attr = { title = text, alt = text, style = "vertical-align: middle;" },
                 static = "icons/16/user_gray.png",
+              }
+            end
+          end
+        },
+        {
+          content = function(record)
+            if record.area_delegation_name then
+              local text = _("Area delegated to '#{name}'", { name = record.area_delegation_name })
+              ui.image{
+                attr = { title = text, alt = text, style = "vertical-align: middle;" },
+                static = "icons/16/link.png",
               }
             end
           end
@@ -255,6 +267,14 @@ if app.session.member_id then
   }
   slot.put(" ")
   slot.put(_"Member of area")
+  slot.put(" &nbsp; ")
+
+  ui.image{
+    attr = { title = title, alt = title },
+    static = "icons/16/link.png"
+  }
+  slot.put(" ")
+  slot.put(_"Area delegated")
   slot.put(" &nbsp; ")
 end
 
