@@ -611,26 +611,26 @@ CREATE TRIGGER "update_text_search_data"
 
 COMMENT ON TABLE "initiative" IS 'Group of members publishing drafts for resolutions to be passed; Frontends must ensure that initiatives of half_frozen issues are not revoked, and that initiatives of fully_frozen or closed issues are neither revoked nor created.';
 
-COMMENT ON COLUMN "initiative"."discussion_url"       IS 'URL pointing to a discussion platform for this initiative';
-COMMENT ON COLUMN "initiative"."revoked"              IS 'Point in time, when one initiator decided to revoke the initiative';
-COMMENT ON COLUMN "initiative"."revoked_by_member_id" IS 'Member, who decided to revoked the initiative';
-COMMENT ON COLUMN "initiative"."admitted"             IS 'TRUE, if initiative reaches the "initiative_quorum" when freezing the issue';
+COMMENT ON COLUMN "initiative"."discussion_url"         IS 'URL pointing to a discussion platform for this initiative';
+COMMENT ON COLUMN "initiative"."revoked"                IS 'Point in time, when one initiator decided to revoke the initiative';
+COMMENT ON COLUMN "initiative"."revoked_by_member_id"   IS 'Member, who decided to revoke the initiative';
+COMMENT ON COLUMN "initiative"."admitted"               IS 'TRUE, if initiative reaches the "initiative_quorum" when freezing the issue';
 COMMENT ON COLUMN "initiative"."supporter_count"                    IS 'Calculated from table "direct_supporter_snapshot"';
 COMMENT ON COLUMN "initiative"."informed_supporter_count"           IS 'Calculated from table "direct_supporter_snapshot"';
 COMMENT ON COLUMN "initiative"."satisfied_supporter_count"          IS 'Calculated from table "direct_supporter_snapshot"';
 COMMENT ON COLUMN "initiative"."satisfied_informed_supporter_count" IS 'Calculated from table "direct_supporter_snapshot"';
-COMMENT ON COLUMN "initiative"."positive_votes"          IS 'Calculated from table "direct_voter"';
-COMMENT ON COLUMN "initiative"."negative_votes"          IS 'Calculated from table "direct_voter"';
-COMMENT ON COLUMN "initiative"."direct_majority"         IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "direct_majority_num"/"direct_majority_den", and "positive_votes" is greater-equal than "direct_majority_positive", and ("positive_votes"+abstentions) is greater-equal than "direct_majority_non_negative"';
-COMMENT ON COLUMN "initiative"."indirect_majority"       IS 'Same as "direct_majority", but also considering indirect beat paths';
-COMMENT ON COLUMN "initiative"."schulze_rank"            IS 'Schulze-Ranking without tie-breaking';
-COMMENT ON COLUMN "initiative"."better_than_status_quo"  IS 'TRUE, if initiative has a schulze-ranking better than the status quo (without tie-breaking)';
-COMMENT ON COLUMN "initiative"."worse_than_status_quo"   IS 'TRUE, if initiative has a schulze-ranking worse than the status quo (without tie-breaking)';
-COMMENT ON COLUMN "initiative"."reverse_beat_path"       IS 'TRUE, if there is a beat path (may include ties), from this initiative to the status quo';
-COMMENT ON COLUMN "initiative"."multistage_majority"     IS 'TRUE, if either (a) this initiative has no better rank than the status quo, or (b) there exists a better ranked initiative X, which directly beats this initiative, and either more voters prefer X to this initiative than voters preferring X to the status quo or less voters prefer this initiative to X than voters preferring the status quo to X';
-COMMENT ON COLUMN "initiative"."eligible"                IS 'Initiative has a "direct_majority" and an "indirect_majority", is "better_than_status_quo" and depending on selected policy the initiative has no "reverse_beat_path" or "multistage_majority"';
-COMMENT ON COLUMN "initiative"."winner"                  IS 'Winner is the "eligible" initiative with best "schulze_rank" and in case of ties with lowest "id"';
-COMMENT ON COLUMN "initiative"."rank"                    IS 'Unique ranking for all "admitted" initiatives per issue; lower rank is better; a winner always has rank 1, but rank 1 does not imply that an initiative is winner; initiatives with "direct_majority" AND "indirect_majority" always have a better (lower) rank than other initiatives';
+COMMENT ON COLUMN "initiative"."positive_votes"         IS 'Calculated from table "direct_voter"';
+COMMENT ON COLUMN "initiative"."negative_votes"         IS 'Calculated from table "direct_voter"';
+COMMENT ON COLUMN "initiative"."direct_majority"        IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "direct_majority_num"/"direct_majority_den", and "positive_votes" is greater-equal than "direct_majority_positive", and ("positive_votes"+abstentions) is greater-equal than "direct_majority_non_negative"';
+COMMENT ON COLUMN "initiative"."indirect_majority"      IS 'Same as "direct_majority", but also considering indirect beat paths';
+COMMENT ON COLUMN "initiative"."schulze_rank"           IS 'Schulze-Ranking without tie-breaking';
+COMMENT ON COLUMN "initiative"."better_than_status_quo" IS 'TRUE, if initiative has a schulze-ranking better than the status quo (without tie-breaking)';
+COMMENT ON COLUMN "initiative"."worse_than_status_quo"  IS 'TRUE, if initiative has a schulze-ranking worse than the status quo (without tie-breaking)';
+COMMENT ON COLUMN "initiative"."reverse_beat_path"      IS 'TRUE, if there is a beat path (may include ties) from this initiative to the status quo';
+COMMENT ON COLUMN "initiative"."multistage_majority"    IS 'TRUE, if either (a) this initiative has no better rank than the status quo, or (b) there exists a better ranked initiative X, which directly beats this initiative, and either more voters prefer X to this initiative than voters preferring X to the status quo or less voters prefer this initiative to X than voters preferring the status quo to X';
+COMMENT ON COLUMN "initiative"."eligible"               IS 'Initiative has a "direct_majority" and an "indirect_majority", is "better_than_status_quo" and depending on selected policy the initiative has no "reverse_beat_path" or "multistage_majority"';
+COMMENT ON COLUMN "initiative"."winner"                 IS 'Winner is the "eligible" initiative with best "schulze_rank" and in case of ties with lowest "id"';
+COMMENT ON COLUMN "initiative"."rank"                   IS 'Unique ranking for all "admitted" initiatives per issue; lower rank is better; a winner always has rank 1, but rank 1 does not imply that an initiative is winner; initiatives with "direct_majority" AND "indirect_majority" always have a better (lower) rank than other initiatives';
 
 
 CREATE TABLE "battle" (
