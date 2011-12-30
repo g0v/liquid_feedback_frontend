@@ -5,19 +5,9 @@ else
   issue = param.get("issue", "table")
 end
 
-local voting_requested_percentage = 0
-if issue.vote_later and issue.population and issue.population > 0 then
-  voting_requested_percentage = math.ceil(issue.vote_later  / issue.population * 100)
-end
-
 local interested_members_selector = issue:get_reference_selector("interested_members_snapshot")
   :join("issue", nil, "issue.id = direct_interest_snapshot.issue_id")
   :add_field("direct_interest_snapshot.weight")
-  :add_where("direct_interest_snapshot.event = issue.latest_snapshot_event")
-
-local voting_requests_selector = issue:get_reference_selector("interested_members_snapshot")
-  :join("issue", nil, "issue.id = direct_interest_snapshot.issue_id")
-  :add_where("direct_interest_snapshot.voting_requested = false")
   :add_where("direct_interest_snapshot.event = issue.latest_snapshot_event")
 
 local delegations_selector = issue:get_reference_selector("delegations")
@@ -39,19 +29,6 @@ if app.session.member_id then
       params = {
         issue = issue,
         members_selector = interested_members_selector
-      }
-    }
-
-  tabs[#tabs+1] =
-    {
-      name = "voting_requests",
-      label = _"Vote later requests" .. " (" .. tostring(voting_requests_selector:count()) .. ") (" .. tostring(voting_requested_percentage) ..  "%)",
-      icon = { static = "icons/16/clock_play.png" },
-      module = "member",
-      view = "_list",
-      params = {
-        issue = issue,
-        members_selector = voting_requests_selector
       }
     }
 

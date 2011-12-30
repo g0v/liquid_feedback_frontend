@@ -47,7 +47,7 @@ if show_as_homepage and app.session.member_id == member.id then
     :join("issue", nil, "issue.id = delegation.issue_id AND issue.closed ISNULL")
     :join("member", nil, "delegation.trustee_id = member.id")
     :add_where{"delegation.truster_id = ?", member.id}
-    :add_where{"member.active = 'f' OR (member.last_login_public IS NULL OR age(member.last_login) > ?::interval)", config.delegation_warning_time }
+    :add_where{"member.active = 'f' OR (member.last_activity IS NULL OR age(member.last_activity) > ?::interval)", config.delegation_warning_time }
 
   if broken_delegations:count() > 0 then
     tabs[#tabs+1] = {

@@ -304,8 +304,7 @@ h2 {
 
 .interest,
 .slot_support,
-.delegation,
-.voting_requested {
+.delegation {
   float: left;
   position: relative;
   z-index: 1;
@@ -313,8 +312,7 @@ h2 {
 
 .interest img,
 .slot_support img,
-.delegation img,
-.voting_requested img {
+.delegation img {
   padding-left: 0.2em;
   padding-right: 0.2em;
 }
@@ -364,11 +362,6 @@ h2 {
   margin-top: 3ex;
   font-style: italic;
   font-size: 80%;
-}
-
-.voting_requested .head_active {
-  background-color: #fdd;
-  border: 1px solid #b77;
 }
 
 .vote_info .close {
