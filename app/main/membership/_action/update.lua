@@ -15,12 +15,6 @@ if not membership then
   membership = Membership:new()
   membership.area_id    = area_id
   membership.member_id  = app.session.member_id
-  membership.autoreject = false
-end
-
-local autoreject = param.get("autoreject", atom.boolean)
-if autoreject ~= nil then
-  membership.autoreject = autoreject
 end
 
 membership:save()

@@ -17,12 +17,6 @@ slot.select("interest", function()
         }
         slot.put(_"You are member")
 
-        if membership.autoreject == true then
-          ui.image{
-            static = "icons/16/thumb_down_red.png"
-          }
-        end
-
         ui.image{
           static = "icons/16/dropdown.png"
         }
@@ -49,25 +43,6 @@ slot.select("interest", function()
           params  = { area_id = area.id, delete = true },
           routing = { default = { mode = "redirect", module = "area", view = "show", id = area.id } }
         }
-        if membership.autoreject then
-          ui.field.text{ value = _"Autoreject is on." }
-          ui.link{
-            text    = _"Remove autoreject",
-            module  = "membership",
-            action  = "update",
-            params  = { area_id = area.id, autoreject = false },
-            routing = { default = { mode = "redirect", module = "area", view = "show", id = area.id } }
-          }
-        else
-          ui.field.text{ value = _"Autoreject is off." }
-          ui.link{
-            text    = _"Set autoreject",
-            module  = "membership",
-            action  = "update",
-            params  = { area_id = area.id, autoreject = true },
-            routing = { default = { mode = "redirect", module = "area", view = "show", id = area.id } }
-          }
-        end
       end
     }
   else

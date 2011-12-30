@@ -26,10 +26,7 @@ if not interest then
   interest = Interest:new()
   interest.issue_id   = issue_id
   interest.member_id  = app.session.member_id
-  interest.autoreject = false
 end
-
-interest.autoreject = param.get("autoreject", atom.boolean)
 
 interest:save()
 

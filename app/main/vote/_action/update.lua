@@ -32,7 +32,6 @@ if not move_down and not move_up then
     direct_voter.member_id = app.session.member_id
   end
 
-  direct_voter.autoreject = false
   direct_voter:save()
 
   local scoring = param.get("scoring")
