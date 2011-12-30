@@ -32,7 +32,7 @@ ui.form{
         { id = "tabs",                     name = _"Tabs" },
         { id = "accordeon",                name = _"Accordion (none expanded)" .. " === " .. _"EXPERIMENTAL FEATURE" .. " ===" },
         { id = "accordeon_first_expanded", name = _"Accordion (first expanded)" .. " === " .. _"EXPERIMENTAL FEATURE" .. " ===" },
---        { id = "accordeon_all_expanded",   name = _"Accordion (all expanded)" }
+        { id = "accordeon_all_expanded",   name = _"Accordion (all expanded)" }
       },
       foreign_id = "id",
       foreign_name = "name",
