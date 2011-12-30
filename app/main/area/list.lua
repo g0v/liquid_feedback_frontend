@@ -24,11 +24,13 @@ end
 
 util.help("area.list", _"Area list")
 
-execute.view{
-  module = "delegation",
-  view = "_show_box",
-  params = { unit_id = unit_id }
-}
+if app.session.member_id then
+  execute.view{
+    module = "delegation",
+    view = "_show_box",
+    params = { unit_id = unit_id }
+  }
+end
 
 
 execute.view{
