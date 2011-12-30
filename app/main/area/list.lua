@@ -2,9 +2,11 @@
 local unit_id = param.get("units", atom.integer)
 local areas_selector = Area:build_selector{ active = true, unit_id = unit_id }
 
+local unit = Unit:by_id(unit_id)
+
 
 if app.session.member_id then
-  slot.put_into("title", _'Area list')
+  slot.put_into("title", _("Area list of unit '#{unit_name}'", { unit_name = unit.name }))
 else
   slot.put_into("title", encode.html(config.app_title))
 end
