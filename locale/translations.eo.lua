@@ -60,7 +60,6 @@ return {
 ["Area delegated"] = "Temarodelegacio"; -- FIXME
 ["Area delegated to '#{name}'"] = "Temarodelegacio '#{name}'"; -- FIXME
 ["Area delegation"] = "Temarodelegacio";
-["Area delegation active"] = "Temarodlegacio aplikita";
 ["Area list"] = "Temarolisto";
 ["Area successfully updated"] = "Temaro sukcese ĝisdatigita";
 ["Areas"] = "Temaroj";
@@ -196,7 +195,7 @@ return {
 ["Generate / change API key"] = "Krei/ŝanĝi API-ŝlosilon";
 ["Generate API key"] = "Krei API-ŝlosilon";
 ["Global delegation"] = "Ĝenerala delegacio";
-["Global delegation active"] = "Ĝenerala delegacio estas aktiva";
+["Globalla delegated to"] = "Ĝenerala delegacio '#{name}'";  --FIXME
 ["Go up"] = "Movi supren";
 ["Half frozen at"] = "Duone ĝelita je";
 ["Hello "] = "Saluton ";
@@ -260,7 +259,7 @@ return {
 ["Issue accepted"] = "Temo akceptita";
 ["Issue canceled"] = "Temo nuligita";
 ["Issue delegation"] = "Temodelegacio";
-["Issue delegation active"] = "Delegacio por temo aktiva";
+["Issue delegated to '#{name}'"] = "Delegacio por temo '#{name}'"; --FIXME
 ["Issue events"] = "Temoeventoj";
 ["Issue finished"] = "Temo finita";
 ["Issue finished without voting"] = "Temo finita sen voĉdono";

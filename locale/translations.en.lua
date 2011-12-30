@@ -60,7 +60,6 @@ return {
 ["Area delegated"] = false;
 ["Area delegated to '#{name}'"] = false;
 ["Area delegation"] = false;
-["Area delegation active"] = false;
 ["Area list"] = false;
 ["Area successfully updated"] = false;
 ["Areas"] = false;
@@ -193,7 +192,7 @@ return {
 ["Generate / change API key"] = false;
 ["Generate API key"] = false;
 ["Global delegation"] = false;
-["Global delegation active"] = false;
+["Globally delegated to '#{name}'"] = false;
 ["Go up"] = false;
 ["Half frozen at"] = false;
 ["Hello "] = false;
@@ -252,7 +251,7 @@ return {
 ["Issue accepted"] = false;
 ["Issue canceled"] = false;
 ["Issue delegation"] = false;
-["Issue delegation active"] = false;
+["Issue delegated to '#{name}'"] = false;
 ["Issue events"] = false;
 ["Issue finished"] = false;
 ["Issue finished without voting"] = false;

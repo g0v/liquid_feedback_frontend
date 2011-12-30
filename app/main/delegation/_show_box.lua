@@ -125,13 +125,20 @@ slot.select("actions", function()
               ui.image{
                 static = "icons/16/table_go.png"
               }
+              local member = Member:new_selector()
+                :reset_fields()
+                :add_field("name", "delegation_name")
+                :add_where({ "id = ?", delegation.trustee_id })
+                :single_object_mode()
+                :exec()
               if delegation.issue_id then
-                slot.put(_"Issue delegation active")
+                slot.put( _("Issue delegated to '#{name}'", { name = member.delegation_name }) )
               elseif delegation.area_id then
-                slot.put(_"Area delegation active")
+                slot.put( _("Area delegated to '#{name}'", { name = member.delegation_name }) )
               else
-                slot.put(_"Unit delegation active")
+                slot.put( _("Unit delegated to '#{name}'", { name = member.delegation_name }) )
               end
+
             else
               ui.image{
                 static = "icons/16/table_go_crossed.png"

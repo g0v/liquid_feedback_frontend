@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env lua
+#!/usr/bin/env lua
 return {
 ["##{id}"] = "##{id}";
 ["##{issue_id}.#{id} #{name}"] = "##{issue_id}.#{id} #{name}";
@@ -60,7 +60,7 @@ return {
 ["Area delegated"] = "Themenbereich delegiert";
 ["Area delegated to '#{name}'"] = "Themenbereich an '#{name}' delegiert";
 ["Area delegation"] = "Delegation für Themenbereich";
-["Area delegation active"] = "Delegation für Themenbereich aktiv";
+["Area delegated to '#{name}'"] = "Themenbereich an '#{name} delegiert";
 ["Area list"] = "Liste der Themenbereiche";
 ["Area successfully updated"] = "Themenbereich erfolgreich aktualisiert";
 ["Areas"] = "Themenbereiche";
@@ -196,7 +196,7 @@ return {
 ["Generate / change API key"] = "API-Schlüssel erzeugen/ändern";
 ["Generate API key"] = "API-Schlüssel erzeugen";
 ["Global delegation"] = "Globale Delegation";
-["Global delegation active"] = "Globale Delegation aktiv";
+["Globally delegated to '#{name}'"] = "Global an '#{name}' delegiert";
 ["Go up"] = "Nach oben";
 ["Half frozen at"] = "Halb eingefroren am/um";
 ["Hello "] = "Hallo ";
@@ -260,7 +260,7 @@ return {
 ["Issue accepted"] = "Thema akzeptiert";
 ["Issue canceled"] = "Thema abgebrochen";
 ["Issue delegation"] = "Issue-Delegation";
-["Issue delegation active"] = "Delegation für Thema aktiv";
+["Issue delegated to '#{name}'"] = "Thema an '{name}' delegiert";
 ["Issue events"] = "Themen-Ereignisse";
 ["Issue finished"] = "Thema abgeschlossen";
 ["Issue finished without voting"] = "Thema ohne Abstimmung abgeschlossen";
