@@ -4,6 +4,6 @@ function evilBrowser() {
 
 function checkBrowser(message) {
   if (evilBrowser()) {
-    alert(message);
+    document.getElementById("layout_warning").innerHTML += '<div class="slot_warning">' + message + '</div>' ;
   }
 }
