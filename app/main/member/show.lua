@@ -18,7 +18,7 @@ slot.put_into("title", encode.html(_"Member '#{member}'":gsub("#{member}", membe
 
 slot.select("actions", function()
   if not (member.id == app.session.member.id) then
-if not member.active then
+if not member.activated then
   ui.tag{
     tag = "div",
     attr = { class = "interest deactivated_member_info" },
@@ -49,7 +49,7 @@ end
           }
         }
       }
-    elseif member.active then
+    elseif member.activated then
       ui.link{
         image   = { static = "icons/16/book_add.png" },
         text    = _"Add to my contacts",
