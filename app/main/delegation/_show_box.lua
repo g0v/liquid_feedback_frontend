@@ -1,12 +1,12 @@
-function change_delegation(scope, area_id, issue, delegation, initiative_id)
+function change_delegation(scope, unit_id, area_id, issue, delegation, initiative_id)
   local image
   local text
-  if scope == "global" and delegation then
+  if scope == "unit" and delegation and delegation.unit_id then
     image = { static = "icons/16/table_go.png" }
-    text = _"Change global delegation"
-  elseif scope == "global" and not delegation then
+    text = _"Change unit delegation"
+  elseif scope == "unit" and not (delegation and delegation.unit_id) then
     image = { static = "icons/16/table_go.png" }
-    text = _"Set global delegation"
+    text = _"Set unit delegation"
   elseif scope == "area" and delegation and delegation.area_id then
     image = { static = "icons/16/table_go.png" }
     text = _"Change area delegation"
@@ -35,7 +35,8 @@ function change_delegation(scope, area_id, issue, delegation, initiative_id)
         params = {
           issue_id = issue and issue.id or nil,
           initiative_id = initiative_id or nil,
-          area_id = area_id
+          area_id = area_id,
+          unit_id = unit_id
         },
       }
       if delegation then
@@ -44,7 +45,7 @@ function change_delegation(scope, area_id, issue, delegation, initiative_id)
           text   = _"Revoke",
           module = "delegation",
           action = "update",
-          params = { issue_id = delegation.issue_id, area_id = delegation.area_id, delete = true },
+          params = { issue_id = delegation.issue_id, area_id = delegation.area_id, unit_id = delegation.unit_id, delete = true },
           routing = {
             default = {
               mode = "redirect",
@@ -61,11 +62,14 @@ function change_delegation(scope, area_id, issue, delegation, initiative_id)
 end
 
 local delegation
+local unit_id
 local area_id
 local issue_id
 local initiative_id
 
-local scope = "global"
+local scope = "unit"
+
+unit_id = param.get("unit_id", atom.integer)
 
 if param.get("initiative_id", atom.integer) then
   initiative_id = param.get("initiative_id", atom.integer)
@@ -90,16 +94,16 @@ local issue
 
 if issue_id then
   issue = Issue:by_id(issue_id)
-  delegation = Delegation:by_pk(app.session.member.id, nil, issue_id)
+  delegation = Delegation:by_pk(app.session.member.id, nil, nil, issue_id)
   if not delegation then
-    delegation = Delegation:by_pk(app.session.member.id, issue.area_id)
+    delegation = Delegation:by_pk(app.session.member.id, nil, issue.area_id)
   end
 elseif area_id then
-  delegation = Delegation:by_pk(app.session.member.id, area_id)
+  delegation = Delegation:by_pk(app.session.member.id, nil, area_id)
 end
 
 if not delegation then
-  delegation = Delegation:by_pk(app.session.member.id)
+  delegation = Delegation:by_pk(app.session.member.id, unit_id)
 end
 
 
@@ -126,7 +130,7 @@ slot.select("actions", function()
               elseif delegation.area_id then
                 slot.put(_"Area delegation active")
               else
-                slot.put(_"Global delegation active")
+                slot.put(_"Unit delegation active")
               end
             else
               ui.image{
@@ -164,7 +168,7 @@ slot.select("actions", function()
               :exec()
     
             if not issue or (issue.state ~= "finished" and issue.state ~= "cancelled") then
-              change_delegation(scope, area_id, issue, delegation, initiative_id)
+              change_delegation(scope, unit_id, area_id, issue, delegation, initiative_id)
             end
 
             for i, record in ipairs(delegation_chain) do
@@ -188,8 +192,8 @@ slot.select("actions", function()
                     ui.container{
                       attr = { class = "delegation_scope" .. (overridden and " delegation_scope_overridden" or "") },
                       content = function()
-                        if record.scope_in == "global" then
-                          slot.put(_"Global delegation")
+                        if record.scope_in == "unit" then
+                          slot.put(_"Unit delegation")
                         elseif record.scope_in == "area" then
                           slot.put(_"Area delegation")
                         elseif record.scope_in == "issue" then
@@ -225,6 +229,6 @@ slot.select("actions", function()
       end
     }
   else
-    change_delegation(scope, area_id, issue, nil, initiative_id)
+    change_delegation(scope, unit_id, area_id, issue, nil, initiative_id)
   end
 end)

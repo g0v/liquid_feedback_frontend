@@ -1,3 +1,9 @@
+local unit = Unit:by_id(param.get("unit_id", atom.integer))
+if unit then
+  slot.put_into("title", encode.html(_"Set unit delegation"))
+  util.help("delegation.new.unit")
+end
+
 local area = Area:by_id(param.get("area_id", atom.integer))
 if area then
   slot.put_into("title", encode.html(_"Set delegation for Area '#{name}'":gsub("#{name}", area.name)))
@@ -11,11 +17,6 @@ if issue then
 end
 
 local initiative = Initiative:by_id(param.get("initiative_id", atom.integer))
-
-if not area and not issue then
-  slot.put_into("title", encode.html(_"Set global delegation"))
-  util.help("delegation.new.global")
-end
 
 slot.select("actions", function()
   if issue then
@@ -61,6 +62,7 @@ ui.form{
   module = "delegation",
   action = "update",
   params = {
+    unit_id = unit and unit.id or nil,
     area_id = area and area.id or nil,
     issue_id = issue and issue.id or nil,
   },
@@ -78,44 +80,44 @@ ui.form{
     if issue then
       local delegate_name = ""
       local scope = "no delegation set"
-      local area_delegation = Delegation:by_pk(app.session.member_id, issue.area_id)
+      local area_delegation = Delegation:by_pk(app.session.member_id, nil, issue.area_id)
       if area_delegation then
         delegate_name = area_delegation.trustee and area_delegation.trustee.name or _"abandoned"
         scope = _"area"
       else
-      local global_delegation = Delegation:by_pk(app.session.member_id)
-      if global_delegation then
-        delegate_name = global_delegation.trustee.name
-        scope = _"global"
+        local unit_delegation = Delegation:by_pk(app.session.member_id, issue.area.unit_id)
+        if unit_delegation then
+          delegate_name = unit_delegation.trustee.name
+          scope = _"unit"
+        end
       end
-    end
       records = {
         {
           id = -1,
-          name = _("Apply global or area delegation for this issue (Currently: #{delegate_name} [#{scope}])", { delegate_name = delegate_name, scope = scope })
+          name = _("Apply unit or area delegation for this issue (Currently: #{delegate_name} [#{scope}])", { delegate_name = delegate_name, scope = scope })
         },
         {
           id = 0,
-          name = _"Abandon global and area delegations for this issue"
+          name = _"Abandon unit and area delegations for this issue"
         },
 
       }
     elseif area then
       local delegate_name = ""
       local scope = "no delegation set"
-      local global_delegation = Delegation:by_pk(app.session.member_id)
-      if global_delegation then
-        delegate_name = global_delegation.trustee.name
-        scope = _"global"
+      local unit_delegation = Delegation:by_pk(app.session.member_id, area.unit_id)
+      if unit_delegation then
+        delegate_name = unit_delegation.trustee.name
+        scope = _"unit"
       end
       records = {
         {
           id = -1,
-          name = _("Apply global delegation for this area (Currently: #{delegate_name} [#{scope}])", { delegate_name = delegate_name, scope = scope })
+          name = _("Apply unit delegation for this area (Currently: #{delegate_name} [#{scope}])", { delegate_name = delegate_name, scope = scope })
         },
         {
           id = 0,
-          name = _"Abandon global delegation for this area"
+          name = _"Abandon unit delegation for this area"
         }
       }
 

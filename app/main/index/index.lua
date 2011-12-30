@@ -68,10 +68,6 @@ slot.select("actions", function()
       module = "member",
       view = "edit_images"
     }
-    execute.view{
-      module = "delegation",
-      view = "_show_box"
-    }
     ui.link{
       content = function()
           ui.image{ static = "icons/16/wrench.png" }

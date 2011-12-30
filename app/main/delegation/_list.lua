@@ -13,7 +13,7 @@ local function delegation_scope(delegation)
         area = delegation.area
       end
       if not area then
-        ui.field.text{ value = _"Global delegation" }
+        ui.field.text{ value = _"Unit delegation" }
       end
       if area then
         ui.link{

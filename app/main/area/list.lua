@@ -24,6 +24,12 @@ end
 
 util.help("area.list", _"Area list")
 
+execute.view{
+  module = "delegation",
+  view = "_show_box",
+  params = { unit_id = unit_id }
+}
+
 
 execute.view{
   module = "area",
