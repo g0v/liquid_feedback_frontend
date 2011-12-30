@@ -159,7 +159,7 @@ slot.select("actions", function()
     
             local delegation_chain = Member:new_selector()
               :add_field("delegation_chain.*")
-              :join("delegation_chain(" .. tostring(app.session.member.id) .. ", " .. tostring(area_id or "NULL") .. ", " .. tostring(issue_id or "NULL") .. ")", "delegation_chain", "member.id = delegation_chain.member_id")
+              :join("delegation_chain(" .. tostring(app.session.member.id) .. ", " .. tostring(unit_id or "NULL") .. ", " .. tostring(area_id or "NULL") .. ", " .. tostring(issue_id or "NULL") .. ")", "delegation_chain", "member.id = delegation_chain.member_id")
               :add_order_by("index")
               :exec()
     
