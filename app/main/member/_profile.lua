@@ -111,7 +111,7 @@ ui.form{
       }
     end
     
-    ui.field.text{ label = _"Last login (updated daily)", value = format.date(member.last_login_public) or _"not yet" }
+    ui.field.text{ label = _"Last activity (updated daily)", value = format.date(member.last_activity) or _"not yet" }
     
   end
 }

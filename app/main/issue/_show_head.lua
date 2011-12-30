@@ -194,12 +194,6 @@ slot.select("actions", function()
       }
     end
 
-    execute.view{
-      module = "issue",
-      view = "_show_vote_later_box",
-      params = { issue = issue }
-    }
-
   end
 
   if config.issue_discussion_url_func then

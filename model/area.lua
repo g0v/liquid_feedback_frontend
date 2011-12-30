@@ -63,5 +63,8 @@ function Area:build_selector(args)
   if args.active ~= nil then
     selector:add_where{ "active = ?", args.active }
   end
+  if args.unit_id ~= nil then
+    selector:add_where{ "unit_id = ?", args.unit_id }
+  end
   return selector
 end

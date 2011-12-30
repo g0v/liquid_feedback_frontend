@@ -1,4 +1,6 @@
-local areas_selector = Area:build_selector{ active = true }
+-- TODO support multiple units
+local unit_id = param.get("units", atom.integer)
+local areas_selector = Area:build_selector{ active = true, unit_id = unit_id }
 
 
 if app.session.member_id then
