@@ -146,6 +146,10 @@ h2 {
   padding: 1ex;
 }
 
+form.unit_selector {
+  display: inline;
+}
+
 .logout_button {
   float: right;
 }

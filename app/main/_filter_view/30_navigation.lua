@@ -16,6 +16,7 @@ slot.select('navigation', function()
     local units = Unit:get_flattened_tree()
 
     ui.form{
+      attr = { class = "unit_selector" },
       module = "index", action = "set_current_units", 
       routing = { default = { mode = "redirect", module = "area", view = "list" } },
       content = function()
