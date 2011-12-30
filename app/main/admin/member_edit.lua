@@ -27,7 +27,7 @@ ui.form{
     ui.field.text{     label = _"Name",         name = "name" }
     ui.field.password{ label = _"Password",     name = "password", value = (member and member.password) and "********" or "" }
     ui.field.boolean{  label = _"Admin?",       name = "admin" }
-    ui.field.boolean{  label = _"Active?",      name = "active" }
+    ui.field.boolean{  label = _"Activated?",   name = "activated" }
     ui.submit{         text  = _"Save" }
   end
 }
