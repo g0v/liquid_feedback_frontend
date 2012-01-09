@@ -42,8 +42,8 @@ ui.form{
     if member.locked then
       ui.field.boolean{ label = _"Locked?",      name = "locked" }
     end
-    if member.ident_number then
-      ui.field.text{    label = _"Ident number", name = "ident_number" }
+    if member.identification then
+      ui.field.text{    label = _"Identification", name = "identification" }
     end
     ui.field.text{ label = _"Name", name = "name" }
 

@@ -1,6 +1,6 @@
 local member = Member:by_id(param.get_id()) or Member:new()
 
-param.update(member, "login", "admin", "name", "active")
+param.update(member, "identification", "login", "admin", "name", "active")
 
 local password = param.get("password")
 if password == "********" or #password == 0 then

@@ -58,8 +58,8 @@ ui.paginate{
           end
         },
         {
-          label = _"Ident number",
-          name = "ident_number"
+          label = _"Identification",
+          name = "identification"
         },
         {
           label = _"Admin?",
