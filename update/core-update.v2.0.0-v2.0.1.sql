@@ -1,14 +1,18 @@
 BEGIN;
 
+-- update version number:
 CREATE OR REPLACE VIEW "liquid_feedback_version" AS
   SELECT * FROM (VALUES ('2.0.1', 2, 0, 1))
   AS "subquery"("string", "major", "minor", "revision");
 
-ALTER TABLE "issue" ALTER "state" SET DEFAULT 'admission';  -- fixes wrong update script from v1.3.1 to v1.4.0
+-- fix errors in update script from v1.3.1 to v1.4.0:
+ALTER TABLE "issue" ALTER "state" SET DEFAULT 'admission';
 
+-- change comments in "member" table:
 COMMENT ON COLUMN "member"."activated" IS 'Timestamp of first activation of account (i.e. usage of "invite_code"); required to be set for "active" members';
 COMMENT ON COLUMN "member"."statement" IS 'Freely chosen text of the member for his/her profile';
 
+-- change comments in "policy" table:
 COMMENT ON COLUMN "policy"."admission_time"    IS 'Maximum duration of issue state ''admission''; Maximum time an issue stays open without being "accepted"';
 COMMENT ON COLUMN "policy"."discussion_time"   IS 'Duration of issue state ''discussion''; Regular time until an issue is "half_frozen" after being "accepted"';
 COMMENT ON COLUMN "policy"."verification_time" IS 'Duration of issue state ''verification''; Regular time until an issue is "fully_frozen" (e.g. entering issue state ''voting'') after being "half_frozen"';
@@ -16,56 +20,46 @@ COMMENT ON COLUMN "policy"."voting_time"       IS 'Duration of issue state ''vot
 COMMENT ON COLUMN "policy"."issue_quorum_num"  IS   'Numerator of potential supporter quorum to be reached by one initiative of an issue to be "accepted" and enter issue state ''discussion''';
 COMMENT ON COLUMN "policy"."issue_quorum_den"  IS 'Denominator of potential supporter quorum to be reached by one initiative of an issue to be "accepted" and enter issue state ''discussion''';
 
-COMMENT ON COLUMN "unit"."active" IS 'TRUE means new issues can be created in areas of this area';
+-- change comment in "unit" table:
+COMMENT ON COLUMN "unit"."active" IS 'TRUE means new issues can be created in areas of this unit';
 
+-- new table "unit_setting":
 CREATE TABLE "unit_setting" (
         PRIMARY KEY ("member_id", "key", "unit_id"),
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "key"                   TEXT            NOT NULL,
         "unit_id"               INT4            REFERENCES "unit" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "value"                 TEXT            NOT NULL );
-
 COMMENT ON TABLE "unit_setting" IS 'Place for frontend to store unit specific settings of members as strings';
 
-COMMENT ON COLUMN "initiative"."discussion_url"         IS 'URL pointing to a discussion platform for this initiative';
-COMMENT ON COLUMN "initiative"."revoked"                IS 'Point in time, when one initiator decided to revoke the initiative';
-COMMENT ON COLUMN "initiative"."revoked_by_member_id"   IS 'Member, who decided to revoke the initiative';
-COMMENT ON COLUMN "initiative"."admitted"               IS 'TRUE, if initiative reaches the "initiative_quorum" when freezing the issue';
-COMMENT ON COLUMN "initiative"."positive_votes"         IS 'Calculated from table "direct_voter"';
-COMMENT ON COLUMN "initiative"."negative_votes"         IS 'Calculated from table "direct_voter"';
-COMMENT ON COLUMN "initiative"."direct_majority"        IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "direct_majority_num"/"direct_majority_den", and "positive_votes" is greater-equal than "direct_majority_positive", and ("positive_votes"+abstentions) is greater-equal than "direct_majority_non_negative"';
-COMMENT ON COLUMN "initiative"."indirect_majority"      IS 'Same as "direct_majority", but also considering indirect beat paths';
-COMMENT ON COLUMN "initiative"."schulze_rank"           IS 'Schulze-Ranking without tie-breaking';
-COMMENT ON COLUMN "initiative"."better_than_status_quo" IS 'TRUE, if initiative has a schulze-ranking better than the status quo (without tie-breaking)';
-COMMENT ON COLUMN "initiative"."worse_than_status_quo"  IS 'TRUE, if initiative has a schulze-ranking worse than the status quo (without tie-breaking)';
-COMMENT ON COLUMN "initiative"."reverse_beat_path"      IS 'TRUE, if there is a beat path (may include ties) from this initiative to the status quo';
-COMMENT ON COLUMN "initiative"."multistage_majority"    IS 'TRUE, if either (a) this initiative has no better rank than the status quo, or (b) there exists a better ranked initiative X, which directly beats this initiative, and either more voters prefer X to this initiative than voters preferring X to the status quo or less voters prefer this initiative to X than voters preferring the status quo to X';
-COMMENT ON COLUMN "initiative"."eligible"               IS 'Initiative has a "direct_majority" and an "indirect_majority", is "better_than_status_quo" and depending on selected policy the initiative has no "reverse_beat_path" or "multistage_majority"';
-COMMENT ON COLUMN "initiative"."winner"                 IS 'Winner is the "eligible" initiative with best "schulze_rank" and in case of ties with lowest "id"';
-COMMENT ON COLUMN "initiative"."rank"                   IS 'Unique ranking for all "admitted" initiatives per issue; lower rank is better; a winner always has rank 1, but rank 1 does not imply that an initiative is winner; initiatives with "direct_majority" AND "indirect_majority" always have a better (lower) rank than other initiatives';
+-- change comments in "initiative" table:
+COMMENT ON COLUMN "initiative"."revoked"           IS 'Point in time, when one initiator decided to revoke the initiative';
+COMMENT ON COLUMN "initiative"."reverse_beat_path" IS 'TRUE, if there is a beat path (may include ties) from this initiative to the status quo';
+COMMENT ON COLUMN "initiative"."eligible"          IS 'Initiative has a "direct_majority" and an "indirect_majority", is "better_than_status_quo" and depending on selected policy the initiative has no "reverse_beat_path" or "multistage_majority"';
 
+-- change comments in "privilege" table:
 COMMENT ON COLUMN "privilege"."admin_manager"        IS 'Grant/revoke admin privileges to/from other members';
 COMMENT ON COLUMN "privilege"."unit_manager"         IS 'Create and disable sub units';
 COMMENT ON COLUMN "privilege"."area_manager"         IS 'Create and disable areas and set area parameters';
 COMMENT ON COLUMN "privilege"."voting_right_manager" IS 'Select which members are allowed to discuss and vote within the unit';
 
+-- add comment to "supporter" table:
 COMMENT ON COLUMN "supporter"."issue_id" IS 'WARNING: No index: For selections use column "initiative_id" and join via table "initiative" where neccessary';
 
+-- add column "draft_id" to table "direct_supporter_snapshot":
 ALTER TABLE "direct_supporter_snapshot" ADD COLUMN "draft_id" INT8;
-
 UPDATE "direct_supporter_snapshot" SET "draft_id" = "supporter"."draft_id" FROM "supporter" WHERE "direct_supporter_snapshot"."initiative_id" = "supporter"."initiative_id" AND "direct_supporter_snapshot"."member_id" = "supporter"."member_id";
 UPDATE "direct_supporter_snapshot" SET "draft_id" = "current_draft"."id" FROM "current_draft" WHERE "direct_supporter_snapshot"."initiative_id" = "current_draft"."initiative_id" AND "direct_supporter_snapshot"."draft_id" ISNULL;
-
 ALTER TABLE "direct_supporter_snapshot" ADD FOREIGN KEY ("initiative_id", "draft_id") REFERENCES "draft" ("initiative_id", "id") ON DELETE NO ACTION ON UPDATE CASCADE;
 ALTER TABLE "direct_supporter_snapshot" ALTER COLUMN "draft_id" SET NOT NULL;
 
-COMMENT ON COLUMN "direct_supporter_snapshot"."issue_id"  IS 'WARNING: No index: For selections use column "initiative_id" and join via table "initiative" where neccessary';
+-- add comment to "direct_supporter_snapshot" table:
+COMMENT ON COLUMN "direct_supporter_snapshot"."issue_id" IS 'WARNING: No index: For selections use column "initiative_id" and join via table "initiative" where neccessary';
 
-COMMENT ON COLUMN "direct_voter"."weight" IS 'Weight of member (1 or higher) according to "delegating_voter" table';
-
+-- add comment to "vote" table:
 COMMENT ON COLUMN "vote"."issue_id" IS 'WARNING: No index: For selections use column "initiative_id" and join via table "initiative" where neccessary';
-COMMENT ON COLUMN "vote"."grade"    IS 'Values smaller than zero mean reject, values greater than zero mean acceptance, zero or missing row means abstention. Preferences are expressed by different positive or negative numbers.';
 
+-- change function "create_interest_snapshot" to set "direct_supporter_snapshot"."draft_id":
 CREATE OR REPLACE FUNCTION "create_interest_snapshot"
   ( "issue_id_p" "issue"."id"%TYPE )
   RETURNS VOID
@@ -142,6 +136,7 @@ CREATE OR REPLACE FUNCTION "create_interest_snapshot"
     END;
   $$;
 
+-- change function "delete_private_data" to delete invite codes in "member" instead of "invite_code" table:
 CREATE OR REPLACE FUNCTION "delete_private_data"()
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$

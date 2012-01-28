@@ -375,7 +375,7 @@ CREATE TRIGGER "update_text_search_data"
 COMMENT ON TABLE "unit" IS 'Organizational units organized as trees; Delegations are not inherited through these trees.';
 
 COMMENT ON COLUMN "unit"."parent_id"    IS 'Parent id of tree node; Multiple roots allowed';
-COMMENT ON COLUMN "unit"."active"       IS 'TRUE means new issues can be created in areas of this area';
+COMMENT ON COLUMN "unit"."active"       IS 'TRUE means new issues can be created in areas of this unit';
 COMMENT ON COLUMN "unit"."member_count" IS 'Count of members as determined by column "voting_right" in table "privilege"';
 
 
