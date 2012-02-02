@@ -45,7 +45,7 @@ end)
 slot.put_into("title", encode.html(config.app_title))
 
 if app.session.member then
-	app.html_title.title = app.session.member.name
+  app.html_title.tile = _('Home')
 end
 
 
