@@ -150,7 +150,7 @@ if not show_for_initiative or initiatives_count > 1 then
     if issue.ranks_available then
       initiatives_selector:add_order_by("initiative.rank, initiative.admitted DESC, vote_ratio(initiative.positive_votes, initiative.negative_votes) DESC, initiative.id")
     else
-      initiatives_selector:add_order_by("initiative.supporter_count::float / issue.population::float DESC, initiative.id")
+      initiatives_selector:add_order_by("CASE WHEN issue.population = 0 THEN 0 ELSE initiative.supporter_count::float / issue.population::float END DESC, initiative.id")
     end
   end
 
