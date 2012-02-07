@@ -74,7 +74,7 @@ slot.select("actions", function()
   ui.link{
     content = function()
       ui.image{ static = "icons/16/clock_edit.png" }
-      slot.put(encode.html(_"Show name history"))
+      slot.put(encode.html(_"Show member history"))
     end,
     module  = "member",
     view    = "history",

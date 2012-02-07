@@ -113,15 +113,26 @@ h2 {
  */
 
 .topbar {
-  background-color: #444;
+  xbackground-color: #444;
   color: #fff;
   font-size: 75%;
   line-height: 140%;
-  margin-bottom: 1.8ex;
+  background: -webkit-gradient(
+    linear, left bottom, left top, 
+    color-stop(0%,#4c4c4c),
+    color-stop(12%,#595959),
+    color-stop(25%,#666666),
+    color-stop(39%,#474747),
+    color-stop(50%,#2c2c2c),
+    color-stop(51%,#000000),
+    color-stop(60%,#111111),
+    color-stop(76%,#2b2b2b),
+    color-stop(91%,#1c1c1c),
+    color-stop(100%,#131313)
+  );
 }
 
 .topbar a {
-  background-color: #444;
   color: #fff;
 }
 
@@ -192,9 +203,14 @@ form.unit_selector {
  */
 
 .title_bar {
-  border-bottom: 1px solid #777;
-  padding-top: 1ex;
-  padding-bottom: 0.5ex;
+  padding-top: 2ex;
+  padding-bottom: 1ex;
+  xbackground-color: #def;
+  background: -webkit-gradient(linear, left top, left bottom, 
+    
+color-stop(0%,#abd3ee), color-stop(100%,#ffffff)
+                               
+  ); 
 }
 
 .title_bar_content {
@@ -222,20 +238,28 @@ form.unit_selector {
 
 .title {
   color: #000;
-  margin-bottom: 0.5ex;
+  margin-bottom: 1ex;
 }
 
 .slot_title {
 }
 
 .title div {
-  font-weight: bold;
-  font-size: 135%;
+  font-size: 125%;
   line-height: 110%;
+}
+
+.title div a {
+  xfont-weight: bold;
 }
 
 .title a {
   color: #000;
+}
+
+.title2 div {
+  margin-bottom: 2ex;
+  xline-height: 130%;
 }
 
 .member_image_avatar {
@@ -258,6 +282,7 @@ form.unit_selector {
   padding: 1px 0.5em 1px 0.0em;
   margin-right: 1em;
   vertical-align: middle;
+  border-radius: 5px;
 }
 
 .content_navigation {
@@ -286,6 +311,10 @@ form.unit_selector {
 
 .actions a:hover {
   background-color: #d7d7d7;
+}
+
+.title_bar .actions a:hover {
+  background-color: #fff;
 }
 
 .actions img {
@@ -451,15 +480,19 @@ form.unit_selector {
  */
 
 .ui_tabs_links {
-  margin-top: 4ex;
+  margin-top: 2ex;
+  margin-bottom: 2ex;
   font-size: 75%;
 }
 
 .ui_tabs_links a {
   padding: 1ex;
-  line-height: 200%;
+  line-height: 300%;
   background-color: #e7e7e7;
   white-space: nowrap;
+  border-radius: 5px;
+  margin-right: 5px;
+  font-weight: bold;
 }
 
 .ui_tabs_links a:hover {
@@ -474,8 +507,8 @@ form.unit_selector {
 }
 
 .ui_tabs_content {
-  border: 1px solid #444;
-  padding: 1ex 1ex 1ex 1ex;
+  xborder: 1px solid #444;
+  xpadding: 1ex 1ex 1ex 1ex;
 }
 
 .web10 .ui_tabs_accordeon_head {

@@ -16,36 +16,67 @@ slot.select("path", function()
 end)
 
 slot.select("title", function()
-  if not config.single_unit_id then
-    ui.link{
-      content = issue.area.unit.name,
-      module = "area",
-      view = "list",
-      params = { unit_id = issue.area.unit_id }
-    }
-    slot.put(" &middot; ")
-  end
-  ui.link{
-    content = issue.area.name,
-    module = "area",
-    view = "show",
-    id = issue.area.id
-  }
-  slot.put(" &middot; ")
   ui.link{
     content = _("Issue ##{id}", { id = issue.id }),
     module = "issue",
     view = "show",
     id = issue.id
   }
-  slot.put(" &middot; ")
-  ui.tag{
-    tag = "span",
-    content = issue.state_name,
+    slot.put(" &middot; ")
+  ui.link{
+    content = issue.area.name,
+    module = "area",
+    view = "show",
+    id = issue.area.id
   }
+  if not config.single_unit_id then
+    slot.put(" &middot; ")
+    ui.link{
+      content = issue.area.unit.name,
+      module = "area",
+      view = "list",
+      params = { unit_id = issue.area.unit_id }
+    }
+  end
 end)
 
 
+slot.select("title2", function()
+  ui.tag{
+    tag = "div",
+    content = function()
+      ui.tag{
+        content = function()
+          ui.link{
+            text = issue.policy.name,
+            module = "policy",
+            view = "show",
+            id = issue.policy.id
+          }
+        end
+      }
+      slot.put(" &middot; ")
+      ui.tag{ content = issue.state_name }
+
+      slot.put(" &middot; ")
+      local time_left = issue.state_time_left
+      if time_left then
+        ui.tag{ content = _("#{time_left} left", { time_left = time_left }) }
+      end
+
+      slot.put(" &middot; ")
+      local next_state_names = issue.next_states_names
+      if next_state_names then
+        ui.tag{ content = _("Next state: #{state}", { state = next_state_names }) }
+      end
+    end
+  }
+
+  
+end)
+
+
+    --[[
 slot.select("content_navigation", function()
 
   if app.session.member_id then
@@ -117,7 +148,6 @@ slot.select("content_navigation", function()
       end
     end
 
-    --[[
     records = issues_selector:exec()
 
     for i,cissue in ipairs(records) do
@@ -162,11 +192,11 @@ slot.select("content_navigation", function()
       mk_link(-1, _("Previous initiative"), "resultset_previous.png", "initiative")
       mk_link(1, _("Next initiative"), "resultset_next.png", "initiative")
     end
-    --]]
   end
 end
 
 )
+    --]]
 
 slot.select("actions", function()
 
@@ -221,11 +251,9 @@ slot.select("actions", function()
 end)
 
 
-execute.view{
-  module = "issue",
-  view = "_show_box",
-  params = { issue = issue }
-}
+local issue = param.get("issue", "table")
+
+
 
 --  ui.twitter("http://example.com/t" .. tostring(issue.id))
 

@@ -22,18 +22,6 @@ ui.partial{
               view = "_show_box",
               params = { initiative = initiative }
             }
-            if initiator and initiator.accepted and not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked then
-              ui.link{
-                attr = { class = "action", style = "float: left;" },
-                content = function()
-                  ui.image{ static = "icons/16/script_delete.png" }
-                  slot.put(_"Revoke initiative")
-                end,
-                module = "initiative",
-                view = "revoke",
-                id = initiative.id
-              }
-            end
           end
         }
       end

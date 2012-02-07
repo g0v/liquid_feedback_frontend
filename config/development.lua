@@ -31,7 +31,7 @@ end
 
 config.motd_public = "==Public motd=="
 
-config.motd_intern = "==Internal motd=="
+--config.motd_intern = "==Internal motd=="
 
 config.public_access = "anonymous"
 

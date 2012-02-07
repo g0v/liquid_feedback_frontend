@@ -14,17 +14,18 @@ end
 
 
 slot.select("title", function()
+  ui.tag{ content =  area.name }
+
   if not config.single_unit_id then
+    slot.put(" &middot; ")
     ui.link{
       content = area.unit.name,
       module = "area",
       view = "list",
       params = { unit_id = area.unit_id }
     }
-    slot.put(" &middot; ")
   end
 
-  ui.tag{ content =  area.name }
 
 end)
 
@@ -37,6 +38,17 @@ ui.container{
 
 
 if app.session.member_id then
+  execute.view{
+    module = "membership",
+    view = "_show_box",
+    params = { area = area }
+  }
+
+  execute.view{
+    module = "delegation",
+    view = "_show_box",
+    params = { area_id = area.id }
+  }
 
   slot.select("actions", function()
     ui.link{
@@ -50,17 +62,6 @@ if app.session.member_id then
     }
   end)
 
-  execute.view{
-    module = "membership",
-    view = "_show_box",
-    params = { area = area }
-  }
-
-  execute.view{
-    module = "delegation",
-    view = "_show_box",
-    params = { area_id = area.id }
-  }
 
 end
 

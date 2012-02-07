@@ -4,6 +4,13 @@ if not initiative then
   initiative = Initiative:new_selector():add_where{ "id = ?", param.get_id()}:single_object_mode():exec()
 end
 
+execute.view{
+  module = "issue",
+  view = "_show_head",
+  params = { issue = initiative.issue,
+             initiative = initiative }
+}
+
 slot.select("actions", function()
   ui.link{
     content = function()
@@ -20,13 +27,6 @@ slot.select("actions", function()
     id = initiative.issue.id
   }
 end)
-
-execute.view{
-  module = "issue",
-  view = "_show_head",
-  params = { issue = initiative.issue,
-             initiative = initiative }
-}
 
 --slot.put_into("html_head", '<link rel="alternate" type="application/rss+xml" title="RSS" href="../show/' .. tostring(initiative.id) .. '.rss" />')
 

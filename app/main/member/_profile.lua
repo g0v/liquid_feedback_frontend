@@ -36,12 +36,6 @@ ui.form{
       end
     }
 
-    if member.admin then
-      ui.field.boolean{ label = _"Admin?",       name = "admin" }
-    end
-    if member.locked then
-      ui.field.boolean{ label = _"Locked?",      name = "locked" }
-    end
     if member.ident_number then
       ui.field.text{    label = _"Ident number", name = "ident_number" }
     end
@@ -111,6 +105,12 @@ ui.form{
       }
     end
     
+    if member.admin then
+      ui.field.boolean{ label = _"Admin?",       name = "admin" }
+    end
+    if member.locked then
+      ui.field.boolean{ label = _"Locked?",      name = "locked" }
+    end
     ui.field.text{ label = _"Last activity (updated daily)", value = format.date(member.last_activity) or _"not yet" }
     
   end
