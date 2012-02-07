@@ -45,7 +45,7 @@ if app.session.member_id then
   end)
 end
 
-slot.put_into("sub_title", encode.html(_("Initiative: '#{name}'", { name = initiative.name }) ))
+slot.put_into("sub_title", encode.html(_("i#{id} #{name}", { id = initiative.id, name = initiative.name }) ))
 
 execute.view{
   module = "initiative",
