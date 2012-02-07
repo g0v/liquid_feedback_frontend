@@ -18,7 +18,12 @@ local auth_needed = not (
 if config.public_access then
 
   if
-    request.get_module() == "area" and (
+    request.get_module() == "unit" and (
+     request.get_view() == "list"
+     or request.get_view() == "show"
+     or request.get_view() == "show_tab"
+    )
+    or request.get_module() == "area" and (
      request.get_view() == "list"
      or request.get_view() == "show"
      or request.get_view() == "show_tab"

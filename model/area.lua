@@ -2,6 +2,14 @@ Area = mondelefant.new_class()
 Area.table = 'area'
 
 Area:add_reference{
+  mode          = 'm1',
+  to            = "Unit",
+  this_key      = 'unit_id',
+  that_key      = 'id',
+  ref           = 'unit',
+}
+
+Area:add_reference{
   mode          = '1m',
   to            = "Issue",
   this_key      = 'id',
@@ -67,4 +75,10 @@ function Area:build_selector(args)
     selector:add_where{ "unit_id = ?", args.unit_id }
   end
   return selector
+end
+
+function Area.object_get:name_with_unit_name()
+  if config.feature_units_enabled then
+    return self.unit.name .. " > " .. self.name
+  end
 end

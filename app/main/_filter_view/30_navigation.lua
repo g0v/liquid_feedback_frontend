@@ -13,13 +13,21 @@ slot.select('navigation', function()
 
   if app.session.member or config.public_access then
 
-    ui.link{
-      image  = { static = "icons/16/package.png" },
-      text   = _"Areas",
-      module = 'area',
-      view   = 'list'
-    }
-
+    if config.feature_units_enabled then
+      ui.link{
+        image  = { static = "icons/16/package.png" },
+        text   = _"Units",
+        module = 'unit',
+        view   = 'list'
+      }
+    else
+      ui.link{
+        image  = { static = "icons/16/package.png" },
+        text   = _"Areas",
+        module = 'area',
+        view   = 'list'
+      }
+    end
   end
 
   if app.session.member == nil then

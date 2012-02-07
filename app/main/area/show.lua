@@ -13,7 +13,7 @@ if config.feature_rss_enabled then
 end
 
 
-slot.put_into("title", encode.html(_("Area '#{name}'", { name = area.name })))
+slot.put_into("title", area.name_with_unit_name)
 
 
 ui.container{

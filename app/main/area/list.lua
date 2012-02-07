@@ -1,11 +1,12 @@
--- TODO support multiple units
+local unit_id = param.get("unit_id", atom.integer)
+
 local areas_selector = Area:build_selector{ active = true, unit_id = unit_id }
 
 local unit = Unit:by_id(unit_id)
 
 
-if app.session.member_id then
-  slot.put_into("title", _("Area list of unit '#{unit_name}'", { unit_name = unit.name }))
+if config.feature_units_enabled then
+  slot.put_into("title", unit.name)
 else
   slot.put_into("title", encode.html(config.app_title))
 end
