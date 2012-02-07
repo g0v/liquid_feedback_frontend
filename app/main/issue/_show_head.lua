@@ -16,6 +16,15 @@ slot.select("path", function()
 end)
 
 slot.select("title", function()
+  if not config.single_unit_id then
+    ui.link{
+      content = issue.area.unit.name,
+      module = "area",
+      view = "list",
+      params = { unit_id = issue.area.unit_id }
+    }
+    slot.put(" &middot; ")
+  end
   ui.link{
     content = issue.area.name,
     module = "area",

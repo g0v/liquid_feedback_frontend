@@ -75,7 +75,7 @@ else
                 ui.tag{
                   tag = "span",
                   attr = { style = "font-size: 75%; font-weight: bold; background-color: #ccc; display: block; margin-bottom: 1ex;"},
-                  content = issue.area.name .. ", " .. _("Issue ##{id}", { id = issue.id })
+                  content = issue.area.name_with_unit_name .. ", " .. _("Issue ##{id}", { id = issue.id })
                 }
               else
                 ui.tag{

@@ -13,8 +13,20 @@ if config.feature_rss_enabled then
 end
 
 
-slot.put_into("title", area.name_with_unit_name)
+slot.select("title", function()
+  if not config.single_unit_id then
+    ui.link{
+      content = area.unit.name,
+      module = "area",
+      view = "list",
+      params = { unit_id = area.unit_id }
+    }
+    slot.put(" &middot; ")
+  end
 
+  ui.tag{ content =  area.name }
+
+end)
 
 ui.container{
   attr = { class = "vertical"},
