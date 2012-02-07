@@ -1,6 +1,6 @@
 local area = Area:by_id(param.get_id()) or Area:new()
 
-param.update(area, "name", "description", "active")
+param.update(area, "unit_id", "name", "description", "active")
 
 area:save()
 
