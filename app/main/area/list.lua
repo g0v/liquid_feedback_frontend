@@ -1,5 +1,4 @@
 -- TODO support multiple units
-local unit_id = param.get("units", atom.integer)
 local areas_selector = Area:build_selector{ active = true, unit_id = unit_id }
 
 local unit = Unit:by_id(unit_id)

@@ -13,34 +13,6 @@ slot.select('navigation', function()
 
   if app.session.member or config.public_access then
 
-    local units = Unit:get_flattened_tree()
-
-    ui.form{
-      attr = { class = "unit_selector" },
-      module = "index", action = "set_current_units", 
-      routing = { default = { mode = "redirect", module = "area", view = "list" } },
-      content = function()
-        ui.tag{
-          tag = "select",
-          attr = { name = "unit_ids", onchange = "this.form.submit();" },
-          content = function ()
-            for i, unit in ipairs(units) do
-              local selected
-              -- TODO support multiple units
-              if unit.id == param.get("units", atom.integer) then
-                selected = "selected"
-              end
-              ui.tag{
-                tag = "option",
-                attr = { value = unit.id, selected = selected },
-                content = unit.name
-              }
-            end
-          end
-        }
-      end
-    }
-
     ui.link{
       image  = { static = "icons/16/package.png" },
       text   = _"Areas",
