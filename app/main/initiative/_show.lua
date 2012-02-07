@@ -1,7 +1,89 @@
 local initiative = param.get("initiative", "table")
 local initiator = param.get("initiator", "table")
 
+local initiators_members_selector = initiative:get_reference_selector("initiating_members")
+  :add_field("initiator.accepted", "accepted")
+
+if not (initiator and initiator.accepted) then
+  initiators_members_selector:add_where("initiator.accepted")
+end
+
+local initiators = initiators_members_selector:exec()
+
+slot.select("initiative_head", function()
+
+  ui.container{
+    attr = { class = "initiative_name" },
+    content = _("Initiative i#{id}: #{name}", { id = initiative.id, name = initiative.name })
+  }
+  ui.tag{
+    attr = { class = "initiator_names" },
+    content = function()
+      ui.tag{ content = _"by" }
+      slot.put(" ")
+      for i, initiator in ipairs(initiators) do
+        if i == #initiators and i > 1 then
+          slot.put(" ", _"and", " ")
+        elseif i > 1 then
+          slot.put(", ")
+        end
+        ui.link{
+          text = initiator.name,
+          module = "member", view = "show", id = initiator.id
+        }
+      end
+    end
+  }
+
+  if initiator and initiator.accepted and not initiative.issue.fully_frozen and not initiative.issue.closed and not initiative.revoked then
+    slot.put(" &middot; ")
+    ui.link{
+      attr = { class = "action" },
+      content = function()
+        slot.put(_"Invite initiator")
+      end,
+      module = "initiative",
+      view = "add_initiator",
+      params = { initiative_id = initiative.id }
+    }
+    if #initiators > 1 then
+      slot.put(" &middot; ")
+      ui.link{
+        content = function()
+          slot.put(_"Remove initiator")
+        end,
+        module = "initiative",
+        view = "remove_initiator",
+        params = { initiative_id = initiative.id }
+      }
+    end
+  end
+  if initiator and initiator.accepted == false then
+      slot.put(" &middot; ")
+      ui.link{
+        text   = _"Cancel refuse of invitation",
+        module = "initiative",
+        action = "remove_initiator",
+        params = {
+          initiative_id = initiative.id,
+          member_id = app.session.member.id
+        },
+        routing = {
+          ok = {
+            mode = "redirect",
+            module = "initiative",
+            view = "show",
+            id = initiative.id
+          }
+        }
+      }
+  end
+
+  
+end )
+  
 util.help("initiative.show")
+
 
 if initiative.issue.ranks_available and initiative.admitted then
   local class = initiative.rank == 1 and "admitted_info" or "not_admitted_info"

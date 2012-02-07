@@ -49,7 +49,11 @@ if config.api_enabled and request.get_module() == "api" or request.get_module() 
 end
 
 if config.public_access and not app.session.member_id and auth_needed and request.get_module() == "index" and request.get_view() == "index" then
-  request.redirect{ module = "area", view = "list" }
+  if not config.single_unit_id then
+    request.redirect{ module = "unit", view = "list" }
+  else
+    request.redirect{ module = "area", view = "list" }
+  end
   return
 end
 

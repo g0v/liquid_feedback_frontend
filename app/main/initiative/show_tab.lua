@@ -123,27 +123,6 @@ if app.session.member_id then
     }
   }
   
-  local initiators_members_selector = initiative:get_reference_selector("initiating_members")
-    :add_field("initiator.accepted", "accepted")
-  
-  if not (initiator and initiator.accepted) then
-    initiators_members_selector:add_where("initiator.accepted")
-  end
-  
-  local initiator_count = initiators_members_selector:count()
-  
-  tabs[#tabs+1] = {
-    name = "initiators",
-    label = _"Initiators" .. " (" .. tostring(initiator_count) .. ")",
-    icon = { static = "icons/16/user_edit.png" },
-    module = "initiative",
-    view = "_initiators",
-    params = {
-      initiative = initiative,
-      initiator = initiator,
-      initiators_members_selector = initiators_members_selector
-    }
-  }
 end
 
 local drafts_count = initiative:get_reference_selector("drafts"):count()

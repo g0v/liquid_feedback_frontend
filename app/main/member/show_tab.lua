@@ -162,7 +162,7 @@ tabs[#tabs+1] = {
 local issues_selector = member:get_reference_selector("issues")
 tabs[#tabs+1] = {
   name = "issues",
-  label = _"Issues" .. " (" .. tostring(issues_selector:count()) .. ")",
+  label = _"Interessiert" .. " (" .. tostring(issues_selector:count()) .. ")",
   icon = { static = "icons/16/folder.png" },
   module = "issue",
   view = "_list",
@@ -173,7 +173,7 @@ local supported_initiatives_selector = member:get_reference_selector("supported_
 
 tabs[#tabs+1] = {
   name = "supported_initiatives",
-  label = _"Supported initiatives" .. " (" .. tostring(supported_initiatives_selector:count()) .. ")",
+  label = _"Supported" .. " (" .. tostring(supported_initiatives_selector:count()) .. ")",
   icon = { static = "icons/16/thumb_up_green.png" },
   module = "member",
   view = "_list_supported_initiatives",
@@ -184,7 +184,7 @@ tabs[#tabs+1] = {
 local initiated_initiatives_selector = member:get_reference_selector("initiated_initiatives"):add_where("initiator.accepted = true")
 tabs[#tabs+1] = {
   name = "initiatied_initiatives",
-  label = _"Initiated initiatives" .. " (" .. tostring(initiated_initiatives_selector:count()) .. ")",
+  label = _"Initiated" .. " (" .. tostring(initiated_initiatives_selector:count()) .. ")",
   icon = { static = "icons/16/user_edit.png" },
   module = "member",
   view = "_list_supported_initiatives",

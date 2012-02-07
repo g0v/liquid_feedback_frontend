@@ -213,17 +213,4 @@ if show_for_issue then
     }
   end
 
-  if app.session.member_id and not (issue.fully_frozen or issue.closed) then
-    slot.put(" ")
-    ui.link{
-      content = function()
-        ui.image{ static = "icons/16/script_add.png" }
-        slot.put(" ")
-        slot.put(_"Create alternative initiative")
-      end,
-      module = "initiative",
-      view = "new",
-      params = { issue_id = issue.id }
-    }
-  end
 end

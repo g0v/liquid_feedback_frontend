@@ -45,16 +45,27 @@ slot.select("title2", function()
   ui.tag{
     tag = "div",
     content = function()
-      ui.tag{
-        content = function()
-          ui.link{
-            text = issue.policy.name,
-            module = "policy",
-            view = "show",
-            id = issue.policy.id
-          }
-        end
+    
+      local initiative_count = issue:get_reference_selector("initiatives"):count()
+      local text
+      if initiative_count == 1 then
+        text = _("1 initiative", { count = initiative_count })
+      else
+        text = _("#{count} initiatives", { count = initiative_count })
+      end
+      ui.link{
+        text = text,
+        module = "issue", view = "show", id = issue.id
       }
+      
+      slot.put(" &middot; ")
+      ui.link{
+        text = issue.policy.name,
+        module = "policy",
+        view = "show",
+        id = issue.policy.id
+      }
+
       slot.put(" &middot; ")
       ui.tag{ content = issue.state_name }
 
@@ -250,6 +261,20 @@ slot.select("actions", function()
   end
 end)
 
+if app.session.member_id then
+  slot.select("actions", function()
+    if not issue.fully_frozen and not issue.closed then
+      ui.link{
+        image  = { static = "icons/16/script_add.png" },
+        attr   = { class = "action" },
+        text   = _"Create alternative initiative",
+        module = "initiative",
+        view   = "new",
+        params = { issue_id = issue.id }
+      }
+    end
+  end)
+end
 
 local issue = param.get("issue", "table")
 
