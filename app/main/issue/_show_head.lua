@@ -117,6 +117,7 @@ slot.select("content_navigation", function()
       end
     end
 
+    --[[
     records = issues_selector:exec()
 
     for i,cissue in ipairs(records) do
@@ -161,6 +162,7 @@ slot.select("content_navigation", function()
       mk_link(-1, _("Previous initiative"), "resultset_previous.png", "initiative")
       mk_link(1, _("Next initiative"), "resultset_next.png", "initiative")
     end
+    --]]
   end
 end
 
