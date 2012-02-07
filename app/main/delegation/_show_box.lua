@@ -3,10 +3,10 @@ function change_delegation(scope, unit_id, area_id, issue, delegation, initiativ
   local text
   if scope == "unit" and delegation and delegation.unit_id then
     image = { static = "icons/16/table_go.png" }
-    text = _"Change unit delegation"
+    text = config.single_unit_id and _"Change global delegation" or _"Change unit delegation"
   elseif scope == "unit" and not (delegation and delegation.unit_id) then
     image = { static = "icons/16/table_go.png" }
-    text = _"Set unit delegation"
+    text = config.single_unit_id and _"Set global delegation" or _"Set unit delegation"
   elseif scope == "area" and delegation and delegation.area_id then
     image = { static = "icons/16/table_go.png" }
     text = _"Change area delegation"
@@ -136,7 +136,11 @@ slot.select("actions", function()
               elseif delegation.area_id then
                 slot.put( _("Area delegated to '#{name}'", { name = member.delegation_name }) )
               else
-                slot.put( _("Unit delegated to '#{name}'", { name = member.delegation_name }) )
+                if config.single_unit_id then
+                  slot.put( _("Global delegation set to '#{name}'", { name = member.delegation_name }) )
+                else
+                  slot.put( _("Unit delegated to '#{name}'", { name = member.delegation_name }) )
+                end
               end
 
             else
@@ -200,7 +204,7 @@ slot.select("actions", function()
                       attr = { class = "delegation_scope" .. (overridden and " delegation_scope_overridden" or "") },
                       content = function()
                         if record.scope_in == "unit" then
-                          slot.put(_"Unit delegation")
+                          slot.put(config.single_object_mode and _"Global delegation" or _"Unit delegation")
                         elseif record.scope_in == "area" then
                           slot.put(_"Area delegation")
                         elseif record.scope_in == "issue" then

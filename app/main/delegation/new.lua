@@ -1,6 +1,6 @@
 local unit = Unit:by_id(param.get("unit_id", atom.integer))
 if unit then
-  slot.put_into("title", encode.html(_"Set unit delegation"))
+  slot.put_into("title", encode.html(config.single_unit_id and _"Set global delegation" or _"Set unit delegation"))
   util.help("delegation.new.unit")
 end
 
@@ -88,19 +88,21 @@ ui.form{
         local unit_delegation = Delegation:by_pk(app.session.member_id, issue.area.unit_id)
         if unit_delegation then
           delegate_name = unit_delegation.trustee.name
-          scope = _"unit"
+          scope = config.single_unit_id and _"global" or _"unit"
         end
       end
+      local text_apply
+      local text_abandon
+      if config.single_unit_id then
+        text_apply = _("Apply global or area delegation for this issue (Currently: #{delegate_name} [#{scope}])", { delegate_name = delegate_name, scope = scope })
+        text_abandon = _"Abandon unit and area delegations for this issue"
+      else
+        text_apply = _("Apply unit or area delegation for this issue (Currently: #{delegate_name} [#{scope}])", { delegate_name = delegate_name, scope = scope })
+        text_abandon = _"Abandon unit and area delegations for this issue"
+      end
       records = {
-        {
-          id = -1,
-          name = _("Apply unit or area delegation for this issue (Currently: #{delegate_name} [#{scope}])", { delegate_name = delegate_name, scope = scope })
-        },
-        {
-          id = 0,
-          name = _"Abandon unit and area delegations for this issue"
-        },
-
+        { id = -1, name = text_apply },
+        { id = 0,  name = text_abandom }
       }
     elseif area then
       local delegate_name = ""
@@ -108,16 +110,25 @@ ui.form{
       local unit_delegation = Delegation:by_pk(app.session.member_id, area.unit_id)
       if unit_delegation then
         delegate_name = unit_delegation.trustee.name
-        scope = _"unit"
+        scope = config.single_unit_id and _"global" or _"unit"
+      end
+      local text_apply
+      local text_abandon
+      if config.single_unit_id then
+        text_apply = _("Apply global delegation for this area (Currently: #{delegate_name} [#{scope}])", { delegate_name = delegate_name, scope = scope })
+        text_abandon = _"Abandon global delegation for this area"
+      else
+        text_apply = _("Apply unit delegation for this area (Currently: #{delegate_name} [#{scope}])", { delegate_name = delegate_name, scope = scope })
+        text_abandon = _"Abandon unit delegation for this area"
       end
       records = {
         {
           id = -1,
-          name = _("Apply unit delegation for this area (Currently: #{delegate_name} [#{scope}])", { delegate_name = delegate_name, scope = scope })
+          name = text_apply
         },
         {
           id = 0,
-          name = _"Abandon unit delegation for this area"
+          name = text_abandon
         }
       }
 

@@ -13,7 +13,7 @@ slot.select('navigation', function()
 
   if app.session.member or config.public_access then
 
-    if config.feature_units_enabled then
+    if not config.single_unit_id then
       ui.link{
         image  = { static = "icons/16/package.png" },
         text   = _"Units",

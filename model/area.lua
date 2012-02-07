@@ -78,7 +78,9 @@ function Area:build_selector(args)
 end
 
 function Area.object_get:name_with_unit_name()
-  if config.feature_units_enabled then
+  if not config.single_unit_id then
     return self.unit.name .. " > " .. self.name
+  else
+    return self.name
   end
 end
