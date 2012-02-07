@@ -52,6 +52,8 @@ config.api_enabled = true
 
 config.feature_rss_enabled = false -- feature is broken
 
+config.feature_units_enabled = true
+
 -- OpenID authentication is not fully implemented yet, DO NOT USE BEFORE THIS NOTICE HAS BEEN REMOVED!
 config.auth_openid_enabled = false
 config.auth_openid_https_as_default = true
