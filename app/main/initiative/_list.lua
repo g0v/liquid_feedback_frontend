@@ -122,7 +122,7 @@ if not show_for_initiative or initiatives_count > 1 then
   order_filter[#order_filter+1] = {
     name = "potential_support",
     label = _"Potential support",
-    selector_modifier = function(selector) selector:add_order_by("initiative.supporter_count::float / issue.population::float DESC, initiative.id") end
+    selector_modifier = function(selector) selector:add_order_by("CASE WHEN issue.population = 0 THEN 0 ELSE initiative.supporter_count::float / issue.population::float END DESC, initiative.id") end
   }
 
   order_filter[#order_filter+1] = {
