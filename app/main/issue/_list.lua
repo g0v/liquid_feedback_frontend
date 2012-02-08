@@ -28,66 +28,65 @@ filters.content = function()
       local highlight_string = param.get("highlight_string", "string")
       local issues = issues or issues_selector:exec()
       -- issues:load(initiatives)
-      ui.list{
-        attr = { class = "issues" },
-        records = issues,
-        columns = {
-          {
-            label = _"Issue",
-            content = function(record)
-              if not param.get("for_area_list", atom.boolean) then
-                ui.field.text{
-                  value = record.area.name
-                }
-                slot.put("<br />")
-              end
-              if record.is_interested then
-                local label = _"You are interested in this issue",
-                ui.image{
-                  attr = { alt = label, title = label },
-                  static = "icons/16/eye.png"
-                }
-                slot.put("&nbsp;")
-              end
-              ui.link{
-                text = _("Issue ##{id}", { id = tostring(record.id) }),
-                module = "issue",
-                view = "show",
-                id = record.id
+      ui.container{ attr = { class = "issues" }, content = function()
+
+        for i, issue in ipairs(issues) do
+
+          local class = "issue"
+          if issue.is_interested then
+            class = class .. " interested"
+          end
+          ui.container{ attr = { class = class }, content = function()
+
+            ui.container{ attr = { class = "issue_info" }, content = function()
+            
+              ui.tag{
+                tag = "div",
+                content = function()
+                  ui.link{
+                    attr = { class = "issue_id" },
+                    text = _("Issue ##{id}", { id = tostring(issue.id) }),
+                    module = "issue",
+                    view = "show",
+                    id = issue.id
+                  }
+
+--                 if not param.get("for_area_list", atom.boolean) then
+                    slot.put(" &middot; ")
+                    ui.tag{ content = issue.area.unit.name }
+                    slot.put(" &middot; ")
+                    ui.tag{ content = issue.area.name }
+--                  end
+                end
               }
-              if record.state == "new" then
-                ui.image{
-                  static = "icons/16/new.png"
-                }
-              end
-              slot.put("<br />")
-              slot.put("<br />")
-              if record.old_state then
-                ui.field.text{ value = format.time(record.sort) }
-                ui.field.text{ value = Issue:get_state_name_for_state(record.old_state) .. " > " .. Issue:get_state_name_for_state(record.new_state) }
+              ui.tag{
+                tag = "div",
+                content = function()
+                
+                  ui.tag{ content = issue.policy.name }
+
+                  slot.put(" &middot; ")
+                  ui.tag{ content = issue.state_name }
+
+                  if issue.state_time_left then
+                    slot.put(" &middot; ")
+                    ui.tag{ content = _("#{time_left} left", { time_left = issue.state_time_left }) }
+                  end
+
+                end
+              }
+
+              
+              if issue.old_state then
+                ui.field.text{ value = format.time(issue.sort) }
+                ui.field.text{ value = Issue:get_state_name_for_state(issue.old_state) .. " > " .. Issue:get_state_name_for_state(issue.new_state) }
               else
               end
-            end
-          },
-          {
-            label = _"State",
-            content = function(record)
-              if record.state == "voting" then
-                ui.link{
-                  content = _"Voting",
-                  module = "vote",
-                  view = "list",
-                  params = { issue_id = record.id }
-                }
-              else
-                ui.field.issue_state{ value = record.state }
-              end
-            end
-          },
-          {
-            label = _"Initiatives",
-            content = function(record)
-              local initiatives_selector = record:get_reference_selector("initiatives")
+            end }
+
+            ui.container{ attr = { class = "initiative_list" }, content = function()
+
+              local initiatives_selector = issue:get_reference_selector("initiatives")
               local highlight_string = param.get("highlight_string")
               if highlight_string then
                 initiatives_selector:add_field( {'"highlight"("initiative"."name", ?)', highlight_string }, "name_highlighted")
@@ -96,7 +95,7 @@ filters.content = function()
                 module = "initiative",
                 view = "_list",
                 params = {
-                  issue = record,
+                  issue = issue,
                   initiatives_selector = initiatives_selector,
                   highlight_string = highlight_string,
                   per_page = app.session.member_id and tonumber(app.session.member:get_setting_value("initiatives_preview_limit") or 3) or 3,
@@ -104,10 +103,10 @@ filters.content = function()
                   limit = app.session.member_id and tonumber(app.session.member:get_setting_value("initiatives_preview_limit") or 3) or 3
                 }
               }
-            end
-          },
-        }
-      }
+            end }
+          end }
+        end
+      end }
     end
   }
 end

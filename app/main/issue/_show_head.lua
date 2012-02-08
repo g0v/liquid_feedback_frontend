@@ -22,7 +22,7 @@ slot.select("title", function()
     view = "show",
     id = issue.id
   }
-    slot.put(" &middot; ")
+  slot.put(" &middot; ")
   ui.link{
     content = issue.area.name,
     module = "area",
@@ -69,16 +69,14 @@ slot.select("title2", function()
       slot.put(" &middot; ")
       ui.tag{ content = issue.state_name }
 
-      slot.put(" &middot; ")
-      local time_left = issue.state_time_left
-      if time_left then
-        ui.tag{ content = _("#{time_left} left", { time_left = time_left }) }
+      if issue.state_time_left then
+        slot.put(" &middot; ")
+        ui.tag{ content = _("#{time_left} left", { time_left = issue.state_time_left }) }
       end
 
-      slot.put(" &middot; ")
-      local next_state_names = issue.next_states_names
-      if next_state_names then
-        ui.tag{ content = _("Next state: #{state}", { state = next_state_names }) }
+      if issue.next_states_names then
+        slot.put(" &middot; ")
+        ui.tag{ content = _("Next state: #{state}", { state = issue.next_states_names }) }
       end
     end
   }

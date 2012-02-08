@@ -71,6 +71,8 @@ local scope = "unit"
 
 unit_id = param.get("unit_id", atom.integer)
 
+local inline = param.get("inline", atom.boolean)
+
 if param.get("initiative_id", atom.integer) then
   initiative_id = param.get("initiative_id", atom.integer)
   issue_id = Initiative:by_id(initiative_id).issue_id
@@ -98,16 +100,28 @@ if issue_id then
   if not delegation then
     delegation = Delegation:by_pk(app.session.member.id, nil, issue.area_id)
   end
+  if not delegation then
+    delegation = Delegation:by_pk(app.session.member.id, issue.area.unit_id)
+  end
 elseif area_id then
   delegation = Delegation:by_pk(app.session.member.id, nil, area_id)
+  if not delegation then
+    local area = Area:by_id(area_id)
+    delegation = Delegation:by_pk(app.session.member.id, area.unit_id)
+  end
 end
 
 if not delegation then
   delegation = Delegation:by_pk(app.session.member.id, unit_id)
 end
 
+local slot_name = "actions"
 
-slot.select("actions", function()
+if inline then
+  slot_name = "default"
+end
+
+slot.select(slot_name, function()
 
   if delegation then
     ui.container{

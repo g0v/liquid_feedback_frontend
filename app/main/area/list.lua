@@ -1,6 +1,7 @@
 local unit_id = config.single_unit_id or param.get("unit_id", atom.integer)
 
 local areas_selector = Area:build_selector{ active = true, unit_id = unit_id }
+areas_selector:add_order_by("member_weight DESC")
 
 local unit = Unit:by_id(unit_id)
 

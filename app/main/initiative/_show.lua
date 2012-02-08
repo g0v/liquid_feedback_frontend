@@ -274,52 +274,6 @@ if app.session.member_id then
   }
 end
 
-if (initiative.discussion_url and #initiative.discussion_url > 0)
-  or (initiator and initiator.accepted and not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked) then
-  ui.container{
-    attr = { class = "vertical" },
-    content = function()
-      ui.container{
-        attr = { class = "ui_field_label" },
-        content = _"Discussion with initiators"
-      }
-      ui.tag{
-        tag = "span",
-        content = function()
-          if initiative.discussion_url:find("^https?://") then
-            if initiative.discussion_url and #initiative.discussion_url > 0 then
-              ui.link{
-                attr = {
-                  class = "actions",
-                  target = "_blank",
-                  title = initiative.discussion_url
-                },
-                content = function()
-                  slot.put(encode.html(initiative.discussion_url))
-                end,
-                external = initiative.discussion_url
-              }
-            end
-          else
-            slot.put(encode.html(initiative.discussion_url))
-          end
-          slot.put(" ")
-          if initiator and initiator.accepted and not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked then
-            ui.link{
-              attr   = { class = "actions" },
-              text   = _"(change URL)",
-              module = "initiative",
-              view   = "edit",
-              id     = initiative.id
-            }
-          end
-        end
-      }
-    end
-  }
-end
-
-
 
 execute.view{
   module = "initiative",

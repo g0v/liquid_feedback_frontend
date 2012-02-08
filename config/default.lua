@@ -78,7 +78,7 @@ request.set_404_route{ module = 'index', view = '404' }
 -- open and set default database handle
 db = assert(mondelefant.connect{
   engine='postgresql',
-  dbname='liquid_feedback'
+  dbname='liquid_feedback_p'
 })
 at_exit(function() 
   db:close()

@@ -20,7 +20,8 @@ tabs[#tabs+1] =
     params = {
       issues_selector = issues_selector,
       filter = cgi.params["filter"],
-      filter_voting = param.get("filter_voting")
+      filter_voting = param.get("filter_voting"),
+      for_area_list = true
     }
   }
 

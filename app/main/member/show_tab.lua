@@ -140,29 +140,31 @@ if show_as_homepage and app.session.member_id == member.id then
   end
 end
 
-tabs[#tabs+1] = {
-  name = "profile",
-  label = _"Profile",
-  icon = { static = "icons/16/application_form.png" },
-  module = "member",
-  view = "_profile",
-  params = { member = member },
-}
+if not show_as_homepage then
+  tabs[#tabs+1] = {
+    name = "profile",
+    label = _"Profile",
+    icon = { static = "icons/16/application_form.png" },
+    module = "member",
+    view = "_profile",
+    params = { member = member },
+  }
+end
 
 local areas_selector = member:get_reference_selector("areas")
 tabs[#tabs+1] = {
   name = "areas",
   label = _"Areas" .. " (" .. tostring(areas_selector:count()) .. ")",
   icon = { static = "icons/16/package.png" },
-  module = "area",
-  view = "_list",
-  params = { areas_selector = areas_selector },
+  module = "member",
+  view = "_area_list",
+  params = { areas_selector = areas_selector, member = member },
 }
 
 local issues_selector = member:get_reference_selector("issues")
 tabs[#tabs+1] = {
   name = "issues",
-  label = _"Interessiert" .. " (" .. tostring(issues_selector:count()) .. ")",
+  label = _"Issues" .. " (" .. tostring(issues_selector:count()) .. ")",
   icon = { static = "icons/16/folder.png" },
   module = "issue",
   view = "_list",
@@ -225,5 +227,16 @@ tabs[#tabs+1] = {
   view = "_list",
   params = { members_selector = contacts_selector },
 }
+
+if show_as_homepage then
+  tabs[#tabs+1] = {
+    name = "profile",
+    label = _"Profile",
+    icon = { static = "icons/16/application_form.png" },
+    module = "member",
+    view = "_profile",
+    params = { member = member },
+  }
+end
 
 ui.tabs(tabs)

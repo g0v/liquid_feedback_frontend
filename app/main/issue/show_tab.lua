@@ -18,6 +18,19 @@ local tabs = {
   static_params = { issue_id = issue.id },
 }
 
+tabs[#tabs+1] =
+  {
+    name = "initiatives",
+    label = _"Initiatives",
+    icon = { static = "icons/16/script.png" },
+    module = "issue",
+    view = "_list_initiatives",
+    params = {
+      issue = issue
+    }
+  }
+
+    
 if app.session.member_id then
   tabs[#tabs+1] =
     {

@@ -113,23 +113,15 @@ h2 {
  */
 
 .topbar {
-  xbackground-color: #444;
+  background-color: #444;
   color: #fff;
-  font-size: 75%;
+  font-size: 90%;
   line-height: 140%;
-  background: -webkit-gradient(
-    linear, left bottom, left top, 
-    color-stop(0%,#4c4c4c),
-    color-stop(12%,#595959),
-    color-stop(25%,#666666),
-    color-stop(39%,#474747),
-    color-stop(50%,#2c2c2c),
-    color-stop(51%,#000000),
-    color-stop(60%,#111111),
-    color-stop(76%,#2b2b2b),
-    color-stop(91%,#1c1c1c),
-    color-stop(100%,#131313)
-  );
+  padding-left: 10px;
+}
+
+.topbar .logolf {
+  font-weight: bold;
 }
 
 .topbar a {
@@ -207,7 +199,8 @@ form.unit_selector {
   padding-bottom: 1ex;
   xbackground-color: #def;
   background: -webkit-gradient(linear, left top, left bottom, 
-    color-stop(0%,#abd3ee), color-stop(100%,#ffffff)                           
+    /*color-stop(0%,#abd3ee), color-stop(100%,#ffffff)*/
+    color-stop(0%,#ddd), color-stop(100%,#fff)                           
   ); 
 }
 
@@ -274,19 +267,20 @@ form.unit_selector {
   display: inline;
 }
 
+.actions {
+}
+
 .actions a {
-  float: left;
-  display: block;
   padding: 1px 0.5em 1px 0.0em;
   margin-right: 1em;
-  vertical-align: middle;
   border-radius: 5px;
 }
 
 
 .slot_initiative_head  {
-  background: -webkit-gradient(linear, left top, left bottom, 
-    color-stop(0%,#AFEFB9), color-stop(100%,#ffffff)                           
+  xbackground: -webkit-gradient(linear, left top, left bottom, 
+    /*color-stop(0%,#AFEFB9), color-stop(100%,#ffffff)                           */
+    color-stop(0%,#ddd), color-stop(100%,#fff)                           
   ); 
   padding-left: 1em;
   padding-top: 2ex;
@@ -295,8 +289,8 @@ form.unit_selector {
 .initiative_name {
   font-weight: bold;
   font-size: 125%;
-  line-height: 110%;
-  margin-bottom: 0.7ex;
+  xline-height: 110%;
+  xmargin-bottom: 0.7ex;
 }
 
 
@@ -373,26 +367,25 @@ form.unit_selector {
 .slot_support .head_potential_supporter{
   background-color: #fec;
   border: 1px solid #b96;
-}
-
-.interest .head_autoreject {
-  background-color: #fdd;
-  border: 1px solid #b77;
+  border-radius: 5px;
 }
 
 .slot_support .head_supporter {
   background-color: #dfc;
   border: 1px solid #8b8;
+  border-radius: 5px;
 }
 
 .slot_support .head_initiator {
   background-color: #eee;
   border: 1px solid #999;
+  border-radius: 5px;
 }
 
 .delegation .head_active {
   background-color: #ddf;
   border: 1px solid #88b;
+  border-radius: 5px;
 }
 
 .delegation .change_delegation {
@@ -912,12 +905,43 @@ z-index: 2;
  * Issues
  */
 
-.issues tr {
-  border: 1px solid #ccc;
+.issues .issue {
+  xborder: 1px solid #ccc;
+  background: -webkit-gradient(linear, left top, left bottom,
+    color-stop(0%,#e7e7e7), color-stop(33%, #f7f7f7), color-stop(100%,#fff));
+  overflow: hidden;
+  margin-bottom: 2ex;
+  border-radius: 8px;
+}
+
+.issues .issue.interested {
+  background: -webkit-gradient(linear, left top, left bottom,
+    color-stop(0%,#eec), color-stop(25%, #ffe), color-stop(100%,#fff));
+}
+
+.issues .issue .issue_info {
+  xfloat: left;
+  xwidth: 25%;
+  padding: 1ex;
+  line-height: 140%;
+  xoverflow: hidden;
+}
+
+.issues .issue .issue_info .issue_id {
+  font-size: 125%;
+}
+
+.issues .issue .initiative_list a {
+  font-weight: bold;
+}
+
+.issue_initiative_list a {
+  font-weight: bold;
 }
 
 .issues tr tr {
   border: none;
+  background: none;
 }
 
 .lang_chooser {
@@ -961,6 +985,7 @@ z-index: 2;
   overflow: hidden;
   xwhite-space: nowrap;
   position: relative;
+  border-radius: 7px;
 }
 
 .member_thumb a{
@@ -980,6 +1005,7 @@ z-index: 2;
   padding: 0;
   margin: 0;
   vertical-align: bottom;
+  border-radius: 7px 0 0 7px;
 }
 
 .member_thumb div {
@@ -1030,7 +1056,7 @@ z-index: 2;
 .draft_content,
 .suggestion_content {
   background-color: #eee;
-  background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#f7f7f7), color-stop(100%,#e5e5e5));
+  xbackground: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#f7f7f7), color-stop(100%,#e5e5e5));
   padding: 1ex;
   border-radius: 8px;
 }
@@ -1099,6 +1125,7 @@ z-index: 2;
   border: 1px solid #b96;
   padding: 1ex;
   margin-bottom: 2ex;
+  border-radius: 8px;
 }
 
 .suggestion_fulfilled {

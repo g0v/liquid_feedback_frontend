@@ -405,6 +405,13 @@ function Member.object_get:notify_email_locked()
   )
 end
 
+function Member.object_get:units_with_voting_right()
+  return(Unit:new_selector()
+    :join("privilege", nil, { "privilege.unit_id = unit.id AND privilege.member_id = ? AND privilege.voting_right", self.id })
+    :exec()
+  )
+end
+
 function Member.object:ui_field_text(args)
   args = args or {}
   if app.session.member_id or config.public_access == "pseudonym" then

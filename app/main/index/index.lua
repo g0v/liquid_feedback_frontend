@@ -45,49 +45,9 @@ end)
 slot.put_into("title", encode.html(config.app_title))
 
 if app.session.member then
-	app.html_title.title = app.session.member.name
+  app.html_title.title = app.session.member.name
 end
 
-
-slot.select("actions", function()
-
-  if app.session.member then
-    ui.link{
-      content = function()
-          ui.image{ static = "icons/16/application_form.png" }
-          slot.put(_"Edit my profile")
-      end,
-      module = "member",
-      view = "edit"
-    }
-    ui.link{
-      content = function()
-          ui.image{ static = "icons/16/user_gray.png" }
-          slot.put(_"Upload images")
-      end,
-      module = "member",
-      view = "edit_images"
-    }
-    ui.link{
-      content = function()
-          ui.image{ static = "icons/16/wrench.png" }
-          slot.put(_"Settings")
-      end,
-      module = "member",
-      view = "settings"
-    }
-    if config.download_dir then
-      ui.link{
-        content = function()
-            ui.image{ static = "icons/16/database_save.png" }
-            slot.put(_"Download")
-        end,
-        module = "index",
-        view = "download"
-      }
-    end 
-  end
-end)
 
 util.help("index.index", _"Home")
 

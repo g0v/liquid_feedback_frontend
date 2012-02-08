@@ -69,9 +69,10 @@ ui.form{
   routing = {
     default = {
       mode = "redirect",
-      module = area and "area" or issue and "issue" or "index",
-      view = (area or issue) and "show" or "index",
+      module = area and "area" or issue and "issue" or "area",
+      view = (area or issue) and "show" or "list",
       id = area and area.id or issue and issue.id or nil,
+      params = { unit_id = unit and unit.id or nil }
     }
   },
   content = function()

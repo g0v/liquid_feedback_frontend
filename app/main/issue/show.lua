@@ -36,24 +36,6 @@ if issue.state == "cancelled" then
   }
 end
 
-ui.container{
-  attr = { class = "issue_initiative_list" },
-  content = function()
-    execute.view{
-      module = "initiative",
-      view = "_list",
-      params = {
-        initiatives_selector = issue:get_reference_selector("initiatives"),
-        issue = issue,
-        expandable = true,
-        for_initiative_id = param.get("for_initiative_id", atom.number),
-        show_for_issue = true
-      }
-    }
-  end
-}
-
-slot.put("<br />")
 
 execute.view{
   module = "issue",

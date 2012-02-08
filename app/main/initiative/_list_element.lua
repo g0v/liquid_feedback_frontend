@@ -65,7 +65,7 @@ ui.container{
           records = { { a = 1} },
           columns = {
             {
-              field_attr = { style = "width: 4em; padding: 0;"},
+              field_attr = { style = "width: 3em; padding: 0; text-align: center;"},
               content = function()
                 if initiative.issue.accepted and initiative.issue.closed and initiative.issue.ranks_available or initiative.admitted == false then 
                   ui.field.rank{ image_attr = { id = icon_name }, attr = { class = "rank" }, value = initiative.rank }
@@ -107,8 +107,8 @@ ui.container{
                   else
                     slot.put(_"Counting of votes")
                   end
-                elseif initiative.issue.population then
-                  local max_value = initiative.issue.population
+                else
+                  local max_value = initiative.issue.population or 0
                   ui.bargraph{
                     max_value = max_value,
                     width = 100,
@@ -120,8 +120,6 @@ ui.container{
                       { color = "#eee", value = max_value - (initiative.supporter_count or 0) },
                     }
                   }
-                else
-                  slot.put("&nbsp;")
                 end
               end
             },
