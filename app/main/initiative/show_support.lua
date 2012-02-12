@@ -17,9 +17,6 @@ ui.partial{
         local initiative = param.get("initiative", "table")
         local supporter = Supporter:by_pk(initiative.id, app.session.member.id)
 
-        local unique_string = multirand.string(16, '0123456789abcdef')
-
-
         local partial = {
           routing = {
             default = {
@@ -44,7 +41,7 @@ ui.partial{
         if not initiative.issue.fully_frozen and not initiative.issue.closed then
           if supporter then
             if not supporter:has_critical_opinion() then
-              ui.tag{ attr = { class = "supporter" }, content = function()
+              ui.container{ attr = { class = "supporter" }, content = function()
                 ui.image{
                   static = "icons/16/thumb_up_green.png"
                 }
@@ -58,9 +55,9 @@ ui.partial{
                 slot.put(_"Your are potential supporter")
               end }
             end
-            slot.put(" &middot; ")
             ui.link{
-              text    = _"Remove my support from this initiative",
+              image   = { static = "icons/16/cross.png" },
+              text    = _"Withdraw support",
               module  = "initiative",
               action  = "remove_support",
               id      = initiative.id,
@@ -73,6 +70,7 @@ ui.partial{
               local params = param.get_all_cgi()
               params.dyn = nil
               ui.link{
+                image   = { static = "icons/16/thumb_up_green.png" },
                 text    = _"Support this initiative",
                 module  = "initiative",
                 action  = "add_support",
@@ -104,6 +102,7 @@ ui.partial{
         end
         if initiator and initiator.accepted and not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked then
           ui.link{
+            image = { static = "icons/16/comments.png" },
             text   = _"change discussion URL",
             module = "initiative",
             view   = "edit",

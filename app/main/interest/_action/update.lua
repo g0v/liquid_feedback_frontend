@@ -15,9 +15,9 @@ end
 if param.get("delete", atom.boolean) then
   if interest then
     interest:destroy()
-    slot.put_into("notice", _"Interest removed")
+    --slot.put_into("notice", _"Interest removed")
   else
-    slot.put_into("notice", _"Interest not existent")
+    --slot.put_into("notice", _"Interest not existent")
   end
   return
 end
@@ -30,4 +30,4 @@ end
 
 interest:save()
 
-slot.put_into("notice", _"Interest updated")
+--slot.put_into("notice", _"Interest updated")

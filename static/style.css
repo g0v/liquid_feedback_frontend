@@ -118,6 +118,7 @@ h2 {
   font-size: 90%;
   line-height: 100%;
   padding-left: 10px;
+  overflow: hidden;
 }
 
 .topbar .logolf {
@@ -166,6 +167,7 @@ form.unit_selector {
 
 .searchbox form {
   float: left;
+  margin: 0px;
 }
 
 .searchbox div {
@@ -194,46 +196,14 @@ form.unit_selector {
  * Title of current page including path and actions
  */
 
-.title_bar {
-  padding-bottom: 1ex;
-  xbackground-color: #def;
-  text-shadow: #fff 0px 0px 3px;
-}
-
-.title_bar_content {
-  padding-left: 1em;
-  padding-top: 1.5ex;
+.title {
+  background-color: #ddd;
   background: -webkit-gradient(linear, left top, left bottom, 
-    /*color-stop(0%,#abd3ee), color-stop(100%,#ffffff)*/
     color-stop(0%,#ddd), color-stop(100%,#fff)                           
   );
-}
-
-.path {
-  color: #444;
-}
-
-.path div {
-  font-size: 100%;
-  line-height: 180%;
-}
-
-.path a {
-  color: #444;
-}
-
-.slot_path div {
-  display: inline;
-  margin-left: 1em;
-  margin-right: 1em;
-}
-
-.title {
+  text-shadow: #fff 0px 0px 3px;
   color: #000;
-  margin-bottom: 1ex;
-}
-
-.slot_title {
+  padding: 1ex 1em 0 1em;
 }
 
 .title div {
@@ -241,17 +211,18 @@ form.unit_selector {
   line-height: 110%;
 }
 
-.title div a {
-  xfont-weight: bold;
-}
-
 .title a {
   color: #000;
 }
 
-.title2 div {
+.slot_title2 {
+  margin-top: 1ex;
+  margin-left: 1em;
+}
+
+.initiatives_list {
+  clear: left;
   margin-bottom: 1ex;
-  xline-height: 130%;
 }
 
 .member_image_avatar {
@@ -268,23 +239,29 @@ form.unit_selector {
 .actions {
   font-size: 75%;
   line-height: 220%;
+  margin-top: 1ex;
+  margin-bottom: 2ex;
 }
 
-.slot_actions {
-  display: inline;
+.interest {
+  margin-left: 1.33em;
+  margin-bottom: 1.33ex;
+}
+
+.slot_actions .interest {
+  margin-left: 0em;
 }
 
 .actions a {
-  padding: 1px 0.5em 1px 0.0em;
   margin-right: 1em;
   border-radius: 5px;
+  padding-right: 0.3em;
 }
-
 
 .slot_initiative_head  {
   background: -webkit-gradient(linear, left top, left bottom, 
     /*color-stop(0%,#AFEFB9), color-stop(100%,#ffffff)                           */
-    color-stop(0%,#ddd), color-stop(100%,#fff)                           
+    color-stop(0%,#e7e7e7), color-stop(100%,#fff)                           
   ); 
   padding-left: 1em;
   padding-top: 2ex;
@@ -294,10 +271,7 @@ form.unit_selector {
 .initiative_name {
   font-weight: bold;
   font-size: 125%;
-  xline-height: 110%;
-  xmargin-bottom: 0.7ex;
 }
-
 
 .content_navigation {
   font-size: 75%;
@@ -323,12 +297,13 @@ form.unit_selector {
   border-left: 1px solid black;
 }
 
-.actions a:hover {
-  background-color: #d7d7d7;
+
+.actions a {
+  float: left;
 }
 
-.title_bar .actions a:hover {
-  background-color: #fff;
+.actions a:hover {
+  background-color: #d7d7d7;
 }
 
 .actions img {
@@ -363,13 +338,19 @@ form.unit_selector {
   padding-left: 0.2em;
   padding-right: 0.2em;
 }
+.actions .supporter,
 .vote_info .head {
   float: left;
   margin-right: 1em;
 }
 
+.actions .supporter,
+.actions .interest .head {
+  padding-right: 0.3em;
+}
+
 .interest .head_active,
-.actions .potential_supporter{
+.actions .potential_supporter {
   background-color: #fec;
   box-shadow: #fff 0px 0px 10px 1px;
   border-radius: 5px;
@@ -425,12 +406,12 @@ form.unit_selector {
 .vote_info .content {
   font-size: 133%;
   line-height: 100%;
-  top: 3ex;
+  top: 2.8ex;
   display: none;
   position: absolute;
   z-index: 10;
-  background-color: #fff;
-  border: 1px solid #999;
+  background-color: #ddddff;
+  border-radius: 0 5px 5px 5px;
   padding: 1em;
   width: 35em;
 }
@@ -458,6 +439,7 @@ form.unit_selector {
 
 .vote_info .member_thumb {
   clear: left;
+  background: #fff;
 }
 
 .delegation_overridden .member_thumb {
@@ -490,7 +472,7 @@ form.unit_selector {
 
 .ui_tabs_links {
   margin-top: 2ex;
-  margin-bottom: 2ex;
+  margin-bottom: 1ex;
   font-size: 75%;
 }
 
@@ -520,61 +502,6 @@ form.unit_selector {
   xpadding: 1ex 1ex 1ex 1ex;
 }
 
-.web10 .ui_tabs_accordeon_head {
-  margin-bottom: 1ex;
-}
-
-.web20 .ui_tabs_accordeon_head {
-  font-size: 80%;
-  font-weight: bold;
-  display: block;
-  background: #eee;
-  border: 1px solid #bbb;
-  color: #000;
-  padding: 0.75ex;
-  margin-top: 2ex;
-  cursor: pointer;
-}
-
-.web20 .ui_tabs_accordeon_head img {
-  vertical-align: middle;
-  margin-right: 0.5em;
-}
-
-.web20 .ui_tabs_accordeon_head .bargraph {
-  margin-right: 0.5em;
-}
-
-.web20 .ui_tabs_accordeon_content {
-  border: 1px solid #aaa;
-  border-top: none;
-  padding: 2ex 1em 2ex 1em;
-  margin-bottom: 3ex;
-}
-
-.web20 .issue_initiative_list .ui_tabs_accordeon_head {
-  background-color: #e5e5ff;
-}
-
-.web20 .issue_initiative_list .ui_tabs_accordeon_head,
-.web20 .issue_initiative_list .ui_tabs_accordeon_content {
-  border-color: #aad;
-}
-
-.web20 .issue_initiative_list .ui_tabs_accordeon_content .ui_tabs_accordeon_content {
-  border-color: #bbb;
-  border-width: 1px;
-}
-
-.web20 .issue_initiative_list .ui_tabs_accordeon_content .ui_tabs_accordeon_head {
-  background-color: #eee;
-  border: 1px solid #bbb;
-}
-
-.web20 .issue_initiative_list .ui_tabs_accordeon_head a {
-  font-size: 120%;
-}
-
 .ui_tabs_links a.yellow {
   background-color: #fec;
   color: #000;
@@ -591,17 +518,6 @@ form.unit_selector {
   padding: 1ex;
 }
 
-.web20 .ui_tabs_accordeon_head.yellow {
-  background-color: #fec;
-  border-color: #b96;
-  xpadding: 1ex;
-  xmargin-bottom: 2ex;
-}
-
-.web20 .ui_tabs_accordeon_content.yellow {
-  border-color: #b96;
-}
-
 .ui_tabs_links a.red {
   background-color: #c33;
   color: #000;
@@ -616,17 +532,6 @@ form.unit_selector {
   color: #fff;
   text-decoration: none;
   padding: 1ex;
-}
-
-.web20 .ui_tabs_accordeon_head.red {
-  background-color: #c23;
-  border-color: #b66;
-  xpadding: 1ex;
-  xmargin-bottom: 2ex;
-}
-
-.web20 .ui_tabs_accordeon_content.red {
-  border-color: #b66;
 }
 
 
@@ -844,40 +749,6 @@ tr table tr:hover td {
 
 
 /*************************************************************************
- * Hidden inline form
- */
-
-.hidden_inline_form {
-  display: none;
-  border: 1px solid #444;
-  width: 42em;
-  position: fixed;
-  background-color: #fff;
-  left: 5em;
-  top: 5ex;
-z-index: 2;
-}
-
-.hidden_inline_form a {
-  padding: 0.5ex;
-  color: #fff;
-}
-
-
-.hidden_inline_form .head {
-  background-color: #444;
-  color: #fff;
-  display: block;
-  padding: 0.5ex;
-}
-
-.hidden_inline_form input[type=text],
-.hidden_inline_form textarea,
-.hidden_inline_form select {
-  width: 30em;
-}
-
-/*************************************************************************
  * Positive / Negtive votes
  */
 
@@ -970,10 +841,6 @@ z-index: 2;
   background: none;
 }
 
-.initiative_link {
-  padding: 0.5ex 0.5em;
-}
-
 .initiative_link.selected {
   font-weight: bold;
 }
@@ -1034,7 +901,7 @@ z-index: 2;
   border-radius: 7px;
 }
 
-.member_thumb a{
+.member_thumb a {
   position: absolute;
   top: 0;
   left: 0;
@@ -1201,6 +1068,7 @@ z-index: 2;
 .slot_help_hidden {
   float: right;
   margin-right: 1em;
+  margin-top: 1ex;
 }
 
 .help_actions {

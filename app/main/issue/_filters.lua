@@ -18,7 +18,7 @@ filters[#filters+1] = {
   },
   {
     name = "accepted",
-    label = _"In discussion",
+    label = _"Discussion",
     selector_modifier = function(selector)
       selector:add_where("issue.accepted NOTNULL AND issue.half_frozen ISNULL AND issue.closed ISNULL")
     end

@@ -13,3 +13,6 @@ COMMENT ON COLUMN "session"."additional_secret" IS 'Additional field to store a 
 COMMENT ON COLUMN "session"."member_id"         IS 'Reference to member, who is logged in';
 COMMENT ON COLUMN "session"."lang"              IS 'Language code of the selected language';
 
+
+
+DELETE FROM "setting" WHERE key = 'tab_mode';

@@ -65,10 +65,21 @@ if app.session.member_id then
 
 end
 
-
-execute.view{
-  module = "area",
-  view = "show_tab",
-  params = { area = area }
-}
-
+if app.session.member then
+  execute.view{
+    module = "area",
+    view = "show_tab",
+    params = { area = area }
+  }
+else
+  execute.view{
+    module = "issue",
+    view = "_list",
+    params = {
+      issues_selector = area:get_reference_selector("issues"),
+      filter = cgi.params["filter"],
+      filter_voting = param.get("filter_voting"),
+      for_area_list = true
+    }
+  }
+end

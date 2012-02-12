@@ -12,9 +12,6 @@ if config.feature_rss_enabled then
   util.html_rss_head{ title = _"Initiatives in this issue (last updated first)", module = "initiative", view = "list_rss", params = { issue_id = issue.id, order = "last_updated" } }
 end
 
-slot.select("path", function()
-end)
-
 slot.select("title", function()
   ui.link{
     content = _("Issue ##{id}", { id = issue.id }),

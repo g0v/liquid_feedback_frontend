@@ -194,6 +194,7 @@ slot.select(slot_name, function()
     
             if not issue or (issue.state ~= "finished" and issue.state ~= "cancelled") then
               change_delegation(scope, unit_id, area_id, issue, delegation, initiative_id)
+              slot.put("<br style='clear: left'/>")
             end
 
             for i, record in ipairs(delegation_chain) do
