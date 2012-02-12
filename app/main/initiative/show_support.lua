@@ -44,14 +44,14 @@ ui.partial{
         if not initiative.issue.fully_frozen and not initiative.issue.closed then
           if supporter then
             if not supporter:has_critical_opinion() then
-              ui.tag{ content = function()
+              ui.tag{ attr = { class = "supporter" }, content = function()
                 ui.image{
                   static = "icons/16/thumb_up_green.png"
                 }
                 slot.put(_"Your are supporter")
               end }
             else
-              ui.tag{ content = function()
+              ui.tag{ attr = { class = "potential_supporter" }, content = function()
                 ui.image{
                   static = "icons/16/thumb_up.png"
                 }

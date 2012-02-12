@@ -18,7 +18,6 @@ end
 ui.add_partial_param_names{ "member_list" }
 
 local filter = {
-  label = _"Order by",
   name = "member_list",
   {
     name = "name",

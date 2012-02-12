@@ -3,7 +3,6 @@ local filters = {}
 -- FIXME: the filter should be named like the corresponding issue.state value
 
 filters[#filters+1] = {
-  label = _"Filter",
   name = "filter",
   {
     name = "open",
@@ -63,36 +62,7 @@ filters[#filters+1] = {
 }
 
 
-if app.session.member and param.get("filter") == "frozen" then
-  filters[#filters+1] = {
-    label = _"Filter",
-    name = "filter_voting",
-    {
-      name = "any",
-      label = _"Any",
-      selector_modifier = function()  end
-    },
-    {
-      name = "not_voted",
-      label = _"Not voted",
-      selector_modifier = function(selector)
-        selector:left_join("direct_voter", nil, { "direct_voter.issue_id = issue.id AND direct_voter.member_id = ?", app.session.member.id })
-        selector:add_where("direct_voter.member_id ISNULL")
-      end
-    },
-    {
-      name = "voted",
-      label = _"Voted",
-      selector_modifier = function(selector)
-        selector:join("direct_voter", nil, { "direct_voter.issue_id = issue.id AND direct_voter.member_id = ?", app.session.member.id })
-      end
-    },
-  }
-end
-
-
 filters[#filters+1] = {
-  label = _"Filter",
   name = "filter_interest",
   {
     name = "any",
@@ -130,44 +100,64 @@ filters[#filters+1] = {
 }
 
 if not param.get("no_sort", atom.boolean) then
+  
+  local filter = { name = "order" }
+  
+  local text = _"Time left"
+  if f == "finished" or f == "cancelled" then
+    text = _"Recently closed"
+  end
+  filter[#filter+1] = {
+    name = "state_time",
+    label = text,
+    selector_modifier = function(selector)
+      selector:add_order_by("issue.closed DESC, coalesce(issue.fully_frozen + issue.voting_time, issue.half_frozen + issue.verification_time, issue.accepted + issue.discussion_time, issue.created + issue.admission_time) - now()")
+    end
+  }
+
+  filter[#filter+1] = {
+    name = "max_potential_support",
+    label = _"Supporter count",
+    selector_modifier = function(selector)
+      selector:add_order_by("(SELECT max(supporter_count) FROM initiative WHERE initiative.issue_id = issue.id) DESC")
+    end
+  }
+  
+  filter[#filter+1] =  {
+    name = "newest",
+    label = _"Newest",
+    selector_modifier = function(selector)
+      selector:add_order_by("issue.created DESC")
+    end
+  }
+  
+  filters[#filters+1] = filter
+  
+end
+
+if app.session.member and param.get("filter") == "frozen" then
   filters[#filters+1] = {
-    label = _"Order by",
-    name = "issue_list",
+    name = "filter_voting",
     {
-      name = "max_potential_support",
-      label = _"Max potential support",
+      name = "any",
+      label = _"Any",
+      selector_modifier = function()  end
+    },
+    {
+      name = "not_voted",
+      label = _"Not voted",
       selector_modifier = function(selector)
-        selector:add_order_by("(SELECT max(supporter_count) FROM initiative WHERE initiative.issue_id = issue.id) DESC")
+        selector:left_join("direct_voter", nil, { "direct_voter.issue_id = issue.id AND direct_voter.member_id = ?", app.session.member.id })
+        selector:add_where("direct_voter.member_id ISNULL")
       end
     },
     {
-      name = "max_support",
-      label = _"Max support",
+      name = "voted",
+      label = _"Voted",
       selector_modifier = function(selector)
-        selector:add_order_by("(SELECT max(satisfied_supporter_count) FROM initiative WHERE initiative.issue_id = issue.id) DESC")
+        selector:join("direct_voter", nil, { "direct_voter.issue_id = issue.id AND direct_voter.member_id = ?", app.session.member.id })
       end
     },
-    {
-      name = "population",
-      label = _"Population",
-      selector_modifier = function(selector)
-        selector:add_order_by("issue.population DESC")
-      end
-    },
-    {
-      name = "newest",
-      label = _"Newest",
-      selector_modifier = function(selector)
-        selector:add_order_by("issue.created DESC")
-      end
-    },
-    {
-      name = "oldest",
-      label = _"Oldest",
-      selector_modifier = function(selector)
-        selector:add_order_by("issue.created")
-      end
-    }
   }
 end
 

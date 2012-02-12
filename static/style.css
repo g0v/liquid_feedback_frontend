@@ -369,13 +369,13 @@ form.unit_selector {
 }
 
 .interest .head_active,
-.slot_support .head_potential_supporter{
+.actions .potential_supporter{
   background-color: #fec;
   box-shadow: #fff 0px 0px 10px 1px;
   border-radius: 5px;
 }
 
-.slot_support .head_supporter {
+.actions .supporter {
   background-color: #dfc;
   box-shadow: #fff 0px 0px 10px 1px;
   border-radius: 5px;
@@ -408,6 +408,10 @@ form.unit_selector {
   margin-top: 3ex;
   font-style: italic;
   font-size: 80%;
+}
+
+.slot_actions .change_delegation {
+  float: left;
 }
 
 .vote_info .close {
@@ -630,23 +634,34 @@ form.unit_selector {
  * ui.filters
  */
 
+.ui_filter {
+  overflow: hidden;
+}
+
 .ui_filter_closed_head,
 .ui_filter_head {
   color: #777;
   margin-top: 1ex;
   margin-bottom: 1.5ex;
   font-size: 75%;
+  float: left;
+}
+
+.ui_filter_head {
+  margin-right: 2em;
 }
 
 .ui_filter_head a {
   color: #777;
   padding: 0.5ex;
+  margin-right: 0.2em;
 }
 
 .ui_filter_head a.active {
   color: #fff;
   background-color: #777;
   padding: 0.5ex;
+  border-radius: 5px;
 }
 
 /*************************************************************************
@@ -654,6 +669,7 @@ form.unit_selector {
  */
 
 .ui_paginate_head {
+  display: none;
   margin-bottom: 1ex;
 }
 
@@ -662,7 +678,7 @@ form.unit_selector {
 }
 
 .ui_paginate_select a {
-  padding: 0.5ex;
+  padding: 0.5em;
 }
 
 /*************************************************************************
