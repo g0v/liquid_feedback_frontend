@@ -2,27 +2,22 @@ slot.put_into("app_name", config.app_title)
 
 slot.select('navigation', function()
 
-  if app.session.member then
-    ui.link{
---      image  = { static = "icons/16/house.png" },
-      text   = _"Home",
-      module = 'index',
-      view   = 'index'
-    }
-  end
+  ui.link{
+    text   = _"Home",
+    module = 'index',
+    view   = 'index'
+  }
 
-  if app.session.member or config.public_access then
+  if app.session.member then
 
     if not config.single_unit_id then
       ui.link{
---        image  = { static = "icons/16/package.png" },
         text   = _"Units",
         module = 'unit',
         view   = 'list'
       }
     else
       ui.link{
---        image  = { static = "icons/16/package.png" },
         text   = _"Areas",
         module = 'area',
         view   = 'list'
@@ -32,7 +27,6 @@ slot.select('navigation', function()
 
   if app.session.member == nil then
     ui.link{
---      image  = { static = "icons/16/key.png" },
       text   = _"Login",
       module = 'index',
       view   = 'login',
@@ -43,19 +37,16 @@ slot.select('navigation', function()
       }
     }
     ui.link{
---      image  = { static = "icons/16/book_edit.png" },
       text   = _"Registration",
       module = 'index',
       view   = 'register'
     }
     ui.link{
---      image  = { static = "icons/16/key_forgot.png" },
       text   = _"Reset password",
       module = 'index',
       view   = 'reset_password'
     }
     ui.link{
---      image  = { static = "icons/16/information.png" },
       text   = _"About / Impressum",
       module = 'index',
       view   = 'about'
@@ -63,14 +54,12 @@ slot.select('navigation', function()
   else 
 
     ui.link{
---      image  = { static = "icons/16/time.png" },
       text   = _"Timeline",
       module = "timeline",
       view   = "index"
     }
 
     ui.link{
---      image  = { static = "icons/16/group.png" },
       text   = _"Members",
       module = 'member',
       view   = 'list',
@@ -78,7 +67,6 @@ slot.select('navigation', function()
     }
 
     ui.link{
---      image  = { static = "icons/16/book_edit.png" },
       text   = _"Contacts",
       module = 'contact',
       view   = 'list'
@@ -91,7 +79,6 @@ slot.select('navigation', function()
     }
 
     ui.link{
---      image  = { static = "icons/16/information.png" },
       text   = _"About",
       module = 'index',
       view   = 'about'
@@ -103,7 +90,6 @@ slot.select('navigation', function()
 
       ui.link{
         attr   = { class = { "admin_only" } },
---        image  = { static = "icons/16/cog.png" },
         text   = _"Admin",
         module = 'admin',
         view   = 'index'

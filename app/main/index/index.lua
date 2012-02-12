@@ -44,18 +44,34 @@ end)
 
 slot.put_into("title", encode.html(config.app_title))
 
-if app.session.member then
-  app.html_title.title = app.session.member.name
+if app.session.member_id then
+  util.help("index.index", _"Home")
+
+  execute.view{
+    module = "member",
+    view = "_show",
+    params = {
+      member = app.session.member,
+      show_as_homepage = true
+    }
+  }
+
+elseif config.public_access then
+  if config.motd_public then
+    local help_text = config.motd_public
+    ui.container{
+      attr = { class = "wiki motd" },
+      content = function()
+        slot.put(format.wiki_text(help_text))
+      end
+    }
+  end
+  
+  execute.view{ module = "unit", view = "_list" }
+  
+else
+
+  ui.tag{ content = _"Closed user group, please login to participate." }
+
 end
 
-
-util.help("index.index", _"Home")
-
-execute.view{
-  module = "member",
-  view = "_show",
-  params = {
-    member = app.session.member,
-    show_as_homepage = true
-  }
-}

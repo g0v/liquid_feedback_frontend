@@ -1,7 +1,8 @@
 local auth_needed = not (
   request.get_module() == 'index'
   and (
-       request.get_view()   == "login"
+       request.get_view()   == "index"
+    or request.get_view()   == "login"
     or request.get_action() == "login"
     or request.get_view()   == "register"
     or request.get_action() == "register"
@@ -18,24 +19,13 @@ local auth_needed = not (
 if config.public_access then
 
   if
-    request.get_module() == "unit" and (
-     request.get_view() == "list"
-     or request.get_view() == "show"
-     or request.get_view() == "show_tab"
-    )
-    or request.get_module() == "area" and (
-     request.get_view() == "list"
-     or request.get_view() == "show"
-     or request.get_view() == "show_tab"
+    request.get_module() == "area" and (
+     request.get_view() == "list" or request.get_view() == "show"
     )
     or request.get_module() == "policy" and request.get_view() == "show"
     or request.get_module() == "policy" and request.get_view() == "list"
     or request.get_module() == "issue" and request.get_view() == "show"
-    or request.get_module() == "issue" and request.get_view() == "show_tab"
     or request.get_module() == "initiative" and request.get_view() == "show"
-    or request.get_module() == "initiative" and request.get_view() == "show_partial"
-    or request.get_module() == "initiative" and request.get_view() == "show_tab"
-    or request.get_module() == "initiative" and request.get_view() == "show.rss"
     or request.get_module() == "suggestion" and request.get_view() == "show"
     or request.get_module() == "draft" and request.get_view() == "diff"
   then

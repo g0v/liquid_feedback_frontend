@@ -161,37 +161,26 @@ tabs[#tabs+1] = {
   params = { areas_selector = areas_selector, member = member },
 }
 
-local issues_selector = member:get_reference_selector("issues")
+local issues_selector = Issue:new_selector()
 tabs[#tabs+1] = {
   name = "issues",
   label = _"Issues" .. " (" .. tostring(issues_selector:count()) .. ")",
   icon = { static = "icons/16/folder.png" },
   module = "issue",
   view = "_list",
-  params = { issues_selector = issues_selector },
+  params = { issues_selector = issues_selector, filter_interest = "my" },
 }
-
-local supported_initiatives_selector = member:get_reference_selector("supported_initiatives")
-
+  
+local outgoing_delegations_selector = member:get_reference_selector("outgoing_delegations")
+  :left_join("issue", "_member_showtab_issue", "_member_showtab_issue.id = delegation.issue_id")
+  :add_where("_member_showtab_issue.closed ISNULL")
 tabs[#tabs+1] = {
-  name = "supported_initiatives",
-  label = _"Supported" .. " (" .. tostring(supported_initiatives_selector:count()) .. ")",
-  icon = { static = "icons/16/thumb_up_green.png" },
-  module = "member",
-  view = "_list_supported_initiatives",
-  params = { initiatives_selector = supported_initiatives_selector,
-             member = member },
-}
-
-local initiated_initiatives_selector = member:get_reference_selector("initiated_initiatives"):add_where("initiator.accepted = true")
-tabs[#tabs+1] = {
-  name = "initiatied_initiatives",
-  label = _"Initiated" .. " (" .. tostring(initiated_initiatives_selector:count()) .. ")",
-  icon = { static = "icons/16/user_edit.png" },
-  module = "member",
-  view = "_list_supported_initiatives",
-  params = { initiatives_selector = initiated_initiatives_selector, 
-             member = member},
+  name = "outgoing_delegations",
+  label = _"Outgoing delegations" .. " (" .. tostring(outgoing_delegations_selector:count()) .. ")",
+  icon = { static = "icons/16/table_go.png" },
+  module = "delegation",
+  view = "_list",
+  params = { delegations_selector = outgoing_delegations_selector, outgoing = true },
 }
 
 local incoming_delegations_selector = member:get_reference_selector("incoming_delegations")
@@ -204,18 +193,6 @@ tabs[#tabs+1] = {
   module = "delegation",
   view = "_list",
   params = { delegations_selector = incoming_delegations_selector, incoming = true },
-}
-
-local outgoing_delegations_selector = member:get_reference_selector("outgoing_delegations")
-  :left_join("issue", "_member_showtab_issue", "_member_showtab_issue.id = delegation.issue_id")
-  :add_where("_member_showtab_issue.closed ISNULL")
-tabs[#tabs+1] = {
-  name = "outgoing_delegations",
-  label = _"Outgoing delegations" .. " (" .. tostring(outgoing_delegations_selector:count()) .. ")",
-  icon = { static = "icons/16/table_go.png" },
-  module = "delegation",
-  view = "_list",
-  params = { delegations_selector = outgoing_delegations_selector, outgoing = true },
 }
 
 local contacts_selector = member:get_reference_selector("saved_members"):add_where("public")

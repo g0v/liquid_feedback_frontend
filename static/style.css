@@ -636,6 +636,7 @@ form.unit_selector {
 
 .ui_filter {
   overflow: hidden;
+  margin-bottom: 1ex;
 }
 
 .ui_filter_closed_head,

@@ -32,10 +32,8 @@ if not show_filter then
 end
 
 ui_filters{
-  label = _"Show filter",
   selector = suggestions_selector,
   {
-    label = _"Order by",
     {
       name = "plus_unfulfilled",
       label = _"requested",

@@ -5,11 +5,9 @@ local filters = {}
 filters[#filters+1] = {
   name = "filter",
   {
-    name = "open",
-    label = _"Open",
-    selector_modifier = function(selector)
-        selector:add_where("issue.closed ISNULL")
-    end
+    name = "any",
+    label = _"Any state",
+    selector_modifier = function(selector) end
   },
   {
     name = "new",
@@ -53,12 +51,7 @@ filters[#filters+1] = {
     selector_modifier = function(selector)
       selector:add_where("issue.closed NOTNULL AND issue.fully_frozen ISNULL")
     end
-  },
-  {
-    name = "any",
-    label = _"Any",
-    selector_modifier = function(selector) end
-  },
+  }
 }
 
 
@@ -94,7 +87,7 @@ filters[#filters+1] = {
     name = "initiated",
     label = _"Initiated",
     selector_modifier = function(selector)
-      selector:add_where({ "EXISTS (SELECT 1 FROM initiative JOIN initiator ON initiator.initiative_id = initiative.id AND initiator.member_id = ? WHERE initiative.issue_id = issue.id)", app.session.member.id })
+      selector:add_where({ "EXISTS (SELECT 1 FROM initiative JOIN initiator ON initiator.initiative_id = initiative.id AND initiator.member_id = ? AND initiator.accepted WHERE initiative.issue_id = issue.id)", app.session.member.id })
     end
   },
 }
@@ -104,6 +97,7 @@ if not param.get("no_sort", atom.boolean) then
   local filter = { name = "order" }
   
   local text = _"Time left"
+  local f = param.get_all_cgi()["filter"]
   if f == "finished" or f == "cancelled" then
     text = _"Recently closed"
   end
@@ -115,19 +109,19 @@ if not param.get("no_sort", atom.boolean) then
     end
   }
 
+  filter[#filter+1] =  {
+    name = "latest",
+    label = _"Latest",
+    selector_modifier = function(selector)
+      selector:add_order_by("issue.created DESC")
+    end
+  }
+  
   filter[#filter+1] = {
     name = "max_potential_support",
     label = _"Supporter count",
     selector_modifier = function(selector)
       selector:add_order_by("(SELECT max(supporter_count) FROM initiative WHERE initiative.issue_id = issue.id) DESC")
-    end
-  }
-  
-  filter[#filter+1] =  {
-    name = "newest",
-    label = _"Newest",
-    selector_modifier = function(selector)
-      selector:add_order_by("issue.created DESC")
     end
   }
   

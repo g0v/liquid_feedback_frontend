@@ -30,24 +30,26 @@ slot.select("initiative_head", function()
     attr = { class = "initiative_name" },
     content = _("Initiative i#{id}: #{name}", { id = initiative.id, name = initiative.name })
   }
-  ui.tag{
-    attr = { class = "initiator_names" },
-    content = function()
-      ui.tag{ content = _"by" }
-      slot.put(" ")
-      for i, initiator in ipairs(initiators) do
-        if i == #initiators and i > 1 then
-          slot.put(" ", _"and", " ")
-        elseif i > 1 then
-          slot.put(", ")
+  if app.session.member_id or config.public_access == "pseudonym" or config.public_access == "full" then
+    ui.tag{
+      attr = { class = "initiator_names" },
+      content = function()
+        ui.tag{ content = _"by" }
+        slot.put(" ")
+        for i, initiator in ipairs(initiators) do
+          if i == #initiators and i > 1 then
+            slot.put(" ", _"and", " ")
+          elseif i > 1 then
+            slot.put(", ")
+          end
+          ui.link{
+            text = initiator.name,
+            module = "member", view = "show", id = initiator.id
+          }
         end
-        ui.link{
-          text = initiator.name,
-          module = "member", view = "show", id = initiator.id
-        }
       end
-   end
-   }
+    }
+  end
 
   if initiator and initiator.accepted and not initiative.issue.fully_frozen and not initiative.issue.closed and not initiative.revoked then
     slot.put(" &middot; ")

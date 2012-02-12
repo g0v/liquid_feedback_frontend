@@ -3,7 +3,7 @@ local initiative = param.get("initiative", "table")
 
 if initiator and initiator.accepted and not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked then
   ui.link{
-    attr = { style = "float: right;" },
+    attr = { class = "actions" },
     content = function()
       ui.image{ static = "icons/16/script_add.png" }
       slot.put(_"Edit draft")
@@ -16,7 +16,7 @@ end
 
 if initiator and initiator.accepted and not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked then
   ui.link{
-    attr = { class = "action", style = "float: right;" },
+    attr = { class = "actions" },
     content = function()
       ui.image{ static = "icons/16/script_delete.png" }
       slot.put(_"Revoke initiative")
