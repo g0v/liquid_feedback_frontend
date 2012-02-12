@@ -10,6 +10,20 @@ end
 
 local initiators = initiators_members_selector:exec()
 
+
+local initiatives_selector = initiative.issue:get_reference_selector("initiatives")
+slot.select("initiatives_list", function()
+  execute.view{
+    module = "initiative",
+    view = "_list",
+    params = {
+      issue = initiative.issue,
+      initiatives_selector = initiatives_selector,
+      no_sort = true, highlight_initiative = initiative, limit = 3
+    }
+  }
+end)
+
 slot.select("initiative_head", function()
 
   ui.container{
@@ -32,8 +46,8 @@ slot.select("initiative_head", function()
           module = "member", view = "show", id = initiator.id
         }
       end
-    end
-  }
+   end
+   }
 
   if initiator and initiator.accepted and not initiative.issue.fully_frozen and not initiative.issue.closed and not initiative.revoked then
     slot.put(" &middot; ")

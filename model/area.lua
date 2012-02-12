@@ -69,10 +69,10 @@ end
 function Area:build_selector(args)
   local selector = Area:new_selector()
   if args.active ~= nil then
-    selector:add_where{ "active = ?", args.active }
+    selector:add_where{ "area.active = ?", args.active }
   end
   if args.unit_id ~= nil then
-    selector:add_where{ "unit_id = ?", args.unit_id }
+    selector:add_where{ "area.unit_id = ?", args.unit_id }
   end
   return selector
 end

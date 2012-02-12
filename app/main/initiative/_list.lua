@@ -4,6 +4,8 @@ local issue = param.get("issue", "table")
 
 local initiatives_selector = param.get("initiatives_selector", "table")
 
+local highlight_initiative = param.get("highlight_initiative", "table")
+
 initiatives_selector
   :join("issue", nil, "issue.id = initiative.issue_id")
 
@@ -150,7 +152,7 @@ if not show_for_initiative or initiatives_count > 1 then
     if issue.ranks_available then
       initiatives_selector:add_order_by("initiative.rank, initiative.admitted DESC, vote_ratio(initiative.positive_votes, initiative.negative_votes) DESC, initiative.id")
     else
-      initiatives_selector:add_order_by("CASE WHEN issue.population = 0 THEN 0 ELSE initiative.supporter_count::float / issue.population::float END DESC, initiative.id")
+      initiatives_selector:add_order_by("CASE WHEN issue.population = 0 OR initiative.supporter_count = 0 OR initiative.supporter_count ISNULL THEN 0 ELSE initiative.supporter_count::float / issue.population::float END DESC, initiative.id")
     end
   end
 
@@ -162,9 +164,23 @@ if not show_for_initiative or initiatives_count > 1 then
       ui.paginate{
         name = issue and "issue_" .. tostring(issue.id) .. "_page" or nil,
         selector = initiatives_selector,
-        per_page = param.get("per_page", atom.number),
+        per_page = param.get("per_page", atom.number) or limit,
         content = function()
           local initiatives = initiatives_selector:exec()
+          if highlight_initiative then
+            local highlight_initiative_found
+            for i, initiative in ipairs(initiatives) do
+              if initiative.id == highlight_initiative.id then
+                highhighlight_initiative_found = true
+              end
+            end
+            if not highhighlight_initiative_found then
+              initiatives[#initiatives+1] = highlight_initiative
+              if more_initiatives_count then
+                more_initiatives_count = more_initiatives_count - 1
+              end
+            end
+          end
           for i, initiative in ipairs(initiatives) do
             local expanded = config.user_tab_mode == "accordeon_all_expanded" and expandable or
               show_for_initiative and initiative.id == show_for_initiative.id
@@ -176,6 +192,7 @@ if not show_for_initiative or initiatives_count > 1 then
               view = "_list_element",
               params = {
                 initiative = initiative,
+                selected = highlight_initiative and highlight_initiative.id == initiative.id or nil,
                 expanded = expanded,
                 expandable = expandable
               }
@@ -187,9 +204,15 @@ if not show_for_initiative or initiatives_count > 1 then
   }
 
   if more_initiatives_count then
+    local text
+    if more_initiatives_count == 1 then
+      text = _("and one more initiative")
+    else
+      text = _("and #{count} more initiatives", { count = more_initiatives_count })
+    end
     ui.link{
-      attr = { style = "font-size: 75%; font-style: italic;" },
-      content = _("and #{count} more initiatives", { count = more_initiatives_count }),
+      attr = { class = "more_initiatives_link" },
+      content = text,
       module = "issue",
       view = "show",
       id = issue.id,

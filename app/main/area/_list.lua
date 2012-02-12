@@ -18,7 +18,12 @@ if app.session.member_id then
     :add_field({ "(SELECT COUNT(*) FROM issue LEFT JOIN direct_voter ON direct_voter.issue_id = issue.id AND direct_voter.member_id = ? WHERE issue.area_id = area.id AND issue.fully_frozen NOTNULL AND issue.closed ISNULL AND direct_voter.member_id ISNULL)", app.session.member.id }, "issues_to_vote_count")
     :left_join("membership", "_membership", { "_membership.area_id = area.id AND _membership.member_id = ?", app.session.member.id })
     :add_field("_membership.member_id NOTNULL", "is_member", { "grouped" })
-    :add_field({ "(SELECT member.name FROM delegation LEFT JOIN member ON delegation.trustee_id = member.id WHERE delegation.scope = 'area' AND delegation.area_id = area.id AND truster_id = ?)", app.session.member.id }, "area_delegation_name")
+    :left_join("delegation", nil, {
+      "delegation.truster_id = ? AND delegation.area_id = area.id AND delegation.scope = 'area'", app.session.member_id
+    })
+    :left_join("member", nil, "member.id = delegation.trustee_id")
+    :add_field("member.id", "trustee_member_id", { "grouped" })
+    :add_field("member.name", "trustee_member_name", { "grouped" })
 else
   areas_selector:add_field("0", "issues_to_vote_count")
 end
@@ -43,11 +48,19 @@ ui.list{
     },
     {
       content = function(record)
-        if record.area_delegation_name then
-          local text = _("Area delegated to '#{name}'", { name = record.area_delegation_name })
-          ui.image{
-            attr = { title = text, alt = text, style = "vertical-align: middle;" },
-            static = "icons/16/link.png",
+        if record.trustee_member_id then
+          local trustee_member = Member:by_id(record.trustee_member_id)
+          local text = _("Area delegated to '#{name}'", { name = record.trustee_member_name })
+          execute.view{
+            module = "member_image",
+            view = "_show",
+            params = {
+              member = trustee_member,
+              image_type = "avatar",
+              show_dummy = true,
+              class = "micro_avatar",
+              popup_text = text
+            }
           }
         end
       end
@@ -218,7 +231,7 @@ ui.list{
     },
   }
 }
-
+--[[
 ui.bargraph_legend{
   width = 25,
   bars = {
@@ -296,3 +309,4 @@ ui.image{
 slot.put(" ")
 slot.put(_"Cancelled")
 
+--]]

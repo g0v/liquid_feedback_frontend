@@ -1,4 +1,5 @@
 local initiative = param.get("initiative", "table")
+local selected = param.get("selected", atom.boolean)
 local expanded = param.get("expanded", atom.boolean)
 local expandable = param.get("expandable", atom.boolean)
 
@@ -127,9 +128,18 @@ ui.container{
             {
               field_attr = { style = "padding: 0;"},
               content = function()
-                local link_class
+                local link_class = "initiative_link"
                 if initiative.revoked then
                   link_class = "revoked"
+                end
+                if selected then
+                  link_class = link_class .. " selected"
+                end
+                if initiative.is_supporter then
+                  link_class = link_class .. " supported"
+                end
+                if initiative.is_potential_supporter then
+                  link_class = link_class .. " potentially_supported"
                 end
                 ui.link{
                   attr = { id = link_name, class = link_class },
@@ -140,6 +150,7 @@ ui.container{
                     else
                       name = encode.html(initiative.shortened_name)
                     end
+                    ui.tag{ content = "i" .. initiative.id .. ": " }
                     slot.put(name)
                   end,
                   module  = module,
@@ -148,27 +159,6 @@ ui.container{
                   params  = params,
                 }
     
-                if initiative.issue.state == "new" then
-                  ui.image{
-                    static = "icons/16/new.png"
-                  }
-                end
-                if initiative.is_supporter then
-                  slot.put("&nbsp;")
-                  local label = _"You are supporting this initiative"
-                  ui.image{
-                    attr = { alt = label, title = label },
-                    static = "icons/16/thumb_up_green.png"
-                  }
-                end
-                if initiative.is_potential_supporter then
-                  slot.put("&nbsp;")
-                  local label = _"You are potential supporter of this initiative"
-                  ui.image{
-                    attr = { alt = label, title = label },
-                    static = "icons/16/thumb_up.png"
-                  }
-                end
                 if initiative.is_initiator then
                   slot.put("&nbsp;")
                   local label = _"You are initiator of this initiative"

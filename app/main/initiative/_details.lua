@@ -1,12 +1,12 @@
 local initiative = param.get("initiative", "table")
 
+ui.container{ content = _"Initiative details" }
+
 ui.form{
   attr = { class = "vertical" },
   record = initiative,
   readonly = true,
   content = function()
-    local policy = initiative.issue.policy
-    ui.field.text{ label = _"Issue policy", value = initiative.issue.policy.name }
     ui.field.text{
       label = _"Created at",
       value = tostring(initiative.created)
@@ -17,17 +17,10 @@ ui.form{
          value = format.timestamp(initiative.revoked)
        }
     end
-    ui.field.text{
-      label   = _"Initiative quorum",
-      value = format.percentage(policy.initiative_quorum_num / policy.initiative_quorum_den)
-    }
-    if initiative.issue.population then
-      ui.field.text{
-        label   = _"Currently required",
-        value = math.ceil(initiative.issue.population * (policy.initiative_quorum_num / policy.initiative_quorum_den)),
-      }
-    end
-  -- ui.field.date{ label = _"Revoked at", name = "revoked" }
     ui.field.boolean{ label = _"Admitted", name = "admitted" }
   end
 }
+
+ui.container{ content = _"Issue details" }
+
+execute.view{ module = "issue", view = "_details", params = { issue = initiative.issue } }

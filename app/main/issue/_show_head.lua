@@ -46,19 +46,6 @@ slot.select("title2", function()
     tag = "div",
     content = function()
     
-      local initiative_count = issue:get_reference_selector("initiatives"):count()
-      local text
-      if initiative_count == 1 then
-        text = _("1 initiative", { count = initiative_count })
-      else
-        text = _("#{count} initiatives", { count = initiative_count })
-      end
-      ui.link{
-        text = text,
-        module = "issue", view = "show", id = issue.id
-      }
-      
-      slot.put(" &middot; ")
       ui.link{
         text = issue.policy.name,
         module = "policy",
@@ -74,10 +61,6 @@ slot.select("title2", function()
         ui.tag{ content = _("#{time_left} left", { time_left = issue.state_time_left }) }
       end
 
-      if issue.next_states_names then
-        slot.put(" &middot; ")
-        ui.tag{ content = _("Next state: #{state}", { state = issue.next_states_names }) }
-      end
     end
   }
 
