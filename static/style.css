@@ -32,7 +32,7 @@ table {
 }
 
 td, th {
-  padding: 0.5ex 0.5em 0.5ex 0.5em;
+  padding: 0.5ex 0.5em 0.5ex 0em;
 }
 
 td {
@@ -41,7 +41,6 @@ td {
 
 th {
   vertical-align: bottom;
-  font-size: 75%;
   font-weight: bold;
 }
 
@@ -113,7 +112,10 @@ h2 {
  */
 
 .topbar {
-  background-color: #444;
+  background-color: #000;
+  background: -webkit-gradient(linear, left top, left bottom, 
+    color-stop(0%, #888), color-stop(25%,#333)
+  );
   color: #fff;
   font-size: 90%;
   line-height: 100%;
@@ -199,7 +201,7 @@ form.unit_selector {
 .title {
   background-color: #ddd;
   background: -webkit-gradient(linear, left top, left bottom, 
-    color-stop(0%,#ddd), color-stop(100%,#fff)                           
+    color-stop(15%,#ddd), color-stop(100%,#fff)                           
   );
   text-shadow: #fff 0px 0px 3px;
   color: #000;
@@ -261,10 +263,10 @@ form.unit_selector {
 .slot_initiative_head  {
   background: -webkit-gradient(linear, left top, left bottom, 
     /*color-stop(0%,#AFEFB9), color-stop(100%,#ffffff)                           */
-    color-stop(0%,#e7e7e7), color-stop(100%,#fff)                           
+    color-stop(0%, #fff), color-stop(15%,#e7e7e7), color-stop(100%,#fff)                           
   ); 
   padding-left: 1em;
-  padding-top: 2ex;
+  padding-top: 1ex;
   text-shadow: #fff 0px 0px 3px;
 }
 
@@ -339,12 +341,14 @@ form.unit_selector {
   padding-right: 0.2em;
 }
 .actions .supporter,
+.actions .potential_supporter,
 .vote_info .head {
   float: left;
   margin-right: 1em;
 }
 
 .actions .supporter,
+.actions .potential_supporter,
 .actions .interest .head {
   padding-right: 0.3em;
 }
@@ -798,18 +802,14 @@ tr table tr:hover td {
  */
 
 .issues .issue {
-  xborder: 1px solid #ccc;
   overflow: hidden;
   margin-bottom: 2ex;
   border-radius: 8px;
 }
 
 .issues .issue .issue_info {
-  xfloat: left;
-  xwidth: 25%;
   padding: 1ex;
   line-height: 140%;
-  xoverflow: hidden;
   background: -webkit-gradient(linear, left top, left bottom,
     color-stop(0%,#e7e7e7), color-stop(33%, #f7f7f7), color-stop(66%,#fff));
 }
@@ -1128,8 +1128,6 @@ a.not_voted {
   display: block;
   font-size: 120%;
   font-weight: bold;
-  margin-top: 2ex;
-  margin-bottom: 1ex;
 }
 
 .heading.first {

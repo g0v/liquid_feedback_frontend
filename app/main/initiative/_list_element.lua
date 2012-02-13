@@ -1,7 +1,5 @@
 local initiative = param.get("initiative", "table")
 local selected = param.get("selected", atom.boolean)
-local expanded = param.get("expanded", atom.boolean)
-local expandable = param.get("expandable", atom.boolean)
 
 local head_name = "initiative_head_" ..    tostring(initiative.id)
 local link_name = "initiative_link_" ..    tostring(initiative.id)
@@ -11,43 +9,6 @@ local icon_name = "initiative_icon_" ..    tostring(initiative.id)
 ui.container{
   attr = { class = "ui_tabs" .. (initiative.id == for_initiative_id and " active" or "") },
   content = function()
-    local web20 = config.user_tab_mode == "accordeon"
-      or config.user_tab_mode == "accordeon_first_expanded"
-      or config.user_tab_mode == "accordeon_all_expanded"
-    local onclick
-    if web20 then
-      if expandable then
-      onclick = 
-        'if (lf_initiative_expanded["' .. name .. '"]) {' ..
-          'lf_initiative_expanded["' .. name .. '"]=false;' ..
-          'document.getElementById("' .. name .. '_content").innerHTML="&nbsp;";' ..
-          'document.getElementById("' .. name .. '").style.display="none";' ..
-        '} else {' ..
-          'lf_initiative_expanded["' .. name .. '"] = true;' ..
-          'document.getElementById("' .. name .. '").style.display="block"; ' ..
-          'var hourglass_el = document.getElementById("' .. icon_name .. '");' ..
-          'var hourglass_src = hourglass_el.src;' ..
-          'hourglass_el.src = "' .. encode.url{ static = "icons/16/connect.png" } .. '";' ..
-          'partialMultiLoad(' ..
-            '{ trace: "trace", system_error: "system_error", ' .. name .. '_content: "default" },' ..
-            '{},' ..
-            '"error",' ..
-            '"' .. request.get_relative_baseurl() .. 'initiative/show_partial/' .. tostring(initiative.id) .. '.html?&_webmcp_json_slots[]=default&_webmcp_json_slots[]=support&_webmcp_json_slots[]=trace&_webmcp_json_slots[]=system_error",' ..
-            '{},' ..
-            '{},' ..
-            'function() {' ..
-              'hourglass_el.src = hourglass_src;' ..
-            '},' ..
-            'function() {' ..
-              'hourglass_el.src = hourglass_src;' ..
-            '}' ..
-          '); ' ..
-        '}' ..
-        'return(false);'
-      else
-        onclick = "document.location.href = document.getElementById('" .. link_name .. "').href;"
-      end
-    end
     local module = "initiative"
     local view = "show"
     local id = initiative.id
@@ -57,7 +18,6 @@ ui.container{
         name = name,
         class = "ui_tabs_accordeon_head",
         id = head_name,
-        onclick = onclick,
       },
       content = function()
 
@@ -70,16 +30,6 @@ ui.container{
               content = function()
                 if initiative.issue.accepted and initiative.issue.closed and initiative.issue.ranks_available or initiative.admitted == false then 
                   ui.field.rank{ image_attr = { id = icon_name }, attr = { class = "rank" }, value = initiative.rank }
-                elseif web20 then
-                  ui.image{
-                    attr = {
-                      width = 16,
-                      height = 16,
-                      id = icon_name,
-                      style = "float: left;"
-                    },
-                    static = "icons/16/script.png"
-                  }
                 else
                   slot.put("&nbsp;")
                 end
@@ -182,7 +132,6 @@ if ui.is_partial_loading_enabled() then
     attr = {
       id = name,
       class = "ui_tabs_accordeon_content",
-      style = not expanded and "display: none;" or nil
     },
     content = function()
       ui.container{
@@ -193,7 +142,6 @@ if ui.is_partial_loading_enabled() then
             view = "show_partial",
             params = {
               initiative = initiative,
-              expanded = expanded
             }
           }
         end

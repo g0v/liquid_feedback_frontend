@@ -26,6 +26,7 @@ ui.form{
   },
   attr = { class = "vertical" },
   content = function()
+    ui.field.text{ label = _"Unit",  value = area.unit.name }
     ui.field.text{ label = _"Area",  value = area.name }
     slot.put("<br />")
     if issue_id then

@@ -142,11 +142,7 @@ if initiative.admitted == false then
   }
 end
 
-local web20 = config.user_tab_mode == "accordeon"
-  or config.user_tab_mode == "accordeon_first_expanded"
-  or config.user_tab_mode == "accordeon_all_expanded"
-
-if not web20 and initiative.issue.state == "cancelled" then
+if initiative.issue.state == "cancelled" then
   local policy = initiative.issue.policy
   ui.container{
     attr = { class = "not_admitted_info" },
@@ -274,22 +270,14 @@ end
 
 
 if app.session.member_id then
-  ui.container{
-    attr = {
-      id = "initiative_" .. tostring(initiative.id) .. "_support"
-    },
-    content = function()
-      execute.view{
-        module = "initiative",
-        view = "show_support",
-        params = {
-          initiative = initiative
-        }
-      }
-    end
+  execute.view{
+    module = "supporter",
+    view = "_show_box",
+    params = {
+      initiative = initiative
+    }
   }
 end
-
 
 execute.view{
   module = "initiative",

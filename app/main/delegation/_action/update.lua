@@ -20,6 +20,7 @@ if param.get("delete") or trustee_id == -1 then
 
     delegation:destroy()
 
+--[[
     if issue_id then
       slot.put_into("notice", _"Your delegation for this issue has been deleted.")
     elseif area_id then
@@ -27,7 +28,7 @@ if param.get("delete") or trustee_id == -1 then
     else
       slot.put_into("notice", _"Your delegation for this unit has been deleted.")
     end
-
+--]]
   end
 
 else
@@ -53,7 +54,7 @@ else
   end
 
   delegation:save()
-
+--[[
   if issue_id then
     slot.put_into("notice", _"Your delegation for this issue has been updated.")
   elseif area_id then
@@ -61,6 +62,6 @@ else
   else
     slot.put_into("notice", _"Your delegation for this unit has been updated.")
   end
-
+--]]
 end
 

@@ -1,4 +1,5 @@
 local areas_selector = param.get("areas_selector", "table")
+local title = param.get("title", "function")
 
 areas_selector
   :reset_fields()
@@ -36,6 +37,7 @@ ui.list{
   records = areas_selector:exec(),
   columns = {
     {
+      label = title,
       content = function(record)
         if record.is_member then
           local text = _"Member of area"

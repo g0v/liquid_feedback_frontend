@@ -1,5 +1,3 @@
-ui.script{ script = "lf_initiative_expanded = {};" }
-
 local issue = param.get("issue", "table")
 
 local initiatives_selector = param.get("initiatives_selector", "table")
@@ -55,7 +53,6 @@ end
 
 
 if show_for_initiative then
-  ui.script{ script = "lf_initiative_expanded['initiative_content_" .. tostring(show_for_initiative.id) .. "'] = true;" }
   initiatives_selector:add_where{ "initiative.id != ?", show_for_initiative.id }
 
   execute.view{
@@ -63,8 +60,6 @@ if show_for_initiative then
     view = "_list_element",
     params = {
       initiative = show_for_initiative,
-      expanded = true,
-      expandable = true
     }
   }
   if show_for_issue then
@@ -96,8 +91,6 @@ if not show_for_initiative or initiatives_count > 1 then
     end
     initiatives_selector:limit(limit)
   end
-
-  local expandable = param.get("expandable", atom.boolean)
 
   local issue = param.get("issue", "table")
 
@@ -182,19 +175,12 @@ if not show_for_initiative or initiatives_count > 1 then
             end
           end
           for i, initiative in ipairs(initiatives) do
-            local expanded = config.user_tab_mode == "accordeon_all_expanded" and expandable or
-              show_for_initiative and initiative.id == show_for_initiative.id
-            if expanded then
-              ui.script{ script = "lf_initiative_expanded['initiative_content_" .. tostring(initiative.id) .. "'] = true;" }
-            end
             execute.view{
               module = "initiative",
               view = "_list_element",
               params = {
                 initiative = initiative,
                 selected = highlight_initiative and highlight_initiative.id == initiative.id or nil,
-                expanded = expanded,
-                expandable = expandable
               }
             }
           end

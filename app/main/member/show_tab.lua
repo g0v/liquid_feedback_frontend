@@ -154,7 +154,7 @@ end
 local areas_selector = member:get_reference_selector("areas")
 tabs[#tabs+1] = {
   name = "areas",
-  label = _"Areas" .. " (" .. tostring(areas_selector:count()) .. ")",
+  label = _"Areas",
   icon = { static = "icons/16/package.png" },
   module = "member",
   view = "_area_list",
@@ -164,7 +164,7 @@ tabs[#tabs+1] = {
 local issues_selector = Issue:new_selector()
 tabs[#tabs+1] = {
   name = "issues",
-  label = _"Issues" .. " (" .. tostring(issues_selector:count()) .. ")",
+  label = _"Issues",
   icon = { static = "icons/16/folder.png" },
   module = "issue",
   view = "_list",
