@@ -79,7 +79,7 @@ end
 
 function Area.object_get:name_with_unit_name()
   if not config.single_unit_id then
-    return self.unit.name .. " > " .. self.name
+    return self.unit.name .. ", " .. self.name
   else
     return self.name
   end

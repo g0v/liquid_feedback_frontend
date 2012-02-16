@@ -168,7 +168,7 @@ tabs[#tabs+1] = {
   icon = { static = "icons/16/folder.png" },
   module = "issue",
   view = "_list",
-  params = { issues_selector = issues_selector, filter_interest = "my" },
+  params = { issues_selector = issues_selector },
 }
   
 local outgoing_delegations_selector = member:get_reference_selector("outgoing_delegations")

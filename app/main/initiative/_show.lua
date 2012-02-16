@@ -3,8 +3,10 @@ local initiator = param.get("initiator", "table")
 
 local initiators_members_selector = initiative:get_reference_selector("initiating_members")
   :add_field("initiator.accepted", "accepted")
-
-if not (initiator and initiator.accepted) then
+  :add_order_by("member.name")
+if initiator and initiator.accepted then
+  initiators_members_selector:add_where("initiator.accepted ISNULL OR initiator.accepted")
+else
   initiators_members_selector:add_where("initiator.accepted")
 end
 
@@ -34,18 +36,32 @@ slot.select("initiative_head", function()
     ui.tag{
       attr = { class = "initiator_names" },
       content = function()
-        ui.tag{ content = _"by" }
-        slot.put(" ")
         for i, initiator in ipairs(initiators) do
-          if i == #initiators and i > 1 then
-            slot.put(" ", _"and", " ")
-          elseif i > 1 then
-            slot.put(", ")
-          end
+          slot.put(" ")
+          ui.link{
+            content = function ()
+              execute.view{
+                module = "member_image",
+                view = "_show",
+                params = {
+                  member = initiator,
+                  image_type = "avatar",
+                  show_dummy = true,
+                  class = "micro_avatar",
+                  popup_text = text
+                }
+              }
+            end,
+            module = "member", view = "show", id = initiator.id
+          }
+          slot.put(" ")
           ui.link{
             text = initiator.name,
             module = "member", view = "show", id = initiator.id
           }
+          if not initiator.accepted then
+            ui.tag{ attr = { title = _"Not accepted yet" }, content = "?" }
+          end
         end
       end
     }
@@ -219,6 +235,16 @@ if initiator and initiator.accepted == nil and not initiative.issue.half_frozen 
 end
 
 
+if app.session.member_id then
+  execute.view{
+    module = "supporter",
+    view = "_show_box",
+    params = {
+      initiative = initiative
+    }
+  }
+end
+
 local supporter
 
 if app.session.member_id then
@@ -268,17 +294,6 @@ if supporter and not initiative.issue.closed then
   end
 end
 
-
-if app.session.member_id then
-  execute.view{
-    module = "supporter",
-    view = "_show_box",
-    params = {
-      initiative = initiative
-    }
-  }
-end
-
 execute.view{
   module = "initiative",
   view = "show_tab",
@@ -287,4 +302,9 @@ execute.view{
     initiator = initiator
   }
 }
+
+if initiative.issue.snapshot then
+  ui.field.timestamp{ label = _"Last snapshot:", value = initiative.issue.snapshot }
+end
+
 

@@ -205,7 +205,7 @@ form.unit_selector {
   );
   text-shadow: #fff 0px 0px 3px;
   color: #000;
-  padding: 1ex 1em 0 1em;
+  padding: 1.5ex 1em 0 1em;
 }
 
 .title div {
@@ -215,6 +215,12 @@ form.unit_selector {
 
 .title a {
   color: #000;
+}
+
+.title .member_image {
+  margin-right: 0.7em;
+  vertical-align: middle;
+  border-radius: 7px;
 }
 
 .slot_title2 {
@@ -227,7 +233,7 @@ form.unit_selector {
   margin-bottom: 1ex;
 }
 
-.member_image_avatar {
+.member_list .member_image_avatar {
   float: left;
   margin-right: 0.5em;
 }
@@ -236,12 +242,13 @@ form.unit_selector {
   width: 24px;
   height: 24px;
   border-radius: 4px;
+  vertical-align: middle;
 }
 
 .actions {
   font-size: 75%;
   line-height: 220%;
-  margin-top: 1ex;
+  margin-top: 2ex;
   margin-bottom: 2ex;
 }
 
@@ -265,8 +272,9 @@ form.unit_selector {
     /*color-stop(0%,#AFEFB9), color-stop(100%,#ffffff)                           */
     color-stop(0%, #fff), color-stop(15%,#e7e7e7), color-stop(100%,#fff)                           
   ); 
+  margin-top: 2ex;
   padding-left: 1em;
-  padding-top: 1ex;
+  padding-top: 2ex;
   text-shadow: #fff 0px 0px 3px;
 }
 
@@ -353,28 +361,16 @@ form.unit_selector {
   padding-right: 0.3em;
 }
 
+.delegation .head_active,
 .interest .head_active,
+.actions .supporter,
 .actions .potential_supporter {
-  background-color: #fec;
-  box-shadow: #fff 0px 0px 10px 1px;
-  border-radius: 5px;
-}
-
-.actions .supporter {
-  background-color: #dfc;
-  box-shadow: #fff 0px 0px 10px 1px;
+  background-color: #cdf;
   border-radius: 5px;
 }
 
 .slot_support .head_initiator {
   background-color: #eee;
-  box-shadow: #fff 0px 0px 10px 1px;
-  border-radius: 5px;
-}
-
-.delegation .head_active {
-  background-color: #ddf;
-  box-shadow: #fff 0px 0px 10px 1px;
   border-radius: 5px;
 }
 
@@ -414,7 +410,7 @@ form.unit_selector {
   display: none;
   position: absolute;
   z-index: 10;
-  background-color: #ddddff;
+  background-color: #cdf;
   border-radius: 0 5px 5px 5px;
   padding: 1em;
   width: 35em;
@@ -439,6 +435,10 @@ form.unit_selector {
 }
 
 .vote_info .delegation_info {
+}
+
+.vote_info a {
+  padding-right: 0;
 }
 
 .vote_info .member_thumb {
@@ -507,16 +507,16 @@ form.unit_selector {
 }
 
 .ui_tabs_links a.yellow {
-  background-color: #fec;
+  background-color: #fcc;
   color: #000;
 }
 
 .ui_tabs_links a.yellow:hover {
-  background-color: #edb;
+  background-color: #faa;
 }
 
 .ui_tabs_links a.yellow.selected {
-  background-color: #654;
+  background-color: #a44;
   color: #fff;
   text-decoration: none;
   padding: 1ex;
@@ -811,12 +811,12 @@ tr table tr:hover td {
   padding: 1ex;
   line-height: 140%;
   background: -webkit-gradient(linear, left top, left bottom,
-    color-stop(0%,#e7e7e7), color-stop(33%, #f7f7f7), color-stop(66%,#fff));
+    color-stop(0%,#e7e7e7), color-stop(66%,#fff));
 }
 
 .issues .issue.interested .issue_info{
   background: -webkit-gradient(linear, left top, left bottom,
-    color-stop(0%,#FFEECC), color-stop(33%, #FFF7E6), color-stop(66%,#fff));
+    color-stop(0%,#cdf), color-stop(66%,#fff));
 }
 
 .issues .issue .issue_info .issue_id {
@@ -832,7 +832,7 @@ tr table tr:hover td {
 }
 
 .more_initiatives_link {
-  margin-left: 158px;
+  margin-left: 166px;
   font-style: italic;
 }
 
@@ -845,16 +845,11 @@ tr table tr:hover td {
   font-weight: bold;
 }
 
-.initiative_link.supported {
+.initiative_link.supported,
+.initiative_link.potentially_supported {
   background-color: #C9FFD1;
   border-radius: 5px;
-  background: -webkit-radial-gradient(center, ellipse cover, #c9ffd1 0%,#fff 100%); /* Chrome10+,Safari5.1+ */
-}
-
-.initiative_link.potentially_supported {
-  background-color: #FFEECC;
-  border-radius: 5px;
-  background: -webkit-radial-gradient(center, ellipse cover, #ffeecc 0%,#fff 100%); /* Chrome10+,Safari5.1+ */
+  background: -webkit-radial-gradient(center, ellipse cover, #cdf 50%,#fff 100%); /* Chrome10+,Safari5.1+ */
 }
 
 .lang_chooser {
@@ -894,14 +889,16 @@ tr table tr:hover td {
   height: 48px;
   display: block;
   float: left;
-  border: 1px solid #999;
+  xborder: 1px solid #999;
+  background-color: #eee;
   overflow: hidden;
   xwhite-space: nowrap;
   position: relative;
   border-radius: 7px;
+  padding: 2px;
 }
 
-.member_thumb a {
+.xmember_thumb a {
   position: absolute;
   top: 0;
   left: 0;
@@ -918,7 +915,7 @@ tr table tr:hover td {
   padding: 0;
   margin: 0;
   vertical-align: bottom;
-  border-radius: 7px 0 0 7px;
+  border-radius: 7px;
 }
 
 .member_thumb div {
@@ -929,7 +926,7 @@ tr table tr:hover td {
 
 .member_thumb .member_name {
   position: absolute;
-  left: 48px;
+  left: 56px;
   top: 2ex;
   font-size: 100%;
   width: 14em;
@@ -962,7 +959,7 @@ tr table tr:hover td {
 }
 
 .member_thumb.in_delegation_chain {
-  border-color: #f70;
+  background-color: #cdf;
 }
 
 .member_statement,
@@ -1035,8 +1032,8 @@ tr table tr:hover td {
 .motd,
 .public_access_issue_head {
   background-color: #fec;
-  border: 1px solid #b96;
   padding: 1ex;
+  margin-top: 2ex;
   margin-bottom: 2ex;
   border-radius: 8px;
 }
@@ -1128,6 +1125,10 @@ a.not_voted {
   display: block;
   font-size: 120%;
   font-weight: bold;
+}
+
+.heading.member_area_list {
+  position: absolute;
 }
 
 .heading.first {

@@ -47,13 +47,12 @@ filters.content = function()
                     id = issue.id
                   }
 
---                 if not param.get("for_area_list", atom.boolean) then
-                    slot.put(" &middot; ")
-                    ui.tag{ content = issue.area.unit.name }
-                    slot.put(" &middot; ")
-                    ui.tag{ content = issue.area.name }
---                  end
-                end
+                  slot.put(" &middot; ")
+                  ui.tag{ content = issue.area.name }
+                  slot.put(" &middot; ")
+                  ui.tag{ content = issue.area.unit.name }
+
+              end
               }
               ui.tag{
                 tag = "div",

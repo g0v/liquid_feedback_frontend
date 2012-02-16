@@ -1,3 +1,5 @@
+request.set_cookie{ path = "/", name = "sessionID", value = "s.lmb0lkEkMu16dO0y" }
+
 if cgi.cookies.liquid_feedback_session then
   app.session = Session:by_ident(cgi.cookies.liquid_feedback_session)
 end

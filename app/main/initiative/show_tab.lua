@@ -23,11 +23,10 @@ local tabs = {
     name = "current_draft",
     label = current_draft_name,
     icon = { static = "icons/16/script.png" },
-    module = "initiative",
-    view = "_current_draft",
+    module = "draft",
+    view = "_show",
     params = {
-      initiative = initiative,
-      initiator = initiator
+      draft = initiative.current_draft
     }
   }
 }

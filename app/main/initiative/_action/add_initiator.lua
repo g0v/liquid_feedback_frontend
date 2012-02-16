@@ -45,5 +45,5 @@ initiator.member_id = member.id
 initiator.accepted = nil
 initiator:save()
 
-slot.put_into("notice", _"Member is now invited to be initiator")
+--slot.put_into("notice", _"Member is now invited to be initiator")
 

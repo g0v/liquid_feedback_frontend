@@ -1,5 +1,4 @@
 local areas_selector = param.get("areas_selector", "table")
-local title = param.get("title", "function")
 
 areas_selector
   :reset_fields()
@@ -33,11 +32,11 @@ local label_attr = { style = "text-align: right; width: 4em;" }
 local field_attr = { style = "text-align: right; width: 4em;" }
 
 ui.list{
-  attr = { class = "area_list" },
+  attr = { class = "area_list", style = "width: 100%; table-layout: fixed;" },
   records = areas_selector:exec(),
   columns = {
     {
-      label = title,
+      label_attr = { style = "width: 2em;" },
       content = function(record)
         if record.is_member then
           local text = _"Member of area"
@@ -49,6 +48,7 @@ ui.list{
       end
     },
     {
+      label_attr = { style = "width: 2em;" },
       content = function(record)
         if record.trustee_member_id then
           local trustee_member = Member:by_id(record.trustee_member_id)
@@ -68,6 +68,7 @@ ui.list{
       end
     },
     {
+      label_attr = { style = "width: 110px" },
       content = function(record)
         if record.member_weight and record.direct_member_count then
           local max_value = MemberCount:get()
@@ -84,6 +85,7 @@ ui.list{
       end
     },
     {
+      label_attr = { style = "width: 100%" },
       content = function(record)
         ui.link{
           text = record.name,

@@ -1,5 +1,4 @@
 local unit_id = config.single_unit_id or param.get("unit_id", atom.integer)
-local title = param.get("title", "function")
 
 local areas_selector = Area:build_selector{ active = true, unit_id = unit_id }
 areas_selector:add_order_by("member_weight DESC")
@@ -38,5 +37,5 @@ end
 execute.view{
   module = "area",
   view = "_list",
-  params = { areas_selector = areas_selector, title = title }
+  params = { areas_selector = areas_selector }
 }

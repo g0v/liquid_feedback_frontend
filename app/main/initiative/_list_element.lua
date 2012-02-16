@@ -26,7 +26,7 @@ ui.container{
           records = { { a = 1} },
           columns = {
             {
-              field_attr = { style = "width: 3em; padding: 0; text-align: center;"},
+              field_attr = { style = "width: 3em; text-align: center;"},
               content = function()
                 if initiative.issue.accepted and initiative.issue.closed and initiative.issue.ranks_available or initiative.admitted == false then 
                   ui.field.rank{ image_attr = { id = icon_name }, attr = { class = "rank" }, value = initiative.rank }
@@ -37,7 +37,7 @@ ui.container{
             },
 
             {
-              field_attr = { style = "width: 110px; padding: 0;"},
+              field_attr = { style = "width: 110px;"},
               content = function()
                 if initiative.issue.fully_frozen and initiative.issue.closed then
                   if initiative.issue.ranks_available then 
@@ -76,7 +76,6 @@ ui.container{
             },
     
             {
-              field_attr = { style = "padding: 0;"},
               content = function()
                 local link_class = "initiative_link"
                 if initiative.revoked then
