@@ -26,7 +26,7 @@ slot.select("interest", function()
       params  = { area_id = area.id, delete = true },
       routing = { default = { mode = "redirect", module = "area", view = "show", id = area.id } }
     }
-  else
+  elseif app.session.member:has_voting_right_for_unit_id(area.unit_id) then
     ui.link{
       image  = { static = "icons/16/user_add.png" },
       text   = _"Become a member",

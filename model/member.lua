@@ -181,6 +181,17 @@ Member:add_reference{
 
 Member:add_reference{
   mode                  = 'mm',
+  to                    = "Unit",
+  this_key              = 'id',
+  that_key              = 'id',
+  connected_by_table    = 'privilege',
+  connected_by_this_key = 'member_id',
+  connected_by_that_key = 'unit_id',
+  ref                   = 'units'
+}
+
+Member:add_reference{
+  mode                  = 'mm',
   to                    = "Area",
   this_key              = 'id',
   that_key              = 'id',
@@ -431,4 +442,14 @@ function Member.object:ui_field_text(args)
   else
     ui.field.text{ label = args.label,      value = _"[not displayed public]" }
   end
+end
+
+function Member.object:has_voting_right_for_unit_id(unit_id)
+  return (Privilege:new_selector()
+    :add_where{ "member_id = ?", self.id }
+    :add_where{ "unit_id = ?", unit_id }
+    :add_where("voting_right")
+    :optional_object_mode()
+    :for_share()
+    :exec()) and true or false
 end

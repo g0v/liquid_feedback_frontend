@@ -4,6 +4,10 @@ local auto_support = param.get("auto_support", atom.boolean)
 -- TODO important m1 selectors returning result _SET_!
 local issue = initiative:get_reference_selector("issue"):for_share():single_object_mode():exec()
 
+if not app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
+  error("access denied")
+end
+
 if issue.closed then
   slot.put_into("error", _"This issue is already closed.")
   return false

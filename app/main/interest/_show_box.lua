@@ -34,7 +34,7 @@ slot.select("interest", function()
         end
       end
     }
-  else
+  elseif app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
     if not issue.closed and not issue.fully_frozen then
       ui.link{
         image   = { static = "icons/16/user_add.png" },

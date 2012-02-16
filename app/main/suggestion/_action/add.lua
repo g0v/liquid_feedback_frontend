@@ -4,6 +4,12 @@ if tmp and tmp.text_entries_left and tmp.text_entries_left < 1 then
   return false
 end
 
+local initiative = Initiative:by_id(param.get("initiative_id", atom.integer))
+if not app.session.member:has_voting_right_for_unit_id(initiative.issue.area.unit_id) then
+  error("access denied")
+end
+
+
 local name = param.get("name")
 local name = util.trim(name)
 

@@ -33,6 +33,10 @@ else
   end
 end
 
+if not app.session.member:has_voting_right_for_unit_id(area.unit_id) then
+  error("access denied")
+end
+
 local name = param.get("name")
 
 local name = util.trim(name)

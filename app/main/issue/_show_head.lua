@@ -68,7 +68,7 @@ slot.select("actions", function()
 
   if app.session.member_id then
 
-    if issue.state == 'voting' then
+    if issue.state == 'voting' and app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
       local text
       if not direct_voter then
         text = _"Vote now"
@@ -116,7 +116,7 @@ slot.select("actions", function()
   end
 end)
 
-if app.session.member_id then
+if app.session.member_id and app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
   slot.select("actions", function()
     if not issue.fully_frozen and not issue.closed then
       ui.link{
@@ -137,7 +137,9 @@ if config.public_access_issue_head and not app.session.member_id then
   config.public_access_issue_head(issue)
 end
 
-if app.session.member_id and issue.state == 'voting' and not direct_voter then
+if app.session.member_id and issue.state == 'voting' and not direct_voter
+  and app.session.member:has_voting_right_for_unit_id(issue.area.unit_id)
+then
   ui.container{
     attr = { class = "voting_active_info" },
     content = function()

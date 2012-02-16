@@ -50,17 +50,19 @@ if app.session.member_id then
     params = { area_id = area.id }
   }
 
-  slot.select("actions", function()
-    ui.link{
-      content = function()
-        ui.image{ static = "icons/16/folder_add.png" }
-        slot.put(_"Create new issue")
-      end,
-      module = "initiative",
-      view = "new",
-      params = { area_id = area.id }
-    }
-  end)
+  if app.session.member:has_voting_right_for_unit_id(area.unit_id) then
+    slot.select("actions", function()
+      ui.link{
+        content = function()
+          ui.image{ static = "icons/16/folder_add.png" }
+          slot.put(_"Create new issue")
+        end,
+        module = "initiative",
+        view = "new",
+        params = { area_id = area.id }
+      }
+    end)
+  end
 
 
 end

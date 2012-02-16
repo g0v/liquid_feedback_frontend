@@ -116,7 +116,8 @@ ui_filters{
                 ui.container{
                   attr = { class = "suggestion_my_opinion" },
                   content = function()
-                    if app.session.member_id then
+                    local has_voting_right = app.session.member:has_voting_right_for_unit_id(initiative.issue.area.unit_id)
+                    if app.session.member_id and has_voting_right then
                       if initiative.issue.state == "voting" or initiative.issue.state == "closed" then
                         if degree == -2 then
                           ui.tag{
@@ -225,6 +226,8 @@ ui_filters{
                           partial = partial
                         }
                       end
+                    elseif app.session.member_id then
+                      ui.field.text{ value = _"[No voting privilege]" }
                     else
                       ui.field.text{ value = _"[Registered members only]" }
                     end

@@ -12,6 +12,10 @@ if param.get("delete", atom.boolean) then
 end
 
 if not membership then
+  local area = Area:by_id(area_id)
+  if not app.session.member:has_voting_right_for_unit_id(area.unit_id) then
+    error("access denied")
+  end
   membership = Membership:new()
   membership.area_id    = area_id
   membership.member_id  = app.session.member_id

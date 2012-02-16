@@ -22,14 +22,19 @@ elseif issue.fully_frozen then
   return false
 end
 
-
-
 if param.get("delete") then
   if opinion then
     opinion:destroy()
   end
   --slot.put_into("notice", _"Your rating has been deleted")
   return
+end
+
+local degree = param.get("degree", atom.number)
+local fulfilled = param.get("fulfilled", atom.boolean)
+
+if degree ~= 0 and not app.session.member:has_voting_right_for_unit_id(suggestion.initiative.issue.area.unit_id) then
+  error("access denied")
 end
 
 if not opinion then
@@ -39,8 +44,6 @@ if not opinion then
   opinion.fulfilled     = false
 end
 
-local degree = param.get("degree", atom.number)
-local fulfilled = param.get("fulfilled", atom.boolean)
 
 if degree ~= nil then
   opinion.degree = degree

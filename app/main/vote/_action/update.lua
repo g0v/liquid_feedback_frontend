@@ -1,5 +1,9 @@
 local issue = Issue:new_selector():add_where{ "id = ?", param.get("issue_id", atom.integer) }:for_share():single_object_mode():exec()
 
+if not app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
+  error("access denied")
+end
+
 if issue.closed then
   slot.put_into("error", _"This issue is already closed.")
   return false

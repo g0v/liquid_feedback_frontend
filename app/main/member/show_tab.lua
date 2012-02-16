@@ -63,6 +63,7 @@ if show_as_homepage and app.session.member_id == member.id then
 
   local selector = Area:new_selector()
     :reset_fields()
+    :join("privilege", nil, { "privilege.unit_id = area.unit_id AND privilege.member_id = ? AND privilege.voting_right", app.session.member_id })
     :add_field("area.id", nil, { "grouped" })
     :add_field("area.name", nil, { "grouped" })
     :add_field("membership.member_id NOTNULL", "is_member", { "grouped" })

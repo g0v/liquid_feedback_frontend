@@ -64,21 +64,18 @@ ui.partial{
               routing = routing,
               partial = partial
             }
-          else
-
-            if not initiative.revoked then
-              local params = param.get_all_cgi()
-              params.dyn = nil
-              ui.link{
-                image   = { static = "icons/16/thumb_up_green.png" },
-                text    = _"Support this initiative",
-                module  = "initiative",
-                action  = "add_support",
-                id      = initiative.id,
-                routing = routing,
-                partial = partial
-              }
-            end
+          elseif not initiative.revoked and app.session.member:has_voting_right_for_unit_id(initiative.issue.area.unit_id) then
+            local params = param.get_all_cgi()
+            params.dyn = nil
+            ui.link{
+              image   = { static = "icons/16/thumb_up_green.png" },
+              text    = _"Support this initiative",
+              module  = "initiative",
+              action  = "add_support",
+              id      = initiative.id,
+              routing = routing,
+              partial = partial
+            }
           end
         end
 

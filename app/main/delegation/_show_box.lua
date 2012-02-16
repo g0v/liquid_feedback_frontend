@@ -1,4 +1,19 @@
 function change_delegation(scope, unit_id, area_id, issue, delegation, initiative_id)
+  local check_unit_id
+  if unit_id then
+    check_unit_id = unit_id
+  elseif area_id then
+    local area = Area:by_id(area_id)
+    check_unit_id = area.unit_id
+  else
+    local area = Area:by_id(issue.area_id)
+    check_unit_id = area.unit_id
+  end
+
+  if not app.session.member:has_voting_right_for_unit_id(check_unit_id) then
+    return
+  end
+
   local image
   local text
   if scope == "unit" and delegation and delegation.unit_id then

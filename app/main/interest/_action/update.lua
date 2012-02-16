@@ -22,6 +22,10 @@ if param.get("delete", atom.boolean) then
   return
 end
 
+if not app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
+  error("access denied")
+end
+
 if not interest then
   interest = Interest:new()
   interest.issue_id   = issue_id
