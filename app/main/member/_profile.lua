@@ -135,7 +135,7 @@ ui.form{
       ui.container{
         attr = { class = "member_statement wiki" },
         content = function()
-          slot.put(format.wiki_text(member.statement))
+          slot.put(member:get_content("html"))
         end
       }
     end

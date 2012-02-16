@@ -223,6 +223,8 @@ Member:add_reference{
   ref                   = 'supported_initiatives'
 }
 
+model.has_rendered_content(Member, RenderedMemberStatement, "statement")
+
 Member:new_selector()
   :add_order_by("member.name")
   :exec()
