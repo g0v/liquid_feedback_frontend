@@ -36,7 +36,7 @@ ui_filters{
   {
     {
       name = "plus_unfulfilled",
-      label = _"requested",
+      label = _"most requested",
       selector_modifier = function(selector) selector:add_order_by("plus2_unfulfilled_count + plus1_unfulfilled_count DESC, id") end
     },
     {
@@ -116,7 +116,7 @@ ui_filters{
                 ui.container{
                   attr = { class = "suggestion_my_opinion" },
                   content = function()
-                    local has_voting_right = app.session.member:has_voting_right_for_unit_id(initiative.issue.area.unit_id)
+                    local has_voting_right = app.session.member and app.session.member:has_voting_right_for_unit_id(initiative.issue.area.unit_id)
                     if app.session.member_id and has_voting_right then
                       if initiative.issue.state == "voting" or initiative.issue.state == "closed" then
                         if degree == -2 then

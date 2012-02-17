@@ -214,25 +214,7 @@ ui.list{
           params = { filter = "cancelled", issue_list = "newest", tab = "issues" }
         }
       end
-    },
-    {
-      content = function(record)
-        if record.issues_to_vote_count > 0 then
-          ui.link{
-            attr = { class = "not_voted" },
-            text = _"Not yet voted" .. ": " .. tostring(record.issues_to_vote_count),
-            module = "area",
-            view = "show",
-            id = record.id,
-            params = {
-              filter = "frozen",
-              filter_voting = "not_voted",
-              tab = "issues"
-            }
-          }
-        end
-      end
-    },
+    }
   }
 }
 --[[

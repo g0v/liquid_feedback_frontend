@@ -4,17 +4,23 @@ local initiatives_selector = param.get("initiatives_selector", "table")
 
 local highlight_initiative = param.get("highlight_initiative", "table")
 
+local for_member = param.get("for_member", "table") or app.session.member
+
 initiatives_selector
   :join("issue", nil, "issue.id = initiative.issue_id")
 
 if app.session.member_id then
   initiatives_selector
-    :left_join("initiator", "_initiator", { "_initiator.initiative_id = initiative.id AND _initiator.member_id = ? AND _initiator.accepted", app.session.member.id} )
-    :left_join("supporter", "_supporter", { "_supporter.initiative_id = initiative.id AND _supporter.member_id = ?", app.session.member.id} )
-  
+    :left_join("initiator", "_initiator", { "_initiator.initiative_id = initiative.id AND _initiator.member_id = ? AND _initiator.accepted", for_member.id } )
+    :left_join("supporter", "_supporter", { "_supporter.initiative_id = initiative.id AND _supporter.member_id = ?", for_member.id} )
+    :left_join("delegating_interest_snapshot", "_delegating_interest_snapshot", { "_delegating_interest_snapshot.issue_id = initiative.issue_id AND _delegating_interest_snapshot.member_id = ? AND _delegating_interest_snapshot.event = issue.latest_snapshot_event", for_member.id} )
+    :left_join("direct_supporter_snapshot", "_direct_supporter_snapshot", "_direct_supporter_snapshot.initiative_id = initiative.id AND _direct_supporter_snapshot.member_id = _delegating_interest_snapshot.delegate_member_ids[array_upper(_delegating_interest_snapshot.delegate_member_ids, 1)] AND _direct_supporter_snapshot.event = issue.latest_snapshot_event")
+
     :add_field("(_initiator.member_id NOTNULL)", "is_initiator")
-    :add_field({"(_supporter.member_id NOTNULL) AND NOT EXISTS(SELECT 1 FROM opinion WHERE opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)))", app.session.member.id }, "is_supporter")
-    :add_field({"EXISTS(SELECT 1 FROM opinion WHERE opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)))", app.session.member.id }, "is_potential_supporter")
+    :add_field({"(_supporter.member_id NOTNULL) AND NOT EXISTS(SELECT 1 FROM opinion WHERE opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)))", for_member.id }, "is_supporter")
+    :add_field({"EXISTS(SELECT 1 FROM opinion WHERE opinion.initiative_id = initiative.id AND opinion.member_id = ? AND ((opinion.degree = 2 AND NOT fulfilled) OR (opinion.degree = -2 AND fulfilled)))", for_member.id }, "is_potential_supporter")
+
+    :add_field("_direct_supporter_snapshot.member_id NOTNULL", "is_supporter_via_delegation")
 end
 
 local initiatives_count = initiatives_selector:count()

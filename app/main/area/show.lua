@@ -14,7 +14,10 @@ end
 
 
 slot.select("title", function()
-  ui.tag{ content =  area.name }
+  ui.link{
+    content =  area.name,
+    module = "area", view = "show", id = area.id
+  }
 
   if not config.single_unit_id then
     slot.put(" &middot; ")

@@ -823,6 +823,10 @@ tr table tr:hover td {
   font-size: 125%;
 }
 
+.issues .issue .interest_by_delegation {
+  float: right;
+}
+
 .issues .issue .initiative_list a {
   font-weight: bold;
 }

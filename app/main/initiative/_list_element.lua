@@ -90,6 +90,9 @@ ui.container{
                 if initiative.is_potential_supporter then
                   link_class = link_class .. " potentially_supported"
                 end
+                if initiative.is_supporter_via_delegation then
+                  link_class = link_class .. " supported"
+                end
                 ui.link{
                   attr = { id = link_name, class = link_class },
                   content = function()

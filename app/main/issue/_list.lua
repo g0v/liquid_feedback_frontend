@@ -1,9 +1,15 @@
 local issues_selector = param.get("issues_selector", "table")
+local for_member = param.get("for_member", "table") or app.session.member
 
 if app.session.member_id then
   issues_selector
-    :left_join("interest", "_interest", { "_interest.issue_id = issue.id AND _interest.member_id = ?", app.session.member.id} )
+    :left_join("interest", "_interest", { "_interest.issue_id = issue.id AND _interest.member_id = ?", for_member.id } )
     :add_field("(_interest.member_id NOTNULL)", "is_interested")
+  issues_selector
+    :left_join("delegating_interest_snapshot", "_delegating_interest", { "_delegating_interest.issue_id = issue.id AND _delegating_interest.member_id = ? AND _delegating_interest.event = issue.latest_snapshot_event", for_member.id } )
+    :add_field("_delegating_interest.delegate_member_ids[1]", "is_interested_by_delegation_to_member_id")
+    :add_field("_delegating_interest.delegate_member_ids[array_upper(_delegating_interest.delegate_member_ids, 1)]", "is_interested_via_member_id")
+    :add_field("array_length(_delegating_interest.delegate_member_ids, 1)", "delegation_chain_length")
 end
 
 ui.add_partial_param_names{
@@ -14,7 +20,7 @@ ui.add_partial_param_names{
   "issue_list" 
 }
 
-local filters = execute.load_chunk{module="issue", chunk="_filters.lua"}
+local filters = execute.load_chunk{module="issue", chunk="_filters.lua", params = { member = for_member }}
 
 filters.content = function()
   ui.paginate{
@@ -29,12 +35,51 @@ filters.content = function()
         for i, issue in ipairs(issues) do
 
           local class = "issue"
-          if issue.is_interested then
+          if issue.is_interested or issue.is_interested_by_delegation_to_member_id then
             class = class .. " interested"
           end
           ui.container{ attr = { class = class }, content = function()
 
             ui.container{ attr = { class = "issue_info" }, content = function()
+            
+              if issue.is_interested_by_delegation_to_member_id then
+                ui.tag{
+                  tag = "div", attr = { class = "interest_by_delegation"},
+                  content = function()
+                    local member = Member:by_id(issue.is_interested_by_delegation_to_member_id)
+                    ui.tag{ content = "->" }
+                    execute.view{
+                      module = "member_image",
+                      view = "_show",
+                      params = {
+                        member = member,
+                        image_type = "avatar",
+                        show_dummy = true,
+                        class = "micro_avatar",
+                        popup_text = member.name
+                      }
+                    }
+                    if issue.is_interested_by_delegation_to_member_id ~= issue.is_interested_via_member_id then
+                      if issue.delegation_chain_length > 2 then
+                        ui.tag{ content = "-> ... " }
+                      end
+                      ui.tag{ content = "->" }
+                      local member = Member:by_id(issue.is_interested_via_member_id)
+                      execute.view{
+                        module = "member_image",
+                        view = "_show",
+                        params = {
+                          member = member,
+                          image_type = "avatar",
+                          show_dummy = true,
+                          class = "micro_avatar",
+                          popup_text = member.name
+                        }
+                      }
+                    end
+                  end
+                }
+              end
             
               ui.tag{
                 tag = "div",
@@ -95,7 +140,8 @@ filters.content = function()
                   highlight_string = highlight_string,
                   per_page = app.session.member_id and tonumber(app.session.member:get_setting_value("initiatives_preview_limit") or 3) or 3,
                   no_sort = true,
-                  limit = app.session.member_id and tonumber(app.session.member:get_setting_value("initiatives_preview_limit") or 3) or 3
+                  limit = app.session.member_id and tonumber(app.session.member:get_setting_value("initiatives_preview_limit") or 3) or 3,
+                  for_member = for_member
                 }
               }
             end }

@@ -399,7 +399,8 @@ ui.form{
                       end
                       ui.container{
                         content = function()
-                          slot.put(encode.html(initiative.shortened_name))
+                          ui.tag{ content = "i" .. initiative.id .. ": " }
+                          ui.tag{ content = initiative.shortened_name }
                           if #initiators > 1 then
                             ui.container{
                               attr = { style = "font-size: 80%;" },
