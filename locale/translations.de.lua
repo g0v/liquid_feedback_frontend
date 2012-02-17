@@ -260,7 +260,7 @@ return {
 ["Issue accepted"] = "Thema akzeptiert";
 ["Issue canceled"] = "Thema abgebrochen";
 ["Issue delegation"] = "Issue-Delegation";
-["Issue delegated to '#{name}'"] = "Thema an '{name}' delegiert";
+["Issue delegated to '#{name}'"] = "Thema an '#{name}' delegiert";
 ["Issue events"] = "Themen-Ereignisse";
 ["Issue finished"] = "Thema abgeschlossen";
 ["Issue finished without voting"] = "Thema ohne Abstimmung abgeschlossen";
