@@ -47,10 +47,21 @@ ui.form{
     ui.field.text{ label = _"Initiative quorum numerator",   name = "initiative_quorum_num" }
     ui.field.text{ label = _"Initiative quorum denumerator", name = "initiative_quorum_den" }
 
-    ui.field.text{ label = _"Majority numerator",   name = "majority_num" }
-    ui.field.text{ label = _"Majority denumerator", name = "majority_den" }
+    ui.field.text{ label = _"Direct majority numerator",   name = "direct_majority_num" }
+    ui.field.text{ label = _"Direct majority denumerator", name = "direct_majority_den" }
+    ui.field.boolean{ label = _"Strict direct majority", name = "direct_majority_strict" }
+    ui.field.text{ label = _"Direct majority positive",   name = "direct_majority_positive" }
+    ui.field.text{ label = _"Direct majority non negative", name = "direct_majority_non_negative" }
 
-    ui.field.boolean{ label = _"Strict majority", name = "majority_strict" }
+    ui.field.text{ label = _"Indirect majority numerator",   name = "indirect_majority_num" }
+    ui.field.text{ label = _"Indirect majority denumerator", name = "indirect_majority_den" }
+    ui.field.boolean{ label = _"Strict indirect majority", name = "indirect_majority_strict" }
+    ui.field.text{ label = _"Indirect majority positive",   name = "indirect_majority_positive" }
+    ui.field.text{ label = _"Indirect majority non negative", name = "indirect_majority_non_negative" }
+
+    ui.field.boolean{ label = _"No reverse beat path", name = "no_reverse_beat_path" }
+    ui.field.boolean{ label = _"No multistage majority", name = "no_multistage_majority" }
+
 
     ui.field.boolean{ label = _"Active?", name = "active" }
 
