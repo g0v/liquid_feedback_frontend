@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('2.0.0', 2, 0, 0))
+  SELECT * FROM (VALUES ('2.0.2', 2, 0, 2))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -105,6 +105,7 @@ CREATE TABLE "member" (
         "password_reset_secret_expiry" TIMESTAMPTZ,
         "name"                  TEXT            NOT NULL UNIQUE,
         "identification"        TEXT            UNIQUE,
+        "authentication"        TEXT,
         "organizational_unit"   TEXT,
         "internal_posts"        TEXT,
         "realname"              TEXT,
@@ -154,6 +155,7 @@ COMMENT ON COLUMN "member"."notify_level"         IS 'Selects which event notifi
 COMMENT ON COLUMN "member"."notify_event_id"      IS 'Latest "id" of an "event" the member was notified about';
 COMMENT ON COLUMN "member"."name"                 IS 'Distinct name of the member';
 COMMENT ON COLUMN "member"."identification"       IS 'Optional identification number or code of the member';
+COMMENT ON COLUMN "member"."authentication"       IS 'Information about how this member was authenticated';
 COMMENT ON COLUMN "member"."organizational_unit"  IS 'Branch or division of the organization the member belongs to';
 COMMENT ON COLUMN "member"."internal_posts"       IS 'Posts (offices) of the member inside the organization';
 COMMENT ON COLUMN "member"."realname"             IS 'Real name of the member, may be identical with "name"';
