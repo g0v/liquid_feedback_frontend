@@ -3700,6 +3700,7 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           "worse_than_status_quo"  = "rank_ary"["i"] > "rank_ary"["dimension_v"],
           "multistage_majority"    = "rank_ary"["i"] >= "rank_ary"["dimension_v"],
           "reverse_beat_path"      = "matrix"["dimension_v"]["i"] >= 0,
+          "eligible"               = FALSE,
           "winner"                 = FALSE
           WHERE "id" = "initiative_id_v";
         "i" := "i" + 1;
@@ -3743,7 +3744,7 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
         EXIT WHEN NOT FOUND;
       END LOOP;
       -- set "multistage_majority" for remaining matching initiatives:
-       UPDATE "initiative" SET "multistage_majority" = TRUE
+      UPDATE "initiative" SET "multistage_majority" = TRUE
         FROM (
           SELECT "losing_initiative"."id" AS "initiative_id"
           FROM "initiative" "losing_initiative"
