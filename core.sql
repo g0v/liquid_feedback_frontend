@@ -3787,7 +3787,10 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           SELECT "id" AS "initiative_id"
           FROM "initiative"
           WHERE "issue_id" = "issue_id_p" AND "eligible"
-          ORDER BY "schulze_rank", "id"
+          ORDER BY
+            "schulze_rank",
+            "vote_ratio"("positive_votes", "negative_votes"),
+            "id"
           LIMIT 1
         ) AS "subquery"
         WHERE "id" = "subquery"."initiative_id";
@@ -3799,8 +3802,9 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
         WHERE "issue_id" = "issue_id_p" AND "admitted"
         ORDER BY
           "winner" DESC,
-          ("direct_majority" AND "indirect_majority") DESC,
+          "eligible" DESC,
           "schulze_rank",
+          "vote_ratio"("positive_votes", "negative_votes"),
           "id"
       LOOP
         UPDATE "initiative" SET "rank" = "rank_v"
