@@ -912,10 +912,8 @@ tr table tr:hover td {
   height: 48px;
   display: block;
   float: left;
-  xborder: 1px solid #999;
   background-color: #eee;
   overflow: hidden;
-  xwhite-space: nowrap;
   position: relative;
   border-radius: 7px;
   padding: 2px;
@@ -971,14 +969,20 @@ tr table tr:hover td {
   font-weight: bold;
 }
 
-
 .member .right {
   float: right;
 }
 
 .member_thumb.not_accepted,
 .member_thumb.not_informed {
-  opacity: 0.5;
+  background: #fff;
+}
+
+.member_thumb.not_accepted .member_image,
+.member_thumb.not_accepted .member_name,
+.member_thumb.not_informed .member_image,
+.member_thumb.not_informed .member_name {
+  opacity: 0.4;
 }
 
 .member_thumb.in_delegation_chain {
@@ -1076,7 +1080,7 @@ tr table tr:hover td {
 .help,
 .use_terms {
   border: 1px solid #bcd;
-  background-color: #def;
+  background-color: #cdf;
   color: #000;
   padding: 1ex;
 }
