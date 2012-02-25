@@ -114,6 +114,19 @@ slot.select("actions", function()
       end,
     }
   end
+
+  if config.etherpad and app.session.member then
+    local url = config.etherpad.base_url .. "p/" .. config.etherpad.group_id .. "$Issue" .. issue.id
+    ui.link{
+      attr = { target = "_blank" },
+      external = url,
+      content = function()
+        ui.image{ static = "icons/16/comments.png" }
+        slot.put(_"Issue pad")
+      end,
+    }
+  end
+
 end)
 
 if app.session.member_id and app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then

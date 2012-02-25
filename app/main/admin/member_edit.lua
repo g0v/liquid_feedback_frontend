@@ -23,11 +23,10 @@ ui.form{
     }
   },
   content = function()
-    ui.field.text{     label = _"Login",        name = "login" }
-    ui.field.text{     label = _"Name",         name = "name" }
-    ui.field.password{ label = _"Password",     name = "password", value = (member and member.password) and "********" or "" }
+    ui.field.text{     label = _"Identification", name = "identification" }
+    ui.field.text{     label = _"Notification email", name = "notify_email" }
     ui.field.boolean{  label = _"Admin?",       name = "admin" }
-    ui.field.boolean{  label = _"Activated?",   name = "activated" }
+    ui.field.boolean{  label = _"Send invite?",       name = "invite_member" }
     ui.submit{         text  = _"Save" }
   end
 }

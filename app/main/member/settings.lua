@@ -16,16 +16,23 @@ ui.tag{
   content = _"You can change the following settings:"
 }
 
-local pages = {
-  { module = "member", view = "edit", text = _"Edit profile" },
-  { module = "member", view = "edit_images", text = _"Upload images" },
-  { view = "settings_display",        text = _"Display settings" },
-  { view = "settings_email",          text = _"Change your notification email address" },
-  { view = "settings_name",           text = _"Change your name" },
-  { view = "settings_login",          text = _"Change your login" },
-  { view = "settings_password",       text = _"Change your password" },
-  { view = "developer_settings",      text = _"Developer settings" },
-}
+local pages = {}
+
+pages[#pages+1] = { module = "member", view = "edit", text = _"Edit profile" }
+pages[#pages+1] = { module = "member", view = "edit_images", text = _"Upload images" }
+pages[#pages+1] = { view = "settings_notification", text = _"Notification settings" }
+pages[#pages+1] = { view = "settings_display",        text = _"Display settings" }
+if not config.locked_profile_fields.notify_email then
+  pages[#pages+1] = { view = "settings_email",          text = _"Change your notification email address" }
+end
+if not config.locked_profile_fields.name then
+  pages[#pages+1] = { view = "settings_name",           text = _"Change your screen name" }
+end
+if not config.locked_profile_fields.login then
+  pages[#pages+1] = { view = "settings_login",          text = _"Change your login" }
+end
+pages[#pages+1] = { view = "settings_password",       text = _"Change your password" }
+pages[#pages+1] = { view = "developer_settings",      text = _"Developer settings" }
 
 ui.list{
   attr = { class = "menu_list" },

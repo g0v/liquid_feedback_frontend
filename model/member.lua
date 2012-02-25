@@ -325,6 +325,30 @@ function Member:get_search_selector(search_string)
     :add_where("active")
 end
 
+function Member.object:send_invitation()
+  trace.disable()
+  self.invite_code = multirand.string( 24, "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz" )
+  local content = slot.use_temporary(function()
+    slot.put(_"Hello\n\n")
+    slot.put(_"You are invited to LiquidFeedback. To register please click the following link:\n\n")
+    slot.put(config.absolute_base_url .. "index/register.html?invite_key=" .. self.invite_code .. "\n\n")
+    slot.put(_"If this link is not working, please open following url in your web browser:\n\n")
+    slot.put(config.absolute_base_url .. "index/register.html\n\n")
+    slot.put(_"On that page please enter the invite key:\n\n")
+    slot.put(self.invite_code .. "\n\n")
+  end)
+  local success = net.send_mail{
+    envelope_from = config.mail_envelope_from,
+    from          = config.mail_from,
+    reply_to      = config.mail_reply_to,
+    to            = self.notify_email_unconfirmed or self.notify_email,
+    subject       = config.mail_subject_prefix .. _"Invitation to LiquidFeedback",
+    content_type  = "text/plain; charset=UTF-8",
+    content       = content
+  }
+  return success
+end
+
 function Member.object:set_notify_email(notify_email)
   trace.disable()
   local expiry = db:query("SELECT now() + '7 days'::interval as expiry", "object").expiry

@@ -1,18 +1,9 @@
 local member = Member:by_id(param.get_id()) or Member:new()
 
-param.update(member, "login", "admin", "name")
+param.update(member, "identification", "notify_email", "admin")
 
-if param.get("activated", atom.boolean) then
-  member.activated = "now"
-end
-
-local password = param.get("password")
-if password == "********" or #password == 0 then
-  password = nil
-end
-
-if password then
-  member:set_password(password)
+if param.get("invite_member", atom.boolean) then
+  member:send_invitation()
 end
 
 local err = member:try_save()

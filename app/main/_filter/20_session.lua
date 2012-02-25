@@ -1,5 +1,3 @@
-request.set_cookie{ path = "/", name = "sessionID", value = "s.lmb0lkEkMu16dO0y" }
-
 if cgi.cookies.liquid_feedback_session then
   app.session = Session:by_ident(cgi.cookies.liquid_feedback_session)
 end
@@ -13,6 +11,11 @@ end
 
 request.set_csrf_secret(app.session.additional_secret)
 
-locale.set{lang = app.session.lang or config.default_lang or "en"}
+if not app.session.member.lang then
+  app.session.member.lang = app.session.lang or config.default_lang or "en"
+  app.session.member:save()
+end
+
+locale.set{lang = app.session.member.lang }
 
 execute.inner()

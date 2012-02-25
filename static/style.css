@@ -269,9 +269,7 @@ form.unit_selector {
 
 .slot_initiative_head  {
   background: -webkit-gradient(linear, left top, left bottom, 
-    /*color-stop(0%,#AFEFB9), color-stop(100%,#ffffff)                           */
-    color-stop(0%, #fff), color-stop(15%,#e7e7e7), color-stop(100%,#fff)                           
-  ); 
+    color-stop(0%,#e7e7e7), color-stop(66%,#fff));
   margin-top: 2ex;
   padding-left: 1em;
   padding-top: 2ex;
@@ -328,7 +326,9 @@ form.unit_selector {
 }
 
 
-
+.member_image_photo {
+  border-radius: 8px;
+}
 
 /*************************************************************************
  * vote info / delegation 
@@ -468,7 +468,6 @@ form.unit_selector {
   margin-left: 1em;
   margin-right: 1em;
 }
-
 
 /*************************************************************************
  * ui.tab
@@ -823,6 +822,10 @@ tr table tr:hover td {
   font-size: 125%;
 }
 
+.issues .issue .issue_policy_info {
+  font-style: italic;
+}
+
 .issues .issue .interest_by_delegation {
   float: right;
 }
@@ -851,7 +854,7 @@ tr table tr:hover td {
 
 .initiative_link.supported,
 .initiative_link.potentially_supported {
-  background-color: #C9FFD1;
+  background-color: #cdf;
   border-radius: 5px;
   background: -webkit-radial-gradient(center, ellipse cover, #cdf 50%,#fff 100%); /* Chrome10+,Safari5.1+ */
 }
@@ -975,6 +978,9 @@ tr table tr:hover td {
   border-radius: 8px;
 }
 
+.member_statement {
+  margin-right: 250px;
+}
 
 #suggestion_description {
   height: 15ex;
@@ -1021,6 +1027,7 @@ tr table tr:hover td {
   background-color: #dfd;
   padding: 1ex;
   margin-bottom: 2ex;
+  border-radius: 8px;
 }
 
 .not_admitted_info,
@@ -1153,15 +1160,21 @@ a.not_voted {
  * Voting
  */
 
+#voting_form {
+  margin-top: 20px;
+}
+
 #voting {
   position: relative;
 }
+
 #voting .approval, .abstention, .disapproval {
   border: 2px black solid;
-  margin-top:    5ex;
+  margin-top:   2ex;
   margin-bottom: 5ex;
   padding: 1ex;
   padding-bottom: 2ex;
+  border-radius: 8px;
 }
 #voting .approval {
   background-color: #9f9;
@@ -1187,8 +1200,9 @@ a.not_voted {
 #voting .movable {
   position: relative;
   border: 1px black solid;
-  margin: 1ex;
+  margin-top: 1ex;
   padding: 0.5ex;
+  border-radius: 8px;
 }
 #voting .voting_form_active .movable {
   cursor: pointer;

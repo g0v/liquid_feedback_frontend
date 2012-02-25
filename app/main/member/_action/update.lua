@@ -1,4 +1,4 @@
-param.update(app.session.member,
+local fields = {
   "organizational_unit",
   "internal_posts",
   "realname",
@@ -13,12 +13,22 @@ param.update(app.session.member,
   "external_memberships",
   "external_posts",
   "statement"
-)
+}
 
-if tostring(app.session.member.birthday) == "invalid_date" then
-  app.session.member.birthday = nil
-  slot.put_into("error", _"Date format is not valid. Please use following format: YYYY-MM-DD")
-  return false
+local update_args = { app.session.member }
+
+for i, field in ipairs(fields) do
+  if not config.locked_profile_fields[field] then
+    param.update(app.session.member, field)
+  end
+end
+
+if not config.locked_profile_fields.birthday then
+  if tostring(app.session.member.birthday) == "invalid_date" then
+    app.session.member.birthday = nil
+    slot.put_into("error", _"Date format is not valid. Please use following format: YYYY-MM-DD")
+    return false
+  end
 end
 
 app.session.member:save()

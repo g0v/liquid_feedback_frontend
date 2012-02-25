@@ -21,8 +21,39 @@ Unit:add_reference{
   ref                   = 'members'
 }
 
-function Unit:get_flattened_tree()
-  -- TODO implement
+function recursive_add_child_units(units, parent_unit)
+  parent_unit.childs = {}
+  for i, unit in ipairs(units) do
+    if unit.parent_id == parent_unit.id then
+      parent_unit.childs[#(parent_unit.childs)+1] = unit
+      recursive_add_child_units(units, unit)
+    end
+  end
+end  
 
-  return Unit:new_selector():exec()
+function recursive_get_child_units(units, parent_unit, depth)
+  for i, unit in ipairs(parent_unit.childs) do
+    unit.depth = depth
+    units[#units+1] = unit
+    recursive_get_child_units(units, unit, depth + 1)
+  end
+end
+
+function Unit:get_flattened_tree()
+  local units = Unit:new_selector():add_order_by("name"):exec()
+  local unit_tree = {}
+  for i, unit in ipairs(units) do
+    if not unit.parent_id then
+      unit_tree[#unit_tree+1] = unit
+      recursive_add_child_units(units, unit)
+    end
+  end
+  local depth = 1
+  local units = {}
+  for i, unit in ipairs(unit_tree) do
+    unit.depth = depth
+    units[#units+1] = unit
+    recursive_get_child_units(units, unit, depth + 1)
+  end
+  return units
 end

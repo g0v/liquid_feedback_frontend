@@ -401,16 +401,32 @@ ui.form{
                         content = function()
                           ui.tag{ content = "i" .. initiative.id .. ": " }
                           ui.tag{ content = initiative.shortened_name }
-                          if #initiators > 1 then
-                            ui.container{
-                              attr = { style = "font-size: 80%;" },
-                              content = _"Initiators" .. ": " .. initiator_names_string
+                          slot.put("<br />")
+                          for i, initiator in ipairs(initiators) do
+                            ui.link{
+                              attr = { class = "clickable" },
+                              content = function ()
+                                execute.view{
+                                  module = "member_image",
+                                  view = "_show",
+                                  params = {
+                                    member = initiator,
+                                    image_type = "avatar",
+                                    show_dummy = true,
+                                    class = "micro_avatar",
+                                    popup_text = text
+                                  }
+                                }
+                              end,
+                              module = "member", view = "show", id = initiator.id
                             }
-                          else
-                            ui.container{
-                              attr = { style = "font-size: 80%;" },
-                              content = _"Initiator" .. ": " .. initiator_names_string
+                            slot.put(" ")
+                            ui.link{
+                              attr = { class = "clickable" },
+                              text = initiator.name,
+                              module = "member", view = "show", id = initiator.id
                             }
+                            slot.put(" ")
                           end
                         end
                       }

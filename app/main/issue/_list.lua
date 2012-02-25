@@ -100,6 +100,7 @@ filters.content = function()
               end
               }
               ui.tag{
+                attr = { class = "issue_policy_info" },
                 tag = "div",
                 content = function()
                 

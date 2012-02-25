@@ -1,5 +1,7 @@
 local member = param.get("member", "table")
 
+local include_private_data = param.get("include_private_data", atom.boolean)
+
 if not member then
   local member_id = param.get("member_id", atom.integer)
   if member_id then
@@ -70,12 +72,18 @@ ui.form{
 
       end
     }
-
-    if member.ident_number then
-      ui.field.text{    label = _"Ident number", name = "ident_number" }
+    
+    if member.identification then
+      ui.field.text{    label = _"Identification", name = "identification" }
     end
-    ui.field.text{ label = _"Name", name = "name" }
-
+    if member.name then
+      ui.field.text{ label = _"Screen name", name = "name" }
+    end
+    if include_private_data and member.login then
+      ui.field.text{    label = _"Login name", name = "login" }
+      ui.field.text{    label = _"Notification email", name = "notify_email" }
+    end
+    
     if member.realname and #member.realname > 0 then
       ui.field.text{ label = _"Real name", name = "realname" }
     end
@@ -128,8 +136,16 @@ ui.form{
     end
     if member.external_posts and #member.external_posts > 0 then
       ui.field.text{ label = _"Posts", name = "external_posts", multiline = true }
+    end    
+    if member.admin then
+      ui.field.boolean{ label = _"Admin?",       name = "admin" }
     end
-    slot.put('<br style="clear: right;" />')
+    if member.locked then
+      ui.field.boolean{ label = _"Locked?",      name = "locked" }
+    end
+    if member.last_activity then
+      ui.field.text{ label = _"Last activity (updated daily)", value = format.date(member.last_activity) or _"not yet" }
+    end
 
     if member.statement and #member.statement > 0 then
       ui.container{
@@ -139,14 +155,5 @@ ui.form{
         end
       }
     end
-    
-    if member.admin then
-      ui.field.boolean{ label = _"Admin?",       name = "admin" }
-    end
-    if member.locked then
-      ui.field.boolean{ label = _"Locked?",      name = "locked" }
-    end
-    ui.field.text{ label = _"Last activity (updated daily)", value = format.date(member.last_activity) or _"not yet" }
-    
   end
 }

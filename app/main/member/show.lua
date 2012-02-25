@@ -1,5 +1,9 @@
 local member = Member:by_id(param.get_id())
 
+if not member or not member.activated then
+  error("access denied")
+end
+
 app.html_title.title = member.name
 app.html_title.subtitle = _("Member")
 

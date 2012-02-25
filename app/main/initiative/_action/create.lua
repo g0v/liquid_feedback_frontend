@@ -87,6 +87,16 @@ if not issue then
   issue.area_id = area.id
   issue.policy_id = policy_id
   issue:save()
+
+  if config.etherpad then
+    local result = net.curl(
+      config.etherpad.api_base 
+      .. "api/1/createGroupPad?apikey=" .. config.etherpad.api_key
+      .. "&groupID=" .. config.etherpad.group_id
+      .. "&padName=Issue" .. tostring(issue.id)
+      .. "&text=" .. config.absolute_base_url .. "issue/show/" .. tostring(issue.id) .. ".html"
+    )
+  end
 end
 
 initiative.issue_id = issue.id

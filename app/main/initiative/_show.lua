@@ -32,87 +32,86 @@ slot.select("initiative_head", function()
     attr = { class = "initiative_name" },
     content = _("Initiative i#{id}: #{name}", { id = initiative.id, name = initiative.name })
   }
-  if app.session.member_id or config.public_access == "pseudonym" or config.public_access == "full" then
-    ui.tag{
-      attr = { class = "initiator_names" },
-      content = function()
-        for i, initiator in ipairs(initiators) do
-          slot.put(" ")
-          ui.link{
-            content = function ()
-              execute.view{
-                module = "member_image",
-                view = "_show",
-                params = {
-                  member = initiator,
-                  image_type = "avatar",
-                  show_dummy = true,
-                  class = "micro_avatar",
-                  popup_text = text
-                }
+end )
+
+if app.session.member_id or config.public_access == "pseudonym" or config.public_access == "full" then
+  ui.tag{
+    attr = { class = "initiator_names" },
+    content = function()
+      for i, initiator in ipairs(initiators) do
+        slot.put(" ")
+        ui.link{
+          content = function ()
+            execute.view{
+              module = "member_image",
+              view = "_show",
+              params = {
+                member = initiator,
+                image_type = "avatar",
+                show_dummy = true,
+                class = "micro_avatar",
+                popup_text = text
               }
-            end,
-            module = "member", view = "show", id = initiator.id
-          }
-          slot.put(" ")
-          ui.link{
-            text = initiator.name,
-            module = "member", view = "show", id = initiator.id
-          }
-          if not initiator.accepted then
-            ui.tag{ attr = { title = _"Not accepted yet" }, content = "?" }
-          end
+            }
+          end,
+          module = "member", view = "show", id = initiator.id
+        }
+        slot.put(" ")
+        ui.link{
+          text = initiator.name,
+          module = "member", view = "show", id = initiator.id
+        }
+        if not initiator.accepted then
+          ui.tag{ attr = { title = _"Not accepted yet" }, content = "?" }
         end
       end
-    }
-  end
+    end
+  }
+end
 
-  if initiator and initiator.accepted and not initiative.issue.fully_frozen and not initiative.issue.closed and not initiative.revoked then
+if initiator and initiator.accepted and not initiative.issue.fully_frozen and not initiative.issue.closed and not initiative.revoked then
+  slot.put(" &middot; ")
+  ui.link{
+    attr = { class = "action" },
+    content = function()
+      slot.put(_"Invite initiator")
+    end,
+    module = "initiative",
+    view = "add_initiator",
+    params = { initiative_id = initiative.id }
+  }
+  if #initiators > 1 then
     slot.put(" &middot; ")
     ui.link{
-      attr = { class = "action" },
       content = function()
-        slot.put(_"Invite initiator")
+        slot.put(_"Remove initiator")
       end,
       module = "initiative",
-      view = "add_initiator",
+      view = "remove_initiator",
       params = { initiative_id = initiative.id }
     }
-    if #initiators > 1 then
-      slot.put(" &middot; ")
-      ui.link{
-        content = function()
-          slot.put(_"Remove initiator")
-        end,
-        module = "initiative",
-        view = "remove_initiator",
-        params = { initiative_id = initiative.id }
-      }
-    end
   end
-  if initiator and initiator.accepted == false then
-      slot.put(" &middot; ")
-      ui.link{
-        text   = _"Cancel refuse of invitation",
-        module = "initiative",
-        action = "remove_initiator",
-        params = {
-          initiative_id = initiative.id,
-          member_id = app.session.member.id
-        },
-        routing = {
-          ok = {
-            mode = "redirect",
-            module = "initiative",
-            view = "show",
-            id = initiative.id
-          }
+end
+if initiator and initiator.accepted == false then
+    slot.put(" &middot; ")
+    ui.link{
+      text   = _"Cancel refuse of invitation",
+      module = "initiative",
+      action = "remove_initiator",
+      params = {
+        initiative_id = initiative.id,
+        member_id = app.session.member.id
+      },
+      routing = {
+        ok = {
+          mode = "redirect",
+          module = "initiative",
+          view = "show",
+          id = initiative.id
         }
       }
-  end
-
-  
-end )
+    }
+end
   
 util.help("initiative.show")
 
@@ -306,5 +305,6 @@ execute.view{
 if initiative.issue.snapshot then
   ui.field.timestamp{ label = _"Last snapshot:", value = initiative.issue.snapshot }
 end
+
 
 

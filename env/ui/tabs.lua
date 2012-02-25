@@ -1,6 +1,8 @@
 function ui.tabs(tabs)
+  local attr = tabs.attr or {}
+  attr.class = (attr.class and attr.class .. " " or "") .. "ui_tabs"
   ui.container{
-    attr = { class = "ui_tabs" },
+    attr = attr,
     content = function()
       local params = param.get_all_cgi()
       local current_tab = params["tab"]
