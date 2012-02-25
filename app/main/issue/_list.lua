@@ -35,8 +35,10 @@ filters.content = function()
         for i, issue in ipairs(issues) do
 
           local class = "issue"
-          if issue.is_interested or issue.is_interested_by_delegation_to_member_id then
+          if issue.is_interested then
             class = class .. " interested"
+          elseif issue.is_interested_by_delegation_to_member_id then
+            class = class .. " interested_by_delegation"
           end
           ui.container{ attr = { class = class }, content = function()
 

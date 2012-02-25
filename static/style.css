@@ -365,8 +365,26 @@ form.unit_selector {
 .interest .head_active,
 .actions .supporter,
 .actions .potential_supporter {
-  background-color: #cdf;
   border-radius: 5px;
+}
+
+.delegation .head_active,
+.interest .head_active,
+.actions .supporter,
+.actions .potential_supporter {
+  background-color: #cdf;
+}
+
+.interest .head_active {
+  background-color: #fec;
+}
+
+.actions .supporter {
+  background-color: #cfd;
+}
+
+.actions .potential_supporter {
+  background-color: #fec;
 }
 
 .slot_support .head_initiator {
@@ -813,9 +831,10 @@ tr table tr:hover td {
     color-stop(0%,#e7e7e7), color-stop(66%,#fff));
 }
 
-.issues .issue.interested .issue_info{
+.issues .issue.interested .issue_info,
+.issues .issue.interested_by_delegation .issue_info  {
   background: -webkit-gradient(linear, left top, left bottom,
-    color-stop(0%,#cdf), color-stop(66%,#fff));
+    color-stop(0%,#fec), color-stop(66%,#fff));
 }
 
 .issues .issue .issue_info .issue_id {
@@ -852,11 +871,16 @@ tr table tr:hover td {
   font-weight: bold;
 }
 
-.initiative_link.supported,
-.initiative_link.potentially_supported {
-  background-color: #cdf;
+.initiative_link.supported {
+  background-color: #cfd;
   border-radius: 5px;
-  background: -webkit-radial-gradient(center, ellipse cover, #cdf 50%,#fff 100%); /* Chrome10+,Safari5.1+ */
+  xbackground: -webkit-radial-gradient(center, ellipse cover, #cfd 50%,#fff 100%); /* Chrome10+,Safari5.1+ */
+}
+
+.initiative_link.potentially_supported {
+  background-color: #fec;
+  border-radius: 5px;
+  xbackground: -webkit-radial-gradient(center, ellipse cover, #fec 50%,#fff 100%); /* Chrome10+,Safari5.1+ */
 }
 
 .lang_chooser {
