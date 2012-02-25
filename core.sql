@@ -1159,7 +1159,7 @@ CREATE TABLE "event" (
             "initiative_id" NOTNULL AND
             "draft_id"      ISNULL  AND
             "suggestion_id" NOTNULL )) );
--- TODO: indicies
+CREATE INDEX "event_occurrence_idx" ON "event" ("occurrence");
 
 COMMENT ON TABLE "event" IS 'Event table, automatically filled by triggers';
 
