@@ -421,11 +421,7 @@ ui.form{
                               module = "member", view = "show", id = initiator.id
                             }
                             slot.put(" ")
-                            ui.link{
-                              attr = { class = "clickable" },
-                              text = initiator.name,
-                              module = "member", view = "show", id = initiator.id
-                            }
+                            ui.tag{ content = initiator.name }
                             slot.put(" ")
                           end
                         end
