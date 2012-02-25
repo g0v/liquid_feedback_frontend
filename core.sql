@@ -94,6 +94,7 @@ CREATE TABLE "member" (
         "locked"                BOOLEAN         NOT NULL DEFAULT FALSE,
         "active"                BOOLEAN         NOT NULL DEFAULT FALSE,
         "admin"                 BOOLEAN         NOT NULL DEFAULT FALSE,
+        "lang"                  TEXT,
         "notify_email"          TEXT,
         "notify_email_unconfirmed"     TEXT,
         "notify_email_secret"          TEXT     UNIQUE,
@@ -146,6 +147,7 @@ COMMENT ON COLUMN "member"."password"             IS 'Password (preferably as cr
 COMMENT ON COLUMN "member"."locked"               IS 'Locked members can not log in.';
 COMMENT ON COLUMN "member"."active"               IS 'Memberships, support and votes are taken into account when corresponding members are marked as active. Automatically set to FALSE, if "last_activity" is older than "system_setting"."member_ttl".';
 COMMENT ON COLUMN "member"."admin"                IS 'TRUE for admins, which can administrate other users and setup policies and areas';
+COMMENT ON COLUMN "member"."lang"                 IS 'Language code of the preferred language of the member';
 COMMENT ON COLUMN "member"."notify_email"         IS 'Email address where notifications of the system are sent to';
 COMMENT ON COLUMN "member"."notify_email_unconfirmed"   IS 'Unconfirmed email address provided by the member to be copied into "notify_email" field after verification';
 COMMENT ON COLUMN "member"."notify_email_secret"        IS 'Secret sent to the address in "notify_email_unconformed"';
