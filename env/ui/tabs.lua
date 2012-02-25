@@ -10,6 +10,12 @@ function ui.tabs(tabs)
         attr = { class = "ui_tabs_links" },
         content = function()
           for i, tab in ipairs(tabs) do
+            local params = param.get_all_cgi()
+            if tab.link_params then
+              for key, value in pairs(tab.link_params) do
+                params[key] = value
+              end
+            end
             params["tab"] = i > 1 and tab.name or nil
             ui.link{
               attr = { 

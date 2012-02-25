@@ -171,7 +171,9 @@ tabs[#tabs+1] = {
   view = "_list",
   params = {
     issues_selector = issues_selector, for_member = member,
-    filter_interest = member.id ~= app.session.member_id and "my" or nil
+  },
+  link_params = {
+    filter_interest = (member.id ~= app.session.member_id) and "my" or nil,
   },
 }
   

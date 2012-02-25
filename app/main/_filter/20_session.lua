@@ -11,11 +11,6 @@ end
 
 request.set_csrf_secret(app.session.additional_secret)
 
-if not app.session.member.lang then
-  app.session.member.lang = app.session.lang or config.default_lang or "en"
-  app.session.member:save()
-end
-
-locale.set{lang = app.session.member.lang }
+locale.set{ lang = app.session.lang or config.default_lang or "en" }
 
 execute.inner()

@@ -369,22 +369,16 @@ form.unit_selector {
 }
 
 .delegation .head_active,
-.interest .head_active,
-.actions .supporter,
-.actions .potential_supporter {
+.interest .head_active {
   background-color: #cdf;
 }
 
-.interest .head_active {
-  background-color: #fec;
-}
-
 .actions .supporter {
-  background-color: #cfd;
+  background-color: #cdf;
 }
 
 .actions .potential_supporter {
-  background-color: #fec;
+  background-color: #cdf;
 }
 
 .slot_support .head_initiator {
@@ -834,7 +828,7 @@ tr table tr:hover td {
 .issues .issue.interested .issue_info,
 .issues .issue.interested_by_delegation .issue_info  {
   background: -webkit-gradient(linear, left top, left bottom,
-    color-stop(0%,#fec), color-stop(66%,#fff));
+    color-stop(0%,#cdf), color-stop(66%,#fff));
 }
 
 .issues .issue .issue_info .issue_id {
@@ -872,15 +866,13 @@ tr table tr:hover td {
 }
 
 .initiative_link.supported {
-  background-color: #cfd;
+  background-color: #cdf;
   border-radius: 5px;
-  xbackground: -webkit-radial-gradient(center, ellipse cover, #cfd 50%,#fff 100%); /* Chrome10+,Safari5.1+ */
 }
 
 .initiative_link.potentially_supported {
-  background-color: #fec;
+  background-color: #cdf;
   border-radius: 5px;
-  xbackground: -webkit-radial-gradient(center, ellipse cover, #fec 50%,#fff 100%); /* Chrome10+,Safari5.1+ */
 }
 
 .lang_chooser {

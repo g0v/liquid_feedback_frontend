@@ -110,6 +110,24 @@ ui.container{
                   id      = id,
                   params  = params,
                 }
+                  
+                if initiative.is_supporter then
+                  slot.put("&nbsp;")
+                  local label = _"You are supporter of this initiative"
+                  ui.image{
+                    attr = { alt = label, title = label },
+                    static = "icons/16/thumb_up_green.png"
+                  }
+                end
+                
+                if initiative.is_supporter_via_delegation then
+                  slot.put("&nbsp;")
+                  local label = _"You are supporter of this initiative via delegation"
+                  ui.image{
+                    attr = { alt = label, title = label },
+                    static = "icons/16/thumb_up_green.png"
+                  }
+                end
     
                 if initiative.is_initiator then
                   slot.put("&nbsp;")

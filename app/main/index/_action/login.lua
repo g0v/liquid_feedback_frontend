@@ -54,6 +54,11 @@ if member then
   member.last_login = "now"
   member.last_activity = "now"
   member.active = true
+  if member.lang == nil then
+    member.lang = app.session.lang
+  else
+    app.session.lang = member.lang
+  end
   member:save()
   app.session.member = member
   app.session:save()
