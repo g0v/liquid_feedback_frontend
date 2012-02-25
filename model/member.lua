@@ -249,6 +249,9 @@ function Member:build_selector(args)
     selector:join("contact", "__model_member__contact", "member.id = __model_member__contact.other_member_id")
     selector:add_where{ "__model_member__contact.member_id = ?", args.is_contact_of_member_id }
   end
+  if args.voting_right_for_unit_id then
+    selector:join("privilege", "__model_member__privilege", "member.id = __model_member__privilege.member_id AND __model_member__privilege.voting_right")
+  end
   if args.order then
     if args.order == "id" then
       selector:add_order_by("id")
