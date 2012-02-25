@@ -33,6 +33,8 @@ if param.get("delete") or trustee_id == -1 then
   end
 
 else
+  
+  local trustee = Member:by_id(trustee_id)
 
   local check_unit_id
   if unit_id then
@@ -44,6 +46,11 @@ else
     local issue = Issue:by_id(issue_id)
     local area = Area:by_id(issue.area_id)
     check_unit_id = area.unit_id
+  end
+  
+  if not trustee:has_voting_right_for_unit_id(check_unit_id) then
+    slot.put_into("error", _"Trustee has no voting right in this unit")
+    return false
   end
 
   if not app.session.member:has_voting_right_for_unit_id(check_unit_id) then
