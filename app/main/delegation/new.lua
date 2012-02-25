@@ -103,7 +103,7 @@ ui.form{
       end
       records = {
         { id = -1, name = text_apply },
-        { id = 0,  name = text_abandom }
+        { id = 0,  name = text_abandon }
       }
     elseif area then
       local delegate_name = ""

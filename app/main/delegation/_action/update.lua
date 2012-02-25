@@ -12,6 +12,9 @@ if issue_id then
   area_id = nil
 end
 
+local delegation = Delegation:by_pk(truster_id, unit_id, area_id, issue_id)
+
+
 if param.get("delete") or trustee_id == -1 then
 
   if delegation then
@@ -46,8 +49,6 @@ else
   if not app.session.member:has_voting_right_for_unit_id(check_unit_id) then
     error("access denied")
   end
-
-  local delegation = Delegation:by_pk(truster_id, unit_id, area_id, issue_id)
 
   if not delegation then
     delegation = Delegation:new()
