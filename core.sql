@@ -101,7 +101,6 @@ CREATE TABLE "member" (
         "notify_email_secret_expiry"   TIMESTAMPTZ,
         "notify_email_lock_expiry"     TIMESTAMPTZ,
         "notify_level"          "notify_level"  NOT NULL DEFAULT 'none',
-        "notify_event_id"       INT8,
         "password_reset_secret"        TEXT     UNIQUE,
         "password_reset_secret_expiry" TIMESTAMPTZ,
         "name"                  TEXT            NOT NULL UNIQUE,
@@ -154,7 +153,6 @@ COMMENT ON COLUMN "member"."notify_email_secret"        IS 'Secret sent to the a
 COMMENT ON COLUMN "member"."notify_email_secret_expiry" IS 'Expiry date/time for "notify_email_secret"';
 COMMENT ON COLUMN "member"."notify_email_lock_expiry"   IS 'Date/time until no further email confirmation mails may be sent (abuse protection)';
 COMMENT ON COLUMN "member"."notify_level"         IS 'Selects which event notifications are to be sent to the "notify_email" mail address';
-COMMENT ON COLUMN "member"."notify_event_id"      IS 'Latest "id" of an "event" the member was notified about';
 COMMENT ON COLUMN "member"."name"                 IS 'Distinct name of the member';
 COMMENT ON COLUMN "member"."identification"       IS 'Optional identification number or code of the member';
 COMMENT ON COLUMN "member"."authentication"       IS 'Information about how this member was authenticated';
@@ -1171,6 +1169,14 @@ COMMENT ON COLUMN "event"."member_id"  IS 'Member who caused the event, if appli
 COMMENT ON COLUMN "event"."state"      IS 'If issue_id is set: state of affected issue; If state changed: new state';
 
 
+CREATE TABLE "notification_sent" (
+        "event_id"              INT8            NOT NULL );
+CREATE UNIQUE INDEX "notification_sent_singleton_idx" ON "notification_sent" ((1));
+
+COMMENT ON TABLE "notification_sent" IS 'This table stores one row with the last event_id, for which notifications have been sent out';
+COMMENT ON INDEX "notification_sent_singleton_idx" IS 'This index ensures that "notification_sent" only contains one row maximum.';
+
+
 
 ----------------------------------------------
 -- Writing of history entries and event log --
@@ -2111,12 +2117,36 @@ CREATE VIEW "event_seen_by_member" AS
   AND "ignored_member"."member_id" ISNULL
   AND "ignored_initiative"."member_id" ISNULL;
 
-COMMENT ON VIEW "event_seen_by_member" IS 'Events as seen by a member, depending on its memberships, interests and support';
+COMMENT ON VIEW "event_seen_by_member" IS 'Events as seen by a member, depending on its memberships, interests and support, but ignoring members "notify_level"';
 
 
-CREATE VIEW "pending_notification" AS
+CREATE VIEW "selected_event_seen_by_member" AS
   SELECT
     "member"."id" AS "seen_by_member_id",
+    CASE WHEN "event"."state" IN (
+      'voting',
+      'finished_without_winner',
+      'finished_with_winner'
+    ) THEN
+      'voting'::"notify_level"
+    ELSE
+      CASE WHEN "event"."state" IN (
+        'verification',
+        'canceled_after_revocation_during_verification',
+        'canceled_no_initiative_admitted'
+      ) THEN
+        'verification'::"notify_level"
+      ELSE
+        CASE WHEN "event"."state" IN (
+          'discussion',
+          'canceled_after_revocation_during_discussion'
+        ) THEN
+          'discussion'::"notify_level"
+        ELSE
+          'all'::"notify_level"
+        END
+      END
+    END AS "notify_level",
     "event".*
   FROM "member" CROSS JOIN "event"
   LEFT JOIN "issue"
@@ -2137,10 +2167,6 @@ CREATE VIEW "pending_notification" AS
     ON "member"."id" = "ignored_initiative"."member_id"
     AND "event"."initiative_id" = "ignored_initiative"."initiative_id"
   WHERE (
-    "member"."notify_event_id" ISNULL OR
-    ( "member"."notify_event_id" NOTNULL AND
-      "member"."notify_event_id" < "event"."id" ) )
-  AND (
     ( "member"."notify_level" >= 'all' ) OR
     ( "member"."notify_level" >= 'voting' AND
       "event"."state" IN (
@@ -2168,7 +2194,7 @@ CREATE VIEW "pending_notification" AS
   AND "ignored_member"."member_id" ISNULL
   AND "ignored_initiative"."member_id" ISNULL;
 
-COMMENT ON VIEW "pending_notification" IS 'Events to be sent to "notify_email" address of member referred to by "seen_by_member_id"';
+COMMENT ON VIEW "selected_event_seen_by_member" IS 'Events as seen by a member, depending on its memberships, interests, support and members "notify_level"';
 
 
 CREATE TYPE "timeline_event" AS ENUM (
