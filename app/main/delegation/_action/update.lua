@@ -34,7 +34,11 @@ if param.get("delete") or trustee_id == -1 then
 
 else
   
-  local trustee = Member:by_id(trustee_id)
+  local trustee
+  
+  if trustee_id then
+    trustee = Member:by_id(trustee_id)
+  end
 
   local check_unit_id
   if unit_id then
@@ -48,7 +52,7 @@ else
     check_unit_id = area.unit_id
   end
   
-  if not trustee:has_voting_right_for_unit_id(check_unit_id) then
+  if trustee and not trustee:has_voting_right_for_unit_id(check_unit_id) then
     slot.put_into("error", _"Trustee has no voting right in this unit")
     return false
   end
