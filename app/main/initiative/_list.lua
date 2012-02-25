@@ -195,7 +195,7 @@ if not show_for_initiative or initiatives_count > 1 then
     end
   }
 
-  if more_initiatives_count then
+  if more_initiatives_count and more_initiatives_count > 0 then
     local text
     if more_initiatives_count == 1 then
       text = _("and one more initiative")
