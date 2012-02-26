@@ -8,7 +8,7 @@ ui.list{
         for i = 1, unit.depth - 1 do
           slot.put("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
         end
-        ui.link{ text = unit.name, module = "area", view = "list", params = { unit_id = unit.id } }
+        ui.link{ text = unit.name, module = "unit", view = "show", id = unit.id }
       end 
     }
   }

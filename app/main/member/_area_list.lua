@@ -14,7 +14,7 @@ for i, unit in ipairs(units) do
   ui.link{
     attr = { class = class },
     text = unit.name,
-    module = "area", view = "list", params = { unit_id = unit.id }
+    module = "unit", view = "show", id = unit.id
   }
 
   if area_count > 0 then

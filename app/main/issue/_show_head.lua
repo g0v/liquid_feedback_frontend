@@ -30,9 +30,9 @@ slot.select("title", function()
     slot.put(" &middot; ")
     ui.link{
       content = issue.area.unit.name,
-      module = "area",
-      view = "list",
-      params = { unit_id = issue.area.unit_id }
+      module = "unit",
+      view = "show",
+      id = issue.area.unit_id
     }
   end
 end)

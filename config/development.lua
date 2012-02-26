@@ -1,4 +1,4 @@
-config.absolute_base_url = "http://10.1.11.5/lf/"
+config.absolute_base_url = "http://localhost/lf/"
 
 execute.config("default")
 
@@ -44,8 +44,8 @@ config.public_access = "anonymous"
 --)
 
 config.etherpad = {
-  base_url = "http://10.1.11.5:9001/",
-  api_base = "http://127.0.0.1:9001/",
+  base_url = "http://localhost:9001/",
+  api_base = "http://localhost:9001/",
   api_key = "g5XAVrRb5EgPuEqIdVrRNt2Juipx3PoH",
   group_id = "g.7WDKN3StkEyuWkyN",
   cookie_path = "/"

@@ -1079,7 +1079,7 @@ tr table tr:hover td {
 
 .help,
 .use_terms {
-  border: 1px solid #bcd;
+  border-radius: 8px;
   background-color: #cdf;
   color: #000;
   padding: 1ex;

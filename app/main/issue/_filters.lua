@@ -102,7 +102,7 @@ if not param.get("no_sort", atom.boolean) then
 end
 
 if app.session.member then
-  filters[#filters+1] = {
+  local filter = {
     name = "filter_interest",
     {
       name = "any",
@@ -132,6 +132,20 @@ if app.session.member then
       end
     },
   }
+
+  --[[
+  if param.get_all_cgi()["filter"] == "finished" then
+    filter[#filter+1] = {
+      name = "voted",
+      label = _"Voted",
+      selector_modifier = function(selector)
+        selector:add_where({ "EXISTS (SELECT 1 FROM vote WHERE vote.issue_id = issue.id AND vote.member_id = ?)", member.id })
+      end
+    }
+  end
+  --]]
+
+  filters[#filters+1] = filter
 
   local filter_interest = param.get_all_cgi()["filter_interest"]
     
@@ -184,7 +198,7 @@ if app.session.member then
 
 end
 
-if app.session.member and member.id == app.session.member_id and (param.get_all_cgi()["filter"] == "frozen" or param.get_all_cgi()["filter"] == "finished") then
+if app.session.member and member.id == app.session.member_id and (param.get_all_cgi()["filter"] == "frozen") then
   filters[#filters+1] = {
     name = "filter_voting",
     {
