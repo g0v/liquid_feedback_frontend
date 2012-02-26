@@ -34,12 +34,12 @@ local filter = {
   {
     name = "newest",
     label = _"Newest",
-    selector_modifier = function(selector) selector:add_order_by("created DESC, id DESC") end
+    selector_modifier = function(selector) selector:add_order_by("activated DESC, id DESC") end
   },
   {
     name = "oldest",
     label = _"Oldest",
-    selector_modifier = function(selector) selector:add_order_by("created, id") end
+    selector_modifier = function(selector) selector:add_order_by("activated, id") end
   },
 }
 
