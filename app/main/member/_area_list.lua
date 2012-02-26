@@ -27,7 +27,7 @@ for i, unit in ipairs(units) do
     slot.put(" ")
     ui.link{
       text = _"Show all areas of this unit",
-      module = "area", view = "list", params = { unit_id = unit.id }
+      module = "unit", view = "show", id = unit.id
     }
    end
   slot.put("<br />")
