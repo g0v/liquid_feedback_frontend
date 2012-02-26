@@ -39,9 +39,9 @@ local members_selector = Member:build_selector{
 
 local delegations_selector = Delegation:new_selector()
   :join("member", "truster", "truster.id = delegation.truster_id AND truster.active")
-  :join("privilege", "truster_privilege", "truster_privilege.member_id = truster.id AND truster_privilege.voting_right")
+  :join("privilege", "truster_privilege", "truster_privilege.member_id = truster.id AND truster_privilege.unit_id = delegation.unit_id AND truster_privilege.voting_right")
   :join("member", "trustee", "trustee.id = delegation.trustee_id AND truster.active")
-  :join("privilege", "trustee_privilege", "trustee_privilege.member_id = trustee.id AND trustee_privilege.voting_right")
+  :join("privilege", "trustee_privilege", "trustee_privilege.member_id = trustee.id AND trustee_privilege.unit_id = delegation.unit_id AND trustee_privilege.voting_right")
   :add_where{ "delegation.unit_id = ?", unit.id }
 
 local issues_selector = Issue:new_selector()
