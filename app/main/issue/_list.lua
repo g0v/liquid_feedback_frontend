@@ -164,6 +164,7 @@ else
   ui.filters(filters)
 end
 
+--[[
 if param.get("legend", atom.boolean) ~= false then
   local filter = param.get_all_cgi().filter
   if not filter or filter == "any" or filter ~= "finished" then
@@ -188,3 +189,4 @@ if param.get("legend", atom.boolean) ~= false then
   end
 end
 
+--]]
