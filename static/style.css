@@ -121,6 +121,7 @@ h2 {
   line-height: 100%;
   padding-left: 10px;
   overflow: hidden;
+  box-shadow: #aaa 0 0 5px;
 }
 
 .topbar .logolf {
@@ -198,12 +199,36 @@ form.unit_selector {
  * Title of current page including path and actions
  */
 
+.title,
+.title2,
+.actions {
+  background-color: #eee;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.actions {
+  border-radius: 0 0 8px 8px;
+}
+
+.initiative_head .actions {
+  background-color: #fff;
+  margin: 0px;
+}
+
+.initiatives_list {
+  margin-top: 1ex;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+}
+
 .title {
-  background-color: #ddd;
-  background: -webkit-gradient(linear, left top, left bottom, 
-    color-stop(15%,#ddd), color-stop(50%,#fff)
-  );
-  text-shadow: #fff 0px 0px 3px;
+  box-shadow: inset #888 0px 5px 6px -5px;
+}
+
+.title {
   color: #000;
   padding: 1.5ex 1em 0 1em;
 }
@@ -232,8 +257,6 @@ form.unit_selector {
 }
 
 .slot_initiatives_list {
-  border-top: 1px solid #aaa;
-  border-bottom: 1px solid #aaa;
   padding-top: 1ex;
   padding-bottom: 1ex;
 }
@@ -253,8 +276,8 @@ form.unit_selector {
 .actions {
   font-size: 75%;
   line-height: 220%;
-  margin-top: 2ex;
-  margin-bottom: 2ex;
+  padding-top: 2ex;
+  padding-bottom: 1ex;
 }
 
 .interest {
@@ -273,43 +296,14 @@ form.unit_selector {
 }
 
 .slot_initiative_head  {
-  background: -webkit-gradient(linear, left top, left bottom, 
-    color-stop(0%,#e7e7e7), color-stop(66%,#fff));
   padding-left: 1em;
-  padding-top: 1ex;
-  text-shadow: #fff 0px 0px 3px;
+  padding-top: 2ex;
 }
 
 .initiative_name {
   font-weight: bold;
   font-size: 125%;
 }
-
-.content_navigation {
-  font-size: 75%;
-  background-color: #eee;
-  margin-bottom: 2ex;
-  padding-left: 1em;
-}
-
-.content_navigation div,
-.content_navigation a {
-  display: inline-block;
-  padding: 3px 0.5em 3px 0.0em;
-  margin-right: 1em;
-  vertical-align: middle;
-}
-
-.content_navigation a:hover {
-  background-color: #d7d7d7;
-}
-
-.content_navigation_seperator {
-  height: 1.4em;
-  border-left: 1px solid black;
-}
-
-
 .actions a {
   float: left;
 }
@@ -370,6 +364,7 @@ form.unit_selector {
 .actions .supporter,
 .actions .potential_supporter {
   border-radius: 5px;
+  border: 1px solid #fff;
 }
 
 .delegation .head_active,
@@ -430,6 +425,8 @@ form.unit_selector {
   border-radius: 0 5px 5px 5px;
   padding: 1em;
   width: 35em;
+  border: 1px solid #fff;
+  border-top: none;
 }
 
 .vote_info .delegation_arrow {
@@ -481,8 +478,8 @@ form.unit_selector {
  */
 
 .main {
-  margin-left: 1em;
-  margin-right: 1em;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 /*************************************************************************
@@ -490,7 +487,7 @@ form.unit_selector {
  */
 
 .ui_tabs_links {
-  margin-top: 2ex;
+  margin-top: 3ex;
   margin-bottom: 1ex;
   font-size: 75%;
 }
@@ -498,7 +495,7 @@ form.unit_selector {
 .ui_tabs_links a {
   padding: 1ex;
   line-height: 300%;
-  background-color: #e7e7e7;
+  background-color: #eee;
   white-space: nowrap;
   border-radius: 5px;
   margin-right: 5px;
@@ -750,15 +747,19 @@ th {
 }
 
 tr:hover td {
-  background-color: #ddd;
+  background-color: #eee;
 }
 
 .nohover tr:hover td {
   background-color: #fff;
 }
 
+.initiatives_list .nohover tr:hover td {
+  background-color: #f7f7f7;
+}
+
 .nohover table tr:hover td {
-  background-color: #ddd;
+  background-color: #eee;
 }
 
 
@@ -996,8 +997,7 @@ x.initiative_link.potentially_supported {
 .member_statement,
 .draft_content,
 .suggestion_content {
-  background-color: #eee;
-  xbackground: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#f7f7f7), color-stop(100%,#e5e5e5));
+  background-color: #f7f7f7;
   padding: 1ex;
   border-radius: 8px;
 }
