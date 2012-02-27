@@ -13,18 +13,15 @@ end
 
   if app.session.member and app.session.member_id == member.id then
     ui.link{
-      attr = { class = "actions" },
       content = function()
-          ui.image{ static = "icons/16/application_form.png" }
           slot.put(_"Edit my profile")
       end,
       module = "member",
       view = "edit"
     }
+    slot.put(" ")
     ui.link{
-      attr = { class = "actions" },
       content = function()
-          ui.image{ static = "icons/16/user_gray.png" }
           slot.put(_"Upload images")
       end,
       module = "member",
