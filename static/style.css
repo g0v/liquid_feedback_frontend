@@ -201,7 +201,7 @@ form.unit_selector {
 .title {
   background-color: #ddd;
   background: -webkit-gradient(linear, left top, left bottom, 
-    color-stop(15%,#ddd), color-stop(100%,#fff)                           
+    color-stop(15%,#ddd), color-stop(50%,#fff)
   );
   text-shadow: #fff 0px 0px 3px;
   color: #000;
@@ -224,13 +224,18 @@ form.unit_selector {
 }
 
 .slot_title2 {
-  margin-top: 1ex;
-  margin-left: 1em;
+  padding: 1ex 1em 0 1em;
 }
 
 .initiatives_list {
   clear: left;
-  margin-bottom: 1ex;
+}
+
+.slot_initiatives_list {
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  padding-top: 1ex;
+  padding-bottom: 1ex;
 }
 
 .member_list .member_image_avatar {
@@ -270,9 +275,8 @@ form.unit_selector {
 .slot_initiative_head  {
   background: -webkit-gradient(linear, left top, left bottom, 
     color-stop(0%,#e7e7e7), color-stop(66%,#fff));
-  margin-top: 2ex;
   padding-left: 1em;
-  padding-top: 2ex;
+  padding-top: 1ex;
   text-shadow: #fff 0px 0px 3px;
 }
 
@@ -865,12 +869,12 @@ tr table tr:hover td {
   font-weight: bold;
 }
 
-.initiative_link.supported {
+x.initiative_link.supported {
   background-color: #cdf;
   border-radius: 5px;
 }
 
-.initiative_link.potentially_supported {
+x.initiative_link.potentially_supported {
   background-color: #cdf;
   border-radius: 5px;
 }
@@ -1054,7 +1058,9 @@ tr table tr:hover td {
 .revoked_info {
   background-color: #fdd;
   padding: 1ex;
+  margin-top: 2ex;
   margin-bottom: 2ex;
+  border-radius: 8px;
 }
 
 .draft_updated_info,

@@ -37,7 +37,7 @@ ui.container{
             },
 
             {
-              field_attr = { style = "width: 110px;"},
+              field_attr = { style = "width: 100px;"},
               content = function()
                 if initiative.issue.fully_frozen and initiative.issue.closed then
                   if initiative.issue.ranks_available then 
@@ -74,7 +74,41 @@ ui.container{
                 end
               end
             },
+            {
+              field_attr = { style = "width: 24px;" },
+              content = function()
+                if initiative.is_initiator then
+                  slot.put("&nbsp;")
+                  local label = _"You are initiator of this initiative"
+                  ui.image{
+                    attr = { alt = label, title = label },
+                    static = "icons/16/user_edit.png"
+                  }
+                elseif initiative.is_supporter then
+                  slot.put("&nbsp;")
+                  local label = _"You are supporter of this initiative"
+                  ui.image{
+                    attr = { alt = label, title = label },
+                    static = "icons/16/thumb_up_green.png"
+                  }
+                elseif initiative.is_potential_supporter then
+                  slot.put("&nbsp;")
+                  local label = _"You are potentially supporter of this initiative"
+                  ui.image{
+                    attr = { alt = label, title = label },
+                    static = "icons/16/thumb_up.png"
+                  }
+                elseif initiative.is_supporter_via_delegation then
+                  slot.put("&nbsp;")
+                  local label = _"You are supporter of this initiative via delegation"
+                  ui.image{
+                    attr = { alt = label, title = label },
+                    static = "icons/16/thumb_up_green.png"
+                  }
+                end
     
+              end
+            },
             {
               content = function()
                 local link_class = "initiative_link"
@@ -111,33 +145,6 @@ ui.container{
                   params  = params,
                 }
                   
-                if initiative.is_supporter then
-                  slot.put("&nbsp;")
-                  local label = _"You are supporter of this initiative"
-                  ui.image{
-                    attr = { alt = label, title = label },
-                    static = "icons/16/thumb_up_green.png"
-                  }
-                end
-                
-                if initiative.is_supporter_via_delegation then
-                  slot.put("&nbsp;")
-                  local label = _"You are supporter of this initiative via delegation"
-                  ui.image{
-                    attr = { alt = label, title = label },
-                    static = "icons/16/thumb_up_green.png"
-                  }
-                end
-    
-                if initiative.is_initiator then
-                  slot.put("&nbsp;")
-                  local label = _"You are initiator of this initiative"
-                  ui.image{
-                    attr = { alt = label, title = label },
-                    static = "icons/16/user_edit.png"
-                  }
-                end
-        
               end
             }
           }

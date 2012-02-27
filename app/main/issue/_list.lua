@@ -44,7 +44,16 @@ filters.content = function()
 
             ui.container{ attr = { class = "issue_info" }, content = function()
             
-              if issue.is_interested_by_delegation_to_member_id then
+              if issue.is_interested then
+                ui.tag{
+                  tag = "div", attr = { class = "interest_by_delegation"},
+                  content = function()
+                    local text = "You are interested in this issue"
+                    ui.image{ attr = { alt = text, title = text }, static = "icons/16/eye.png" }
+                  end
+                }
+                
+              elseif issue.is_interested_by_delegation_to_member_id then
                 ui.tag{
                   tag = "div", attr = { class = "interest_by_delegation"},
                   content = function()
