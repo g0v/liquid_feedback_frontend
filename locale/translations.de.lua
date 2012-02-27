@@ -82,7 +82,7 @@ return {
 ["Ballot of '#{member_name}' for issue ##{issue_id}"] = "Stimmzettel von '#{member_name}' für Thema ##{issue_id}";
 ["Become a member"] = "Mitglied werden";
 ["Birthday"] = "Geburtstag";
-["By delegation"] = "Nach Delegationen";
+["By delegation"] = "Durch Delegationen";
 ["Can't remove last initiator"] = "Der letzte Initiator kann nicht entfernt werden";
 ["Can't send confirmation email"] = "Bestätigungs-E-Mail kann nicht versendet werden.";
 ["Cancel"] = "Abbrechen";
