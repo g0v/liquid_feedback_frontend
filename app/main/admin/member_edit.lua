@@ -26,6 +26,17 @@ ui.form{
     ui.field.text{     label = _"Identification", name = "identification" }
     ui.field.text{     label = _"Notification email", name = "notify_email" }
     ui.field.boolean{  label = _"Admin?",       name = "admin" }
+
+    ui.multiselect{ label              = _"Voting privileges",
+                    name               = "units_with_voting_right[]",
+                    foreign_records    = Unit:new_selector():exec(),
+                    foreign_id         = "id",
+                    foreign_name       = "name",
+                    connecting_records = {},
+                    foreign_reference  = "id",
+    }
+    slot.put("<br /><br />")
+
     ui.field.boolean{  label = _"Send invite?",       name = "invite_member" }
     ui.submit{         text  = _"Save" }
   end
