@@ -224,6 +224,32 @@ if app.session.member and member.id == app.session.member_id and (param.get_all_
   }
 end
 
+if member then
+  filters[#filters+1] = {
+    name = "filter_membership",
+    {
+      name = "any",
+      label = _"All units",
+      selector_modifier = function()  end
+    },
+    {
+      name = "unit",
+      label = _"My units",
+      selector_modifier = function(selector)
+        selector:join("area", nil, "area.id = issue.area_id")
+        selector:join("privilege", nil, { "privilege.unit_id = area.unit_id AND privilege.member_id = ? AND privilege.voting_right", member.id })
+      end
+    },
+    {
+      name = "area",
+      label = _"My areas",
+      selector_modifier = function(selector)
+        selector:join("membership", nil, { "membership.area_id = issue.area_id AND membership.member_id = ?", member.id })
+      end
+    },
+  }
+end
+
 function filters:get_filter(group, name)
   for i,grp in ipairs(self) do
     if grp.name == group then
