@@ -11,11 +11,6 @@ slot.select("actions", function()
   }
 end)
 
-ui.tag{
-  tag = "div",
-  content = _"You can change the following settings:"
-}
-
 local pages = {}
 
 pages[#pages+1] = { module = "member", view = "edit", text = _"Edit profile" }
