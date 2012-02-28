@@ -90,7 +90,7 @@ slot.select("actions", function()
     execute.view{
       module = "interest",
       view = "_show_box",
-      params = { issue = issue }
+      params = { issue = issue, initiative = initiative }
     }
 
     if not issue.closed then

@@ -75,9 +75,9 @@ ui.form{
   routing = {
     default = {
       mode = "redirect",
-      module = area and "area" or issue and "issue" or "unit",
+      module = area and "area" or initiative and "initiative" or issue and "issue" or "unit",
       view = "show",
-      id = area and area.id or issue and issue.id or unit.id
+      id = area and area.id or initiative and initiative.id or issue and issue.id or unit.id
     }
   },
   content = function()

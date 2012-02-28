@@ -1,5 +1,6 @@
 
 local issue = param.get("issue", "table")
+local initiative = param.get("initiative", "table")
 
 local interest = Interest:by_pk(issue.id, app.session.member.id)
 local membership = Membership:by_pk(issue.area_id, app.session.member_id)
@@ -29,7 +30,7 @@ slot.select("interest", function()
             module  = "interest",
             action  = "update",
             params  = { issue_id = issue.id, delete = true },
-            routing = { default = { mode = "redirect", module = "issue", view = "show", id = issue.id } }
+            routing = { default = { mode = "redirect", module = initiative and "initiative" or "issue", view = "show", id = initiative and initiative.id or issue.id } }
           }
         end
       end
@@ -42,7 +43,7 @@ slot.select("interest", function()
         module  = "interest",
         action  = "update",
         params  = { issue_id = issue.id },
-        routing = { default = { mode = "redirect", module = "issue", view = "show", id = issue.id } }
+        routing = { default = { mode = "redirect", module = initiative and "initiative" or "issue", view = "show", id = initiative and initiative.id or issue.id } }
       }
     end
   end
