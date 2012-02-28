@@ -28,8 +28,11 @@ ui.container{
             {
               field_attr = { style = "width: 3em; text-align: center;"},
               content = function()
-                if initiative.issue.accepted and initiative.issue.closed and initiative.issue.ranks_available or initiative.admitted == false then 
-                  ui.field.rank{ image_attr = { id = icon_name }, attr = { class = "rank" }, value = initiative.rank }
+                if
+                  initiative.issue.accepted and initiative.issue.closed
+                  and initiative.issue.ranks_available or initiative.admitted == false
+                then 
+                  ui.field.rank{ image_attr = { id = icon_name }, attr = { class = "rank" }, value = initiative.rank, eligible = initiative.eligible }
                 else
                   slot.put("&nbsp;")
                 end
