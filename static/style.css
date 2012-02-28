@@ -871,7 +871,7 @@ tr table tr:hover td {
   background-image: -o-linear-gradient(top, #cdf 0%, #fff 66%);
   background-image: -moz-linear-gradient(top, #cdf 0%, #fff 66%);
   background-image: -webkit-linear-gradient(top, #cdf 0%, #fff 66%);
-  background-image: -ms-linear-gradient(top, #cdf 0%, #fff 66%);
+  background-image: -ms-linear-gradient(top, rgb(103, 57, 219) 0%, rgb(134,86,255) 66%);
 }
 
 .issues .issue .issue_info .issue_id {
