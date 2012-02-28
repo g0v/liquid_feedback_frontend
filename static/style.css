@@ -876,21 +876,16 @@ tr table tr:hover td {
 .issues .issue .issue_info {
   padding: 1ex 1em;
   line-height: 140%;
-  background-image: linear-gradient(top, #eee 0%, #fff 66%);
-  background-image: -o-linear-gradient(top, #eee 0%, #fff 66%);
-  background-image: -moz-linear-gradient(top, #eee 0%, #fff 66%);
-  xbackground-image: -webkit-linear-gradient(top, #eee 0%, #fff 66%);
-  background-image: -ms-linear-gradient(top, #eee 0%, #fff 66%);
 }
 
 .issues .issue.interested .issue_info,
 .issues .issue.interested_by_delegation .issue_info  {
-  xbackground-color: #cdf;
-  background-image: linear-gradient(top, #cdf 0%, #fff 66%);
-  background-image: -o-linear-gradient(top, #cdf 0%, #fff 66%);
-  background-image: -moz-linear-gradient(top, #cdf 0%, #fff 66%);
-  background-image: -webkit-linear-gradient(top, #dfeaff 50%, #fff 100%);
-  background-image: -ms-linear-gradient(top, #cdf 0%, #fff 66%);
+  background-color: #dfeaff;
+  background-image: linear-gradient(top, #dfeaff 0%, #fcfcfc 66%);
+  background-image: -o-linear-gradient(top, #dfeaff 0%, #fcfcfc 66%);
+  background-image: -moz-linear-gradient(top, #dfeaff 0%, #fcfcfc 66%);
+  background-image: -webkit-linear-gradient(top, #dfeaff 50%, #fcfcfc 100%);
+  background-image: -ms-linear-gradient(top, #dfeaff 0%, #fcfcfc 66%);
 }
 
 .issues .issue .issue_info .issue_id {
@@ -1137,6 +1132,7 @@ x.initiative_link.potentially_supported {
 .help,
 .use_terms {
   border-radius: 8px;
+  border: 1px solid #ffe900;
   background-color: #fffbce;
   color: #000;
   padding: 1ex;
