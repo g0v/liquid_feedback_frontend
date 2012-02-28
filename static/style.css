@@ -220,7 +220,7 @@ form.unit_selector {
   margin-top: 1ex;
   margin-left: 10px;
   margin-right: 10px;
-  background-color: #f7f7f7;
+  background-color: #eee;
   border-radius: 8px;
 }
 
@@ -755,7 +755,7 @@ tr:hover td {
 }
 
 .initiatives_list .nohover tr:hover td {
-  background-color: #f7f7f7;
+  background-color: #eee;
 }
 
 .nohover table tr:hover td {

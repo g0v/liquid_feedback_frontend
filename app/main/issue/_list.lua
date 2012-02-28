@@ -58,7 +58,11 @@ filters.content = function()
                   tag = "div", attr = { class = "interest_by_delegation"},
                   content = function()
                     local member = Member:by_id(issue.is_interested_by_delegation_to_member_id)
-                    ui.tag{ content = "->" }
+                    local text = _"delegated to"
+                    ui.image{
+                      attr = { class = "delegation_arrow", alt = text, title = text },
+                      static = "delegation_arrow_24_horizontal.png"
+                    }
                     execute.view{
                       module = "member_image",
                       view = "_show",
@@ -72,9 +76,18 @@ filters.content = function()
                     }
                     if issue.is_interested_by_delegation_to_member_id ~= issue.is_interested_via_member_id then
                       if issue.delegation_chain_length > 2 then
-                        ui.tag{ content = "-> ... " }
+                        local text = _"delegated to"
+                        ui.image{
+                          attr = { class = "delegation_arrow", alt = text, title = text },
+                          static = "delegation_arrow_24_horizontal.png"
+                        }
+                        ui.tag{ content = "..." }
                       end
-                      ui.tag{ content = "->" }
+                    local text = _"delegated to"
+                      ui.image{
+                        attr = { class = "delegation_arrow", alt = text, title = text },
+                        static = "delegation_arrow_24_horizontal.png"
+                      }
                       local member = Member:by_id(issue.is_interested_via_member_id)
                       execute.view{
                         module = "member_image",
