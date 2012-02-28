@@ -462,7 +462,7 @@ form.unit_selector {
   border-radius: 0 5px 5px 5px;
   padding: 1em;
   width: 35em;
-  border: 1px solid #fff;
+  border: 1px solid #5f6675;
   border-top: none;
 }
 
@@ -1363,7 +1363,8 @@ div.timeline_results {
 .help,
 .use_terms,
 .motd,
-.ui_filter a.active {
+.ui_filter a.active,
+.vote_info .content {
   box-shadow: #777 0px 5px 5px -5px;
   -mox-box-shadow: #777 0px 5px 5px -5px;
   -webkit-box-shadow: #777 0px 5px 5px -5px;

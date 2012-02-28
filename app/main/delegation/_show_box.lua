@@ -214,7 +214,7 @@ slot.select(slot_name, function()
 
             for i, record in ipairs(delegation_chain) do
               local style
-              local overridden = record.overridden
+              local overridden = (not issue or issue.state ~= 'voting') and record.overridden
               if record.scope_in then
                 ui.container{
                   attr = { class = "delegation_info" },
@@ -222,12 +222,12 @@ slot.select(slot_name, function()
                     if not overridden then
                       ui.image{
                         attr = { class = "delegation_arrow" },
-                        static = "delegation_arrow_vertical.jpg"
+                        static = "delegation_arrow_24_vertical.png"
                       }
                     else
                       ui.image{
                         attr = { class = "delegation_arrow delegation_arrow_overridden" },
-                        static = "delegation_arrow_vertical.jpg"
+                        static = "delegation_arrow_24_vertical.png"
                       }
                     end
                     ui.container{
@@ -255,7 +255,7 @@ slot.select(slot_name, function()
                   }
                 end
               }
-              if record.participation and not record.overridden then
+              if (not issue or issue.state ~= 'voting') and record.participation and not record.overridden then
                 ui.container{
                   attr = { class = "delegation_participation" },
                   content = function()
