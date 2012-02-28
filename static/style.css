@@ -466,10 +466,13 @@ form.unit_selector {
   border-top: none;
 }
 
+.delegation_arrow {
+  vertical-align: middle;
+}
+
 .vote_info .delegation_arrow {
   margin-top: 1ex;
   margin-bottom: 1ex;
-  vertical-align: middle;
 }
 
 .vote_info .delegation_arrow_overridden {
