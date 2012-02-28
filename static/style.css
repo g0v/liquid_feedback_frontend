@@ -113,7 +113,7 @@ h2 {
 
 .topbar {
   background-color: #333;
-  background: -webkit-gradient(linear, left top, left bottom, 
+  background-image: -webkit-gradient(linear, left top, left bottom, 
     color-stop(0%, #888), color-stop(25%,#333)
   );
   color: #fff;
