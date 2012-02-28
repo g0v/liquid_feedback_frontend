@@ -263,6 +263,9 @@ form.unit_selector {
   background-color: #fcfcfc;
   border-radius: 8px;
   clear: left;
+  border: 1px solid #ddd;
+  padding-top: 1ex;
+  padding-bottom: 1ex;
 }
 
 .title {
@@ -293,12 +296,6 @@ form.unit_selector {
 
 .slot_title2 {
   padding: 1ex 1em 0 1em;
-}
-
-.slot_initiatives_list {
-  border: 1px solid #ccc;
-  padding-top: 1ex;
-  padding-bottom: 1ex;
 }
 
 .member_list .member_image_avatar {
