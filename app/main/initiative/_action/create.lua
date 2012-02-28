@@ -94,7 +94,7 @@ if not issue then
       .. "api/1/createGroupPad?apikey=" .. config.etherpad.api_key
       .. "&groupID=" .. config.etherpad.group_id
       .. "&padName=Issue" .. tostring(issue.id)
-      .. "&text=" .. config.absolute_base_url .. "issue/show/" .. tostring(issue.id) .. ".html"
+      .. "&text=" .. request.get_absolute_baseurl() .. "issue/show/" .. tostring(issue.id) .. ".html"
     )
   end
 end
