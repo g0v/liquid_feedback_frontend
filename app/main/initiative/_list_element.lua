@@ -68,7 +68,7 @@ ui.container{
                     bars = {
                       { color = "#0a0", value = (initiative.satisfied_supporter_count or 0) },
                       { color = "#bbb", value = (initiative.supporter_count or 0) - (initiative.satisfied_supporter_count or 0) },
-                      { color = "#eee", value = max_value - (initiative.supporter_count or 0) },
+                      { color = "#f7f7f7", value = max_value - (initiative.supporter_count or 0) },
                     }
                   }
                 end

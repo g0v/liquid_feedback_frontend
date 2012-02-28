@@ -202,9 +202,27 @@ form.unit_selector {
 .title,
 .title2,
 .actions {
-  background-color: #eee;
+  background-color: #f2f2f2;
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.actions,
+.issues .issue,
+.initiatives_list,
+.ui_tabs_links a,
+.draft_content,
+.help,
+.use_terms {
+  box-shadow: #777 0px 5px 5px -5px;
+}
+
+.issues .issue {
+  border: 1px solid #eee;
+}
+
+.initiative_head .actions {
+  box-shadow: none;
 }
 
 .actions {
@@ -220,7 +238,7 @@ form.unit_selector {
   margin-top: 1ex;
   margin-left: 10px;
   margin-right: 10px;
-  background-color: #eee;
+  background-color: #f2f2f2;
   border-radius: 8px;
 }
 
@@ -296,7 +314,7 @@ form.unit_selector {
 }
 
 .slot_initiative_head  {
-  padding-left: 1em;
+  padding-left: 10px;
   padding-top: 2ex;
 }
 
@@ -364,7 +382,7 @@ form.unit_selector {
 .actions .supporter,
 .actions .potential_supporter {
   border-radius: 5px;
-  border: 1px solid #fff;
+  border: 1px solid #5f6675;
 }
 
 .delegation .head_active,
@@ -381,7 +399,7 @@ form.unit_selector {
 }
 
 .slot_support .head_initiator {
-  background-color: #eee;
+  background-color: #f2f2f2;
   border-radius: 5px;
 }
 
@@ -495,7 +513,7 @@ form.unit_selector {
 .ui_tabs_links a {
   padding: 1ex;
   line-height: 300%;
-  background-color: #eee;
+  background-color: #f2f2f2;
   white-space: nowrap;
   border-radius: 5px;
   margin-right: 5px;
@@ -747,7 +765,7 @@ th {
 }
 
 tr:hover td {
-  background-color: #eee;
+  background-color: #f2f2f2;
 }
 
 .nohover tr:hover td {
@@ -755,11 +773,11 @@ tr:hover td {
 }
 
 .initiatives_list .nohover tr:hover td {
-  background-color: #eee;
+  background-color: #f2f2f2;
 }
 
 .nohover table tr:hover td {
-  background-color: #eee;
+  background-color: #f2f2f2;
 }
 
 
@@ -824,7 +842,7 @@ tr table tr:hover td {
 }
 
 .issues .issue .issue_info {
-  padding: 1ex;
+  padding: 1ex 1em;
   line-height: 140%;
   background: -webkit-gradient(linear, left top, left bottom,
     color-stop(0%,#e7e7e7), color-stop(66%,#fff));
@@ -840,7 +858,7 @@ tr table tr:hover td {
   font-size: 125%;
 }
 
-.issues .issue .issue_policy_info {
+.issue_policy_info {
   font-style: italic;
 }
 
@@ -917,7 +935,7 @@ x.initiative_link.potentially_supported {
   height: 48px;
   display: block;
   float: left;
-  background-color: #eee;
+  background-color: #f2f2f2;
   overflow: hidden;
   position: relative;
   border-radius: 7px;
@@ -997,7 +1015,7 @@ x.initiative_link.potentially_supported {
 .member_statement,
 .draft_content,
 .suggestion_content {
-  background-color: #eee;
+  background-color: #f2f2f2;
   padding: 1ex;
   border-radius: 8px;
 }
@@ -1011,7 +1029,7 @@ x.initiative_link.potentially_supported {
 }
 
 .diff {
-  background-color: #eee;
+  background-color: #f2f2f2;
   border: 1px solid #ccc;
   padding: 1ex;
 }
@@ -1027,7 +1045,7 @@ x.initiative_link.potentially_supported {
 }
 
 .slot_issue_info {
-  background-color: #eee;
+  background-color: #f2f2f2;
   border: 1px solid #ccc;
   float: right;
   padding: 0.5ex;
@@ -1086,7 +1104,7 @@ x.initiative_link.potentially_supported {
 .help,
 .use_terms {
   border-radius: 8px;
-  background-color: #cdf;
+  background-color: #fffbce;
   color: #000;
   padding: 1ex;
 }
@@ -1212,7 +1230,7 @@ a.not_voted {
   background-color: #ccc;
 }
 #voting .abstention .movable {
-  background-color: #eee;
+  background-color: #f2f2f2;
 }
 #voting .disapproval {
   background-color: #f88;

@@ -41,6 +41,7 @@ end)
 slot.select("title2", function()
   ui.tag{
     tag = "div",
+    attr = { class = "issue_policy_info" },
     content = function()
     
       ui.link{
