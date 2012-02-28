@@ -112,7 +112,7 @@ h2 {
  */
 
 .topbar {
-  background-color: #000;
+  background-color: #333;
   background: -webkit-gradient(linear, left top, left bottom, 
     color-stop(0%, #888), color-stop(25%,#333)
   );
@@ -122,6 +122,8 @@ h2 {
   padding-left: 10px;
   overflow: hidden;
   box-shadow: #aaa 0 0 5px;
+  -mox-box-shadow: #aaa 0 0 5px;
+  -webkit-box-shadow: #aaa 0 0 5px;
 }
 
 .topbar .logolf {
@@ -129,11 +131,11 @@ h2 {
 }
 
 .topbar a {
-  color: #fff;
+  color: #eee;
 }
 
 .topbar  a:hover {
-  background-color: #fff;
+  background-color: #eee;
   color: #000;
 }
 
@@ -213,8 +215,12 @@ form.unit_selector {
 .ui_tabs_links a,
 .draft_content,
 .help,
-.use_terms {
+.use_terms,
+.motd,
+.ui_filter a.active {
   box-shadow: #777 0px 5px 5px -5px;
+  -mox-box-shadow: #777 0px 5px 5px -5px;
+  -webkit-box-shadow: #777 0px 5px 5px -5px;
 }
 
 .issues .issue {
@@ -223,6 +229,8 @@ form.unit_selector {
 
 .initiative_head .actions {
   box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
 }
 
 .actions {
@@ -244,6 +252,8 @@ form.unit_selector {
 
 .title {
   box-shadow: inset #888 0px 5px 6px -5px;
+  -moz-box-shadow: inset #888 0px 5px 6px -5px;;
+  -webkit-box-shadow: inset #888 0px 5px 6px -5px;;
 }
 
 .title {
@@ -844,14 +854,20 @@ tr table tr:hover td {
 .issues .issue .issue_info {
   padding: 1ex 1em;
   line-height: 140%;
-  background: -webkit-gradient(linear, left top, left bottom,
-    color-stop(0%,#e7e7e7), color-stop(66%,#fff));
+  background-image: linear-gradient(top, #eee 0%, #fff 66%);
+  background-image: -o-linear-gradient(top, #eee 0%, #fff 66%);
+  background-image: -moz-linear-gradient(top, #eee 0%, #fff 66%);
+  background-image: -webkit-linear-gradient(top, #eee 0%, #fff 66%);
+  background-image: -ms-linear-gradient(top, #eee 0%, #fff 66%);
 }
 
 .issues .issue.interested .issue_info,
 .issues .issue.interested_by_delegation .issue_info  {
-  background: -webkit-gradient(linear, left top, left bottom,
-    color-stop(0%,#cdf), color-stop(66%,#fff));
+  background-image: linear-gradient(top, #cdf 0%, #fff 66%);
+  background-image: -o-linear-gradient(top, #cdf 0%, #fff 66%);
+  background-image: -moz-linear-gradient(top, #cdf 0%, #fff 66%);
+  background-image: -webkit-linear-gradient(top, #cdf 0%, #fff 66%);
+  background-image: -ms-linear-gradient(top, #cdf 0%, #fff 66%);
 }
 
 .issues .issue .issue_info .issue_id {
