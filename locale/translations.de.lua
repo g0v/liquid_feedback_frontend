@@ -1,7 +1,5 @@
 #!/usr/bin/env lua
 return {
-["##{id}"] = "##{id}";
-["##{issue_id}.#{id} #{name}"] = "##{issue_id}.#{id} #{name}";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} Themen";
 ["#{number} Image(s) has been deleted"] = "Es wurde(n) #{number} Bild(er) gelöscht";
@@ -43,6 +41,7 @@ return {
 ["Admin?"] = "Admin?";
 ["Admission time"] = "Zeit für die Zulassung";
 ["Admitted"] = "zugelassen";
+["All units"] = "Alle Gliederungen";
 ["Alternative initiatives"] = "Alternative Initiativen";
 ["An initiative I was supporting is revoked"] = "Eine von mir unterstützte Initiative wird zurückgezogen";
 ["An issue in one of my areas or I'm interested in enters phase 'discussion'"] = "Ein Thema, das in einem meiner Themenbereiche ist oder das mich interessiert, wechselt in die Phase 'Diskussion'";
@@ -137,7 +136,6 @@ return {
 ["Current votings in areas you are member of and issues you are interested in:"] = "Jetzt laufende Abstimmungen zu Themen aus Deinen Themenbereichen oder solchen an denen Du interessiert bist:";
 ["Currently no API key is set."] = "Zur Zeit ist kein API-Schlüssel festgelegt.";
 ["Currently required"] = "Zur Zeit benötigt";
-["Date"] = "Datum";
 ["Date format is not valid. Please use following format: YYYY-MM-DD"] = "Datumsformat nicht korrekt. Bitte verwende: JJJJ-MM-TT, also z.B. 1945-05-23";
 ["Default Policy"] = "Standard-Regelwerk";
 ["Degree"] = "Grad";
@@ -210,7 +208,6 @@ return {
 ["Generate API key"] = "API-Schlüssel erzeugen";
 ["Global delegation"] = "Globale Delegation";
 ["Global delegation set to '#{name}'"] = "Globale Delegation an '#{name}' erteilt";
-["Go up"] = "Nach oben";
 ["Half frozen at"] = "Halb eingefroren am/um";
 ["Hello "] = "Hallo ";
 ["Help #{id}"] = "Hilfe #{id}";
@@ -330,7 +327,9 @@ return {
 ["Monday"] = "Montag";
 ["Move down"] = "Runter schieben";
 ["Move up"] = "Hoch schieben";
+["My areas"] = "Meine Themengebiete";
 ["My opinion"] = "Meine Meinung";
+["My units"] = "Meine Gliederungen";
 ["Name"] = "Name";
 ["New"] = "Neu";
 ["New address"] = "Neue E-Mail-Adresse";
@@ -343,8 +342,6 @@ return {
 ["New passwords is too short."] = "Das neue Kennwort ist zu kurz";
 ["New suggestion"] = "Neue Anregung";
 ["Newest"] = "Neueste";
-["Next initiative"] = "Nächste Initiative";
-["Next issue"] = "Nächstes Thema";
 ["No"] = "Nein";
 ["No changes to your images were made"] = "An Deinen Bildern wurde nichts geändert";
 ["No default"] = "Kein Standard";
@@ -419,8 +416,6 @@ return {
 ["Potential supporter"] = "Potentielle Unterstützer";
 ["Potentially supported"] = "Potentiell unterstützt";
 ["Preview"] = "Vorschau";
-["Previous initiative"] = "Vorherige Initiative";
-["Previous issue"] = "Vorheriges Thema";
 ["Profession"] = "Beruf";
 ["Profile"] = "Profil";
 ["Publish"] = "Veröffentlichen";
@@ -560,7 +555,6 @@ return {
 ["This name is already taken, please choose another one!"] = "Dieser Name ist bereits vergeben, bitte wähle einen anderen!";
 ["This name is really too short!"] = "Dieser Name ist wirklich zu kurz!";
 ["This name is too short!"] = "Dieser Name ist zu kurz!";
-["This report can be saved (use 'save complete website') and used offline."] = "Dieser Bericht kann gespeichert (mit 'Webseite komplett speichern') und offline genutzt werden.";
 ["This suggestion has been meanwhile deleted"] = "Diese Anregung wurde zwischenzeitlich gelöscht";
 ["This title is really too short!"] = "Dieser Titel ist wirklich zu kurz!";
 ["This username is too short!"] = "Dieser Benutzername ist zu kurz!";
@@ -597,6 +591,7 @@ return {
 ["Voting has not started yet."] = "Die Abstimmung hat noch nicht begonnen.";
 ["Voting of an issue in one of my areas or I'm interested in starts"] = "Für ein Thema, das in meinen Themenbereichen ist oder das mich interessiert, beginnt die Abstimmung";
 ["Voting phase"] = "Abstimmungsohase";
+["Voting privileges"] = "Abstimmberechtigung";
 ["Voting proposal"] = "Abstimmungsvorlage";
 ["Voting started"] = "Abstimmung begonnen";
 ["Voting time"] = "Zeit für die Abstimmung";
@@ -620,6 +615,7 @@ return {
 ["You are invited to become initiator of this initiative."] = "Du bist eingeladen Initiator dieser Initiative zu werden.";
 ["You are member"] = "Du bist Mitglied";
 ["You are now initiator of this initiative"] = "Du bist jetzt Initiator dieser Initiative";
+["You are potentially supporter of this initiative"] = "Du bist potentieller Unterstützer dieser Initiative";
 ["You are supporter of this initiative"] = "Du bist Unterstützer dieser Initiative";
 ["You are supporter of this initiative via delegation"] = "Du bist durch Delegation Unterstützer dieser Initiative";
 ["You can change the following settings:"] = "Du kannst die folgenden Einstellungen vornehmen:";
@@ -671,6 +667,7 @@ return {
 ["at least #{count} approvals or abstentions"] = "mindestens #{count} Zustimmungen oder Enthaltungen";
 ["change discussion URL"] = "Diskussions-URL ändern";
 ["deactivated"] = "deaktiviert";
+["delegated to"] = "delegiert an";
 ["disabled"] = "ausgeschaltet";
 ["email"] = "E-Mail";
 ["global"] = "Global";
