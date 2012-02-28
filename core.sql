@@ -4161,6 +4161,7 @@ CREATE FUNCTION "delete_private_data"()
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
+      DELETE FROM "member" WHERE "activated" ISNULL;
       UPDATE "member" SET
         "invite_code"                  = NULL,
         "last_login"                   = NULL,
