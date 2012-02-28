@@ -875,15 +875,19 @@ tr table tr:hover td {
 }
 
 .issues .issue .issue_info {
-  padding: 1ex 1em 0.5ex 1em;
+  padding: 1ex 1em 0.3ex 1em;
   line-height: 140%;
   margin-bottom: 1ex;
-  background-color: #eaeaea;
 }
 
 .issues .issue.interested .issue_info,
 .issues .issue.interested_by_delegation .issue_info  {
   background-color: #dfeaff;
+  background-image: linear-gradient(top, #dfeaff 0%, #fcfcfc 66%);
+  background-image: -o-linear-gradient(top, #dfeaff 0%, #fcfcfc 66%);
+  background-image: -moz-linear-gradient(top, #dfeaff 0%, #fcfcfc 66%);
+  background-image: -webkit-linear-gradient(top, #dfeaff 50%, #fcfcfc 100%);
+  background-image: -ms-linear-gradient(top, #dfeaff 0%, #fcfcfc 66%);
 }
 
 .issues .issue .issue_info .issue_id {
