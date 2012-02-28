@@ -7,8 +7,7 @@ applet,
 object,
 iframe,
 h1, h2, h3, h4, h5, h6,
-p, blockquote, pre, a, img,
-ol, ul, li,
+p, a, img,
 form, label, legend,
 table, tbody, tfoot, thead, tr, th,td {
   margin: 0;
@@ -25,9 +24,6 @@ body {
   line-height: 1;
   color: black;
   background: white;
-}
-ol, ul {
-  list-style: none;
 }
 table {
   border-collapse: separate;
@@ -1147,6 +1143,7 @@ x.initiative_link.potentially_supported {
 }
 
 .help_visible {
+  margin-top: 2ex;
   margin-bottom: 1ex;
 }
 
@@ -1171,6 +1168,7 @@ x.initiative_link.potentially_supported {
 }
 
 .wiki {
+  line-height: 133%;
 }
 
 .wiki h1,
@@ -1183,10 +1181,21 @@ x.initiative_link.potentially_supported {
 
 .wiki h1 {
   font-size: 150%;
+  font-weight: bold;
 }
 
 .wiki h2 {
   font-size: 125%;
+  font-weight: bold;
+}
+
+.wiki h3 {
+  font-size: 125%;
+}
+
+.wiki h4 {
+  font-size: 100%;
+  font-weight: bold;
 }
 
 .wiki p {
