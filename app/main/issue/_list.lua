@@ -135,7 +135,7 @@ filters.content = function()
 
                   if issue.state_time_left then
                     slot.put(" &middot; ")
-                    ui.tag{ content = _("#{time_left} left", { time_left = issue.state_time_left }) }
+                    ui.tag{ content = _("#{time_left} left", { time_left = issue.state_time_left:gsub("days", _"days"):gsub("day", _"day") }) }
                   end
 
                 end

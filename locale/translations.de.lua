@@ -42,7 +42,6 @@ return {
 ["Admission time"] = "Zeit für die Zulassung";
 ["Admitted"] = "zugelassen";
 ["All units"] = "Alle Gliederungen";
-["Alternative initiatives"] = "Alternative Initiativen";
 ["An initiative I was supporting is revoked"] = "Eine von mir unterstützte Initiative wird zurückgezogen";
 ["An issue in one of my areas or I'm interested in enters phase 'discussion'"] = "Ein Thema, das in einem meiner Themenbereiche ist oder das mich interessiert, wechselt in die Phase 'Diskussion'";
 ["An issue in one of my areas or I'm interested in enters phase 'frozen'"] = "Ein Thema, das in einem meiner Themenbereiche ist oder das mich interessiert, wechselt in die Phase 'Eingefroren'";
@@ -351,7 +350,6 @@ return {
 ["No multistage majority"] = "Keine mehrstufigen Mehrheiten";
 ["No notifications at all"] = "Gar keine Benachrichtigungen";
 ["No reverse beat path"] = "Kein rückwärtsgerichteter Schlagpfad";
-["No support at all"] = "Gar keine Unterstützung";
 ["Not a member"] = "Kein Mitglied";
 ["Not accepted yet"] = "Bisher nicht angenommen";
 ["Not approved"] = "Nicht angenommen";
@@ -528,8 +526,6 @@ return {
 ["The draft of this initiative has been updated!"] = "Der Entwurfstext der Initiative wurde aktualisiert!";
 ["The drafts do not differ"] = "Die Entwürfe unterscheiden sich nicht";
 ["The initiators suggest to support the following initiative:"] = "Die Initiatoren empfehlen folgende Initiative zu unterstützen:";
-["There are no more alternative initiatives currently."] = "Es gibt zur Zeit keine weiteren alternative Initiative.";
-["There were no more alternative initiatives."] = "Es gab keine weiteren alternativen Initiativen.";
 ["This email address is too short!"] = "Diese E-Mail-Adresse ist zu kurz!";
 ["This identifier is not allowed for this instance."] = "Dieser Identifier ist für diese Instanz nicht zugelassen.";
 ["This initiative"] = "Diese Initiative";
@@ -540,8 +536,6 @@ return {
 ["This initiative is revoked"] = "Diese Initiative wurde zurückgezogen";
 ["This invite key is connected with the following information:"] = "Dieser Einladungs-Code ist mit den folgenden Daten verknüpft:";
 ["This issue has been cancelled. It failed the quorum of #{quorum}."] = "Dieses Thema wurde abgebrochen. Es hat das Quorum von #{quorum} nicht erfüllt.";
-["This issue has been finished with the following winning initiative:"] = "Diese Thema wurde mit folgender Initiative als Gewinner abgeschlossen:";
-["This issue has been finished without any winning initiative."] = "Das Thema wurde ohne Gewinner abgeschlossen.";
 ["This issue is already closed."] = "Das Thema ist schon geschlossen.";
 ["This issue is already frozen."] = "Das Thema ist schon eingefroren";
 ["This login is already taken, please choose another one!"] = "Dieser Anmeldename ist bereits vergeben, bitte wähle einen anderen!";
@@ -666,6 +660,8 @@ return {
 ["at least #{count} approvals"] = "mindestens #{count} Zustimmungen";
 ["at least #{count} approvals or abstentions"] = "mindestens #{count} Zustimmungen oder Enthaltungen";
 ["change discussion URL"] = "Diskussions-URL ändern";
+["day"] = "Tag";
+["days"] = "Tage";
 ["deactivated"] = "deaktiviert";
 ["delegated to"] = "delegiert an";
 ["disabled"] = "ausgeschaltet";
