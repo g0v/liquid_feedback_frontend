@@ -5,6 +5,14 @@ CREATE OR REPLACE VIEW "liquid_feedback_version" AS
   SELECT * FROM (VALUES ('2.0.4', 2, 0, 4))
   AS "subquery"("string", "major", "minor", "revision");
 
+-- drop NOT NULL constraints on columns "name" and "notify_level"
+-- in table "member", and add new constraint for "name":
+ALTER TABLE "member" ALTER COLUMN "notify_level" DROP NOT NULL;
+ALTER TABLE "member" ALTER COLUMN "name" DROP NOT NULL;
+ALTER TABLE "member" ADD CONSTRAINT "name_not_null_if_activated" CHECK ("activated" ISNULL OR "name" NOTNULL);
+COMMENT ON COLUMN "member"."notify_level" IS 'Selects which event notifications are to be sent to the "notify_email" mail address, may be NULL if member did not make any selection yet';
+COMMENT ON COLUMN "member"."name"         IS 'Distinct name of the member, may be NULL if account has not been activated yet';
+
 -- add table "session":
 CREATE TABLE "session" (
         "ident"                 TEXT            PRIMARY KEY,

@@ -100,10 +100,10 @@ CREATE TABLE "member" (
         "notify_email_secret"          TEXT     UNIQUE,
         "notify_email_secret_expiry"   TIMESTAMPTZ,
         "notify_email_lock_expiry"     TIMESTAMPTZ,
-        "notify_level"          "notify_level"  NOT NULL DEFAULT 'none',
+        "notify_level"          "notify_level",
         "password_reset_secret"        TEXT     UNIQUE,
         "password_reset_secret_expiry" TIMESTAMPTZ,
-        "name"                  TEXT            NOT NULL UNIQUE,
+        "name"                  TEXT            UNIQUE,
         "identification"        TEXT            UNIQUE,
         "authentication"        TEXT,
         "organizational_unit"   TEXT,
@@ -123,7 +123,9 @@ CREATE TABLE "member" (
         "statement"             TEXT,
         "text_search_data"      TSVECTOR,
         CONSTRAINT "active_requires_activated_and_last_activity"
-          CHECK ("active" = FALSE OR ("activated" NOTNULL AND "last_activity" NOTNULL)) );
+          CHECK ("active" = FALSE OR ("activated" NOTNULL AND "last_activity" NOTNULL)),
+        CONSTRAINT "name_not_null_if_activated"
+          CHECK ("activated" ISNULL OR "name" NOTNULL) );
 CREATE INDEX "member_active_idx" ON "member" ("active");
 CREATE INDEX "member_text_search_data_idx" ON "member" USING gin ("text_search_data");
 CREATE TRIGGER "update_text_search_data"
@@ -152,8 +154,8 @@ COMMENT ON COLUMN "member"."notify_email_unconfirmed"   IS 'Unconfirmed email ad
 COMMENT ON COLUMN "member"."notify_email_secret"        IS 'Secret sent to the address in "notify_email_unconformed"';
 COMMENT ON COLUMN "member"."notify_email_secret_expiry" IS 'Expiry date/time for "notify_email_secret"';
 COMMENT ON COLUMN "member"."notify_email_lock_expiry"   IS 'Date/time until no further email confirmation mails may be sent (abuse protection)';
-COMMENT ON COLUMN "member"."notify_level"         IS 'Selects which event notifications are to be sent to the "notify_email" mail address';
-COMMENT ON COLUMN "member"."name"                 IS 'Distinct name of the member';
+COMMENT ON COLUMN "member"."notify_level"         IS 'Selects which event notifications are to be sent to the "notify_email" mail address, may be NULL if member did not make any selection yet';
+COMMENT ON COLUMN "member"."name"                 IS 'Distinct name of the member, may be NULL if account has not been activated yet';
 COMMENT ON COLUMN "member"."identification"       IS 'Optional identification number or code of the member';
 COMMENT ON COLUMN "member"."authentication"       IS 'Information about how this member was authenticated';
 COMMENT ON COLUMN "member"."organizational_unit"  IS 'Branch or division of the organization the member belongs to';
