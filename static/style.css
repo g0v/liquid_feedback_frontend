@@ -845,6 +845,10 @@ tr table tr:hover td {
  * Issues
  */
 
+.issues {
+  clear: left;
+}
+
 .issues .issue {
   overflow: hidden;
   margin-bottom: 2ex;
