@@ -185,30 +185,3 @@ if param.get("no_filter", atom.boolean) then
 else
   ui.filters(filters)
 end
-
---[[
-if param.get("legend", atom.boolean) ~= false then
-  local filter = param.get_all_cgi().filter
-  if not filter or filter == "any" or filter ~= "finished" then
-    ui.bargraph_legend{
-      width = 25,
-      bars = {
-        { color = "#0a0", label = _"Supporter" },
-        { color = "#777", label = _"Potential supporter" },
-        { color = "#ddd", label = _"No support at all" },
-      }
-    }
-  end
-  if not filter or filter == "any" or filter == "finished" then
-    ui.bargraph_legend{
-      width = 25,
-      bars = {
-        { color = "#0a0", label = _"Yes" },
-        { color = "#aaa", label = _"Abstention" },
-        { color = "#a00", label = _"No" },
-      }
-    }
-  end
-end
-
---]]

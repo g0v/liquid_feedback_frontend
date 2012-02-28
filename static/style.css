@@ -661,25 +661,6 @@ form.unit_selector {
   height: 1.3ex;
 }
 
-.bargraph_legend {
-  margin-top: 2ex;
-}
-
-.bargraph_legend .bargraph {
-  width: 26px;
-}
-
-.bargraph_legend div,
-.bargraph_legend div div,
-.bargraph_legend div div div {
-  float: left;
-}
-
-.bargraph_legend_label {
-  margin-left: 0.5em;
-  margin-right: 1em;
-}
-
 /*************************************************************************
  * vertical ui.form
  */

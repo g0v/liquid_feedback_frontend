@@ -9,9 +9,6 @@ ui.container{
       params = {
         initiatives_selector = issue:get_reference_selector("initiatives"),
         issue = issue,
-        expandable = true,
-        for_initiative_id = param.get("for_initiative_id", atom.number),
-        xshow_for_issue = true,
         no_sort = true
       }
     }
