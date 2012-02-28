@@ -1,5 +1,5 @@
-==Willkommen bei LiquidFeedback und auf deiner Startseite==
-Diese blauen Boxen werden dich verfolgen bis du sie nach und nach abschaltest. Deine Startseite wird sich (hoffentlich) im Laufe der Zeit füllen: 
+=Willkommen bei LiquidFeedback und auf deiner Startseite=
+Diese gelben Boxen werden dich verfolgen bis du sie nach und nach abschaltest. Deine Startseite wird sich (hoffentlich) im Laufe der Zeit füllen: 
 - mit deinem Profil, 
 - den Themenbereichen, Themen und Initiativen die dich interessieren,
 - deinen eingehenden und ausgehenden Delegationen,
