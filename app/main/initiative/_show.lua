@@ -148,7 +148,7 @@ if initiative.issue.ranks_available and initiative.admitted then
       slot.put(_"No" .. ": <b>" .. tostring(initiative.negative_votes) .. perc(negative_votes, sum_votes) .. "</b>")
       slot.put(" &middot; ")
       slot.put("<b>")
-      if initiative.rank == 1 then
+      if initiative.winner then
         slot.put(_"Approved")
       elseif initiative.rank then
         slot.put(_("Not approved (rank #{rank})", { rank = initiative.rank }))
