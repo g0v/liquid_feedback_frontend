@@ -128,7 +128,7 @@ util.help("initiative.show")
 
 
 if initiative.issue.ranks_available and initiative.admitted then
-  local class = initiative.rank == 1 and "admitted_info" or "not_admitted_info"
+  local class = initiative.winner and "admitted_info" or "not_admitted_info"
   ui.container{
     attr = { class = class },
     content = function()
