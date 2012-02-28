@@ -1,3 +1,43 @@
+/* Style reset */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1, h2, h3, h4, h5, h6,
+p, blockquote, pre, a, img,
+ol, ul, li,
+form, label, legend,
+table, tbody, tfoot, thead, tr, th,td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  font-family: inherit;
+  vertical-align: baseline;
+}
+body {
+  line-height: 1;
+  color: black;
+  background: white;
+}
+ol, ul {
+  list-style: none;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+}
+
 /*************************************************************************
  * Some global definitions 
  */
@@ -61,10 +101,6 @@ a.active {
   font-style: italic;
 }
 
-a {
-  xvertical-align: middle;
-}
-
 h1 {
   font-size: 150%;
 }
@@ -82,29 +118,29 @@ h2 {
  */
 
 .layout_notice, .layout_error, .layout_warning {
-        background: #fff;
-        font-weight: bold;
-        line-height: 1.7em;
-        -moz-opacity:0.7;
+  background: #fff;
+  font-weight: bold;
+  line-height: 1.7em;
+  -moz-opacity:0.7;
 }
 
 .slot_notice, .slot_warning, .slot_error {
-        padding-left: 1em;
+  padding-left: 1em;
 }
 
 .slot_notice {
-        background-color: #cfc;
-        color: #040;
+  background-color: #cfc;
+  color: #040;
 }
 
 .slot_warning {
-        background-color: #fec;
-        color: #420;
+  background-color: #fec;
+  color: #420;
 }
 
 .slot_error {
-        background-color: #fcc;
-        color: #400;
+  background-color: #fcc;
+  color: #400;
 }
 
 /*************************************************************************
@@ -209,24 +245,6 @@ form.unit_selector {
   margin-right: 10px;
 }
 
-.actions,
-.issues .issue,
-.initiatives_list,
-.ui_tabs_links a,
-.draft_content,
-.help,
-.use_terms,
-.motd,
-.ui_filter a.active {
-  box-shadow: #777 0px 5px 5px -5px;
-  -mox-box-shadow: #777 0px 5px 5px -5px;
-  -webkit-box-shadow: #777 0px 5px 5px -5px;
-}
-
-.issues .issue {
-  border: 1px solid #eee;
-}
-
 .initiative_head .actions {
   box-shadow: none;
   -moz-box-shadow: none;
@@ -242,12 +260,13 @@ form.unit_selector {
   margin: 0px;
 }
 
-.initiatives_list {
+.slot_initiatives_list {
   margin-top: 1ex;
   margin-left: 10px;
   margin-right: 10px;
-  background-color: #f2f2f2;
+  background-color: #fcfcfc;
   border-radius: 8px;
+  clear: left;
 }
 
 .title {
@@ -280,11 +299,8 @@ form.unit_selector {
   padding: 1ex 1em 0 1em;
 }
 
-.initiatives_list {
-  clear: left;
-}
-
 .slot_initiatives_list {
+  border: 1px solid #ccc;
   padding-top: 1ex;
   padding-bottom: 1ex;
 }
@@ -850,9 +866,15 @@ tr table tr:hover td {
 }
 
 .issues .issue {
+  background-color: #fcfcfc;
   overflow: hidden;
   margin-bottom: 2ex;
+  border: 1px solid #ccc;
   border-radius: 8px;
+}
+
+.issues .issue.interested,
+.issues .issue.interest_by_delegation {
 }
 
 .issues .issue .issue_info {
@@ -861,16 +883,17 @@ tr table tr:hover td {
   background-image: linear-gradient(top, #eee 0%, #fff 66%);
   background-image: -o-linear-gradient(top, #eee 0%, #fff 66%);
   background-image: -moz-linear-gradient(top, #eee 0%, #fff 66%);
-  background-image: -webkit-linear-gradient(top, #eee 0%, #fff 66%);
+  xbackground-image: -webkit-linear-gradient(top, #eee 0%, #fff 66%);
   background-image: -ms-linear-gradient(top, #eee 0%, #fff 66%);
 }
 
 .issues .issue.interested .issue_info,
 .issues .issue.interested_by_delegation .issue_info  {
+  xbackground-color: #cdf;
   background-image: linear-gradient(top, #cdf 0%, #fff 66%);
   background-image: -o-linear-gradient(top, #cdf 0%, #fff 66%);
   background-image: -moz-linear-gradient(top, #cdf 0%, #fff 66%);
-  background-image: -webkit-linear-gradient(top, #cdf 0%, #fff 66%);
+  background-image: -webkit-linear-gradient(top, #dfeaff 50%, #fff 100%);
   background-image: -ms-linear-gradient(top, #cdf 0%, #fff 66%);
 }
 
@@ -980,12 +1003,6 @@ x.initiative_link.potentially_supported {
   margin: 0;
   vertical-align: bottom;
   border-radius: 7px;
-}
-
-.member_thumb div {
-}
-
-.member_thumb .member_image {
 }
 
 .member_thumb .member_name {
@@ -1330,3 +1347,21 @@ label.ui_field_label {
 div.timeline_results {
   clear: both;
 }
+
+/* shadows */
+
+.slot_initiatives_list,
+.actions,
+.issues .issue,
+.ui_tabs_links a,
+.draft_content,
+.help,
+.use_terms,
+.motd,
+.ui_filter a.active {
+  box-shadow: #777 0px 5px 5px -5px;
+  -mox-box-shadow: #777 0px 5px 5px -5px;
+  -webkit-box-shadow: #777 0px 5px 5px -5px;
+}
+
+
