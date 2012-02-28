@@ -997,7 +997,7 @@ x.initiative_link.potentially_supported {
 .member_statement,
 .draft_content,
 .suggestion_content {
-  background-color: #f7f7f7;
+  background-color: #eee;
   padding: 1ex;
   border-radius: 8px;
 }
