@@ -117,7 +117,8 @@ if not config.locked_profile_fields.login and login then
     return false
   end
 
-  if Member:by_login(login) then 
+  local check_member = Member:by_login(login)
+  if check_member and check_member.id ~= member.id then 
     slot.put_into("error", _"This login is already taken, please choose another one!")
     request.redirect{
       mode   = "redirect",
