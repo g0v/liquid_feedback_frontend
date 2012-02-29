@@ -11,6 +11,14 @@ Event:add_reference{
 
 function Event.object:send_notification() 
 
+  local members_to_notify = Member:new_selector()
+    :join("event_seen_by_member", nil, { "event_seen_by_member.seen_by_member_id = member.id AND event_seen_by_member.notify_level <= member.notify_level AND event_seen_by_member.id = ?", self.id } )
+    :add_where("member.activated NOTNULL AND member.notify_email NOTNULL")
+    :exec()
+    
+  print (_("Event #{id} -> #{num} members", { id = self.id, num = #members_to_notify }))
+
+
   local url
 
   local body = ""
@@ -58,32 +66,48 @@ function Event.object:send_notification()
     body = body .. _("#{name}\n\n", { name = suggestion.name })
   end
   
-  slot.put("<pre>", encode.html_newlines(body), "</pre>")
-  slot.put("<hr />")
+  for i, member in ipairs(members_to_notify) do
+    local success = net.send_mail{
+      envelope_from = config.mail_envelope_from,
+      from          = config.mail_from,
+      reply_to      = config.mail_reply_to,
+      to            = member.notify_email,
+      subject       = config.mail_subject_prefix .. _("##{id} #{event}", { id = self.issue_id, event = self.event }),      content_type  = "text/plain; charset=UTF-8",
+      content       = body
+    }
+  end
+
+  print(body)
+  print("")
 end
 
-function Event:send_next_notification(last_event_id)
-
+function Event:send_next_notification()
+  
+  local notification_sent = NotificationSent:new_selector()
+    :optional_object_mode()
+    :for_update()
+    :exec()
+    
+  local last_event_id = 0
+  if notification_sent then
+    last_event_id = notification_sent.event_id
+  end
+  
   local event = Event:new_selector()
-    :add_where{ "event.id > ?", last_id }
+    :add_where{ "event.id > ?", last_event_id }
     :add_order_by("event.id")
     :limit(1)
     :optional_object_mode()
     :exec()
 
-  last_id = nil
   if event then
-    last_id = event.id
-    local members_to_notify = Member:new_selector()
-      :join("event_seen_by_member", nil, { "event_seen_by_member.seen_by_member_id = member.id AND event_seen_by_member.notify_level <= member.notify_level AND event_seen_by_member.id = ?", event.id } )
-      :add_where("member.activated NOTNULL AND member.notify_email NOTNULL")
-      :exec()
-      
-    ui.container{ content = _("Event #{id} -> #{num} members", { id = event.id, num = #members_to_notify }) }
+    if last_event_id == 0 then
+      db:query{ "INSERT INTO notification_sent (event_id) VALUES (?)", event.id }
+    else
+      db:query{ "UPDATE notification_sent SET event_id = ?", event.id }
+    end
     
     event:send_notification()
-    
-    return event.id
 
   else
     return last_event_id
