@@ -64,7 +64,7 @@ if not config.locked_profile_fields.name and name then
   end
 
   local check_member = Member:by_name(name)
-  if check_member and (check_member.id ~= member.id) then
+  if check_member and check_member.id ~= member.id then
     slot.put_into("error", _"This name is already taken, please choose another one!")
     request.redirect{
       mode   = "redirect",
