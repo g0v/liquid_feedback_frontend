@@ -1,6 +1,6 @@
 Privilege = mondelefant.new_class()
 Privilege.table = 'privilege'
-
+Privilege.primary_key = { "member_id", "unit_id" }
 
 Privilege:add_reference{
   mode          = 'm1',
