@@ -17,7 +17,7 @@ util.help("member.settings.notification", _"Notification settings")
 ui.form{
   attr = { class = "vertical" },
   module = "member",
-  action = "update_notification",
+  action = "update_notify_level",
   routing = {
     ok = {
       mode = "redirect",
@@ -31,7 +31,10 @@ ui.form{
     ui.container{ content = function()
       ui.tag{
         tag = "input", 
-        attr = { type = "radio", name = "notification_level", value = "voting" }
+        attr = {
+          type = "radio", name = "notify_level", value = "voting",
+          checked = app.session.member.notify_level == 'voting' and "checked" or nil
+        }
       }
       ui.tag{ content = _"Voting phase" }
       ui.tag{ tag = "ul", content = function()
@@ -42,7 +45,10 @@ ui.form{
     ui.container{ content = function()
       ui.tag{
         tag = "input", 
-        attr = { type = "radio", name = "notification_level", value = "frozen" }
+        attr = {
+          type = "radio", name = "notify_level", value = "verification",
+          checked = app.session.member.notify_level == 'verification' and "checked" or nil
+        }
       }
       ui.tag{ content = _"Frozen and voting phase" }
       ui.tag{ tag = "ul", content = function()
@@ -55,7 +61,10 @@ ui.form{
     ui.container{ content = function()
       ui.tag{
         tag = "input", 
-        attr = { type = "radio", name = "notification_level", value = "discussion" }
+        attr = {
+          type = "radio", name = "notify_level", value = "discussion",
+          checked = app.session.member.notify_level == 'discussion' and "checked" or nil
+        }
       }
       ui.tag{ content = _"Discussion, frozen and voting phase" }
       ui.tag{ tag = "ul", content = function()
@@ -72,7 +81,10 @@ ui.form{
     ui.container{ content = function()
       ui.tag{
         tag = "input", 
-        attr = { type = "radio", name = "notification_level", value = "any" }
+        attr = {
+          type = "radio", name = "notify_level", value = "all",
+          checked = app.session.member.notify_level == 'all' and "checked" or nil
+        }
       }
       ui.tag{ content = _"Any phase" }
       ui.tag{ tag = "ul", content = function()
@@ -90,14 +102,17 @@ ui.form{
     ui.container{ content = function()
       ui.tag{
         tag = "input", 
-        attr = { type = "radio", name = "notification_level", value = "none" }
+        attr = {
+          type = "radio", name = "notify_level", value = "none",
+          checked = app.session.member.notify_level == 'none' and "checked" or nil
+        }
       }
       ui.tag{ content = _"No notifications at all" }
     end }
 
 
     
-    ui.submit{ value = _"Change display settings" }
+    ui.submit{ value = _"Change notification settings" }
   end
 }
  
