@@ -20,6 +20,7 @@ if not id and config.single_unit_id then
   privilege.member_id = member.id
   privilege.unit_id = config.single_unit_id
   privilege.voting_right = true
+  privielge:save()
 end
 
 if id then
