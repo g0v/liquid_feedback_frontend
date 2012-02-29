@@ -19,8 +19,9 @@ slot.select('navigation', function()
     else
       ui.link{
         text   = _"Areas",
-        module = 'area',
-        view   = 'list'
+        module = 'unit',
+        view   = 'show',
+        id = config.single_unit_id
       }
     end
   end
