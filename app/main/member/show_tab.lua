@@ -24,19 +24,27 @@ if show_as_homepage and app.session.member_id == member.id then
       class = "yellow",
       name = "email_unconfirmed",
       label = _"Email unconfirmed",
-      icon = { static = "icons/16/bell.png" },
       module = "member",
       view = "_email_unconfirmed",
       params = {}
     }
   end
 
+  if app.session.member.notify_level == nil then
+    tabs[#tabs+1] = {
+      class = "yellow",
+      name = "notify_level_not_set",
+      label = _"Notifications",
+      module = "member",
+      view = "_notify_level_not_set"
+    }
+  end
+  
   if config.motd_intern then
     tabs[#tabs+1] = {
       class = "yellow",
       name = "motd",
       label = _"Message of the day",
-      icon = { static = "icons/16/bell.png" },
       module = "index",
       view = "_motd",
       params = {}
