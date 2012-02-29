@@ -133,6 +133,7 @@ function Initiative:get_search_selector(search_string)
     :add_group_by('"issue"."population"')
     :add_group_by("_initiator.member_id")
     :add_group_by("_supporter.member_id")
+    :add_group_by("_direct_supporter_snapshot.member_id")
 end
 
 --function Member:get_search_selector(search_string)
