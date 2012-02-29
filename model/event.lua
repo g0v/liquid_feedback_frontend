@@ -79,6 +79,7 @@ function Event.object:send_notification()
 
   print(body)
   print("")
+  
 end
 
 function Event:send_next_notification()
@@ -108,10 +109,21 @@ function Event:send_next_notification()
     end
     
     event:send_notification()
-
-  else
-    return last_event_id
+    
+    return true
 
   end
 
+end
+
+function Event:send_notifications_loop()
+
+  while true do
+    local did_work = Event:send_next_notification()
+    if not did_work then
+      print "Sleeping 1 second"
+      os.execute("sleep 1")
+    end
+  end
+  
 end
