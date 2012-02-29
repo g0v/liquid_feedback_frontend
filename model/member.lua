@@ -325,7 +325,7 @@ function Member:get_search_selector(search_string)
   return self:new_selector()
     :add_field( {'"highlight"("member"."name", ?)', search_string }, "name_highlighted")
     :add_where{ '"member"."text_search_data" @@ "text_search_query"(?)', search_string }
-    :add_where("active")
+    :add_where("activated NOTNULL AND active")
 end
 
 function Member.object:send_invitation()
