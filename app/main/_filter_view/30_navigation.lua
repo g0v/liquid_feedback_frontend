@@ -2,11 +2,19 @@ slot.put_into("app_name", config.app_title)
 
 slot.select('navigation', function()
 
-  ui.link{
-    text   = _"Home",
-    module = 'index',
-    view   = 'index'
-  }
+  if config.public_access or app.session.member_id then
+    ui.link{
+      text   = _"Home",
+      module = 'index',
+      view   = 'index'
+    }
+  else
+    ui.link{
+      text   = _"Login",
+      module = 'index',
+      view   = 'index'
+    }
+  end
 
   if app.session.member then
 
@@ -26,7 +34,7 @@ slot.select('navigation', function()
     end
   end
 
-  if app.session.member == nil then
+  if config.public_access and app.session.member == nil then
     ui.link{
       text   = _"Login",
       module = 'index',
@@ -37,6 +45,8 @@ slot.select('navigation', function()
         redirect_id = param.get_id()
       }
     }
+  end
+  if app.session.member == nil then
     ui.link{
       text   = _"Registration",
       module = 'index',
