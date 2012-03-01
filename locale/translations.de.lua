@@ -110,7 +110,7 @@ return {
 ["Choose member"] = "Mitglied auswählen";
 ["Click for details"] = "Klicke für Details";
 ["Closed"] = "geschlossen";
-["Closed user group, please login to participate."] = "Geschlossene Benutzergruppe, bitte melde dich an um zu partizipieren.";
+["Closed user group, please login to participate."] = "Geschlossene Benutzergruppe, bitte melde dich an, um teilzunehmen.";
 ["Collective opinion of supporters"] = "Meinungsbild der Unterstützer";
 ["Commit suggestion"] = "Anregung speichern";
 ["Compare"] = "Vergleichen";
