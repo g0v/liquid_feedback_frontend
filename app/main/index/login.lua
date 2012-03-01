@@ -54,10 +54,14 @@ if config.motd_public then
   }
 end
 
-ui.tag{
-  tag = 'p',
-  content = _'You need to be logged in, to use all features of this system.'
-}
+if config.public_access then
+  ui.tag{
+    tag = 'p',
+    content = _'You need to be logged in, to use all features of this system.'
+  }
+else
+  ui.tag{ tag = "p", content = _"Closed user group, please login to participate." }
+end
 
 ui.form{
   attr = { class = "login" },
