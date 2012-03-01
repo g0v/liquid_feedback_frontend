@@ -71,7 +71,7 @@ elseif config.public_access then
   
 else
 
-  ui.tag{ content = _"Closed user group, please login to participate." }
+  ui.tag{ tag = "p", content = _"Closed user group, please login to participate." }
 
 end
 
