@@ -25,7 +25,9 @@ body {
   color: black;
   background: white;
 }
-
+li {
+  line-height: 133%;
+}
 p {
   margin-top: 2ex;
   margin-bottom: 2ex;
@@ -46,6 +48,7 @@ caption, th, td {
 
 body {
   background: #fff;
+  line-height: 120%:
 }
 
 body, th, td {
@@ -54,6 +57,10 @@ body, th, td {
   font-size: 14px;
   padding: 0;
   margin: 0;
+}
+
+table {
+  margin-top: 1ex;
 }
 
 .area_list {
@@ -670,6 +677,10 @@ form.unit_selector {
 /*************************************************************************
  * vertical ui.form
  */
+
+.vertical {
+  margin-top: 2ex;
+}
 
 .login input[type=text],
 .vertical input[type=text],

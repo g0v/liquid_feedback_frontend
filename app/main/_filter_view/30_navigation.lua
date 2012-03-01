@@ -46,6 +46,7 @@ slot.select('navigation', function()
       }
     }
   end
+
   if app.session.member == nil then
     ui.link{
       text   = _"Registration",
