@@ -25,6 +25,12 @@ body {
   color: black;
   background: white;
 }
+
+p {
+  margin-top: 2ex;
+  margin-bottom: 2ex;
+}
+
 table {
   border-collapse: separate;
   border-spacing: 0;
