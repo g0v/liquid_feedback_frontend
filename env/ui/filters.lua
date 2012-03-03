@@ -112,6 +112,9 @@ function ui.filters(args)
                     attr.class = "active"
                     option.selector_modifier(args.selector)
                   end
+                  if idx > 1 then
+                    slot.put(" ")
+                  end
                   ui.link{
                     attr    = attr,
                     module  = request.get_module(),

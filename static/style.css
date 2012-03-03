@@ -1,3 +1,4 @@
+
 /* Style reset */
 html,
 body,
@@ -61,10 +62,6 @@ body, th, td {
 
 table {
   margin-top: 1ex;
-}
-
-.area_list {
-  line-height: 140%;
 }
 
 body, a {
@@ -164,9 +161,9 @@ h2 {
   color: #fff;
   font-size: 90%;
   line-height: 100%;
-  padding-left: 10px;
-  overflow: hidden;
+  padding-left: 1%;
   box-shadow: #aaa 0 0 5px;
+  overflow: hidden;
   -mox-box-shadow: #aaa 0 0 5px;
   -webkit-box-shadow: #aaa 0 0 5px;
 }
@@ -184,35 +181,29 @@ h2 {
   color: #000;
 }
 
-.navigation,
-.logout_button {
+.navigation {
   line-height: 200%;
 }
 
-.navigation img,
-.logout_button img {
+.navigation img {
   margin-right: 0.5em;
   vertical-align: middle;
 }
 
-.navigation a,
-.logout_button a {
-  padding: 1ex;
+.navigation a {
+  padding: 0 0.5em;
+  float: left;
+  display: block;
 }
 
 form.unit_selector {
   display: inline;
 }
 
-.logout_button {
-  float: right;
-}
-
 .searchbox {
   margin: 0;
   padding: 0.1ex 1em 0ex 1em;
   float: right;
-  line-height: 250%;
 }
 
 .searchbox form {
@@ -250,8 +241,8 @@ form.unit_selector {
 .title2,
 .actions {
   background-color: #f2f2f2;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 1%;
+  margin-right: 1%;
 }
 
 .initiative_head .actions {
@@ -260,19 +251,11 @@ form.unit_selector {
   -webkit-box-shadow: none;
 }
 
-.actions {
-  border-radius: 0 0 8px 8px;
-}
-
-.initiative_head .actions {
-  background-color: #fff;
-  margin: 0px;
-}
 
 .slot_initiatives_list {
   margin-top: 1ex;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 1%;
+  margin-right: 1%;
   background-color: #fcfcfc;
   border-radius: 8px;
   clear: left;
@@ -289,7 +272,7 @@ form.unit_selector {
 
 .title {
   color: #000;
-  padding: 1.5ex 1em 0 1em;
+  padding: 1.5ex 1ex 0 1ex;
 }
 
 .title div {
@@ -308,7 +291,7 @@ form.unit_selector {
 }
 
 .slot_title2 {
-  padding: 1ex 1em 0 1em;
+  padding: 1ex 1ex 0 1ex;
 }
 
 .member_list .member_image_avatar {
@@ -330,24 +313,38 @@ form.unit_selector {
   padding-bottom: 1ex;
 }
 
-.interest {
-  margin-left: 1.33em;
-  margin-bottom: 1.33ex;
+.actions {
+  border-radius: 0 0 8px 8px;
 }
 
-.slot_actions .interest {
-  margin-left: 0em;
+.actions .interest,
+.actions .delegation,
+.actions a {
+  margin-left: 1ex;
 }
 
 .actions a {
-  margin-right: 1em;
-  border-radius: 5px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.actions .interest a,
+.actions .delegation a {
+  margin: 0;
+}
+
+.initiative_head .actions {
+  background-color: #fff;
+  margin: 0px;
+}
+
+.actions a {
   padding-right: 0.3em;
 }
 
 .slot_initiative_head  {
-  padding-left: 10px;
-  padding-top: 2ex;
+  padding-left: 1%;
+  padding-top: 4ex;
 }
 
 .initiative_name {
@@ -400,7 +397,6 @@ form.unit_selector {
 .actions .potential_supporter,
 .vote_info .head {
   float: left;
-  margin-right: 1em;
 }
 
 .actions .supporter,
@@ -531,8 +527,8 @@ form.unit_selector {
  */
 
 .main {
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 1%;
+  margin-right: 1%;
 }
 
 /*************************************************************************
@@ -564,11 +560,6 @@ form.unit_selector {
   color: #fff;
   text-decoration: none;
   padding: 1ex;
-}
-
-.ui_tabs_content {
-  xborder: 1px solid #444;
-  xpadding: 1ex 1ex 1ex 1ex;
 }
 
 .ui_tabs_links a.yellow {
@@ -611,25 +602,22 @@ form.unit_selector {
 .ui_filter {
   overflow: hidden;
   margin-bottom: 1ex;
+  margin-right: 1em;
 }
 
-.ui_filter_closed_head,
 .ui_filter_head {
   color: #777;
-  margin-top: 1ex;
-  margin-bottom: 1.5ex;
+  margin-top: 0.5ex;
+  margin-bottom: 0.5ex;
   font-size: 75%;
   float: left;
-}
-
-.ui_filter_head {
+  line-height: 200%;
   margin-right: 2em;
 }
 
 .ui_filter_head a {
   color: #777;
   padding: 0.5ex;
-  margin-right: 0.2em;
 }
 
 .ui_filter_head a.active {
@@ -850,6 +838,63 @@ tr table tr:hover td {
 
 
 
+/*************************************************************************
+ * Area list
+ */
+
+.area_list {
+}
+
+.area_list .area {
+  line-height: 28px;
+}
+
+.area_list .area img {
+  vertical-align: middle;
+}
+
+.area_list .area .info {
+  float: left;
+  clear: both;
+}
+
+.area_list .area .bar {
+  float: left;
+  padding-top: 6px
+}
+
+.area_list .area .membership,
+.area_list .area .delegatee {
+  display: inline;
+  width: 24px
+}
+
+.area_list .area .name {
+  display: inline;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 480px) {
+  .area_list .area .name {
+    clear: left;
+    display: block;
+    float: left;
+    margin-left: 0px;
+  }
+  .area_list .area .phases {
+    margin-bottom: 2ex;
+  }
+}
+
+.area_list .area .phases {
+  float: right;
+}
+
+.area_list .area .phases div {
+  float: left;
+  width: 3em;
+  text-align: right;
+}
 
 /*************************************************************************
  * Issues
@@ -873,7 +918,7 @@ tr table tr:hover td {
 }
 
 .issues .issue .issue_info {
-  padding: 1ex 1em 0.3ex 1em;
+  padding: 1ex 1ex 0.3ex 1ex;
   line-height: 140%;
   margin-bottom: 1ex;
 }
@@ -903,6 +948,42 @@ tr table tr:hover td {
 .issues .issue .initiative_list a {
   font-weight: bold;
 }
+
+.initiative {
+  margin-left: 1ex;
+  margin-bottom: 1ex;
+  line-height: 50%;
+}
+
+.initiative .bar {
+  margin-right: 0.3em;
+}
+
+.initiative .rank,
+.initiative .bar,
+.initiative .interest {
+  float: left; 
+  margin-right: 0.3em;
+}
+
+.initiative .interest {
+  width: 16px;
+  height: 16px;
+  line-height: 100%;
+}
+
+.initiative .name {
+  line-height: 130%;
+  margin-left: 160px;
+}
+
+@media screen and (max-width: 480px) {
+  .initiative .name {
+    clear: left;
+    margin-left: 0px;
+  }
+}
+
 
 .issue_initiative_list a {
   font-weight: bold;
@@ -1223,10 +1304,6 @@ a.not_voted {
   display: block;
   font-size: 120%;
   font-weight: bold;
-}
-
-.heading.member_area_list {
-  position: absolute;
 }
 
 .heading.first {
