@@ -96,6 +96,22 @@ slot.select('navigation', function()
       view   = 'about'
     }
 
+    if app.session.member_id then
+      ui.link{
+      --    image  = { static = "icons/16/stop.png" },
+        text   = _"Logout",
+        module = 'index',
+        action = 'logout',
+        routing = {
+          default = {
+            mode = "redirect",
+            module = "index",
+            view = "index"
+          }
+        }
+      }
+    end
+    
     if app.session.member.admin then
 
       slot.put(" ")

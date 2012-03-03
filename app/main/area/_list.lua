@@ -28,271 +28,147 @@ else
   areas_selector:add_field("0", "issues_to_vote_count")
 end
 
-local label_attr = { style = "text-align: right; width: 4em;" }
-local field_attr = { style = "text-align: right; width: 4em;" }
 
-ui.list{
-  attr = { class = "area_list", style = "width: 100%; table-layout: fixed;" },
-  records = areas_selector:exec(),
-  columns = {
-    {
-      label_attr = { style = "width: 2em;" },
-      content = function(record)
-        if record.is_member then
-          local text = _"Member of area"
-          ui.image{
-            attr = { title = text, alt = text, style = "vertical-align: middle;" },
-            static = "icons/16/user_gray.png",
-          }
-        end
-      end
-    },
-    {
-      label_attr = { style = "width: 2em;" },
-      content = function(record)
-        if record.trustee_member_id then
-          local trustee_member = Member:by_id(record.trustee_member_id)
-          local text = _("Area delegated to '#{name}'", { name = record.trustee_member_name })
-          execute.view{
-            module = "member_image",
-            view = "_show",
-            params = {
-              member = trustee_member,
-              image_type = "avatar",
-              show_dummy = true,
-              class = "micro_avatar",
-              popup_text = text
+ui.container{ attr = { class = "area_list" }, content = function()
+
+  for i, area in ipairs(areas_selector:exec()) do
+
+    ui.container{ attr = { class = "area" }, content = function()
+
+      ui.container{ attr = { class = "info" }, content = function()
+
+        ui.container{ attr = { class = "bar" }, content = function()
+          if area.member_weight and area.direct_member_count then
+            local max_value = MemberCount:get()
+            ui.bargraph{
+              max_value = max_value,
+              width = 100,
+              bars = {
+                { color = "#444", value = area.direct_member_count },
+                { color = "#777", value = area.member_weight - area.direct_member_count },
+                { color = "#ddd", value = max_value - area.member_weight },
+              }
             }
-          }
-        end
-      end
-    },
-    {
-      label_attr = { style = "width: 110px" },
-      content = function(record)
-        if record.member_weight and record.direct_member_count then
-          local max_value = MemberCount:get()
-          ui.bargraph{
-            max_value = max_value,
-            width = 100,
-            bars = {
-              { color = "#444", value = record.direct_member_count },
-              { color = "#777", value = record.member_weight - record.direct_member_count },
-              { color = "#ddd", value = max_value - record.member_weight },
+          end
+        end }
+
+        ui.container{ attr = { class = "name" }, content = function()
+            ui.link{
+              text = area.name,
+              module = "area",
+              view = "show",
+              id = area.id
             }
+            slot.put(" ")
+            ui.tag{ content = "" }
+          end
+        }
+        
+        ui.container{ attr = { class = "membership" }, content = function()
+          if area.is_member then
+            local text = _"Member of area"
+            ui.image{
+              attr = { title = text, alt = text },
+              static = "icons/16/user_gray.png",
+            }
+          else
+            slot.put('<img src="null.png" width="16" height="1" />')
+          end
+        end }
+          
+        ui.container{ attr = { class = "delegatee" }, content = function()
+          if area.trustee_member_id then
+            local trustee_member = Member:by_id(area.trustee_member_id)
+            local text = _("Area delegated to '#{name}'", { name = area.trustee_member_name })
+            local text = _"delegated to"
+            ui.image{
+              attr = { class = "delegation_arrow", alt = text, title = text },
+              static = "delegation_arrow_24_horizontal.png"
+            }
+            execute.view{
+              module = "member_image",
+              view = "_show",
+              params = {
+                member = trustee_member,
+                image_type = "avatar",
+                show_dummy = true,
+                class = "micro_avatar",
+                popup_text = text
+              }
+            }
+          else
+            slot.put('<img src="null.png" width="24" height="1" />')
+          end
+        end }
+      end }
+
+      ui.container{ attr = { class = "phases" }, content = function()
+
+        ui.container{ attr = { class = "admission" }, content = function()
+          ui.link{
+            text = tostring(area.issues_new_count),
+            module = "area",
+            view = "show",
+            id = area.id,
+            params = { filter = "new", tab = "issues" }
           }
-        end
-      end
-    },
-    {
-      label_attr = { style = "width: 100%" },
-      content = function(record)
-        ui.link{
-          text = record.name,
-          module = "area",
-          view = "show",
-          id = record.id
-        }
-      end
-    },
-    {
-      label = function()
-        local title = _"New"
-        ui.image{
-          attr = { title = title, alt = title },
-          static = "icons/16/new.png"
-        }
-      end,
-      field_attr = field_attr,
-      label_attr = label_attr,
-      content = function(record)
-        ui.link{
-          text = tostring(record.issues_new_count),
-          module = "area",
-          view = "show",
-          id = record.id,
-          params = { filter = "new", tab = "issues" }
-        }
-      end
-    },
-    {
-      label = function()
-        local title = _"Discussion"
-        ui.image{
-          attr = { title = title, alt = title },
-          static = "icons/16/comments.png"
-        }
-      end,
-      field_attr = field_attr,
-      label_attr = label_attr,
-      content = function(record)
-        ui.link{
-          text = tostring(record.issues_discussion_count),
-          module = "area",
-          view = "show",
-          id = record.id,
-          params = { filter = "accepted", tab = "issues" }
-        }
-      end
-    },
-    {
-      label = function()
-        local title = _"Frozen"
-        ui.image{
-          attr = { title = title, alt = title },
-          static = "icons/16/lock.png"
-        }
-      end,
-      field_attr = field_attr,
-      label_attr = label_attr,
-      content = function(record)
-        ui.link{
-          text = tostring(record.issues_frozen_count),
-          module = "area",
-          view = "show",
-          id = record.id,
-          params = { filter = "half_frozen", tab = "issues" }
-        }
-      end
-    },
-    {
-      label = function()
-        local title = _"Voting"
-        ui.image{
-          attr = { title = title, alt = title },
-          static = "icons/16/email_open.png"
-        }
-      end,
-      field_attr = field_attr,
-      label_attr = label_attr,
-      content = function(record)
-        ui.link{
-          text = tostring(record.issues_voting_count),
-          module = "area",
-          view = "show",
-          id = record.id,
-          params = { filter = "frozen", tab = "issues" }
-        }
-      end
-    },
-    {
-      label = function()
-        local title = _"Finished"
-        ui.image{
-          attr = { title = title, alt = title },
-          static = "icons/16/tick.png"
-        }
-      end,
-      field_attr = field_attr,
-      label_attr = label_attr,
-      content = function(record)
-        ui.link{
-          text = tostring(record.issues_finished_count),
-          module = "area",
-          view = "show",
-          id = record.id,
-          params = { filter = "finished", issue_list = "newest", tab = "issues" }
-        }
-      end
-    },
-    {
-      label = function()
-        local title = _"Cancelled"
-        ui.image{
-          attr = { title = title, alt = title },
-          static = "icons/16/cross.png"
-        }
-      end,
-      field_attr = field_attr,
-      label_attr = label_attr,
-      content = function(record)
-        ui.link{
-          text = tostring(record.issues_cancelled_count),
-          module = "area",
-          view = "show",
-          id = record.id,
-          params = { filter = "cancelled", issue_list = "newest", tab = "issues" }
-        }
-      end
-    }
-  }
-}
---[[
-ui.bargraph_legend{
-  width = 25,
-  bars = {
-    { color = "#444", label = _"Direct membership" },
-    { color = "#777", label = _"Membership by delegation" },
-    { color = "#ddd", label = _"No membership at all" },
-  }
-}
+        end }
 
-slot.put("<br /> &nbsp; ")
+        ui.container{ attr = { class = "discussion" }, content = function()
+          ui.link{
+            text = tostring(area.issues_discussion_count),
+            module = "area",
+            view = "show",
+            id = area.id,
+            params = { filter = "accepted", tab = "issues" }
+          }
+        end }
 
+        ui.container{ attr = { class = "verification" }, content = function()
+          ui.link{
+            text = tostring(area.issues_frozen_count),
+            module = "area",
+            view = "show",
+            id = area.id,
+            params = { filter = "half_frozen", tab = "issues" }
+          }
+        end }
 
-if app.session.member_id then
-  ui.image{
-    attr = { title = title, alt = title },
-    static = "icons/16/user_gray.png"
-  }
-  slot.put(" ")
-  slot.put(_"Member of area")
-  slot.put(" &nbsp; ")
+        ui.container{ attr = { class = "voting" }, content = function()
+          ui.link{
+            text = tostring(area.issues_voting_count),
+            module = "area",
+            view = "show",
+            id = area.id,
+            params = { filter = "frozen", tab = "issues" }
+          }
+        end }
 
-  ui.image{
-    attr = { title = title, alt = title },
-    static = "icons/16/link.png"
-  }
-  slot.put(" ")
-  slot.put(_"Area delegated")
-  slot.put(" &nbsp; ")
-end
+        ui.container{ attr = { class = "finished" }, content = function()
+          ui.link{
+            text = tostring(area.issues_finished_count),
+            module = "area",
+            view = "show",
+            id = area.id,
+            params = { filter = "finished", issue_list = "newest", tab = "issues" }
+          }
+        end }
 
-ui.image{
-  attr = { title = title, alt = title },
-  static = "icons/16/new.png"
-}
-slot.put(" ")
-slot.put(_"New")
-slot.put(" &nbsp; ")
+        ui.container{ attr = { class = "cancelled" }, content = function()
+          ui.link{
+            text = tostring(area.issues_cancelled_count),
+            module = "area",
+            view = "show",
+            id = area.id,
+            params = { filter = "cancelled", issue_list = "newest", tab = "issues" }
+          }
+        end }
 
-ui.image{
-  attr = { title = title, alt = title },
-  static = "icons/16/comments.png"
-}
-slot.put(" ")
-slot.put(_"Discussion")
-slot.put(" &nbsp; ")
-
-ui.image{
-  attr = { title = title, alt = title },
-  static = "icons/16/lock.png"
-}
-slot.put(" ")
-slot.put(_"Frozen")
-slot.put(" &nbsp; ")
-
-ui.image{
-  attr = { title = title, alt = title },
-  static = "icons/16/email_open.png"
-}
-slot.put(" ")
-slot.put(_"Voting")
-slot.put(" &nbsp; ")
-
-ui.image{
-  attr = { title = title, alt = title },
-  static = "icons/16/tick.png"
-}
-slot.put(" ")
-slot.put(_"Finished")
-slot.put(" &nbsp; ")
-
-ui.image{
-  attr = { title = title, alt = title },
-  static = "icons/16/cross.png"
-}
-slot.put(" ")
-slot.put(_"Cancelled")
-
---]]
+      end }
+      
+      slot.put("<br /")
+    end }
+    
+  end
+  
+end }
