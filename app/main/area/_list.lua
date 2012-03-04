@@ -1,4 +1,5 @@
 local areas_selector = param.get("areas_selector", "table")
+local hide_membership = param.get("hide_membership", atom.boolean)
 
 areas_selector
   :reset_fields()
@@ -35,35 +36,22 @@ ui.container{ attr = { class = "area_list" }, content = function()
 
     ui.container{ attr = { class = "area" }, content = function()
 
-      ui.container{ attr = { class = "info" }, content = function()
-
-        ui.container{ attr = { class = "bar" }, content = function()
-          if area.member_weight and area.direct_member_count then
-            local max_value = MemberCount:get()
-            ui.bargraph{
-              max_value = max_value,
-              width = 100,
-              bars = {
-                { color = "#444", value = area.direct_member_count },
-                { color = "#777", value = area.member_weight - area.direct_member_count },
-                { color = "#ddd", value = max_value - area.member_weight },
-              }
+      ui.container{ attr = { class = "bar" }, content = function()
+        if area.member_weight and area.direct_member_count then
+          local max_value = MemberCount:get()
+          ui.bargraph{
+            max_value = max_value,
+            width = 100,
+            bars = {
+              { color = "#444", value = area.direct_member_count },
+              { color = "#777", value = area.member_weight - area.direct_member_count },
+              { color = "#ddd", value = max_value - area.member_weight },
             }
-          end
-        end }
+          }
+        end
+      end }
 
-        ui.container{ attr = { class = "name" }, content = function()
-            ui.link{
-              text = area.name,
-              module = "area",
-              view = "show",
-              id = area.id
-            }
-            slot.put(" ")
-            ui.tag{ content = "" }
-          end
-        }
-        
+      if not hide_membership then
         ui.container{ attr = { class = "membership" }, content = function()
           if area.is_member then
             local text = _"Member of area"
@@ -75,31 +63,41 @@ ui.container{ attr = { class = "area_list" }, content = function()
             slot.put('<img src="null.png" width="16" height="1" />')
           end
         end }
-          
-        ui.container{ attr = { class = "delegatee" }, content = function()
-          if area.trustee_member_id then
-            local trustee_member = Member:by_id(area.trustee_member_id)
-            local text = _("Area delegated to '#{name}'", { name = area.trustee_member_name })
-            local text = _"delegated to"
-            ui.image{
-              attr = { class = "delegation_arrow", alt = text, title = text },
-              static = "delegation_arrow_24_horizontal.png"
+      end
+
+      ui.container{ attr = { class = "delegatee" }, content = function()
+        if area.trustee_member_id then
+          local trustee_member = Member:by_id(area.trustee_member_id)
+          local text = _("Area delegated to '#{name}'", { name = area.trustee_member_name })
+          ui.image{
+            attr = { class = "delegation_arrow", alt = text, title = text },
+            static = "delegation_arrow_24_horizontal.png"
+          }
+          execute.view{
+            module = "member_image",
+            view = "_show",
+            params = {
+              member = trustee_member,
+              image_type = "avatar",
+              show_dummy = true,
+              class = "micro_avatar",
+              popup_text = text
             }
-            execute.view{
-              module = "member_image",
-              view = "_show",
-              params = {
-                member = trustee_member,
-                image_type = "avatar",
-                show_dummy = true,
-                class = "micro_avatar",
-                popup_text = text
-              }
-            }
-          else
-            slot.put('<img src="null.png" width="24" height="1" />')
-          end
-        end }
+          }
+        else
+          slot.put('<img src="null.png" width="41" height="1" />')
+        end
+      end }
+  
+      ui.container{ attr = { class = "name" }, content = function()
+        ui.link{
+          text = area.name,
+          module = "area",
+          view = "show",
+          id = area.id
+        }
+        slot.put(" ")
+        ui.tag{ content = "" }
       end }
 
       ui.container{ attr = { class = "phases" }, content = function()
@@ -166,7 +164,7 @@ ui.container{ attr = { class = "area_list" }, content = function()
 
       end }
       
-      slot.put("<br /")
+      slot.put("<br />")
     end }
     
   end

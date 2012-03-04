@@ -10,7 +10,7 @@ ui.container{ attr = { class = "initiative" }, content = function()
     then 
       ui.field.rank{ attr = { class = "rank" }, value = initiative.rank, eligible = initiative.eligible }
     else
-      slot.put('<img src="null.png" width="28" height="1" />')
+      ui.image{ static = "icons/16/script.png" }
     end
   end }
 
