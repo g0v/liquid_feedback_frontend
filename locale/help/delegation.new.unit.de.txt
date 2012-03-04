@@ -1,0 +1,3 @@
+= Delegation für Gliederung =
+
+Die Delegation für eine Gliederung gilt immer dann, wenn du dich nicht selbst beteiligst und es keine Delegation auf der Ebene des jeweiligen Themenbereichs oder des Themas gibt. Beachte, dass Delegationen für eine übergeordnete Gliederungsebene nicht automatisch für untergeordnete Gliederungsebenen gelten. Delegieren kannst du nur an Mitglieder in deiner Kontaktliste. Die Kontaktliste kannst du im Bereich ,,Mitglieder'' jederzeit erweitern.

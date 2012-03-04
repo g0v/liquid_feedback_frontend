@@ -1,7 +1,7 @@
 =Willkommen bei LiquidFeedback und auf deiner Startseite=
 Diese gelben Boxen werden dich verfolgen bis du sie nach und nach abschaltest. Deine Startseite wird sich (hoffentlich) im Laufe der Zeit füllen: 
 - mit deinem Profil, 
-- den Themenbereichen, Themen und Initiativen die dich interessieren,
+- den Themenbereichen und Themen, die dich interessieren,
 - deinen eingehenden und ausgehenden Delegationen,
 - deinen veröffentlichten Kontakten.
 

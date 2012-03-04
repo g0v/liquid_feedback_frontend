@@ -1,0 +1,2 @@
+= Unit delegation =
+A unit delegation is always active if you don't participate yourself and there is no delegation on the level of the respective area or issue. Note that unit delegations for a superordinate unit are not automatically inherited to subdivisions. You can only delegate to members who are on your list of contacts. You can extend this list anytime under ,,Members''.
