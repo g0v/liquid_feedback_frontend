@@ -1,0 +1,3 @@
+= Übersicht der Gliederungen =
+
+Auf dieser Seite werden dir alle vorhandenen Gliederungsebenen angezeigt. Gibt es mehr als eine Gliederungsebene, bist du ggf. nicht in jeder Gliederung stimmberechtigt.
