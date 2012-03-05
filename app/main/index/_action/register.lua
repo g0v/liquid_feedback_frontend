@@ -195,12 +195,14 @@ if step > 2 then
   member.login = login
   member.name = name
 
-  local success = member:set_notify_email(notify_email)
-  if not success then
-    slot.put_into("error", _"Can't send confirmation email")
-    return
+  if notify_email ~= member.notify_email then
+    local success = member:set_notify_email(notify_email)
+    if not success then
+      slot.put_into("error", _"Can't send confirmation email")
+      return
+    end
   end
-
+  
   member:set_password(password1)
 
   local now = db:query("SELECT now() AS now", "object").now
