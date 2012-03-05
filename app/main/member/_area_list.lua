@@ -1,5 +1,6 @@
-local units = member.units_with_voting_right
 local member = param.get("member", "table")
+local units = member.units_with_voting_right
+
 for i, unit in ipairs(units) do
   local trustee_member = Member:new_selector()
     :join("delegation", nil, { "delegation.unit_id = ? AND delegation.truster_id = ?", unit.id, member.id })
