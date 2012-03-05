@@ -861,6 +861,11 @@ tr table tr:hover td {
   float: left;
 }
 
+.member_area_list .voting_priv_info {
+  clear: left;
+  margin-top: 4ex;
+}
+
 .area_list {
   margin-bottom: 4ex;
 }

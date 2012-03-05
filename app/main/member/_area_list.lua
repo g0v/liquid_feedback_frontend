@@ -46,12 +46,7 @@ for i, unit in ipairs(units) do
         params = { areas_selector = areas_selector, hide_membership = true }
       }
     else
-      ui.tag{ content = _"You have voting privileges for this unit, but you are not member of any of its areas." }
-      slot.put(" ")
-      ui.link{
-        text = _"Show all areas of this unit",
-        module = "unit", view = "show", id = unit.id
-      }
+      ui.container{ attr = { class = "voting_priv_info" }, content = _"You have voting privileges for this unit, but you are not member of any of its areas." }
     end
   end }
   
