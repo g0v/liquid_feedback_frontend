@@ -921,6 +921,7 @@ tr table tr:hover td {
 @media screen and (max-width: 480px) {
   .area_list .area .name {
     display: block;
+    line-height: 100%;
   }
   
   .area_list .area .delegatee,
