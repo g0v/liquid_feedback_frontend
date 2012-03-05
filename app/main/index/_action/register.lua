@@ -6,6 +6,8 @@ local member = Member:new_selector()
   :optional_object_mode()
   :for_update()
   :exec()
+  
+local old_notify_email = member.notify_email
 
 if not member then
   slot.put_into("error", _"The code you've entered is invalid")
@@ -195,7 +197,7 @@ if step > 2 then
   member.login = login
   member.name = name
 
-  if notify_email ~= member.notify_email then
+  if notify_email ~= old_notify_email then
     local success = member:set_notify_email(notify_email)
     if not success then
       slot.put_into("error", _"Can't send confirmation email")
