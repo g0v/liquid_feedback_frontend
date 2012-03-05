@@ -259,7 +259,7 @@ form.unit_selector {
   background-color: #fcfcfc;
   border-radius: 8px;
   clear: left;
-  border: 1px solid #ddd;
+  border: 1px solid #aaa;
   padding-top: 1ex;
   padding-bottom: 1ex;
 }
@@ -946,7 +946,7 @@ tr table tr:hover td {
   background-color: #fcfcfc;
   overflow: hidden;
   margin-bottom: 2ex;
-  border: 1px solid #ccc;
+  border: 1px solid #aaa;
   border-radius: 8px;
 }
 
