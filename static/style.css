@@ -1234,11 +1234,12 @@ x.initiative_link.potentially_supported {
 .initiator_invite_info,
 .motd,
 .public_access_issue_head {
-  background-color: #fec;
+  background-color: #fffbce;
   padding: 1ex;
   margin-top: 2ex;
   margin-bottom: 2ex;
   border-radius: 8px;
+  border: 1px solid #ffe900;
 }
 
 .suggestion_fulfilled {
