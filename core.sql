@@ -1190,8 +1190,9 @@ CREATE FUNCTION "write_member_history_trigger"()
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
       IF
-        NEW."active" != OLD."active" OR
-        NEW."name"   != OLD."name"
+        ( NEW."active" != OLD."active" OR
+          NEW."name"   != OLD."name" ) AND
+        OLD."activated" NOTNULL
       THEN
         INSERT INTO "member_history"
           ("member_id", "active", "name")
