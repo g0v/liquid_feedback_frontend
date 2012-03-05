@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('2.0.4', 2, 0, 4))
+  SELECT * FROM (VALUES ('2.0.5', 2, 0, 5))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -4164,6 +4164,7 @@ CREATE FUNCTION "delete_private_data"()
       DELETE FROM "member" WHERE "activated" ISNULL;
       UPDATE "member" SET
         "invite_code"                  = NULL,
+        "admin_comment"                = NULL,
         "last_login"                   = NULL,
         "login"                        = NULL,
         "password"                     = NULL,
