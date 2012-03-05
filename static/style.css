@@ -862,7 +862,7 @@ tr table tr:hover td {
   margin-bottom: 4ex;
 }
 .area_list .area {
-  line-height: 28px;
+  line-height: 32px;
   clear: both;
 }
 
@@ -907,12 +907,15 @@ tr table tr:hover td {
 
 @media screen and (max-width: 480px) {
   .area_list .area .name {
-    xdisplay: block;
-    xfloat: left;
+    display: block;
   }
-  .area_list .area .bar,
-  .area_list .area .membership,
-  .area_list .area .delegatee {
+  
+  .area_list .area .delegatee,
+  .area_list .area .membership {
+    float: left;
+    white-space: nowrap;
+  }
+  .area_list .area .bar {
     display: none;
   }
 }

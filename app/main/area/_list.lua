@@ -83,6 +83,17 @@ ui.container{ attr = { class = "area_list" }, content = function()
         end
       end }
 
+      ui.container{ attr = { class = "name" }, content = function()
+        ui.link{
+          text = area.name,
+          module = "area",
+          view = "show",
+          id = area.id
+        }
+        slot.put(" ")
+        ui.tag{ content = "" }
+      end }
+
       if not hide_membership then
         ui.container{ attr = { class = "membership" }, content = function()
           if area.is_member then
@@ -96,7 +107,7 @@ ui.container{ attr = { class = "area_list" }, content = function()
           end
         end }
       end
-
+      
       ui.container{ attr = { class = "delegatee" }, content = function()
         if area.trustee_member_id then
           local trustee_member = Member:by_id(area.trustee_member_id)
@@ -121,17 +132,6 @@ ui.container{ attr = { class = "area_list" }, content = function()
         end
       end }
   
-      ui.container{ attr = { class = "name" }, content = function()
-        ui.link{
-          text = area.name,
-          module = "area",
-          view = "show",
-          id = area.id
-        }
-        slot.put(" ")
-        ui.tag{ content = "" }
-      end }
-
       ui.container{ attr = { class = "phases" }, content = function()
 
         ui.container{ attr = { class = "admission" }, content = function()
