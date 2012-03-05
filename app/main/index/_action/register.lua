@@ -7,8 +7,6 @@ local member = Member:new_selector()
   :for_update()
   :exec()
   
-local old_notify_email = member.notify_email
-
 if not member then
   slot.put_into("error", _"The code you've entered is invalid")
   request.redirect{
@@ -18,6 +16,8 @@ if not member then
   }
   return false
 end
+
+local old_notify_email = member.notify_email
 
 local notify_email = param.get("notify_email")
 
