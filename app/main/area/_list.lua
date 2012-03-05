@@ -32,6 +32,38 @@ end
 
 ui.container{ attr = { class = "area_list" }, content = function()
 
+  ui.container{ attr = { class = "area head" }, content = function()
+
+    ui.container{ attr = { class = "phases" }, content = function()
+
+      ui.container{ attr = { class = "admission" }, content = function()
+        ui.image{ static = "icons/16/new.png" }
+      end }
+
+      ui.container{ attr = { class = "discussion" }, content = function()
+        ui.image{ static = "icons/16/comments.png" }
+      end }
+
+      ui.container{ attr = { class = "verification" }, content = function()
+        ui.image{ static = "icons/16/lock.png" }
+      end }
+
+      ui.container{ attr = { class = "voting" }, content = function()
+        ui.image{ static = "icons/16/email_open.png" }
+      end }
+
+      ui.container{ attr = { class = "finished" }, content = function()
+        ui.image{ static = "icons/16/tick.png" }
+      end }
+
+      ui.container{ attr = { class = "cancelled" }, content = function()
+        ui.image{ static = "icons/16/cross.png" }
+      end }
+
+    end }
+
+  end }
+    
   for i, area in ipairs(areas_selector:exec()) do
 
     ui.container{ attr = { class = "area" }, content = function()
@@ -164,7 +196,7 @@ ui.container{ attr = { class = "area_list" }, content = function()
 
       end }
       
-      slot.put("<br />")
+      slot.put("<br style='clear: right;' />")
     end }
     
   end

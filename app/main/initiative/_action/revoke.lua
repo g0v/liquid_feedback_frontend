@@ -40,6 +40,7 @@ if not param.get("are_you_sure", atom.boolean) then
   return false
 end
 
+initiative.revoked_by_member_id = app.session.member_id
 initiative.revoked = "now"
 initiative:save()
 
