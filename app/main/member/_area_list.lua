@@ -1,4 +1,4 @@
-local units = app.session.member.units_with_voting_right
+local units = member.units_with_voting_right
 local member = param.get("member", "table")
 for i, unit in ipairs(units) do
   local trustee_member = Member:new_selector()
