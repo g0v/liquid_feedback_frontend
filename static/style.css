@@ -844,12 +844,15 @@ tr table tr:hover td {
 
 .member_area_list {
   margin-bottom: 0ex;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+  padding: 1ex;
+  margin-bottom: 2ex;
 }
 
 .member_area_list .unit_head {
   font-size: 120%;
   font-weight: bold;
-  line-height: 200%;
   float: left;
   clear: both;
 }
@@ -861,6 +864,11 @@ tr table tr:hover td {
 .area_list {
   margin-bottom: 4ex;
 }
+
+.member_area_list .area_list {
+  margin-bottom: 0;
+}
+
 .area_list .area {
   line-height: 32px;
   clear: both;
@@ -872,7 +880,7 @@ tr table tr:hover td {
 }
 
 .area_list .area.head .phases {
-  margin-top: 2ex;
+  xmargin-top: 2ex;
 }
 
 .area_list .area img {
@@ -1466,7 +1474,8 @@ div.timeline_results {
 .use_terms,
 .motd,
 .ui_filter a.active,
-.vote_info .content {
+.vote_info .content,
+.member_area_list {
   box-shadow: #777 0px 5px 5px -5px;
   -mox-box-shadow: #777 0px 5px 5px -5px;
   -webkit-box-shadow: #777 0px 5px 5px -5px;
