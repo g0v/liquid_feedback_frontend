@@ -328,24 +328,38 @@ function Member:get_search_selector(search_string)
     :add_where("activated NOTNULL AND active")
 end
 
-function Member.object:send_invitation()
+function Member.object:send_invitation(template_file, subject)
   trace.disable()
   self.invite_code = multirand.string( 24, "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz" )
-  local content = slot.use_temporary(function()
-    slot.put(_"Hello\n\n")
-    slot.put(_"You are invited to LiquidFeedback. To register please click the following link:\n\n")
-    slot.put(request.get_absolute_baseurl() .. "index/register.html?invite=" .. self.invite_code .. "\n\n")
-    slot.put(_"If this link is not working, please open following url in your web browser:\n\n")
-    slot.put(request.get_absolute_baseurl() .. "index/register.html\n\n")
-    slot.put(_"On that page please enter the invite key:\n\n")
-    slot.put(self.invite_code .. "\n\n")
-  end)
+  self:save()
+  
+  local subject = subject
+  local content
+  
+  if template_file then
+    local fh = io.open(template_file, "r")
+    content = fh:read("*a")
+    content = (content:gsub("#{invite_code}", self.invite_code))
+    print (content)
+  else
+    subject = config.mail_subject_prefix .. _"Invitation to LiquidFeedback"
+    content = slot.use_temporary(function()
+      slot.put(_"Hello\n\n")
+      slot.put(_"You are invited to LiquidFeedback. To register please click the following link:\n\n")
+      slot.put(request.get_absolute_baseurl() .. "index/register.html?invite=" .. self.invite_code .. "\n\n")
+      slot.put(_"If this link is not working, please open following url in your web browser:\n\n")
+      slot.put(request.get_absolute_baseurl() .. "index/register.html\n\n")
+      slot.put(_"On that page please enter the invite key:\n\n")
+      slot.put(self.invite_code .. "\n\n")
+    end)
+  end
+
   local success = net.send_mail{
     envelope_from = config.mail_envelope_from,
     from          = config.mail_from,
     reply_to      = config.mail_reply_to,
     to            = self.notify_email_unconfirmed or self.notify_email,
-    subject       = config.mail_subject_prefix .. _"Invitation to LiquidFeedback",
+    subject       = subject,
     content_type  = "text/plain; charset=UTF-8",
     content       = content
   }
