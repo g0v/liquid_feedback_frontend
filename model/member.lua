@@ -340,7 +340,6 @@ function Member.object:send_invitation(template_file, subject)
     local fh = io.open(template_file, "r")
     content = fh:read("*a")
     content = (content:gsub("#{invite_code}", self.invite_code))
-    print (content)
   else
     subject = config.mail_subject_prefix .. _"Invitation to LiquidFeedback"
     content = slot.use_temporary(function()
