@@ -843,22 +843,36 @@ tr table tr:hover td {
  */
 
 .member_area_list {
-  margin-bottom: 2ex;
+  margin-bottom: 0ex;
 }
 
 .member_area_list .unit_head {
   font-size: 120%;
   font-weight: bold;
   line-height: 200%;
+  float: left;
+  clear: both;
 }
 
 .member_area_list .unit_delegatee {
   float: left;
 }
 
+.area_list {
+  margin-bottom: 4ex;
+}
 .area_list .area {
   line-height: 28px;
   clear: both;
+}
+
+.area_list .area.head {
+  line-height: 16px;
+  clear: none;
+}
+
+.area_list .area.head .phases {
+  margin-top: 2ex;
 }
 
 .area_list .area img {
@@ -883,7 +897,6 @@ tr table tr:hover td {
 
 .area_list .area .phases {
   float: right;
-  margin-bottom: 2ex;
 }
 
 .area_list .area .phases div {
