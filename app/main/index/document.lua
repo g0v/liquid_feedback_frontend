@@ -46,6 +46,13 @@ ui.list{
           view = "document_file",
           params = { filename = filename }
         }
+        slot.put(" ")
+        ui.link{
+          content = _"Show",
+          module = "index",
+          view = "document_file",
+          params = { filename = filename, inline = true }
+        }
       end
     }
   }
