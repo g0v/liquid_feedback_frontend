@@ -27,19 +27,6 @@ ui.form{
   },
   content = function()
     ui.field.select{
-      label = _"Type of tabs",
-      foreign_records = {
-        { id = "tabs",                     name = _"Tabs" },
-        { id = "accordeon",                name = _"Accordion (none expanded)" .. " === " .. _"EXPERIMENTAL FEATURE" .. " ===" },
-        { id = "accordeon_first_expanded", name = _"Accordion (first expanded)" .. " === " .. _"EXPERIMENTAL FEATURE" .. " ===" },
-        { id = "accordeon_all_expanded",   name = _"Accordion (all expanded)" }
-      },
-      foreign_id = "id",
-      foreign_name = "name",
-      name = "tab_mode",
-      value = app.session.member:get_setting_value("tab_mode")
-    }
-    ui.field.select{
       label = _"Number of initiatives to preview",
       foreign_records = {
         { id =  3, name = "3" },
