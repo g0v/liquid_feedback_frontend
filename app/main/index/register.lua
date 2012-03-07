@@ -137,6 +137,7 @@ ui.form{
                 tag = "input",
                 attr = {
                   type = "checkbox",
+                  id = "use_terms_checkbox_" .. checkbox.name,
                   name = "use_terms_checkbox_" .. checkbox.name,
                   value = "1",
                   style = "float: left;",
@@ -144,7 +145,11 @@ ui.form{
                 }
               }
               slot.put("&nbsp;")
-              slot.put(checkbox.html)
+              ui.tag{
+                tag = "label",
+                attr = { ['for'] = "use_terms_checkbox_" .. checkbox.name },
+                content = function() slot.put(checkbox.html) end
+              }
             end
           }
         end
