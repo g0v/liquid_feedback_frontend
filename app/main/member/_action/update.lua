@@ -11,8 +11,7 @@ local fields = {
   "mobile_phone",
   "profession",
   "external_memberships",
-  "external_posts",
-  "statement"
+  "external_posts"
 }
 
 local update_args = { app.session.member }
@@ -20,6 +19,14 @@ local update_args = { app.session.member }
 for i, field in ipairs(fields) do
   if not config.locked_profile_fields[field] then
     param.update(app.session.member, field)
+  end
+end
+
+if not config.locked_profile_fields.statement then
+  local statement = param.get("statement")
+  if statement ~= app.session.member.statement then
+    app.session.member.statement = statement
+    app.session.member:render_content(true)
   end
 end
 
