@@ -243,9 +243,16 @@ form.unit_selector {
   background-color: #f2f2f2;
   margin-left: 1%;
   margin-right: 1%;
+  border-left: 1px solid #bbb;
+  border-right: 1px solid #bbb;
+}
+
+.actions {
+  border-bottom: 1px solid #bbb;
 }
 
 .initiative_head .actions {
+  border: none;
   box-shadow: none;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
