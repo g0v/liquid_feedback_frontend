@@ -77,9 +77,6 @@ function Event.object:send_notification()
     }
   end
 
-  print(body)
-  print("")
-  
 end
 
 function Event:send_next_notification()
