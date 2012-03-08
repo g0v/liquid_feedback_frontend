@@ -56,7 +56,7 @@ function Event.object:send_notification()
     locale.do_with(
       { lang = member.lang or config.default_lang or 'en' },
       function()
-        subject = config.mail_subject_prefix .. _("##{id} #{event}", { id = self.issue_id, event = self.event })
+        subject = config.mail_subject_prefix .. " " .. self.event_name
         body = body .. _("[event mail]      Unit: #{name}", { name = self.issue.area.unit.name }) .. "\n"
         body = body .. _("[event mail]      Area: #{name}", { name = self.issue.area.name }) .. "\n"
         body = body .. _("[event mail]     Issue: ##{id}", { id = self.issue_id }) .. "\n\n"
