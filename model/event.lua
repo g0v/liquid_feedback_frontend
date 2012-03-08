@@ -9,6 +9,34 @@ Event:add_reference{
   ref           = 'issue',
 }
 
+function Event.object_get:event_name()
+  return ({
+    issue_state_changed = _"Issue reached next phase",
+    initiative_created_in_new_issue = _"New issue",
+    initiative_created_in_existing_issue = _"New initiative in existing issue",
+    initiative_revoked = _"Initiative revoked",
+    new_draft_created = _"New initiative draft",
+    suggestion_created = _"New suggestion"
+  })[self.event]
+end
+  
+function Event.object_get:state_name()
+  return ({
+    admission = _"New",
+    discussion = _"Discussion",
+    verification = _"Frozen",
+    voting = _"Voting",
+    canceled_revoked_before_accepted = _"Cancelled (before accepted due to revocation)",
+    canceled_issue_not_accepted = _"Cancelled (issue not accepted)",
+    canceled_after_revocation_during_discussion = _"Cancelled (during discussion due to revocation)",
+    canceled_after_revocation_during_verification = _"Cancelled (during verification due to revocation)",
+    calculation = _"Calculation",
+    canceled_no_initiative_admitted = _"Cancelled (no initiative admitted)",
+    finished_without_winner = _"Finished (without winner)",
+    finished_with_winner = "Finished (with winner)"
+  })[self.state]
+end
+  
 function Event.object:send_notification() 
 
   local members_to_notify = Member:new_selector()
@@ -21,62 +49,71 @@ function Event.object:send_notification()
 
   local url
 
-  local body = ""
-  
-  body = body .. _("[event mail]      Unit: #{name}", { name = self.issue.area.unit.name }) .. "\n"
-  body = body .. _("[event mail]      Area: #{name}", { name = self.issue.area.name }) .. "\n"
-  body = body .. _("[event mail]     Issue: ##{id}", { id = self.issue_id }) .. "\n"
-  body = body .. _("[event mail]    Policy: #{policy}", { phase = self.issue.policy.name }) .. "\n"
-  body = body .. _("[event mail]     Phase: #{phase}", { phase = self.state }) .. "\n\n"
-  body = body .. _("[event mail]     Event: #{event}", { event = self.event }) .. "\n\n"
-
-  if self.initiative_id then
-    url = request.get_absolute_baseurl() .. "initiative/show/" .. self.initiative_id .. ".html"
-  elseif self.suggestion_id then
-    url = request.get_absolute_baseurl() .. "suggestion/show/" .. self.suggestion_id .. ".html"
-  else
-    url = request.get_absolute_baseurl() .. "issue/show/" .. self.issue_id .. ".html"
-  end
-  
-  body = body .. _("[event mail]       URL: #{url}", { url = url }) .. "\n\n"
-  
-  if self.initiative_id then
-    local initiative = Initiative:by_id(self.initiative_id)
-    body = body .. _("i#{id}: #{name}", { id = initiative.id, name = initiative.name }) .. "\n\n"
-  else
-    local initiative_count = Initiative:new_selector()
-      :add_where{ "initiative.issue_id = ?", self.issue_id }
-      :count()
-    local initiatives = Initiative:new_selector()
-      :add_where{ "initiative.issue_id = ?", self.issue_id }
-      :add_order_by("initiative.supporter_count DESC")
-      :limit(3)
-      :exec()
-    for i, initiative in ipairs(initiatives) do
-      body = body .. _("i#{id}: #{name}", { id = initiative.id, name = initiative.name }) .. "\n"
-    end
-    if initiative_count - 3 > 0 then
-      body = body .. _("and #{count} more initiatives", { count = initiative_count }) .. "\n"
-    end
-    body = body .. "\n"
-  end
-  
-  if self.suggestion_id then
-    local suggestion = Suggestion:by_id(self.suggestion_id)
-    body = body .. _("#{name}\n\n", { name = suggestion.name })
-  end
-  
   for i, member in ipairs(members_to_notify) do
-    local success = net.send_mail{
-      envelope_from = config.mail_envelope_from,
-      from          = config.mail_from,
-      reply_to      = config.mail_reply_to,
-      to            = member.notify_email,
-      subject       = config.mail_subject_prefix .. _("##{id} #{event}", { id = self.issue_id, event = self.event }),      content_type  = "text/plain; charset=UTF-8",
-      content       = body
-    }
-  end
+    local subject
+    local body = ""
+    
+    locale.do_with(
+      { lang = member.lang or config.default_lang or 'en' },
+      function()
+        subject = config.mail_subject_prefix .. _("##{id} #{event}", { id = self.issue_id, event = self.event })
+        body = body .. _("[event mail]      Unit: #{name}", { name = self.issue.area.unit.name }) .. "\n"
+        body = body .. _("[event mail]      Area: #{name}", { name = self.issue.area.name }) .. "\n"
+        body = body .. _("[event mail]     Issue: ##{id}", { id = self.issue_id }) .. "\n\n"
+        body = body .. _("[event mail]    Policy: #{policy}", { policy = self.issue.policy.name }) .. "\n\n"
+        body = body .. _("[event mail]     Event: #{event}", { event = self.event_name }) .. "\n\n"
+        body = body .. _("[event mail]     Phase: #{phase}", { phase = self.state_name }) .. "\n\n"
 
+        if self.initiative_id then
+          url = request.get_absolute_baseurl() .. "initiative/show/" .. self.initiative_id .. ".html"
+        elseif self.suggestion_id then
+          url = request.get_absolute_baseurl() .. "suggestion/show/" .. self.suggestion_id .. ".html"
+        else
+          url = request.get_absolute_baseurl() .. "issue/show/" .. self.issue_id .. ".html"
+        end
+        
+        body = body .. _("[event mail]       URL: #{url}", { url = url }) .. "\n\n"
+        
+        if self.initiative_id then
+          local initiative = Initiative:by_id(self.initiative_id)
+          body = body .. _("i#{id}: #{name}", { id = initiative.id, name = initiative.name }) .. "\n\n"
+        else
+          local initiative_count = Initiative:new_selector()
+            :add_where{ "initiative.issue_id = ?", self.issue_id }
+            :count()
+          local initiatives = Initiative:new_selector()
+            :add_where{ "initiative.issue_id = ?", self.issue_id }
+            :add_order_by("initiative.supporter_count DESC")
+            :limit(3)
+            :exec()
+          for i, initiative in ipairs(initiatives) do
+            body = body .. _("i#{id}: #{name}", { id = initiative.id, name = initiative.name }) .. "\n"
+          end
+          if initiative_count - 3 > 0 then
+            body = body .. _("and #{count} more initiatives", { count = initiative_count }) .. "\n"
+          end
+          body = body .. "\n"
+        end
+        
+        if self.suggestion_id then
+          local suggestion = Suggestion:by_id(self.suggestion_id)
+          body = body .. _("#{name}\n\n", { name = suggestion.name })
+        end
+  
+        local success = net.send_mail{
+          envelope_from = config.mail_envelope_from,
+          from          = config.mail_from,
+          reply_to      = config.mail_reply_to,
+          to            = member.notify_email,
+          subject       = ,
+          content_type  = "text/plain; charset=UTF-8",
+          content       = body
+        }
+    
+      end
+    )
+  end
+  
 end
 
 function Event:send_next_notification()

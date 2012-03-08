@@ -29,9 +29,6 @@ return {
 ["Abstention [single entry]"] = "Enthaltung";
 ["Accept invitation"] = "Einladung annehmen";
 ["Accepted at"] = "Angenommen am/um";
-["Accordion (all expanded)"] = "Akkordeon (alle offen)";
-["Accordion (first expanded)"] = "Akkordeon (erstes offen)";
-["Accordion (none expanded)"] = "Akkordeon (keins offen)";
 ["Active?"] = "Aktiv?";
 ["Add alternative initiative to issue"] = "Alternative Initiative zum Thema hinzufügen";
 ["Add my interest"] = "Mein Interesse anmelden";
@@ -82,6 +79,7 @@ return {
 ["Become a member"] = "Mitglied werden";
 ["Birthday"] = "Geburtstag";
 ["By delegation"] = "Durch Delegationen";
+["Calculation"] = "Auszählung";
 ["Can't remove last initiator"] = "Der letzte Initiator kann nicht entfernt werden";
 ["Can't send confirmation email"] = "Bestätigungs-E-Mail kann nicht versendet werden.";
 ["Cancel"] = "Abbrechen";
@@ -89,6 +87,11 @@ return {
 ["Cancel refuse of invitation"] = "Ablehnung der Einladung aufheben";
 ["Cancel registration"] = "Registrierung abbrechen";
 ["Cancelled"] = "Abgebrochen";
+["Cancelled (before accepted due to revocation)"] = false;
+["Cancelled (during discussion due to revocation)"] = false;
+["Cancelled (during verification due to revocation)"] = false;
+["Cancelled (issue not accepted)"] = "Abgebrochen (Thema nicht akzeptiert)";
+["Cancelled (no initiative admitted)"] = "Abgebrochen (Keine Initiative zugelassen)";
 ["Change API key"] = "API-Schlüssel ändern";
 ["Change area delegation"] = "Delegation für Themenbereich ändern";
 ["Change display settings"] = "Anzeige-Einstellungen ändern";
@@ -178,9 +181,9 @@ return {
 ["Display settings"] = "Anzeige-Einstellungen";
 ["Download"] = "Download";
 ["Download database export"] = "Datenbankexport herunterladen";
+["Download documents"] = "Dokumente herunterladen";
 ["Draft"] = "Entwurf";
 ["Draft history"] = "Entwurfshistorie";
-["EXPERIMENTAL FEATURE"] = "EXPERIMENTELLE FUNKTION";
 ["Edit"] = "Bearbeiten";
 ["Edit draft"] = "Entwurf bearbeiten";
 ["Edit initiative"] = "Initiative bearbeiten";
@@ -194,7 +197,7 @@ return {
 ["Email address too short!"] = "E-Mail-Adresse ist zu kurz!";
 ["Email confirmation request"] = "Bestätigung deiner E-Mail-Adresse";
 ["Email unconfirmed"] = "Unbestätigte E-Mail-Adresse";
-["Empty help text: #{id}.#{lang}.txt"] = false;
+["Empty help text: #{id}.#{lang}.txt"] = "Leerer Hilfe-Text: #{id}.#{lang}.txt";
 ["Error while converting image. Please note, that only JPG files are supported!"] = "Fehler beim Konvertieren des Bilds. Bitte beachte, dass nur JPG-Dateien unterstützt werden.";
 ["Error while resolving openid. Internal message: '#{errmsg}'"] = "Fehler beim Auflösen der OpenID. Interne Fehlermeldung: '#{errmsg}'";
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Fehler beim aktualisieren des Mitglieds, die Datenbank berichtet folgenden Fehler:<br /><br /> (#{errormessage})";
@@ -204,6 +207,7 @@ return {
 ["External posts"] = "Externe Ämter";
 ["Finish voting"] = "Stimmabgabe abschließen";
 ["Finished"] = "Abgeschlossen";
+["Finished (without winner)"] = "Abgeschlossen (ohne Gewinner)";
 ["Friday"] = "Freitag";
 ["Frozen"] = "Eingefroren";
 ["Frozen and voting phase"] = "Eingefroren- und Abstimmphase";
@@ -289,6 +293,7 @@ return {
 ["Issue quorum"] = "Quorum Thema";
 ["Issue quorum denumerator"] = "Themen-Quorum Nenner";
 ["Issue quorum numerator"] = "Themen-Quorum Zähler";
+["Issue reached next phase"] = "Thema hat die nächster Phase erreicht";
 ["Issues"] = "Themen";
 ["JavaScript is disabled or not available."] = "JavaScript ist abgeschaltet oder nicht verfügbar.";
 ["Last activity (updated daily)"] = "Letzte Aktivität (täglich aktualisiert)";
@@ -341,6 +346,8 @@ return {
 ["New draft"] = "Neuer Entwurf";
 ["New draft has been added to initiative"] = "Neuer Entwurf wurde der Initiative hinzugefügt";
 ["New initiative"] = "Neue Initiative";
+["New initiative draft"] = "Neuer Entwurfstext der Initiative";
+["New initiative in existing issue"] = "Neue Initiative in bestehenden Thema";
 ["New issue"] = "Neues Thema";
 ["New password"] = "Neues Kennwort";
 ["New passwords does not match."] = "Du hast nicht zweimal das gleiche Kennwort eingegeben";
@@ -527,7 +534,6 @@ return {
 ["Supporter"] = "Unterstützer";
 ["Supporter count"] = "Anzahl der Unterstützer";
 ["Syntax help"] = "Syntax-Hilfe";
-["Tabs"] = "Registerkarten";
 ["Terms of use"] = "Nutzungsbedingungen";
 ["The API key has been changed too fast."] = "Der API-Schlüssel wurde zu schnell geändert.";
 ["The code you've entered is invalid"] = "Der Code, den Du eingeben hast, ist nicht gültig!";
@@ -571,7 +577,6 @@ return {
 ["Trustee"] = "Bevollmächtigter";
 ["Trustee has no voting right in this unit"] = "Bevollmächtigter hat kein Stimmrecht in dieser Gliederung";
 ["Tuesday"] = "Dienstag";
-["Type of tabs"] = "Tabulatortyp";
 ["Unconfirmed address"] = "Unbestätigte E-Mail";
 ["Unit"] = "Gliederung";
 ["Unit delegated to '#{name}'"] = "Gliederung an '#{name}' delegiert";
@@ -662,12 +667,12 @@ return {
 ["Z-A"] = "Z-A";
 ["[No voting privilege]"] = "[Kein Stimmrecht]";
 ["[Registered members only]"] = "[nur für Registrierte]";
-["[event mail]       URL: #{url}"]    = "         URL: #{url}";
-["[event mail]      Area: #{name}"]   = "Themengebiet: #{name}";
-["[event mail]      Unit: #{name}"]   = "  Gliederung: #{name}";
-["[event mail]     Event: #{event}"]  = "    Ereignis: #{event}";
-["[event mail]     Issue: ##{id}"]    = "       Thema: ##{id}";
-["[event mail]     Phase: #{phase}"]  = "       Phase: #{phase}";
+["[event mail]       URL: #{url}"] = "         URL: #{url}";
+["[event mail]      Area: #{name}"] = "Themengebiet: #{name}";
+["[event mail]      Unit: #{name}"] = "  Gliederung: #{name}";
+["[event mail]     Event: #{event}"] = "    Ereignis: #{event}";
+["[event mail]     Issue: ##{id}"] = "       Thema: ##{id}";
+["[event mail]     Phase: #{phase}"] = "       Phase: #{phase}";
 ["[event mail]    Policy: #{policy}"] = "   Regelwerk: #{policy}";
 ["[not displayed public]"] = "[nicht öffentlich]";
 ["a bit unsatisfied"] = "etwas unzufrieden";
@@ -683,7 +688,7 @@ return {
 ["days"] = "Tage";
 ["deactivated"] = "deaktiviert";
 ["delegated to"] = "delegiert an";
-["delete<br /><br />"] = false;
+["delete<br /><br />"] = "löschen<br /><br />";
 ["disabled"] = "ausgeschaltet";
 ["email"] = "E-Mail";
 ["global"] = "Global";
