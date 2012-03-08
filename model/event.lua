@@ -105,7 +105,7 @@ function Event.object:send_notification()
           from          = config.mail_from,
           reply_to      = config.mail_reply_to,
           to            = member.notify_email,
-          subject       = ,
+          subject       = subject,
           content_type  = "text/plain; charset=UTF-8",
           content       = body
         }
