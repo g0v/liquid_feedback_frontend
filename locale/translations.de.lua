@@ -1,6 +1,5 @@
 #!/usr/bin/env lua
 return {
-["##{id} #{event}"] = false;
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} Themen";
 ["#{name}\n\n"] = false;
@@ -599,7 +598,7 @@ return {
 ["Voting for this issue is currently running!"] = "Über dieses Thema wird gerade abgestimmt!";
 ["Voting has not started yet."] = "Die Abstimmung hat noch nicht begonnen.";
 ["Voting of an issue in one of my areas or I'm interested in starts"] = "Für ein Thema, das in meinen Themenbereichen ist oder das mich interessiert, beginnt die Abstimmung";
-["Voting phase"] = "Abstimmungsohase";
+["Voting phase"] = "Abstimmungsphase";
 ["Voting privileges"] = "Abstimmberechtigung";
 ["Voting proposal"] = "Abstimmungsvorlage";
 ["Voting started"] = "Abstimmung begonnen";
