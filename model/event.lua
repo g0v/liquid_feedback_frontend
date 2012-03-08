@@ -23,12 +23,12 @@ function Event.object:send_notification()
 
   local body = ""
   
-  body = body .. _("      Unit: #{name}\n", { name = self.issue.area.unit.name })
-  body = body .. _("      Area: #{name}\n", { name = self.issue.area.name })
-  body = body .. _("     Issue: ##{id}\n", { id = self.issue_id })
-  body = body .. _("    Policy: #{phase}\n", { phase = self.issue.policy.name })
-  body = body .. _("     Phase: #{phase}\n\n", { phase = self.state })
-  body = body .. _("     Event: #{event}\n\n", { event = self.event })
+  body = body .. _("[event mail]      Unit: #{name}", { name = self.issue.area.unit.name }) .. "\n"
+  body = body .. _("[event mail]      Area: #{name}", { name = self.issue.area.name }) .. "\n"
+  body = body .. _("[event mail]     Issue: ##{id}", { id = self.issue_id }) .. "\n"
+  body = body .. _("[event mail]    Policy: #{policy}", { phase = self.issue.policy.name }) .. "\n"
+  body = body .. _("[event mail]     Phase: #{phase}", { phase = self.state }) .. "\n\n"
+  body = body .. _("[event mail]     Event: #{event}", { event = self.event }) .. "\n\n"
 
   if self.initiative_id then
     url = request.get_absolute_baseurl() .. "initiative/show/" .. self.initiative_id .. ".html"
@@ -38,11 +38,11 @@ function Event.object:send_notification()
     url = request.get_absolute_baseurl() .. "issue/show/" .. self.issue_id .. ".html"
   end
   
-  body = body .. _("       URL: #{url}\n\n", { url = url })
+  body = body .. _("[event mail]       URL: #{url}", { url = url }) .. "\n\n"
   
   if self.initiative_id then
     local initiative = Initiative:by_id(self.initiative_id)
-    body = body .. _("i#{id}: #{name}\n\n", { id = initiative.id, name = initiative.name })
+    body = body .. _("i#{id}: #{name}", { id = initiative.id, name = initiative.name }) .. "\n\n"
   else
     local initiative_count = Initiative:new_selector()
       :add_where{ "initiative.issue_id = ?", self.issue_id }
@@ -53,10 +53,10 @@ function Event.object:send_notification()
       :limit(3)
       :exec()
     for i, initiative in ipairs(initiatives) do
-      body = body .. _("i#{id}: #{name}\n", { id = initiative.id, name = initiative.name })
+      body = body .. _("i#{id}: #{name}", { id = initiative.id, name = initiative.name }) .. "\n"
     end
     if initiative_count - 3 > 0 then
-      body = body .. _("and #{count} more initiatives\n", { count = initiative_count })
+      body = body .. _("and #{count} more initiatives", { count = initiative_count }) .. "\n"
     end
     body = body .. "\n"
   end
