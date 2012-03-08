@@ -206,6 +206,7 @@ return {
 ["External posts"] = "Externe Ämter";
 ["Finish voting"] = "Stimmabgabe abschließen";
 ["Finished"] = "Abgeschlossen";
+["Finished (with winner)"] = "Abgeschlossen (mit Gewinner)";
 ["Finished (without winner)"] = "Abgeschlossen (ohne Gewinner)";
 ["Friday"] = "Freitag";
 ["Frozen"] = "Eingefroren";

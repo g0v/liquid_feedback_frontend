@@ -33,7 +33,7 @@ function Event.object_get:state_name()
     calculation = _"Calculation",
     canceled_no_initiative_admitted = _"Cancelled (no initiative admitted)",
     finished_without_winner = _"Finished (without winner)",
-    finished_with_winner = "Finished (with winner)"
+    finished_with_winner = _"Finished (with winner)"
   })[self.state]
 end
   
