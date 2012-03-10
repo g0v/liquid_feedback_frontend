@@ -3,7 +3,7 @@ local units = member.units_with_voting_right
 
 for i, unit in ipairs(units) do
   local trustee_member = Member:new_selector()
-    :join("delegation", nil, { "delegation.unit_id = ? AND delegation.truster_id = ?", unit.id, member.id })
+    :join("delegation", nil, { "delegation.scope = 'unit' AND delegation.unit_id = ? AND delegation.truster_id = ?", unit.id, member.id })
     :optional_object_mode()
     :exec()
   
