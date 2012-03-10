@@ -39,6 +39,8 @@ return {
 ["Admin?"] = "Admin?";
 ["Admission time"] = "Zeit für die Zulassung";
 ["Admitted"] = "zugelassen";
+["All areas"] = "Alle Themenbereiche";
+["All issues"] = "Alle Themen";
 ["All units"] = "Alle Gliederungen";
 ["An initiative I was supporting is revoked"] = "Eine von mir unterstützte Initiative wird zurückgezogen";
 ["An issue in one of my areas or I'm interested in enters phase 'discussion'"] = "Ein Thema, das in einem meiner Themenbereiche ist oder das mich interessiert, wechselt in die Phase 'Diskussion'";
@@ -221,7 +223,7 @@ return {
 ["Generate API key"] = "API-Schlüssel erzeugen";
 ["Global delegation"] = "Globale Delegation";
 ["Global delegation set to '#{name}'"] = "Globale Delegation an '#{name}' erteilt";
-["Global timeline"] = false;
+["Global timeline"] = "Globale Zeitline";
 ["Half frozen at"] = "Halb eingefroren am/um";
 ["Hello\n\n"] = "Hallo\n\n";
 ["Hello "] = "Hallo ";
@@ -409,7 +411,7 @@ return {
 ["Password reset request"] = "Kennwort-Rücksetzung anfordern";
 ["Passwords don't match!"] = "Kennwörter stimmen nicht überein!";
 ["Passwords must consist of at least 8 characters!"] = "Das Kennwort muss zumindest 8 Zeichen lang sein!";
-["Personal timeline"] = false;
+["Personal timeline"] = "Personalisierte Zeitlinie";
 ["Phases"] = "Phasen";
 ["Phone"] = "Telefon";
 ["Photo"] = "Foto";
@@ -504,6 +506,7 @@ return {
 ["Show locked members"] = "Zeige gesperrte Mitglieder";
 ["Show member"] = "Mitglied anzeigen";
 ["Show member history"] = "Historie des Mitglieds anzeigen";
+["Show older events"] = "Zeige ältere Ereignisse";
 ["Show only events which match... (or associtated)"] = "Zeige nur Ereignisse welche folgendes erfüllen... (oder-verknüpft)";
 ["Show policies in use"] = "Zeige Regelwerke in Verwendung";
 ["Show policies not in use"] = "Zeige deaktivierte Regelwerke";

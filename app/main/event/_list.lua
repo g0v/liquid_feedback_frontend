@@ -174,7 +174,7 @@ ui.container{ attr = { class = "issues events" }, content = function()
 end }
 
 ui.link{
-  text = _"Show old events",
+  text = _"Show older events",
   module = request.get_module(),
   view = request.get_view(),
   id = param.get_id(),
