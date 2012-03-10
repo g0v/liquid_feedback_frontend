@@ -9,6 +9,9 @@ slot.select('navigation', function()
       module = 'index',
       view   = 'index'
     }
+  end
+  
+  if app.session.member_id then
     ui.link{
       content = _"Units",
       module = 'unit',
@@ -23,12 +26,6 @@ slot.select('navigation', function()
       content = _"Contacts",
       module = 'contact',
       view   = 'list'
-    }
-  else
-    ui.link{
-      text   = _"Login",
-      module = 'index',
-      view   = 'index'
     }
   end
 
