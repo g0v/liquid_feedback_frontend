@@ -36,7 +36,7 @@ local filters = execute.load_chunk{module="issue", chunk="_filters.lua", params 
 
 filters.content = function()
   ui.paginate{
-    per_page = tonumber(param.get("per_page")),
+    per_page = tonumber(param.get("per_page") or 25),
     selector = issues_selector,
     content = function()
       local highlight_string = param.get("highlight_string", "string")
