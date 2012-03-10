@@ -138,7 +138,7 @@ filter[#filter+1] = {
   selector_modifier = function(selector) end
 }
 
-if not state or state == "open" then
+if not state then
   filter[#filter+1] = {
     name = "open",
     label = _"Open",
@@ -146,6 +146,9 @@ if not state or state == "open" then
       selector:add_where("issue.closed ISNULL")
     end
   }
+end
+
+if not state or state == "open" then
   filter[#filter+1] = {
     name = "new",
     label = _"New",
