@@ -85,6 +85,7 @@ CREATE TABLE "member" (
         "id"                    SERIAL4         PRIMARY KEY,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "invite_code"           TEXT            UNIQUE,
+        "invite_code_expiry"    TIMESTAMPTZ,
         "admin_comment"         TEXT,
         "activated"             TIMESTAMPTZ,
         "last_activity"         DATE,
@@ -139,6 +140,7 @@ COMMENT ON TABLE "member" IS 'Users of the system, e.g. members of an organizati
 
 COMMENT ON COLUMN "member"."created"              IS 'Creation of member record and/or invite code';
 COMMENT ON COLUMN "member"."invite_code"          IS 'Optional invite code, to allow a member to initialize his/her account the first time';
+COMMENT ON COLUMN "member"."invite_code_expiry"   IS 'Expiry data/time for "invite_code"';
 COMMENT ON COLUMN "member"."admin_comment"        IS 'Hidden comment for administrative purposes';
 COMMENT ON COLUMN "member"."activated"            IS 'Timestamp of first activation of account (i.e. usage of "invite_code"); required to be set for "active" members';
 COMMENT ON COLUMN "member"."last_activity"        IS 'Date of last activity of member; required to be set for "active" members';
@@ -4169,6 +4171,7 @@ CREATE FUNCTION "delete_private_data"()
       DELETE FROM "member" WHERE "activated" ISNULL;
       UPDATE "member" SET
         "invite_code"                  = NULL,
+        "invite_code_expiry"           = NULL,
         "admin_comment"                = NULL,
         "last_login"                   = NULL,
         "login"                        = NULL,
