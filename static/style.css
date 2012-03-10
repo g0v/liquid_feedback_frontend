@@ -60,6 +60,16 @@ body, th, td {
   margin: 0;
 }
 
+.page {
+  max-width: 1130px;
+  margin: 0 auto;
+}
+
+.topbar_content {
+  max-width: 1104px;
+  margin: 0 auto;
+}
+
 table {
   margin-top: 1ex;
 }
@@ -159,7 +169,6 @@ h2 {
     color-stop(0%, #888), color-stop(25%,#333)
   );
   font-size: 90%;
-  padding-left: 1%;
   box-shadow: #aaa 0 0 5px;
   overflow: hidden;
   -mox-box-shadow: #aaa 0 0 5px;
@@ -167,6 +176,7 @@ h2 {
 }
 
 .topbar .logolf {
+  margin-left: 1%;
   font-weight: bold;
 }
 
@@ -201,39 +211,7 @@ form.unit_selector {
 
 .topbar .member_info {
   float: right;
-}
-
-.searchbox {
-  margin: 0;
-  padding: 0.1ex 1em 0ex 1em;
-  float: right;
-}
-
-.searchbox form {
-  float: left;
-  margin: 0px;
-}
-
-.searchbox div {
-  display: inline;
-}
-
-.searchbox select {
-  margin-left: 0.3em;
-  margin-right: 0.4em;
-  font-size: 100%;
-  width: 8em;
-}
-
-.searchbox input[type=text] {
-  width: 8em;
-  padding: 0.25ex 0.25em 0.25ex 0.25em;
-  margin-right: 0.5em;
-  font-size: 100%;
-}
-
-.searchbox input[type=submit] {
-  font-size: 100%;
+  margin-right: 1%;
 }
 
 /*************************************************************************
@@ -377,7 +355,7 @@ form.unit_selector {
 
 .logo { 
   float: right;
-  margin-right: 1em;
+  margin-right: 1%;
 }
 
 

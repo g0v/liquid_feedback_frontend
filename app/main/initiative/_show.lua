@@ -304,6 +304,7 @@ execute.view{
 }
 
 if initiative.issue.snapshot then
+  slot.put("<br />")
   ui.field.timestamp{ label = _"Last snapshot:", value = initiative.issue.snapshot }
 end
 

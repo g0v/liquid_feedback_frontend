@@ -12,62 +12,66 @@
   </head>
   <body>
     <div class="topbar">
-      <div class="logout_button" id="logout_button">
-        <!-- WEBMCP SLOT logout_button -->
+      <div class="topbar_content">
+        <div class="logout_button" id="logout_button">
+          <!-- WEBMCP SLOT logout_button -->
+        </div>
+        <div class="searchbox" id="searchbox">
+          <!-- WEBMCP SLOT searchbox -->
+        </div>
+        <div class="navigation" id="navigation">
+          <!-- WEBMCP SLOT navigation -->
+        </div>
+        <br style="clear: both;" />
       </div>
-      <div class="searchbox" id="searchbox">
-        <!-- WEBMCP SLOT searchbox -->
+    </div>
+    <div class="page">
+      <div class="layout_notice" id="layout_notice" onclick="document.getElementById('layout_notice').style.display='none';">
+        <!-- WEBMCP SLOT notice -->
       </div>
-      <div class="navigation" id="navigation">
-        <!-- WEBMCP SLOT navigation -->
+      <div class="layout_warning" id="layout_warning" onclick="document.getElementById('layout_warning').style.display='none';">
+        <!-- WEBMCP SLOT warning -->
       </div>
-      <br style="clear: both;" />
-    </div>
-    <div class="layout_notice" id="layout_notice" onclick="document.getElementById('layout_notice').style.display='none';">
-      <!-- WEBMCP SLOT notice -->
-    </div>
-    <div class="layout_warning" id="layout_warning" onclick="document.getElementById('layout_warning').style.display='none';">
-      <!-- WEBMCP SLOT warning -->
-    </div>
-    <div class="layout_error" id="layout_error" onclick="document.getElementById('layout_error').style.display='none';">
-      <!-- WEBMCP SLOT error -->
-    </div>
-    <div class="logo" id="logo">
-      <!-- WEBMCP SLOT logo -->
-    </div>
-    <div class="help_hidden" id="help_hidden">
-      <!-- WEBMCP SLOT help_hidden -->
-    </div>
-    <div class="title" id="title">
-      <!-- WEBMCP SLOT title -->
-    </div>
-    <div class="title2" id="title2">
-      <!-- WEBMCP SLOT title2 -->
-    </div>
-    <div class="actions" id="actions">
-      <div class="interest vote_info" id="interest">
-        <!-- WEBMCP SLOT interest -->
+      <div class="layout_error" id="layout_error" onclick="document.getElementById('layout_error').style.display='none';">
+        <!-- WEBMCP SLOT error -->
       </div>
-      <!-- WEBMCP SLOT actions -->
-      <div style="clear: left;"></div>
-    </div>
-    <div class="initiatives_list" id="initiatives_list">
-      <!-- WEBMCP SLOT initiatives_list -->
-    </div>
-    <div class="initiative_head" id="initiative_head">
-      <!-- WEBMCP SLOT initiative_head -->
-    </div>
-    <div class="support vote_info" id="support">
-      <!-- WEBMCP SLOT support -->
-    </div>
-    <div class="initiative_main" id="initiative_main">
-      <!-- WEBMCP SLOT initiative_main -->
-    </div>
-    <div class="main" id="default">
-      <!-- WEBMCP SLOT default -->
-    </div>
-    <div class="footer" id="footer">
-      <!-- WEBMCP SLOT footer -->
+      <div class="logo" id="logo">
+        <!-- WEBMCP SLOT logo -->
+      </div>
+      <div class="help_hidden" id="help_hidden">
+        <!-- WEBMCP SLOT help_hidden -->
+      </div>
+      <div class="title" id="title">
+        <!-- WEBMCP SLOT title -->
+      </div>
+      <div class="title2" id="title2">
+        <!-- WEBMCP SLOT title2 -->
+      </div>
+      <div class="actions" id="actions">
+        <div class="interest vote_info" id="interest">
+          <!-- WEBMCP SLOT interest -->
+        </div>
+        <!-- WEBMCP SLOT actions -->
+        <div style="clear: left;"></div>
+      </div>
+      <div class="initiatives_list" id="initiatives_list">
+        <!-- WEBMCP SLOT initiatives_list -->
+      </div>
+      <div class="initiative_head" id="initiative_head">
+        <!-- WEBMCP SLOT initiative_head -->
+      </div>
+      <div class="support vote_info" id="support">
+        <!-- WEBMCP SLOT support -->
+      </div>
+      <div class="initiative_main" id="initiative_main">
+        <!-- WEBMCP SLOT initiative_main -->
+      </div>
+      <div class="main" id="default">
+        <!-- WEBMCP SLOT default -->
+      </div>
+      <div class="footer" id="footer">
+        <!-- WEBMCP SLOT footer -->
+      </div>
     </div>
     <div class="layout_trace" id="layout_trace" style="xdisplay: none">
       <div id="trace_show" onclick="document.getElementById('trace_content').style.display='block';this.style.display='none';">TRACE</div>
