@@ -60,13 +60,9 @@ body, th, td {
   margin: 0;
 }
 
-.page {
-  max-width: 1130px;
-  margin: 0 auto;
-}
-
+.page,
 .topbar_content {
-  max-width: 1104px;
+  max-width: 1130px;
   margin: 0 auto;
 }
 
