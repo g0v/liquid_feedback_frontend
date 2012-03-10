@@ -8,6 +8,8 @@ ui.container{ attr = { class = "ui_filter_head" }, content = function()
     text = _"Personal timeline",
     module = "index", view = "index", params = { tab = "timeline", events = "personal" }
   }
+  
+  slot.put(" ")
 
   ui.link{
     attr = { class = events == "global" and "active" or nil },
