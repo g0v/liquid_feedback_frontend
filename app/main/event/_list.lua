@@ -98,7 +98,7 @@ end
             if event.event == "issue_state_changed" then
               if event.state == "discussion" then
                 event_name = _"Discussion started"
-                event_image = "message.png"
+                event_image = "comments.png"
               elseif event.state == "verification" then
                 event_name = _"Verification started"
                 event_image = "lock.png"
