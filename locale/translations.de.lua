@@ -49,6 +49,7 @@ return {
 ["An issue in one of my areas or i'm interested in enters phase 'discussion'"] = "Ein Thema, das in einem meiner Themenbereiche ist oder das mich interessiert, wechselt in die Phase 'Diskussion'";
 ["Any"] = "Alle";
 ["Any phase"] = "Alle Phasen";
+["Any state"] = "Alle Zustände";
 ["Apply global delegation for this area (Currently: #{delegate_name} [#{scope}])"] = "Anwenden der globale Delegation für dieses Themengebiet (Zur Zeit: #{delegate_name} [#{scope}])";
 ["Apply global or area delegation for this issue (Currently: #{delegate_name} [#{scope}])"] = "Anwenden der globalen oder Themengebiets-Delegation für dieses Thema (Zur Zeit: #{delegate_name} [#{scope}])";
 ["Apply unit delegation for this area (Currently: #{delegate_name} [#{scope}])"] = "Anwenden der globalen Delegation für diesen Themenbereich (Zur Zeit: #{delegate_name} [#{scope}])";
@@ -443,7 +444,6 @@ return {
 ["Potentially supported"] = "Potentiell unterstützt";
 ["Preview"] = "Vorschau";
 ["Profession"] = "Beruf";
-["Profil"] = false;
 ["Profile"] = "Profil";
 ["Publish"] = "Veröffentlichen";
 ["Published"] = "veröffentlicht";

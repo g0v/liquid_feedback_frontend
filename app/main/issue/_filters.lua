@@ -132,11 +132,13 @@ end
 
 local filter = { name = "filter" }
   
-filter[#filter+1] = {
-  name = "any",
-  label = _"Any phase",
-  selector_modifier = function(selector) end
-}
+if state ~= "closed" then
+  filter[#filter+1] = {
+    name = "any",
+    label = _"Any phase",
+    selector_modifier = function(selector) end
+  }
+end
 
 if not state then
   filter[#filter+1] = {
@@ -198,6 +200,12 @@ if not state then
 end
 
 if state == "closed" then
+  filter[#filter+1] = {
+    name = "any",
+    label = _"Any state",
+    selector_modifier = function(selector) end
+  }
+
   filter[#filter+1] = {
     name = "finished_with_winner",
     label = _"Finished with winner",
