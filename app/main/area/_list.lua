@@ -30,7 +30,7 @@ else
 end
 
 
-ui.container{ attr = { class = "area_list" }, content = function()
+ui.container{ attr = { class = "box area_list" }, content = function()
 
   ui.container{ attr = { class = "area head" }, content = function()
 

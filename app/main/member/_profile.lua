@@ -43,7 +43,7 @@ end
 --end)
 
 ui.form{
-  attr = { class = "member vertical" },
+  attr = { class = "box member vertical" },
   record = member,
   readonly = true,
   content = function()
@@ -152,5 +152,6 @@ ui.form{
         end
       }
     end
+    slot.put("<br style=\"clear: both;\" />")
   end
 }

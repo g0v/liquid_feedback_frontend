@@ -1515,6 +1515,17 @@ div.timeline_results {
 
 /* shadows */
 
+.box {
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  padding: 1ex;
+}
+
+.member_area_list .box {
+  border: none;
+  padding: 0;
+}
+
 .slot_initiatives_list,
 .actions,
 .issues .issue,
@@ -1525,10 +1536,17 @@ div.timeline_results {
 .motd,
 .ui_filter a.active,
 .vote_info .content,
-.member_area_list {
+.member_area_list,
+.box {
   box-shadow: #777 0px 5px 5px -5px;
   -mox-box-shadow: #777 0px 5px 5px -5px;
   -webkit-box-shadow: #777 0px 5px 5px -5px;
+}
+
+.member_area_list .box {
+  box-shadow: none;
+  -mox-box-shadow: none;
+  -webkit-box-shadow: none;
 }
 
 
