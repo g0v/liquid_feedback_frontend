@@ -1,5 +1,6 @@
 #!/usr/bin/env lua
 return {
+["#{count} more areas in this unit, #{delegated_count} of them delegated"] = "#{count} weitere Themengebiete in dieser Gliederung, #{delegated_count} davon delegiert";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} Themen";
 ["#{name}\n\n"] = false;
@@ -497,7 +498,6 @@ return {
 ["Settings"] = "Einstellungen";
 ["Show"] = "Zeige";
 ["Show active members"] = "Zeige aktive Mitglieder";
-["Show all areas of unit"] = "Zeige alle Themengebiete der Gliederung";
 ["Show areas in use"] = "Zeige verwendete Themenbereiche";
 ["Show areas not in use"] = "Zeige nicht verwendete Themenbereiche";
 ["Show diff"] = "Änderungen anzeigen";

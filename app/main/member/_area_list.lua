@@ -10,6 +10,7 @@ for i, unit in ipairs(units) do
   local areas_selector = Area:new_selector()
     :join("membership", nil, { "membership.area_id = area.id AND membership.member_id = ?", member.id })
     :add_where{ "area.unit_id = ?", unit.id }
+    :add_where{ "area.active" }
     :add_order_by("area.member_weight DESC")
   
   local area_count = areas_selector:count()
@@ -49,10 +50,24 @@ for i, unit in ipairs(units) do
     else
       ui.container{ attr = { class = "voting_priv_info" }, content = _"You have voting privileges for this unit, but you are not member of any of its areas." }
     end
-    ui.container{ content = function()
-      ui.link{ content = _"Show all areas of unit", module = "unit", view = "show", id = unit.id }
-    end }
-          
+    local max_area_count = Area:new_selector()
+      :add_where{ "area.unit_id = ?", unit.id }
+      :add_where{ "area.active" }
+      :count()
+    local more_area_count = max_area_count - area_count
+    local delegated_count = Area:new_selector()
+      :add_where{ "area.unit_id = ?", unit.id }
+      :add_where{ "area.active" }
+      :left_join("membership", nil, { "membership.area_id = area.id AND membership.member_id = ?", member.id } )
+      :add_where{ "membership.member_id ISNULL" }
+      :join("delegation", nil, { "delegation.area_id = area.id AND delegation.truster_id = ?", member.id } )
+      :count()
+    if more_area_count > 0 then
+      slot.put("<br />")
+      ui.container{ content = function()
+        ui.link{ content = _("#{count} more areas in this unit, #{delegated_count} of them delegated", { count = more_area_count, delegated_count = delegated_count }), module = "unit", view = "show", id = unit.id }
+      end }
+    end
   end }
 
 end
