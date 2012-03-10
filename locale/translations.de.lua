@@ -242,6 +242,7 @@ return {
 ["Identification"] = "Identifikation";
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Sollte der Link nicht funktionieren, öffne bitte die folgenden URL in Deinem Web-Browser:\n\n";
 ["Ignore Areas"] = "Ignoriere Bereiche";
+["Ignore member"] = "Mitglied ignorieren";
 ["Images"] = "Bilder";
 ["Incoming delegations"] = "Eingehende Delegationen";
 ["Index"] = "Positionsnummer";
@@ -526,6 +527,7 @@ return {
 ["Step 1/3: Invite code"] = "Step 1/3: Einladungs-Code";
 ["Step 2/3: Personal information"] = "Step 2/3: Persönliche Daten";
 ["Step 3/3: Terms of use and password"] = "Step 3/3: Nutzungsbedingungen und Kennwort";
+["Stop ignoring member"] = "nicht mehr ignorieren";
 ["Strict direct majority"] = "Strenge direkte Mehrheit";
 ["Strict indirect majority"] = "Strenge indirekte Mehrheit";
 ["Stylesheet URL"] = "Stylesheet URL";
@@ -647,6 +649,7 @@ return {
 ["You didn't confirm your email address '#{email}'. You have received an email with an activation link."] = "Du hast die E-Mail-Adresse '#{email}' nicht bestätigt. Du hast hierzu eine E-Mail mit einem Aktivierungslink erhalten.";
 ["You didn't save any member as contact yet."] = "Du hast noch kein Mitglied als Kontakt gespeichert!";
 ["You didn't set the level of notifications you like to receive"] = "Du hast noch nicht ausgewählt, ob und welche Benachrichtigungen du erhalten möchtest.";
+["You have ignored this member"] = "Du ignorierst dieses Mitglied";
 ["You have saved this member as contact"] = "Du hast das Mitglied als Kontakt gespeichert";
 ["You have saved this member as contact."] = "Du hast das Mitglied als Kontakt gespeichert.";
 ["You have to mark 'Are you sure' to revoke!"] = "Zum Zurückziehen musst Du 'Sicher?' auswählen";
