@@ -110,6 +110,7 @@ end
               end
               if event_image then
                 ui.image{ static = "icons/16/" .. event_image }
+                slot.put(" ")
               end
             end
             ui.tag{ attr = { class = "event_name" }, content = event_name }
