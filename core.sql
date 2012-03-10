@@ -1285,19 +1285,23 @@ CREATE FUNCTION "write_event_initiative_revoked_trigger"()
   RETURNS TRIGGER
   LANGUAGE 'plpgsql' VOLATILE AS $$
     DECLARE
-      "issue_row"      "issue"%ROWTYPE;
+      "issue_row"  "issue"%ROWTYPE;
+      "draft_id_v" "draft"."id"%TYPE;
     BEGIN
-      SELECT * INTO "issue_row" FROM "issue"
-        WHERE "id" = NEW."issue_id";
       IF OLD."revoked" ISNULL AND NEW."revoked" NOTNULL THEN
+        SELECT * INTO "issue_row" FROM "issue"
+          WHERE "id" = NEW."issue_id";
+        SELECT "id" INTO "draft_id_v" FROM "current_draft"
+          WHERE "initiative_id" = NEW."id";
         INSERT INTO "event" (
-            "event", "member_id", "issue_id", "state", "initiative_id"
+            "event", "member_id", "issue_id", "state", "initiative_id", "draft_id"
           ) VALUES (
             'initiative_revoked',
             NEW."revoked_by_member_id",
             NEW."issue_id",
             "issue_row"."state",
-            NEW."id" );
+            NEW."id",
+            "draft_id_v");
       END IF;
       RETURN NULL;
     END;
