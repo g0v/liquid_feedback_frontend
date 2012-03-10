@@ -1523,4 +1523,19 @@ div.timeline_results {
   -webkit-box-shadow: none;
 }
 
+.slot_footer {
+  margin: 0 1%;
+  border-top: 1px solid #ccc;
+  padding: 1ex;
+  font-size: 80%;
+  text-align: center;
+}
+.slot_footer,
+.slot_footer a {
+  color: #666;
+}
 
+.footer {
+  margin: 0 auto;
+  max-width: 1130px;
+}

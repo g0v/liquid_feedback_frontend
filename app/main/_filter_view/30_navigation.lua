@@ -53,11 +53,6 @@ slot.select('navigation', function()
       module = 'index',
       view   = 'reset_password'
     }
-    ui.link{
-      text   = _"About / Impressum",
-      module = 'index',
-      view   = 'about'
-    }
   else 
 
     ui.container{ attr = { class = "member_info" }, content = function()
@@ -102,29 +97,41 @@ slot.select('navigation', function()
         }
       end
       
-      ui.link{
-        text   = _"About",
-        module = 'index',
-        view   = 'about'
-      }
-
-      if app.session.member.admin then
-
-        slot.put(" ")
-
-        ui.link{
-          attr   = { class = { "admin_only" } },
-          text   = _"Admin",
-          module = 'admin',
-          view   = 'index'
-        }
-
-      end
     end }
 
   end
 
 end)
+
+slot.select("footer", function()
+  if app.session.member.admin then
+    ui.link{
+      text   = _"Admin",
+      module = 'admin',
+      view   = 'index'
+    }
+    slot.put(" &middot; ")
+  end
+  ui.link{
+    text   = _"About site",
+    module = 'index',
+    view   = 'about'
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    text   = _"Usage terms",
+    module = 'index',
+    view   = 'usage_terms'
+  }
+  slot.put(" &middot; ")
+  ui.tag{ content = _"This site is using" }
+  slot.put(" ")
+  ui.link{
+    text   = _"LiquidFeedback",
+    external = "http://www.public-software-group.org/liquid_feedback"
+  }
+end)
+
 
 if config.app_logo then
   slot.select("logo", function()
