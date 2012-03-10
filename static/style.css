@@ -158,9 +158,7 @@ h2 {
   background-image: -webkit-gradient(linear, left top, left bottom, 
     color-stop(0%, #888), color-stop(25%,#333)
   );
-  color: #fff;
   font-size: 90%;
-  line-height: 200%;
   padding-left: 1%;
   box-shadow: #aaa 0 0 5px;
   overflow: hidden;
@@ -174,6 +172,7 @@ h2 {
 
 .topbar a {
   color: #eee;
+  line-height: 30px;
 }
 
 .topbar  a:hover {
@@ -198,6 +197,10 @@ h2 {
 
 form.unit_selector {
   display: inline;
+}
+
+.topbar .member_info {
+  float: right;
 }
 
 .searchbox {
@@ -543,9 +546,8 @@ form.unit_selector {
  */
 
 .ui_tabs_links {
-  margin-top: 3ex;
+  margin-top: 2ex;
   margin-bottom: 1ex;
-  font-size: 75%;
 }
 
 .ui_tabs_links a {
@@ -566,7 +568,6 @@ form.unit_selector {
   background-color: #444;
   color: #fff;
   text-decoration: none;
-  padding: 1ex;
 }
 
 .ui_tabs_links a.yellow {
@@ -616,7 +617,8 @@ form.unit_selector {
   color: #777;
   margin-top: 0.5ex;
   margin-bottom: 0.5ex;
-  font-size: 75%;
+  font-size: 90%;
+  font-weight: bold;
   float: left;
   line-height: 200%;
   margin-right: 2em;
@@ -942,6 +944,25 @@ tr table tr:hover td {
 }
 
 /*************************************************************************
+ * Events
+ */
+
+.events .date {
+  font-size: 150%;
+  font-weight: bold;
+  margin-top: 2ex;
+  line-height: 150%;
+}
+
+.event_list .event div {
+}
+
+.event_list .event .member_id {
+  float: right;
+}
+
+
+/*************************************************************************
  * Issues
  */
 
@@ -978,12 +999,27 @@ tr table tr:hover td {
   background-image: -ms-linear-gradient(top, #dfeaff 0%, #fcfcfc 66%);
 }
 
+.event_list .event .issue_id,
 .issues .issue .issue_info .issue_id {
   font-size: 125%;
 }
 
+.issues .issue .suggestion {
+  margin-left: 1ex;
+  margin-bottom: 1ex;
+  font-weight: bold;
+}
+
 .issue_policy_info {
   font-style: italic;
+}
+
+.issue_policy_info .event_name {
+  font-weight: bold;
+}
+
+.issue_policy_info img {
+  vertical-align: middle;
 }
 
 .issues .issue .interest_by_delegation {

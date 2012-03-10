@@ -49,7 +49,10 @@ for i, unit in ipairs(units) do
     else
       ui.container{ attr = { class = "voting_priv_info" }, content = _"You have voting privileges for this unit, but you are not member of any of its areas." }
     end
+    ui.container{ content = function()
+      ui.link{ content = _"Show all areas of unit", module = "unit", view = "show", id = unit.id }
+    end }
+          
   end }
-  
-end
 
+end

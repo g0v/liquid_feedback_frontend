@@ -1,5 +1,15 @@
 local issues_selector = param.get("issues_selector", "table")
 local for_member = param.get("for_member", "table") or app.session.member
+local for_state = param.get("for_state")
+local for_unit = param.get("for_unit", atom.boolean)
+local for_area = param.get("for_area", atom.boolean)
+
+
+if for_state == "open" then
+  issues_selector:add_where("issue.closed ISNULL")
+elseif for_state == "closed" then
+  issues_selector:add_where("issue.closed NOTNULL")
+end
 
 if app.session.member_id then
   issues_selector
@@ -20,7 +30,9 @@ ui.add_partial_param_names{
   "issue_list" 
 }
 
-local filters = execute.load_chunk{module="issue", chunk="_filters.lua", params = { member = for_member }}
+local filters = execute.load_chunk{module="issue", chunk="_filters.lua", params = {
+  member = for_member, state = for_state, for_unit = for_unit, for_area = for_area
+}}
 
 filters.content = function()
   ui.paginate{
@@ -120,6 +132,9 @@ filters.content = function()
                   ui.tag{ content = issue.area.name }
                   slot.put(" &middot; ")
                   ui.tag{ content = issue.area.unit.name }
+                  slot.put(" &middot; ")
+                  ui.tag{ content = issue.policy.name }
+
 
               end
               }
@@ -128,14 +143,15 @@ filters.content = function()
                 tag = "div",
                 content = function()
                 
-                  ui.tag{ content = issue.policy.name }
-
-                  slot.put(" &middot; ")
-                  ui.tag{ content = issue.state_name }
+                  ui.tag{ attr = { class = "event_name" }, content = issue.state_name }
 
                   if issue.state_time_left then
                     slot.put(" &middot; ")
-                    ui.tag{ content = _("#{time_left} left", { time_left = issue.state_time_left:gsub("days", _"days"):gsub("day", _"day") }) }
+                    if issue.state_time_left:sub(1,1) == "-" then
+                      ui.tag{ content = _("Counting starts soon") }
+                    else
+                      ui.tag{ content = _("#{time_left} left", { time_left = issue.state_time_left:gsub("days", _"days"):gsub("day", _"day") }) }
+                    end
                   end
 
                 end

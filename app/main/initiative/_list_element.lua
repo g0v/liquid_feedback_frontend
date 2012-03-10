@@ -9,8 +9,10 @@ ui.container{ attr = { class = "initiative" }, content = function()
       and initiative.issue.ranks_available or initiative.admitted == false
     then 
       ui.field.rank{ attr = { class = "rank" }, value = initiative.rank, eligible = initiative.eligible }
-    else
+    elseif not initiative.issue.closed then
       ui.image{ static = "icons/16/script.png" }
+    else
+      ui.image{ static = "icons/16/cross.png" }
     end
   end }
 

@@ -1,4 +1,4 @@
-config.absolute_base_url = "http://localhost/lf/"
+config.absolute_base_url = "http://10.8.33.34/lf/"
 
 execute.config("default")
 
@@ -50,3 +50,5 @@ config.etherpad = {
   group_id = "g.7WDKN3StkEyuWkyN",
   cookie_path = "/"
 }
+
+config.document_dir = "/home/dark/tmp"

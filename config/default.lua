@@ -22,7 +22,6 @@ config.use_terms_checkboxes = {
 
 config.locked_profile_fields = {
   field_name = true,
-  notify_email = true
 }
 
 config.member_image_content_type = "image/jpeg"

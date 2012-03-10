@@ -114,6 +114,7 @@ return {
 ["Choose member"] = "Mitglied auswählen";
 ["Click for details"] = "Klicke für Details";
 ["Closed"] = "geschlossen";
+["Closed issues"] = "Geschlossene Themen";
 ["Closed user group, please login to participate."] = "Geschlossene Benutzergruppe: Bitte melde dich an um teilzunehmen.";
 ["Collective opinion of supporters"] = "Meinungsbild der Unterstützer";
 ["Commit suggestion"] = "Anregung speichern";
@@ -126,6 +127,7 @@ return {
 ["Contacts"] = "Kontakte";
 ["Content"] = "Inhalt";
 ["Counting of votes"] = "Auszählung";
+["Counting starts soon"] = "Auszählung beginnt in Kürze";
 ["Create / edit area"] = "Themengebiet anlegen / bearbeiten";
 ["Create / edit policy"] = "Regelwerk anlegen / bearbeiten";
 ["Create alternative initiative"] = "Alternative Initiative hinzufügen";
@@ -174,6 +176,7 @@ return {
 ["Discussion"] = "Diskussion";
 ["Discussion URL"] = "Diskussions-URL";
 ["Discussion on issue"] = "Diskussion zum Thema";
+["Discussion started"] = "Diskussion gestartet";
 ["Discussion time"] = "Zeit für die Diskussion";
 ["Discussion with initiators"] = "Diskussion mit den Initiatoren";
 ["Discussion, frozen and voting phase"] = "Diskussions-, Eingefroren- und Abstimmphase";
@@ -188,7 +191,6 @@ return {
 ["Edit initiative"] = "Initiative bearbeiten";
 ["Edit my page"] = "Meine Seite bearbeiten";
 ["Edit my profile"] = "Mein Profil bearbeiten";
-["Edit profile"] = "Profil bearbeiten";
 ["Eligible as winner"] = "Als Gewinner qualifiziert";
 ["Email address"] = "E-Mail-Adresse";
 ["Email address confirmation"] = "Bestätigung der E-Mail-Adresse";
@@ -202,12 +204,15 @@ return {
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Fehler beim aktualisieren des Mitglieds, die Datenbank berichtet folgenden Fehler:<br /><br /> (#{errormessage})";
 ["Etherpad authentication failed"] = "Etherpad-Anmeldung fehlgeschlagen";
 ["Event #{id} -> #{num} members"] = false;
+["Events"] = "Ereignisse";
 ["External memberships"] = "Externe Mitgliedschaften";
 ["External posts"] = "Externe Ämter";
 ["Finish voting"] = "Stimmabgabe abschließen";
 ["Finished"] = "Abgeschlossen";
 ["Finished (with winner)"] = "Abgeschlossen (mit Gewinner)";
 ["Finished (without winner)"] = "Abgeschlossen (ohne Gewinner)";
+["Finished with winner"] = "Abgeschlossen mit Gewinner";
+["Finished without winner"] = "Abgeschlossen ohne Gewinner";
 ["Friday"] = "Freitag";
 ["Frozen"] = "Eingefroren";
 ["Frozen and voting phase"] = "Eingefroren- und Abstimmphase";
@@ -216,6 +221,7 @@ return {
 ["Generate API key"] = "API-Schlüssel erzeugen";
 ["Global delegation"] = "Globale Delegation";
 ["Global delegation set to '#{name}'"] = "Globale Delegation an '#{name}' erteilt";
+["Global timeline"] = false;
 ["Half frozen at"] = "Halb eingefroren am/um";
 ["Hello\n\n"] = "Hallo\n\n";
 ["Hello "] = "Hallo ";
@@ -347,7 +353,6 @@ return {
 ["New draft has been added to initiative"] = "Neuer Entwurf wurde der Initiative hinzugefügt";
 ["New initiative"] = "Neue Initiative";
 ["New initiative draft"] = "Neuer Entwurfstext der Initiative";
-["New initiative in existing issue"] = "Neue Initiative in bestehenden Thema";
 ["New issue"] = "Neues Thema";
 ["New password"] = "Neues Kennwort";
 ["New passwords does not match."] = "Du hast nicht zweimal das gleiche Kennwort eingegeben";
@@ -389,6 +394,7 @@ return {
 ["One step back"] = "Ein Schritt zurück";
 ["Open"] = "Offen";
 ["Open initiatives you are supporting which has been updated their draft:"] = "Offene, von dir unterstützte Initiativen, deren Antragstext aktualisiert wurde:";
+["Open issues"] = "Offene Themen";
 ["OpenID"] = false;
 ["OpenID Login"] = false;
 ["Opinions"] = "Meinungen";
@@ -403,6 +409,7 @@ return {
 ["Password reset request"] = "Kennwort-Rücksetzung anfordern";
 ["Passwords don't match!"] = "Kennwörter stimmen nicht überein!";
 ["Passwords must consist of at least 8 characters!"] = "Das Kennwort muss zumindest 8 Zeichen lang sein!";
+["Personal timeline"] = false;
 ["Phases"] = "Phasen";
 ["Phone"] = "Telefon";
 ["Photo"] = "Foto";
@@ -432,6 +439,7 @@ return {
 ["Potentially supported"] = "Potentiell unterstützt";
 ["Preview"] = "Vorschau";
 ["Profession"] = "Beruf";
+["Profil"] = false;
 ["Profile"] = "Profil";
 ["Publish"] = "Veröffentlichen";
 ["Published"] = "veröffentlicht";
@@ -487,6 +495,7 @@ return {
 ["Settings"] = "Einstellungen";
 ["Show"] = "Zeige";
 ["Show active members"] = "Zeige aktive Mitglieder";
+["Show all areas of unit"] = "Zeige alle Themengebiete der Gliederung";
 ["Show areas in use"] = "Zeige verwendete Themenbereiche";
 ["Show areas not in use"] = "Zeige nicht verwendete Themenbereiche";
 ["Show diff"] = "Änderungen anzeigen";
@@ -586,6 +595,7 @@ return {
 ["Unknown author"] = "Unbekannter Autor";
 ["Updated drafts"] = "Neue Entwürfe";
 ["Upload images"] = "Bilder hochladen";
+["Verification started"] = "Phase Überprüfung gestartet";
 ["Verification time"] = "Zeit für die Überprüfung";
 ["Version"] = "Version";
 ["Vote now"] = "Jetzt abstimmen";

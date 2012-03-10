@@ -1,17 +1,4 @@
 slot.select("title", function()
-  if app.session.member then
-    execute.view{
-      module = "member_image",
-      view = "_show",
-      params = {
-        member = app.session.member,
-        image_type = "avatar"
-      }
-    }
-  end
-end)
-
-slot.select("title", function()
   ui.container{
     attr = { class = "lang_chooser" },
     content = function()

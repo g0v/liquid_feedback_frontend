@@ -4,9 +4,25 @@ slot.select('navigation', function()
 
   if config.public_access or app.session.member_id then
     ui.link{
-      text   = _"Home",
+      attr = { class = "logolf" },
+      content = _"Home",
       module = 'index',
       view   = 'index'
+    }
+    ui.link{
+      content = _"Units",
+      module = 'unit',
+      view   = 'list'
+    }
+    ui.link{
+      content = _"Members",
+      module = 'member',
+      view   = 'list'
+    }
+    ui.link{
+      content = _"Contacts",
+      module = 'contact',
+      view   = 'list'
     }
   else
     ui.link{
@@ -14,24 +30,6 @@ slot.select('navigation', function()
       module = 'index',
       view   = 'index'
     }
-  end
-
-  if app.session.member then
-
-    if not config.single_unit_id then
-      ui.link{
-        text   = _"Units",
-        module = 'unit',
-        view   = 'list'
-      }
-    else
-      ui.link{
-        text   = _"Areas",
-        module = 'unit',
-        view   = 'show',
-        id = config.single_unit_id
-      }
-    end
   end
 
   if config.public_access and app.session.member == nil then
@@ -65,65 +63,68 @@ slot.select('navigation', function()
     }
   else 
 
-    ui.link{
-      text   = _"Timeline",
-      module = "timeline",
-      view   = "index"
-    }
-
-    ui.link{
-      text   = _"Members",
-      module = 'member',
-      view   = 'list',
-      params = { member_list = "newest" }
-    }
-
-    ui.link{
-      text   = _"Contacts",
-      module = 'contact',
-      view   = 'list'
-    }
-
-    ui.link{
-      text = (_"Settings"),
-      module = "member",
-      view = "settings"
-    }
-
-    ui.link{
-      text   = _"About",
-      module = 'index',
-      view   = 'about'
-    }
-
-    if app.session.member_id then
+    ui.container{ attr = { class = "member_info" }, content = function()
       ui.link{
-      --    image  = { static = "icons/16/stop.png" },
-        text   = _"Logout",
-        module = 'index',
-        action = 'logout',
-        routing = {
-          default = {
-            mode = "redirect",
-            module = "index",
-            view = "index"
+        content = function()
+          execute.view{
+            module = "member_image",
+            view = "_show",
+            params = {
+              member = app.session.member,
+              image_type = "avatar",
+              show_dummy = true,
+              class = "micro_avatar",
+            }
+          }
+          ui.tag{ content = app.session.member.name }
+        end,
+        module = "member",
+        view = "show",
+        id = app.session.member_id
+      }
+
+      ui.link{
+        text   = _"Settings",
+        module = "member",
+        view = "settings"
+      }
+
+      if app.session.member_id then
+        ui.link{
+        --    image  = { static = "icons/16/stop.png" },
+          text   = _"Logout",
+          module = 'index',
+          action = 'logout',
+          routing = {
+            default = {
+              mode = "redirect",
+              module = "index",
+              view = "index"
+            }
           }
         }
-      }
-    end
-    
-    if app.session.member.admin then
-
-      slot.put(" ")
-
+      end
+      
       ui.link{
-        attr   = { class = { "admin_only" } },
-        text   = _"Admin",
-        module = 'admin',
-        view   = 'index'
+        text   = _"About",
+        module = 'index',
+        view   = 'about'
       }
 
-    end
+      if app.session.member.admin then
+
+        slot.put(" ")
+
+        ui.link{
+          attr   = { class = { "admin_only" } },
+          text   = _"Admin",
+          module = 'admin',
+          view   = 'index'
+        }
+
+      end
+    end }
+
   end
 
 end)

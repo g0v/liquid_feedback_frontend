@@ -9,11 +9,27 @@ Event:add_reference{
   ref           = 'issue',
 }
 
+Event:add_reference{
+  mode          = 'm1',
+  to            = "Suggestion",
+  this_key      = 'suggestion_id',
+  that_key      = 'id',
+  ref           = 'suggestion',
+}
+
+Event:add_reference{
+  mode          = 'm1',
+  to            = "Member",
+  this_key      = 'member_id',
+  that_key      = 'id',
+  ref           = 'member',
+}
+
 function Event.object_get:event_name()
   return ({
     issue_state_changed = _"Issue reached next phase",
     initiative_created_in_new_issue = _"New issue",
-    initiative_created_in_existing_issue = _"New initiative in existing issue",
+    initiative_created_in_existing_issue = _"New initiative",
     initiative_revoked = _"Initiative revoked",
     new_draft_created = _"New initiative draft",
     suggestion_created = _"New suggestion"

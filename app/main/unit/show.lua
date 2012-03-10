@@ -44,10 +44,17 @@ local delegations_selector = Delegation:new_selector()
   :join("privilege", "trustee_privilege", "trustee_privilege.member_id = trustee.id AND trustee_privilege.unit_id = delegation.unit_id AND trustee_privilege.voting_right")
   :add_where{ "delegation.unit_id = ?", unit.id }
 
-local issues_selector = Issue:new_selector()
+local open_issues_selector = Issue:new_selector()
   :join("area", nil, "area.id = issue.area_id")
   :add_where{ "area.unit_id = ?", unit.id }
-  
+  :add_where("issue.closed ISNULL")
+  :add_order_by("coalesce(issue.fully_frozen + issue.voting_time, issue.half_frozen + issue.verification_time, issue.accepted + issue.discussion_time, issue.created + issue.admission_time) - now()")
+
+local closed_issues_selector = Issue:new_selector()
+  :join("area", nil, "area.id = issue.area_id")
+  :add_where{ "area.unit_id = ?", unit.id }
+  :add_where("issue.closed NOTNULL")
+  :add_order_by("issue.closed DESC")
 
 local tabs = {
   module = "unit",
@@ -64,11 +71,32 @@ tabs[#tabs+1] = {
 }
 
 tabs[#tabs+1] = {
-  name = "issues",
-  label = _"Issues",
+  name = "timeline",
+  label = _"Events",
+  module = "event",
+  view = "_list",
+  params = { for_unit = unit }
+}
+
+tabs[#tabs+1] = {
+  name = "open",
+  label = _"Open issues",
   module = "issue",
   view = "_list",
-  params = { issues_selector = issues_selector }
+  params = {
+    for_state = "open",
+    issues_selector = open_issues_selector, for_unit = true
+  }
+}
+tabs[#tabs+1] = {
+  name = "closed",
+  label = _"Closed issues",
+  module = "issue",
+  view = "_list",
+  params = {
+    for_state = "closed",
+    issues_selector = closed_issues_selector, for_unit = true
+  }
 }
 
 if app.session.member_id then
