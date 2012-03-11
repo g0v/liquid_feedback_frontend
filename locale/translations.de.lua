@@ -22,7 +22,6 @@ return {
 ["Abandon global delegation for this area"] = "Aussetzen der globalen Delegation für diesen Themenbereich";
 ["Abandon unit and area delegations for this issue"] = "Aussetzen der Gliederungs- und Themenbereichdelegation für dieses Thema";
 ["Abandon unit delegation for this area"] = "Aussetzen der Gliederungsdelegation für diesen Themenbereich";
-["About LiquidFeedback"] = "Über LiquidFeedback";
 ["About site"] = "Impressum";
 ["Abstention"] = "Enthaltung";
 ["Abstention [many entries]"] = "Enthaltung";
@@ -90,9 +89,9 @@ return {
 ["Cancel refuse of invitation"] = "Ablehnung der Einladung aufheben";
 ["Cancel registration"] = "Registrierung abbrechen";
 ["Cancelled"] = "Abgebrochen";
-["Cancelled (before accepted due to revocation)"] = false;
-["Cancelled (during discussion due to revocation)"] = false;
-["Cancelled (during verification due to revocation)"] = false;
+["Cancelled (before accepted due to revocation)"] = "Abgebrochen (in Neu-Phase, wegen Rückzug)";
+["Cancelled (during discussion due to revocation)"] = "Abgebrochen (während Diskussion, wegen Rückzug)";
+["Cancelled (during verification due to revocation)"] = "Abgebrochen (während Eingefroren-Phase, wegen Rückzug)";
 ["Cancelled (issue not accepted)"] = "Abgebrochen (Thema nicht akzeptiert)";
 ["Cancelled (no initiative admitted)"] = "Abgebrochen (Keine Initiative zugelassen)";
 ["Change API key"] = "API-Schlüssel ändern";
@@ -579,7 +578,9 @@ return {
 ["This name is already taken, please choose another one!"] = "Dieser Name ist bereits vergeben, bitte wähle einen anderen!";
 ["This name is really too short!"] = "Dieser Name ist wirklich zu kurz!";
 ["This name is too short!"] = "Dieser Name ist zu kurz!";
-["This site is using"] = false;
+["This service is provided by:"] = "Diensteanbieter:";
+["This service is provided using the following software components:"] = "Dieser Dienst ist mit folgender Software realisiert worden:";
+["This site is using"] = "Diese Seite benutzt";
 ["This suggestion has been meanwhile deleted"] = "Diese Anregung wurde zwischenzeitlich gelöscht";
 ["This title is really too short!"] = "Dieser Titel ist wirklich zu kurz!";
 ["This username is too short!"] = "Dieser Benutzername ist zu kurz!";
