@@ -180,6 +180,7 @@ return {
 ["Discussion URL"] = "Diskussions-URL";
 ["Discussion on issue"] = "Diskussion zum Thema";
 ["Discussion started"] = "Diskussion gestartet";
+["Discussion starts soon"] = "Diskussion startet in Kürze";
 ["Discussion time"] = "Zeit für die Diskussion";
 ["Discussion with initiators"] = "Diskussion mit den Initiatoren";
 ["Discussion, frozen and voting phase"] = "Diskussions-, Eingefroren- und Abstimmphase";
@@ -314,7 +315,6 @@ return {
 ["Locked?"] = "Gesperrt?";
 ["Login"] = "Anmeldung";
 ["Login name"] = "Anmeldename";
-["Login successful!"] = "Anmeldung erfolgreich";
 ["Logout"] = "Abmelden";
 ["Logout successful"] = "Abmeldung erfolgreich";
 ["Manage filter"] = "Filter verwalten";
@@ -605,8 +605,9 @@ return {
 ["Updated drafts"] = "Neue Entwürfe";
 ["Upload images"] = "Bilder hochladen";
 ["Usage terms"] = "Nutzungsbedingungen";
-["Verification started"] = "Phase Überprüfung gestartet";
-["Verification time"] = "Zeit für die Überprüfung";
+["Verification started"] = "Phase Eingefroren gestartet";
+["Verification starts soon"] = "Phase Eingefroren startet in Kürze";
+["Verification time"] = "Zeit für Eingefroren";
 ["Version"] = "Version";
 ["Vote now"] = "Jetzt abstimmen";
 ["Voted"] = "Abgestimmt";
@@ -623,6 +624,7 @@ return {
 ["Voting privileges"] = "Abstimmberechtigung";
 ["Voting proposal"] = "Abstimmungsvorlage";
 ["Voting started"] = "Abstimmung begonnen";
+["Voting starts soon"] = "Abstimmung beginnt in Kürze";
 ["Voting time"] = "Zeit für die Abstimmung";
 ["We couldn't deliver a confirmation mail to this address. Please check entered email address."] = "Wir konnten keine Bestätigungs-E-Mail versenden. Bitte überprüfe die E-Mail-Adresse.";
 ["We have sent an email with activation link already in the last hour. Please try again later."] = "Wir haben bereits innerhalb der letzten Stunde eine E-Mail mit Bestätigungslink gesendet. Bitte versuche es später erneut.";

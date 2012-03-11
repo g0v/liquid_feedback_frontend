@@ -56,11 +56,21 @@ slot.select("title2", function()
 
       if issue.state_time_left then
         slot.put(" &middot; ")
-        ui.tag{ content = _("#{time_left} left", { 
-          time_left = issue.state_time_left:gsub("days", _"days"):gsub("day", _"day")
-        }) }
+        if issue.state_time_left:sub(1,1) == "-" then
+          if issue.state == "new" then
+            ui.tag{ content = _("Discussion starts soon") }
+          elseif issue.state == "discussion" then
+            ui.tag{ content = _("Verification starts soon") }
+          elseif issue.state == "frozen" then
+            ui.tag{ content = _("Voting starts soon") }
+          elseif issue.state == "voting" then
+            ui.tag{ content = _("Counting starts soon") }
+          end
+        else
+          ui.tag{ content = _("#{time_left} left", { time_left = issue.state_time_left:gsub("days", _"days"):gsub("day", _"day") }) }
+        end
       end
-
+      
     end
   }
 
