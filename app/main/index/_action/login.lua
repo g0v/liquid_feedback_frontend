@@ -62,9 +62,6 @@ if member then
   member:save()
   app.session.member = member
   app.session:save()
-  slot.select("notice", function()
-    ui.tag{ content = _'Login successful!' }
-  end)
   trace.debug('User authenticated')
   if config.etherpad then
     do_etherpad_auth(member)
