@@ -225,7 +225,7 @@ return {
 ["Generate API key"] = "API-Schlüssel erzeugen";
 ["Global delegation"] = "Globale Delegation";
 ["Global delegation set to '#{name}'"] = "Globale Delegation an '#{name}' erteilt";
-["Global timeline"] = "Globale Zeitline";
+["Global timeline"] = "Globale Zeitlinie";
 ["Half frozen at"] = "Halb eingefroren am/um";
 ["Hello\n\n"] = "Hallo\n\n";
 ["Hello "] = "Hallo ";
