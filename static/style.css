@@ -661,11 +661,13 @@ form.unit_selector {
 .vertical select {
   font-family: sans-serif;
   font-size: 100%;
-  width: 50em;
+  width: 69%;
   border: 1px solid #444;
   padding: 0.2ex 0.2em 0.2ex 0.2em;
   margin-bottom: 1ex;
 }
+
+
 
 .login input[type=password],
 .vertical input[type=password] {
@@ -683,7 +685,7 @@ form.unit_selector {
   line-height: 120%;
   font-weight: bold;
   color: #777;
-  width: 15em;
+  width: 29%;
   display: block;
   float: left;
   clear: left;
@@ -734,6 +736,34 @@ form.unit_selector {
 .vertical input[type=submit]:hover {
   background-color: #444444;
 }
+
+@media screen and (max-width: 480px) {
+  .login input[type=text],
+  .vertical input[type=text],
+  .login input[type=password],
+  .vertical input[type=password],
+  .vertical textarea,
+  .vertical select,
+  .vertical input[type=submit],
+  .login input[type=submit] {
+    width: 98%;
+  }
+  .login .ui_field_label,
+  .vertical .ui_field_label {
+    text-align: left;
+    width: 98%;
+  }
+  .login input[type=text],
+  .login input[type=password] {
+    width: 98%;
+  }
+  .login input[type=submit],
+  .vertical input[type=submit] {
+    margin-left: 0;
+  }
+}
+
+
 
 /*************************************************************************
  * Tables
