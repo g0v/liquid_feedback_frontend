@@ -1,3 +1,5 @@
+execute.view{ module = "index", view = "_lang_chooser" }
+
 slot.put_into("title", _"Registration")
 
 local step = param.get("step", atom.integer)
