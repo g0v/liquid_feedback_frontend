@@ -1,7 +1,7 @@
 local issue = param.get("issue", "table")
 
 ui.container{
-  attr = { class = "issue_initiative_list" },
+  attr = { class = "box issue_initiative_list" },
   content = function()
     execute.view{
       module = "initiative",
