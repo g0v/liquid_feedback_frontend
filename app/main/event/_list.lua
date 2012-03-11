@@ -7,7 +7,8 @@ local event_selector = Event:new_selector()
   :add_order_by("event.id DESC")
   :limit(25)
   :join("issue", nil, "issue.id = event.issue_id")
-
+  :add_field("now()::date - event.occurrence::date", "time_ago")
+  
 if event_max_id then
   event_selector:add_where{ "event.id < ?", event_max_id }
 end
@@ -42,7 +43,20 @@ ui.container{ attr = { class = "issues events" }, content = function()
     last_event_id = event.id
 
     if event.occurrence.date ~= last_event_date then
-      ui.container{ attr = { class = "date" }, content = format.date(event.occurrence.date) }
+      local days_ago_text
+      if event.time_ago == 0 then
+        days_ago_text = _"Today"
+      elseif event.time_ago == 1 then
+        days_ago_text = _"Yesterday"
+      else
+        days_ago_text = _("#{count} days ago", { count = event.time_ago })
+      end
+      ui.container{ attr = { class = "date" }, content = function()
+        ui.tag{ content = format.date(event.occurrence.date) }
+        slot.put(" &middot; ")
+        ui.tag{ content = days_ago_text }
+      end }
+      
       last_event_date = event.occurrence.date
     end
     local class = "issue"
