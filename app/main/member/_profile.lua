@@ -155,3 +155,5 @@ ui.form{
     slot.put("<br style=\"clear: both;\" />")
   end
 }
+
+slot.put("<br />")
