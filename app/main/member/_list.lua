@@ -19,45 +19,45 @@ end
 
 ui.add_partial_param_names{ "member_list" }
 
-local filter = {
-  name = "member_list",
-  {
-    name = "name",
-    label = _"A-Z",
-    selector_modifier = function(selector) selector:add_order_by("name") end
-  },
-  {
-    name = "name_desc",
-    label = _"Z-A",
-    selector_modifier = function(selector) selector:add_order_by("name DESC") end
-  },
-  {
-    name = "newest",
-    label = _"Newest",
-    selector_modifier = function(selector) selector:add_order_by("activated DESC, id DESC") end
-  },
-  {
-    name = "oldest",
-    label = _"Oldest",
-    selector_modifier = function(selector) selector:add_order_by("activated, id") end
-  },
-}
+local filter = { name = "member_list" }
 
-if initiative then
+if issue or initiative then
   if for_votes then
-    filter[#filter] = {
+    filter[#filter+1] = {
       name = "delegations",
       label = _"Delegations",
       selector_modifier = function(selector) selector:add_order_by("voter_weight DESC") end
     }
   else
-    filter[#filter] = {
+    filter[#filter+1] = {
       name = "delegations",
       label = _"Delegations",
       selector_modifier = function(selector) selector:add_order_by("weight DESC") end
     }
   end
 end
+
+filter[#filter+1] = {
+  name = "newest",
+  label = _"Newest",
+  selector_modifier = function(selector) selector:add_order_by("activated DESC, id DESC") end
+}
+filter[#filter+1] = {
+  name = "oldest",
+  label = _"Oldest",
+  selector_modifier = function(selector) selector:add_order_by("activated, id") end
+}
+
+filter[#filter+1] = {
+  name = "name",
+  label = _"A-Z",
+  selector_modifier = function(selector) selector:add_order_by("name") end
+}
+filter[#filter+1] = {
+  name = "name_desc",
+  label = _"Z-A",
+  selector_modifier = function(selector) selector:add_order_by("name DESC") end
+}
 
 ui.filters{
   label = _"Change order",
