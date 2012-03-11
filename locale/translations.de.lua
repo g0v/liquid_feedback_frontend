@@ -1,5 +1,6 @@
 #!/usr/bin/env lua
 return {
+["#{count} days ago"] = "vor #{count} Tagen";
 ["#{count} more areas in this unit, #{delegated_count} of them delegated"] = "#{count} weitere Themengebiete in dieser Gliederung, #{delegated_count} davon delegiert";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} Themen";
@@ -21,9 +22,8 @@ return {
 ["Abandon global delegation for this area"] = "Aussetzen der globalen Delegation für diesen Themenbereich";
 ["Abandon unit and area delegations for this issue"] = "Aussetzen der Gliederungs- und Themenbereichdelegation für dieses Thema";
 ["Abandon unit delegation for this area"] = "Aussetzen der Gliederungsdelegation für diesen Themenbereich";
-["About"] = "About";
-["About / Impressum"] = false;
 ["About LiquidFeedback"] = "Über LiquidFeedback";
+["About site"] = "Impressum";
 ["Abstention"] = "Enthaltung";
 ["Abstention [many entries]"] = "Enthaltung";
 ["Abstention [single entry]"] = "Enthaltung";
@@ -311,6 +311,7 @@ return {
 ["Last snapshot:"] = "Letzte Auszählung:";
 ["Latest"] = "Neueste";
 ["License"] = "Lizenz";
+["LiquidFeedback"] = false;
 ["Locked?"] = "Gesperrt?";
 ["Login"] = "Anmeldung";
 ["Login name"] = "Anmeldename";
@@ -578,6 +579,7 @@ return {
 ["This name is already taken, please choose another one!"] = "Dieser Name ist bereits vergeben, bitte wähle einen anderen!";
 ["This name is really too short!"] = "Dieser Name ist wirklich zu kurz!";
 ["This name is too short!"] = "Dieser Name ist zu kurz!";
+["This site is using"] = false;
 ["This suggestion has been meanwhile deleted"] = "Diese Anregung wurde zwischenzeitlich gelöscht";
 ["This title is really too short!"] = "Dieser Titel ist wirklich zu kurz!";
 ["This username is too short!"] = "Dieser Benutzername ist zu kurz!";
@@ -587,6 +589,7 @@ return {
 ["Title"] = "Titel";
 ["Title (80 chars max)"] = "Titel (max. 80 Zeichen)";
 ["Title of initiative"] = "Titel der Initiative";
+["Today"] = "Heute";
 ["Traditional wiki syntax"] = "Traditionelle Wiki-Syntax";
 ["Trustee"] = "Bevollmächtigter";
 ["Trustee has no voting right in this unit"] = "Bevollmächtigter hat kein Stimmrecht in dieser Gliederung";
@@ -600,6 +603,7 @@ return {
 ["Unknown author"] = "Unbekannter Autor";
 ["Updated drafts"] = "Neue Entwürfe";
 ["Upload images"] = "Bilder hochladen";
+["Usage terms"] = "Nutzungsbedingungen";
 ["Verification started"] = "Phase Überprüfung gestartet";
 ["Verification time"] = "Zeit für die Überprüfung";
 ["Version"] = "Version";
@@ -629,6 +633,7 @@ return {
 ["Withdraw membership"] = "Mitgliedschaft aufgeben";
 ["Withdraw support"] = "Unterstützung aufgeben";
 ["Yes"] = "Ja";
+["Yesterday"] = "Gestern";
 ["You are already initiator"] = "Du bist bereits Initiator";
 ["You are already not supporting this initiative"] = "Diese Initiative hat bereits keine Unterstützung von Dir";
 ["You are already supporting the latest draft"] = "Du unterstützt bereits den neuesten Entwurf";
