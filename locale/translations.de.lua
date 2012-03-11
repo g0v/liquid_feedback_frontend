@@ -604,7 +604,7 @@ return {
 ["Unknown author"] = "Unbekannter Autor";
 ["Updated drafts"] = "Neue Entwürfe";
 ["Upload images"] = "Bilder hochladen";
-["Usage terms"] = "Nutzungsbedingungen";
+["Use terms"] = "Nutzungsbedingungen";
 ["Verification started"] = "Phase Eingefroren gestartet";
 ["Verification starts soon"] = "Phase Eingefroren startet in Kürze";
 ["Verification time"] = "Zeit für Eingefroren";

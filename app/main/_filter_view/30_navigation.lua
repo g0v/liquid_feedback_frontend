@@ -119,7 +119,7 @@ slot.select("footer", function()
   }
   slot.put(" &middot; ")
   ui.link{
-    text   = _"Usage terms",
+    text   = _"Use terms",
     module = 'index',
     view   = 'usage_terms'
   }
