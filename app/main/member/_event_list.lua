@@ -18,6 +18,8 @@ ui.container{ attr = { class = "ui_filter_head" }, content = function()
   }
 end }
 
+slot.put("<br />")
+
 if events == "personal" then
   execute.view{
     module = "event", view = "_list"
