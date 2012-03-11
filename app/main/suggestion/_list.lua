@@ -1,6 +1,9 @@
 
 local initiative = param.get("initiative", "table")
 local suggestions_selector = param.get("suggestions_selector", "table")
+
+suggestions_selector:add_order_by("plus2_unfulfilled_count + plus1_unfulfilled_count DESC, id")
+
 local tab_id = param.get("tab_id")
 local show_name = param.get("show_name", atom.boolean)
 if show_name == nil then
@@ -27,39 +30,11 @@ local partial = {
 }
 
 local ui_filters = ui.filters
-if not show_filter then
+if true or not show_filter then
   ui_filters = function(args) args.content() end
 end
 
-ui_filters{
-  selector = suggestions_selector,
-  {
-    {
-      name = "plus_unfulfilled",
-      label = _"most requested",
-      selector_modifier = function(selector) selector:add_order_by("plus2_unfulfilled_count + plus1_unfulfilled_count DESC, id") end
-    },
-    {
-      name = "plus2",
-      label = _"must",
-      selector_modifier = function(selector) selector:add_order_by("plus2_unfulfilled_count + plus2_fulfilled_count DESC, id") end
-    },
-    {
-      name = "plus",
-      label = _"must/should",
-      selector_modifier = function(selector) selector:add_order_by("plus2_unfulfilled_count + plus1_unfulfilled_count + plus2_fulfilled_count + plus1_fulfilled_count DESC, id") end
-    },
-    {
-      name = "minus",
-      label = _"must/should not",
-      selector_modifier = function(selector) selector:add_order_by("minus2_unfulfilled_count + minus1_unfulfilled_count + minus2_fulfilled_count + minus1_fulfilled_count DESC, id") end
-    },
-    {
-      name = "minus2",
-      label = _"must not",
-      selector_modifier = function(selector) selector:add_order_by("minus2_unfulfilled_count + minus2_fulfilled_count DESC, id") end
-    }
-  },
+ui.container{ attr = { class = "box" },
   content = function()
     ui.paginate{
       selector = suggestions_selector,
