@@ -879,6 +879,10 @@ tr table tr:hover td {
   margin-top: 4ex;
 }
 
+.member_area_list .more_areas {
+  font-style: italic;
+}
+
 .area_list {
   margin-bottom: 4ex;
 }

@@ -64,7 +64,7 @@ for i, unit in ipairs(units) do
       :count()
     if more_area_count > 0 then
       slot.put("<br />")
-      ui.container{ content = function()
+      ui.container{ attr = { class = "more_areas" }, content = function()
         ui.link{ content = _("#{count} more areas in this unit, #{delegated_count} of them delegated", { count = more_area_count, delegated_count = delegated_count }), module = "unit", view = "show", id = unit.id }
       end }
     end
