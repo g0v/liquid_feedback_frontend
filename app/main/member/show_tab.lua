@@ -162,6 +162,17 @@ if not show_as_homepage then
   }
 end
 
+
+local areas_selector = member:get_reference_selector("areas")
+tabs[#tabs+1] = {
+  name = "areas",
+  label = _"Areas",
+  icon = { static = "icons/16/package.png" },
+  module = "member",
+  view = "_area_list",
+  params = { areas_selector = areas_selector, member = member },
+}
+  
 if show_as_homepage then
   tabs[#tabs+1] = {
     name = "timeline",
@@ -205,16 +216,6 @@ tabs[#tabs+1] = {
       :add_order_by("issue.closed DESC")
 
   }
-}
-
-local areas_selector = member:get_reference_selector("areas")
-tabs[#tabs+1] = {
-  name = "areas",
-  label = _"Areas",
-  icon = { static = "icons/16/package.png" },
-  module = "member",
-  view = "_area_list",
-  params = { areas_selector = areas_selector, member = member },
 }
 
 if not show_as_homepage then
