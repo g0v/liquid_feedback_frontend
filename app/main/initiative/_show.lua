@@ -39,23 +39,25 @@ slot.select("initiative_head", function()
       content = function()
         for i, initiator in ipairs(initiators) do
           slot.put(" ")
-          ui.link{
-            content = function ()
-              execute.view{
-                module = "member_image",
-                view = "_show",
-                params = {
-                  member = initiator,
-                  image_type = "avatar",
-                  show_dummy = true,
-                  class = "micro_avatar",
-                  popup_text = text
+          if app.session.member_id then
+            ui.link{
+              content = function ()
+                execute.view{
+                  module = "member_image",
+                  view = "_show",
+                  params = {
+                    member = initiator,
+                    image_type = "avatar",
+                    show_dummy = true,
+                    class = "micro_avatar",
+                    popup_text = text
+                  }
                 }
-              }
-            end,
-            module = "member", view = "show", id = initiator.id
-          }
-          slot.put(" ")
+              end,
+              module = "member", view = "show", id = initiator.id
+            }
+            slot.put(" ")
+          end
           ui.link{
             text = initiator.name,
             module = "member", view = "show", id = initiator.id
