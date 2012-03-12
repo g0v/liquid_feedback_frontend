@@ -1,8 +1,8 @@
 =Willkommen bei LiquidFeedback und auf deiner Startseite=
-Diese gelben Boxen werden dich verfolgen bis du sie nach und nach abschaltest. Deine Startseite wird sich (hoffentlich) im Laufe der Zeit füllen: 
-- mit deinem Profil, 
-- den Themenbereichen und Themen, die dich interessieren,
-- deinen eingehenden und ausgehenden Delegationen,
-- deinen veröffentlichten Kontakten.
+Überall im System triffst du auf gelbe Kästen wie diesen mit Hilfetexten. Du kannst jeden Hilfetext mit einem Klick auf "Diesen Hilfetext ausblenden" rechts oben im gelben Kasten ausblenden und durch einen Klick auf das kleine blaue Fragezeichen rechts oben wieder einblenden.
 
-Und weil Neugier eine wichtige menschliche Eigenschaft ist, kannst du übrigens diese Informationen auch über die anderen Mitglieder abrufen. Wenn du wissen möchtest, ob deine Freunde schon im System sind, schau doch einfach mal unter ,,Mitglieder'' (ganz oben) nach.
+Unten findest du 4 Reiter:
+- **Themenbereiche:** Die Gliederungen und Themenbereiche, in denen du Mitglied bist
+- **Ereignisse:** Ereignisse aus deinen Themenbereichen und Themen sowie die globale Zeitlinie
+- **Offene Themen:** Alle Themen, die zur Zeit offen sind, also Neu, in Diskussion, Eingefroren oder in Abstimmung
+- **Geschlossene Themen:** Alle Themen, die bereits abgestimmt sind oder die abgebrochen wurden
