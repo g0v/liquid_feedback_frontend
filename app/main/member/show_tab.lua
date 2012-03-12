@@ -196,6 +196,9 @@ tabs[#tabs+1] = {
   label = _"Open issues",
   module = "issue",
   view = "_list",
+  link_params = { 
+    filter_interest = "issue",
+  },
   params = {
     for_state = "open",
     for_member = show_as_homepage and app.session.member or member,
@@ -210,6 +213,9 @@ tabs[#tabs+1] = {
   label = _"Closed issues",
   module = "issue",
   view = "_list",
+  link_params = { 
+    filter_interest = "issue",
+  },
   params = {
     for_state = "closed",
     for_member = show_as_homepage and app.session.member or member,
