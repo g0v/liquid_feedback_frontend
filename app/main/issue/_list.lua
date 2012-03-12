@@ -1,5 +1,6 @@
 local issues_selector = param.get("issues_selector", "table")
-local for_member = param.get("for_member", "table") or app.session.member
+local member = param.get("for_member", "table") or app.session.member
+local for_member = param.get("for_member", "table")
 local for_state = param.get("for_state")
 local for_unit = param.get("for_unit", atom.boolean)
 local for_area = param.get("for_area", atom.boolean)
@@ -31,7 +32,7 @@ ui.add_partial_param_names{
 }
 
 local filters = execute.load_chunk{module="issue", chunk="_filters.lua", params = {
-  member = for_member, state = for_state, for_unit = for_unit, for_area = for_area
+  member = member, for_member = for_member, state = for_state, for_unit = for_unit, for_area = for_area
 }}
 
 filters.content = function()

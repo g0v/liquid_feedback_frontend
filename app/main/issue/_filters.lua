@@ -1,4 +1,5 @@
 local member = param.get("member", "table")
+local for_member = param.get("for_member", "table")
 local state = param.get("state")
 local for_unit = param.get("for_unit", atom.boolean)
 local for_area = param.get("for_area", atom.boolean)
@@ -9,43 +10,45 @@ if member then
   local filter = {
     name = "filter_interest",
   }
-  if not for_unit and not for_area then
+  if not for_member then
+    if not for_unit and not for_area then
+      filter[#filter+1] = {
+        name = "any",
+        label = _"All units",
+        selector_modifier = function()  end
+      }
+      filter[#filter+1] = {
+        name = "unit",
+        label = _"My units",
+        selector_modifier = function(selector)
+          selector:join("area", nil, "area.id = issue.area_id")
+          selector:join("privilege", nil, { "privilege.unit_id = area.unit_id AND privilege.member_id = ? AND privilege.voting_right", member.id })
+        end
+      }
+    end
+    if for_unit and not for_area then
     filter[#filter+1] = {
-      name = "any",
-      label = _"All units",
-      selector_modifier = function()  end
-    }
+        name = "any",
+        label = _"All areas",
+        selector_modifier = function()  end
+      }
+    end
+    if not for_area then
+      filter[#filter+1] = {
+        name = "area",
+        label = _"My areas",
+        selector_modifier = function(selector)
+          selector:join("membership", nil, { "membership.area_id = issue.area_id AND membership.member_id = ?", member.id })
+        end
+      }
+    end
+    if for_area then
     filter[#filter+1] = {
-      name = "unit",
-      label = _"My units",
-      selector_modifier = function(selector)
-        selector:join("area", nil, "area.id = issue.area_id")
-        selector:join("privilege", nil, { "privilege.unit_id = area.unit_id AND privilege.member_id = ? AND privilege.voting_right", member.id })
-      end
-    }
-  end
-  if for_unit and not for_area then
-   filter[#filter+1] = {
-      name = "any",
-      label = _"All areas",
-      selector_modifier = function()  end
-    }
-  end
-  if not for_area then
-    filter[#filter+1] = {
-      name = "area",
-      label = _"My areas",
-      selector_modifier = function(selector)
-        selector:join("membership", nil, { "membership.area_id = issue.area_id AND membership.member_id = ?", member.id })
-      end
-    }
-  end
-  if for_area then
-   filter[#filter+1] = {
-      name = "any",
-      label = _"All issues",
-      selector_modifier = function()  end
-    }
+        name = "any",
+        label = _"All issues",
+        selector_modifier = function()  end
+      }
+    end
   end
   filter[#filter+1] = {
     name = "issue",
