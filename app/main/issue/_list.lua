@@ -14,10 +14,10 @@ end
 
 if app.session.member_id then
   issues_selector
-    :left_join("interest", "_interest", { "_interest.issue_id = issue.id AND _interest.member_id = ?", for_member.id } )
+    :left_join("interest", "_interest", { "_interest.issue_id = issue.id AND _interest.member_id = ?", member.id } )
     :add_field("(_interest.member_id NOTNULL)", "is_interested")
   issues_selector
-    :left_join("delegating_interest_snapshot", "_delegating_interest", { "_delegating_interest.issue_id = issue.id AND _delegating_interest.member_id = ? AND _delegating_interest.event = issue.latest_snapshot_event", for_member.id } )
+    :left_join("delegating_interest_snapshot", "_delegating_interest", { "_delegating_interest.issue_id = issue.id AND _delegating_interest.member_id = ? AND _delegating_interest.event = issue.latest_snapshot_event", member.id } )
     :add_field("_delegating_interest.delegate_member_ids[1]", "is_interested_by_delegation_to_member_id")
     :add_field("_delegating_interest.delegate_member_ids[array_upper(_delegating_interest.delegate_member_ids, 1)]", "is_interested_via_member_id")
     :add_field("array_length(_delegating_interest.delegate_member_ids, 1)", "delegation_chain_length")
