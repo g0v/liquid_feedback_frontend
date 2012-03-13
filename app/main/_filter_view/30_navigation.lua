@@ -2,14 +2,12 @@ slot.put_into("app_name", config.app_title)
 
 slot.select('navigation', function()
 
-  if config.public_access or app.session.member_id then
-    ui.link{
-      attr = { class = "logolf" },
-      content = _"Home",
-      module = 'index',
-      view   = 'index'
-    }
-  end
+  ui.link{
+    attr = { class = "logolf" },
+    content = _"Home",
+    module = 'index',
+    view   = 'index'
+  }
   
   if app.session.member_id then
     ui.link{

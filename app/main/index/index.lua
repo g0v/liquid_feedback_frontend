@@ -25,7 +25,57 @@ elseif config.public_access then
     }
   end
   
-  execute.view{ module = "unit", view = "_list" }
+  local open_issues_selector = Issue:new_selector()
+    :add_where("issue.closed ISNULL")
+    :add_order_by("coalesce(issue.fully_frozen + issue.voting_time, issue.half_frozen + issue.verification_time, issue.accepted + issue.discussion_time, issue.created + issue.admission_time) - now()")
+
+  local closed_issues_selector = Issue:new_selector()
+    :add_where("issue.closed NOTNULL")
+    :add_order_by("issue.closed DESC")
+
+  
+  local tabs = {
+    module = "index",
+    view = "index"
+  }
+
+  tabs[#tabs+1] = {
+    name = "units",
+    label = _"Units",
+    module = "unit",
+    view = "_list"
+  }
+
+  tabs[#tabs+1] = {
+    name = "timeline",
+    label = _"Events",
+    module = "event",
+    view = "_list",
+    params = { global = true }
+  }
+
+  tabs[#tabs+1] = {
+    name = "open",
+    label = _"Open issues",
+    module = "issue",
+    view = "_list",
+    params = {
+      for_state = "open",
+      issues_selector = open_issues_selector
+    }
+  }
+  tabs[#tabs+1] = {
+    name = "closed",
+    label = _"Closed issues",
+    module = "issue",
+    view = "_list",
+    params = {
+      for_state = "closed",
+      issues_selector = closed_issues_selector
+    }
+  }
+
+  ui.tabs(tabs)
   
 else
 
