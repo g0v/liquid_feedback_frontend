@@ -197,7 +197,7 @@ tabs[#tabs+1] = {
   module = "issue",
   view = "_list",
   link_params = { 
-    filter_interest = "issue",
+    filter_interest = not show_as_homepage and "issue" or nil,
   },
   params = {
     for_state = "open",
@@ -214,7 +214,7 @@ tabs[#tabs+1] = {
   module = "issue",
   view = "_list",
   link_params = { 
-    filter_interest = "issue",
+    filter_interest = not show_as_homepage and "issue" or nil,
   },
   params = {
     for_state = "closed",
