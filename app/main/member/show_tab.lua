@@ -201,7 +201,7 @@ tabs[#tabs+1] = {
   },
   params = {
     for_state = "open",
-    for_member = show_as_homepage and app.session.member or member,
+    for_member = not show_as_homepage and member or nil,
     issues_selector = Issue:new_selector()
       :add_where("issue.closed ISNULL")
       :add_order_by("coalesce(issue.fully_frozen + issue.voting_time, issue.half_frozen + issue.verification_time, issue.accepted + issue.discussion_time, issue.created + issue.admission_time) - now()")
@@ -218,7 +218,7 @@ tabs[#tabs+1] = {
   },
   params = {
     for_state = "closed",
-    for_member = show_as_homepage and app.session.member or member,
+    for_member = not show_as_homepage and member or nil,
     issues_selector = Issue:new_selector()
       :add_where("issue.closed NOTNULL")
       :add_order_by("issue.closed DESC")
