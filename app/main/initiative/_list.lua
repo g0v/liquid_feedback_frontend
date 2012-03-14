@@ -23,7 +23,7 @@ if app.session.member_id then
     :add_field("_direct_supporter_snapshot.member_id NOTNULL", "is_supporter_via_delegation")
 end
 
-initiatives_selector:add_order_by("id")
+initiatives_selector:add_order_by("initiative.rank, initiative.supporter_count, initiative.id")
 
 local initiatives_count = initiatives_selector:count()
 
