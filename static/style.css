@@ -909,9 +909,12 @@ tr table tr:hover td {
   clear: both;
 }
 
-.area_list .area.head {
-  line-height: 16px;
-  clear: none;
+.area_list .bargraph {
+  line-height: 10px;
+}
+
+.area_list .area .delegatee {
+  white-space: nowrap;
 }
 
 .area_list .area.head .phases {
