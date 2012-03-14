@@ -12,9 +12,6 @@ return {
 ["(new window)"] = "(neues Fenster)";
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = false;
-["A new initiative is created in an issue I'm interested in"] = "Neue Initiative in einem Thema, das mich interessiert";
-["A new issue is created in one of my areas"] = "Neues Thema in einem Themenbereich, in dem ich Mitglied bin";
-["A new suggestion is created in an initiative I'm supporting"] = "Neue Anregung zu einer Initiative, die ich unterstütze";
 ["A-Z"] = "A-Z";
 ["API key"] = "API-Schlüssel";
 ["API key has been deleted"] = "API-Schlüssel wurde gelöscht";
@@ -41,11 +38,8 @@ return {
 ["Admitted"] = "zugelassen";
 ["All areas"] = "Alle Themenbereiche";
 ["All issues"] = "Alle Themen";
+["All of them"] = "Alle Benachrichtigungen";
 ["All units"] = "Alle Gliederungen";
-["An initiative I was supporting is revoked"] = "Eine von mir unterstützte Initiative wird zurückgezogen";
-["An issue in one of my areas or I'm interested in enters phase 'discussion'"] = "Ein Thema, das in einem meiner Themenbereiche ist oder das mich interessiert, wechselt in die Phase 'Diskussion'";
-["An issue in one of my areas or I'm interested in enters phase 'frozen'"] = "Ein Thema, das in einem meiner Themenbereiche ist oder das mich interessiert, wechselt in die Phase 'Eingefroren'";
-["An issue in one of my areas or i'm interested in enters phase 'discussion'"] = "Ein Thema, das in einem meiner Themenbereiche ist oder das mich interessiert, wechselt in die Phase 'Diskussion'";
 ["Any"] = "Alle";
 ["Any phase"] = "Alle Phasen";
 ["Any state"] = "Alle Zustände";
@@ -183,7 +177,6 @@ return {
 ["Discussion starts soon"] = "Diskussion startet in Kürze";
 ["Discussion time"] = "Zeit für die Diskussion";
 ["Discussion with initiators"] = "Diskussion mit den Initiatoren";
-["Discussion, frozen and voting phase"] = "Diskussions-, Eingefroren- und Abstimmphase";
 ["Display settings"] = "Anzeige-Einstellungen";
 ["Download"] = "Download";
 ["Download database export"] = "Datenbankexport herunterladen";
@@ -219,7 +212,6 @@ return {
 ["Finished without winner"] = "Abgeschlossen ohne Gewinner";
 ["Friday"] = "Freitag";
 ["Frozen"] = "Eingefroren";
-["Frozen and voting phase"] = "Eingefroren- und Abstimmphase";
 ["Fully frozen at"] = "Ganz eingefroren am/um";
 ["Generate / change API key"] = "API-Schlüssel erzeugen/ändern";
 ["Generate API key"] = "API-Schlüssel erzeugen";
@@ -238,6 +230,7 @@ return {
 ["History"] = "Historie";
 ["Home"] = "Startseite";
 ["I consider suggestion as"] = "Ich halte die Anregung für";
+["I like to receive notifications about events in my areas and issues:"] = "Ich möchte Benachrichtigungen über Ereignisse in meinen Themenbereichen und Themen erhalten:";
 ["Id"] = "Id";
 ["Ident number"] = "Ident-Nummer";
 ["Identification"] = "Identifikation";
@@ -397,6 +390,9 @@ return {
 ["One issue"] = "Ein Thema";
 ["One issue you are interested in"] = "Ein Thema, das Dich interessiert";
 ["One step back"] = "Ein Schritt zurück";
+["Only for issues reaching the discussion phase"] = "Nur für Themen, die die Diskussion erreichen.";
+["Only for issues reaching the frozen phase"] = "Nur für Themen, die die Phase Eingefroren erreichen.";
+["Only for issues reaching the voting phase"] = "Nur für Themen, die die Abstimmung erreichen.";
 ["Open"] = "Offen";
 ["Open initiatives you are supporting which has been updated their draft:"] = "Offene, von dir unterstützte Initiativen, deren Antragstext aktualisiert wurde:";
 ["Open issues"] = "Offene Themen";
@@ -484,7 +480,6 @@ return {
 ["Search results for: '#{search}'"] = "Suchergebnisse für: '#{search}'";
 ["Select language \"#{langcode}\""] = "Sprache \"#{langcode}\" wählen";
 ["Send invite?"] = "Einladung schicken?";
-["Send me notifications about issues in following phases:"] = "Ich möchte in folgenden Phasen Benachrichtigungen erhalten:";
 ["Set URL"] = "URL setzen";
 ["Set area delegation"] = "Delegation für Themenbereich festlegen";
 ["Set delegation for Area '#{name}'"] = "Delegation für Themenbereich '#{name}' festlegen";
@@ -548,7 +543,6 @@ return {
 ["Terms of use"] = "Nutzungsbedingungen";
 ["The API key has been changed too fast."] = "Der API-Schlüssel wurde zu schnell geändert.";
 ["The code you've entered is invalid"] = "Der Code, den Du eingeben hast, ist nicht gültig!";
-["The draft of an initiative I'm supporting is updated"] = "Der Antragstext einer von dir unterstützten Initiative wurde aktualisiert";
 ["The draft of this initiative has been updated!"] = "Der Entwurfstext der Initiative wurde aktualisiert!";
 ["The drafts do not differ"] = "Die Entwürfe unterscheiden sich nicht";
 ["The initiators suggest to support the following initiative:"] = "Die Initiatoren empfehlen folgende Initiative zu unterstützen:";
@@ -617,8 +611,6 @@ return {
 ["Voting for this issue has already begun."] = "Die Abstimmung für dieses Thema hat schon begonnen.";
 ["Voting for this issue is currently running!"] = "Über dieses Thema wird gerade abgestimmt!";
 ["Voting has not started yet."] = "Die Abstimmung hat noch nicht begonnen.";
-["Voting of an issue in one of my areas or I'm interested in starts"] = "Für ein Thema, das in meinen Themenbereichen ist oder das mich interessiert, beginnt die Abstimmung";
-["Voting phase"] = "Abstimmungsphase";
 ["Voting privileges"] = "Abstimmberechtigung";
 ["Voting proposal"] = "Abstimmungsvorlage";
 ["Voting started"] = "Abstimmung begonnen";
