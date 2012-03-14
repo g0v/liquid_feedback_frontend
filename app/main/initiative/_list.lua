@@ -23,10 +23,11 @@ if app.session.member_id then
     :add_field("_direct_supporter_snapshot.member_id NOTNULL", "is_supporter_via_delegation")
 end
 
+initiatives_selector:add_order_by("id")
+
 local initiatives_count = initiatives_selector:count()
 
 local limit = param.get("limit", atom.number)
-local no_sort = param.get("no_sort", atom.boolean)
 
 local more_initiatives_count
 if limit then
@@ -45,91 +46,36 @@ end
 
 ui.add_partial_param_names{ name }
 
-local order_filter = {
-  name = name,
-  label = _"Order by"
-}
-
-if issue and issue.ranks_available then
-  order_filter[#order_filter+1] = {
-    name = "rank",
-    label = _"Rank",
-    selector_modifier = function(selector) selector:add_order_by("initiative.rank, initiative.admitted DESC, vote_ratio(initiative.positive_votes, initiative.negative_votes) DESC, initiative.id") end
-  }
-end
-
-order_filter[#order_filter+1] = {
-  name = "potential_support",
-  label = _"Potential support",
-  selector_modifier = function(selector) selector:add_order_by("CASE WHEN issue.population = 0 THEN 0 ELSE initiative.supporter_count::float / issue.population::float END DESC, initiative.id") end
-}
-
-order_filter[#order_filter+1] = {
-  name = "support",
-  label = _"Support",
-  selector_modifier = function(selector) selector:add_order_by("initiative.satisfied_supporter_count::float / issue.population::float DESC, initiative.id") end
-}
-
-order_filter[#order_filter+1] = {
-  name = "newest",
-  label = _"Newest",
-  selector_modifier = function(selector) selector:add_order_by("initiative.created DESC, initiative.id") end
-}
-
-order_filter[#order_filter+1] = {
-  name = "oldest",
-  label = _"Oldest",
-  selector_modifier = function(selector) selector:add_order_by("initiative.created, initiative.id") end
-}
-
-ui_filters = ui.filters
-
-if no_sort then
-  ui_filters = function(args) args.content() end
-  if issue.ranks_available then
-    initiatives_selector:add_order_by("initiative.rank, initiative.admitted DESC, vote_ratio(initiative.positive_votes, initiative.negative_votes) DESC, initiative.id")
-  else
-    initiatives_selector:add_order_by("CASE WHEN issue.population = 0 OR initiative.supporter_count = 0 OR initiative.supporter_count ISNULL THEN 0 ELSE initiative.supporter_count::float / issue.population::float END DESC, initiative.id")
-  end
-end
-
-ui_filters{
-  label = _"Change order",
-  order_filter,
+ui.paginate{
+  name = issue and "issue_" .. tostring(issue.id) .. "_page" or nil,
   selector = initiatives_selector,
+  per_page = param.get("per_page", atom.number) or limit,
   content = function()
-    ui.paginate{
-      name = issue and "issue_" .. tostring(issue.id) .. "_page" or nil,
-      selector = initiatives_selector,
-      per_page = param.get("per_page", atom.number) or limit,
-      content = function()
-        local initiatives = initiatives_selector:exec()
-        if highlight_initiative then
-          local highlight_initiative_found
-          for i, initiative in ipairs(initiatives) do
-            if initiative.id == highlight_initiative.id then
-              highhighlight_initiative_found = true
-            end
-          end
-          if not highhighlight_initiative_found then
-            initiatives[#initiatives+1] = highlight_initiative
-            if more_initiatives_count then
-              more_initiatives_count = more_initiatives_count - 1
-            end
-          end
-        end
-        for i, initiative in ipairs(initiatives) do
-          execute.view{
-            module = "initiative",
-            view = "_list_element",
-            params = {
-              initiative = initiative,
-              selected = highlight_initiative and highlight_initiative.id == initiative.id or nil,
-            }
-          }
+    local initiatives = initiatives_selector:exec()
+    if highlight_initiative then
+      local highlight_initiative_found
+      for i, initiative in ipairs(initiatives) do
+        if initiative.id == highlight_initiative.id then
+          highhighlight_initiative_found = true
         end
       end
-    }
+      if not highhighlight_initiative_found then
+        initiatives[#initiatives+1] = highlight_initiative
+        if more_initiatives_count then
+          more_initiatives_count = more_initiatives_count - 1
+        end
+      end
+    end
+    for i, initiative in ipairs(initiatives) do
+      execute.view{
+        module = "initiative",
+        view = "_list_element",
+        params = {
+          initiative = initiative,
+          selected = highlight_initiative and highlight_initiative.id == initiative.id or nil,
+        }
+      }
+    end
   end
 }
 
