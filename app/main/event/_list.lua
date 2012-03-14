@@ -79,11 +79,11 @@ ui.container{ attr = { class = "issues events" }, content = function()
           }
 
           slot.put(" &middot; ")
+          ui.tag{ content = event.issue.policy.name }
+          slot.put(" &middot; ")
           ui.tag{ content = event.issue.area.name }
           slot.put(" &middot; ")
           ui.tag{ content = event.issue.area.unit.name }
-          slot.put(" &middot; ")
-          ui.tag{ content = event.issue.policy.name }
         end }
 
         ui.container{ attr = { class = "issue_policy_info" }, content = function()

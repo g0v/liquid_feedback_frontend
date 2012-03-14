@@ -130,12 +130,11 @@ filters.content = function()
                   }
 
                   slot.put(" &middot; ")
+                  ui.tag{ content = issue.policy.name }
+                  slot.put(" &middot; ")
                   ui.tag{ content = issue.area.name }
                   slot.put(" &middot; ")
                   ui.tag{ content = issue.area.unit.name }
-                  slot.put(" &middot; ")
-                  ui.tag{ content = issue.policy.name }
-
 
               end
               }
