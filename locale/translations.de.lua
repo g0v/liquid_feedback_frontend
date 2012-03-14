@@ -1,7 +1,7 @@
 #!/usr/bin/env lua
 return {
 ["#{count} days ago"] = "vor #{count} Tagen";
-["#{count} more areas in this unit, #{delegated_count} of them delegated"] = "#{count} weitere Themengebiete in dieser Gliederung, #{delegated_count} davon delegiert";
+["#{count} more areas in this unit, #{delegated_count} of them are delegated"] = "#{count} weitere Themenbereiche in dieser Gliederung, #{delegated_count} davon delegiert";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} Themen";
 ["#{name}\n\n"] = false;
@@ -243,6 +243,7 @@ return {
 ["Identification"] = "Identifikation";
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Sollte der Link nicht funktionieren, öffne bitte die folgenden URL in Deinem Web-Browser:\n\n";
 ["Ignore Areas"] = "Ignoriere Bereiche";
+["Ignore initiative"] = "Initiative ignorieren";
 ["Ignore member"] = "Mitglied ignorieren";
 ["Images"] = "Bilder";
 ["Incoming delegations"] = "Eingehende Delegationen";
@@ -278,7 +279,6 @@ return {
 ["Interest removed"] = "Interesse entfernt";
 ["Interest updated"] = "Interesse aktualisiert";
 ["Interested"] = "Interessiert";
-["Interested members"] = "Interessierte Mitglieder";
 ["Internal posts"] = "Interne Ämter";
 ["Interval format:"] = "Intervall-Format";
 ["Invalid query"] = "Ungültige Anfrage";
@@ -404,7 +404,6 @@ return {
 ["OpenID Login"] = false;
 ["Opinions"] = "Meinungen";
 ["Options"] = "Optionen";
-["Order by"] = "Sortieren nach";
 ["Organizational unit"] = "Organisationseinheit";
 ["Other failures"] = "Weitere Mängel";
 ["Outgoing delegations"] = "Ausgehende Delegationen";
@@ -438,7 +437,6 @@ return {
 ["Policy successfully updated"] = "Regelwerk erfolgreich aktualisiert";
 ["Population"] = "Grundgesamtheit";
 ["Posts"] = "Ämter";
-["Potential support"] = "Potentielle Unterstützung";
 ["Potential supported"] = "Potentiell unterstützt";
 ["Potential supporter"] = "Potentielle Unterstützer";
 ["Potentially supported"] = "Potentiell unterstützt";
@@ -448,7 +446,6 @@ return {
 ["Publish"] = "Veröffentlichen";
 ["Published"] = "veröffentlicht";
 ["Quorum"] = "Quorum";
-["Rank"] = "Rang";
 ["Real name"] = "Realname";
 ["Recently closed"] = "Kürzlich abgeschlossen";
 ["Refresh support to current draft"] = "Unterstützung auf aktuellen Entwurf aktualisieren";
@@ -527,6 +524,7 @@ return {
 ["Step 1/3: Invite code"] = "Step 1/3: Einladungs-Code";
 ["Step 2/3: Personal information"] = "Step 2/3: Persönliche Daten";
 ["Step 3/3: Terms of use and password"] = "Step 3/3: Nutzungsbedingungen und Kennwort";
+["Stop ignoring initiative"] = "Initiative nicht mehr ignorieren";
 ["Stop ignoring member"] = "nicht mehr ignorieren";
 ["Strict direct majority"] = "Strenge direkte Mehrheit";
 ["Strict indirect majority"] = "Strenge indirekte Mehrheit";
@@ -542,7 +540,6 @@ return {
 ["Suggestion for initiative: '#{name}'"] = "Anregung für Initiative '#{name}'";
 ["Suggestions"] = "Anregungen";
 ["Sunday"] = "Sonntag";
-["Support"] = "Unterstützung";
 ["Support this initiative"] = "Diese Initiative unterstützen";
 ["Supported"] = "Unterstützt";
 ["Supporter"] = "Unterstützer";
@@ -571,6 +568,7 @@ return {
 ["This login is too short!"] = "Dieser Anmeldename ist zu kurz!";
 ["This member account has been created at #{created}"] = "Dieser Mitgliedszugang wurde am/um #{created} angelegt.";
 ["This member has rejected to become initiator of this initiative"] = "Dieses Mitglied hat die Einladung, Initiator zu werden, abgelehnt";
+["This member has voting privileges for this unit, but you ist not member of any of its areas."] = "Dieses Mitglied hat Stimmrecht für diese Gliederung, aber es ist in keinem Themenbereich Mitglied.";
 ["This member is already initiator of this initiative"] = "Dieses Mitglied ist bereits Initiator dieser Initiative";
 ["This member is already invited to become initiator of this initiative"] = "Dieses Mitglied ist bereits eingeladen Initiator dieser Initiative zu werden";
 ["This member is deactivated."] = "Dieses Mitglied ist deaktiviert.";
@@ -657,6 +655,7 @@ return {
 ["You didn't confirm your email address '#{email}'. You have received an email with an activation link."] = "Du hast die E-Mail-Adresse '#{email}' nicht bestätigt. Du hast hierzu eine E-Mail mit einem Aktivierungslink erhalten.";
 ["You didn't save any member as contact yet."] = "Du hast noch kein Mitglied als Kontakt gespeichert!";
 ["You didn't set the level of notifications you like to receive"] = "Du hast noch nicht ausgewählt, ob und welche Benachrichtigungen du erhalten möchtest.";
+["You have ignored this initiative"] = "Du ignorierst diese Initiative";
 ["You have ignored this member"] = "Du ignorierst dieses Mitglied";
 ["You have saved this member as contact"] = "Du hast das Mitglied als Kontakt gespeichert";
 ["You have saved this member as contact."] = "Du hast das Mitglied als Kontakt gespeichert.";
@@ -722,11 +721,8 @@ return {
 ["login name"] = "Anmeldename";
 ["majority"] = "Mehrheit";
 ["more unsatisfied"] = "sehr unzufrieden";
-["most requested"] = "meist-angefragt";
 ["must"] = "muss";
 ["must not"] = "darf nicht";
-["must/should"] = "muss/soll";
-["must/should not"] = "muss/soll nicht";
 ["neutral"] = "neutral";
 ["no reverse beat path to status quo (including ties)"] = "Kein rückwärtsgerichteter Schlagpfad zum Status Quo (Gleichstände eingeschlossen)";
 ["none"] = "kein";
