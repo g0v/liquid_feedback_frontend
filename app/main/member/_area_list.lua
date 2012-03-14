@@ -1,4 +1,6 @@
 local member = param.get("member", "table")
+local for_member = param.get("for_member", atom.boolean)
+
 local units = member.units_with_voting_right
 
 for i, unit in ipairs(units) do
@@ -48,7 +50,11 @@ for i, unit in ipairs(units) do
         params = { areas_selector = areas_selector, hide_membership = true }
       }
     else
-      ui.container{ attr = { class = "voting_priv_info" }, content = _"You have voting privileges for this unit, but you are not member of any of its areas." }
+      if for_member then
+        ui.container{ attr = { class = "voting_priv_info" }, content = _"This member has voting privileges for this unit, but you ist not member of any of its areas." }
+      else
+        ui.container{ attr = { class = "voting_priv_info" }, content = _"You have voting privileges for this unit, but you are not member of any of its areas." }
+      end
     end
     local max_area_count = Area:new_selector()
       :add_where{ "area.unit_id = ?", unit.id }
@@ -65,7 +71,7 @@ for i, unit in ipairs(units) do
     if more_area_count > 0 then
       slot.put("<br />")
       ui.container{ attr = { class = "more_areas" }, content = function()
-        ui.link{ content = _("#{count} more areas in this unit, #{delegated_count} of them delegated", { count = more_area_count, delegated_count = delegated_count }), module = "unit", view = "show", id = unit.id }
+        ui.link{ content = _("#{count} more areas in this unit, #{delegated_count} of them are delegated", { count = more_area_count, delegated_count = delegated_count }), module = "unit", view = "show", id = unit.id }
       end }
     end
   end }

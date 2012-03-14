@@ -170,7 +170,7 @@ tabs[#tabs+1] = {
   icon = { static = "icons/16/package.png" },
   module = "member",
   view = "_area_list",
-  params = { areas_selector = areas_selector, member = member },
+  params = { areas_selector = areas_selector, member = member, for_member = not show_as_homepage },
 }
   
 if show_as_homepage then
