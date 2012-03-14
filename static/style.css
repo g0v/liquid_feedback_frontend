@@ -169,6 +169,9 @@ h2 {
   overflow: hidden;
   -mox-box-shadow: #aaa 0 0 5px;
   -webkit-box-shadow: #aaa 0 0 5px;
+  border-top: 1px solid #333;
+  line-height: 30px;
+
 }
 
 .topbar .logolf {
@@ -187,6 +190,7 @@ h2 {
 }
 
 .navigation {
+  background-color: #333;
   line-height: 200%;
 }
 
@@ -199,6 +203,7 @@ h2 {
   padding: 0 0.5em;
   float: left;
   display: block;
+  white-space: nowrap;
 }
 
 form.unit_selector {
@@ -207,7 +212,7 @@ form.unit_selector {
 
 .topbar .member_info {
   float: right;
-  margin-right: 1%;
+  padding-right: 1%;
 }
 
 /*************************************************************************
