@@ -32,7 +32,12 @@ ui.form{
   },
   content = function()
 
-    ui.field.text{ label = _"Author", value = app.session.member.name, readonly = true }
+    ui.field.text{ label = _"Unit", value = initiative.issue.area.unit.name, readonly = true }
+    ui.field.text{ label = _"Area", value = initiative.issue.area.name, readonly = true }
+    ui.field.text{ label = _"Policy", value = initiative.issue.policy.name, readonly = true }
+    ui.field.text{ label = _"Issue", value = _("Issue ##{id}", { id = initiative.issue.id } ), readonly = true }
+    slot.put("<br />")
+    ui.field.text{ label = _"Initiative", value = initiative.name, readonly = true }
 
     if param.get("preview") then
       ui.container{
