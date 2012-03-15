@@ -208,8 +208,6 @@ return {
 ["Finished"] = "Abgeschlossen";
 ["Finished (with winner)"] = "Abgeschlossen (mit Gewinner)";
 ["Finished (without winner)"] = "Abgeschlossen (ohne Gewinner)";
-["Finished with winner"] = "Abgeschlossen mit Gewinner";
-["Finished without winner"] = "Abgeschlossen ohne Gewinner";
 ["Friday"] = "Freitag";
 ["Frozen"] = "Eingefroren";
 ["Fully frozen at"] = "Ganz eingefroren am/um";
@@ -217,6 +215,7 @@ return {
 ["Generate API key"] = "API-Schlüssel erzeugen";
 ["Global delegation"] = "Globale Delegation";
 ["Global delegation set to '#{name}'"] = "Globale Delegation an '#{name}' erteilt";
+["Global search"] = "Globale Suche";
 ["Global timeline"] = "Globale Zeitlinie";
 ["Half frozen at"] = "Halb eingefroren am/um";
 ["Hello\n\n"] = "Hallo\n\n";
@@ -248,6 +247,7 @@ return {
 ["Indirect majority positive"] = "Indirekte Mehrheit Positiv";
 ["Information about the available policies"] = "Informationen zu den verfügbaren Regelwerken";
 ["Initiated"] = "Initiiert";
+["Initiative"] = "Initiative";
 ["Initiative ##{id}"] = "Initiative ##{id}";
 ["Initiative details"] = "Details zur Initiative";
 ["Initiative events"] = "Initiativen-Ereignisse";
@@ -298,7 +298,6 @@ return {
 ["Issue quorum denumerator"] = "Themen-Quorum Nenner";
 ["Issue quorum numerator"] = "Themen-Quorum Zähler";
 ["Issue reached next phase"] = "Thema hat die nächste Phase erreicht";
-["Issues"] = "Themen";
 ["JavaScript is disabled or not available."] = "JavaScript ist abgeschaltet oder nicht verfügbar.";
 ["Last activity (updated daily)"] = "Letzte Aktivität (täglich aktualisiert)";
 ["Last snapshot:"] = "Letzte Auszählung:";
@@ -474,10 +473,15 @@ return {
 ["Schulze rank"] = "Schulze-Rang";
 ["Screen name"] = "Screen-Name";
 ["Search"] = "Suchen";
+["Search context"] = "Suchkontext";
+["Search for initiatives"] = "Nach Initiativen suchen";
+["Search for issues"] = "Nach Themen suchen";
+["Search for members"] = "Nach Mitgliedern suchen";
 ["Search initiatives"] = "Suche Initiativen";
 ["Search issues"] = "Suche Themen";
 ["Search members"] = "Suche Mitglieder";
 ["Search results for: '#{search}'"] = "Suchergebnisse für: '#{search}'";
+["Search term (only complete words)"] = "Suchbegriff(e) (nur ganze Wörter)";
 ["Select language \"#{langcode}\""] = "Sprache \"#{langcode}\" wählen";
 ["Send invite?"] = "Einladung schicken?";
 ["Set URL"] = "URL setzen";
@@ -512,6 +516,7 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Sorry, Du hast Dein persönliches Flood-Limit erreicht. Bitte sei langsamer...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Sorry, Dein Antragskontingent ist zur Zeit ausgeschöpft. Bitte versuche es später erneut!";
 ["Source"] = "Quelltext";
+["Start search"] = "Suche starten";
 ["State"] = "Zustand";
 ["Statement"] = "Statement";
 ["Status"] = "Status";
@@ -729,5 +734,7 @@ return {
 ["to reset your password please click on the following link:\n\n"] = "um Dein Kennwort zurückzusetzen klicke bitte den folgenden Link an:\n\n";
 ["unit"] = "Gliederung";
 ["until"] = "bis";
+["with winner"] = "mit Gewinner";
+["without winner"] = "ohne Gewinner";
 ["xmpp"] = "Jabber (XMPP)";
 }
