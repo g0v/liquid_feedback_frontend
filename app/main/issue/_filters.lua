@@ -213,7 +213,7 @@ if state == "closed" then
     name = "finished",
     label = _"Finished",
     selector_modifier = function(selector)
-      selector:add_where("issue.state = 'finished_with_winner'")
+      selector:add_where("issue.state IN ('finished_with_winner', 'finished_without_winner')")
     end
   }
   filter[#filter+1] = {
