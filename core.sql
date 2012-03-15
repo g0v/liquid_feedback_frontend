@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('2.0.5', 2, 0, 5))
+  SELECT * FROM (VALUES ('2.0.8', 2, 0, 8))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -4188,11 +4188,13 @@ CREATE FUNCTION "delete_private_data"()
         "last_login"                   = NULL,
         "login"                        = NULL,
         "password"                     = NULL,
+        "lang"                         = NULL,
         "notify_email"                 = NULL,
         "notify_email_unconfirmed"     = NULL,
         "notify_email_secret"          = NULL,
         "notify_email_secret_expiry"   = NULL,
         "notify_email_lock_expiry"     = NULL,
+        "notify_level"                 = NULL,
         "password_reset_secret"        = NULL,
         "password_reset_secret_expiry" = NULL,
         "organizational_unit"          = NULL,
@@ -4208,6 +4210,7 @@ CREATE FUNCTION "delete_private_data"()
         "profession"                   = NULL,
         "external_memberships"         = NULL,
         "external_posts"               = NULL,
+        "formatting_engine"            = NULL,
         "statement"                    = NULL;
       -- "text_search_data" is updated by triggers
       DELETE FROM "setting";
