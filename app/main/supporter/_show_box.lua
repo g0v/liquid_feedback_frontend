@@ -130,47 +130,48 @@ ui.partial{
           }
         end
         
-        local ignored_initiative = IgnoredInitiative:by_pk(app.session.member.id, initiative.id)
-        if ignored_initiative then
-          ui.container{
-            attr = { class = "interest" },
-            content = _"You have ignored this initiative"
-          }
-          ui.link{
-            text   = _"Stop ignoring initiative",
-            module = "initiative",
-            action = "update_ignore",
-            id     = initiative.id,
-            params = { delete = true },
-            routing = {
-              default = {
-                mode = "redirect",
-                module = request.get_module(),
-                view = request.get_view(),
-                id = param.get_id_cgi(),
-                params = param.get_all_cgi()
+        if not initiative.issue.closed then
+          local ignored_initiative = IgnoredInitiative:by_pk(app.session.member.id, initiative.id)
+          if ignored_initiative then
+            ui.container{
+              attr = { class = "interest" },
+              content = _"You have ignored this initiative"
+            }
+            ui.link{
+              text   = _"Stop ignoring initiative",
+              module = "initiative",
+              action = "update_ignore",
+              id     = initiative.id,
+              params = { delete = true },
+              routing = {
+                default = {
+                  mode = "redirect",
+                  module = request.get_module(),
+                  view = request.get_view(),
+                  id = param.get_id_cgi(),
+                  params = param.get_all_cgi()
+                }
               }
             }
-          }
-        else
-          ui.link{
-            attr = { class = "interest" },
-            text    = _"Ignore initiative",
-            module  = "initiative",
-            action  = "update_ignore",
-            id      = initiative.id,
-            routing = {
-              default = {
-                mode = "redirect",
-                module = request.get_module(),
-                view = request.get_view(),
-                id = param.get_id_cgi(),
-                params = param.get_all_cgi()
+          else
+            ui.link{
+              attr = { class = "interest" },
+              text    = _"Ignore initiative",
+              module  = "initiative",
+              action  = "update_ignore",
+              id      = initiative.id,
+              routing = {
+                default = {
+                  mode = "redirect",
+                  module = request.get_module(),
+                  view = request.get_view(),
+                  id = param.get_id_cgi(),
+                  params = param.get_all_cgi()
+                }
               }
             }
-          }
+          end
         end
-
         
       end
     }
