@@ -27,6 +27,10 @@ pages[#pages+1] = { view = "settings_notification", text = _"Notification settin
 pages[#pages+1] = { view = "settings_display",        text = _"Display settings" }
 pages[#pages+1] = { view = "developer_settings",      text = _"Developer settings" }
 
+if config.download_dir then
+  pages[#pages+1] = { module = "index", view = "download",      text = _"Database download" }
+end
+
 ui.list{
   attr = { class = "menu_list" },
   style = "ulli",
