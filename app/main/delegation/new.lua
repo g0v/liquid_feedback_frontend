@@ -162,6 +162,7 @@ ui.form{
 
     disabled_records = {}
     disabled_records["_"] = true
+    disabled_records[app.session.member_id] = true
 
     ui.field.select{
       label = _"Trustee",
