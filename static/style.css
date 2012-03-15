@@ -332,8 +332,9 @@ form.unit_selector {
 }
 
 .slot_initiative_head  {
-  padding-left: 1%;
-  padding-top: 4ex;
+  margin-left: 1%;
+  margin-right: 1%;
+  margin-top: 2ex;
 }
 
 .initiative_name {
@@ -1539,7 +1540,8 @@ div.timeline_results {
 
 /* shadows */
 
-.box {
+.box,
+.slot_initiative_head {
   border: 1px solid #aaa;
   border-radius: 8px;
   padding: 1ex;
@@ -1561,7 +1563,8 @@ div.timeline_results {
 .ui_filter a.active,
 .vote_info .content,
 .member_area_list,
-.box {
+.box,
+.slot_initiative_head {
   box-shadow: #777 0px 5px 5px -5px;
   -mox-box-shadow: #777 0px 5px 5px -5px;
   -webkit-box-shadow: #777 0px 5px 5px -5px;
