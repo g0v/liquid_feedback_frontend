@@ -140,7 +140,7 @@ ui.container{ attr = { class = "box area_list" }, content = function()
             module = "area",
             view = "show",
             id = area.id,
-            params = { filter = "new", tab = "issues" }
+            params = { filter = "new", tab = "open" }
           }
         end }
 
@@ -150,7 +150,7 @@ ui.container{ attr = { class = "box area_list" }, content = function()
             module = "area",
             view = "show",
             id = area.id,
-            params = { filter = "accepted", tab = "issues" }
+            params = { filter = "accepted", tab = "open" }
           }
         end }
 
@@ -160,7 +160,7 @@ ui.container{ attr = { class = "box area_list" }, content = function()
             module = "area",
             view = "show",
             id = area.id,
-            params = { filter = "half_frozen", tab = "issues" }
+            params = { filter = "half_frozen", tab = "open" }
           }
         end }
 
@@ -170,7 +170,7 @@ ui.container{ attr = { class = "box area_list" }, content = function()
             module = "area",
             view = "show",
             id = area.id,
-            params = { filter = "frozen", tab = "issues" }
+            params = { filter = "frozen", tab = "open" }
           }
         end }
 
@@ -180,7 +180,7 @@ ui.container{ attr = { class = "box area_list" }, content = function()
             module = "area",
             view = "show",
             id = area.id,
-            params = { filter = "finished", issue_list = "newest", tab = "issues" }
+            params = { filter = "finished", tab = "closed" }
           }
         end }
 
@@ -190,7 +190,7 @@ ui.container{ attr = { class = "box area_list" }, content = function()
             module = "area",
             view = "show",
             id = area.id,
-            params = { filter = "cancelled", issue_list = "newest", tab = "issues" }
+            params = { filter = "cancelled", issue_list = "newest", tab = "closed" }
           }
         end }
 

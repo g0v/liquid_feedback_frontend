@@ -27,7 +27,9 @@ if #areas > 0 then
               view = "show",
               id = record.id,
               params = { 
+                tab = "open",
                 filter = "frozen",
+                filter_interest = "any",
                 filter_voting = "not_voted"
               }
             }
@@ -51,8 +53,9 @@ if #areas > 0 then
               view = "show",
               id = record.id,
               params = { 
+                tab = "open",
                 filter = "frozen",
-                filter_interest = "my",
+                filter_interest = "issue",
                 filter_voting = "not_voted"
               }
             }
