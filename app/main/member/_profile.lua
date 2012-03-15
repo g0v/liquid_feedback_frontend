@@ -27,17 +27,6 @@ end
       module = "member",
       view = "edit_images"
     }
-    if config.download_dir then
-      ui.link{
-        attr = { class = "actions" },
-        content = function()
-            ui.image{ static = "icons/16/database_save.png" }
-            slot.put(_"Download")
-        end,
-        module = "index",
-        view = "download"
-      }
-    end
     slot.put("<br /><br />")
   end
 --end)
