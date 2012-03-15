@@ -27,6 +27,12 @@ slot.select('navigation', function()
     }
   end
 
+  ui.link{
+    content = _"Search",
+    module = 'index',
+    view   = 'search'
+  }
+  
   if config.public_access and app.session.member == nil then
     ui.link{
       text   = _"Login",

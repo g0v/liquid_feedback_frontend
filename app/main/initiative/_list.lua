@@ -49,7 +49,7 @@ ui.add_partial_param_names{ name }
 ui.paginate{
   name = issue and "issue_" .. tostring(issue.id) .. "_page" or nil,
   selector = initiatives_selector,
-  per_page = param.get("per_page", atom.number) or limit,
+  per_page = param.get("per_page", atom.number) or limit or 25,
   content = function()
     local initiatives = initiatives_selector:exec()
     if highlight_initiative then
