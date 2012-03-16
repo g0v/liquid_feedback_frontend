@@ -128,76 +128,78 @@ end )
 
 util.help("initiative.show")
 
+slot.select("initiative_head", function()
 
-if initiative.issue.ranks_available and initiative.admitted then
-  local class = initiative.winner and "admitted_info" or "not_admitted_info"
-  ui.container{
-    attr = { class = class },
-    content = function()
-      local max_value = initiative.issue.voter_count
-      slot.put("&nbsp;")
-      local positive_votes = initiative.positive_votes
-      local negative_votes = initiative.negative_votes
-      local sum_votes = initiative.positive_votes + initiative.negative_votes
-      local function perc(votes, sum)
-        if sum > 0 and votes > 0 then return " (" .. string.format( "%.f", votes * 100 / sum ) .. "%)" end
-        return ""
+  if initiative.issue.ranks_available and initiative.admitted then
+    local class = initiative.winner and "admitted_info" or "not_admitted_info"
+    ui.container{
+      attr = { class = class },
+      content = function()
+        local max_value = initiative.issue.voter_count
+        slot.put("&nbsp;")
+        local positive_votes = initiative.positive_votes
+        local negative_votes = initiative.negative_votes
+        local sum_votes = initiative.positive_votes + initiative.negative_votes
+        local function perc(votes, sum)
+          if sum > 0 and votes > 0 then return " (" .. string.format( "%.f", votes * 100 / sum ) .. "%)" end
+          return ""
+        end
+        slot.put(_"Yes" .. ": <b>" .. tostring(positive_votes) .. perc(positive_votes, sum_votes) .. "</b>")
+        slot.put(" &middot; ")
+        slot.put(_"Abstention" .. ": <b>" .. tostring(max_value - initiative.negative_votes - initiative.positive_votes)  .. "</b>")
+        slot.put(" &middot; ")
+        slot.put(_"No" .. ": <b>" .. tostring(initiative.negative_votes) .. perc(negative_votes, sum_votes) .. "</b>")
+        slot.put(" &middot; ")
+        slot.put("<b>")
+        if initiative.winner then
+          slot.put(_"Approved")
+        elseif initiative.rank then
+          slot.put(_("Not approved (rank #{rank})", { rank = initiative.rank }))
+        else
+          slot.put(_"Not approved")
+        end
+        slot.put("</b>")
       end
-      slot.put(_"Yes" .. ": <b>" .. tostring(positive_votes) .. perc(positive_votes, sum_votes) .. "</b>")
-      slot.put(" &middot; ")
-      slot.put(_"Abstention" .. ": <b>" .. tostring(max_value - initiative.negative_votes - initiative.positive_votes)  .. "</b>")
-      slot.put(" &middot; ")
-      slot.put(_"No" .. ": <b>" .. tostring(initiative.negative_votes) .. perc(negative_votes, sum_votes) .. "</b>")
-      slot.put(" &middot; ")
-      slot.put("<b>")
-      if initiative.winner then
-        slot.put(_"Approved")
-      elseif initiative.rank then
-        slot.put(_("Not approved (rank #{rank})", { rank = initiative.rank }))
-      else
-        slot.put(_"Not approved")
+    }
+  end
+
+  if initiative.admitted == false then
+    local policy = initiative.issue.policy
+    ui.container{
+      attr = { class = "not_admitted_info" },
+      content = _("This initiative has not been admitted! It failed the quorum of #{quorum}.", { quorum = format.percentage(policy.initiative_quorum_num / policy.initiative_quorum_den) })
+    }
+  end
+
+  if initiative.revoked then
+    ui.container{
+      attr = { class = "revoked_info" },
+      content = function()
+        slot.put(_("This initiative has been revoked at #{revoked}", { revoked = format.timestamp(initiative.revoked) }))
+        local suggested_initiative = initiative.suggested_initiative
+        if suggested_initiative then
+          slot.put("<br /><br />")
+          slot.put(_("The initiators suggest to support the following initiative:"))
+          slot.put(" ")
+          ui.link{
+            content = _("Issue ##{id}", { id = suggested_initiative.issue.id } ) .. ": " .. encode.html(suggested_initiative.name),
+            module = "initiative",
+            view = "show",
+            id = suggested_initiative.id
+          }
+        end
       end
-      slot.put("</b>")
-    end
-  }
-end
+    }
+  end
 
-if initiative.admitted == false then
-  local policy = initiative.issue.policy
-  ui.container{
-    attr = { class = "not_admitted_info" },
-    content = _("This initiative has not been admitted! It failed the quorum of #{quorum}.", { quorum = format.percentage(policy.initiative_quorum_num / policy.initiative_quorum_den) })
-  }
-end
-
-if initiative.issue.state == "cancelled" then
-  local policy = initiative.issue.policy
-  ui.container{
-    attr = { class = "not_admitted_info" },
-    content = _("This issue has been cancelled. It failed the quorum of #{quorum}.", { quorum = format.percentage(policy.issue_quorum_num / policy.issue_quorum_den) })
-  }
-end
-
-if initiative.revoked then
-  ui.container{
-    attr = { class = "revoked_info" },
-    content = function()
-      slot.put(_("This initiative has been revoked at #{revoked}", { revoked = format.timestamp(initiative.revoked) }))
-      local suggested_initiative = initiative.suggested_initiative
-      if suggested_initiative then
-        slot.put("<br /><br />")
-        slot.put(_("The initiators suggest to support the following initiative:"))
-        slot.put(" ")
-        ui.link{
-          content = _("Issue ##{id}", { id = suggested_initiative.issue.id } ) .. ": " .. encode.html(suggested_initiative.name),
-          module = "initiative",
-          view = "show",
-          id = suggested_initiative.id
-        }
-      end
-    end
-  }
-end
+  if initiative.issue.state == "cancelled" then
+    local policy = initiative.issue.policy
+    ui.container{
+      attr = { class = "not_admitted_info" },
+      content = _("This issue has been cancelled. It failed the quorum of #{quorum}.", { quorum = format.percentage(policy.issue_quorum_num / policy.issue_quorum_den) })
+    }
+  end
+end)
 
 if initiator and initiator.accepted == nil and not initiative.issue.half_frozen and not initiative.issue.closed then
   ui.container{

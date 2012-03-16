@@ -1285,7 +1285,6 @@ x.initiative_link.potentially_supported {
 .admitted_info {
   background-color: #dfd;
   padding: 1ex;
-  margin-bottom: 2ex;
   border-radius: 8px;
 }
 
@@ -1293,7 +1292,6 @@ x.initiative_link.potentially_supported {
 .revoked_info {
   background-color: #fdd;
   padding: 1ex;
-  margin-bottom: 2ex;
   border-radius: 8px;
 }
 
