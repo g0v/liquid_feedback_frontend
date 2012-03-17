@@ -37,27 +37,27 @@ ui.container{ attr = { class = "box area_list" }, content = function()
     ui.container{ attr = { class = "phases" }, content = function()
 
       ui.container{ attr = { class = "admission" }, content = function()
-        ui.image{ static = "icons/16/new.png" }
+        ui.image{ static = "icons/16/new.png", attr = { alt = _"New" } }
       end }
 
       ui.container{ attr = { class = "discussion" }, content = function()
-        ui.image{ static = "icons/16/comments.png" }
+        ui.image{ static = "icons/16/comments.png", attr = { alt = _"Discussion" } }
       end }
 
       ui.container{ attr = { class = "verification" }, content = function()
-        ui.image{ static = "icons/16/lock.png" }
+        ui.image{ static = "icons/16/lock.png", attr = { alt = _"Verification" } }
       end }
 
       ui.container{ attr = { class = "voting" }, content = function()
-        ui.image{ static = "icons/16/email_open.png" }
+        ui.image{ static = "icons/16/email_open.png", attr = { alt = _"Voting" } }
       end }
 
       ui.container{ attr = { class = "finished" }, content = function()
-        ui.image{ static = "icons/16/tick.png" }
+        ui.image{ static = "icons/16/tick.png", attr = { alt = _"Finished" } }
       end }
 
       ui.container{ attr = { class = "cancelled" }, content = function()
-        ui.image{ static = "icons/16/cross.png" }
+        ui.image{ static = "icons/16/cross.png", attr = { alt = _"Cancelled" } }
       end }
 
     end }
