@@ -103,7 +103,7 @@ ui.container{ attr = { class = "box area_list" }, content = function()
               static = "icons/16/user_gray.png",
             }
           else
-            slot.put('<img src="null.png" width="16" height="1" />')
+            slot.put('<img src="null.png" width="16" height="1" alt="" />')
           end
         end }
       end
@@ -128,7 +128,7 @@ ui.container{ attr = { class = "box area_list" }, content = function()
             }
           }
         else
-          slot.put('<img src="null.png" width="41" height="1" />')
+          slot.put('<img src="null.png" width="41" height="1" alt="" />')
         end
       end }
   
