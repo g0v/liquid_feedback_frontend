@@ -651,6 +651,11 @@ form.unit_selector {
   height: 1.3ex;
 }
 
+.bargraph .quorum {
+  margin-top: 0.2ex;
+  height: 1.9ex;
+}
+
 /*************************************************************************
  * vertical ui.form
  */

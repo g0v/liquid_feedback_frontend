@@ -31,9 +31,10 @@ function ui.bargraph(args)
             end
             ui.container{
               attr = {
+                class = "quorum",
                 style = "width: 1px; background-color: " .. (args.quorum_color or "blue") ..";",
               },
-              content = function() slot.put("&nbsp;") end
+              content = function() slot.put("") end
             }
             length = dlength + 1
             value = value - dlength
