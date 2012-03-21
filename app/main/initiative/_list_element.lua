@@ -45,8 +45,8 @@ ui.container{ attr = { class = "initiative" }, content = function()
         quorum_color = "#00F",
         bars = {
           { color = "#0a0", value = (initiative.satisfied_supporter_count or 0) },
-          { color = "#bbb", value = (initiative.supporter_count or 0) - (initiative.satisfied_supporter_count or 0) },
-          { color = "#f7f7f7", value = max_value - (initiative.supporter_count or 0) },
+          { color = "#999", value = (initiative.supporter_count or 0) - (initiative.satisfied_supporter_count or 0) },
+          { color = "#ddd", value = max_value - (initiative.supporter_count or 0) },
         }
       }
     end
