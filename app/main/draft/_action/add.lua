@@ -45,6 +45,13 @@ draft.formatting_engine = formatting_engine
 draft.content = param.get("content")
 draft:save()
 
+local supporter = Supporter:by_pk(initiative.id, app.session.member.id)
+
+if supporter then
+  supporter.draft_id = draft.id
+  supporter:save()
+end
+
 draft:render_content()
 
 slot.put_into("notice", _"New draft has been added to initiative")
