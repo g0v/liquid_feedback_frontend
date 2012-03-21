@@ -69,6 +69,67 @@ ui.container{ attr = { class = "issues events" }, content = function()
 
       ui.container { attr = { class = "issue_info" }, content = function()
       
+        if event.is_interested then
+          ui.tag{
+            tag = "div", attr = { class = "interest_by_delegation"},
+            content = function()
+              local text = "You are interested in this issue"
+              ui.image{ attr = { alt = text, title = text }, static = "icons/16/eye.png" }
+            end
+          }
+          
+        elseif event.is_interested_by_delegation_to_member_id then
+          ui.tag{
+            tag = "div", attr = { class = "interest_by_delegation"},
+            content = function()
+              local member = Member:by_id(event.is_interested_by_delegation_to_member_id)
+              local text = _"delegated to"
+              ui.image{
+                attr = { class = "delegation_arrow", alt = text, title = text },
+                static = "delegation_arrow_24_horizontal.png"
+              }
+              execute.view{
+                module = "member_image",
+                view = "_show",
+                params = {
+                  member = member,
+                  image_type = "avatar",
+                  show_dummy = true,
+                  class = "micro_avatar",
+                  popup_text = member.name
+                }
+              }
+              if event.is_interested_by_delegation_to_member_id ~= event.is_interested_via_member_id then
+                if event.delegation_chain_length > 2 then
+                  local text = _"delegated to"
+                  ui.image{
+                    attr = { class = "delegation_arrow", alt = text, title = text },
+                    static = "delegation_arrow_24_horizontal.png"
+                  }
+                  ui.tag{ content = "..." }
+                end
+              local text = _"delegated to"
+                ui.image{
+                  attr = { class = "delegation_arrow", alt = text, title = text },
+                  static = "delegation_arrow_24_horizontal.png"
+                }
+                local member = Member:by_id(event.is_interested_via_member_id)
+                execute.view{
+                  module = "member_image",
+                  view = "_show",
+                  params = {
+                    member = member,
+                    image_type = "avatar",
+                    show_dummy = true,
+                    class = "micro_avatar",
+                    popup_text = member.name
+                  }
+                }
+              end
+            end
+          }
+        end
+
         ui.container{ content = function()
           ui.link{
             attr = { class = "issue_id" },
