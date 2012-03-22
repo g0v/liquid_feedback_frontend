@@ -24,8 +24,6 @@ ui.container{ attr = { class = "initiative" }, content = function()
           ui.bargraph{
             max_value = max_value,
             width = 100,
-            quorum = max_value * initiative.issue.policy.direct_majority_num / initiative.issue.policy.direct_majority_den,
-            quorum_color = "#00f",
             bars = {
               { color = "#0a0", value = initiative.positive_votes },
               { color = "#aaa", value = max_value - initiative.negative_votes - initiative.positive_votes },
