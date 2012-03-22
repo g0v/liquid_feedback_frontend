@@ -1076,8 +1076,13 @@ tr table tr:hover td {
   margin-right: 0.3em;
 }
 
+.initiative .rank {
+  width: 2.5em;
+}
+
+
 .initiative .interest {
-  width: 16px;
+  width: 20px;
   height: 16px;
   line-height: 100%;
 }
