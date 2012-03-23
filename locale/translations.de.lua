@@ -16,9 +16,9 @@ return {
 ["API key"] = "API-Schlüssel";
 ["API key has been deleted"] = "API-Schlüssel wurde gelöscht";
 ["API key has been updated"] = "API-Schlüssel wurde aktualisiert";
-["Abandon global delegation for this area"] = "Globale Delegation hier aussetzen";
-["Abandon unit and area delegations for this issue"] = "Gliederungs-/Themenbereichsdelegation hier aussetzen";
-["Abandon unit delegation for this area"] = "Gliederungsdelegation hier aussetzen";
+["Abandon global delegation for this area"] = "Aussetzen der globale Delegation";
+["Abandon unit and area delegations for this issue"] = "Aussetzen der Gliederungs-/Themenbereichsdelegation";
+["Abandon unit delegation for this area"] = "Aussetzen der Gliederungsdelegation";
 ["About site"] = "Impressum";
 ["Abstention"] = "Enthaltung";
 ["Abstention [many entries]"] = "Enthaltung";
@@ -43,10 +43,10 @@ return {
 ["Any"] = "Alle";
 ["Any phase"] = "Alle Phasen";
 ["Any state"] = "Alle Zustände";
-["Apply global delegation for this area (Currently: #{delegate_name} [#{scope}])"] = "Globale Delegation hier anwenden (Zur Zeit: #{delegate_name} [#{scope}])";
-["Apply global or area delegation for this issue (Currently: #{delegate_name} [#{scope}])"] = "Globale/Themenbereichsdelegation hier anwenden (Zur Zeit: #{delegate_name} [#{scope}])";
-["Apply unit delegation for this area (Currently: #{delegate_name} [#{scope}])"] = "Gliederungsdelegation hier anwenden (Zur Zeit: #{delegate_name} [#{scope}])";
-["Apply unit or area delegation for this issue (Currently: #{delegate_name} [#{scope}])"] = "Gliederungs-/Themenbereichsdelegation hier anwenden (Zur Zeit: #{delegate_name} [#{scope}])";
+["Apply global delegation for this area (Currently: #{delegate_name} [#{scope}])"] = "Anwenden der globalen Delegation (Zur Zeit: #{delegate_name} [#{scope}])";
+["Apply global or area delegation for this issue (Currently: #{delegate_name} [#{scope}])"] = "Anwenden der globalen bzw. Themenbereichsdelegation (Zur Zeit: #{delegate_name} [#{scope}])";
+["Apply unit delegation for this area (Currently: #{delegate_name} [#{scope}])"] = "Anwenden der Gliederungsdelegation (Zur Zeit: #{delegate_name} [#{scope}])";
+["Apply unit or area delegation for this issue (Currently: #{delegate_name} [#{scope}])"] = "Anwenden der Gliederungs-/Themenbereichsdelegation (Zur Zeit: #{delegate_name} [#{scope}])";
 ["Approval (#th preference) [many entries]"] = "Zustimmung (#.-Wünsche)";
 ["Approval (#th preference) [single entry]"] = "Zustimmung (#.-Wunsch)";
 ["Approval (first preference) [many entries]"] = "Zustimmung (Erstwünsche)";
