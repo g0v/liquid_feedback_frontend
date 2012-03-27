@@ -1,5 +1,5 @@
 config.app_name = "LiquidFeedback"
-config.app_version = "2.beta3"
+config.app_version = "2.beta4"
 
 config.app_title = config.app_name .. " (" .. request.get_config_name() .. " environment)"
 
