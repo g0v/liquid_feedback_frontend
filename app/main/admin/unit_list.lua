@@ -16,8 +16,20 @@ ui.list{
   columns = {
     {
       label = "name",
+      name = "name"
+    },
+    {
       content = function(unit)
-        ui.link{ text = unit.name, module = "admin", view = "area_list", params = { unit_id = unit.id } }
+        ui.link{
+          attr = { class = "action admin_only" },
+          text = _"Edit unit",
+          module = "admin", view = "unit_edit", id = unit.id
+        }
+        ui.link{
+          attr = { class = "action admin_only" },
+          text = _"Edit areas",
+          module = "admin", view = "area_list", params = { unit_id = unit.id }
+        }
       end 
     }
   }

@@ -8,11 +8,15 @@ else
   slot.put_into("title", encode.html(_"Register new member"))
 end
 
-local units = Unit:new_selector()
-  :add_field("privilege.voting_right", "voting_right")
-  :left_join("privilege", nil, { "privilege.member_id = ? AND privilege.unit_id = unit.id", member.id })
-  :exec()
+local units_selector = Unit:new_selector()
   
+if member then
+  units_selector
+    :left_join("privilege", nil, { "privilege.member_id = ? AND privilege.unit_id = unit.id", member.id })
+    :add_field("privilege.voting_right", "voting_right")
+end
+
+local units = units_selector:exec()
   
 ui.form{
   attr = { class = "vertical" },
