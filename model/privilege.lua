@@ -18,3 +18,9 @@ Privilege:add_reference{
   ref           = 'unit',
 }
 
+function Privilege:by_pk(unit_id, member_id)
+  return self:new_selector()
+    :add_where{ "unit_id = ? AND member_id = ?", unit_id, member_id }
+    :optional_object_mode()
+    :exec()
+end

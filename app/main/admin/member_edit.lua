@@ -8,6 +8,12 @@ else
   slot.put_into("title", encode.html(_"Register new member"))
 end
 
+local units = Unit:new_selector()
+  :add_field("privilege.voting_right", "voting_right")
+  :left_join("privilege", nil, { "privilege.member_id = ? AND privilege.unit_id = unit.id", member.id })
+  :exec()
+  
+  
 ui.form{
   attr = { class = "vertical" },
   module = "admin",
@@ -27,14 +33,15 @@ ui.form{
     ui.field.text{     label = _"Notification email", name = "notify_email" }
     ui.field.boolean{  label = _"Admin?",       name = "admin" }
 
-    ui.multiselect{ label              = _"Voting privileges",
-                    name               = "units_with_voting_right[]",
-                    foreign_records    = Unit:new_selector():exec(),
-                    foreign_id         = "id",
-                    foreign_name       = "name",
-                    connecting_records = {},
-                    foreign_reference  = "id",
-    }
+    slot.put("<br />")
+    
+    for i, unit in ipairs(units) do
+      ui.field.boolean{
+        name = "unit_" .. unit.id,
+        label = unit.name,
+        value = unit.voting_right
+      }
+    end
     slot.put("<br /><br />")
 
     ui.field.boolean{  label = _"Send invite?",       name = "invite_member" }
