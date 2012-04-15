@@ -42,7 +42,7 @@ end)
 
   ui.heading{ content = _"API keys" }
   
-  util.help("member.developer_settings.api_key", _"API key")
+--  util.help("member.developer_settings.api_key", _"API key")
 
   local member_applications = MemberApplication:new_selector()
     :add_where{ "member_id = ?", app.session.member.id }
