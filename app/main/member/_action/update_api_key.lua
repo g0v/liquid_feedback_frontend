@@ -20,7 +20,7 @@ else
   )
   member_application.name = 'member'
   member_application.comment = ''
-  member_application.access_level = 'full'
+  member_application.access_level = 'member'
 
   member_application:save()
   slot.put_into("notice", _"API key has been created")
