@@ -33,7 +33,7 @@ if config.public_access then
 
 end
 
-if config.api_enabled and request.get_module() == "api" or request.get_module() == "sitemap" then
+if request.get_module() == "sitemap" then
   auth_needed = false
 end
 
