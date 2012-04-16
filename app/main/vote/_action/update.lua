@@ -14,6 +14,15 @@ if issue.state ~= "voting" then
   return false
 end
 
+local direct_voter = DirectVoter:by_pk(issue.id, app.session.member_id)
+
+if param.get("discard", atom.boolean) then
+  if direct_voter then
+    direct_voter:destroy()
+  end
+  slot.put_into("notice", _"Your vote has been discarded. Delegation rules apply if set.")
+  return
+end
 
 local move_up 
 local move_down
@@ -33,16 +42,6 @@ for match in tempvoting_string:gmatch("([^;]+)") do
 end
 
 if not move_down and not move_up then
-  local direct_voter = DirectVoter:by_pk(issue.id, app.session.member_id)
-
-  if param.get("discard", atom.boolean) then
-    if direct_voter then
-      direct_voter:destroy()
-    end
-    slot.put_into("notice", _"Your vote has been discarded. Delegation rules apply if set.")
-    return
-  end
-
   if not direct_voter then
     direct_voter = DirectVoter:new()
     direct_voter.issue_id = issue.id
