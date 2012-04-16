@@ -196,6 +196,8 @@ ui.form{
           local vote = initiative.vote
           if vote then
             tempvotings[initiative.id] = vote.grade
+          else
+            tempvotings[initiative.id] = 0
           end
         end
         local tempvotings_list = {}
