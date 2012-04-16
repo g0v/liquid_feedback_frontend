@@ -1,12 +1,7 @@
-local warning_text = _"Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Chrome, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."
-
-ui.script{ static = "js/browser_warning.js" }
-ui.script{ script = "checkBrowser(" .. encode.json(_"Your web browser is not fully supported yet." .. " " .. warning_text:gsub("\n", "\n\n")) .. ");" }
-
 ui.tag{
   tag = "noscript",
   content = function()
-    slot.put(_"JavaScript is disabled or not available." .. " " .. encode.html_newlines(warning_text))
+    slot.put(_"JavaScript is disabled or not available.")
   end
 }
 
