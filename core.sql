@@ -2596,6 +2596,132 @@ COMMENT ON FUNCTION "delegation_chain"
 
 
 ------------------------------
+-- Delegation info function --
+------------------------------
+
+
+CREATE TYPE "delegation_info_type" AS (
+        "own_participation"     BOOLEAN,
+        "first_trustee_id"      INT4,
+        "first_trustee_participation" BOOLEAN,
+        "first_trustee_ellipsis" BOOLEAN,
+        "other_trustee_id"      INT4,
+        "other_trustee_participation" BOOLEAN,
+        "other_trustee_ellipsis" BOOLEAN );
+
+CREATE FUNCTION "delegation_info"
+  ( "member_id_p" "member"."id"%TYPE,
+    "issue_id_p" "issue"."id"%TYPE )
+  RETURNS "delegation_info_type"
+  LANGUAGE 'plpgsql' STABLE AS $$
+    DECLARE
+      "issue_row"            "issue"%ROWTYPE;
+      "current_row"          "delegation_chain_row";
+      "direct_voter_row"     "direct_voter"%ROWTYPE;
+      "delegating_voter_row" "delegating_voter"%ROWTYPE;
+      "result"               "delegation_info_type";
+    BEGIN
+      SELECT INTO "issue_row" * FROM "issue" WHERE "id" = "issue_id_p";
+      IF
+        "issue_row"."fully_frozen" ISNULL AND
+        "issue_row"."closed" ISNULL
+      THEN
+        FOR "current_row" IN
+          SELECT *
+          FROM "delegation_chain"("member_id_p", NULL, NULL, "issue_id_p")
+        LOOP
+          IF
+            "result"."own_participation" ISNULL
+          THEN
+            "result"."own_participation" := "current_row"."participation";
+          ELSIF
+            "current_row"."member_valid" AND
+            ( "current_row"."loop" ISNULL OR
+              "current_row"."loop" != 'repetition' )
+          THEN
+            IF "result"."first_trustee_id" ISNULL THEN
+              "result"."first_trustee_id" := "current_row"."member_id";
+              "result"."first_trustee_participation" :=
+                "current_row"."participation" AND
+                NOT "current_row"."overridden";
+              "result"."first_trustee_ellipsis" := FALSE;
+            ELSIF "result"."other_trustee_id" ISNULL THEN
+              IF
+                "current_row"."participation" AND
+                NOT "current_row"."overridden"
+              THEN
+                "result"."other_trustee_id" := "current_row"."member_id";
+                "result"."other_trustee_participation" :=
+                  "current_row"."participation" AND
+                  NOT "current_row"."overridden";
+                "result"."other_trustee_ellipsis" := FALSE;
+              ELSE
+                "result"."first_trustee_ellipsis" := TRUE;
+              END IF;
+            ELSE
+              "result"."other_trustee_ellipsis" := TRUE;
+            END IF;
+          END IF;
+        END LOOP;
+      ELSIF "issue_row"."closed" ISNULL THEN
+        "result"."own_participation" := EXISTS (
+          SELECT NULL FROM "direct_voter"
+          WHERE "issue_id" = "issue_id_p" AND "member_id" = "member_id_p"
+        );
+        SELECT INTO "result"."first_trustee_id" "trustee_id" FROM "issue_delegation"
+          WHERE "issue_id" = "issue_id_p" AND "truster_id" = "member_id_p";
+        IF "result"."first_trustee_id" NOTNULL THEN
+          "result"."first_trustee_participation" := FALSE;
+          "result"."first_trustee_ellipsis" := EXISTS (
+            SELECT NULL FROM "issue_delegation"
+            WHERE "issue_id" = "issue_id_p"
+            AND "truster_id" = "result"."first_trustee_id"
+            AND "trustee_id" NOTNULL
+          );
+        END IF;
+      ELSE
+        SELECT INTO "direct_voter_row" * FROM "direct_voter"
+          WHERE "issue_id" = "issue_id_p" AND "member_id" = "member_id_p";
+        SELECT INTO "delegating_voter_row" * FROM "delegating_voter"
+          WHERE "issue_id" = "issue_id_p" AND "member_id" = "member_id_p";
+        IF "direct_voter_row"."member_id" NOTNULL THEN
+          "result"."own_participation" := TRUE;
+        ELSIF "delegating_voter_row" NOTNULL THEN
+          "result"."own_participation" := FALSE;
+          IF
+            array_upper("delegating_voter_row"."delegate_member_ids", 1) > 2
+          THEN
+            "result"."first_trustee_id" := "delegating_voter_row"."delegate_member_ids"[1];
+            "result"."first_trustee_participation" := FALSE;
+            "result"."first_trustee_ellipsis" := TRUE;
+            "result"."other_trustee_id" := "delegating_voter_row"."delegate_member_ids"[array_upper("delegating_voter_row"."delegate_member_ids", 1)];
+            "result"."other_trustee_participation" := TRUE;
+            "result"."other_trustee_ellipsis" := FALSE;
+          ELSIF
+            array_upper("delegating_voter_row"."delegate_member_ids", 1) = 2
+          THEN
+            "result"."first_trustee_id" := "delegating_voter_row"."delegate_member_ids"[1];
+            "result"."first_trustee_participation" := FALSE;
+            "result"."first_trustee_ellipsis" := FALSE;
+            "result"."other_trustee_id" := "delegating_voter_row"."delegate_member_ids"[2];
+            "result"."other_trustee_participation" := TRUE;
+            "result"."other_trustee_ellipsis" := FALSE;
+          ELSE
+            "result"."first_trustee_id" := "delegating_voter_row"."delegate_member_ids"[1];
+            "result"."first_trustee_participation" := TRUE;
+            "result"."first_trustee_ellipsis" := FALSE;
+          END IF;
+        ELSE
+          "result"."own_participation" := FALSE;
+        END IF;
+      END IF;
+      RETURN "result";
+    END;
+  $$;
+
+
+
+------------------------------
 -- Comparison by vote count --
 ------------------------------
 
