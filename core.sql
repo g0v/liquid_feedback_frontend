@@ -2400,6 +2400,7 @@ CREATE FUNCTION "delegation_chain"
       "scope_v"            "delegation_scope";
       "unit_id_v"          "unit"."id"%TYPE;
       "area_id_v"          "area"."id"%TYPE;
+      "issue_row"          "issue"%ROWTYPE;
       "visited_member_ids" INT4[];  -- "member"."id"%TYPE[]
       "loop_member_id_v"   "member"."id"%TYPE;
       "output_row"         "delegation_chain_row";
@@ -2431,6 +2432,8 @@ CREATE FUNCTION "delegation_chain"
         "issue_id_p" NOTNULL
       THEN
         "scope_v" := 'issue';
+        SELECT INTO "issue_row" * FROM "issue"
+          WHERE "id" = "issue_id_p";
         SELECT "area_id" INTO "area_id_v"
           FROM "issue" WHERE "id" = "issue_id_p";
         SELECT "unit_id" INTO "unit_id_v"
@@ -2455,7 +2458,9 @@ CREATE FUNCTION "delegation_chain"
           "visited_member_ids" :=
             "visited_member_ids" || "output_row"."member_id";
         END IF;
-        IF "output_row"."participation" THEN
+        IF "output_row"."participation" ISNULL THEN
+          "output_row"."overridden" := NULL;
+        ELSIF "output_row"."participation" THEN
           "output_row"."overridden" := TRUE;
         END IF;
         "output_row"."scope_in" := "output_row"."scope_out";
@@ -2484,11 +2489,23 @@ CREATE FUNCTION "delegation_chain"
               )
               ORDER BY "scope" DESC;
           ELSIF "scope_v" = 'issue' THEN
-            "output_row"."participation" := EXISTS (
-              SELECT NULL FROM "interest"
-              WHERE "issue_id" = "issue_id_p"
-              AND "member_id" = "output_row"."member_id"
-            );
+            IF "issue_row"."fully_frozen" ISNULL THEN
+              "output_row"."participation" := EXISTS (
+                SELECT NULL FROM "interest"
+                WHERE "issue_id" = "issue_id_p"
+                AND "member_id" = "output_row"."member_id"
+              );
+            ELSE
+              IF "output_row"."member_id" = "member_id_p" THEN
+                "output_row"."participation" := EXISTS (
+                  SELECT NULL FROM "direct_voter"
+                  WHERE "issue_id" = "issue_id_p"
+                  AND "member_id" = "output_row"."member_id"
+                );
+              ELSE
+                "output_row"."participation" := NULL;
+              END IF;
+            END IF;
             SELECT * INTO "delegation_row" FROM "delegation"
               WHERE "truster_id" = "output_row"."member_id"
               AND (
