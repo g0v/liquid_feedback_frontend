@@ -2355,9 +2355,9 @@ COMMENT ON VIEW "timeline" IS 'Aggregation of different events in the system (DE
 
 
 
---------------------------------------------------
--- Set returning function for delegation chains --
---------------------------------------------------
+------------------------------------------------------
+-- Row set returning function for delegation chains --
+------------------------------------------------------
 
 
 CREATE TYPE "delegation_chain_loop_tag" AS ENUM
@@ -2388,12 +2388,59 @@ COMMENT ON COLUMN "delegation_chain_row"."disabled_out"  IS 'Outgoing delegation
 COMMENT ON COLUMN "delegation_chain_row"."loop"          IS 'Not null, if member is part of a loop, see "delegation_chain_loop_tag" type';
 
 
+CREATE FUNCTION "delegation_chain_for_closed_issue"
+  ( "member_id_p"           "member"."id"%TYPE,
+    "issue_id_p"            "issue"."id"%TYPE )
+  RETURNS SETOF "delegation_chain_row"
+  LANGUAGE 'plpgsql' STABLE AS $$
+    DECLARE
+      "output_row"           "delegation_chain_row";
+      "direct_voter_row"     "direct_voter"%ROWTYPE;
+      "delegating_voter_row" "delegating_voter"%ROWTYPE;
+    BEGIN
+      "output_row"."index"         := 0;
+      "output_row"."member_id"     := "member_id_p";
+      "output_row"."member_valid"  := TRUE;
+      "output_row"."participation" := FALSE;
+      "output_row"."overridden"    := FALSE;
+      "output_row"."disabled_out"  := FALSE;
+      LOOP
+        SELECT INTO "direct_voter_row" * FROM "direct_voter"
+          WHERE "issue_id" = "issue_id_p"
+          AND "member_id" = "output_row"."member_id";
+        IF "direct_voter_row"."member_id" NOTNULL THEN
+          "output_row"."participation" := TRUE;
+          "output_row"."scope_out"     := NULL;
+          "output_row"."disabled_out"  := NULL;
+          RETURN NEXT "output_row";
+          RETURN;
+        END IF;
+        SELECT INTO "delegating_voter_row" * FROM "delegating_voter"
+          WHERE "issue_id" = "issue_id_p"
+          AND "member_id" = "output_row"."member_id";
+        IF "delegating_voter_row"."member_id" ISNULL THEN
+          RETURN;
+        END IF;
+        "output_row"."scope_out" := "delegating_voter_row"."scope";
+        RETURN NEXT "output_row";
+        "output_row"."member_id" := "delegating_voter_row"."delegate_member_ids"[1];
+        "output_row"."scope_in"  := "output_row"."scope_out";
+      END LOOP;
+    END;
+  $$;
+
+COMMENT ON FUNCTION "delegation_chain_for_closed_issue"
+  ( "member"."id"%TYPE,
+    "member"."id"%TYPE )
+  IS 'Helper function for "delegation_chain" function, handling the special case of closed issues after voting';
+
+
 CREATE FUNCTION "delegation_chain"
   ( "member_id_p"           "member"."id"%TYPE,
     "unit_id_p"             "unit"."id"%TYPE,
     "area_id_p"             "area"."id"%TYPE,
     "issue_id_p"            "issue"."id"%TYPE,
-    "simulate_trustee_id_p" "member"."id"%TYPE )
+    "simulate_trustee_id_p" "member"."id"%TYPE DEFAULT NULL )
   RETURNS SETOF "delegation_chain_row"
   LANGUAGE 'plpgsql' STABLE AS $$
     DECLARE
@@ -2431,9 +2478,23 @@ CREATE FUNCTION "delegation_chain"
         "area_id_p" ISNULL AND
         "issue_id_p" NOTNULL
       THEN
+        SELECT INTO "issue_row" * FROM "issue" WHERE "id" = "issue_id_p";
+        IF "issue_row"."id" ISNULL THEN
+          RETURN;
+        END IF;
+        IF "issue_row"."closed" NOTNULL THEN
+          IF "simulate_trustee_id_p" NOTNULL THEN
+            RAISE EXCEPTION 'Tried to simulate delegation chain for closed issue.';
+          END IF;
+          FOR "output_row" IN
+            SELECT * FROM
+            "delegation_chain_for_closed_issue"("member_id_p", "issue_id_p")
+          LOOP
+            RETURN NEXT "output_row";
+          END LOOP;
+          RETURN;
+        END IF;
         "scope_v" := 'issue';
-        SELECT INTO "issue_row" * FROM "issue"
-          WHERE "id" = "issue_id_p";
         SELECT "area_id" INTO "area_id_v"
           FROM "issue" WHERE "id" = "issue_id_p";
         SELECT "unit_id" INTO "unit_id_v"
@@ -2579,159 +2640,88 @@ COMMENT ON FUNCTION "delegation_chain"
     "area"."id"%TYPE,
     "issue"."id"%TYPE,
     "member"."id"%TYPE )
-  IS 'Helper function for frontends to display delegation chains; Not part of internal voting logic';
-
-
-CREATE FUNCTION "delegation_chain"
-  ( "member_id_p" "member"."id"%TYPE,
-    "unit_id_p"   "unit"."id"%TYPE,
-    "area_id_p"   "area"."id"%TYPE,
-    "issue_id_p"  "issue"."id"%TYPE )
-  RETURNS SETOF "delegation_chain_row"
-  LANGUAGE 'plpgsql' STABLE AS $$
-    DECLARE
-      "result_row" "delegation_chain_row";
-    BEGIN
-      FOR "result_row" IN
-        SELECT * FROM "delegation_chain"(
-          "member_id_p", "unit_id_p", "area_id_p", "issue_id_p", NULL
-        )
-      LOOP
-        RETURN NEXT "result_row";
-      END LOOP;
-      RETURN;
-    END;
-  $$;
-
-COMMENT ON FUNCTION "delegation_chain"
-  ( "member"."id"%TYPE,
-    "unit"."id"%TYPE,
-    "area"."id"%TYPE,
-    "issue"."id"%TYPE )
-  IS 'Shortcut for "delegation_chain"(...) function where 4th parameter is null';
+  IS 'Shows a delegation chain for unit, area, or issue; See "delegation_chain_row" type for more information';
 
 
 
-------------------------------
--- Delegation info function --
-------------------------------
+---------------------------------------------------------
+-- Single row returning function for delegation chains --
+---------------------------------------------------------
 
+
+CREATE TYPE "delegation_info_loop_type" AS ENUM
+  ('own', 'first', 'first_ellipsis', 'other', 'other_ellipsis');
 
 CREATE TYPE "delegation_info_type" AS (
-        "own_participation"     BOOLEAN,
-        "first_trustee_id"      INT4,
+        "own_participation"           BOOLEAN,
+        "own_delegation_scope"        "delegation_scope",
+        "first_trustee_id"            INT4,
         "first_trustee_participation" BOOLEAN,
-        "first_trustee_ellipsis" BOOLEAN,
-        "other_trustee_id"      INT4,
+        "first_trustee_ellipsis"      BOOLEAN,
+        "other_trustee_id"            INT4,
         "other_trustee_participation" BOOLEAN,
-        "other_trustee_ellipsis" BOOLEAN );
+        "other_trustee_ellipsis"      BOOLEAN,
+        "delegation_loop"             "delegation_info_loop_type");
 
 CREATE FUNCTION "delegation_info"
-  ( "member_id_p" "member"."id"%TYPE,
-    "issue_id_p" "issue"."id"%TYPE )
+  ( "member_id_p"           "member"."id"%TYPE,
+    "unit_id_p"             "unit"."id"%TYPE,
+    "area_id_p"             "area"."id"%TYPE,
+    "issue_id_p"            "issue"."id"%TYPE,
+    "simulate_trustee_id_p" "member"."id"%TYPE DEFAULT NULL )
   RETURNS "delegation_info_type"
   LANGUAGE 'plpgsql' STABLE AS $$
     DECLARE
-      "issue_row"            "issue"%ROWTYPE;
-      "current_row"          "delegation_chain_row";
-      "direct_voter_row"     "direct_voter"%ROWTYPE;
-      "delegating_voter_row" "delegating_voter"%ROWTYPE;
-      "result"               "delegation_info_type";
+      "current_row" "delegation_chain_row";
+      "result"      "delegation_info_type";
     BEGIN
-      SELECT INTO "issue_row" * FROM "issue" WHERE "id" = "issue_id_p";
-      IF
-        "issue_row"."fully_frozen" ISNULL AND
-        "issue_row"."closed" ISNULL
-      THEN
-        FOR "current_row" IN
-          SELECT *
-          FROM "delegation_chain"("member_id_p", NULL, NULL, "issue_id_p")
-        LOOP
-          IF
-            "result"."own_participation" ISNULL
-          THEN
-            "result"."own_participation" := "current_row"."participation";
-          ELSIF
-            "current_row"."member_valid" AND
-            ( "current_row"."loop" ISNULL OR
-              "current_row"."loop" != 'repetition' )
-          THEN
-            IF "result"."first_trustee_id" ISNULL THEN
-              "result"."first_trustee_id" := "current_row"."member_id";
-              "result"."first_trustee_participation" :=
-                "current_row"."participation" AND
-                NOT "current_row"."overridden";
-              "result"."first_trustee_ellipsis" := FALSE;
-            ELSIF "result"."other_trustee_id" ISNULL THEN
-              IF
-                "current_row"."participation" AND
-                NOT "current_row"."overridden"
-              THEN
-                "result"."other_trustee_id" := "current_row"."member_id";
-                "result"."other_trustee_participation" :=
-                  "current_row"."participation" AND
-                  NOT "current_row"."overridden";
-                "result"."other_trustee_ellipsis" := FALSE;
-              ELSE
-                "result"."first_trustee_ellipsis" := TRUE;
+      "result"."own_participation" := FALSE;
+      FOR "current_row" IN
+        SELECT * FROM "delegation_chain"(
+          "member_id_p",
+          "unit_id_p", "area_id_p", "issue_id_p",
+          "simulate_trustee_id_p")
+      LOOP
+        IF "current_row"."member_id" = "member_id_p" THEN
+          "result"."own_participation"    := "current_row"."participation";
+          "result"."own_delegation_scope" := "current_row"."scope_out";
+          IF "current_row"."loop" = 'first' THEN
+            "result"."delegation_loop" := 'own';
+          END IF;
+        ELSIF
+          "current_row"."member_valid" AND
+          ( "current_row"."loop" ISNULL OR
+            "current_row"."loop" != 'repetition' )
+        THEN
+          IF "result"."first_trustee_id" ISNULL THEN
+            "result"."first_trustee_id"            := "current_row"."member_id";
+            "result"."first_trustee_participation" := "current_row"."participation";
+            "result"."first_trustee_ellipsis"      := FALSE;
+            IF "current_row"."loop" = 'first' THEN
+              "result"."delegation_loop" := 'first';
+            END IF;
+          ELSIF "result"."other_trustee_id" ISNULL THEN
+            IF "current_row"."participation" THEN
+              "result"."other_trustee_id"            := "current_row"."member_id";
+              "result"."other_trustee_participation" := TRUE;
+              "result"."other_trustee_ellipsis"      := FALSE;
+              IF "current_row"."loop" = 'first' THEN
+                "result"."delegation_loop" := 'other';
               END IF;
             ELSE
-              "result"."other_trustee_ellipsis" := TRUE;
+              "result"."first_trustee_ellipsis" := TRUE;
+              IF "current_row"."loop" = 'first' THEN
+                "result"."delegation_loop" := 'first_ellipsis';
+              END IF;
+            END IF;
+          ELSE
+            "result"."other_trustee_ellipsis" := TRUE;
+            IF "current_row"."loop" = 'first' THEN
+              "result"."delegation_loop" := 'other_ellipsis';
             END IF;
           END IF;
-        END LOOP;
-      ELSIF "issue_row"."closed" ISNULL THEN
-        "result"."own_participation" := EXISTS (
-          SELECT NULL FROM "direct_voter"
-          WHERE "issue_id" = "issue_id_p" AND "member_id" = "member_id_p"
-        );
-        SELECT INTO "result"."first_trustee_id" "trustee_id" FROM "issue_delegation"
-          WHERE "issue_id" = "issue_id_p" AND "truster_id" = "member_id_p";
-        IF "result"."first_trustee_id" NOTNULL THEN
-          "result"."first_trustee_participation" := FALSE;
-          "result"."first_trustee_ellipsis" := EXISTS (
-            SELECT NULL FROM "issue_delegation"
-            WHERE "issue_id" = "issue_id_p"
-            AND "truster_id" = "result"."first_trustee_id"
-            AND "trustee_id" NOTNULL
-          );
         END IF;
-      ELSE
-        SELECT INTO "direct_voter_row" * FROM "direct_voter"
-          WHERE "issue_id" = "issue_id_p" AND "member_id" = "member_id_p";
-        SELECT INTO "delegating_voter_row" * FROM "delegating_voter"
-          WHERE "issue_id" = "issue_id_p" AND "member_id" = "member_id_p";
-        IF "direct_voter_row"."member_id" NOTNULL THEN
-          "result"."own_participation" := TRUE;
-        ELSIF "delegating_voter_row" NOTNULL THEN
-          "result"."own_participation" := FALSE;
-          IF
-            array_upper("delegating_voter_row"."delegate_member_ids", 1) > 2
-          THEN
-            "result"."first_trustee_id" := "delegating_voter_row"."delegate_member_ids"[1];
-            "result"."first_trustee_participation" := FALSE;
-            "result"."first_trustee_ellipsis" := TRUE;
-            "result"."other_trustee_id" := "delegating_voter_row"."delegate_member_ids"[array_upper("delegating_voter_row"."delegate_member_ids", 1)];
-            "result"."other_trustee_participation" := TRUE;
-            "result"."other_trustee_ellipsis" := FALSE;
-          ELSIF
-            array_upper("delegating_voter_row"."delegate_member_ids", 1) = 2
-          THEN
-            "result"."first_trustee_id" := "delegating_voter_row"."delegate_member_ids"[1];
-            "result"."first_trustee_participation" := FALSE;
-            "result"."first_trustee_ellipsis" := FALSE;
-            "result"."other_trustee_id" := "delegating_voter_row"."delegate_member_ids"[2];
-            "result"."other_trustee_participation" := TRUE;
-            "result"."other_trustee_ellipsis" := FALSE;
-          ELSE
-            "result"."first_trustee_id" := "delegating_voter_row"."delegate_member_ids"[1];
-            "result"."first_trustee_participation" := TRUE;
-            "result"."first_trustee_ellipsis" := FALSE;
-          END IF;
-        ELSE
-          "result"."own_participation" := FALSE;
-        END IF;
-      END IF;
+      END LOOP;
       RETURN "result";
     END;
   $$;
