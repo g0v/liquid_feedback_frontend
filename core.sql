@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('2.0.8', 2, 0, 8))
+  SELECT * FROM (VALUES ('2.0.9', 2, 0, 9))
   AS "subquery"("string", "major", "minor", "revision");
 
 
