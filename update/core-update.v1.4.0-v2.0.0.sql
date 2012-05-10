@@ -14,6 +14,9 @@ ALTER TABLE "member" DROP COLUMN "last_login_public";
 ALTER TABLE "member" ALTER COLUMN "active" SET DEFAULT FALSE;
 ALTER TABLE "member" ADD COLUMN "formatting_engine" TEXT;
 
+-- Backported fix of future version to include unused invite codes in member table:
+ALTER TABLE "member" ALTER COLUMN "name" DROP NOT NULL;
+
 COMMENT ON COLUMN "member"."created"           IS 'Creation of member record and/or invite code';
 COMMENT ON COLUMN "member"."invite_code"       IS 'Optional invite code, to allow a member to initialize his/her account the first time';
 COMMENT ON COLUMN "member"."admin_comment"     IS 'Hidden comment for administrative purposes';
