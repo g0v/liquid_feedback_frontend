@@ -1252,6 +1252,14 @@ UPDATE "member" SET
   FROM "invite_code"
   WHERE "member"."id" = "invite_code"."member_id";
 
+INSERT INTO "member" ("created", "invite_code", "admin_comment")
+  SELECT "created", "code", "comment"
+  FROM "invite_code" WHERE "member_id" ISNULL;
+
+INSERT INTO "privilege" ("unit_id", "member_id", "voting_right")
+  SELECT 1 AS "unit_id", "id" AS "member_id", TRUE AS "voting_right"
+  FROM "member" WHERE "activated" ISNULL;
+
 DROP TABLE "invite_code";
 
 UPDATE "initiative" SET
