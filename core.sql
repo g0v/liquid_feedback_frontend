@@ -2377,7 +2377,7 @@ CREATE TYPE "delegation_chain_row" AS (
         "disabled_out"          BOOLEAN,
         "loop"                  "delegation_chain_loop_tag" );
 
-COMMENT ON TYPE "delegation_chain_row" IS 'Type of rows returned by "delegation_chain"(...) functions';
+COMMENT ON TYPE "delegation_chain_row" IS 'Type of rows returned by "delegation_chain" function';
 
 COMMENT ON COLUMN "delegation_chain_row"."index"         IS 'Index starting with 0 and counting up';
 COMMENT ON COLUMN "delegation_chain_row"."participation" IS 'In case of delegation chains for issues: interest, for areas: membership, for global delegation chains: always null';
@@ -2652,6 +2652,9 @@ COMMENT ON FUNCTION "delegation_chain"
 CREATE TYPE "delegation_info_loop_type" AS ENUM
   ('own', 'first', 'first_ellipsis', 'other', 'other_ellipsis');
 
+COMMENT ON TYPE "delegation_info_loop_type" IS 'Type of "delegation_loop" in "delegation_info_type"; ''own'' means loop to self, ''first'' means loop to first trustee, ''first_ellipsis'' means loop to ellipsis after first trustee, ''other'' means loop to other trustee, ''other_ellipsis'' means loop to ellipsis after other trustee''';
+
+
 CREATE TYPE "delegation_info_type" AS (
         "own_participation"           BOOLEAN,
         "own_delegation_scope"        "delegation_scope",
@@ -2662,6 +2665,19 @@ CREATE TYPE "delegation_info_type" AS (
         "other_trustee_participation" BOOLEAN,
         "other_trustee_ellipsis"      BOOLEAN,
         "delegation_loop"             "delegation_info_loop_type");
+
+COMMENT ON TYPE "delegation_info_type" IS 'Type of result returned by "delegation_info" function; For meaning of "participation" check comment on "delegation_chain_row" type';
+
+COMMENT ON COLUMN "delegation_info_type"."own_participation"           IS 'Member is directly participating';
+COMMENT ON COLUMN "delegation_info_type"."own_delegation_scope"        IS 'Delegation scope of member';
+COMMENT ON COLUMN "delegation_info_type"."first_trustee_id"            IS 'Direct trustee of member';
+COMMENT ON COLUMN "delegation_info_type"."first_trustee_participation" IS 'Direct trustee of member is participating';
+COMMENT ON COLUMN "delegation_info_type"."first_trustee_ellipsis"      IS 'Ellipsis in delegation chain after "first_trustee"';
+COMMENT ON COLUMN "delegation_info_type"."other_trustee_id"            IS 'Another relevant trustee (due to participation)';
+COMMENT ON COLUMN "delegation_info_type"."other_trustee_participation" IS 'Another trustee is participating (redundant field: if "other_trustee_id" is set, then "other_trustee_participation" is always TRUE, else "other_trustee_participation" is NULL)';
+COMMENT ON COLUMN "delegation_info_type"."other_trustee_ellipsis"      IS 'Ellipsis in delegation chain after "other_trustee"';
+COMMENT ON COLUMN "delegation_info_type"."delegation_loop"             IS 'Non-NULL value, if delegation chain contains a circle; See comment on "delegation_info_loop_type" for details';
+
 
 CREATE FUNCTION "delegation_info"
   ( "member_id_p"           "member"."id"%TYPE,
@@ -2725,6 +2741,14 @@ CREATE FUNCTION "delegation_info"
       RETURN "result";
     END;
   $$;
+
+COMMENT ON FUNCTION "delegation_info"
+  ( "member"."id"%TYPE,
+    "unit"."id"%TYPE,
+    "area"."id"%TYPE,
+    "issue"."id"%TYPE,
+    "member"."id"%TYPE )
+  IS 'Notable information about a delegation chain for unit, area, or issue; See "delegation_info_type" for more information';
 
 
 
