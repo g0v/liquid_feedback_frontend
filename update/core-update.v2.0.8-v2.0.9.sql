@@ -338,7 +338,7 @@ CREATE FUNCTION "delegation_info"
               "result"."delegation_loop" := 'first';
             END IF;
           ELSIF "result"."other_trustee_id" ISNULL THEN
-            IF "current_row"."participation" THEN
+            IF "current_row"."participation" AND NOT "current_row"."overridden" THEN
               "result"."other_trustee_id"            := "current_row"."member_id";
               "result"."other_trustee_participation" := TRUE;
               "result"."other_trustee_ellipsis"      := FALSE;
