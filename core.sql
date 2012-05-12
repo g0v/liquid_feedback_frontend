@@ -1888,7 +1888,7 @@ COMMENT ON VIEW "member_count_view" IS 'View used to update "member_count" table
 CREATE VIEW "unit_member_count" AS
   SELECT
     "unit"."id" AS "unit_id",
-    sum("member"."id") AS "member_count"
+    count("member"."id") AS "member_count"
   FROM "unit"
   LEFT JOIN "privilege"
   ON "privilege"."unit_id" = "unit"."id" 

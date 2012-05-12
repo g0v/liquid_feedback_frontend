@@ -4,6 +4,19 @@ CREATE OR REPLACE VIEW "liquid_feedback_version" AS
   SELECT * FROM (VALUES ('2.0.9', 2, 0, 9))
   AS "subquery"("string", "major", "minor", "revision");
 
+CREATE OR REPLACE VIEW "unit_member_count" AS
+  SELECT
+    "unit"."id" AS "unit_id",
+    count("member"."id") AS "member_count"
+  FROM "unit"
+  LEFT JOIN "privilege"
+  ON "privilege"."unit_id" = "unit"."id" 
+  AND "privilege"."voting_right"
+  LEFT JOIN "member"
+  ON "member"."id" = "privilege"."member_id"
+  AND "member"."active"
+  GROUP BY "unit"."id";
+
 COMMENT ON TYPE "delegation_chain_row" IS 'Type of rows returned by "delegation_chain" function';
 
 CREATE FUNCTION "delegation_chain_for_closed_issue"
