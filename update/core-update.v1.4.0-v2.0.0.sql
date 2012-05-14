@@ -165,6 +165,8 @@ COMMENT ON COLUMN "initiative"."rank"                    IS 'Unique ranking for 
 
 ALTER TABLE "battle" DROP CONSTRAINT "battle_pkey";
 ALTER TABLE "battle" ALTER COLUMN "issue_id" SET NOT NULL;
+ALTER TABLE "battle" ALTER COLUMN "winning_initiative_id" DROP NOT NULL;
+ALTER TABLE "battle" ALTER COLUMN "losing_initiative_id" DROP NOT NULL;
 ALTER TABLE "battle" ADD CONSTRAINT "initiative_ids_not_equal" CHECK (
   "winning_initiative_id" != "losing_initiative_id" OR
   ( ("winning_initiative_id" NOTNULL AND "losing_initiative_id" ISNULL) OR

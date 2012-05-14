@@ -4,6 +4,10 @@ CREATE OR REPLACE VIEW "liquid_feedback_version" AS
   SELECT * FROM (VALUES ('2.0.9', 2, 0, 9))
   AS "subquery"("string", "major", "minor", "revision");
 
+-- Bugfix of error in update script to v2.0.0:
+ALTER TABLE "battle" ALTER COLUMN "winning_initiative_id" DROP NOT NULL;
+ALTER TABLE "battle" ALTER COLUMN "losing_initiative_id" DROP NOT NULL;
+
 CREATE OR REPLACE VIEW "unit_member_count" AS
   SELECT
     "unit"."id" AS "unit_id",
