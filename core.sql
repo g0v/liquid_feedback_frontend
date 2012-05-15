@@ -3921,7 +3921,8 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           "multistage_majority"    = "rank_ary"["i"] >= "rank_ary"["dimension_v"],
           "reverse_beat_path"      = "matrix"["dimension_v"]["i"] >= 0,
           "eligible"               = FALSE,
-          "winner"                 = FALSE
+          "winner"                 = FALSE,
+          "rank"                   = NULL  -- NOTE: in cases of manual reset of issue state
           WHERE "id" = "initiative_id_v";
         "i" := "i" + 1;
       END LOOP;
