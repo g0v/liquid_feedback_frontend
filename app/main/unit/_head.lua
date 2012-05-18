@@ -21,12 +21,8 @@ ui.container{ attr = { class = "unit_head" }, content = function()
   ui.container{ attr = { class = "content" }, content = function()
 
     if app.session.member_id and app.session.member:has_voting_right_for_unit_id(unit.id) then
-      ui.tag{ content = _"You have voting privileges" }
-      slot.put(" &middot; ")
+      ui.tag{ content = _"You have voting privileges for this unit" }
     end
-  
-    ui.tag{ content = "1234 Stimmberechtigte" }
-      
   end }
   
 end }

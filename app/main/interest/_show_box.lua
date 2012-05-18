@@ -17,7 +17,15 @@ if interest then
       module  = "interest",
       action  = "update",
       params  = { issue_id = issue.id, delete = true },
-      routing = { default = { mode = "redirect", module = initiative and "initiative" or "issue", view = "show", id = initiative and initiative.id or issue.id } }
+      routing = {
+        default = {
+          mode = "redirect",
+          module = request.get_module(),
+          view = request.get_view(),
+          id = param.get_id_cgi(),
+          params = param.get_all_cgi()
+        }
+      }
     }
     slot.put(") ")
   end
@@ -28,7 +36,15 @@ elseif app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
       module  = "interest",
       action  = "update",
       params  = { issue_id = issue.id },
-      routing = { default = { mode = "redirect", module = initiative and "initiative" or "issue", view = "show", id = initiative and initiative.id or issue.id } }
+      routing = {
+        default = {
+          mode = "redirect",
+          module = request.get_module(),
+          view = request.get_view(),
+          id = param.get_id_cgi(),
+          params = param.get_all_cgi()
+        }
+      }
     }
     slot.put(" ")
   end

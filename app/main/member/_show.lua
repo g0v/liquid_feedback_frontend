@@ -145,7 +145,7 @@ tabs[#tabs+1] = {
 if show_as_homepage then
   tabs[#tabs+1] = {
     name = "timeline",
-    label = _"Events",
+    label = _"Latest events",
     module = "member",
     view = "_event_list",
     params = { }

@@ -61,7 +61,7 @@ tabs[#tabs+1] = {
 
 tabs[#tabs+1] = {
   name = "timeline",
-  label = _"Events",
+  label = _"Latest events",
   module = "event",
   view = "_list",
   params = { for_unit = unit }

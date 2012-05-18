@@ -24,7 +24,7 @@ ui.container{ attr = { class = "area_head" }, content = function()
 
       if membership then
         
-        ui.tag{ content = _"You are member" }
+        ui.tag{ content = _"You are participating in this area" }
         
         slot.put(" ")
         
@@ -35,7 +35,15 @@ ui.container{ attr = { class = "area_head" }, content = function()
             module  = "membership",
             action  = "update",
             params  = { area_id = area.id, delete = true },
-            routing = { default = { mode = "redirect", module = "area", view = "show", id = area.id } }
+            routing = {
+              default = {
+                mode = "redirect",
+                module = request.get_module(),
+                view = request.get_view(),
+                id = param.get_id_cgi(),
+                params = param.get_all_cgi()
+              }
+            }
           }
           slot.put(")")
         end }
@@ -44,16 +52,17 @@ ui.container{ attr = { class = "area_head" }, content = function()
 
       elseif app.session.member:has_voting_right_for_unit_id(area.unit_id) then
         ui.link{
-          text   = _"Become a member",
+          text   = _"Participate in this area",
           module = "membership",
           action = "update",
           params = { area_id = area.id },
           routing = {
             default = {
               mode = "redirect",
-              module = "area",
-              view = "show",
-              id = area.id
+              module = request.get_module(),
+              view = request.get_view(),
+              id = param.get_id_cgi(),
+              params = param.get_all_cgi()
             }
           }
         }

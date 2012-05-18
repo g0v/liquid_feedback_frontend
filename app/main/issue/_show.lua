@@ -24,13 +24,6 @@ ui.container{ attr = { class = class }, content = function()
 
   execute.view{ module = "delegation", view = "_info", params = { issue = issue } }
 
-  if for_listing then
-    ui.container{ attr = { class = "context" }, content = function()
-      ui.tag{ content = issue.area.unit.name }
-      slot.put(" &middot; ")
-      ui.tag{ content = issue.area.name }
-    end }
-  end
   ui.container{ attr = { class = "title" }, content = function()
     
     ui.link{
@@ -43,6 +36,13 @@ ui.container{ attr = { class = class }, content = function()
       view = "show",
       id = issue.id
     }
+    if for_listing then
+      ui.tag{ attr = { class = "extra" }, content = function()
+        ui.tag{ content = issue.area.unit.name }
+        slot.put(" &middot; ")
+        ui.tag{ content = issue.area.name }
+      end }
+    end
   end }
   
   ui.tag{

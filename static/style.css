@@ -282,7 +282,7 @@ form.unit_selector {
 
 .page_head {
   background-color: #fff;
-  margin: 0px 10px 0 10px;
+  margin: 0px 10px 2ex 10px;
   border: 1px solid #aaa;
   border-radius: 0 0 8px 8px;
   box-shadow: #777 0px 5px 5px -5px;
@@ -291,7 +291,7 @@ form.unit_selector {
 
 .page_head .area_head,
 .page_head .issue {
-  border-top: 1px solid #000;
+  xborder-top: 1px solid #000;
 }
 
 .page_head .unit_head .title,
@@ -299,18 +299,23 @@ form.unit_selector {
 .issue .context,
 .issue .title,
 .initiative_head .title {
-  margin: 8px;
+  padding: 8px 16px 2px 16px;
 }
 
 .page_head .unit_head .content,
 .page_head .area_head .content,
 .issue .content,
 .initiative_head .content {
-  margin: 0px 8px 8px 8px;
+  padding: 2px 16px 8px 16px;
+}
+
+.page_head .initiative_list,
+.issue .initiative_list {
+  padding-left: 8px;
 }
 
 .issue .content.actions {
-  margin-bottom: 2.5ex;
+  margin-bottom: 1ex;
 }
 
 
@@ -330,9 +335,30 @@ form.unit_selector {
   font-size: 75%;
 }
 
+.page_head .unit_head .content,
+.page_head .area_head .content,
+.page_head .area_head .content a,
+.page_head .issue .content.actions,
+.page_head .issue .content.actions a,
+.issues .issue .content.actions,
+.issues .issue .content.actions a {
+  color: #777;
+}
 
-.initiative_head {
-  margin-top: 10px;
+.page_head .unit_head .title,
+.page_head .area_head .title,
+.issue .title {
+  background-color: #eee;
+  background-image: linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
+  background-image: -o-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
+  background-image: -moz-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
+  background-image: -webkit-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
+  background-image: -ms-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
+}
+
+.page_head .area_head .title,
+.page_head .issue .title {
+  border-top: 1px solid #ddd;
 }
 
 
@@ -649,49 +675,6 @@ form.unit_selector {
 }
 
 
-
-/*************************************************************************
- * Tables
- */
-
-
-table a.action {
-  font-size: 70%;
-  line-height: 190%;
-  padding: 0.5ex;
-  color: #777;
-}
-
-table a.active {
-  color: #fff; 
-}
-
-th {
-  text-align: left;
-}
-
-tr:hover td {
-  background-color: #f2f2f2;
-}
-
-.nohover tr:hover td {
-  background-color: #fff;
-}
-
-.initiatives_list .nohover tr:hover td {
-  background-color: #f2f2f2;
-}
-
-.nohover table tr:hover td {
-  background-color: #f2f2f2;
-}
-
-
-tr table tr:hover td {
-  background-color: #fff;
-}
-
-
 /*************************************************************************
  * Positive / Negtive votes
  */
@@ -876,7 +859,6 @@ tr table tr:hover td {
 
 .issues .issue {
   margin-top: 10px;
-  background-color: #fcfcfc;
   overflow: hidden;
   border: 1px solid #aaa;
   border-radius: 8px;
@@ -891,16 +873,6 @@ tr table tr:hover td {
   padding: 1ex 1ex 0.3ex 1ex;
   line-height: 140%;
   margin-bottom: 1ex;
-}
-
-.issue.interested .issue_info,
-.issue.interested_by_delegation .issue_info  {
-  background-color: #dfeaff;
-  background-image: linear-gradient(top, #dfeaff 0%, #fcfcfc 66%);
-  background-image: -o-linear-gradient(top, #dfeaff 0%, #fcfcfc 66%);
-  background-image: -moz-linear-gradient(top, #dfeaff 0%, #fcfcfc 66%);
-  background-image: -webkit-linear-gradient(top, #dfeaff 50%, #fcfcfc 100%);
-  background-image: -ms-linear-gradient(top, #dfeaff 0%, #fcfcfc 66%);
 }
 
 .event_list .event .issue_id,
@@ -1049,14 +1021,6 @@ x.initiative_link.potentially_supported {
   padding: 2px;
 }
 
-.xmember_thumb a {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 0;
-  margin: 0;
-}
-
 .member_thumb a:hover div {
   background-color: #444;
   color: #fff;
@@ -1109,8 +1073,12 @@ x.initiative_link.potentially_supported {
   opacity: 0.4;
 }
 
+.member_thumb {
+  border: 2px solid #fff;
+}
+
 .member_thumb.in_delegation_chain {
-  background-color: #cdf;
+  border: 2px solid #fa0;
 }
 
 .member_statement,
@@ -1437,7 +1405,8 @@ div.timeline_results {
   padding: 0;
 }
 
-.slot_initiatives_list,
+.initiative_head,
+.issues .issue,
 .ui_tabs_links a,
 .draft_content,
 .help,
