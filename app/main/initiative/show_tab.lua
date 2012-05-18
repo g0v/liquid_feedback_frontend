@@ -52,10 +52,12 @@ tabs[#tabs+1] = {
   name = "suggestions",
   label = _"Suggestions" .. " (" .. tostring(suggestion_count) .. ")",
   icon = { static = "icons/16/comments.png" },
-  module = "initiative",
-  view = "_suggestions",
+  module = "suggestion",
+  view = "_list",
   params = {
-    initiative = initiative
+    initiative = initiative,
+    suggestions_selector = initiative:get_reference_selector("suggestions"),
+    tab_id = param.get("tab_id")
   }
 }
 

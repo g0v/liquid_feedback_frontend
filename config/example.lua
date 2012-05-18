@@ -4,6 +4,8 @@ request.set_absolute_baseurl(request.get_relative_baseurl())
 config.app_name = "LiquidFeedback"
 config.app_version = "2.beta1"
 
+config.instance_name = request.get_config_name()
+
 config.app_title = config.app_name .. " (" .. request.get_config_name() .. " environment)"
 
 config.app_logo = nil

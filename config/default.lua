@@ -1,7 +1,20 @@
+-- forward compatibility for webmcp 1.2
+if not os.pfilter then
+  os.pfilter = extos.pfilter
+end
+if not os.listdir then
+  os.listdir = extos.listdir
+end
+if not os.crypt then
+  os.crypt = extos.crypt
+end
+
 config.app_name = "LiquidFeedback"
 config.app_version = "2.beta4"
 
-config.app_title = config.app_name .. " (" .. request.get_config_name() .. " environment)"
+config.instance_name = request.get_config_name()
+
+config.app_title = config.app_name .. " " .. config.instance_name
 
 config.app_logo = nil
 
@@ -75,13 +88,13 @@ request.set_404_route{ module = 'index', view = '404' }
 -- functions and to disable garbage collection during the request, to
 -- increase speed:
 --
--- require 'webmcp_accelerator'
--- collectgarbage("stop")
+require 'webmcp_accelerator'
+collectgarbage("stop")
 
 -- open and set default database handle
 db = assert(mondelefant.connect{
   engine='postgresql',
-  dbname='liquid_feedback_p'
+  dbname='liquid_feedback'
 })
 at_exit(function() 
   db:close()

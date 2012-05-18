@@ -179,6 +179,7 @@ h2 {
   font-weight: bold;
 }
 
+.topbar .instance_name,
 .topbar a {
   color: #eee;
   line-height: 30px;
@@ -194,12 +195,13 @@ h2 {
   line-height: 200%;
 }
 
-.navigation img {
+.topbar img {
   margin-right: 0.5em;
   vertical-align: middle;
 }
 
-.navigation a {
+.topbar a,
+.topbar .member_menu span {
   padding: 0 0.5em;
   float: left;
   display: block;
@@ -210,78 +212,158 @@ form.unit_selector {
   display: inline;
 }
 
-.topbar .member_info {
+.topbar .navigation_right {
   float: right;
   padding-right: 1%;
 }
+
+.member_menu {
+  float: right;
+}
+
+#member_menu {
+  position: absolute;
+  right: 20px;
+  top: 19px;
+}
+
+#member_menu {
+  display: none;
+}
+
+.member_menu:hover #member_menu {
+  display: block;
+}
+
+#member_menu ul {
+  list-style: none;
+}
+
+#member_menu li span {
+  background-color: #333;
+  line-height: 200%;
+  display: block;
+  width: 15em;
+  color: #fff;
+}
+
+  
+
+#member_menu li a {
+  background-color: #333;
+  line-height: 200%;
+  display: block;
+  width: 15em;
+}
+
+#member_menu a:hover {
+  background-color: #eee;
+  color: #000;
+}
+
 
 /*************************************************************************
  * Title of current page including path and actions
  */
 
-.title,
-.title2,
-.actions {
-  background-color: #f2f2f2;
-  margin-left: 1%;
-  margin-right: 1%;
-  border-left: 1px solid #bbb;
-  border-right: 1px solid #bbb;
-}
-
-.actions {
-  border-bottom: 1px solid #bbb;
-}
-
-.initiative_head .actions {
-  border: none;
-  box-shadow: none;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
-}
-
-
-.slot_initiatives_list {
+.slot_title {
+  font-size: 120%;
+  font-weight: bold;
+  margin-left: 10px;
+  margin-right: 10px;
   margin-top: 1ex;
-  margin-left: 1%;
-  margin-right: 1%;
-  background-color: #fcfcfc;
-  border-radius: 8px;
-  clear: left;
+}
+
+.slot_actions {
+  margin-left: 10px;
+  margin-top: 0.5ex;
+  margin-bottom: 1ex;
+}
+
+.page_head {
+  background-color: #fff;
+  margin: 0px 10px 0 10px;
   border: 1px solid #aaa;
-  padding-top: 1ex;
-  padding-bottom: 1ex;
+  border-radius: 0 0 8px 8px;
+  box-shadow: #777 0px 5px 5px -5px;
 }
 
-.title {
-  box-shadow: inset #888 0px 5px 6px -5px;
-  -moz-box-shadow: inset #888 0px 5px 6px -5px;;
-  -webkit-box-shadow: inset #888 0px 5px 6px -5px;;
+
+.page_head .area_head,
+.page_head .issue {
+  border-top: 1px solid #000;
 }
 
-.title {
-  color: #000;
-  padding: 1.5ex 1ex 0 1ex;
+.page_head .unit_head .title,
+.page_head .area_head .title,
+.issue .context,
+.issue .title,
+.initiative_head .title {
+  margin: 8px;
 }
 
-.title div {
-  font-size: 125%;
-  line-height: 110%;
+.page_head .unit_head .content,
+.page_head .area_head .content,
+.issue .content,
+.initiative_head .content {
+  margin: 0px 8px 8px 8px;
 }
 
-.title a {
-  color: #000;
+.issue .content.actions {
+  margin-bottom: 2.5ex;
 }
 
-.title .member_image {
-  margin-right: 0.7em;
+
+
+.page_head .unit_head .title,
+.page_head .area_head .title,
+.issue .title,
+.initiative_head .title {
+  font-weight: bold;
+  font-size: 120%;
+}
+
+.page_head .unit_head .title .extra,
+.page_head .area_head .title .extra,
+.issue .title .extra {
+  margin-left: 0.7em;
+  font-size: 75%;
+}
+
+
+.initiative_head {
+  margin-top: 10px;
+}
+
+
+.delegation_info {
+  float: right;
+  text-decoration: none;
+  padding: 5px;
+  border-radius: 0px 5px 0px 5px;
+}
+
+.delegation_arrow {
   vertical-align: middle;
-  border-radius: 7px;
 }
 
-.slot_title2 {
-  padding: 1ex 1ex 0 1ex;
+.delegation_info .link {
+  text-decoration: underline;
+  color: #aaa;
 }
+
+.delegation_info:hover {
+  background-color: #ddd;
+}
+
+.delegation_info .micro_avatar {
+  border: 2px solid #fff;
+}
+
+.delegation_info .micro_avatar.highlighted {
+  border: 2px solid #fa0;
+}
+
 
 .member_list .member_image_avatar {
   float: left;
@@ -294,66 +376,6 @@ form.unit_selector {
   vertical-align: middle;
 }
 
-.actions {
-  font-size: 75%;
-  line-height: 220%;
-  padding-top: 2ex;
-  padding-bottom: 1ex;
-}
-
-.actions {
-  border-radius: 0 0 8px 8px;
-}
-
-.actions .interest,
-.actions .delegation,
-.actions a {
-  margin-left: 1ex;
-}
-
-.actions a {
-  margin-top: 1px;
-  margin-bottom: 1px;
-}
-
-.actions .interest a,
-.actions .delegation a {
-  margin: 0;
-}
-
-.initiative_head .actions {
-  background-color: #fff;
-  margin: 0px;
-}
-
-.actions a {
-  padding-right: 0.3em;
-}
-
-.slot_initiative_head  {
-  margin-left: 1%;
-  margin-right: 1%;
-  margin-top: 2ex;
-}
-
-.initiative_name {
-  font-weight: bold;
-  font-size: 125%;
-}
-.actions a {
-  float: left;
-}
-
-.actions a:hover {
-  background-color: #d7d7d7;
-}
-
-.actions img {
-  padding-left: 0.2em;
-  padding-right: 0.2em;
-  vertical-align: middle;
-}
-
 .logo { 
   float: right;
   margin-right: 1%;
@@ -363,153 +385,6 @@ form.unit_selector {
 .member_image_photo {
   border-radius: 8px;
 }
-
-/*************************************************************************
- * vote info / delegation 
- */
-
-.interest,
-.slot_support,
-.delegation {
-  float: left;
-  position: relative;
-  z-index: 1;
-}
-
-.interest img,
-.slot_support img,
-.delegation img {
-  padding-left: 0.2em;
-  padding-right: 0.2em;
-}
-.actions .supporter,
-.actions .potential_supporter,
-.vote_info .head {
-  float: left;
-}
-
-.actions .supporter,
-.actions .potential_supporter,
-.actions .interest .head {
-  padding-right: 0.3em;
-}
-
-.delegation .head_active,
-.interest .head_active,
-.actions .supporter,
-.actions .potential_supporter {
-  border-radius: 5px;
-  border: 1px solid #5f6675;
-}
-
-.delegation .head_active,
-.interest .head_active {
-  background-color: #cdf;
-}
-
-.actions .supporter {
-  background-color: #cdf;
-}
-
-.actions .potential_supporter {
-  background-color: #cdf;
-}
-
-.slot_support .head_initiator {
-  background-color: #f2f2f2;
-  border-radius: 5px;
-}
-
-.delegation .change_delegation {
-  margin-bottom: 2ex;
-}
-
-.delegation .change_delegation a {
-  display: inline;
-  float: none;
-  padding: 1ex;
-}
-
-.delegation .delegation_participation {
-  margin-left: 20.5em;
-  margin-top: 3ex;
-  font-style: italic;
-  font-size: 80%;
-}
-
-.slot_actions .change_delegation {
-  float: left;
-}
-
-.vote_info .close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 1ex;
-  display: block;
-}
-
-.vote_info .content {
-  font-size: 133%;
-  line-height: 100%;
-  top: 2.8ex;
-  display: none;
-  position: absolute;
-  z-index: 10;
-  background-color: #cdf;
-  border-radius: 0 5px 5px 5px;
-  padding: 1em;
-  width: 35em;
-  border: 1px solid #5f6675;
-  border-top: none;
-}
-
-.delegation_arrow {
-  vertical-align: middle;
-}
-
-.vote_info .delegation_arrow {
-  margin-top: 1ex;
-  margin-bottom: 1ex;
-}
-
-.vote_info .delegation_arrow_overridden {
-  opacity: 0.4;
-}
-
-.vote_info .delegation_scope_overridden {
-  color: #777;
-}
-
-.vote_info .delegation_scope {
-  display: inline;
-}
-
-.vote_info .delegation_info {
-}
-
-.vote_info a {
-  padding-right: 0;
-}
-
-.vote_info .member_thumb {
-  clear: left;
-  background: #fff;
-}
-
-.delegation_overridden .member_thumb {
-  opacity: 0.4;
-}
-
-.delegation .revoke {
-  margin: 0.5ex;
-  float: right;
-}
-
-.delegation .revoke img {
-  vertical-align: middle;
-}
-
 
 /*************************************************************************
  * Main content
@@ -1000,26 +875,26 @@ tr table tr:hover td {
 }
 
 .issues .issue {
+  margin-top: 10px;
   background-color: #fcfcfc;
   overflow: hidden;
-  margin-bottom: 2ex;
   border: 1px solid #aaa;
   border-radius: 8px;
 }
 
-.issues .issue.interested,
-.issues .issue.interest_by_delegation {
+.issue.interested,
+.issue.interest_by_delegation {
   border: 1px solid #b2cdff;
 }
 
-.issues .issue .issue_info {
+.issue .issue_info {
   padding: 1ex 1ex 0.3ex 1ex;
   line-height: 140%;
   margin-bottom: 1ex;
 }
 
-.issues .issue.interested .issue_info,
-.issues .issue.interested_by_delegation .issue_info  {
+.issue.interested .issue_info,
+.issue.interested_by_delegation .issue_info  {
   background-color: #dfeaff;
   background-image: linear-gradient(top, #dfeaff 0%, #fcfcfc 66%);
   background-image: -o-linear-gradient(top, #dfeaff 0%, #fcfcfc 66%);
@@ -1029,11 +904,11 @@ tr table tr:hover td {
 }
 
 .event_list .event .issue_id,
-.issues .issue .issue_info .issue_id {
+.issue .issue_info .issue_id {
   font-size: 125%;
 }
 
-.issues .issue .suggestion {
+.issue .suggestion {
   margin-left: 1ex;
   margin-bottom: 1ex;
   font-weight: bold;
@@ -1051,11 +926,11 @@ tr table tr:hover td {
   vertical-align: middle;
 }
 
-.issues .issue .interest_by_delegation {
+.issue .interest_by_delegation {
   float: right;
 }
 
-.issues .issue .initiative_list a {
+.issue .initiative_list a.highlighted {
   font-weight: bold;
 }
 
@@ -1111,7 +986,7 @@ tr table tr:hover td {
   margin-bottom: 1ex;
 }
 
-.issues tr tr {
+.issue tr tr {
   border: none;
   background: none;
 }
@@ -1311,10 +1186,10 @@ x.initiative_link.potentially_supported {
 .public_access_issue_head {
   background-color: #fffbce;
   padding: 1ex;
-  margin-top: 2ex;
+  margin-top: 1ex;
   margin-bottom: 2ex;
-  border-radius: 8px;
-  border: 1px solid #ffe900;
+  border-top: 1px solid #ffe900;
+  border-bottom: 1px solid #ffe900;
 }
 
 .suggestion_fulfilled {
@@ -1492,7 +1367,7 @@ a.not_voted {
   cursor: pointer;
 }
 
-#voting .grabber {
+#voting .movable {
   vertical-align: middle;
   cursor: move;
 }
@@ -1547,10 +1422,13 @@ div.timeline_results {
 
 /* shadows */
 
-.box,
-.slot_initiative_head {
+.initiative_head,
+.box {
   border: 1px solid #aaa;
   border-radius: 8px;
+}
+
+.box {
   padding: 1ex;
 }
 
@@ -1560,8 +1438,6 @@ div.timeline_results {
 }
 
 .slot_initiatives_list,
-.actions,
-.issues .issue,
 .ui_tabs_links a,
 .draft_content,
 .help,
@@ -1570,11 +1446,11 @@ div.timeline_results {
 .ui_filter a.active,
 .vote_info .content,
 .member_area_list,
-.box,
-.slot_initiative_head {
+.box {
   box-shadow: #777 0px 5px 5px -5px;
   -mox-box-shadow: #777 0px 5px 5px -5px;
   -webkit-box-shadow: #777 0px 5px 5px -5px;
+  clear: both;
 }
 
 .member_area_list .box {

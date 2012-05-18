@@ -1,7 +1,33 @@
 local member = param.get("member", "table")
 local for_member = param.get("for_member", atom.boolean)
+local filter_unit = param.get_all_cgi()["filter_unit"] or "personal"
 
-local units = member.units_with_voting_right
+ui.container{ attr = { class = "ui_filter_head" }, content = function()
+
+  ui.link{
+    attr = { class = filter_unit == "personal" and "ui_tabs_link active" or nil },
+    text = _"With voting right",
+    module = "index", view = "index", params = { filter_unit = "personal" }
+  }
+  
+  slot.put(" ")
+
+  ui.link{
+    attr = { class = filter_unit == "global" and "active" or nil },
+    text = _"All units",
+    module = "index", view = "index", params = { filter_unit = "global" }
+  }
+end }
+
+slot.put("<br />")
+
+
+if filter_unit == "global" then
+  execute.view{ module = "unit", view = "_list" }
+  return
+end
+
+local units = Unit:new_selector():exec()
 
 for i, unit in ipairs(units) do
   local trustee_member = Member:new_selector()
@@ -18,7 +44,7 @@ for i, unit in ipairs(units) do
   local area_count = areas_selector:count()
   
   ui.container{ attr = { class = "member_area_list" }, content = function()
-    ui.container{ attr = { class = "unit_head" }, content = function()
+    ui.container{ attr = { class = "xunit_head" }, content = function()
       ui.link{
         text = unit.name,
         module = "unit", view = "show", id = unit.id
@@ -49,7 +75,7 @@ for i, unit in ipairs(units) do
         module = "area", view = "_list",
         params = { areas_selector = areas_selector, hide_membership = true }
       }
-    else
+    elseif member:has_voting_right_for_unit_id(unit.id) then
       if for_member then
         ui.container{ attr = { class = "voting_priv_info" }, content = _"This member has voting privileges for this unit, but you ist not member of any of its areas." }
       else
@@ -77,3 +103,5 @@ for i, unit in ipairs(units) do
   end }
 
 end
+
+

@@ -65,6 +65,59 @@ ui.container{ attr = { class = "issues events" }, content = function()
     elseif event.is_interested_by_delegation_to_member_id then
       class = class .. " interested_by_delegation"
     end
+
+            ui.container{ attr = { class = "issue_policy_info" }, content = function()
+          if (app.session.member_id or config.public_access == "pseudonym") and event.member_id then
+            if app.session.member_id then
+              ui.link{
+                content = function()
+                  execute.view{
+                    module = "member_image",
+                    view = "_show",
+                    params = {
+                      member = event.member,
+                      image_type = "avatar",
+                      show_dummy = true,
+                      class = "micro_avatar",
+                      popup_text = text
+                    }
+                  }
+                end,
+                module = "member", view = "show", id = event.member_id
+              }
+              slot.put(" ")
+            end
+            ui.link{
+              text = event.member.name,
+              module = "member", view = "show", id = event.member_id
+            }
+            slot.put(" &middot; ") 
+          end
+          local event_name = event.event_name
+          local event_image
+          if event.event == "issue_state_changed" then
+            if event.state == "discussion" then
+              event_name = _"Discussion started"
+              event_image = "comments.png"
+            elseif event.state == "verification" then
+              event_name = _"Verification started"
+              event_image = "lock.png"
+            elseif event.state == "voting" then
+              event_name = _"Voting started"
+              event_image = "email_open.png"
+            else
+              event_name = event.state_name
+            end
+            if event_image then
+              ui.image{ static = "icons/16/" .. event_image }
+              slot.put(" ")
+            end
+          end
+          ui.tag{ attr = { class = "event_name" }, content = event_name }
+          slot.put(" &middot; ") 
+          ui.tag{ attr = { class = "time" }, content = format.time(event.occurrence) }
+        end }
+
     ui.container{ attr = { class = class }, content = function()
 
       ui.container { attr = { class = "issue_info" }, content = function()
@@ -147,57 +200,6 @@ ui.container{ attr = { class = "issues events" }, content = function()
           ui.tag{ content = event.issue.area.unit.name }
         end }
 
-        ui.container{ attr = { class = "issue_policy_info" }, content = function()
-          if (app.session.member_id or config.public_access == "pseudonym") and event.member_id then
-            if app.session.member_id then
-              ui.link{
-                content = function()
-                  execute.view{
-                    module = "member_image",
-                    view = "_show",
-                    params = {
-                      member = event.member,
-                      image_type = "avatar",
-                      show_dummy = true,
-                      class = "micro_avatar",
-                      popup_text = text
-                    }
-                  }
-                end,
-                module = "member", view = "show", id = event.member_id
-              }
-              slot.put(" ")
-            end
-            ui.link{
-              text = event.member.name,
-              module = "member", view = "show", id = event.member_id
-            }
-            slot.put(" &middot; ") 
-          end
-          local event_name = event.event_name
-          local event_image
-          if event.event == "issue_state_changed" then
-            if event.state == "discussion" then
-              event_name = _"Discussion started"
-              event_image = "comments.png"
-            elseif event.state == "verification" then
-              event_name = _"Verification started"
-              event_image = "lock.png"
-            elseif event.state == "voting" then
-              event_name = _"Voting started"
-              event_image = "email_open.png"
-            else
-              event_name = event.state_name
-            end
-            if event_image then
-              ui.image{ static = "icons/16/" .. event_image }
-              slot.put(" ")
-            end
-          end
-          ui.tag{ attr = { class = "event_name" }, content = event_name }
-          slot.put(" &middot; ") 
-          ui.tag{ attr = { class = "time" }, content = format.time(event.occurrence) }
-        end }
 
       end }
       

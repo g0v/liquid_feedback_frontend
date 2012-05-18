@@ -10,7 +10,7 @@ app.html_title.subtitle = _("Initiative ##{id}", { id = initiative.id })
 
 execute.view{
   module = "issue",
-  view = "_show_head",
+  view = "_head",
   params = { issue = initiative.issue,
              initiative = initiative }
 }

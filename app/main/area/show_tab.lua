@@ -50,7 +50,7 @@ if app.session.member_id then
   tabs[#tabs+1] =
     {
       name = "members",
-      label = _"Members" .. " (" .. tostring(members_selector:count()) .. ")",
+      label = _"Participants" .. " (" .. tostring(members_selector:count()) .. ")",
       icon = { static = "icons/16/group.png" },
       module = "member",
       view = "_list",

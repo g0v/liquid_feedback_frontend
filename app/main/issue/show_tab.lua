@@ -18,25 +18,11 @@ local tabs = {
   static_params = { issue_id = issue.id },
 }
 
-tabs[#tabs+1] =
-  {
-    name = "initiatives",
-    label = _"Initiatives",
-    icon = { static = "icons/16/script.png" },
-    module = "issue",
-    view = "_list_initiatives",
-    params = {
-      issue = issue
-    }
-  }
-
-    
 if app.session.member_id then
   tabs[#tabs+1] =
     {
       name = "interested_members",
-      label = _"Members" .. " (" .. tostring(interested_members_selector:count()) .. ")" ,
-      icon = { static = "icons/16/eye.png" },
+      label = _"Interested" .. " (" .. tostring(interested_members_selector:count()) .. ")" ,
       module = "member",
       view = "_list",
       params = {
@@ -49,7 +35,6 @@ if app.session.member_id then
     {
       name = "delegations",
       label = _"Delegations" .. " (" .. tostring(delegations_selector:count()) .. ")" ,
-      icon = { static = "icons/16/table_go.png" },
       module = "delegation",
       view = "_list",
       params = { delegations_selector = delegations_selector }
@@ -60,11 +45,21 @@ tabs[#tabs+1] =
   {
     name = "details",
     label = _"Details",
-    icon = { static = "icons/16/magnifier.png" },
     module = "issue",
     view = "_details",
     params = { issue = issue }
   }
+  
+if config.etherpad then
+  tabs[#tabs+1] =
+    {
+      name = "pad",
+      label = _"Pad",
+      module = "issue",
+      view = "_pad",
+      params = { issue = issue }
+    }
+end
 
 ui.tabs(tabs)
 

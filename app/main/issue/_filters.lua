@@ -6,6 +6,115 @@ local for_area = param.get("for_area", atom.boolean)
 
 local filters = {}
 
+local filter = { name = "filter" }
+  
+if state ~= "closed" then
+  filter[#filter+1] = {
+    name = "any",
+    label = _"Any phase",
+    selector_modifier = function(selector) end
+  }
+end
+
+if not state then
+  filter[#filter+1] = {
+    name = "open",
+    label = _"Open",
+    selector_modifier = function(selector)
+      selector:add_where("issue.closed ISNULL")
+    end
+  }
+end
+
+if not state or state == "open" then
+  filter[#filter+1] = {
+    name = "new",
+    label = _"New",
+    selector_modifier = function(selector)
+      selector:add_where("issue.accepted ISNULL AND issue.closed ISNULL")
+    end
+  }
+  filter[#filter+1] = {
+    name = "accepted",
+    label = _"Discussion",
+    selector_modifier = function(selector)
+      selector:add_where("issue.accepted NOTNULL AND issue.half_frozen ISNULL AND issue.closed ISNULL")
+    end
+  }
+  filter[#filter+1] = {
+    name = "half_frozen",
+    label = _"Frozen",
+    selector_modifier = function(selector)
+      selector:add_where("issue.half_frozen NOTNULL AND issue.fully_frozen ISNULL")
+    end
+  }
+  filter[#filter+1] = {
+    name = "frozen",
+    label = _"Voting",
+    selector_modifier = function(selector)
+      selector:add_where("issue.fully_frozen NOTNULL AND issue.closed ISNULL")
+      filter_voting = true
+    end
+  }
+end
+
+if not state then
+  filter[#filter+1] = {
+    name = "finished",
+    label = _"Finished",
+    selector_modifier = function(selector)
+      selector:add_where("issue.closed NOTNULL AND issue.fully_frozen NOTNULL")
+    end
+  }
+  filter[#filter+1] = {
+    name = "cancelled",
+    label = _"Cancelled",
+    selector_modifier = function(selector)
+      selector:add_where("issue.closed NOTNULL AND issue.fully_frozen ISNULL")
+    end
+  }
+end
+
+if state == "closed" then
+  filter[#filter+1] = {
+    name = "any",
+    label = _"Any state",
+    selector_modifier = function(selector) end
+  }
+
+  filter[#filter+1] = {
+    name = "finished",
+    label = _"Finished",
+    selector_modifier = function(selector)
+      selector:add_where("issue.state IN ('finished_with_winner', 'finished_without_winner')")
+    end
+  }
+  filter[#filter+1] = {
+    name = "finished_with_winner",
+    label = _"with winner",
+    selector_modifier = function(selector)
+      selector:add_where("issue.state = 'finished_with_winner'")
+    end
+  }
+  filter[#filter+1] = {
+    name = "finished_without_winner",
+    label = _"without winner",
+    selector_modifier = function(selector)
+      selector:add_where("issue.state = 'finished_without_winner'")
+    end
+  }
+  filter[#filter+1] = {
+    name = "cancelled",
+    label = _"Cancelled",
+    selector_modifier = function(selector)
+      selector:add_where("issue.state NOT IN ('finished_with_winner', 'finished_without_winner')")
+    end
+  }
+end
+
+filters[#filters+1] = filter
+
+
 if member then
   local filter = {
     name = "filter_interest",
@@ -132,114 +241,6 @@ if app.session.member then
   end
 
 end
-
-local filter = { name = "filter" }
-  
-if state ~= "closed" then
-  filter[#filter+1] = {
-    name = "any",
-    label = _"Any phase",
-    selector_modifier = function(selector) end
-  }
-end
-
-if not state then
-  filter[#filter+1] = {
-    name = "open",
-    label = _"Open",
-    selector_modifier = function(selector)
-      selector:add_where("issue.closed ISNULL")
-    end
-  }
-end
-
-if not state or state == "open" then
-  filter[#filter+1] = {
-    name = "new",
-    label = _"New",
-    selector_modifier = function(selector)
-      selector:add_where("issue.accepted ISNULL AND issue.closed ISNULL")
-    end
-  }
-  filter[#filter+1] = {
-    name = "accepted",
-    label = _"Discussion",
-    selector_modifier = function(selector)
-      selector:add_where("issue.accepted NOTNULL AND issue.half_frozen ISNULL AND issue.closed ISNULL")
-    end
-  }
-  filter[#filter+1] = {
-    name = "half_frozen",
-    label = _"Frozen",
-    selector_modifier = function(selector)
-      selector:add_where("issue.half_frozen NOTNULL AND issue.fully_frozen ISNULL")
-    end
-  }
-  filter[#filter+1] = {
-    name = "frozen",
-    label = _"Voting",
-    selector_modifier = function(selector)
-      selector:add_where("issue.fully_frozen NOTNULL AND issue.closed ISNULL")
-      filter_voting = true
-    end
-  }
-end
-
-if not state then
-  filter[#filter+1] = {
-    name = "finished",
-    label = _"Finished",
-    selector_modifier = function(selector)
-      selector:add_where("issue.closed NOTNULL AND issue.fully_frozen NOTNULL")
-    end
-  }
-  filter[#filter+1] = {
-    name = "cancelled",
-    label = _"Cancelled",
-    selector_modifier = function(selector)
-      selector:add_where("issue.closed NOTNULL AND issue.fully_frozen ISNULL")
-    end
-  }
-end
-
-if state == "closed" then
-  filter[#filter+1] = {
-    name = "any",
-    label = _"Any state",
-    selector_modifier = function(selector) end
-  }
-
-  filter[#filter+1] = {
-    name = "finished",
-    label = _"Finished",
-    selector_modifier = function(selector)
-      selector:add_where("issue.state IN ('finished_with_winner', 'finished_without_winner')")
-    end
-  }
-  filter[#filter+1] = {
-    name = "finished_with_winner",
-    label = _"with winner",
-    selector_modifier = function(selector)
-      selector:add_where("issue.state = 'finished_with_winner'")
-    end
-  }
-  filter[#filter+1] = {
-    name = "finished_without_winner",
-    label = _"without winner",
-    selector_modifier = function(selector)
-      selector:add_where("issue.state = 'finished_without_winner'")
-    end
-  }
-  filter[#filter+1] = {
-    name = "cancelled",
-    label = _"Cancelled",
-    selector_modifier = function(selector)
-      selector:add_where("issue.state NOT IN ('finished_with_winner', 'finished_without_winner')")
-    end
-  }
-end
-
-filters[#filters+1] = filter
 
 --[[
 if not param.get("no_sort", atom.boolean) then

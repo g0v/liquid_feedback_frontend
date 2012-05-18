@@ -9,28 +9,6 @@ if not member then
   end
 end
 
---slot.select("actions", function()
-
-  if app.session.member and app.session.member_id == member.id then
-    ui.link{
-      content = function()
-          slot.put(_"Edit my profile")
-      end,
-      module = "member",
-      view = "edit"
-    }
-    slot.put(" ")
-    ui.link{
-      content = function()
-          slot.put(_"Upload images")
-      end,
-      module = "member",
-      view = "edit_images"
-    }
-    slot.put("<br /><br />")
-  end
---end)
-
 ui.form{
   attr = { class = "box member vertical" },
   record = member,

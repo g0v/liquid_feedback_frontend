@@ -176,3 +176,139 @@ ui.form{
     ui.submit{ text = _"Save" }
   end
 }
+
+
+
+-- ------------------------
+
+
+
+
+local delegation
+local unit_id
+local area_id
+local issue_id
+local initiative_id
+
+local scope = "unit"
+
+unit_id = param.get("unit_id", atom.integer)
+
+local inline = param.get("inline", atom.boolean)
+
+if param.get("initiative_id", atom.integer) then
+  initiative_id = param.get("initiative_id", atom.integer)
+  issue_id = Initiative:by_id(initiative_id).issue_id
+  scope = "issue"
+end
+
+if param.get("issue_id", atom.integer) then
+  issue_id = param.get("issue_id", atom.integer)
+  scope = "issue"
+end
+
+if param.get("area_id", atom.integer) then
+  area_id = param.get("area_id", atom.integer)
+  scope = "area"
+end
+
+
+
+local delegation
+local issue
+
+if issue_id then
+  issue = Issue:by_id(issue_id)
+  delegation = Delegation:by_pk(app.session.member.id, nil, nil, issue_id)
+  if not delegation then
+    delegation = Delegation:by_pk(app.session.member.id, nil, issue.area_id)
+  end
+  if not delegation then
+    delegation = Delegation:by_pk(app.session.member.id, issue.area.unit_id)
+  end
+elseif area_id then
+  delegation = Delegation:by_pk(app.session.member.id, nil, area_id)
+  if not delegation then
+    local area = Area:by_id(area_id)
+    delegation = Delegation:by_pk(app.session.member.id, area.unit_id)
+  end
+end
+
+if not delegation then
+  delegation = Delegation:by_pk(app.session.member.id, unit_id)
+end
+
+local slot_name = "actions"
+
+if inline then
+  slot_name = "default"
+end
+
+if delegation then
+
+  if not delegation.trustee_id then
+    ui.image{
+      static = "icons/16/table_go_crossed.png"
+    }
+    if delegation.issue_id then
+      slot.put(_"Delegation turned off for issue")
+    elseif delegation.area_id then
+      slot.put(_"Delegation turned off for area")
+    end
+  end
+
+  local delegation_chain = Member:new_selector()
+    :add_field("delegation_chain.*")
+    :join("delegation_chain(" .. tostring(app.session.member.id) .. ", " .. tostring(unit_id or "NULL") .. ", " .. tostring(area_id or "NULL") .. ", " .. tostring(issue_id or "NULL") .. ")", "delegation_chain", "member.id = delegation_chain.member_id")
+    :add_order_by("index")
+    :exec()
+
+  for i, record in ipairs(delegation_chain) do
+    local style
+    local overridden = (not issue or issue.state ~= 'voting') and record.overridden
+    if record.scope_in then
+      if not overridden then
+        ui.image{
+          attr = { class = "delegation_arrow" },
+          static = "delegation_arrow_24_vertical.png"
+        }
+      else
+        ui.image{
+          attr = { class = "delegation_arrow delegation_arrow_overridden" },
+          static = "delegation_arrow_24_vertical.png"
+        }
+      end
+      ui.tag{
+        attr = { class = "delegation_scope" .. (overridden and " delegation_scope_overridden" or "") },
+        content = function()
+          if record.scope_in == "unit" then
+            slot.put(config.single_object_mode and _"Global delegation" or _"Unit delegation")
+          elseif record.scope_in == "area" then
+            slot.put(_"Area delegation")
+          elseif record.scope_in == "issue" then
+            slot.put(_"Issue delegation")
+          end
+        end
+      }
+    end
+    ui.container{
+      attr = { class = overridden and "delegation_overridden" or "" },
+      content = function()
+        execute.view{
+          module = "member",
+          view = "_show_thumb",
+          params = { member = record }
+        }
+      end
+    }
+    if (not issue or issue.state ~= 'voting') and record.participation and not record.overridden then
+      ui.container{
+        attr = { class = "delegation_participation" },
+        content = function()
+          slot.put(_"This member is participating, the rest of delegation chain is suspended while discussing")
+        end
+      }
+    end
+    slot.put("<br style='clear: left'/>")
+  end
+end
