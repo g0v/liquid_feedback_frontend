@@ -13,7 +13,9 @@ if config.feature_rss_enabled then
 end
 
 
-execute.view{ module = "area", view = "_head", params = { area = area } }
+slot.select("head", function()
+  execute.view{ module = "area", view = "_head", params = { area = area } }
+end)
 
 ui.container{
   attr = { class = "vertical"},

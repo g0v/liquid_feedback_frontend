@@ -2,7 +2,9 @@ local unit_id = config.single_unit_id or param.get_id()
 
 local unit = Unit:by_id(unit_id)
 
-execute.view{ module = "unit", view = "_head", params = { unit = unit } }
+slot.select("head", function()
+  execute.view{ module = "unit", view = "_head", params = { unit = unit } }
+end)
 
 if config.single_unit_id and not app.session.member_id and config.motd_public then
   local help_text = config.motd_public

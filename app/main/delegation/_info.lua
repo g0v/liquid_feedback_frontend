@@ -1,3 +1,7 @@
+if not app.session.member_id then
+  return
+end
+
 local unit  = param.get("unit", "table")
 local area  = param.get("area", "table")
 local issue = param.get("issue", "table")

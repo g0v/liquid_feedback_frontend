@@ -4,11 +4,9 @@ if not app.html_title.title then
 	app.html_title.title = _("Issue ##{id}", { id = issue.id })
 end
 
-execute.view{
-  module = "area",
-  view = "_head",
-  params = { area = issue.area }
-}
+slot.select("head", function()
+  execute.view{ module = "area", view = "_head", params = { area = issue.area } }
+end)
 
 util.help("issue.show")
 

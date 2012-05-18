@@ -8,13 +8,17 @@ app.html_title.title = initiative.name
 app.html_title.subtitle = _("Initiative ##{id}", { id = initiative.id })
 
 
-execute.view{
-  module = "issue",
-  view = "_head",
-  params = { issue = initiative.issue,
-             initiative = initiative }
-}
+slot.select("head", function()
 
+  execute.view{
+    module = "issue",
+    view = "_head",
+    params = { issue = initiative.issue,
+              initiative = initiative }
+  }
+
+end)
+  
 if not initiative then
   initiative = Initiative:by_id(param.get_id())
   expanded = true
