@@ -1,5 +1,4 @@
 local initiative = param.get("initiative", "table")
-local initiator = param.get("initiator", "table")
 
 local initiators_members_selector = initiative:get_reference_selector("initiating_members")
   :add_field("initiator.accepted", "accepted")
@@ -39,7 +38,7 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
         content = function()
           for i, initiator in ipairs(initiators) do
             slot.put(" ")
-            if app.session.member_id then
+            if app.session.member_id or config.public_access == "full" then
               ui.link{
                 content = function ()
                   execute.view{
@@ -196,13 +195,6 @@ util.help("initiative.show")
     }
   end
 
-  if initiative.issue.state == "cancelled" then
-    local policy = initiative.issue.policy
-    ui.container{
-      attr = { class = "not_admitted_info" },
-      content = _("This issue has been cancelled. It failed the quorum of #{quorum}.", { quorum = format.percentage(policy.issue_quorum_num / policy.issue_quorum_den) })
-    }
-  end
 --end)
 
 if initiator and initiator.accepted == nil and not initiative.issue.half_frozen and not initiative.issue.closed then

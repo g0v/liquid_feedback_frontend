@@ -10,14 +10,6 @@ end)
 
 util.help("issue.show")
 
-if issue.state == "cancelled" then
-  local policy = issue.policy
-  ui.container{
-    attr = { class = "not_admitted_info" },
-    content = _("This issue has been cancelled. It failed the quorum of #{quorum}.", { quorum = format.percentage(policy.issue_quorum_num / policy.issue_quorum_den) })
-  }
-end
-
 slot.select("head", function()
   execute.view{ module = "issue", view = "_show", params = { issue = issue } }
 end )

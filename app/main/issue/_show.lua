@@ -148,6 +148,14 @@ ui.container{ attr = { class = class }, content = function()
       }
     end
 
+    if issue.state == "cancelled" then
+      local policy = issue.policy
+      ui.container{
+        attr = { class = "not_admitted_info" },
+        content = _("This issue has been cancelled. It failed the quorum of #{quorum}.", { quorum = format.percentage(policy.issue_quorum_num / policy.issue_quorum_den) })
+      }
+    end
+
   end
 
   ui.container{ attr = { class = "initiative_list" }, content = function()

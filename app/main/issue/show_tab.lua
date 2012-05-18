@@ -18,7 +18,7 @@ local tabs = {
   static_params = { issue_id = issue.id },
 }
 
-if app.session.member_id then
+if app.session.member_id or config.public_access == "full" then
   tabs[#tabs+1] =
     {
       name = "interested_members",
@@ -50,7 +50,7 @@ tabs[#tabs+1] =
     params = { issue = issue }
   }
   
-if config.etherpad then
+if config.etherpad and app.session.member_id then
   tabs[#tabs+1] =
     {
       name = "pad",
