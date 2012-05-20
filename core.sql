@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('2.0.9', 2, 0, 9))
+  SELECT * FROM (VALUES ('2.0.10', 2, 0, 10))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -2664,7 +2664,8 @@ CREATE TYPE "delegation_info_type" AS (
         "other_trustee_id"            INT4,
         "other_trustee_participation" BOOLEAN,
         "other_trustee_ellipsis"      BOOLEAN,
-        "delegation_loop"             "delegation_info_loop_type");
+        "delegation_loop"             "delegation_info_loop_type",
+        "participating_member_id"     INT4 );
 
 COMMENT ON TYPE "delegation_info_type" IS 'Type of result returned by "delegation_info" function; For meaning of "participation" check comment on "delegation_chain_row" type';
 
@@ -2677,6 +2678,7 @@ COMMENT ON COLUMN "delegation_info_type"."other_trustee_id"            IS 'Anoth
 COMMENT ON COLUMN "delegation_info_type"."other_trustee_participation" IS 'Another trustee is participating (redundant field: if "other_trustee_id" is set, then "other_trustee_participation" is always TRUE, else "other_trustee_participation" is NULL)';
 COMMENT ON COLUMN "delegation_info_type"."other_trustee_ellipsis"      IS 'Ellipsis in delegation chain after "other_trustee"';
 COMMENT ON COLUMN "delegation_info_type"."delegation_loop"             IS 'Non-NULL value, if delegation chain contains a circle; See comment on "delegation_info_loop_type" for details';
+COMMENT ON COLUMN "delegation_info_type"."participating_member_id"     IS 'First participating member in delegation chain';
 
 
 CREATE FUNCTION "delegation_info"
@@ -2698,6 +2700,12 @@ CREATE FUNCTION "delegation_info"
           "unit_id_p", "area_id_p", "issue_id_p",
           "simulate_trustee_id_p")
       LOOP
+        IF
+          "result"."participating_member_id" ISNULL AND
+          "current_row"."participation"
+        THEN
+          "result"."participating_member_id" := "current_row"."member_id";
+        END IF;
         IF "current_row"."member_id" = "member_id_p" THEN
           "result"."own_participation"    := "current_row"."participation";
           "result"."own_delegation_scope" := "current_row"."scope_out";
