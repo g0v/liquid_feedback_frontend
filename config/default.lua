@@ -121,5 +121,3 @@ function mondelefant.class_prototype:by_id(id)
   selector:optional_object_mode()
   return selector:exec()
 end
-
-

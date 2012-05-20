@@ -12,6 +12,8 @@ local voteable = app.session.member_id and issue.state == 'voting' and
 
 local vote_link_text = direct_voter and _"Change vote" or "Vote now"
 
+issue:load_delegation_info_once_for_member_id(app.session.member_id)
+
 
 local class = "issue"
 if issue.is_interested then
@@ -91,6 +93,15 @@ ui.container{ attr = { class = class }, content = function()
         view = "_show_box",
         params = { issue = issue, initiative = initiative }
       }
+      slot.put(" &middot; ")
+    end
+
+    if not issue.closed then
+      if issue.delegation_info.own_delegation_scope ~= "issue" then
+        ui.link{ text = _"Delegate issue", module = "delegation", view = "show", params = { issue_id = issue.id } }
+      else
+        ui.link{ text = _"Change issue delegation", module = "delegation", view = "show", params = { issue_id = issue.id } }
+      end
       slot.put(" &middot; ")
     end
 

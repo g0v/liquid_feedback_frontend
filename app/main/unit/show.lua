@@ -3,7 +3,7 @@ local unit_id = config.single_unit_id or param.get_id()
 local unit = Unit:by_id(unit_id)
 
 slot.select("head", function()
-  execute.view{ module = "unit", view = "_head", params = { unit = unit } }
+  execute.view{ module = "unit", view = "_head", params = { unit = unit, show_content = true } }
 end)
 
 if config.single_unit_id and not app.session.member_id and config.motd_public then

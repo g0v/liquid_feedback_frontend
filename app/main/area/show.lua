@@ -14,7 +14,7 @@ end
 
 
 slot.select("head", function()
-  execute.view{ module = "area", view = "_head", params = { area = area } }
+  execute.view{ module = "area", view = "_head", params = { area = area, show_content = true } }
 end)
 
 ui.container{

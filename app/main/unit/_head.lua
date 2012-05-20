@@ -1,5 +1,9 @@
 local unit = param.get("unit", "table")
 
+local show_content = param.get("show_content", atom.boolean)
+
+unit:load_delegation_info_once_for_member_id(app.session.member_id)
+
 ui.container{ attr = { class = "unit_head" }, content = function()
 
   execute.view{ module = "delegation", view = "_info", params = { unit = unit } }
@@ -18,11 +22,21 @@ ui.container{ attr = { class = "unit_head" }, content = function()
     end
   end }
 
-  ui.container{ attr = { class = "content" }, content = function()
+  if show_content then
+    ui.container{ attr = { class = "content" }, content = function()
 
-    if app.session.member_id and app.session.member:has_voting_right_for_unit_id(unit.id) then
-      ui.tag{ content = _"You have voting privileges for this unit" }
-    end
-  end }
-  
+      if app.session.member_id and app.session.member:has_voting_right_for_unit_id(unit.id) then
+        ui.tag{ content = _"You have voting privileges for this unit" }
+        slot.put(" &middot; ")
+        if unit.delegation_info.first_trustee_id == nil then
+          ui.link{ text = _"Delegate unit", module = "delegation", view = "show", params = { unit_id = unit.id } }
+        else
+          ui.link{ text = _"Change unit delegation", module = "delegation", view = "show", params = { unit_id = unit.id } }
+        end
+      end
+    end }
+  else
+    slot.put("<br />")
+  end
+    
 end }

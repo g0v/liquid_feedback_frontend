@@ -34,14 +34,22 @@ if not initiative.issue.fully_frozen and not initiative.issue.closed then
         ui.image{
           static = "icons/16/thumb_up_green.png"
         }
-        slot.put(_"Your are supporter")
+        if initiative.issue.closed then
+          slot.put(_"You were supporter")
+        else
+          slot.put(_"You are supporter")
+        end
       end }
     else
       ui.tag{ attr = { class = "potential_supporter" }, content = function()
         ui.image{
           static = "icons/16/thumb_up.png"
         }
-        slot.put(_"Your are potential supporter")
+        if initiative.issue.closed then
+          slot.put(_"You were potential supporter")
+        else
+          slot.put(_"You are potential supporter")
+        end
       end }
     end
     slot.put(" (")

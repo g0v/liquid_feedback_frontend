@@ -12,24 +12,23 @@ if issue_id then
   area_id = nil
 end
 
+local preview = param.get("preview") 
+
+if preview == "1" then
+  request.redirect{ module = "delegation", view = "show", params = {
+    unit_id = unit_id, area_id = area_id, issue_id = issue_id, preview_trustee_id = trustee_id
+  } }
+  return
+end
+
+
 local delegation = Delegation:by_pk(truster_id, unit_id, area_id, issue_id)
 
 
 if param.get("delete") or trustee_id == -1 then
 
   if delegation then
-
     delegation:destroy()
-
---[[
-    if issue_id then
-      slot.put_into("notice", _"Your delegation for this issue has been deleted.")
-    elseif area_id then
-      slot.put_into("notice", _"Your delegation for this area has been deleted.")
-    else
-      slot.put_into("notice", _"Your delegation for this unit has been deleted.")
-    end
---]]
   end
 
 else
@@ -82,14 +81,6 @@ else
   end
 
   delegation:save()
---[[
-  if issue_id then
-    slot.put_into("notice", _"Your delegation for this issue has been updated.")
-  elseif area_id then
-    slot.put_into("notice", _"Your delegation for this area has been updated.")
-  else
-    slot.put_into("notice", _"Your delegation for this unit has been updated.")
-  end
---]]
+
 end
 

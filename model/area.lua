@@ -80,7 +80,7 @@ Area:add_reference{
     end
     sub_selector:from("area")
     sub_selector:add_field("area.id", "area_id")
-    sub_selector:add_field{ '(delegation_info(?, null, area.id, null)).*', options.member_id }
+    sub_selector:add_field{ '(delegation_info(?, null, area.id, null, ?)).*', options.member_id, options.trustee_id }
     sub_selector:add_where{ 'area.id IN ($)', ids }
 
     local selector = Area:get_db_conn():new_selector()
@@ -94,9 +94,9 @@ Area:add_reference{
   end
 }
 
-function Area.list:load_delegation_info_once_for_member_id(member_id)
+function Area.list:load_delegation_info_once_for_member_id(member_id, trustee_id)
   if self._delegation_info_loaded_for_member_id ~= member_id then
-    self:load("delegation_info", { member_id = member_id })
+    self:load("delegation_info", { member_id = member_id, trustee_id = trustee_id })
     for i, area in ipairs(self) do
       area._delegation_info_loaded_for_member_id = member_id
     end
@@ -104,9 +104,9 @@ function Area.list:load_delegation_info_once_for_member_id(member_id)
   end
 end
 
-function Area.object:load_delegation_info_once_for_member_id(member_id)
+function Area.object:load_delegation_info_once_for_member_id(member_id, trustee_id)
   if self._delegation_info_loaded_for_member_id ~= member_id then
-    self:load("delegation_info", { member_id = member_id })
+    self:load("delegation_info", { member_id = member_id, trustee_id = trustee_id })
     self._delegation_info_loaded_for_member_id = member_id
   end
 end

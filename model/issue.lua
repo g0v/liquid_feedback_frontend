@@ -130,7 +130,7 @@ Issue:add_reference{
     end
     sub_selector:from("issue")
     sub_selector:add_field("issue.id", "issue_id")
-    sub_selector:add_field{ '(delegation_info(?, null, null, issue.id)).*', options.member_id }
+    sub_selector:add_field{ '(delegation_info(?, null, null, issue.id, ?)).*', options.member_id, options.trustee_id }
     sub_selector:add_where{ 'issue.id IN ($)', ids }
 
     local selector = Issue:get_db_conn():new_selector()
@@ -144,9 +144,9 @@ Issue:add_reference{
   end
 }
 
-function Issue.list:load_delegation_info_once_for_member_id(member_id)
+function Issue.list:load_delegation_info_once_for_member_id(member_id, trustee_id)
   if self._delegation_info_loaded_for_member_id ~= member_id then
-    self:load("delegation_info", { member_id = member_id })
+    self:load("delegation_info", { member_id = member_id, trustee_id = trustee_id })
     for i, issue in ipairs(self) do
       issue._delegation_info_loaded_for_member_id = member_id
     end
@@ -154,9 +154,9 @@ function Issue.list:load_delegation_info_once_for_member_id(member_id)
   end
 end
 
-function Issue.object:load_delegation_info_once_for_member_id(member_id)
+function Issue.object:load_delegation_info_once_for_member_id(member_id, trustee_id)
   if self._delegation_info_loaded_for_member_id ~= member_id then
-    self:load("delegation_info", { member_id = member_id })
+    self:load("delegation_info", { member_id = member_id, trustee_id = trustee_id })
     self._delegation_info_loaded_for_member_id = member_id
   end
 end

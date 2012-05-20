@@ -1,14 +1,22 @@
 local voting_right_unit_id
+local current_trustee_id
+local current_trustee_name
 
 local unit = Unit:by_id(param.get("unit_id", atom.integer))
 if unit then
+  unit:load_delegation_info_once_for_member_id(app.session.member_id)
   voting_right_unit_id = unit.id
+  if unit.delegation_info.own_delegation_scope == 'unit' then
+    current_trustee_id = unit.delegation_info.first_trustee_id
+    current_trustee_name = unit.delegation_info.first_trustee_name
+  end
   slot.put_into("title", encode.html(config.single_unit_id and _"Set global delegation" or _"Set unit delegation"))
   util.help("delegation.new.unit")
 end
 
 local area = Area:by_id(param.get("area_id", atom.integer))
 if area then
+  area:load_delegation_info_once_for_member_id(app.session.member_id)
   voting_right_unit_id = area.unit_id
   slot.put_into("title", encode.html(_"Set delegation for Area '#{name}'":gsub("#{name}", area.name)))
   util.help("delegation.new.area")
@@ -16,12 +24,24 @@ end
 
 local issue = Issue:by_id(param.get("issue_id", atom.integer))
 if issue then
+  issue:load_delegation_info_once_for_member_id(app.session.member_id)
   voting_right_unit_id = issue.area.unit_id
   slot.put_into("title", encode.html(_"Set delegation for Issue ##{number} in Area '#{area_name}'":gsub("#{number}", issue.id):gsub("#{area_name}", issue.area.name)))
   util.help("delegation.new.issue")
 end
 
 local initiative = Initiative:by_id(param.get("initiative_id", atom.integer))
+
+local contact_members = Member:build_selector{
+  is_contact_of_member_id = app.session.member_id,
+  voting_right_for_unit_id = voting_right_unit_id,
+  active = true,
+  order = "name"
+}:exec()
+
+local preview_trustee_id = param.get("preview_trustee_id", atom.integer)
+
+ui.script{ static = "js/update_delegation_info.js" }
 
 slot.select("actions", function()
   if issue then
@@ -57,14 +77,8 @@ slot.select("actions", function()
 end)
 
 
-local contact_members = Member:build_selector{
-  is_contact_of_member_id = app.session.member_id,
-  voting_right_for_unit_id = voting_right_unit_id,
-  order = "name"
-}:exec()
-
 ui.form{
-  attr = { class = "vertical" },
+  attr = { class = "vertical", id = "delegationForm" },
   module = "delegation",
   action = "update",
   params = {
@@ -148,6 +162,11 @@ ui.form{
 
     end
     -- add saved members
+    if current_trustee_id then
+      records[#records+1] = {id="_", name= "--- " .. _"Current trustee" .. " ---"}
+      records[#records+1] = { id = current_trustee_id, name = current_trustee_name }
+    end
+    -- add saved members
     records[#records+1] = {id="_", name= "--- " .. _"Saved contacts" .. " ---"}
     for i, record in ipairs(contact_members) do
       records[#records+1] = record
@@ -165,15 +184,20 @@ ui.form{
     disabled_records[app.session.member_id] = true
 
     ui.field.select{
+      attr = { onchange = "updateDelegationInfo();" },
       label = _"Trustee",
       name = "trustee_id",
       foreign_records = records,
       foreign_id = "id",
       foreign_name = "name",
-      disabled_records = disabled_records
+      disabled_records = disabled_records,
+      value = preview_trustee_id or current_trustee_id
     }
 
+    ui.field.hidden{ name = "preview" }
+    
     ui.submit{ text = _"Save" }
+    
   end
 }
 
@@ -244,9 +268,7 @@ if inline then
   slot_name = "default"
 end
 
-if delegation then
-
-  if not delegation.trustee_id then
+  if delegation and not delegation.trustee_id then
     ui.image{
       static = "icons/16/table_go_crossed.png"
     }
@@ -259,7 +281,7 @@ if delegation then
 
   local delegation_chain = Member:new_selector()
     :add_field("delegation_chain.*")
-    :join("delegation_chain(" .. tostring(app.session.member.id) .. ", " .. tostring(unit_id or "NULL") .. ", " .. tostring(area_id or "NULL") .. ", " .. tostring(issue_id or "NULL") .. ")", "delegation_chain", "member.id = delegation_chain.member_id")
+    :join({ "delegation_chain(?,?,?,?,?)", app.session.member.id, unit_id, area_id, issue_id, preview_trustee_id }, "delegation_chain", "member.id = delegation_chain.member_id")
     :add_order_by("index")
     :exec()
 
@@ -311,4 +333,3 @@ if delegation then
     end
     slot.put("<br style='clear: left'/>")
   end
-end

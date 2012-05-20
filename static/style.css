@@ -285,7 +285,6 @@ form.unit_selector {
   margin: 0px 10px 2ex 10px;
   border: 1px solid #aaa;
   border-radius: 0 0 8px 8px;
-  box-shadow: #777 0px 5px 5px -5px;
 }
 
 
@@ -425,61 +424,21 @@ form.unit_selector {
  * ui.tab
  */
 
-.ui_tabs_links {
-  margin-top: 2ex;
-  margin-bottom: 1ex;
-}
-
 .ui_tabs_links a {
-  padding: 1ex;
-  line-height: 300%;
-  background-color: #f2f2f2;
+  padding: 0.75ex 0.6em;
+  line-height: 225%;
+  background-color: #f7f7f7;
   white-space: nowrap;
   border-radius: 5px;
   margin-right: 5px;
   font-weight: bold;
 }
 
-.ui_tabs_links a:hover {
-  background-color: #d7d7d7;
-}
-
+.ui_tabs_links a:hover,
 .ui_tabs_links a.selected {
   background-color: #444;
   color: #fff;
   text-decoration: none;
-}
-
-.ui_tabs_links a.yellow {
-  background-color: #fcc;
-  color: #000;
-}
-
-.ui_tabs_links a.yellow:hover {
-  background-color: #faa;
-}
-
-.ui_tabs_links a.yellow.selected {
-  background-color: #a44;
-  color: #fff;
-  text-decoration: none;
-  padding: 1ex;
-}
-
-.ui_tabs_links a.red {
-  background-color: #c33;
-  color: #000;
-}
-
-.ui_tabs_links a.red:hover {
-  background-color: #ebb;
-}
-
-.ui_tabs_links a.red.selected {
-  background-color: #644;
-  color: #fff;
-  text-decoration: none;
-  padding: 1ex;
 }
 
 
@@ -488,15 +447,12 @@ form.unit_selector {
  */
 
 .ui_filter {
-  overflow: hidden;
-  margin-bottom: 1ex;
-  margin-right: 1em;
+  overflow: auto;
 }
 
 .ui_filter_head {
   color: #777;
-  margin-top: 0.5ex;
-  margin-bottom: 0.5ex;
+  margin-top: 1ex;
   font-size: 90%;
   font-weight: bold;
   float: left;
@@ -509,6 +465,7 @@ form.unit_selector {
   padding: 0.5ex;
 }
 
+.ui_filter_head a:hover,
 .ui_filter_head a.active {
   color: #fff;
   background-color: #777;
@@ -855,13 +812,14 @@ form.unit_selector {
 
 .issues {
   clear: left;
+  margin-top: 2ex;
 }
 
 .issues .issue {
-  margin-top: 10px;
   overflow: hidden;
-  border: 1px solid #aaa;
+  border: 1px solid #ddd;
   border-radius: 8px;
+  margin-bottom: 2ex;
 }
 
 .issue.interested,
@@ -1042,7 +1000,7 @@ x.initiative_link.potentially_supported {
 }
 
 .member_thumb .flags {
-  text-align: right;
+  float: right;
   font-size: 75%;
 }
 
@@ -1405,6 +1363,7 @@ div.timeline_results {
   padding: 0;
 }
 
+.page_head,
 .initiative_head,
 .issues .issue,
 .ui_tabs_links a,
@@ -1418,7 +1377,7 @@ div.timeline_results {
 .box {
   box-shadow: #777 0px 5px 5px -5px;
   -mox-box-shadow: #777 0px 5px 5px -5px;
-  -webkit-box-shadow: #777 0px 5px 5px -5px;
+  -webkit-box-shadow: #ddd 3px 3px 3px -1px;
   clear: both;
 }
 

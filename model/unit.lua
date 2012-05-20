@@ -43,7 +43,7 @@ Unit:add_reference{
     end
     sub_selector:from("unit")
     sub_selector:add_field("unit.id", "unit_id")
-    sub_selector:add_field{ '(delegation_info(?, unit.id, null, null)).*', options.member_id }
+    sub_selector:add_field{ '(delegation_info(?, unit.id, null, null, ?)).*', options.member_id, options.trustee_id }
     sub_selector:add_where{ 'unit.id IN ($)', ids }
 
     local selector = Unit:get_db_conn():new_selector()
@@ -57,9 +57,9 @@ Unit:add_reference{
   end
 }
 
-function Unit.list:load_delegation_info_once_for_member_id(member_id)
+function Unit.list:load_delegation_info_once_for_member_id(member_id, trustee_id)
   if self._delegation_info_loaded_for_member_id ~= member_id then
-    self:load("delegation_info", { member_id = member_id })
+    self:load("delegation_info", { member_id = member_id, trustee_id = trustee_id })
     for i, unit in ipairs(self) do
       unit._delegation_info_loaded_for_member_id = member_id
     end
@@ -67,7 +67,7 @@ function Unit.list:load_delegation_info_once_for_member_id(member_id)
   end
 end
 
-function Unit.object:load_delegation_info_once_for_member_id(member_id)
+function Unit.object:load_delegation_info_once_for_member_id(member_id, trustee_id)
   if self._delegation_info_loaded_for_member_id ~= member_id then
     self:load("delegation_info", { member_id = member_id })
     self._delegation_info_loaded_for_member_id = member_id

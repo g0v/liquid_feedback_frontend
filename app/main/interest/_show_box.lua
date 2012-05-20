@@ -7,7 +7,11 @@ local membership = Membership:by_pk(issue.area_id, app.session.member_id)
 
 if interest then
 
-  ui.tag{ content = _"Your are interested" }
+  if issue.closed then
+    ui.tag{ content = _"You were interested" }
+  else
+    ui.tag{ content = _"You are interested" }
+  end
   slot.put(" ")
 
   if issue.state ~= "finished" and issue.state ~= "cancelled" and issue.state ~= "voting" then

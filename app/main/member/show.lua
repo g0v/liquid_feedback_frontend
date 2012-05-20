@@ -29,7 +29,7 @@ slot.select("actions", function()
     view    = "history",
     id      = member.id
   }
-  if not member.activated then
+  if not member.active then
     ui.tag{
       tag = "div",
       attr = { class = "interest deactivated_member_info" },
