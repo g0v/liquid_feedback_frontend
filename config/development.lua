@@ -31,9 +31,9 @@ end
 
 config.motd_public = "==Public motd=="
 
-config.motd_intern = "==Internal motd=="
+--config.motd_intern = "==Internal motd=="
 
-config.public_access = "anonymous"
+config.public_access = "full"
 
 -- you can put some js code to the bottom on the page
 -- here it opens the trace window
@@ -42,3 +42,13 @@ config.public_access = "anonymous"
 --  "custom_script",
 --  "document.getElementById('trace_show').onclick();"
 --)
+
+config.etherpad = {
+  base_url = "http://10.8.33.34:9001/",
+  api_base = "http://10.8.33.34:9001/",
+  api_key = "g5XAVrRb5EgPuEqIdVrRNt2Juipx3PoH",
+  group_id = "g.7WDKN3StkEyuWkyN",
+  cookie_path = "/"
+}
+
+config.document_dir = "/home/dark/tmp"

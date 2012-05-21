@@ -57,8 +57,9 @@ return {
 ["Are you sure?"] = false;
 ["Area"] = false;
 ["Area '#{name}'"] = false;
+["Area delegated"] = false;
+["Area delegated to '#{name}'"] = false;
 ["Area delegation"] = false;
-["Area delegation active"] = false;
 ["Area list"] = false;
 ["Area successfully updated"] = false;
 ["Areas"] = false;
@@ -191,7 +192,7 @@ return {
 ["Generate / change API key"] = false;
 ["Generate API key"] = false;
 ["Global delegation"] = false;
-["Global delegation active"] = false;
+["Globally delegated to '#{name}'"] = false;
 ["Go up"] = false;
 ["Half frozen at"] = false;
 ["Hello "] = false;
@@ -232,7 +233,7 @@ return {
 ["Initiator"] = false;
 ["Initiator invites"] = false;
 ["Initiators"] = false;
-["Interest not existant"] = false;
+["Interest not existent"] = false;
 ["Interest removed"] = false;
 ["Interest updated"] = false;
 ["Interested"] = false;
@@ -250,7 +251,7 @@ return {
 ["Issue accepted"] = false;
 ["Issue canceled"] = false;
 ["Issue delegation"] = false;
-["Issue delegation active"] = false;
+["Issue delegated to '#{name}'"] = false;
 ["Issue events"] = false;
 ["Issue finished"] = false;
 ["Issue finished without voting"] = false;
@@ -294,7 +295,7 @@ return {
 ["Member: '#{login}' (#{name})"] = false;
 ["Members"] = false;
 ["Membership by delegation"] = false;
-["Membership not existant"] = false;
+["Membership not existent"] = false;
 ["Membership removed"] = false;
 ["Membership updated"] = false;
 ["Memberships"] = false;
@@ -458,7 +459,7 @@ return {
 ["Show only events which match... (or associtated)"] = false;
 ["So I'm"] = false;
 ["Software"] = false;
-["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = false;
+["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Chrome, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = false;
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = false;
 ["Sorry, but you are currently not invited"] = false;
 ["Sorry, it was not possible to verify your OpenID."] = false;
@@ -568,12 +569,12 @@ return {
 ["Wednesday"] = false;
 ["Wiki engine"] = false;
 ["Yes"] = false;
-["You are already initator"] = false;
+["You are already initiator"] = false;
 ["You are already not supporting this initiative"] = false;
 ["You are already supporting the latest draft"] = false;
 ["You are currently not invited to any initiative."] = false;
 ["You are currently not supporting this initiative directly. By adding suggestions to this initiative you will automatically become a potential supporter."] = false;
-["You are iniator of this initiative"] = false;
+["You are initiator of this initiative"] = false;
 ["You are interested in this issue"] = false;
 ["You are invited to become initiator of this initiative."] = false;
 ["You are member"] = false;
@@ -583,9 +584,9 @@ return {
 ["You can change the following settings:"] = false;
 ["You can change your email address only once per hour. Please try again later."] = false;
 ["You can't suggest the initiative you are revoking"] = false;
-["You didn't confirmed your email address '#{email}' within 7 days."] = false;
-["You didn't confirmed your email address '#{email}'. You have received an email with an activation link."] = false;
-["You didn't saved any member as contact yet."] = false;
+["You didn't confirm your email address '#{email}' within 7 days."] = false;
+["You didn't confirm your email address '#{email}'. You have received an email with an activation link."] = false;
+["You didn't save any member as contact yet."] = false;
 ["You have saved this member as contact"] = false;
 ["You have saved this member as contact."] = false;
 ["You have to mark 'Are you sure' to revoke!"] = false;

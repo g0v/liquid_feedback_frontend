@@ -1,4 +1,4 @@
-slot.put_into("title", encode.html(_"About LiquidFeedback"))
+slot.put_into("title", encode.html(_"About site"))
 
 if app.session.member_id then
   slot.select("actions", function()
@@ -15,7 +15,7 @@ end
 
 
 slot.put("<br />")
-ui.field.text{ attr = { style = "font-weight: bold;" }, value = "Diensteanbieter:" }
+ui.field.text{ attr = { style = "font-weight: bold;" }, value = _"This service is provided by:" }
 slot.put("<br />")
 
 slot.put(config.app_service_provider)
@@ -25,7 +25,7 @@ slot.put("<br />")
 slot.put("<br />")
 
 
-ui.field.text{ attr = { style = "font-weight: bold;" }, value = "Dieser Dienst ist mit folgender Software realisiert worden:" }
+ui.field.text{ attr = { style = "font-weight: bold;" }, value = _"This service is provided using the following software components:" }
 slot.put("<br />")
 
 local tmp = {

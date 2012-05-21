@@ -13,8 +13,9 @@ if config.feature_rss_enabled then
 end
 
 
-slot.put_into("title", encode.html(_("Area '#{name}'", { name = area.name })))
-
+slot.select("head", function()
+  execute.view{ module = "area", view = "_head", params = { area = area, show_content = true } }
+end)
 
 ui.container{
   attr = { class = "vertical"},
@@ -24,38 +25,23 @@ ui.container{
 }
 
 
-if app.session.member_id then
 
-  slot.select("actions", function()
-    ui.link{
-      content = function()
-        ui.image{ static = "icons/16/folder_add.png" }
-        slot.put(_"Create new issue")
-      end,
-      module = "initiative",
-      view = "new",
-      params = { area_id = area.id }
-    }
-  end)
 
+if app.session.member then
   execute.view{
-    module = "membership",
-    view = "_show_box",
+    module = "area",
+    view = "show_tab",
     params = { area = area }
   }
-
+else
   execute.view{
-    module = "delegation",
-    view = "_show_box",
-    params = { area_id = area.id }
+    module = "issue",
+    view = "_list",
+    params = {
+      issues_selector = area:get_reference_selector("issues"),
+      filter = cgi.params["filter"],
+      filter_voting = param.get("filter_voting"),
+      for_area_list = true
+    }
   }
-
 end
-
-
-execute.view{
-  module = "area",
-  view = "show_tab",
-  params = { area = area }
-}
-

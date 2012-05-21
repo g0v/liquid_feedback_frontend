@@ -1,8 +1,11 @@
-=Thema, Interesse=
+= Thema, Interesse =
 Auf dieser Seite werden alle Initiativen zu diesem Thema aufgelistet. Wenn du ,,Interesse am Thema'' anmeldest, wirst du für dieses Thema den Mitgliedern des übergeordneten Themenbereichs gleichgestellt und erhöhst die Bemessungsgrundlage der von Initiativen zu erreichenden Unterstützerquoren. Sobald du eine Initiative dieses Themas unterstützt, wird dein Interesse auch automatisch angemeldet. Sofern du allen Initiativen die Unterstützung entziehst, bleibt dein Interesse dennoch bestehen bis du es abmeldest. 
-=Delegation, Auto-Ablehnung=
-Eine Delegation zu diesem Thema geht einer eventuell vorhandenen globalen Delegation und/oder Delegation für den übergeordneten Themenbereich vor. Eine eventuelle Weisung zur Auto-Ablehnung gilt nur für den Fall, dass du nicht selbst an der Endabstimmung teilnimmst und es keine tatsächlich genutzte Delegation gibt. Bei angemeldetem Interesse werden ausgehende Delegationen während der Diskussionsphase ausgesetzt, gelten aber in der Endabstimmung.
-=Diskussionsphase=
+
+= Delegation =
+Eine Delegation zu diesem Thema geht einer eventuell vorhandenen globalen Delegation und/oder Delegation für den übergeordneten Themenbereich vor. Bei angemeldetem Interesse werden ausgehende Delegationen während der Diskussionsphase ausgesetzt, gelten aber in der Endabstimmung.
+
+= Diskussionsphase =
 Während der Diskussionsphase (Zustände ,,Neu'' und ,,Diskussion'') solltest du **alle** Initiativen, die du grundsätzlich (oder unter bestimmten Bedingungen) für zustimmungsfähig hältst, unterstützen und Anregungen zur Verbesserung geben (Näheres dazu findest du auf der Initiativenseite). Hierdurch gibst du den Initiatoren die Chance, den Entwurf zu verbessern. Während dieser Phase hast du auch die Möglichkeit, eine eigene (konkurrierende) Initiative zu diesem Thema zu starten und um Unterstützung zu ringen. 
-=Endabstimmung=
+
+= Endabstimmung =
 Initiativen, die ein bestimmtes Quorum erreichen, werden in die Endabstimmung übernommen. Du kannst dann alle Initiativen, denen du zustimmen möchtest, in eine Präferenzreihenfolge bringen. Bei den anderen Initiativen kannst Du dich enthalten oder auch dagegen stimmen (letzteres ebenfalls mit Präferenz). Beschlossen werden können nur Initiativen die insgesamt mehr Ja- als Nein-Stimmen erhalten.

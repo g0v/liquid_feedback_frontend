@@ -15,22 +15,23 @@ end
 if param.get("delete", atom.boolean) then
   if interest then
     interest:destroy()
-    slot.put_into("notice", _"Interest removed")
+    --slot.put_into("notice", _"Interest removed")
   else
-    slot.put_into("notice", _"Interest not existant")
+    --slot.put_into("notice", _"Interest not existent")
   end
   return
+end
+
+if not app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
+  error("access denied")
 end
 
 if not interest then
   interest = Interest:new()
   interest.issue_id   = issue_id
   interest.member_id  = app.session.member_id
-  interest.autoreject = false
 end
-
-interest.autoreject = param.get("autoreject", atom.boolean)
 
 interest:save()
 
-slot.put_into("notice", _"Interest updated")
+--slot.put_into("notice", _"Interest updated")

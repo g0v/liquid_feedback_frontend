@@ -2,7 +2,7 @@ if app.session.member == nil then
   execute.inner()
   return
 end
-
+--[[
 slot.select('searchbox', function()
 
   ui.form{
@@ -30,5 +30,5 @@ slot.select('searchbox', function()
   }
 
 end)
-
+--]]
 execute.inner();

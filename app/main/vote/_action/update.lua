@@ -1,5 +1,9 @@
 local issue = Issue:new_selector():add_where{ "id = ?", param.get("issue_id", atom.integer) }:for_share():single_object_mode():exec()
 
+if not app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
+  error("access denied")
+end
+
 if issue.closed then
   slot.put_into("error", _"This issue is already closed.")
   return false
@@ -10,29 +14,40 @@ if issue.state ~= "voting" then
   return false
 end
 
+local direct_voter = DirectVoter:by_pk(issue.id, app.session.member_id)
 
+if param.get("discard", atom.boolean) then
+  if direct_voter then
+    direct_voter:destroy()
+  end
+  slot.put_into("notice", _"Your vote has been discarded. Delegation rules apply if set.")
+  return
+end
 
-local move_up = param.get("move_up", atom.integer)
-local move_down = param.get("move_down", atom.integer)
+local move_up 
+local move_down
+
+local tempvoting_string = param.get("scoring")
+
+local tempvotings = {}
+for match in tempvoting_string:gmatch("([^;]+)") do
+  for initiative_id, grade in match:gmatch("([^:;]+):([^:;]+)") do
+    tempvotings[tonumber(initiative_id)] = tonumber(grade)
+    if param.get("move_up_" .. initiative_id .. ".x", atom.integer) then
+      move_up = tonumber(initiative_id)
+    elseif param.get("move_down_" .. initiative_id .. ".x", atom.integer) then
+      move_down = tonumber(initiative_id)
+    end
+  end
+end
 
 if not move_down and not move_up then
-  local direct_voter = DirectVoter:by_pk(issue.id, app.session.member_id)
-
-  if param.get("discard", atom.boolean) then
-    if direct_voter then
-      direct_voter:destroy()
-    end
-    slot.put_into("notice", _"Your vote has been discarded. Delegation rules apply if set.")
-    return
-  end
-
   if not direct_voter then
     direct_voter = DirectVoter:new()
     direct_voter.issue_id = issue.id
     direct_voter.member_id = app.session.member_id
   end
 
-  direct_voter.autoreject = false
   direct_voter:save()
 
   local scoring = param.get("scoring")
@@ -56,15 +71,6 @@ if not move_down and not move_up then
   end
 
 else
-
-  local tempvoting_string = param.get("scoring")
-
-  local tempvotings = {}
-  for match in tempvoting_string:gmatch("([^;]+)") do
-    for initiative_id, grade in match:gmatch("([^:;]+):([^:;]+)") do
-      tempvotings[tonumber(initiative_id)] = tonumber(grade)
-    end
-  end
 
   local current_initiative_id = move_up or move_down
 

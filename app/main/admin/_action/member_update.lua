@@ -1,14 +1,11 @@
-local member = Member:by_id(param.get_id()) or Member:new()
+local id = param.get_id()
 
-param.update(member, "login", "admin", "name", "active")
+local member = Member:by_id(id) or Member:new()
 
-local password = param.get("password")
-if password == "********" or #password == 0 then
-  password = nil
-end
+param.update(member, "identification", "notify_email", "admin")
 
-if password then
-  member:set_password(password)
+if param.get("invite_member", atom.boolean) then
+  member:send_invitation()
 end
 
 local err = member:try_save()
@@ -16,10 +13,38 @@ local err = member:try_save()
 if err then
   slot.put_into("error", (_("Error while updating member, database reported:<br /><br /> (#{errormessage})"):gsub("#{errormessage}", tostring(err.message))))
   return false
-else
-  if id then
-    slot.put_into("notice", _"Member successfully updated")
-  else
-    slot.put_into("notice", _"Member successfully registered")
+end
+
+if not id and config.single_unit_id then
+  local privilege = Privilege:new()
+  privilege.member_id = member.id
+  privilege.unit_id = config.single_unit_id
+  privilege.voting_right = true
+  privilege:save()
+end
+
+local units = Unit:new_selector()
+  :add_field("privilege.member_id NOTNULL", "privilege_exists")
+  :add_field("privilege.voting_right", "voting_right")
+  :left_join("privilege", nil, { "privilege.member_id = ? AND privilege.unit_id = unit.id", member.id })
+  :exec()
+
+for i, unit in ipairs(units) do
+  local value = param.get("unit_" .. unit.id, atom.boolean)
+  if value and not unit.privilege_exists then
+    privilege = Privilege:new()
+    privilege.unit_id = unit.id
+    privilege.member_id = member.id
+    privilege.voting_right = true
+    privilege:save()
+  elseif not value and unit.privilege_exists then
+    local privilege = Privilege:by_pk(unit.id, member.id)
+    privilege:destroy()
   end
+end
+
+if id then
+  slot.put_into("notice", _"Member successfully updated")
+else
+  slot.put_into("notice", _"Member successfully registered")
 end

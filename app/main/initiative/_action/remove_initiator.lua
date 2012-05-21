@@ -35,7 +35,7 @@ local initiators = initiative
 
 if #initiators > 1 or initiator_todelete.accepted ~= true then
   initiator_todelete:destroy()
-  slot.put_into("notice", _"Member has been removed from initiators")
+--  slot.put_into("notice", _"Member has been removed from initiators")
 else
   slot.put_into("error", _"Can't remove last initiator")
   return false

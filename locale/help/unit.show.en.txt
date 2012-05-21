@@ -1,0 +1,3 @@
+= Areas =
+
+All subject areas available for the organizational unit are listed here. The bars indicate the ratio of direct members and members represented by delegation of the respective area to the total number of members inside this system. The numbers on the right show how many issues are currently new, in discussion, frozen, voted on, finished or canceled.

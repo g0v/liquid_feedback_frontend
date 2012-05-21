@@ -42,7 +42,8 @@ ui.container{
       content = function()
 
         if not member.active then
-          local text = _"Member is deactivated"
+          local text = _"inactive"
+          ui.tag{ content = text }
           ui.image{
             attr = { alt = text, title = text },
             static = "icons/16/cross.png"
@@ -180,9 +181,7 @@ ui.container{
         }
         ui.container{
           attr = { class = "member_name" },
-          content = function()
-            slot.put(name)
-          end
+          content = name
         }
       end
     }

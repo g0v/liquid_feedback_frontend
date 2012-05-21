@@ -23,16 +23,15 @@ local tabs = {
     name = "current_draft",
     label = current_draft_name,
     icon = { static = "icons/16/script.png" },
-    module = "initiative",
-    view = "_current_draft",
+    module = "draft",
+    view = "_show",
     params = {
-      initiative = initiative,
-      initiator = initiator
+      draft = initiative.current_draft
     }
   }
 }
 
-if app.session.member_id then
+if config.public_access == "full" or app.session.member_id then
   if initiative.issue.ranks_available then
     tabs[#tabs+1] = {
       name = "voting",
@@ -53,14 +52,16 @@ tabs[#tabs+1] = {
   name = "suggestions",
   label = _"Suggestions" .. " (" .. tostring(suggestion_count) .. ")",
   icon = { static = "icons/16/comments.png" },
-  module = "initiative",
-  view = "_suggestions",
+  module = "suggestion",
+  view = "_list",
   params = {
-    initiative = initiative
+    initiative = initiative,
+    suggestions_selector = initiative:get_reference_selector("suggestions"),
+    tab_id = param.get("tab_id")
   }
 }
 
-if app.session.member_id then
+if config.public_access == "full" or app.session.member_id then
   local members_selector = initiative:get_reference_selector("supporting_members_snapshot")
             :join("issue", nil, "issue.id = direct_supporter_snapshot.issue_id")
             :join("direct_interest_snapshot", nil, "direct_interest_snapshot.event = issue.latest_snapshot_event AND direct_interest_snapshot.issue_id = issue.id AND direct_interest_snapshot.member_id = member.id")
@@ -123,27 +124,6 @@ if app.session.member_id then
     }
   }
   
-  local initiators_members_selector = initiative:get_reference_selector("initiating_members")
-    :add_field("initiator.accepted", "accepted")
-  
-  if not (initiator and initiator.accepted) then
-    initiators_members_selector:add_where("initiator.accepted")
-  end
-  
-  local initiator_count = initiators_members_selector:count()
-  
-  tabs[#tabs+1] = {
-    name = "initiators",
-    label = _"Initiators" .. " (" .. tostring(initiator_count) .. ")",
-    icon = { static = "icons/16/user_edit.png" },
-    module = "initiative",
-    view = "_initiators",
-    params = {
-      initiative = initiative,
-      initiator = initiator,
-      initiators_members_selector = initiators_members_selector
-    }
-  }
 end
 
 local drafts_count = initiative:get_reference_selector("drafts"):count()

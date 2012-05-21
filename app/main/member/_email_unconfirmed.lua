@@ -12,12 +12,12 @@ if app.session.member.notify_email_unconfirmed then
   if current then
     ui.tag{
       tag = "div",
-      content = _("You didn't confirmed your email address '#{email}'. You have received an email with an activation link.", { email = app.session.member.notify_email_unconfirmed })
+      content = _("You didn't confirm your email address '#{email}'. You have received an email with an activation link.", { email = app.session.member.notify_email_unconfirmed })
     }
   else
     ui.tag{
       tag = "div",
-      content = _("You didn't confirmed your email address '#{email}' within 7 days.", { email = app.session.member.notify_email_unconfirmed })
+      content = _("You didn't confirm your email address '#{email}' within 7 days.", { email = app.session.member.notify_email_unconfirmed })
     }
   end
   slot.put("<br />")

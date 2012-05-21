@@ -1,4 +1,6 @@
 local members_selector = param.get("members_selector", "table")
+members_selector:add_where("member.activated NOTNULL")
+
 local initiative = param.get("initiative", "table")
 local issue = param.get("issue", "table")
 local trustee = param.get("trustee", "table")
@@ -17,38 +19,45 @@ end
 
 ui.add_partial_param_names{ "member_list" }
 
-local filter = {
-  label = _"Order by",
-  name = "member_list",
-  {
-    name = "name",
-    label = _"A-Z",
-    selector_modifier = function(selector) selector:add_order_by("name") end
-  },
-  {
-    name = "name_desc",
-    label = _"Z-A",
-    selector_modifier = function(selector) selector:add_order_by("name DESC") end
-  },
-  {
-    name = "newest",
-    label = _"Newest",
-    selector_modifier = function(selector) selector:add_order_by("created DESC, id DESC") end
-  },
-  {
-    name = "oldest",
-    label = _"Oldest",
-    selector_modifier = function(selector) selector:add_order_by("created, id") end
-  },
+local filter = { name = "member_list" }
+
+if issue or initiative then
+  if for_votes then
+    filter[#filter+1] = {
+      name = "delegations",
+      label = _"Delegations",
+      selector_modifier = function(selector) selector:add_order_by("voter_weight DESC") end
+    }
+  else
+    filter[#filter+1] = {
+      name = "delegations",
+      label = _"Delegations",
+      selector_modifier = function(selector) selector:add_order_by("weight DESC") end
+    }
+  end
+end
+
+filter[#filter+1] = {
+  name = "newest",
+  label = _"Newest",
+  selector_modifier = function(selector) selector:add_order_by("activated DESC, id DESC") end
+}
+filter[#filter+1] = {
+  name = "oldest",
+  label = _"Oldest",
+  selector_modifier = function(selector) selector:add_order_by("activated, id") end
 }
 
-if initiative then
-  filter[#filter] = {
-    name = "delegations",
-    label = _"Delegations",
-    selector_modifier = function(selector) selector:add_order_by("weight DESC") end
-  }
-end
+filter[#filter+1] = {
+  name = "name",
+  label = _"A-Z",
+  selector_modifier = function(selector) selector:add_order_by("name") end
+}
+filter[#filter+1] = {
+  name = "name_desc",
+  label = _"Z-A",
+  selector_modifier = function(selector) selector:add_order_by("name DESC") end
+}
 
 ui.filters{
   label = _"Change order",

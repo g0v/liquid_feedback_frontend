@@ -1,8 +1,8 @@
-==Welcome to LiquidFeedback and on your homepage==
-These blue boxes will keep following you until you gradually switch them off. Over the time your homepage will (hopefully) show more content like: 
+=Welcome to LiquidFeedback and on your homepage=
+These yellow boxes will keep following you until you gradually switch them off. Over the time your homepage will (hopefully) show more content like: 
 - your profile, 
-- the areas, issues and initiatives you are interested in,
+- the areas and issues you are interested in,
 - your incoming and outgoing delegations, and
 - your published contacts.
 
-And since curiosity is an important human property, you can request this kind of information also about other members. If you would like to know if your friends are already onboard, have a look at ,,Members'' (top above).
+And as curiosity is an important human pecularity, you can request this kind of information also about other members. If you would like to know if your friends are already onboard, have a look at ,,Members'' (top above).

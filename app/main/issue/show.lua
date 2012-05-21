@@ -4,56 +4,16 @@ if not app.html_title.title then
 	app.html_title.title = _("Issue ##{id}", { id = issue.id })
 end
 
-execute.view{
-  module = "issue",
-  view = "_show_head",
-  params = { issue = issue }
-}
-
---[[
-if not issue.fully_frozen and not issue.closed then
-  slot.select("actions", function()
-    ui.link{
-      content = function()
-        ui.image{ static = "icons/16/script_add.png" }
-        slot.put(_"Create alternative initiative")
-      end,
-      module = "initiative",
-      view = "new",
-      params = { issue_id = issue.id }
-    }
-  end)
-end
---]]
+slot.select("head", function()
+  execute.view{ module = "area", view = "_head", params = { area = issue.area } }
+end)
 
 util.help("issue.show")
 
-if issue.state == "cancelled" then
-  local policy = issue.policy
-  ui.container{
-    attr = { class = "not_admitted_info" },
-    content = _("This issue has been cancelled. It failed the quorum of #{quorum}.", { quorum = format.percentage(policy.issue_quorum_num / policy.issue_quorum_den) })
-  }
-end
+slot.select("head", function()
+  execute.view{ module = "issue", view = "_show", params = { issue = issue } }
+end )
 
-ui.container{
-  attr = { class = "issue_initiative_list" },
-  content = function()
-    execute.view{
-      module = "initiative",
-      view = "_list",
-      params = {
-        initiatives_selector = issue:get_reference_selector("initiatives"),
-        issue = issue,
-        expandable = true,
-        for_initiative_id = param.get("for_initiative_id", atom.number),
-        show_for_issue = true
-      }
-    }
-  end
-}
-
-slot.put("<br />")
 
 execute.view{
   module = "issue",

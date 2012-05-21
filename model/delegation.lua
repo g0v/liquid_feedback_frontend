@@ -33,9 +33,14 @@ Delegation:add_reference{
   ref           = 'issue',
 }
 
-function Delegation:by_pk(truster_id, area_id, issue_id)
+function Delegation:by_pk(truster_id, unit_id, area_id, issue_id)
   local selector = self:new_selector():optional_object_mode()
   selector:add_where{ "truster_id = ?", truster_id }
+  if unit_id then
+    selector:add_where{ "unit_id = ?",    unit_id }
+  else
+    selector:add_where("unit_id ISNULL")
+  end
   if area_id then
     selector:add_where{ "area_id = ?",    area_id }
   else

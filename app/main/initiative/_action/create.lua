@@ -33,6 +33,10 @@ else
   end
 end
 
+if not app.session.member:has_voting_right_for_unit_id(area.unit_id) then
+  error("access denied")
+end
+
 local name = param.get("name")
 
 local name = util.trim(name)
@@ -83,6 +87,16 @@ if not issue then
   issue.area_id = area.id
   issue.policy_id = policy_id
   issue:save()
+
+  if config.etherpad then
+    local result = net.curl(
+      config.etherpad.api_base 
+      .. "api/1/createGroupPad?apikey=" .. config.etherpad.api_key
+      .. "&groupID=" .. config.etherpad.group_id
+      .. "&padName=Issue" .. tostring(issue.id)
+      .. "&text=" .. request.get_absolute_baseurl() .. "issue/show/" .. tostring(issue.id) .. ".html"
+    )
+  end
 end
 
 initiative.issue_id = issue.id

@@ -8,6 +8,16 @@ else
   slot.put_into("title", encode.html(_"Register new member"))
 end
 
+local units_selector = Unit:new_selector()
+  
+if member then
+  units_selector
+    :left_join("privilege", nil, { "privilege.member_id = ? AND privilege.unit_id = unit.id", member.id })
+    :add_field("privilege.voting_right", "voting_right")
+end
+
+local units = units_selector:exec()
+  
 ui.form{
   attr = { class = "vertical" },
   module = "admin",
@@ -23,11 +33,22 @@ ui.form{
     }
   },
   content = function()
-    ui.field.text{     label = _"Login",        name = "login" }
-    ui.field.text{     label = _"Name",         name = "name" }
-    ui.field.password{ label = _"Password",     name = "password", value = (member and member.password) and "********" or "" }
+    ui.field.text{     label = _"Identification", name = "identification" }
+    ui.field.text{     label = _"Notification email", name = "notify_email" }
     ui.field.boolean{  label = _"Admin?",       name = "admin" }
-    ui.field.boolean{  label = _"Active?",      name = "active" }
+
+    slot.put("<br />")
+    
+    for i, unit in ipairs(units) do
+      ui.field.boolean{
+        name = "unit_" .. unit.id,
+        label = unit.name,
+        value = unit.voting_right
+      }
+    end
+    slot.put("<br /><br />")
+
+    ui.field.boolean{  label = _"Send invite?",       name = "invite_member" }
     ui.submit{         text  = _"Save" }
   end
 }
