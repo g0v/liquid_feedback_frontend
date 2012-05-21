@@ -223,10 +223,6 @@ Member:add_reference{
   ref                   = 'supported_initiatives'
 }
 
-Member:new_selector()
-  :add_order_by("member.name")
-  :exec()
-
 function Member:build_selector(args)
   local selector = self:new_selector()
   if args.active ~= nil then
