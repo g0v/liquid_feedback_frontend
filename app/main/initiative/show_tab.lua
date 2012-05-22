@@ -31,7 +31,7 @@ local tabs = {
   }
 }
 
-if app.session.member_id then
+if config.public_access == "full" or app.session.member_id then
   if initiative.issue.ranks_available then
     tabs[#tabs+1] = {
       name = "voting",
@@ -52,14 +52,16 @@ tabs[#tabs+1] = {
   name = "suggestions",
   label = _"Suggestions" .. " (" .. tostring(suggestion_count) .. ")",
   icon = { static = "icons/16/comments.png" },
-  module = "initiative",
-  view = "_suggestions",
+  module = "suggestion",
+  view = "_list",
   params = {
-    initiative = initiative
+    initiative = initiative,
+    suggestions_selector = initiative:get_reference_selector("suggestions"),
+    tab_id = param.get("tab_id")
   }
 }
 
-if app.session.member_id then
+if config.public_access == "full" or app.session.member_id then
   local members_selector = initiative:get_reference_selector("supporting_members_snapshot")
             :join("issue", nil, "issue.id = direct_supporter_snapshot.issue_id")
             :join("direct_interest_snapshot", nil, "direct_interest_snapshot.event = issue.latest_snapshot_event AND direct_interest_snapshot.issue_id = issue.id AND direct_interest_snapshot.member_id = member.id")

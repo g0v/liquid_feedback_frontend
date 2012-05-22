@@ -23,14 +23,13 @@ slot.put_into("title", encode.html(_"Member '#{member}'":gsub("#{member}", membe
 slot.select("actions", function()
   ui.link{
     content = function()
-      ui.image{ static = "icons/16/clock_edit.png" }
       slot.put(encode.html(_"Show member history"))
     end,
     module  = "member",
     view    = "history",
     id      = member.id
   }
-  if not member.activated then
+  if not member.active then
     ui.tag{
       tag = "div",
       attr = { class = "interest deactivated_member_info" },
@@ -39,6 +38,7 @@ slot.select("actions", function()
     slot.put(" ")
   end
   if not (member.id == app.session.member.id) then
+    slot.put(" &middot; ")
     --TODO performance
     local contact = Contact:by_pk(app.session.member.id, member.id)
     if contact then
@@ -47,7 +47,6 @@ slot.select("actions", function()
         content = _"You have saved this member as contact."
       }
       ui.link{
-        image  = { static = "icons/16/book_delete.png" },
         text   = _"Remove from contacts",
         module = "contact",
         action = "remove_member",
@@ -64,7 +63,6 @@ slot.select("actions", function()
       }
     elseif member.activated then
       ui.link{
-        image   = { static = "icons/16/book_add.png" },
         text    = _"Add to my contacts",
         module  = "contact",
         action  = "add_member",
@@ -82,11 +80,13 @@ slot.select("actions", function()
     end
   end
   local ignored_member = IgnoredMember:by_pk(app.session.member.id, member.id)
+  slot.put(" &middot; ")
   if ignored_member then
     ui.container{
       attr = { class = "interest" },
       content = _"You have ignored this member"
     }
+    slot.put(" &middot; ")
     ui.link{
       text   = _"Stop ignoring member",
       module = "member",

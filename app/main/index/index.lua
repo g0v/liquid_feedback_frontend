@@ -1,7 +1,3 @@
-execute.view{ module = "index", view = "_lang_chooser" }
-
-slot.put_into("title", encode.html(config.app_title))
-
 if app.session.member_id then
   util.help("index.index", _"Home")
 
@@ -74,7 +70,6 @@ elseif config.public_access then
       issues_selector = closed_issues_selector
     }
   }
-
   ui.tabs(tabs)
   
 else

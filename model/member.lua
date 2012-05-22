@@ -463,7 +463,7 @@ end
 
 function Member.object:ui_field_text(args)
   args = args or {}
-  if app.session.member_id or config.public_access == "pseudonym" then
+  if app.session.member_id or config.public_access == "pseudonym" or config.public_access == "full" then
     -- ugly workaround for getting html into a replaced string and to the user
     ui.container{label = args.label, label_attr={class="ui_field_label"}, content = function()
         slot.put(string.format('<span><a href="%s">%s</a></span>',
@@ -488,4 +488,13 @@ function Member.object:has_voting_right_for_unit_id(unit_id)
     :optional_object_mode()
     :for_share()
     :exec()) and true or false
+end
+
+function Member.object:get_delegatee_member(unit_id, area_id, issue_id)
+  local selector = Member:new_selector()
+  if unit_id then
+    selector:join("delegation", nil, { "delegation.trustee_id = member.id AND delegation.scope = 'unit' AND delegation.unit_id = ? AND delegation.truster_id = ?", unit_id, self.id })
+  end
+  selector:optional_object_mode()
+  return selector:exec()
 end

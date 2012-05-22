@@ -33,6 +33,15 @@ if config.public_access then
 
 end
 
+if config.public_access == "full" then
+  if request.get_module() == "member_image" and request.get_view() == "show"
+   or request.get_module() == "vote" and request.get_view() == "show_incoming"
+   or request.get_module() == "interest" and request.get_view() == "show_incoming"
+   or request.get_module() == "supporter" and request.get_view() == "show_incoming" then
+    auth_needed = false
+  end
+end
+
 if request.get_module() == "sitemap" then
   auth_needed = false
 end

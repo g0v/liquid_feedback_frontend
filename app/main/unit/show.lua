@@ -2,11 +2,9 @@ local unit_id = config.single_unit_id or param.get_id()
 
 local unit = Unit:by_id(unit_id)
 
-if not config.single_unit_id then
-  slot.put_into("title", unit.name)
-else
-  slot.put_into("title", encode.html(config.app_title))
-end
+slot.select("head", function()
+  execute.view{ module = "unit", view = "_head", params = { unit = unit, show_content = true } }
+end)
 
 if config.single_unit_id and not app.session.member_id and config.motd_public then
   local help_text = config.motd_public
@@ -19,15 +17,6 @@ if config.single_unit_id and not app.session.member_id and config.motd_public th
 end
 
 util.help("unit.show", _"Unit")
-
-if app.session.member_id then
-  execute.view{
-    module = "delegation",
-    view = "_show_box",
-    params = { unit_id = unit_id }
-  }
-end
-
 
 local areas_selector = Area:build_selector{ active = true, unit_id = unit_id }
 areas_selector:add_order_by("member_weight DESC")
@@ -72,7 +61,7 @@ tabs[#tabs+1] = {
 
 tabs[#tabs+1] = {
   name = "timeline",
-  label = _"Events",
+  label = _"Latest events",
   module = "event",
   view = "_list",
   params = { for_unit = unit }
@@ -101,8 +90,8 @@ tabs[#tabs+1] = {
 
 if app.session.member_id then
   tabs[#tabs+1] = {
-    name = "members",
-    label = _"Members",
+    name = "eligible_voters",
+    label = _"Eligible voters",
     module = "member",
     view = "_list",
     params = { members_selector = members_selector }

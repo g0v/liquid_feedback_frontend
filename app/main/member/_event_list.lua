@@ -5,7 +5,7 @@ ui.container{ attr = { class = "ui_filter_head" }, content = function()
 
   ui.link{
     attr = { class = events == "personal" and "ui_tabs_link active" or nil },
-    text = _"Personal timeline",
+    text = _"My areas and issues",
     module = "index", view = "index", params = { tab = "timeline", events = "personal" }
   }
   
@@ -13,7 +13,7 @@ ui.container{ attr = { class = "ui_filter_head" }, content = function()
 
   ui.link{
     attr = { class = events == "global" and "active" or nil },
-    text = _"Global timeline",
+    text = _"Everything",
     module = "index", view = "index", params = { tab = "timeline", events = "global" }
   }
 end }

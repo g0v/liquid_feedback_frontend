@@ -1,5 +1,4 @@
 local initiative = param.get("initiative", "table")
-local initiator = param.get("initiator", "table")
 
 local initiators_members_selector = initiative:get_reference_selector("initiating_members")
   :add_field("initiator.accepted", "accepted")
@@ -14,121 +13,125 @@ local initiators = initiators_members_selector:exec()
 
 
 local initiatives_selector = initiative.issue:get_reference_selector("initiatives")
-slot.select("initiatives_list", function()
+slot.select("head", function()
   execute.view{
-    module = "initiative",
-    view = "_list",
+    module = "issue",
+    view = "_show",
     params = {
       issue = initiative.issue,
-      initiatives_selector = initiatives_selector,
-      no_sort = true, highlight_initiative = initiative, limit = 3
+      initiative_limit = 3
     }
   }
 end)
 
-slot.select("initiative_head", function()
+ui.container{ attr = { class = "initiative_head" }, content = function()
 
   ui.container{
-    attr = { class = "initiative_name" },
+    attr = { class = "title" },
     content = _("Initiative i#{id}: #{name}", { id = initiative.id, name = initiative.name })
   }
 
-  if app.session.member_id or config.public_access == "pseudonym" or config.public_access == "full" then
-    ui.tag{
-      attr = { class = "initiator_names" },
-      content = function()
-        for i, initiator in ipairs(initiators) do
-          slot.put(" ")
-          if app.session.member_id then
-            ui.link{
-              content = function ()
-                execute.view{
-                  module = "member_image",
-                  view = "_show",
-                  params = {
-                    member = initiator,
-                    image_type = "avatar",
-                    show_dummy = true,
-                    class = "micro_avatar",
-                    popup_text = text
+  ui.container{ attr = { class = "content" }, content = function()
+    if app.session.member_id or config.public_access == "pseudonym" or config.public_access == "full" then
+      ui.tag{
+        attr = { class = "initiator_names" },
+        content = function()
+          for i, initiator in ipairs(initiators) do
+            slot.put(" ")
+            if app.session.member_id or config.public_access == "full" then
+              ui.link{
+                content = function ()
+                  execute.view{
+                    module = "member_image",
+                    view = "_show",
+                    params = {
+                      member = initiator,
+                      image_type = "avatar",
+                      show_dummy = true,
+                      class = "micro_avatar",
+                      popup_text = text
+                    }
                   }
-                }
-              end,
+                end,
+                module = "member", view = "show", id = initiator.id
+              }
+              slot.put(" ")
+            end
+            ui.link{
+              text = initiator.name,
               module = "member", view = "show", id = initiator.id
             }
-            slot.put(" ")
-          end
-          ui.link{
-            text = initiator.name,
-            module = "member", view = "show", id = initiator.id
-          }
-          if not initiator.accepted then
-            ui.tag{ attr = { title = _"Not accepted yet" }, content = "?" }
+            if not initiator.accepted then
+              ui.tag{ attr = { title = _"Not accepted yet" }, content = "?" }
+            end
           end
         end
-      end
-    }
-  end
-
-  if initiator and initiator.accepted and not initiative.issue.fully_frozen and not initiative.issue.closed and not initiative.revoked then
-    slot.put(" &middot; ")
-    ui.link{
-      attr = { class = "action" },
-      content = function()
-        slot.put(_"Invite initiator")
-      end,
-      module = "initiative",
-      view = "add_initiator",
-      params = { initiative_id = initiative.id }
-    }
-    if #initiators > 1 then
-      slot.put(" &middot; ")
-      ui.link{
-        content = function()
-          slot.put(_"Remove initiator")
-        end,
-        module = "initiative",
-        view = "remove_initiator",
-        params = { initiative_id = initiative.id }
       }
     end
-  end
-  if initiator and initiator.accepted == false then
+
+    if initiator and initiator.accepted and not initiative.issue.fully_frozen and not initiative.issue.closed and not initiative.revoked then
       slot.put(" &middot; ")
       ui.link{
-        text   = _"Cancel refuse of invitation",
+        attr = { class = "action" },
+        content = function()
+          slot.put(_"Invite initiator")
+        end,
         module = "initiative",
-        action = "remove_initiator",
-        params = {
-          initiative_id = initiative.id,
-          member_id = app.session.member.id
-        },
-        routing = {
-          ok = {
-            mode = "redirect",
-            module = "initiative",
-            view = "show",
-            id = initiative.id
+        view = "add_initiator",
+        params = { initiative_id = initiative.id }
+      }
+      if #initiators > 1 then
+        slot.put(" &middot; ")
+        ui.link{
+          content = function()
+            slot.put(_"Remove initiator")
+          end,
+          module = "initiative",
+          view = "remove_initiator",
+          params = { initiative_id = initiative.id }
+        }
+      end
+    end
+    if initiator and initiator.accepted == false then
+        slot.put(" &middot; ")
+        ui.link{
+          text   = _"Cancel refuse of invitation",
+          module = "initiative",
+          action = "remove_initiator",
+          params = {
+            initiative_id = initiative.id,
+            member_id = app.session.member.id
+          },
+          routing = {
+            ok = {
+              mode = "redirect",
+              module = "initiative",
+              view = "show",
+              id = initiative.id
+            }
           }
         }
+    end
+  end }
+  ui.container{ attr = { class = "content" }, content = function()
+    if app.session.member_id then
+      execute.view{
+        module = "supporter",
+        view = "_show_box",
+        params = {
+          initiative = initiative
+        }
       }
-  end
-  if app.session.member_id then
-    execute.view{
-      module = "supporter",
-      view = "_show_box",
-      params = {
-        initiative = initiative
-      }
-    }
-  end
+    end
 
-end )
+  end }
+
+end }
 
 
 util.help("initiative.show")
 
-slot.select("initiative_head", function()
+--slot.select("initiative_head", function()
 
   if initiative.issue.ranks_available and initiative.admitted then
     local class = initiative.winner and "admitted_info" or "not_admitted_info"
@@ -192,14 +195,7 @@ slot.select("initiative_head", function()
     }
   end
 
-  if initiative.issue.state == "cancelled" then
-    local policy = initiative.issue.policy
-    ui.container{
-      attr = { class = "not_admitted_info" },
-      content = _("This issue has been cancelled. It failed the quorum of #{quorum}.", { quorum = format.percentage(policy.issue_quorum_num / policy.issue_quorum_den) })
-    }
-  end
-end)
+--end)
 
 if initiator and initiator.accepted == nil and not initiative.issue.half_frozen and not initiative.issue.closed then
   ui.container{
