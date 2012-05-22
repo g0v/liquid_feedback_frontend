@@ -236,10 +236,6 @@ Member:add_reference{
 
 model.has_rendered_content(Member, RenderedMemberStatement, "statement")
 
-Member:new_selector()
-  :add_order_by("member.name")
-  :exec()
-
 function Member:build_selector(args)
   local selector = self:new_selector()
   if args.active ~= nil then
