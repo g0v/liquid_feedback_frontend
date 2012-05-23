@@ -4,7 +4,7 @@ return {
 ["#{count} more areas in this unit, #{delegated_count} of them are delegated"] = "#{count} weitere Themenbereiche in dieser Gliederung, #{delegated_count} davon delegiert";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} Themen";
-["#{name}\n\n"] = false;
+["#{name}\n\n"] = "#{name}\n\n";
 ["#{number} Image(s) has been deleted"] = "Es wurde(n) #{number} Bild(er) gelöscht";
 ["#{number} Image(s) has been updated"] = "Es wurde(n) #{number} Bild(er) aktualisiert";
 ["#{time_left} left"] = "noch #{time_left}";
@@ -13,9 +13,11 @@ return {
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = false;
 ["A-Z"] = "A-Z";
+["API Key"] = "API-Key";
 ["API key"] = "API-Schlüssel";
+["API key has been created"] = "API-Schlüssel wurde erzeugt";
 ["API key has been deleted"] = "API-Schlüssel wurde gelöscht";
-["API key has been updated"] = "API-Schlüssel wurde aktualisiert";
+["API keys"] = "API-Schlüssel";
 ["Abandon global delegation for this area"] = "Aussetzen der globale Delegation";
 ["Abandon unit and area delegations for this issue"] = "Aussetzen der Gliederungs-/Themenbereichsdelegation";
 ["Abandon unit delegation for this area"] = "Aussetzen der Gliederungsdelegation";
@@ -25,6 +27,7 @@ return {
 ["Abstention [single entry]"] = "Enthaltung";
 ["Accept invitation"] = "Einladung annehmen";
 ["Accepted at"] = "Angenommen am/um";
+["Access level"] = "Berechtigung";
 ["Active?"] = "Aktiv?";
 ["Add alternative initiative to issue"] = "Alternative Initiative zum Thema hinzufügen";
 ["Add my interest"] = "Mein Interesse anmelden";
@@ -88,7 +91,6 @@ return {
 ["Cancelled (during verification due to revocation)"] = "Abgebrochen (während Eingefroren-Phase, wegen Rückzug)";
 ["Cancelled (issue not accepted)"] = "Abgebrochen (Thema nicht akzeptiert)";
 ["Cancelled (no initiative admitted)"] = "Abgebrochen (Keine Initiative zugelassen)";
-["Change API key"] = "API-Schlüssel ändern";
 ["Change area delegation"] = "Delegation für Themenbereich ändern";
 ["Change display settings"] = "Anzeige-Einstellungen ändern";
 ["Change email"] = "E-Mail-Adresse ändern";
@@ -148,7 +150,7 @@ return {
 ["Delegation turned off for area"] = "Delegation für Themengebiet ausgesetzt";
 ["Delegation turned off for issue"] = "Delegation für Thema ausgesetzt";
 ["Delegations"] = "Delegationen";
-["Delete API key"] = "API-Schlüssel löschen";
+["Delete"] = "Löschen";
 ["Delete filter"] = "Filter löschen";
 ["Description"] = "Beschreibung";
 ["Details"] = "Details";
@@ -185,10 +187,12 @@ return {
 ["Draft"] = "Entwurf";
 ["Draft history"] = "Entwurfshistorie";
 ["Edit"] = "Bearbeiten";
+["Edit areas"] = "Themenbereiche bearbeiten";
 ["Edit draft"] = "Entwurf bearbeiten";
 ["Edit initiative"] = "Initiative bearbeiten";
 ["Edit my page"] = "Meine Seite bearbeiten";
 ["Edit my profile"] = "Mein Profil bearbeiten";
+["Edit unit"] = "Gliederung bearbeiten";
 ["Eligible as winner"] = "Als Gewinner qualifiziert";
 ["Email address"] = "E-Mail-Adresse";
 ["Email address confirmation"] = "Bestätigung der E-Mail-Adresse";
@@ -212,7 +216,6 @@ return {
 ["Friday"] = "Freitag";
 ["Frozen"] = "Eingefroren";
 ["Fully frozen at"] = "Ganz eingefroren am/um";
-["Generate / change API key"] = "API-Schlüssel erzeugen/ändern";
 ["Generate API key"] = "API-Schlüssel erzeugen";
 ["Global delegation"] = "Globale Delegation";
 ["Global delegation set to '#{name}'"] = "Globale Delegation an '#{name}' erteilt";
@@ -510,7 +513,6 @@ return {
 ["Show policies not in use"] = "Zeige deaktivierte Regelwerke";
 ["So I'm"] = "Also bin ich";
 ["Software"] = "Software";
-["Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Chrome, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."] = "Einige auf JavaScript basierende Funktionen (insbesondere der Abstimmung) sind nicht benutzbar.\nFür diese Beta verwende bitte eine aktuelle Version von Firefox, Safari, Chrome, Opera(?), Konqueror oder einen anderen (mehr) den Standards entsprechenden Browser.\nEin alternativer Zugriff ohne JavaScript wird bald zur Verfügung stehen.";
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Sorry, aber für diesen Account ist keine bestätigte E-Mail-Adresse hinterlegt. Bitte wende Dich an den Administrator oder den Support.";
 ["Sorry, but you are currently not invited"] = "Sorry, aber Du bist zur Zeit nicht eingeladen";
 ["Sorry, it was not possible to verify your OpenID."] = "Sorry, es war nicht möglich deine OpenID zu verifizieren.";
@@ -547,7 +549,6 @@ return {
 ["Supporter count"] = "Anzahl der Unterstützer";
 ["Syntax help"] = "Syntax-Hilfe";
 ["Terms of use"] = "Nutzungsbedingungen";
-["The API key has been changed too fast."] = "Der API-Schlüssel wurde zu schnell geändert.";
 ["The code you've entered is invalid"] = "Der Code, den Du eingeben hast, ist nicht gültig!";
 ["The draft of this initiative has been updated!"] = "Der Entwurfstext der Initiative wurde aktualisiert!";
 ["The drafts do not differ"] = "Die Entwürfe unterscheiden sich nicht";
@@ -603,6 +604,7 @@ return {
 ["Updated drafts"] = "Neue Entwürfe";
 ["Upload images"] = "Bilder hochladen";
 ["Use terms"] = "Nutzungsbedingungen";
+["Verification"] = "Überprüfung";
 ["Verification started"] = "Phase Eingefroren gestartet";
 ["Verification starts soon"] = "Phase Eingefroren startet in Kürze";
 ["Verification time"] = "Zeit für Eingefroren";
@@ -617,7 +619,6 @@ return {
 ["Voting for this issue has already begun."] = "Die Abstimmung für dieses Thema hat schon begonnen.";
 ["Voting for this issue is currently running!"] = "Über dieses Thema wird gerade abgestimmt!";
 ["Voting has not started yet."] = "Die Abstimmung hat noch nicht begonnen.";
-["Voting privileges"] = "Abstimmberechtigung";
 ["Voting proposal"] = "Abstimmungsvorlage";
 ["Voting started"] = "Abstimmung begonnen";
 ["Voting starts soon"] = "Abstimmung beginnt in Kürze";
@@ -661,7 +662,6 @@ return {
 ["You have voting privileges for this unit, but you are not member of any of its areas."] = "Du hast Abstimmprivilegien für diese Gliederung bist jedoch in keinem Themenbereich Mitglied.";
 ["You need to be logged in, to use all features of this system."] = "Du musst eingeloggt sein, um alle Funktionen dieses Systems nutzen zu können.";
 ["You've successfully registered and you can login now with your login and password!"] = "Du hast Dich erfolgreich registriert und kannst Dich jetzt mit Deinen Benutzernamen und Kennwort anmelden!";
-["Your API key:"] = "Dein API-Schlüssel:";
 ["Your are interested"] = "Du bist interessiert";
 ["Your are potential supporter"] = "Du bist potentieller Unterstützer";
 ["Your are supporter"] = "Du bist Unterstützer";
@@ -684,7 +684,6 @@ return {
 ["Your support has been removed from this initiative"] = "Deine Unterstützung wurde der Initiative entzogen";
 ["Your support has been updated to the latest draft"] = "Deine Unterstützung wurde auf den neuesten Entwurf aktualisiert";
 ["Your vote has been discarded. Delegation rules apply if set."] = "Deine Abstimmung wurde zurückgezogen. Delegationsregeln gelten sofern gesetzt.";
-["Your web browser is not fully supported yet."] = "Dein Web-Browser wird noch nicht vollständig unterstützt.";
 ["Z-A"] = "Z-A";
 ["[No voting privilege]"] = "[Kein Stimmrecht]";
 ["[Registered members only]"] = "[nur für Registrierte]";
