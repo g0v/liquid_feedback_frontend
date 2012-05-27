@@ -4,6 +4,12 @@ if tmp and tmp.text_entries_left and tmp.text_entries_left < 1 then
   return false
 end
 
+local initiative = Initiative:by_id(param.get("initiative_id", atom.integer))
+if not app.session.member:has_voting_right_for_unit_id(initiative.issue.area.unit_id) then
+  error("access denied")
+end
+
+
 local name = param.get("name")
 local name = util.trim(name)
 
@@ -12,11 +18,28 @@ if #name < 3 then
   return false
 end
 
+local formatting_engine = param.get("formatting_engine")
+
+local formatting_engine_valid = false
+for fe, dummy in pairs(config.formatting_engine_executeables) do
+  if formatting_engine == fe then
+    formatting_engine_valid = true
+  end
+end
+if not formatting_engine_valid then
+  error("invalid formatting engine!")
+end
+
+if param.get("preview") then
+  return
+end
+
 local suggestion = Suggestion:new()
 
 suggestion.author_id = app.session.member.id
 suggestion.name = name
-param.update(suggestion, "description", "initiative_id")
+suggestion.formatting_engine = formatting_engine
+param.update(suggestion, "content", "initiative_id")
 suggestion:save()
 
 -- TODO important m1 selectors returning result _SET_!

@@ -1,12 +1,27 @@
-function change_delegation(scope, area_id, issue, delegation, initiative_id)
+function change_delegation(scope, unit_id, area_id, issue, delegation, initiative_id)
+  local check_unit_id
+  if unit_id then
+    check_unit_id = unit_id
+  elseif area_id then
+    local area = Area:by_id(area_id)
+    check_unit_id = area.unit_id
+  else
+    local area = Area:by_id(issue.area_id)
+    check_unit_id = area.unit_id
+  end
+
+  if not app.session.member:has_voting_right_for_unit_id(check_unit_id) then
+    return
+  end
+
   local image
   local text
-  if scope == "global" and delegation then
+  if scope == "unit" and delegation and delegation.unit_id then
     image = { static = "icons/16/table_go.png" }
-    text = _"Change global delegation"
-  elseif scope == "global" and not delegation then
+    text = config.single_unit_id and _"Change global delegation" or _"Change unit delegation"
+  elseif scope == "unit" and not (delegation and delegation.unit_id) then
     image = { static = "icons/16/table_go.png" }
-    text = _"Set global delegation"
+    text = config.single_unit_id and _"Set global delegation" or _"Set unit delegation"
   elseif scope == "area" and delegation and delegation.area_id then
     image = { static = "icons/16/table_go.png" }
     text = _"Change area delegation"
@@ -35,7 +50,8 @@ function change_delegation(scope, area_id, issue, delegation, initiative_id)
         params = {
           issue_id = issue and issue.id or nil,
           initiative_id = initiative_id or nil,
-          area_id = area_id
+          area_id = area_id,
+          unit_id = unit_id
         },
       }
       if delegation then
@@ -44,7 +60,7 @@ function change_delegation(scope, area_id, issue, delegation, initiative_id)
           text   = _"Revoke",
           module = "delegation",
           action = "update",
-          params = { issue_id = delegation.issue_id, area_id = delegation.area_id, delete = true },
+          params = { issue_id = delegation.issue_id, area_id = delegation.area_id, unit_id = delegation.unit_id, delete = true },
           routing = {
             default = {
               mode = "redirect",
@@ -61,11 +77,16 @@ function change_delegation(scope, area_id, issue, delegation, initiative_id)
 end
 
 local delegation
+local unit_id
 local area_id
 local issue_id
 local initiative_id
 
-local scope = "global"
+local scope = "unit"
+
+unit_id = param.get("unit_id", atom.integer)
+
+local inline = param.get("inline", atom.boolean)
 
 if param.get("initiative_id", atom.integer) then
   initiative_id = param.get("initiative_id", atom.integer)
@@ -90,20 +111,32 @@ local issue
 
 if issue_id then
   issue = Issue:by_id(issue_id)
-  delegation = Delegation:by_pk(app.session.member.id, nil, issue_id)
+  delegation = Delegation:by_pk(app.session.member.id, nil, nil, issue_id)
   if not delegation then
-    delegation = Delegation:by_pk(app.session.member.id, issue.area_id)
+    delegation = Delegation:by_pk(app.session.member.id, nil, issue.area_id)
+  end
+  if not delegation then
+    delegation = Delegation:by_pk(app.session.member.id, issue.area.unit_id)
   end
 elseif area_id then
-  delegation = Delegation:by_pk(app.session.member.id, area_id)
+  delegation = Delegation:by_pk(app.session.member.id, nil, area_id)
+  if not delegation then
+    local area = Area:by_id(area_id)
+    delegation = Delegation:by_pk(app.session.member.id, area.unit_id)
+  end
 end
 
 if not delegation then
-  delegation = Delegation:by_pk(app.session.member.id)
+  delegation = Delegation:by_pk(app.session.member.id, unit_id)
 end
 
+local slot_name = "actions"
 
-slot.select("actions", function()
+if inline then
+  slot_name = "default"
+end
+
+slot.select(slot_name, function()
 
   if delegation then
     ui.container{
@@ -121,13 +154,24 @@ slot.select("actions", function()
               ui.image{
                 static = "icons/16/table_go.png"
               }
+              local member = Member:new_selector()
+                :reset_fields()
+                :add_field("name", "delegation_name")
+                :add_where({ "id = ?", delegation.trustee_id })
+                :single_object_mode()
+                :exec()
               if delegation.issue_id then
-                slot.put(_"Issue delegation active")
+                slot.put( _("Issue delegated to '#{name}'", { name = member.delegation_name }) )
               elseif delegation.area_id then
-                slot.put(_"Area delegation active")
+                slot.put( _("Area delegated to '#{name}'", { name = member.delegation_name }) )
               else
-                slot.put(_"Global delegation active")
+                if config.single_unit_id then
+                  slot.put( _("Global delegation set to '#{name}'", { name = member.delegation_name }) )
+                else
+                  slot.put( _("Unit delegated to '#{name}'", { name = member.delegation_name }) )
+                end
               end
+
             else
               ui.image{
                 static = "icons/16/table_go_crossed.png"
@@ -159,17 +203,18 @@ slot.select("actions", function()
     
             local delegation_chain = Member:new_selector()
               :add_field("delegation_chain.*")
-              :join("delegation_chain(" .. tostring(app.session.member.id) .. ", " .. tostring(area_id or "NULL") .. ", " .. tostring(issue_id or "NULL") .. ")", "delegation_chain", "member.id = delegation_chain.member_id")
+              :join("delegation_chain(" .. tostring(app.session.member.id) .. ", " .. tostring(unit_id or "NULL") .. ", " .. tostring(area_id or "NULL") .. ", " .. tostring(issue_id or "NULL") .. ")", "delegation_chain", "member.id = delegation_chain.member_id")
               :add_order_by("index")
               :exec()
     
             if not issue or (issue.state ~= "finished" and issue.state ~= "cancelled") then
-              change_delegation(scope, area_id, issue, delegation, initiative_id)
+              change_delegation(scope, unit_id, area_id, issue, delegation, initiative_id)
+              slot.put("<br style='clear: left'/>")
             end
 
             for i, record in ipairs(delegation_chain) do
               local style
-              local overridden = record.overridden
+              local overridden = (not issue or issue.state ~= 'voting') and record.overridden
               if record.scope_in then
                 ui.container{
                   attr = { class = "delegation_info" },
@@ -177,19 +222,19 @@ slot.select("actions", function()
                     if not overridden then
                       ui.image{
                         attr = { class = "delegation_arrow" },
-                        static = "delegation_arrow_vertical.jpg"
+                        static = "delegation_arrow_24_vertical.png"
                       }
                     else
                       ui.image{
                         attr = { class = "delegation_arrow delegation_arrow_overridden" },
-                        static = "delegation_arrow_vertical.jpg"
+                        static = "delegation_arrow_24_vertical.png"
                       }
                     end
                     ui.container{
                       attr = { class = "delegation_scope" .. (overridden and " delegation_scope_overridden" or "") },
                       content = function()
-                        if record.scope_in == "global" then
-                          slot.put(_"Global delegation")
+                        if record.scope_in == "unit" then
+                          slot.put(config.single_object_mode and _"Global delegation" or _"Unit delegation")
                         elseif record.scope_in == "area" then
                           slot.put(_"Area delegation")
                         elseif record.scope_in == "issue" then
@@ -210,7 +255,7 @@ slot.select("actions", function()
                   }
                 end
               }
-              if record.participation and not record.overridden then
+              if (not issue or issue.state ~= 'voting') and record.participation and not record.overridden then
                 ui.container{
                   attr = { class = "delegation_participation" },
                   content = function()
@@ -225,6 +270,6 @@ slot.select("actions", function()
       end
     }
   else
-    change_delegation(scope, area_id, issue, nil, initiative_id)
+    change_delegation(scope, unit_id, area_id, issue, nil, initiative_id)
   end
 end)

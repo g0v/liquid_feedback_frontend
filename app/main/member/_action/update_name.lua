@@ -1,3 +1,7 @@
+if config.locked_profile_fields.name then
+  error("access denied")
+end
+
 local name = param.get("name")
 
 name = util.trim(name)

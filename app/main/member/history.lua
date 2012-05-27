@@ -68,5 +68,5 @@ ui.tag{
 }
 slot.put("<br />")
 ui.container{
-  content = _("This member account has been created at #{created}", { created = format.timestamp(member.created)})
+  content = _("This member account has been created at #{created}", { created = format.timestamp(member.activated)})
 }

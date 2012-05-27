@@ -40,48 +40,57 @@ end)
     }
   end
 
-  local setting_key = "liquidfeedback_frontend_api_key"
-  local setting = Setting:by_pk(app.session.member.id, setting_key)
-  local api_key
-  if setting then
-    api_key = setting.value
-  end
+  ui.heading{ content = _"API keys" }
+  
+--  util.help("member.developer_settings.api_key", _"API key")
 
-  ui.heading{ content = _"Generate / change API key" }
-  util.help("member.developer_settings.api_key", _"API key")
+  local member_applications = MemberApplication:new_selector()
+    :add_where{ "member_id = ?", app.session.member.id }
+    :add_order_by("name, id")
+    :exec()
+    
+  if #member_applications > 0 then
 
-  if api_key then
-    slot.put(_"Your API key:")
-    slot.put(" ")
-    slot.put("<tt>", api_key, "</tt>")
-    slot.put(" ")
-    ui.link{
-      text = _"Change API key",
-      module = "member",
-      action = "update_api_key",
-      routing = {
-        default = {
-          mode = "redirect",
-          module = "member",
-          view = "developer_settings"
-        }
+    ui.list{
+      records = member_applications,
+      columns = {
+        {
+          name = "name",
+          label = _"Name"
+        },
+        {
+          name = "access_level",
+          label = _"Access level"
+        },
+        {
+          name = "key",
+          label = _"API Key"
+        },
+        {
+          name = "last_usage",
+          label = "Last usage"
+        },
+        {
+          content = function(member_application)
+            ui.link{
+              text = _"Delete",
+              module = "member", action = "update_api_key", id = member_application.id,
+              params = { delete = true },
+              routing = {
+                default = {
+                  mode = "redirect",
+                  module = "member",
+                  view = "developer_settings"
+                }
+              }
+            }
+          end
+        },
       }
     }
-    slot.put(" ")
-    ui.link{
-      text = _"Delete API key",
-      module = "member",
-      action = "update_api_key",
-      params = { delete = true },
-      routing = {
-        default = {
-          mode = "redirect",
-          module = "member",
-          view = "developer_settings",
-        }
-      }
-    }
+  
   else
+    
     slot.put(_"Currently no API key is set.")
     slot.put(" ")
     ui.link{

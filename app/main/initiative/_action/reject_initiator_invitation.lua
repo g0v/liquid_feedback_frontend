@@ -19,6 +19,6 @@ end
 initiator.accepted = false
 initiator:save()
 
-slot.put_into("notice", _"Invitation has been refused")
+--slot.put_into("notice", _"Invitation has been refused")
 
 

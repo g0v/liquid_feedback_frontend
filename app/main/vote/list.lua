@@ -81,12 +81,6 @@ else
 end
 
 
-local warning_text = _"Some JavaScript based functions (voting in particular) will not work.\nFor this beta, please use a current version of Firefox, Safari, Opera(?), Konqueror or another (more) standard compliant browser.\nAlternative access without JavaScript will be available soon."
-
-ui.script{ static = "js/browser_warning.js" }
-ui.script{ script = "checkBrowser(" .. encode.json(_"Your web browser is not fully supported yet." .. " " .. warning_text:gsub("\n", "\n\n")) .. ");" }
-
-
 local tempvoting_string = param.get("scoring")
 
 local tempvotings = {}
@@ -202,6 +196,8 @@ ui.form{
           local vote = initiative.vote
           if vote then
             tempvotings[initiative.id] = vote.grade
+          else
+            tempvotings[initiative.id] = 0
           end
         end
         local tempvotings_list = {}
@@ -341,7 +337,7 @@ ui.form{
                       end
                       local initiator_names_string = table.concat(initiator_names, ", ")
                       ui.container{
-                        attr = { style = "float: right;" },
+                        attr = { style = "float: right; position: relative;" },
                         content = function()
                           ui.link{
                             attr = { class = "clickable" },
@@ -366,14 +362,13 @@ ui.form{
                       }
                       if not readonly then
                         ui.container{
-                          attr = { style = "float: left;" },
+                          attr = { style = "float: left; position: relative;" },
                           content = function()
                             ui.tag{
                               tag = "input",
                               attr = {
-                                onclick = "voting_moveUp(this.parentNode.parentNode); return(false);",
-                                name = "move_up",
-                                value = initiative.id,
+                                onclick = "if (jsFail) return true; voting_moveUp(this.parentNode.parentNode); return(false);",
+                                name = "move_up_" .. tostring(initiative.id),
                                 class = not disabled and "clickable" or nil,
                                 type = "image",
                                 src = encode.url{ static = "icons/move_up.png" },
@@ -384,9 +379,8 @@ ui.form{
                             ui.tag{
                               tag = "input",
                               attr = {
-                                onclick = "voting_moveDown(this.parentNode.parentNode); return(false);",
-                                name = "move_down",
-                                value = initiative.id,
+                                onclick = "if (jsFail) return true; voting_moveDown(this.parentNode.parentNode); return(false);",
+                                name = "move_down_" .. tostring(initiative.id),
                                 class = not disabled and "clickable" or nil,
                                 type = "image",
                                 src = encode.url{ static = "icons/move_down.png" },
@@ -399,17 +393,30 @@ ui.form{
                       end
                       ui.container{
                         content = function()
-                          slot.put(encode.html(initiative.shortened_name))
-                          if #initiators > 1 then
-                            ui.container{
-                              attr = { style = "font-size: 80%;" },
-                              content = _"Initiators" .. ": " .. initiator_names_string
+                          ui.tag{ content = "i" .. initiative.id .. ": " }
+                          ui.tag{ content = initiative.shortened_name }
+                          slot.put("<br />")
+                          for i, initiator in ipairs(initiators) do
+                            ui.link{
+                              attr = { class = "clickable" },
+                              content = function ()
+                                execute.view{
+                                  module = "member_image",
+                                  view = "_show",
+                                  params = {
+                                    member = initiator,
+                                    image_type = "avatar",
+                                    show_dummy = true,
+                                    class = "micro_avatar",
+                                    popup_text = text
+                                  }
+                                }
+                              end,
+                              module = "member", view = "show", id = initiator.id
                             }
-                          else
-                            ui.container{
-                              attr = { style = "font-size: 80%;" },
-                              content = _"Initiator" .. ": " .. initiator_names_string
-                            }
+                            slot.put(" ")
+                            ui.tag{ content = initiator.name }
+                            slot.put(" ")
                           end
                         end
                       }

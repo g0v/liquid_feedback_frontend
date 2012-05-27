@@ -15,7 +15,7 @@ ui.paginate{
   content = function()
     local contacts = contacts_selector:exec()
     if #contacts == 0 then
-      ui.field.text{ value = _"You didn't saved any member as contact yet." }
+      ui.field.text{ value = _"You didn't save any member as contact yet." }
     else
       ui.list{
         records = contacts,

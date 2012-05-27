@@ -15,6 +15,7 @@ execute.view{
   params = {
     members_selector = members_selector,
     initiative = initiative,
-    trustee = member
+    trustee = member,
+    for_votes = true
   }
 }

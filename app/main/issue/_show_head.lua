@@ -12,17 +12,7 @@ if config.feature_rss_enabled then
   util.html_rss_head{ title = _"Initiatives in this issue (last updated first)", module = "initiative", view = "list_rss", params = { issue_id = issue.id, order = "last_updated" } }
 end
 
-slot.select("path", function()
-end)
-
 slot.select("title", function()
-  ui.link{
-    content = issue.area.name,
-    module = "area",
-    view = "show",
-    id = issue.area.id
-  }
-  slot.put(" &middot; ")
   ui.link{
     content = _("Issue ##{id}", { id = issue.id }),
     module = "issue",
@@ -30,138 +20,68 @@ slot.select("title", function()
     id = issue.id
   }
   slot.put(" &middot; ")
-  ui.tag{
-    tag = "span",
-    content = issue.state_name,
+  ui.link{
+    content = issue.area.name,
+    module = "area",
+    view = "show",
+    id = issue.area.id
   }
+  if not config.single_unit_id then
+    slot.put(" &middot; ")
+    ui.link{
+      content = issue.area.unit.name,
+      module = "unit",
+      view = "show",
+      id = issue.area.unit_id
+    }
+  end
 end)
 
 
-slot.select("content_navigation", function()
-
-  if app.session.member_id then
-    local records
-    local this = 0
-    local issues_selector = Issue:new_selector()
-
-    -- FIXME: !DRY
-    local issue_filter_map = {
-      new = "new.png",
-      accepted = "comments.png",
-      half_frozen = "lock.png",
-      frozen ="email_open.png",
-      finished = "tick.png",
-      cancelled = "cross.png",
-    }
-
-
-    local mk_link = function(index, text, icon, module)
-       content = function()
-          if index > 0 then
-            slot.put(text)
-            ui.image{ static = "icons/16/"..icon }
-          else
-            ui.image{ static = "icons/16/"..icon }
-            slot.put(text)
-          end
-      end
-      if records[this+index] then
-        ui.link{
-          content = content,
-          module = module,
-          view = "show",
-          id = records[this+index].id,
-        }
-      else
-        ui.container{
-          content = content,
-        }
-      end
-    end
-
-    issues_selector
-       :add_where{"issue.area_id = ?", issue.area.id}
-
-    local filters = execute.load_chunk{module="issue", chunk="_filters.lua", params = {filter = "frozen"}}
-
-    local state = issue.state
-
-    -- FIXME: fix filter names to reflect issue.state values
-    if state == "voting" then
-      state = "frozen"
-    elseif state == "frozen" then
-      state = "half_frozen"
-    end
-
-    filter = filters:get_filter("filter", state)
-    if filter then
-      filter.selector_modifier(issues_selector)
-
-      -- add subfilter to voting pager, so only not voted entries will be shown
-      -- as this seems the most usefull exception
-      if filter.name == "frozen" then
-        filter_voting_name = "not_voted"
-        local vfilter = filters:get_filter("filter_voting", "not_voted")
-        if vfilter then
-          vfilter.selector_modifier(issues_selector)
-        end
-      end
-    end
-
-    records = issues_selector:exec()
-
-    for i,cissue in ipairs(records) do
-      if cissue.id == issue.id then
-        this = i
-        break
-      end
-    end
-
-    mk_link(-1, _("Previous issue"), "resultset_previous.png", "issue")
-    if issue.area then
+slot.select("title2", function()
+  ui.tag{
+    tag = "div",
+    attr = { class = "issue_policy_info" },
+    content = function()
+    
       ui.link{
-        content = function()
-          if issue_filter_map[state] then
-            ui.image{ static = "icons/16/"..issue_filter_map[state] }
-          end
-          slot.put(issue.area.name)
-        end,
-        module = "area",
+        text = issue.policy.name,
+        module = "policy",
         view = "show",
-        id = issue.area.id,
-        params = {
-          filter = filter and filter.name or nil,
-          filter_voting = filter_voting_name,
-          tab = "issues"
-        }
+        id = issue.policy.id
       }
-    end
-    mk_link(1, _("Next issue"), "resultset_next.png", "issue")
 
-    -- show pager for initiatives if available
-    if initiative then
-      ui.container{ content = function() end, attr = {class = "content_navigation_seperator"}}
+      slot.put(" &middot; ")
+      ui.tag{ content = issue.state_name }
 
-      records = issue:get_reference_selector("initiatives"):exec()
-      for i,cissue in ipairs(records) do
-        if cissue.id == initiative.id then
-          this = i
-          break
+      if issue.state_time_left then
+        slot.put(" &middot; ")
+        if issue.state_time_left:sub(1,1) == "-" then
+          if issue.state == "new" then
+            ui.tag{ content = _("Discussion starts soon") }
+          elseif issue.state == "discussion" then
+            ui.tag{ content = _("Verification starts soon") }
+          elseif issue.state == "frozen" then
+            ui.tag{ content = _("Voting starts soon") }
+          elseif issue.state == "voting" then
+            ui.tag{ content = _("Counting starts soon") }
+          end
+        else
+          ui.tag{ content = _("#{time_left} left", { time_left = issue.state_time_left:gsub("days", _"days"):gsub("day", _"day") }) }
         end
       end
-      mk_link(-1, _("Previous initiative"), "resultset_previous.png", "initiative")
-      mk_link(1, _("Next initiative"), "resultset_next.png", "initiative")
+      
     end
-  end
-end
+  }
 
-)
+  
+end)
 
 slot.select("actions", function()
 
   if app.session.member_id then
 
-    if issue.state == 'voting' then
+    if issue.state == 'voting' and app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
       local text
       if not direct_voter then
         text = _"Vote now"
@@ -182,7 +102,7 @@ slot.select("actions", function()
     execute.view{
       module = "interest",
       view = "_show_box",
-      params = { issue = issue }
+      params = { issue = issue, initiative = initiative }
     }
 
     if not issue.closed then
@@ -193,12 +113,6 @@ slot.select("actions", function()
                    initiative_id = initiative and initiative.id or nil}
       }
     end
-
-    execute.view{
-      module = "issue",
-      view = "_show_vote_later_box",
-      params = { issue = issue }
-    }
 
   end
 
@@ -213,22 +127,45 @@ slot.select("actions", function()
       end,
     }
   end
+
+  if config.etherpad and app.session.member then
+    local url = config.etherpad.base_url .. "p/" .. config.etherpad.group_id .. "$Issue" .. issue.id
+    ui.link{
+      attr = { target = "_blank" },
+      external = url,
+      content = function()
+        ui.image{ static = "icons/16/comments.png" }
+        slot.put(_"Issue pad")
+      end,
+    }
+  end
+
 end)
 
+if app.session.member_id and app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
+  slot.select("actions", function()
+    if not issue.fully_frozen and not issue.closed then
+      ui.link{
+        image  = { static = "icons/16/script_add.png" },
+        attr   = { class = "action" },
+        text   = _"Create alternative initiative",
+        module = "initiative",
+        view   = "new",
+        params = { issue_id = issue.id }
+      }
+    end
+  end)
+end
 
-execute.view{
-  module = "issue",
-  view = "_show_box",
-  params = { issue = issue }
-}
-
---  ui.twitter("http://example.com/t" .. tostring(issue.id))
+local issue = param.get("issue", "table")
 
 if config.public_access_issue_head and not app.session.member_id then
   config.public_access_issue_head(issue)
 end
 
-if app.session.member_id and issue.state == 'voting' and not direct_voter then
+if app.session.member_id and issue.state == 'voting' and not direct_voter
+  and app.session.member:has_voting_right_for_unit_id(issue.area.unit_id)
+then
   ui.container{
     attr = { class = "voting_active_info" },
     content = function()

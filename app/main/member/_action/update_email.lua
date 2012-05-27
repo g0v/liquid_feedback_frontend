@@ -1,5 +1,9 @@
 local resend = param.get("resend", atom.boolean)
 
+if not resend and config.locked_profile_fields.notify_email then
+  error("access denied")
+end
+
 if app.session.member.notify_email_locked then
   if resend then
     slot.put_into("error", _"We have sent an email with activation link already in the last hour. Please try again later.")

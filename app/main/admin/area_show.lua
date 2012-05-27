@@ -2,6 +2,10 @@ local id = param.get_id()
 
 local area = Area:by_id(id) or Area:new()
 
+if not area.unit_id then
+  area.unit_id = param.get("unit_id", atom.integer)
+end
+
 slot.put_into("title", _"Create / edit area")
 
 slot.select("actions", function()
@@ -9,7 +13,8 @@ slot.select("actions", function()
     attr = { class = { "admin_only" } },
     text = _"Cancel",
     module = "admin",
-    view = "area_list"
+    view = "area_list",
+    params = { unit_id = area.unit_id }
   }
 end)
 
@@ -22,7 +27,8 @@ ui.form{
     default = {
       mode = "redirect",
       module = "admin",
-      view = "area_list"
+      view = "area_list",
+      params = { unit_id = area.unit_id }
     }
   },
   id = id,
@@ -38,8 +44,9 @@ ui.form{
       def_policy[#def_policy+1] = record
     end
 
+    ui.field.hidden{ name = "unit_id", value = area.unit_id }
+    ui.field.text{    label = _"Unit", value = area.unit.name, readonly = true }
     ui.field.text{    label = _"Name",        name = "name" }
-    ui.field.boolean{ label = _"Active?",     name = "active" }
     ui.field.text{    label = _"Description", name = "description", multiline = true }
     ui.field.select{  label = _"Default Policy",   name = "default_policy",
                  value=area.default_policy and area.default_policy.id or "-1",
@@ -54,6 +61,8 @@ ui.form{
                       connecting_records = area.allowed_policies or {},
                       foreign_reference  = "id",
     }
+    slot.put("<br /><br />")
+    ui.field.boolean{ label = _"Active?",     name = "active" }
     ui.submit{ text = _"Save" }
   end
 }

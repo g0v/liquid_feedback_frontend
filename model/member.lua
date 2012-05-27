@@ -181,6 +181,17 @@ Member:add_reference{
 
 Member:add_reference{
   mode                  = 'mm',
+  to                    = "Unit",
+  this_key              = 'id',
+  that_key              = 'id',
+  connected_by_table    = 'privilege',
+  connected_by_this_key = 'member_id',
+  connected_by_that_key = 'unit_id',
+  ref                   = 'units'
+}
+
+Member:add_reference{
+  mode                  = 'mm',
   to                    = "Area",
   this_key              = 'id',
   that_key              = 'id',
@@ -223,6 +234,8 @@ Member:add_reference{
   ref                   = 'supported_initiatives'
 }
 
+model.has_rendered_content(Member, RenderedMemberStatement, "statement")
+
 function Member:build_selector(args)
   local selector = self:new_selector()
   if args.active ~= nil then
@@ -231,6 +244,9 @@ function Member:build_selector(args)
   if args.is_contact_of_member_id then
     selector:join("contact", "__model_member__contact", "member.id = __model_member__contact.other_member_id")
     selector:add_where{ "__model_member__contact.member_id = ?", args.is_contact_of_member_id }
+  end
+  if args.voting_right_for_unit_id then
+    selector:join("privilege", "__model_member__privilege", { "member.id = __model_member__privilege.member_id AND __model_member__privilege.voting_right AND __model_member__privilege.unit_id = ?", args.voting_right_for_unit_id })
   end
   if args.order then
     if args.order == "id" then
@@ -305,7 +321,44 @@ function Member:get_search_selector(search_string)
   return self:new_selector()
     :add_field( {'"highlight"("member"."name", ?)', search_string }, "name_highlighted")
     :add_where{ '"member"."text_search_data" @@ "text_search_query"(?)', search_string }
-    :add_where("active")
+    :add_where("activated NOTNULL AND active")
+end
+
+function Member.object:send_invitation(template_file, subject)
+  trace.disable()
+  self.invite_code = multirand.string( 24, "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz" )
+  self:save()
+  
+  local subject = subject
+  local content
+  
+  if template_file then
+    local fh = io.open(template_file, "r")
+    content = fh:read("*a")
+    content = (content:gsub("#{invite_code}", self.invite_code))
+  else
+    subject = config.mail_subject_prefix .. _"Invitation to LiquidFeedback"
+    content = slot.use_temporary(function()
+      slot.put(_"Hello\n\n")
+      slot.put(_"You are invited to LiquidFeedback. To register please click the following link:\n\n")
+      slot.put(request.get_absolute_baseurl() .. "index/register.html?invite=" .. self.invite_code .. "\n\n")
+      slot.put(_"If this link is not working, please open following url in your web browser:\n\n")
+      slot.put(request.get_absolute_baseurl() .. "index/register.html\n\n")
+      slot.put(_"On that page please enter the invite key:\n\n")
+      slot.put(self.invite_code .. "\n\n")
+    end)
+  end
+
+  local success = net.send_mail{
+    envelope_from = config.mail_envelope_from,
+    from          = config.mail_from,
+    reply_to      = config.mail_reply_to,
+    to            = self.notify_email_unconfirmed or self.notify_email,
+    subject       = subject,
+    content_type  = "text/plain; charset=UTF-8",
+    content       = content
+  }
+  return success
 end
 
 function Member.object:set_notify_email(notify_email)
@@ -317,9 +370,9 @@ function Member.object:set_notify_email(notify_email)
   local content = slot.use_temporary(function()
     slot.put(_"Hello " .. self.name .. ",\n\n")
     slot.put(_"Please confirm your email address by clicking the following link:\n\n")
-    slot.put(config.absolute_base_url .. "index/confirm_notify_email.html?secret=" .. self.notify_email_secret .. "\n\n")
+    slot.put(request.get_absolute_baseurl() .. "index/confirm_notify_email.html?secret=" .. self.notify_email_secret .. "\n\n")
     slot.put(_"If this link is not working, please open following url in your web browser:\n\n")
-    slot.put(config.absolute_base_url .. "index/confirm_notify_email.html\n\n")
+    slot.put(request.get_absolute_baseurl() .. "index/confirm_notify_email.html\n\n")
     slot.put(_"On that page please enter the confirmation code:\n\n")
     slot.put(self.notify_email_secret .. "\n\n")
   end)
@@ -401,6 +454,13 @@ function Member.object_get:notify_email_locked()
   )
 end
 
+function Member.object_get:units_with_voting_right()
+  return(Unit:new_selector()
+    :join("privilege", nil, { "privilege.unit_id = unit.id AND privilege.member_id = ? AND privilege.voting_right", self.id })
+    :exec()
+  )
+end
+
 function Member.object:ui_field_text(args)
   args = args or {}
   if app.session.member_id or config.public_access == "pseudonym" then
@@ -418,4 +478,14 @@ function Member.object:ui_field_text(args)
   else
     ui.field.text{ label = args.label,      value = _"[not displayed public]" }
   end
+end
+
+function Member.object:has_voting_right_for_unit_id(unit_id)
+  return (Privilege:new_selector()
+    :add_where{ "member_id = ?", self.id }
+    :add_where{ "unit_id = ?", unit_id }
+    :add_where("voting_right")
+    :optional_object_mode()
+    :for_share()
+    :exec()) and true or false
 end

@@ -1,7 +1,8 @@
 local auth_needed = not (
   request.get_module() == 'index'
   and (
-       request.get_view()   == "login"
+       request.get_view()   == "index"
+    or request.get_view()   == "login"
     or request.get_action() == "login"
     or request.get_view()   == "register"
     or request.get_action() == "register"
@@ -18,19 +19,12 @@ local auth_needed = not (
 if config.public_access then
 
   if
-    request.get_module() == "area" and (
-     request.get_view() == "list"
-     or request.get_view() == "show"
-     or request.get_view() == "show_tab"
-    )
+    request.get_module() == "area" and request.get_view() == "show"
+    or request.get_module() == "unit" and request.get_view() == "show"
     or request.get_module() == "policy" and request.get_view() == "show"
     or request.get_module() == "policy" and request.get_view() == "list"
     or request.get_module() == "issue" and request.get_view() == "show"
-    or request.get_module() == "issue" and request.get_view() == "show_tab"
     or request.get_module() == "initiative" and request.get_view() == "show"
-    or request.get_module() == "initiative" and request.get_view() == "show_partial"
-    or request.get_module() == "initiative" and request.get_view() == "show_tab"
-    or request.get_module() == "initiative" and request.get_view() == "show.rss"
     or request.get_module() == "suggestion" and request.get_view() == "show"
     or request.get_module() == "draft" and request.get_view() == "diff"
   then
@@ -39,12 +33,16 @@ if config.public_access then
 
 end
 
-if config.api_enabled and request.get_module() == "api" or request.get_module() == "sitemap" then
+if request.get_module() == "sitemap" then
   auth_needed = false
 end
 
 if config.public_access and not app.session.member_id and auth_needed and request.get_module() == "index" and request.get_view() == "index" then
-  request.redirect{ module = "area", view = "list" }
+  if config.single_unit_id then
+    request.redirect{ module = "unit", view = "show", id = config.single_unit_id }
+  else
+    request.redirect{ module = "unit", view = "list" }
+  end
   return
 end
 
@@ -55,7 +53,13 @@ end
 
 if auth_needed and app.session.member == nil then
   trace.debug("Not authenticated yet.")
-  request.redirect{ module = 'index', view = 'login' }
+  request.redirect{
+    module = 'index', view = 'login', params = {
+      redirect_module = request.get_module(),
+      redirect_view = request.get_view(),
+      redirect_id = param.get_id()
+    }
+  }
 elseif auth_needed and app.session.member.locked then
   trace.debug("Member locked.")
   request.redirect{ module = 'index', view = 'login' }

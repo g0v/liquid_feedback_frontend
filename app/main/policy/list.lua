@@ -52,8 +52,8 @@ ui.list{
           value = "≥ " .. tostring(policy.initiative_quorum_num) .. "/" .. tostring(policy.initiative_quorum_den)
         }
         ui.field.text{
-          label = _"Majority" .. ":", 
-          value = (policy.majority_strict and ">" or "≥" ) .. " " .. tostring(policy.majority_num) .. "/" .. tostring(policy.majority_den)
+          label = _"majority" .. ":", 
+          value = (policy.direct_majority_strict and ">" or "≥" ) .. " " .. tostring(policy.direct_majority_num) .. "/" .. tostring(policy.direct_majority_den)
         }
       end
     },

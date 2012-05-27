@@ -24,30 +24,40 @@ if show_as_homepage and app.session.member_id == member.id then
       class = "yellow",
       name = "email_unconfirmed",
       label = _"Email unconfirmed",
-      icon = { static = "icons/16/bell.png" },
       module = "member",
       view = "_email_unconfirmed",
       params = {}
     }
   end
 
+  if app.session.member.notify_level == nil then
+    tabs[#tabs+1] = {
+      class = "yellow",
+      name = "notify_level_not_set",
+      label = _"Notifications",
+      module = "member",
+      view = "_notify_level_not_set"
+    }
+  end
+
+  --[[
   if config.motd_intern then
     tabs[#tabs+1] = {
       class = "yellow",
       name = "motd",
       label = _"Message of the day",
-      icon = { static = "icons/16/bell.png" },
       module = "index",
       view = "_motd",
       params = {}
     }
   end
-
+  --]]
+  
   local broken_delegations = Delegation:new_selector()
     :join("issue", nil, "issue.id = delegation.issue_id AND issue.closed ISNULL")
     :join("member", nil, "delegation.trustee_id = member.id")
     :add_where{"delegation.truster_id = ?", member.id}
-    :add_where{"member.active = 'f' OR (member.last_login_public IS NULL OR age(member.last_login) > ?::interval)", config.delegation_warning_time }
+    :add_where{"member.active = 'f' OR (member.last_activity IS NULL OR age(member.last_activity) > ?::interval)", config.delegation_warning_time }
 
   if broken_delegations:count() > 0 then
     tabs[#tabs+1] = {
@@ -63,6 +73,7 @@ if show_as_homepage and app.session.member_id == member.id then
 
   local selector = Area:new_selector()
     :reset_fields()
+    :join("privilege", nil, { "privilege.unit_id = area.unit_id AND privilege.member_id = ? AND privilege.voting_right", app.session.member_id })
     :add_field("area.id", nil, { "grouped" })
     :add_field("area.name", nil, { "grouped" })
     :add_field("membership.member_id NOTNULL", "is_member", { "grouped" })
@@ -140,90 +151,115 @@ if show_as_homepage and app.session.member_id == member.id then
   end
 end
 
-tabs[#tabs+1] = {
-  name = "profile",
-  label = _"Profile",
-  icon = { static = "icons/16/application_form.png" },
-  module = "member",
-  view = "_profile",
-  params = { member = member },
-}
+if not show_as_homepage then
+  tabs[#tabs+1] = {
+    name = "profile",
+    label = _"Profile",
+    icon = { static = "icons/16/application_form.png" },
+    module = "member",
+    view = "_profile",
+    params = { member = member },
+  }
+end
+
 
 local areas_selector = member:get_reference_selector("areas")
 tabs[#tabs+1] = {
   name = "areas",
-  label = _"Areas" .. " (" .. tostring(areas_selector:count()) .. ")",
+  label = _"Areas",
   icon = { static = "icons/16/package.png" },
-  module = "area",
-  view = "_list",
-  params = { areas_selector = areas_selector },
+  module = "member",
+  view = "_area_list",
+  params = { areas_selector = areas_selector, member = member, for_member = not show_as_homepage },
 }
+  
+if show_as_homepage then
+  tabs[#tabs+1] = {
+    name = "timeline",
+    label = _"Events",
+    module = "member",
+    view = "_event_list",
+    params = { }
+  }
+else
+  tabs[#tabs+1] = {
+    name = "timeline",
+    label = _"Events",
+    module = "event",
+    view = "_list",
+    params = { for_member = member }
+  }
+end
 
-local issues_selector = member:get_reference_selector("issues")
 tabs[#tabs+1] = {
-  name = "issues",
-  label = _"Issues" .. " (" .. tostring(issues_selector:count()) .. ")",
-  icon = { static = "icons/16/folder.png" },
+  name = "open",
+  label = _"Open issues",
   module = "issue",
   view = "_list",
-  params = { issues_selector = issues_selector },
+  link_params = { 
+    filter_interest = not show_as_homepage and "issue" or nil,
+  },
+  params = {
+    for_state = "open",
+    for_member = not show_as_homepage and member or nil,
+    issues_selector = Issue:new_selector()
+      :add_where("issue.closed ISNULL")
+      :add_order_by("coalesce(issue.fully_frozen + issue.voting_time, issue.half_frozen + issue.verification_time, issue.accepted + issue.discussion_time, issue.created + issue.admission_time) - now()")
+  }
 }
 
-local supported_initiatives_selector = member:get_reference_selector("supported_initiatives")
-
 tabs[#tabs+1] = {
-  name = "supported_initiatives",
-  label = _"Supported initiatives" .. " (" .. tostring(supported_initiatives_selector:count()) .. ")",
-  icon = { static = "icons/16/thumb_up_green.png" },
-  module = "member",
-  view = "_list_supported_initiatives",
-  params = { initiatives_selector = supported_initiatives_selector,
-             member = member },
-}
-
-local initiated_initiatives_selector = member:get_reference_selector("initiated_initiatives"):add_where("initiator.accepted = true")
-tabs[#tabs+1] = {
-  name = "initiatied_initiatives",
-  label = _"Initiated initiatives" .. " (" .. tostring(initiated_initiatives_selector:count()) .. ")",
-  icon = { static = "icons/16/user_edit.png" },
-  module = "member",
-  view = "_list_supported_initiatives",
-  params = { initiatives_selector = initiated_initiatives_selector, 
-             member = member},
-}
-
-local incoming_delegations_selector = member:get_reference_selector("incoming_delegations")
-  :left_join("issue", "_member_showtab_issue", "_member_showtab_issue.id = delegation.issue_id")
-  :add_where("_member_showtab_issue.closed ISNULL")
-tabs[#tabs+1] = {
-  name = "incoming_delegations",
-  label = _"Incoming delegations" .. " (" .. tostring(incoming_delegations_selector:count()) .. ")",
-  icon = { static = "icons/16/table_go.png" },
-  module = "delegation",
+  name = "closed",
+  label = _"Closed issues",
+  module = "issue",
   view = "_list",
-  params = { delegations_selector = incoming_delegations_selector, incoming = true },
+  link_params = { 
+    filter_interest = not show_as_homepage and "issue" or nil,
+  },
+  params = {
+    for_state = "closed",
+    for_member = not show_as_homepage and member or nil,
+    issues_selector = Issue:new_selector()
+      :add_where("issue.closed NOTNULL")
+      :add_order_by("issue.closed DESC")
+
+  }
 }
 
-local outgoing_delegations_selector = member:get_reference_selector("outgoing_delegations")
-  :left_join("issue", "_member_showtab_issue", "_member_showtab_issue.id = delegation.issue_id")
-  :add_where("_member_showtab_issue.closed ISNULL")
-tabs[#tabs+1] = {
-  name = "outgoing_delegations",
-  label = _"Outgoing delegations" .. " (" .. tostring(outgoing_delegations_selector:count()) .. ")",
-  icon = { static = "icons/16/table_go.png" },
-  module = "delegation",
-  view = "_list",
-  params = { delegations_selector = outgoing_delegations_selector, outgoing = true },
-}
+if not show_as_homepage then
+  local outgoing_delegations_selector = member:get_reference_selector("outgoing_delegations")
+    :left_join("issue", "_member_showtab_issue", "_member_showtab_issue.id = delegation.issue_id")
+    :add_where("_member_showtab_issue.closed ISNULL")
+  tabs[#tabs+1] = {
+    name = "outgoing_delegations",
+    label = _"Outgoing delegations" .. " (" .. tostring(outgoing_delegations_selector:count()) .. ")",
+    icon = { static = "icons/16/table_go.png" },
+    module = "delegation",
+    view = "_list",
+    params = { delegations_selector = outgoing_delegations_selector, outgoing = true },
+  }
 
-local contacts_selector = member:get_reference_selector("saved_members"):add_where("public")
-tabs[#tabs+1] = {
-  name = "contacts",
-  label = _"Contacts" .. " (" .. tostring(contacts_selector:count()) .. ")",
-  icon = { static = "icons/16/book_edit.png" },
-  module = "member",
-  view = "_list",
-  params = { members_selector = contacts_selector },
-}
+  local incoming_delegations_selector = member:get_reference_selector("incoming_delegations")
+    :left_join("issue", "_member_showtab_issue", "_member_showtab_issue.id = delegation.issue_id")
+    :add_where("_member_showtab_issue.closed ISNULL")
+  tabs[#tabs+1] = {
+    name = "incoming_delegations",
+    label = _"Incoming delegations" .. " (" .. tostring(incoming_delegations_selector:count()) .. ")",
+    icon = { static = "icons/16/table_go.png" },
+    module = "delegation",
+    view = "_list",
+    params = { delegations_selector = incoming_delegations_selector, incoming = true },
+  }
+
+  local contacts_selector = member:get_reference_selector("saved_members"):add_where("public")
+  tabs[#tabs+1] = {
+    name = "contacts",
+    label = _"Contacts" .. " (" .. tostring(contacts_selector:count()) .. ")",
+    icon = { static = "icons/16/book_edit.png" },
+    module = "member",
+    view = "_list",
+    params = { members_selector = contacts_selector },
+  }
+end
 
 ui.tabs(tabs)

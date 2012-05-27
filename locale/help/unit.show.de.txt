@@ -1,0 +1,3 @@
+= Themenbereiche =
+
+Hier werden dir alle Themenbereiche einer Gliederungsebene angezeigt. Die Balken zeigen dir an, wie hoch der Anteil der direkten Mitglieder bzw. der durch Delegation vertretenen Mitglieder des jeweiligen Themenbereichs im Verhältnis zur Gesamtzahl der Mitglieder dieses Systems ist. Die Zahlen rechts zeigen an, wieviele Themen sich in der Neu-, Diskussions-, Eingefroren- oder Abstimmungsphase befinden bzw. abgeschlossen oder abgebrochen wurden.

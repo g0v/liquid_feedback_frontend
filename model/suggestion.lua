@@ -26,3 +26,5 @@ Suggestion:add_reference{
   back_ref      = 'issue',
   default_order = '"id"'
 }
+
+model.has_rendered_content(Suggestion, RenderedSuggestion)

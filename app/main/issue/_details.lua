@@ -20,8 +20,6 @@ ui.form{
     }
     ui.field.timestamp{  label = _"Accepted at",           name = "accepted" }
     ui.field.text{       label = _"Discussion time",       value = issue.discussion_time }
-    ui.field.vote_now{   label = _"Vote now",              name = "vote_now" }
-    ui.field.vote_later{ label = _"Vote later",            name = "vote_later" }
     ui.field.timestamp{  label = _"Half frozen at",        name = "half_frozen" }
     ui.field.text{       label = _"Verification time",     value = issue.verification_time }
     ui.field.text{

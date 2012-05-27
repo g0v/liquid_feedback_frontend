@@ -12,6 +12,8 @@ else
     params = { initiative = initiative }
   }
 
+  slot.put("<br />")
+  
   ui.container{
     attr = { class = "heading" },
     content = _"Member voting"
@@ -31,5 +33,38 @@ else
         :left_join("issue", nil, "issue.id = initiative.issue_id")
     }
   }
+
+  slot.put("<br />")
+  
+  ui.container{
+    attr = { class = "heading" },
+    content = _"Voting details"
+  }
+  
+  ui.form{
+    attr = { class = "vertical" },
+    content = function()
+ 
+    ui.field.boolean{ label = _"Direct majority", value = initiative.direct_majority }
+    ui.field.boolean{ label = _"Indirect majority", value = initiative.indirect_majority }
+    ui.field.text{ label = _"Schulze rank", value = tostring(initiative.schulze_rank) .. " (" .. _("Status quo: #{rank}", { rank = initiative.issue.status_quo_schulze_rank }) .. ")" }
+    local texts = {}
+    if initiative.reverse_beat_path then
+      texts[#texts+1] = _"reverse beat path to status quo (including ties)"
+    end
+    if initiative.multistage_majority then
+      texts[#texts+1] = _"possibly instable result caused by multistage majority"
+    end
+    if #texts == 0 then
+     texts[#texts+1] = _"none"
+    end
+    ui.field.text{
+      label = _"Other failures",
+      value = table.concat(texts, ", ")
+    }
+    ui.field.boolean{ label = _"Eligible as winner", value = initiative.eligible }
+  end
+}
+
 
 end

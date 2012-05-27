@@ -1,3 +1,7 @@
+if config.locked_profile_fields.login then
+  error("access denied")
+end
+
 local login = param.get("login")
 
 login = util.trim(login)

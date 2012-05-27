@@ -2,6 +2,14 @@ Area = mondelefant.new_class()
 Area.table = 'area'
 
 Area:add_reference{
+  mode          = 'm1',
+  to            = "Unit",
+  this_key      = 'unit_id',
+  that_key      = 'id',
+  ref           = 'unit',
+}
+
+Area:add_reference{
   mode          = '1m',
   to            = "Issue",
   this_key      = 'id',
@@ -61,7 +69,18 @@ end
 function Area:build_selector(args)
   local selector = Area:new_selector()
   if args.active ~= nil then
-    selector:add_where{ "active = ?", args.active }
+    selector:add_where{ "area.active = ?", args.active }
+  end
+  if args.unit_id ~= nil then
+    selector:add_where{ "area.unit_id = ?", args.unit_id }
   end
   return selector
+end
+
+function Area.object_get:name_with_unit_name()
+  if not config.single_unit_id then
+    return self.unit.name .. ", " .. self.name
+  else
+    return self.name
+  end
 end

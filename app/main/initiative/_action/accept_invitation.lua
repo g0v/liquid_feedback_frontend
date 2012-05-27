@@ -22,7 +22,7 @@ if initiator.initiative.revoked then
 end
 
 if initiator.accepted then
-  slot.put_into("error", _"You are already initator")
+  slot.put_into("error", _"You are already initiator")
   return
 end
 

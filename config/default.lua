@@ -1,5 +1,5 @@
 config.app_name = "LiquidFeedback"
-config.app_version = "beta35"
+config.app_version = "2.beta5"
 
 config.app_title = config.app_name .. " (" .. request.get_config_name() .. " environment)"
 
@@ -9,17 +9,20 @@ config.app_service_provider = "Snake Oil<br/>10000 Berlin<br/>Germany"
 
 --config.footer_html = '<a href="somewhere">some link</a>'
 
-config.use_terms = "=== Nutzungsbedingungen ===\nAlles ist verboten"
+config.use_terms = "=== Terms of Use ===\nNothing is allowed."
 --config.use_terms_html = ""
 
 config.use_terms_checkboxes = {
   {
-    name = "nutzungsbedingungen_v1",
-    html = "Ich akzeptiere die Bedingungen.",
-    not_accepted_error = "Du musst die Bedingungen akzeptieren, um dich zu registrieren."
+    name = "terms_of_use_v1",
+    html = "I accept the terms of use.",
+    not_accepted_error = "You have to accept the terms of use to be able to register."
   }
 }
 
+config.locked_profile_fields = {
+  field_name = true,
+}
 
 config.member_image_content_type = "image/jpeg"
 config.member_image_convert_func = {
@@ -52,6 +55,8 @@ config.api_enabled = true
 
 config.feature_rss_enabled = false -- feature is broken
 
+config.single_unit_id = false
+
 -- OpenID authentication is not fully implemented yet, DO NOT USE BEFORE THIS NOTICE HAS BEEN REMOVED!
 config.auth_openid_enabled = false
 config.auth_openid_https_as_default = true
@@ -76,7 +81,7 @@ request.set_404_route{ module = 'index', view = '404' }
 -- open and set default database handle
 db = assert(mondelefant.connect{
   engine='postgresql',
-  dbname='liquid_feedback'
+  dbname='liquid_feedback_p'
 })
 at_exit(function() 
   db:close()

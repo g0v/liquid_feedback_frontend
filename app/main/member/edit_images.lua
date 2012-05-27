@@ -6,8 +6,8 @@ slot.select("actions", function()
         ui.image{ static = "icons/16/cancel.png" }
         slot.put(_"Cancel")
     end,
-    module = "index",
-    view = "index"
+    module = "member",
+    view = "settings"
   }
 end)
 

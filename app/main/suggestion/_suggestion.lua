@@ -12,7 +12,7 @@ ui.form{
     ui.container{
       attr = { class = "suggestion_content wiki" },
       content = function()
-        slot.put(encode.html_newlines(encode.html(suggestion.description)))
+        slot.put(suggestion:get_content("html"))
       end
     }
   end

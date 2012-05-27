@@ -1,105 +1,131 @@
-slot.select("title", function()
-  if app.session.member then
-    execute.view{
-      module = "member_image",
-      view = "_show",
-      params = {
-        member = app.session.member,
-        image_type = "avatar"
-      }
-    }
-  end
-end)
-
-slot.select("title", function()
-  ui.container{
-    attr = { class = "lang_chooser" },
-    content = function()
-      for i, lang in ipairs{"en", "de", "eo"} do
-        ui.link{
-          content = function()
-            ui.image{
-              static = "lang/" .. lang .. ".png",
-              attr = { style = "margin-left: 0.5em;", alt = lang }
-            }
-          end,
-          text = _('Select language "#{langcode}"', { langcode = lang }),
-          module = "index",
-          action = "set_lang",
-          params = { lang = lang },
-          routing = {
-            default = {
-              mode = "redirect",
-              module = request.get_module(),
-              view = request.get_view(),
-              id = param.get_id_cgi(),
-              params = param.get_all_cgi()
-            }
-          }
-        }
-      end
-    end
-  }
-end)
+execute.view{ module = "index", view = "_lang_chooser" }
 
 slot.put_into("title", encode.html(config.app_title))
 
-if app.session.member then
-	app.html_title.title = app.session.member.name
+if app.session.member_id then
+  util.help("index.index", _"Home")
+
+  execute.view{
+    module = "member",
+    view = "_show",
+    params = {
+      member = app.session.member,
+      show_as_homepage = true
+    }
+  }
+
+elseif config.public_access then
+  if config.motd_public then
+    local help_text = config.motd_public
+    ui.container{
+      attr = { class = "wiki motd" },
+      content = function()
+        slot.put(format.wiki_text(help_text))
+      end
+    }
+  end
+  
+  local open_issues_selector = Issue:new_selector()
+    :add_where("issue.closed ISNULL")
+    :add_order_by("coalesce(issue.fully_frozen + issue.voting_time, issue.half_frozen + issue.verification_time, issue.accepted + issue.discussion_time, issue.created + issue.admission_time) - now()")
+
+  local closed_issues_selector = Issue:new_selector()
+    :add_where("issue.closed NOTNULL")
+    :add_order_by("issue.closed DESC")
+
+  
+  local tabs = {
+    module = "index",
+    view = "index"
+  }
+
+  tabs[#tabs+1] = {
+    name = "units",
+    label = _"Units",
+    module = "unit",
+    view = "_list"
+  }
+
+  tabs[#tabs+1] = {
+    name = "timeline",
+    label = _"Events",
+    module = "event",
+    view = "_list",
+    params = { global = true }
+  }
+
+  tabs[#tabs+1] = {
+    name = "open",
+    label = _"Open issues",
+    module = "issue",
+    view = "_list",
+    params = {
+      for_state = "open",
+      issues_selector = open_issues_selector
+    }
+  }
+  tabs[#tabs+1] = {
+    name = "closed",
+    label = _"Closed issues",
+    module = "issue",
+    view = "_list",
+    params = {
+      for_state = "closed",
+      issues_selector = closed_issues_selector
+    }
+  }
+
+  ui.tabs(tabs)
+  
+else
+
+  if config.motd_public then
+    local help_text = config.motd_public
+    ui.container{
+      attr = { class = "wiki motd" },
+      content = function()
+        slot.put(format.wiki_text(help_text))
+      end
+    }
+  end
+
+  ui.tag{ tag = "p", content = _"Closed user group, please login to participate." }
+
+  ui.form{
+  attr = { class = "login" },
+  module = 'index',
+  action = 'login',
+  routing = {
+    ok = {
+      mode   = 'redirect',
+      module = param.get("redirect_module") or "index",
+      view = param.get("redirect_view") or "index",
+      id = param.get("redirect_id"),
+    },
+    error = {
+      mode   = 'forward',
+      module = 'index',
+      view   = 'login',
+    }
+  },
+  content = function()
+    ui.field.text{
+      attr = { id = "username_field" },
+      label     = _'login name',
+      html_name = 'login',
+      value     = ''
+    }
+    ui.script{ script = 'document.getElementById("username_field").focus();' }
+    ui.field.password{
+      label     = _'Password',
+      html_name = 'password',
+      value     = ''
+    }
+    ui.submit{
+      text = _'Login'
+    }
+  end
+}
+
 end
 
-
-slot.select("actions", function()
-
-  if app.session.member then
-    ui.link{
-      content = function()
-          ui.image{ static = "icons/16/application_form.png" }
-          slot.put(_"Edit my profile")
-      end,
-      module = "member",
-      view = "edit"
-    }
-    ui.link{
-      content = function()
-          ui.image{ static = "icons/16/user_gray.png" }
-          slot.put(_"Upload images")
-      end,
-      module = "member",
-      view = "edit_images"
-    }
-    execute.view{
-      module = "delegation",
-      view = "_show_box"
-    }
-    ui.link{
-      content = function()
-          ui.image{ static = "icons/16/wrench.png" }
-          slot.put(_"Settings")
-      end,
-      module = "member",
-      view = "settings"
-    }
-    if config.download_dir then
-      ui.link{
-        content = function()
-            ui.image{ static = "icons/16/database_save.png" }
-            slot.put(_"Download")
-        end,
-        module = "index",
-        view = "download"
-      }
-    end 
-  end
-end)
-
-util.help("index.index", _"Home")
-
-execute.view{
-  module = "member",
-  view = "_show",
-  params = {
-    member = app.session.member,
-    show_as_homepage = true
-  }
-}

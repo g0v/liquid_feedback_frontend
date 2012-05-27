@@ -1,6 +1,13 @@
 local area = param.get("area", "table") or Area:by_id(param.get_id())
 
-local issues_selector = area:get_reference_selector("issues")
+local open_issues_selector = area:get_reference_selector("issues")
+  :add_where("issue.closed ISNULL")
+  :add_order_by("coalesce(issue.fully_frozen + issue.voting_time, issue.half_frozen + issue.verification_time, issue.accepted + issue.discussion_time, issue.created + issue.admission_time) - now()")
+
+local closed_issues_selector = area:get_reference_selector("issues")
+  :add_where("issue.closed NOTNULL")
+  :add_order_by("issue.closed DESC")
+
 local members_selector = area:get_reference_selector("members")
 local delegations_selector = area:get_reference_selector("delegations")
 
@@ -10,19 +17,34 @@ local tabs = {
   static_params = { area_id = area.id },
 }
 
-tabs[#tabs+1] =
-  {
-    name = "issues",
-    label = _"Issues" .. " (" .. tostring(issues_selector:count()) .. ")",
-    icon = { static = "icons/16/folder.png" },
-    module = "issue",
-    view = "_list",
-    params = {
-      issues_selector = issues_selector,
-      filter = cgi.params["filter"],
-      filter_voting = param.get("filter_voting")
-    }
+tabs[#tabs+1] = {
+  name = "timeline",
+  label = _"Events",
+  module = "event",
+  view = "_list",
+  params = { for_area = area }
+}
+
+tabs[#tabs+1] = {
+  name = "open",
+  label = _"Open issues",
+  module = "issue",
+  view = "_list",
+  params = {
+    for_state = "open",
+    issues_selector = open_issues_selector, for_area = true
   }
+}
+tabs[#tabs+1] = {
+  name = "closed",
+  label = _"Closed issues",
+  module = "issue",
+  view = "_list",
+  params = {
+    for_state = "closed",
+    issues_selector = closed_issues_selector, for_area = true
+  }
+}
 
 if app.session.member_id then
   tabs[#tabs+1] =
