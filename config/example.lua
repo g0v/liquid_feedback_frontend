@@ -2,7 +2,7 @@ request.set_absolute_baseurl(request.get_relative_baseurl())
 -- request.set_absolute_baseurl("http://www.example.com/lf/")
 
 config.app_name = "LiquidFeedback"
-config.app_version = "2.beta1"
+config.app_version = "2.beta6"
 
 config.app_title = config.app_name .. " (" .. request.get_config_name() .. " environment)"
 
