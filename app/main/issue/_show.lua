@@ -4,15 +4,13 @@ local for_listing = param.get("for_listing", atom.boolean)
 
 local direct_voter
 if app.session.member_id then
-  direct_voter = DirectVoter:by_pk(issue.id, app.session.member.id)
+  direct_voter = issue.member_info.direct_voted
 end
 
 local voteable = app.session.member_id and issue.state == 'voting' and
        app.session.member:has_voting_right_for_unit_id(issue.area.unit_id)
 
 local vote_link_text = direct_voter and _"Change vote" or "Vote now"
-
-issue:load_delegation_info_once_for_member_id(app.session.member_id)
 
 
 local class = "issue"
@@ -97,7 +95,7 @@ ui.container{ attr = { class = class }, content = function()
     end
 
     if not issue.closed then
-      if issue.delegation_info.own_delegation_scope ~= "issue" then
+      if issue.member_info.own_delegation_scope ~= "issue" then
         ui.link{ text = _"Delegate issue", module = "delegation", view = "show", params = { issue_id = issue.id } }
       else
         ui.link{ text = _"Change issue delegation", module = "delegation", view = "show", params = { issue_id = issue.id } }

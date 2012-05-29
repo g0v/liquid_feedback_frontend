@@ -25,8 +25,7 @@ if area then
 end
 
 if issue then
-  issue:load_delegation_info_once_for_member_id(app.session.member_id)
-  info = issue.delegation_info
+  info = issue.member_info
   delegation_text = _"Delegate issue"
 end
 

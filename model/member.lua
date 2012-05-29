@@ -481,13 +481,18 @@ function Member.object:ui_field_text(args)
 end
 
 function Member.object:has_voting_right_for_unit_id(unit_id)
-  return (Privilege:new_selector()
-    :add_where{ "member_id = ?", self.id }
-    :add_where{ "unit_id = ?", unit_id }
-    :add_where("voting_right")
-    :optional_object_mode()
-    :for_share()
-    :exec()) and true or false
+  if not self.__units_with_voting_right_hash then
+    local privileges = Privilege:new_selector()
+      :add_where{ "member_id = ?", self.id }
+      :add_where("voting_right")
+      :for_share()
+      :exec()
+    self.__units_with_voting_right_hash = {}
+      for i, privilege in ipairs(privileges) do
+        self.__units_with_voting_right_hash[privilege.unit_id] = true
+      end
+  end
+  return self.__units_with_voting_right_hash[unit_id] and true or false
 end
 
 function Member.object:get_delegatee_member(unit_id, area_id, issue_id)

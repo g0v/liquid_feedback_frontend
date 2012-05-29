@@ -113,10 +113,10 @@ Issue:add_reference{
   to                 = mondelefant.class_prototype,
   this_key           = "id",
   that_key           = "issue_id",
-  ref                = "delegation_info",
+  ref                = "member_info",
   back_ref           = "issue",
   selector_generator = function(list, options)
-    assert(options.member_id, "member_id mandatory for delegation_info")
+    assert(options.member_id, "member_id mandatory for member_info")
     local ids = { sep = ", " }
     for i, object in ipairs(list) do
       local id = object.id
@@ -134,33 +134,25 @@ Issue:add_reference{
     sub_selector:add_where{ 'issue.id IN ($)', ids }
 
     local selector = Issue:get_db_conn():new_selector()
-    selector:add_from(sub_selector, "delegation_info")
+    selector:add_from("issue")
+    selector:join(sub_selector, "delegation_info", "delegation_info.issue_id = issue.id")
     selector:left_join("member", "first_trustee", "first_trustee.id = delegation_info.first_trustee_id")
     selector:left_join("member", "other_trustee", "other_trustee.id = delegation_info.other_trustee_id")
     selector:add_field("delegation_info.*")
     selector:add_field("first_trustee.name", "first_trustee_name")
     selector:add_field("other_trustee.name", "other_trustee_name")
+    selector:left_join("direct_voter", nil, { "direct_voter.issue_id = issue.id AND direct_voter.member_id = ?", options.member_id })
+    selector:add_field("direct_voter.member_id NOTNULL", "direct_voted")
     return selector
   end
 }
 
-function Issue.list:load_delegation_info_once_for_member_id(member_id, trustee_id)
-  if self._delegation_info_loaded_for_member_id ~= member_id then
-    self:load("delegation_info", { member_id = member_id, trustee_id = trustee_id })
-    for i, issue in ipairs(self) do
-      issue._delegation_info_loaded_for_member_id = member_id
-    end
-    self._delegation_info_loaded_for_member_id = member_id
-  end
+function Issue.list:load_everything_for_member_id(member_id)
+  local areas = self:load("area")
+  areas:load("unit")
+  self:load("policy")
+  self:load("member_info", { member_id = member_id })
 end
-
-function Issue.object:load_delegation_info_once_for_member_id(member_id, trustee_id)
-  if self._delegation_info_loaded_for_member_id ~= member_id then
-    self:load("delegation_info", { member_id = member_id, trustee_id = trustee_id })
-    self._delegation_info_loaded_for_member_id = member_id
-  end
-end
-
 
 function Issue:get_state_name_for_state(value)
   local state_name_table = {

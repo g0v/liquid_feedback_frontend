@@ -30,14 +30,16 @@ filters.content = function()
     selector = issues_selector,
     content = function()
       local highlight_string = param.get("highlight_string", "string")
-      local issues = issues or issues_selector:exec()
-      issues:load('policy')
-      -- issues:load(initiatives)
+      local issues = issues_selector:exec()
+      issues:load_everything_for_member_id(member.id)
+
       ui.container{ attr = { class = "issues" }, content = function()
 
         for i, issue in ipairs(issues) do
 
-          execute.view{ module = "issue", view = "_show", params = { issue = issue, for_listing = true } }
+          execute.view{ module = "issue", view = "_show", params = {
+            issue = issue, for_listing = true
+          } }
           
         end
       end }
