@@ -154,6 +154,13 @@ function Issue.list:load_everything_for_member_id(member_id)
   self:load("member_info", { member_id = member_id })
 end
 
+function Issue.object:load_everything_for_member_id(member_id)
+  local areas = self:load("area")
+  areas:load("unit")
+  self:load("policy")
+  self:load("member_info", { member_id = member_id })
+end
+
 function Issue:get_state_name_for_state(value)
   local state_name_table = {
     new          = _"New",

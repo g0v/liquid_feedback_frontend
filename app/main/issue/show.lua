@@ -1,4 +1,7 @@
 local issue = Issue:by_id(param.get_id())
+if app.session.member_id then
+  issue:load_everything_for_member_id(app.session.member_id)
+end
 
 if not app.html_title.title then
 	app.html_title.title = _("Issue ##{id}", { id = issue.id })
