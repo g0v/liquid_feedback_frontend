@@ -55,7 +55,7 @@ ui.container{ attr = { class = class }, content = function()
       if issue.state_time_left then
         slot.put(" &middot; ")
         if issue.state_time_left:sub(1,1) == "-" then
-          if issue.state == "new" then
+          if issue.state == "accepted" then
             ui.tag{ content = _("Discussion starts soon") }
           elseif issue.state == "discussion" then
             ui.tag{ content = _("Verification starts soon") }
