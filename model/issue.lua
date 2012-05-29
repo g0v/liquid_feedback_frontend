@@ -1,6 +1,14 @@
 Issue = mondelefant.new_class()
 Issue.table = 'issue'
 
+local new_selector = Issue.new_selector
+
+function Issue:new_selector()
+  local selector = new_selector(self)
+  selector:add_field("coalesce(issue.fully_frozen + issue.voting_time, issue.half_frozen + issue.verification_time, issue.accepted + issue.discussion_time, issue.created + issue.admission_time) - now()", "state_time_left")
+  return selector
+end
+
 Issue:add_reference{
   mode          = 'm1',
   to            = "Area",
@@ -242,26 +250,6 @@ end
 
 function Issue.object_get:state_name()
   return Issue:get_state_name_for_state(self.state)
-end
-
-function Issue.object_get:state_time_left()
-  local state = self.state
-  local last_event_time
-  local duration
-  if state == "new" then
-    last_event_time = self.created
-    duration = self.admission_time
-  elseif state == "accepted" then
-    last_event_time = self.accepted
-    duration =  self.discussion_time
-  elseif state == "frozen" then
-    last_event_time = self.half_frozen
-    duration = self.verification_time
-  elseif state == "voting" then
-    last_event_time = self.fully_frozen
-    duration = self.voting_time
-  end
-  return db:query{ "SELECT ?::timestamp + ?::interval - CURRENT_TIMESTAMP(0) as time_left", last_event_time, duration }[1].time_left
 end
 
 function Issue.object_get:next_states()
