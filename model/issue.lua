@@ -31,7 +31,8 @@ Issue:add_reference{
   this_key      = 'id',
   that_key      = 'issue_id',
   ref           = 'initiatives',
-  back_ref      = 'issue'
+  back_ref      = 'issue',
+  default_order = 'initiative.rank, initiative.supporter_count DESC, id'
 }
 
 Issue:add_reference{
@@ -159,14 +160,22 @@ function Issue.list:load_everything_for_member_id(member_id)
   local areas = self:load("area")
   areas:load("unit")
   self:load("policy")
-  self:load("member_info", { member_id = member_id })
+  if member_id then
+    self:load("member_info", { member_id = member_id })
+  end
+  local initiatives = self:load("initiatives")
+  initiatives:load_everything_for_member_id(member_id)
 end
 
 function Issue.object:load_everything_for_member_id(member_id)
   local areas = self:load("area")
   areas:load("unit")
   self:load("policy")
-  self:load("member_info", { member_id = member_id })
+  if member_id then
+    self:load("member_info", { member_id = member_id })
+  end
+  local initiatives = self:load("initiatives")
+  initiatives:load_everything_for_member_id(member_id)
 end
 
 function Issue:get_state_name_for_state(value)

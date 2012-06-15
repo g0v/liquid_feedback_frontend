@@ -488,9 +488,9 @@ function Member.object:has_voting_right_for_unit_id(unit_id)
       :for_share()
       :exec()
     self.__units_with_voting_right_hash = {}
-      for i, privilege in ipairs(privileges) do
-        self.__units_with_voting_right_hash[privilege.unit_id] = true
-      end
+    for i, privilege in ipairs(privileges) do
+      self.__units_with_voting_right_hash[privilege.unit_id] = true
+    end
   end
   return self.__units_with_voting_right_hash[unit_id] and true or false
 end

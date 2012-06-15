@@ -25,7 +25,9 @@ if area then
 end
 
 if issue then
-  info = issue.member_info
+  if app.session.member_id then
+    info = issue.member_info
+  end
   delegation_text = _"Delegate issue"
 end
 

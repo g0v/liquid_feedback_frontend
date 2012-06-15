@@ -31,7 +31,7 @@ filters.content = function()
     content = function()
       local highlight_string = param.get("highlight_string", "string")
       local issues = issues_selector:exec()
-      issues:load_everything_for_member_id(member.id)
+      issues:load_everything_for_member_id(member and member.id or nil)
 
       ui.container{ attr = { class = "issues" }, content = function()
 

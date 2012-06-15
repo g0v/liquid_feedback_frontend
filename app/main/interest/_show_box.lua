@@ -2,10 +2,7 @@
 local issue = param.get("issue", "table")
 local initiative = param.get("initiative", "table")
 
-local interest = Interest:by_pk(issue.id, app.session.member.id)
-local membership = Membership:by_pk(issue.area_id, app.session.member_id)
-
-if interest then
+if issue.member_info.own_participation then
 
   if issue.closed then
     ui.tag{ content = _"You were interested" }

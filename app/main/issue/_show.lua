@@ -94,7 +94,7 @@ ui.container{ attr = { class = class }, content = function()
       slot.put(" &middot; ")
     end
 
-    if not issue.closed then
+    if not issue.closed and app.session.member_id then
       if issue.member_info.own_delegation_scope ~= "issue" then
         ui.link{ text = _"Delegate issue", module = "delegation", view = "show", params = { issue_id = issue.id } }
       else
@@ -181,9 +181,8 @@ ui.container{ attr = { class = class }, content = function()
         issue = issue,
         initiatives_selector = initiatives_selector,
         highlight_string = highlight_string,
-        per_page = initiative_limit,
         no_sort = true,
-        limit = initiative_limit,
+        limit = 5,
         for_member = for_member
       }
     }

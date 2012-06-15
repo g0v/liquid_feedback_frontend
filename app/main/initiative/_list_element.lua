@@ -59,30 +59,40 @@ ui.container{ attr = { class = "initiative" }, content = function()
   end }
 
   ui.container{ attr = { class = "interest" }, content = function()
-    if initiative.is_initiator then
+    if initiative.member_info.initiated then
       local label = _"You are initiator of this initiative"
       ui.image{
         attr = { alt = label, title = label },
         static = "icons/16/user_edit.png"
       }
-    elseif initiative.is_supporter then
-      local label = _"You are supporter of this initiative"
-      ui.image{
-        attr = { alt = label, title = label },
-        static = "icons/16/thumb_up_green.png"
-      }
-    elseif initiative.is_potential_supporter then
-      local label = _"You are potentially supporter of this initiative"
-      ui.image{
-        attr = { alt = label, title = label },
-        static = "icons/16/thumb_up.png"
-      }
-    elseif initiative.is_supporter_via_delegation then
-      local label = _"You are supporter of this initiative via delegation"
-      ui.image{
-        attr = { alt = label, title = label },
-        static = "icons/16/thumb_up_green.png"
-      }
+    elseif initiative.member_info.directly_supported then
+      if initiative.member_info.satisfied then
+        local label = _"You are supporter of this initiative"
+        ui.image{
+          attr = { alt = label, title = label },
+          static = "icons/16/thumb_up_green.png"
+        }
+      else
+        local label = _"You are potential supporter of this initiative"
+        ui.image{
+          attr = { alt = label, title = label },
+          static = "icons/16/thumb_up.png"
+        }
+      end
+    elseif initiative.member_info.supported then
+      if initiative.member_info.satisfied then
+        local label = _"You are supporter of this initiative via delegation"
+        ui.image{
+          attr = { alt = label, title = label },
+          static = "icons/16/thumb_up_green_arrow.png"
+        }
+      else
+        local label = _"You are potential supporter of this initiative via delegation"
+        ui.image{
+          attr = { alt = label, title = label },
+          static = "icons/16/thumb_up_arrow.png"
+        }
+      end
     end
   end }
 

@@ -24,7 +24,7 @@ end
 
 local issue = Issue:by_id(param.get("issue_id", atom.integer))
 if issue then
-  issue:load_delegation_info_once_for_member_id(app.session.member_id)
+  issue:load("member_info", { member_id = app.session.member_id })
   voting_right_unit_id = issue.area.unit_id
   slot.put_into("title", encode.html(_"Set delegation for Issue ##{number} in Area '#{area_name}'":gsub("#{number}", issue.id):gsub("#{area_name}", issue.area.name)))
   util.help("delegation.new.issue")
