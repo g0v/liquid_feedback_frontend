@@ -131,7 +131,7 @@ ui.container{ attr = { class = class }, content = function()
       end
     end
 
-    if not issue.closed and app.session.member_id and app.session.member:has_voting_right_for_unit_id(issue.area.unit) then
+    if not issue.closed and app.session.member_id and app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
       if issue.member_info.own_delegation_scope ~= "issue" then
         links[#links+1] = { text = _"Delegate issue", module = "delegation", view = "show", params = { issue_id = issue.id } }
       else
