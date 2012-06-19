@@ -72,60 +72,94 @@ ui.container{ attr = { class = class }, content = function()
     end
   }
 
-  ui.container{
-    attr = { class = "content actions" }, content = function()
+  local links = {}
   
     if voteable then
-      ui.link{
+      links[#links+1] ={
         content = vote_link_text,
         module = "vote",
         view = "list",
         params = { issue_id = issue.id }
       }
-      slot.put(" &middot; ")
     end
 
     if app.session.member_id then
-      execute.view{
-        module = "interest",
-        view = "_show_box",
-        params = { issue = issue, initiative = initiative }
-      }
-      slot.put(" &middot; ")
+
+      if issue.member_info.own_participation then
+        if issue.closed then
+          links[#links+1] = { content = _"You were interested" }
+        else
+          links[#links+1] = { content = _"You are interested" }
+        end
+      end
+      
+      if not issue.closed and not issue.fully_frozen then
+        if issue.member_info.own_participation then
+          links[#links+1] = {
+            in_brackets = true,
+            text    = _"Withdraw",
+            module  = "interest",
+            action  = "update",
+            params  = { issue_id = issue.id, delete = true },
+            routing = {
+              default = {
+                mode = "redirect",
+                module = request.get_module(),
+                view = request.get_view(),
+                id = param.get_id_cgi(),
+                params = param.get_all_cgi()
+              }
+            }
+          }
+        elseif app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
+          links[#links+1] = {
+            text    = _"Add my interest",
+            module  = "interest",
+            action  = "update",
+            params  = { issue_id = issue.id },
+            routing = {
+              default = {
+                mode = "redirect",
+                module = request.get_module(),
+                view = request.get_view(),
+                id = param.get_id_cgi(),
+                params = param.get_all_cgi()
+              }
+            }
+          }
+        end
+      end
     end
 
-    if not issue.closed and app.session.member_id then
+    if not issue.closed and app.session.member_id and app.session.member:has_voting_right_for_unit_id(issue.area.unit) then
       if issue.member_info.own_delegation_scope ~= "issue" then
-        ui.link{ text = _"Delegate issue", module = "delegation", view = "show", params = { issue_id = issue.id } }
+        links[#links+1] = { text = _"Delegate issue", module = "delegation", view = "show", params = { issue_id = issue.id } }
       else
-        ui.link{ text = _"Change issue delegation", module = "delegation", view = "show", params = { issue_id = issue.id } }
+        links[#links+1] = { text = _"Change issue delegation", module = "delegation", view = "show", params = { issue_id = issue.id } }
       end
-      slot.put(" &middot; ")
     end
 
     if config.issue_discussion_url_func then
       local url = config.issue_discussion_url_func(issue)
-      ui.link{
+      links[#links+1] = {
         attr = { target = "_blank" },
         external = url,
         content = _"Discussion on issue"
       }
-      slot.put(" &middot; ")
     end
 
     if config.etherpad and app.session.member then
-      ui.link{
+      links[#links+1] = {
         attr = { target = "_blank" },
         external = issue.etherpad_url,
         content = _"Issue pad"
       }
-      slot.put(" &middot; ")
     end
 
 
     if app.session.member_id and app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
       if not issue.fully_frozen and not issue.closed then
-        ui.link{
+      links[#links+1] = {
           attr   = { class = "action" },
           text   = _"Create alternative initiative",
           module = "initiative",
@@ -135,6 +169,22 @@ ui.container{ attr = { class = class }, content = function()
       end
     end
 
+  ui.container{ attr = { class = "content actions" }, content = function()
+    for i, link in ipairs(links) do
+      if link.in_brackets then
+        slot.put(" (")
+      elseif i > 1 then
+        slot.put(" &middot; ")
+      end
+      if link.module then
+        ui.link(link)
+      else
+        ui.tag(link)
+      end
+      if link.in_brackets then
+        slot.put(")")
+      end
+    end
   end }
 
   if not for_listing then
