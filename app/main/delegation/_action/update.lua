@@ -8,6 +8,8 @@ local area_id = param.get("area_id", atom.integer)
 
 local issue_id = param.get("issue_id", atom.integer)
 
+local initiative_id = param.get("initiative_id", atom.integer)
+
 if issue_id then 
   area_id = nil
 end
@@ -16,7 +18,7 @@ local preview = param.get("preview")
 
 if preview == "1" then
   request.redirect{ module = "delegation", view = "show", params = {
-    unit_id = unit_id, area_id = area_id, issue_id = issue_id, preview_trustee_id = trustee_id
+    unit_id = unit_id, area_id = area_id, issue_id = issue_id, initiative_id = initiative_id, preview_trustee_id = trustee_id
   } }
   return
 end
