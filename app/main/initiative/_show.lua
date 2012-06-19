@@ -19,7 +19,8 @@ slot.select("head", function()
     view = "_show",
     params = {
       issue = initiative.issue,
-      initiative_limit = 3
+      initiative_limit = 3,
+      for_initiative = initiative
     }
   }
 end)

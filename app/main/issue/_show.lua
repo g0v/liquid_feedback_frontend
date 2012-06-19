@@ -1,6 +1,8 @@
 local issue = param.get("issue", "table")
 local initiative_limit = param.get("initiative_limit", atom.integer)
 local for_listing = param.get("for_listing", atom.boolean)
+local for_initiative = param.get("for_initiative", "table")
+local for_initiative_id = for_initiative and for_initiative.id or nil
 
 local direct_voter
 if app.session.member_id then
@@ -133,9 +135,9 @@ ui.container{ attr = { class = class }, content = function()
 
     if not issue.closed and app.session.member_id and app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
       if issue.member_info.own_delegation_scope ~= "issue" then
-        links[#links+1] = { text = _"Delegate issue", module = "delegation", view = "show", params = { issue_id = issue.id } }
+        links[#links+1] = { text = _"Delegate issue", module = "delegation", view = "show", params = { issue_id = issue.id, initiative_id = for_initiative_id } }
       else
-        links[#links+1] = { text = _"Change issue delegation", module = "delegation", view = "show", params = { issue_id = issue.id } }
+        links[#links+1] = { text = _"Change issue delegation", module = "delegation", view = "show", params = { issue_id = issue.id, initiative_id = for_initiative_id } }
       end
     end
 

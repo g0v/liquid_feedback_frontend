@@ -169,15 +169,10 @@ ui.form{
       }
 
     end
-    -- add saved members
+    -- add current trustee
     if current_trustee_id then
       records[#records+1] = {id="_", name= "--- " .. _"Current trustee" .. " ---"}
       records[#records+1] = { id = current_trustee_id, name = current_trustee_name }
-    end
-    -- add saved members
-    records[#records+1] = {id="_", name= "--- " .. _"Saved contacts" .. " ---"}
-    for i, record in ipairs(contact_members) do
-      records[#records+1] = record
     end
     -- add initiative authors
     if initiative then
@@ -185,6 +180,11 @@ ui.form{
       for i,record in ipairs(initiative.initiators) do
         records[#records+1] = record.member
       end
+    end
+    -- add saved members
+    records[#records+1] = {id="_", name= "--- " .. _"Saved contacts" .. " ---"}
+    for i, record in ipairs(contact_members) do
+      records[#records+1] = record
     end
 
     disabled_records = {}
