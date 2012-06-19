@@ -26,7 +26,7 @@ ui.form{
     }
   },
   content = function()
-    ui.tag{ tag = "p", content = _"I like to receive notifications about events in my areas and issues:" }
+    ui.tag{ tag = "p", content = _"I like to receive notifications by email about events in my areas and issues:" }
   
     ui.container{ content = function()
       ui.tag{
@@ -117,4 +117,3 @@ ui.form{
   end
 }
  
--- select event.id, event.occurrence, membership.member_id NOTNULL as membership, interest.member_id NOTNULL as interest, supporter.member_id NOTNULL as supporter, event.event, event.state, issue.id, initiative.name FROM event JOIN issue ON issue.id = event.issue_id LEFT JOIN membership ON membership.area_id = issue.area_id AND membership.member_id = 41 LEFT JOIN interest ON interest.issue_id = issue.id AND interest.member_id = 41 LEFT JOIN initiative ON initiative.id = event.initiative_id LEFT JOIN supporter ON supporter.initiative_id = initiative.id AND supporter.member_id = 41 WHERE (((event.event = 'issue_state_changed' OR event.event = 'initiative_created_in_new_issue') AND membership.member_id NOTNULL OR interest.member_id NOTNULL) OR (event.event = 'initiative_created_in_existing_issue' AND interest.member_id NOTNULL) OR ((event.event = 'initiative_revoked' OR event.event = 'new_draft_created' OR event.event = 'suggestion_created') AND supporter.member_id NOTNULL)) AND event.id > 7000 ORDER by event.id ASC LIMIT 1;
