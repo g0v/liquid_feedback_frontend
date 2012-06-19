@@ -520,7 +520,7 @@ form.unit_selector {
 .notifications {
   margin-top: 1ex;
   background-color: #fdd;
-  padding: 1ex;
+  padding: 0.5ex;
 }
 
 .notifications ul {
@@ -1368,7 +1368,8 @@ div.timeline_results {
 /* shadows */
 
 .initiative_head,
-.box {
+.box,
+div.notifications {
   border: 1px solid #aaa;
   border-radius: 8px;
 }
@@ -1393,7 +1394,8 @@ div.timeline_results {
 .ui_filter a.active,
 .vote_info .content,
 .member_area_list,
-.box {
+.box,
+div.notifications {
   box-shadow: #777 0px 5px 5px -5px;
   -mox-box-shadow: #777 0px 5px 5px -5px;
   -webkit-box-shadow: #ddd 3px 3px 3px -1px;

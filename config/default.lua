@@ -10,7 +10,7 @@ if not os.crypt then
 end
 
 config.app_name = "LiquidFeedback"
-config.app_version = "2.beta8"
+config.app_version = "2.beta9"
 
 config.instance_name = request.get_config_name()
 
