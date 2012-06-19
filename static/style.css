@@ -514,6 +514,25 @@ form.unit_selector {
 }
 
 /*************************************************************************
+ * notifications
+ */
+
+.notifications {
+  margin-top: 1ex;
+  background-color: #fdd;
+  padding: 1ex;
+}
+
+.notifications ul {
+  margin: 0;
+  margin-left: 2em;
+}
+  
+.notifications li {
+  margin-top: 0.5ex;
+}
+
+/*************************************************************************
  * vertical ui.form
  */
 

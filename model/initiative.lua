@@ -215,10 +215,13 @@ function Initiative:get_search_selector(search_string)
     :add_group_by("_direct_supporter_snapshot.member_id")
 end
 
---function Member:get_search_selector(search_string)
---  return self:new_selector()
---    :add_where("active")
---end
+function Initiative:selector_for_updated_drafts(member_id)
+  return Initiative:new_selector()
+    :join("issue", "_issue_state", "_issue_state.id = initiative.issue_id AND _issue_state.closed ISNULL AND _issue_state.fully_frozen ISNULL")
+    :join("current_draft", "_current_draft", "_current_draft.initiative_id = initiative.id")
+    :join("supporter", "supporter", { "supporter.member_id = ? AND supporter.initiative_id = initiative.id AND supporter.draft_id < _current_draft.id", member_id })
+    :add_where("initiative.revoked ISNULL")
+end
 
 
 function Initiative.object_get:current_draft()

@@ -53,3 +53,12 @@ function Delegation:by_pk(truster_id, unit_id, area_id, issue_id)
   end
   return selector:exec()
 end
+
+function Delegation:selector_for_broken(member_id)
+  return Delegation:new_selector()
+    :join("issue", nil, "issue.id = delegation.issue_id AND issue.closed ISNULL")
+    :join("member", nil, "delegation.trustee_id = member.id")
+    :add_where{"delegation.truster_id = ?", member_id}
+    :add_where{"member.active = 'f' OR (member.last_activity IS NULL OR age(member.last_activity) > ?::interval)", config.delegation_warning_time }
+end
+  

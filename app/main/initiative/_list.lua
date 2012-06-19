@@ -1,6 +1,13 @@
 local issue = param.get("issue", "table")
+local initiatives_selector = param.get("initiatives_selector", "table")
 
-local initiatives = issue.initiatives
+local initiatives
+if issue then
+  initiatives = issue.initiatives
+else
+  initiatives = initiatives_selector:exec()
+  initiatives:load_everything_for_member_id(app.session.member_id)
+end
 
 local highlight_initiative = param.get("highlight_initiative", "table")
 
@@ -20,8 +27,6 @@ if limit then
     end
   end
 end
-
-local issue = param.get("issue", "table")
 
 local name = "initiative_list"
 if issue then

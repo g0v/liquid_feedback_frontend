@@ -2,12 +2,7 @@ if app.session.member_id then
   util.help("index.index", _"Home")
 
   execute.view{
-    module = "member",
-    view = "_show",
-    params = {
-      member = app.session.member,
-      show_as_homepage = true
-    }
+    module = "index", view = "_index_member"
   }
 
 elseif config.public_access then

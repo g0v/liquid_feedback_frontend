@@ -25,3 +25,10 @@ function Initiator:by_pk(initiative_id, member_id)
     :optional_object_mode()
     :exec()
 end
+
+function Initiator:selector_for_invites(member_id)
+  return Initiative:new_selector()
+    :join("issue", "_issue_state", "_issue_state.id = initiative.issue_id")
+    :join("initiator", nil, { "initiator.initiative_id = initiative.id AND initiator.member_id = ? AND initiator.accepted ISNULL", member_id })
+    :add_where("_issue_state.closed ISNULL AND _issue_state.half_frozen ISNULL")
+end  

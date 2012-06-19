@@ -1,4 +1,6 @@
-local initiatives_selector = param.get("initiatives_selector", "table")
+
+
+local initiatives_selector = Initiator:selector_for_invites(app.session.member_id)
 
 if initiatives_selector:count() > 0 then
   ui.container{

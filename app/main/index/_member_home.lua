@@ -2,11 +2,17 @@ local member = param.get("member", "table")
 local for_member = param.get("for_member", atom.boolean)
 local filter_unit = param.get_all_cgi()["filter_unit"] or "personal"
 
+
+execute.view{
+  module = "index", view = "_notifications"
+}
+
+    
 ui.container{ attr = { class = "ui_filter_head" }, content = function()
 
   ui.link{
     attr = { class = filter_unit == "personal" and "ui_tabs_link active" or nil },
-    text = _"With voting right",
+    text = _"My units and areas",
     module = "index", view = "index", params = { filter_unit = "personal" }
   }
   
