@@ -36,14 +36,14 @@ ui.container{ attr = { class = class }, content = function()
       view = "show",
       id = issue.id
     }
-    if for_listing then
-      ui.tag{ attr = { class = "extra" }, content = function()
-        ui.tag{ content = issue.area.unit.name }
-        slot.put(" &middot; ")
-        ui.tag{ content = issue.area.name }
-      end }
-    end
   end }
+  if for_listing then
+    ui.container{ attr = { class = "content" }, content = function()
+      ui.tag{ content = issue.area.unit.name }
+      slot.put(" &middot; ")
+      ui.tag{ content = issue.area.name }
+    end }
+  end
   
   ui.tag{
     attr = { class = "content issue_policy_info" },
