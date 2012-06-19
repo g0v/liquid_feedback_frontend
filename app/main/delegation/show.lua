@@ -334,13 +334,13 @@ for i, record in ipairs(delegation_chain) do
   slot.put("<br style='clear: left'/>")
 end
 
-if preview_trustee_id == 0 or not preview_trustee_id ==null and delegation and not delegation.trustee_id then
+if preview_trustee_id == 0 or not preview_trustee_id == null and delegation and not delegation.trustee_id then
   ui.image{
     static = "icons/16/table_go_crossed.png"
   }
-  if delegation.issue_id then
+  if issue_id then
     slot.put(_"Delegation turned off for issue")
-  elseif delegation.area_id then
+  elseif area_id then
     slot.put(_"Delegation turned off for area")
   end
 end
