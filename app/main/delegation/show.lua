@@ -10,7 +10,7 @@ if unit then
     current_trustee_id = unit.delegation_info.first_trustee_id
     current_trustee_name = unit.delegation_info.first_trustee_name
   end
-  slot.put_into("title", encode.html(config.single_unit_id and _"Set global delegation" or _"Set unit delegation"))
+  ui.title(config.single_unit_id and _"Set global delegation" or _"Set unit delegation")
   util.help("delegation.new.unit")
 end
 
@@ -18,7 +18,11 @@ local area = Area:by_id(param.get("area_id", atom.integer))
 if area then
   area:load_delegation_info_once_for_member_id(app.session.member_id)
   voting_right_unit_id = area.unit_id
-  slot.put_into("title", encode.html(_"Set delegation for Area '#{name}'":gsub("#{name}", area.name)))
+  if area.delegation_info.own_delegation_scope == 'area' then
+    current_trustee_id = area.delegation_info.first_trustee_id
+    current_trustee_name = area.delegation_info.first_trustee_name
+  end
+  ui.title(_"Set delegation for Area '#{name}'":gsub("#{name}", area.name))
   util.help("delegation.new.area")
 end
 
@@ -26,7 +30,11 @@ local issue = Issue:by_id(param.get("issue_id", atom.integer))
 if issue then
   issue:load("member_info", { member_id = app.session.member_id })
   voting_right_unit_id = issue.area.unit_id
-  slot.put_into("title", encode.html(_"Set delegation for Issue ##{number} in Area '#{area_name}'":gsub("#{number}", issue.id):gsub("#{area_name}", issue.area.name)))
+  if issue.member_info.own_delegation_scope == 'issue' then
+    current_trustee_id = issue.member_info.first_trustee_id
+    current_trustee_name = issue.member_info.first_trustee_name
+  end
+  ui.title(_"Set delegation for Issue ##{number} in Area '#{area_name}'":gsub("#{number}", issue.id):gsub("#{area_name}", issue.area.name))
   util.help("delegation.new.issue")
 end
 
