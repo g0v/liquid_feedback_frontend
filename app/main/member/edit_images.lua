@@ -13,8 +13,9 @@ ui.form{
   routing = {
     ok = {
       mode = "redirect",
-      module = "index",
-      view = "index"
+      module = "member",
+      view = "show",
+      id = app.session.member_id
     }
   },
   content = function()
