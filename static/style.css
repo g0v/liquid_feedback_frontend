@@ -512,18 +512,22 @@ form.unit_selector {
  * notifications
  */
 
-.notifications {
+div.notifications {
   margin-top: 1ex;
   background-color: #fdd;
   padding: 0.5ex;
+  border: 1px solid #daa;
 }
 
 .notifications ul {
   margin: 0;
+  padding: 0;
   margin-left: 2em;
 }
   
 .notifications li {
+  margin: 0;
+  padding: 0;
   margin-top: 0.5ex;
 }
 
@@ -1364,8 +1368,12 @@ div.timeline_results {
 .initiative_head,
 .box,
 div.notifications {
-  border: 1px solid #aaa;
   border-radius: 8px;
+}
+
+.initiative_head,
+.box {
+  border: 1px solid #aaa;
 }
 
 .box {
