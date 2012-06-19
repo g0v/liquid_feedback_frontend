@@ -40,9 +40,9 @@ if issues_to_vote_count > 0 then
     notification_links[#notification_links+1] = {
     module = "index", view = "index",
     params = {
-      tab = "open", filter = "frozen", filter_interest = "issue", filter_voting = "not_voted"
+      tab = "open", filter = "frozen", filter_interest = "issue", filter_delegation = "direct", filter_voting = "not_voted"
     },
-    text = _("You have not voted #{count} issue(s) you was interested in", { count = issues_to_vote_count })
+    text = _("You have not voted #{count} issue(s) you were interested in", { count = issues_to_vote_count })
   }
 end
 
