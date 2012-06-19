@@ -1,16 +1,4 @@
-slot.put_into("title", _"Notification settings")
-
-slot.select("actions", function()
-  ui.link{
-    content = function()
-        ui.image{ static = "icons/16/cancel.png" }
-        slot.put(_"Cancel")
-    end,
-    module = "member",
-    view = "settings"
-  }
-end)
-
+ui.title(_"Notification settings")
 
 util.help("member.settings.notification", _"Notification settings")
 

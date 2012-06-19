@@ -7,8 +7,11 @@ if app.session.member.notify_email_unconfirmed then
     :optional_object_mode()
     :exec()
 
-  slot.select("title", function()
-    ui.tag{ content =  _"Notification address unconfirmed" }
+  slot.select("head", function()
+    ui.container{
+      attr = { class = "title" },
+      content = _"Notification address unconfirmed"
+    }
   end )
 
   if current then

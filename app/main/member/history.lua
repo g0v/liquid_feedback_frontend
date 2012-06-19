@@ -1,17 +1,21 @@
 local member = Member:by_id(param.get_id())
 
-slot.put_into("title", encode.html(_("Member name history for '#{name}'", { name = member.name })))
-
-slot.select("actions", function()
-  ui.link{
-    content = function()
-        ui.image{ static = "icons/16/cancel.png" }
-        slot.put(_"Back")
-    end,
-    module = "member",
-    view = "show",
-    id = member.id
+slot.select("head", function()
+  ui.container{
+    attr = { class = "title" }, 
+    content = _("Member name history for '#{name}'", { name = member.name })
   }
+  ui.container{ attr = { class = "actions" }, content = function()
+    ui.link{
+      content = function()
+          ui.image{ static = "icons/16/cancel.png" }
+          slot.put(_"Back")
+      end,
+      module = "member",
+      view = "show",
+      id = member.id
+    }
+  end }
 end)
 
 ui.form{

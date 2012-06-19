@@ -1,15 +1,4 @@
-slot.put_into("title", _"Settings")
-
-slot.select("actions", function()
-  ui.link{
-    content = function()
-        ui.image{ static = "icons/16/cancel.png" }
-        slot.put(_"Cancel")
-    end,
-    module = "index",
-    view = "index"
-  }
-end)
+ui.title(_"Settings")
 
 local pages = {}
 

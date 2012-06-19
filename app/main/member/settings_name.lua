@@ -1,15 +1,4 @@
-slot.put_into("title", _"Change your name")
-
-slot.select("actions", function()
-  ui.link{
-    content = function()
-        ui.image{ static = "icons/16/cancel.png" }
-        slot.put(_"Cancel")
-    end,
-    module = "member",
-    view = "settings"
-  }
-end)
+ui.title(_"Change your screen name")
 
 util.help("member.settings.name", _"Change name")
 

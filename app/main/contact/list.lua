@@ -3,8 +3,7 @@ local contacts_selector = Contact:build_selector{
   order = "name"
 }
 
-
-slot.put_into("title", _"Contacts")
+ui.title(_"Contacts")
 
 
 util.help("contact.list")

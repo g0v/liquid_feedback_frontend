@@ -1,15 +1,4 @@
-slot.put_into("title", _"Change your login")
-
-slot.select("actions", function()
-  ui.link{
-    content = function()
-        ui.image{ static = "icons/16/cancel.png" }
-        slot.put(_"Cancel")
-    end,
-    module = "member",
-    view = "settings"
-  }
-end)
+ui.title(_"Change your login")
 
 util.help("member.settings.login", _"Change login")
 
