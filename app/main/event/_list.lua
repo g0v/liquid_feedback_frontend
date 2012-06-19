@@ -41,6 +41,7 @@ ui.container{ attr = { class = "issues events" }, content = function()
   local last_event_date
   for i, event in ipairs(event_selector:exec()) do
     last_event_id = event.id
+    event.issue:load_everything_for_member_id(app.session.member_id)
 
     if event.occurrence.date ~= last_event_date then
       local days_ago_text
