@@ -58,44 +58,46 @@ ui.container{ attr = { class = "initiative" }, content = function()
     end
   end }
 
-  ui.container{ attr = { class = "interest" }, content = function()
-    if initiative.member_info.initiated then
-      local label = _"You are initiator of this initiative"
-      ui.image{
-        attr = { alt = label, title = label },
-        static = "icons/16/user_edit.png"
-      }
-    elseif initiative.member_info.directly_supported then
-      if initiative.member_info.satisfied then
-        local label = _"You are supporter of this initiative"
+  if app.session.member_id then
+    ui.container{ attr = { class = "interest" }, content = function()
+      if initiative.member_info.initiated then
+        local label = _"You are initiator of this initiative"
         ui.image{
           attr = { alt = label, title = label },
-          static = "icons/16/thumb_up_green.png"
+          static = "icons/16/user_edit.png"
         }
-      else
-        local label = _"You are potential supporter of this initiative"
-        ui.image{
-          attr = { alt = label, title = label },
-          static = "icons/16/thumb_up.png"
-        }
+      elseif initiative.member_info.directly_supported then
+        if initiative.member_info.satisfied then
+          local label = _"You are supporter of this initiative"
+          ui.image{
+            attr = { alt = label, title = label },
+            static = "icons/16/thumb_up_green.png"
+          }
+        else
+          local label = _"You are potential supporter of this initiative"
+          ui.image{
+            attr = { alt = label, title = label },
+            static = "icons/16/thumb_up.png"
+          }
+        end
+      elseif initiative.member_info.supported then
+        if initiative.member_info.satisfied then
+          local label = _"You are supporter of this initiative via delegation"
+          ui.image{
+            attr = { alt = label, title = label },
+            static = "icons/16/thumb_up_green_arrow.png"
+          }
+        else
+          local label = _"You are potential supporter of this initiative via delegation"
+          ui.image{
+            attr = { alt = label, title = label },
+            static = "icons/16/thumb_up_arrow.png"
+          }
+        end
       end
-    elseif initiative.member_info.supported then
-      if initiative.member_info.satisfied then
-        local label = _"You are supporter of this initiative via delegation"
-        ui.image{
-          attr = { alt = label, title = label },
-          static = "icons/16/thumb_up_green_arrow.png"
-        }
-      else
-        local label = _"You are potential supporter of this initiative via delegation"
-        ui.image{
-          attr = { alt = label, title = label },
-          static = "icons/16/thumb_up_arrow.png"
-        }
-      end
-    end
-  end }
-
+    end }
+  end
+    
   ui.container{ attr = { class = "name" }, content = function()
     local link_class = "initiative_link"
     if initiative.revoked then
