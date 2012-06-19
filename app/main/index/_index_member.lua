@@ -4,14 +4,13 @@ local tabs = {
   view = "index"
 }
 
-local areas_selector = app.session.member:get_reference_selector("areas")
 tabs[#tabs+1] = {
   name = "areas",
   label = _"Home",
   icon = { static = "icons/16/package.png" },
   module = "index",
   view = "_member_home",
-  params = { areas_selector = areas_selector, member = app.session.member, for_member = true },
+  params = { member = app.session.member }
 }
 
 tabs[#tabs+1] = {

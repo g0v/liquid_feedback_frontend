@@ -36,6 +36,9 @@ end
 local units = Unit:new_selector():exec()
 
 for i, unit in ipairs(units) do
+  if not member:has_voting_right_for_unit_id(unit.id) then
+    break
+  end
   local trustee_member = Member:new_selector()
     :join("delegation", nil, { "delegation.scope = 'unit' AND delegation.unit_id = ? AND delegation.trustee_id = member.id AND delegation.truster_id = ?", unit.id, member.id })
     :optional_object_mode()
@@ -50,7 +53,7 @@ for i, unit in ipairs(units) do
   local area_count = areas_selector:count()
   
   ui.container{ attr = { class = "member_area_list" }, content = function()
-    ui.container{ attr = { class = "xunit_head" }, content = function()
+    ui.container{ attr = { class = "unit_head" }, content = function()
       ui.link{
         text = unit.name,
         module = "unit", view = "show", id = unit.id
