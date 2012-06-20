@@ -43,45 +43,48 @@ slot.select('navigation', function()
       module = 'index',
       view   = 'reset_password'
     }
-  else 
+  end
+end)
 
-    ui.container{ attr = { class = "navigation_right" }, content = function()
 
-      if app.session.member_id then
-        ui.container{ attr = { class = "member_menu" }, content = function()
-          ui.container{ attr = { class = "title" }, content = function()
-            ui.link{
-              content = function()
-                execute.view{
-                  module = "member_image",
-                  view = "_show",
-                  params = {
-                    member = app.session.member,
-                    image_type = "avatar",
-                    show_dummy = true,
-                    class = "micro_avatar",
-                  }
-                }
-                ui.tag{ content = app.session.member.name }
-              end,
-              module = "member",
-              view = "menu"
-            }
-          end }
-          ui.container{ 
-            attr = { id = "member_menu" },
+if app.session.member_id then
+
+  slot.select('navigation_right', function()
+    if app.session.member_id then
+      ui.tag{ 
+        tag = "ul",
+        attr = { id = "member_menu" },
+        content = function()
+          ui.tag{ 
+            tag = "li",
             content = function()
+              ui.link{
+                module = "member",
+                view = "menu",
+                content = function()
+                  execute.view{
+                    module = "member_image",
+                    view = "_show",
+                    params = {
+                      member = app.session.member,
+                      image_type = "avatar",
+                      show_dummy = true,
+                      class = "micro_avatar",
+                    }
+                  }
+                  ui.tag{ content = app.session.member.name }
+                end
+              }
               execute.view{ module = "member", view = "_menu" }
             end
           }
-        end }
-      end
-      
-    end }
+        end
+      }
+    end
 
-  end
+  end)
 
-end)
+end
 
 slot.select("footer", function()
   if app.session.member_id and app.session.member.admin then

@@ -166,7 +166,7 @@ h2 {
   );
   font-size: 90%;
   box-shadow: #aaa 0 0 5px;
-  overflow: hidden;
+  xoverflow: auto;
   -mox-box-shadow: #aaa 0 0 5px;
   -webkit-box-shadow: #aaa 0 0 5px;
   border-top: 1px solid #333;
@@ -186,8 +186,8 @@ h2 {
 }
 
 .topbar  a:hover {
-  background-color: #eee;
-  color: #000;
+  background-color: #000;
+  color: #fff;
 }
 
 .navigation {
@@ -200,8 +200,7 @@ h2 {
   vertical-align: middle;
 }
 
-.topbar a,
-.topbar .member_menu span {
+.topbar a {
   padding: 0 0.5em;
   float: left;
   display: block;
@@ -217,10 +216,73 @@ form.unit_selector {
   padding-right: 1%;
 }
 
-.member_menu {
-  float: right;
+
+#member_menu {
+ xposition: relative;
+ z-index: 2;
+ xfloat: left;
 }
 
+#member_menu li {
+ float: left;
+}
+
+#member_menu li:hover {
+ position: relative;
+ z-index: 4;
+ cursor: default;
+}
+
+#member_menu {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+}
+  
+#member_menu ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 3;
+  width: 200px;
+  border-radius: 0 0 8px 8px;
+  background: #000;
+}
+
+#member_menu ul li {
+  float: none;
+}
+
+#member_menu ul li a {
+  float: none;
+  background: #444;
+}
+
+#member_menu ul ul {
+  top: 1px;
+  right: 1px;
+}
+
+#member_menu li:hover ul {
+  display: block;
+}
+
+#member_menu li li a {
+  background: #000;
+  border-radius: 5px;
+  color: #ddd;
+}
+
+#member_menu ul li:hover a {
+  background: #444;
+  color: #fff;
+}
+
+/*
 #member_menu {
   position: absolute;
   right: 20px;
@@ -261,7 +323,7 @@ form.unit_selector {
   color: #000;
 }
 
-
+*/
 /*************************************************************************
  * Title of current page including path and actions
  */
