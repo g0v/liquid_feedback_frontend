@@ -238,6 +238,14 @@ form.unit_selector {
   padding: 0;
   width: 200px;
 }
+
+#member_menu > li {
+  width: 200px;
+}
+
+#member_menu li a {
+  float: right;
+}
   
 #member_menu ul {
   margin: 0;
@@ -1224,7 +1232,7 @@ x.initiative_link.potentially_supported {
 }
 
 .slot_help_hidden {
-  float: right;
+  float: left;
   margin-top: 1ex;
 }
 
