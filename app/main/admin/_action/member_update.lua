@@ -2,7 +2,20 @@ local id = param.get_id()
 
 local member = Member:by_id(id) or Member:new()
 
-param.update(member, "identification", "notify_email", "admin", "locked")
+param.update(member, "identification", "notify_email", "admin")
+
+local locked = param.get("locked", atom.boolean)
+if locked then
+  member.locked = locked
+end
+local login = param.get("login")
+if login then
+  member.login = login
+end
+local name = param.get("name")
+if name then
+  member.name = name
+end
 
 local err = member:try_save()
 

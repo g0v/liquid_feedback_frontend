@@ -1,20 +1,6 @@
-local show_locked = param.get("show_locked", atom.boolean)
-
-local locked = show_locked or false
 local search = param.get("search")
-if search then
-  locked = nil
-end
-
-local members_selector = Member:build_selector{
-  admin_search = search,
-  locked = locked,
-  order = "identification"
-}
-
 
 ui.title(_"Member list")
-
 
 slot.select("head", function()
   ui.container{ attr = { class = "content" }, content = function()
@@ -25,23 +11,6 @@ slot.select("head", function()
         module = "admin",
         view = "member_edit"
       }
-      slot.put(" &middot; ")
-      if show_locked then
-        ui.link{
-          attr = { class = { "admin_only" } },
-          text = _"Show active members",
-          module = "admin",
-          view = "member_list"
-        }
-      else
-        ui.link{
-          attr = { class = { "admin_only" } },
-          text = _"Show locked members",
-          module = "admin",
-          view = "member_list",
-          params = { show_locked = true }
-        }
-      end
     end }
   end }
 end)
@@ -57,6 +26,16 @@ ui.form{
   
   end
 }
+
+if not search then
+  return
+end
+
+local members_selector = Member:build_selector{
+  admin_search = search,
+  order = "identification"
+}
+
 
 ui.paginate{
   selector = members_selector,
@@ -94,6 +73,8 @@ ui.paginate{
               ui.field.text{ value = "not activated" }
             elseif not record.active then
               ui.field.text{ value = "inactive" }
+            else
+              ui.field.text{ value = "active" }
             end
           end
         },

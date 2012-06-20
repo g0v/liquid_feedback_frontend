@@ -35,7 +35,8 @@ ui.form{
   content = function()
     ui.field.text{     label = _"Identification", name = "identification" }
     ui.field.text{     label = _"Notification email", name = "notify_email" }
-    if member and member.login then
+    if member and member.activated then
+      ui.field.text{     label = _"Screen name",        name = "name" }
       ui.field.text{     label = _"Login name",        name = "login" }
     end
     ui.field.boolean{  label = _"Admin?",       name = "admin" }
@@ -55,7 +56,7 @@ ui.form{
       ui.field.boolean{  label = _"Send invite?",       name = "invite_member" }
     end
     
-    if member then
+    if member and member.activated then
       ui.field.boolean{  label = _"Lock member?",       name = "locked" }
     end
     
