@@ -42,7 +42,7 @@ ui.form{
         foreign_records = tmp,
         foreign_id = "id",
         foreign_name = "name",
-        value = area.default_policy and area.default_policy.id or param.get("policy_id", atom.integer)
+        value = param.get("policy_id", atom.integer) or area.default_policy and area.default_policy.id
       }
       ui.tag{
         tag = "div",
