@@ -48,6 +48,8 @@ config.member_image_default_file = {
   photo = nil
 }
 
+config.available_languages = { 'en', 'de', 'eo', 'el' }
+
 config.default_lang = "de"
 
 -- after how long is a user considered inactive and the trustee will see warning

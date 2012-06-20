@@ -75,15 +75,10 @@ ui.tag{ tag = "ul", content = function()
     ui.tag{ tag = "span", content = _"Select language" }
   end }
 
-  for i, lang in ipairs{"en", "de", "eo"} do
+  for i, lang in ipairs(config.available_languages) do
     ui.tag{ tag = "li", content = function()
       ui.link{
-        content = function()
-          ui.image{
-            static = "lang/" .. lang .. ".png",
-          }
-          ui.tag{ content = _('Select language "#{langcode}"', { langcode = lang }) }
-        end,
+        content = _('Select language "#{langcode}"', { langcode = lang }),
         module = "index",
         action = "set_lang",
         params = { lang = lang },
