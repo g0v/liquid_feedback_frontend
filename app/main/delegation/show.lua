@@ -278,10 +278,15 @@ ui.form{
 
 -- ------------------------
 
-
+local preview_inherit = false
+local tmp_preview_trustee_id = preview_trustee_id
+if preview_trustee_id == -1 then
+  preview_inherit = true
+  tmp_preview_trustee_id = nil
+end
 local delegation_chain = Member:new_selector()
   :add_field("delegation_chain.*")
-  :join({ "delegation_chain(?,?,?,?,?)", app.session.member.id, unit_id, area_id, issue_id, preview_trustee_id }, "delegation_chain", "member.id = delegation_chain.member_id")
+  :join({ "delegation_chain(?,?,?,?,?,?)", app.session.member.id, unit_id, area_id, issue_id, tmp_preview_trustee_id, preview_inherit }, "delegation_chain", "member.id = delegation_chain.member_id")
   :add_order_by("index")
   :exec()
 
