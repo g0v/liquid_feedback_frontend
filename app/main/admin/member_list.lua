@@ -1,39 +1,62 @@
 local show_locked = param.get("show_locked", atom.boolean)
 
-local members_selector = Member:build_selector{ 
-  active = not show_locked,
-  order = "login"
+local locked = show_locked or false
+local search = param.get("search")
+if search then
+  locked = nil
+end
+
+local members_selector = Member:build_selector{
+  admin_search = search,
+  locked = locked,
+  order = "identification"
 }
 
 
-slot.put_into("title", _"Member list")
+ui.title(_"Member list")
 
 
-slot.select("actions", function()
-  ui.link{
-    attr = { class = { "admin_only" } },
-    text = _"Register new member",
-    module = "admin",
-    view = "member_edit"
-  }
-  if show_locked then
-    ui.link{
-      attr = { class = { "admin_only" } },
-      text = _"Show active members",
-      module = "admin",
-      view = "member_list"
-    }
-  else
-    ui.link{
-      attr = { class = { "admin_only" } },
-      text = _"Show locked members",
-      module = "admin",
-      view = "member_list",
-      params = { show_locked = true }
-    }
-  end
+slot.select("head", function()
+  ui.container{ attr = { class = "content" }, content = function()
+    ui.container{ attr = { class = "actions" }, content = function()
+      ui.link{
+        attr = { class = { "admin_only" } },
+        text = _"Register new member",
+        module = "admin",
+        view = "member_edit"
+      }
+      slot.put(" &middot; ")
+      if show_locked then
+        ui.link{
+          attr = { class = { "admin_only" } },
+          text = _"Show active members",
+          module = "admin",
+          view = "member_list"
+        }
+      else
+        ui.link{
+          attr = { class = { "admin_only" } },
+          text = _"Show locked members",
+          module = "admin",
+          view = "member_list",
+          params = { show_locked = true }
+        }
+      end
+    end }
+  end }
 end)
 
+
+ui.form{
+  module = "admin", view = "member_list",
+  content = function()
+  
+    ui.field.text{ label = _"Search for members", name = "search" }
+    
+    ui.submit{ value = _"Start search" }
+  
+  end
+}
 
 ui.paginate{
   selector = members_selector,
@@ -48,27 +71,29 @@ ui.paginate{
           name = "id"
         },
         {
-          label = _"Login",
-          name = "login"
+          label = _"Identification",
+          name = "identification"
         },
         {
-          label = _"Name",
-          content = function(record)
-            util.put_highlighted_string(record.name)
-          end
-        },
-        {
-          label = _"Ident number",
-          name = "ident_number"
+          label = _"Screen name",
+          name = "name"
         },
         {
           label = _"Admin?",
-          name = "admin"
+          content = function(record)
+            if record.admin then
+              ui.field.text{ value = "admin" }
+            end
+          end
         },
         {
           content = function(record)
-            if not record.active then
+            if record.locked then
               ui.field.text{ value = "locked" }
+            elseif not record.activated then
+              ui.field.text{ value = "not activated" }
+            elseif not record.active then
+              ui.field.text{ value = "inactive" }
             end
           end
         },

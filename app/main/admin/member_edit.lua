@@ -3,9 +3,9 @@ local id = param.get_id()
 local member = Member:by_id(id)
 
 if member then
-  slot.put_into("title", encode.html(_("Member: '#{login}' (#{name})", { login = member.login, name = member.name })))
+  ui.title(_("Member: '#{identification}' (#{name})", { identification = member.identification, name = member.name }))
 else
-  slot.put_into("title", encode.html(_"Register new member"))
+  ui.title(_"Register new member")
 end
 
 local units_selector = Unit:new_selector()
@@ -35,6 +35,9 @@ ui.form{
   content = function()
     ui.field.text{     label = _"Identification", name = "identification" }
     ui.field.text{     label = _"Notification email", name = "notify_email" }
+    if member and member.login then
+      ui.field.text{     label = _"Login name",        name = "login" }
+    end
     ui.field.boolean{  label = _"Admin?",       name = "admin" }
 
     slot.put("<br />")
@@ -48,7 +51,15 @@ ui.form{
     end
     slot.put("<br /><br />")
 
-    ui.field.boolean{  label = _"Send invite?",       name = "invite_member" }
+    if not member or not member.activated then
+      ui.field.boolean{  label = _"Send invite?",       name = "invite_member" }
+    end
+    
+    if member then
+      ui.field.boolean{  label = _"Lock member?",       name = "locked" }
+    end
+    
+    slot.put("<br />")
     ui.submit{         text  = _"Save" }
   end
 }
