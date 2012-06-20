@@ -332,7 +332,7 @@ return {
 ["Member successfully registered"] = "Mitglied erfolgreich registriert";
 ["Member successfully updated"] = "Mitglied erfolgreich aktualisert";
 ["Member voting"] = "Abstimmungsverhalten";
-["Member: '#{login}' (#{name})"] = "Mitlied: '#{login}' (#{name})";
+["Member: '#{login}' (#{name})"] = "Mitglied: '#{login}' (#{name})";
 ["Members"] = "Mitglieder";
 ["Membership not existent"] = "Mitgliedschaft existiert nicht";
 ["Membership removed"] = "Mitgliedschaft entfernt";
