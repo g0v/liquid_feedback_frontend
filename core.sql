@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('2.0.10', 2, 0, 10))
+  SELECT * FROM (VALUES ('2.0.11', 2, 0, 11))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -2440,7 +2440,8 @@ CREATE FUNCTION "delegation_chain"
     "unit_id_p"             "unit"."id"%TYPE,
     "area_id_p"             "area"."id"%TYPE,
     "issue_id_p"            "issue"."id"%TYPE,
-    "simulate_trustee_id_p" "member"."id"%TYPE DEFAULT NULL )
+    "simulate_trustee_id_p" "member"."id"%TYPE DEFAULT NULL,
+    "simulate_default_p"    BOOLEAN            DEFAULT FALSE )
   RETURNS SETOF "delegation_chain_row"
   LANGUAGE 'plpgsql' STABLE AS $$
     DECLARE
@@ -2452,11 +2453,21 @@ CREATE FUNCTION "delegation_chain"
       "loop_member_id_v"   "member"."id"%TYPE;
       "output_row"         "delegation_chain_row";
       "output_rows"        "delegation_chain_row"[];
+      "simulate_v"         BOOLEAN;
+      "simulate_here_v"    BOOLEAN;
       "delegation_row"     "delegation"%ROWTYPE;
       "row_count"          INT4;
       "i"                  INT4;
       "loop_v"             BOOLEAN;
     BEGIN
+      IF "simulate_trustee_id_p" NOTNULL AND "simulate_default_p" THEN
+        RAISE EXCEPTION 'Both "simulate_trustee_id_p" is set, and "simulate_default_p" is true';
+      END IF;
+      IF "simulate_trustee_id_p" NOTNULL OR "simulate_default_p" THEN
+        "simulate_v" := TRUE;
+      ELSE
+        "simulate_v" := FALSE;
+      END IF;
       IF
         "unit_id_p" NOTNULL AND
         "area_id_p" ISNULL AND
@@ -2483,7 +2494,7 @@ CREATE FUNCTION "delegation_chain"
           RETURN;
         END IF;
         IF "issue_row"."closed" NOTNULL THEN
-          IF "simulate_trustee_id_p" NOTNULL THEN
+          IF "simulate_v" THEN
             RAISE EXCEPTION 'Tried to simulate delegation chain for closed issue.';
           END IF;
           FOR "output_row" IN
@@ -2525,30 +2536,46 @@ CREATE FUNCTION "delegation_chain"
           "output_row"."overridden" := TRUE;
         END IF;
         "output_row"."scope_in" := "output_row"."scope_out";
-        IF EXISTS (
+        "output_row"."member_valid" := EXISTS (
           SELECT NULL FROM "member" JOIN "privilege"
           ON "privilege"."member_id" = "member"."id"
           AND "privilege"."unit_id" = "unit_id_v"
           WHERE "id" = "output_row"."member_id"
           AND "member"."active" AND "privilege"."voting_right"
-        ) THEN
+        );
+        "simulate_here_v" := (
+          "simulate_v" AND
+          "output_row"."member_id" = "member_id_p"
+        );
+        "delegation_row" := ROW(NULL);
+        IF "output_row"."member_valid" OR "simulate_here_v" THEN
           IF "scope_v" = 'unit' THEN
-            SELECT * INTO "delegation_row" FROM "delegation"
-              WHERE "truster_id" = "output_row"."member_id"
-              AND "unit_id" = "unit_id_v";
+            IF NOT "simulate_here_v" THEN
+              SELECT * INTO "delegation_row" FROM "delegation"
+                WHERE "truster_id" = "output_row"."member_id"
+                AND "unit_id" = "unit_id_v";
+            END IF;
           ELSIF "scope_v" = 'area' THEN
             "output_row"."participation" := EXISTS (
               SELECT NULL FROM "membership"
               WHERE "area_id" = "area_id_p"
               AND "member_id" = "output_row"."member_id"
             );
-            SELECT * INTO "delegation_row" FROM "delegation"
-              WHERE "truster_id" = "output_row"."member_id"
-              AND (
-                "unit_id" = "unit_id_v" OR
-                "area_id" = "area_id_v"
-              )
-              ORDER BY "scope" DESC;
+            IF "simulate_here_v" THEN
+              IF "simulate_trustee_id_p" ISNULL THEN
+                SELECT * INTO "delegation_row" FROM "delegation"
+                  WHERE "truster_id" = "output_row"."member_id"
+                  AND "unit_id" = "unit_id_v";
+              END IF;
+            ELSE
+              SELECT * INTO "delegation_row" FROM "delegation"
+                WHERE "truster_id" = "output_row"."member_id"
+                AND (
+                  "unit_id" = "unit_id_v" OR
+                  "area_id" = "area_id_v"
+                )
+                ORDER BY "scope" DESC;
+            END IF;
           ELSIF "scope_v" = 'issue' THEN
             IF "issue_row"."fully_frozen" ISNULL THEN
               "output_row"."participation" := EXISTS (
@@ -2567,25 +2594,31 @@ CREATE FUNCTION "delegation_chain"
                 "output_row"."participation" := NULL;
               END IF;
             END IF;
-            SELECT * INTO "delegation_row" FROM "delegation"
-              WHERE "truster_id" = "output_row"."member_id"
-              AND (
-                "unit_id" = "unit_id_v" OR
-                "area_id" = "area_id_v" OR
-                "issue_id" = "issue_id_p"
-              )
-              ORDER BY "scope" DESC;
+            IF "simulate_here_v" THEN
+              IF "simulate_trustee_id_p" ISNULL THEN
+                SELECT * INTO "delegation_row" FROM "delegation"
+                  WHERE "truster_id" = "output_row"."member_id"
+                  AND (
+                    "unit_id" = "unit_id_v" OR
+                    "area_id" = "area_id_v"
+                  )
+                  ORDER BY "scope" DESC;
+              END IF;
+            ELSE
+              SELECT * INTO "delegation_row" FROM "delegation"
+                WHERE "truster_id" = "output_row"."member_id"
+                AND (
+                  "unit_id" = "unit_id_v" OR
+                  "area_id" = "area_id_v" OR
+                  "issue_id" = "issue_id_p"
+                )
+                ORDER BY "scope" DESC;
+            END IF;
           END IF;
         ELSE
-          "output_row"."member_valid"  := FALSE;
           "output_row"."participation" := FALSE;
-          "output_row"."scope_out"     := NULL;
-          "delegation_row" := ROW(NULL);
         END IF;
-        IF
-          "output_row"."member_id" = "member_id_p" AND
-          "simulate_trustee_id_p" NOTNULL
-        THEN
+        IF "simulate_here_v" AND "simulate_trustee_id_p" NOTNULL THEN
           "output_row"."scope_out" := "scope_v";
           "output_rows" := "output_rows" || "output_row";
           "output_row"."member_id" := "simulate_trustee_id_p";
@@ -2639,7 +2672,8 @@ COMMENT ON FUNCTION "delegation_chain"
     "unit"."id"%TYPE,
     "area"."id"%TYPE,
     "issue"."id"%TYPE,
-    "member"."id"%TYPE )
+    "member"."id"%TYPE,
+    BOOLEAN )
   IS 'Shows a delegation chain for unit, area, or issue; See "delegation_chain_row" type for more information';
 
 
@@ -2686,7 +2720,8 @@ CREATE FUNCTION "delegation_info"
     "unit_id_p"             "unit"."id"%TYPE,
     "area_id_p"             "area"."id"%TYPE,
     "issue_id_p"            "issue"."id"%TYPE,
-    "simulate_trustee_id_p" "member"."id"%TYPE DEFAULT NULL )
+    "simulate_trustee_id_p" "member"."id"%TYPE DEFAULT NULL,
+    "simulate_default_p"    BOOLEAN            DEFAULT FALSE )
   RETURNS "delegation_info_type"
   LANGUAGE 'plpgsql' STABLE AS $$
     DECLARE
@@ -2698,7 +2733,7 @@ CREATE FUNCTION "delegation_info"
         SELECT * FROM "delegation_chain"(
           "member_id_p",
           "unit_id_p", "area_id_p", "issue_id_p",
-          "simulate_trustee_id_p")
+          "simulate_trustee_id_p", "simulate_default_p")
       LOOP
         IF
           "result"."participating_member_id" ISNULL AND
@@ -2755,7 +2790,8 @@ COMMENT ON FUNCTION "delegation_info"
     "unit"."id"%TYPE,
     "area"."id"%TYPE,
     "issue"."id"%TYPE,
-    "member"."id"%TYPE )
+    "member"."id"%TYPE,
+    BOOLEAN )
   IS 'Notable information about a delegation chain for unit, area, or issue; See "delegation_info_type" for more information';
 
 
