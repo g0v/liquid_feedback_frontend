@@ -8,6 +8,10 @@ local locked = param.get("locked", atom.boolean)
 if locked ~= nil then
   member.locked = locked
 end
+local deactivate = param.get("deactivate", atom.boolean)
+if deactivate then
+  member.active = false
+end
 local login = param.get("login")
 if login then
   member.login = login

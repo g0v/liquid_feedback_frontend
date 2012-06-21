@@ -60,6 +60,11 @@ ui.form{
       ui.field.boolean{  label = _"Lock member?",       name = "locked" }
     end
     
+    ui.field.boolean{ 
+      label = _"Member inactive?", name = "deactivate",
+      readonly = not member.active, value = member.active == false
+    }
+    
     slot.put("<br />")
     ui.submit{         text  = _"Save" }
   end

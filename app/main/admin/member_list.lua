@@ -67,14 +67,19 @@ ui.paginate{
         },
         {
           content = function(record)
-            if record.locked then
-              ui.field.text{ value = "locked" }
-            elseif not record.activated then
+            if not record.activated then
               ui.field.text{ value = "not activated" }
             elseif not record.active then
               ui.field.text{ value = "inactive" }
             else
               ui.field.text{ value = "active" }
+            end
+          end
+        },
+        {
+          content = function(record)
+            if record.locked then
+              ui.field.text{ value = "locked" }
             end
           end
         },
