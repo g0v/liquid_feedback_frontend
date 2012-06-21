@@ -5,7 +5,7 @@ local member = Member:by_id(id) or Member:new()
 param.update(member, "identification", "notify_email", "admin")
 
 local locked = param.get("locked", atom.boolean)
-if locked then
+if locked ~= nil then
   member.locked = locked
 end
 local login = param.get("login")
