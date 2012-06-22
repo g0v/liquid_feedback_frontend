@@ -138,16 +138,6 @@ ui.container{
           }
         end
 
-        if member.admin then
-          ui.image{
-            attr = { 
-              alt   = _"Member is administrator",
-              title = _"Member is administrator"
-            },
-            static = "icons/16/cog.png"
-          }
-        end
-
         -- TODO performance
         if app.session.member_id then
           local contact = Contact:by_pk(app.session.member.id, member.id)
