@@ -2,35 +2,37 @@ local member = param.get("member", "table")
 local for_member = param.get("for_member", atom.boolean)
 local filter_unit = param.get_all_cgi()["filter_unit"] or "personal"
 
-
-execute.view{
-  module = "index", view = "_notifications"
-}
-
+if not for_member then
+  execute.view{
+    module = "index", view = "_notifications"
+  }
     
-ui.container{ attr = { class = "ui_filter_head" }, content = function()
+  ui.container{ attr = { class = "ui_filter_head" }, content = function()
 
-  ui.link{
-    attr = { class = filter_unit == "personal" and "ui_tabs_link active" or nil },
-    text = _"My units and areas",
-    module = "index", view = "index", params = { filter_unit = "personal" }
-  }
-  
-  slot.put(" ")
+    ui.link{
+      attr = { class = filter_unit == "personal" and "ui_tabs_link active" or nil },
+      text = _"My units and areas",
+      module = "index", view = "index", params = { filter_unit = "personal" }
+    }
+    
+    slot.put(" ")
 
-  ui.link{
-    attr = { class = filter_unit == "global" and "active" or nil },
-    text = _"All units",
-    module = "index", view = "index", params = { filter_unit = "global" }
-  }
-end }
+    ui.link{
+      attr = { class = filter_unit == "global" and "active" or nil },
+      text = _"All units",
+      module = "index", view = "index", params = { filter_unit = "global" }
+    }
+  end }
+end
 
-slot.put("<br />")
+  slot.put("<br />")
 
+if not for_member then
+  if filter_unit == "global" then
+    execute.view{ module = "unit", view = "_list" }
+    return
+  end
 
-if filter_unit == "global" then
-  execute.view{ module = "unit", view = "_list" }
-  return
 end
 
 local units = Unit:new_selector():exec()
