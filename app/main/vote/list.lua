@@ -41,27 +41,21 @@ if member then
                                           encode.html(tostring(issue.id)))
                   }
               )
-  slot.put_into("title", str)
+  ui.title(str)
 else
   member = app.session.member
-  slot.put_into("title", _"Voting")
+  ui.title(_"Voting")
 
-  slot.select("actions", function()
+  ui.actions(function()
     ui.link{
-      content = function()
-          ui.image{ static = "icons/16/cancel.png" }
-          slot.put(_"Cancel")
-      end,
+      text = _"Cancel",
       module = "issue",
       view = "show",
       id = issue.id
     }
+    slot.put(" &middot; ")
     ui.link{
       text = _"Discard voting",
-      content = function()
-          ui.image{ static = "icons/16/email_delete.png" }
-          slot.put(_"Discard voting")
-      end,
       module = "vote",
       action = "update",
       params = {
