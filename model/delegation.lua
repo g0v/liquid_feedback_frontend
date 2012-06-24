@@ -19,6 +19,14 @@ Delegation:add_reference{
 
 Delegation:add_reference{
   mode          = 'm1',
+  to            = "Unit",
+  this_key      = 'unit_id',
+  that_key      = 'id',
+  ref           = 'unit',
+}
+
+Delegation:add_reference{
+  mode          = 'm1',
   to            = "Area",
   this_key      = 'area_id',
   that_key      = 'id',

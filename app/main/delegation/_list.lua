@@ -7,13 +7,21 @@ local function delegation_scope(delegation)
     attr = { class = "delegation_scope" },
     content = function()
       local area
+      local unit
       if delegation.issue then
         area = delegation.issue.area
-      else
+      elseif delegation.area then
         area = delegation.area
+      else
+        unit = delegation.unit
       end
-      if not area then
-        ui.field.text{ value = _"Unit delegation" }
+      if unit then
+        ui.link{
+          content = _"Unit '#{name}'":gsub("#{name}", unit.name),
+          module = "unit",
+          view = "show",
+          id = unit.id
+        }
       end
       if area then
         ui.link{
