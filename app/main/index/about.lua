@@ -1,14 +1,11 @@
-slot.put_into("title", encode.html(_"About site"))
+ui.title(_"About site")
 
 if app.session.member_id then
-  slot.select("actions", function()
+  ui.actions(function()
     ui.link{
       module = "index",
       view = "usage_terms",
-      content = function()
-        ui.image{ static = "icons/16/script.png" }
-        slot.put(_"Terms of use")
-      end
+      text = _"Terms of use"
     }
   end)
 end
