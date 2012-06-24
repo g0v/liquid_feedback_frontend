@@ -359,14 +359,16 @@ form.unit_selector {
 .page_head .title,
 .issue .context,
 .issue .title,
-.initiative_head .title {
+.initiative_head .title,
+.area_list .title {
   padding: 8px 10px 2px 10px;
 }
 
 .page_head .unit_head .content,
 .page_head .area_head .content,
 .issue .content,
-.initiative_head .content {
+.initiative_head .content,
+.area_list .area .content {
   padding: 2px 10px 8px 10px;
 }
 
@@ -383,7 +385,8 @@ form.unit_selector {
 
 .page_head .title,
 .issue .title,
-.initiative_head .title {
+.initiative_head .title,
+.area_list .area_name {
   font-weight: bold;
   font-size: 120%;
 }
@@ -401,7 +404,9 @@ form.unit_selector {
 .page_head .issue .content.actions,
 .page_head .issue .content.actions a,
 .issues .issue .content.actions,
-.issues .issue .content.actions a {
+.issues .issue .content.actions a,
+.area_list .area .content,
+.area_list .area .content a {
   color: #777;
 }
 
@@ -775,104 +780,17 @@ div.notifications {
  * Area list
  */
 
-.member_area_list {
-  margin-bottom: 0ex;
-  border-radius: 8px;
-  border: 1px solid #aaa;
-  padding: 1ex;
-  margin-bottom: 2ex;
-}
-
-.member_area_list .unit_head {
+.area_list .unit_head {
   font-size: 120%;
   font-weight: bold;
-  float: left;
-  clear: both;
-}
-
-.member_area_list .unit_delegatee {
-  float: left;
-}
-
-.member_area_list .voting_priv_info {
-  clear: left;
-  margin-top: 4ex;
-}
-
-.member_area_list .more_areas {
-  font-style: italic;
-}
-
-.area_list {
-  margin-bottom: 4ex;
-}
-
-.member_area_list .area_list {
-  margin-bottom: 0;
+  margin-bottom: 1ex;
 }
 
 .area_list .area {
-  line-height: 32px;
-  clear: both;
+  margin-bottom: 1ex;
 }
 
-.area_list .bargraph {
-  line-height: 10px;
-}
 
-.area_list .area .delegatee {
-  white-space: nowrap;
-}
-
-.area_list .area.head .phases {
-  xmargin-top: 2ex;
-}
-
-.area_list .area img {
-  vertical-align: middle;
-}
-
-.area_list .area .bar {
-  float: left;
-  padding-top: 6px
-}
-
-.area_list .area .membership,
-.area_list .area .delegatee {
-  display: inline;
-  width: 24px
-}
-
-.area_list .area .name {
-  display: inline;
-  font-weight: bold;
-}
-
-.area_list .area .phases {
-  float: right;
-}
-
-.area_list .area .phases div {
-  float: left;
-  width: 3em;
-  text-align: right;
-}
-
-@media screen and (max-width: 480px) {
-  .area_list .area .name {
-    display: block;
-    line-height: 100%;
-  }
-  
-  .area_list .area .delegatee,
-  .area_list .area .membership {
-    float: left;
-    white-space: nowrap;
-  }
-  .area_list .area .bar {
-    display: none;
-  }
-}
 
 /*************************************************************************
  * Events
@@ -1434,12 +1352,14 @@ div.timeline_results {
 
 /* shadows */
 
+.area_list .area,
 .initiative_head,
 .box,
 div.notifications {
   border-radius: 8px;
 }
 
+.area_list .area,
 .initiative_head,
 .box {
   border: 1px solid #aaa;
@@ -1449,12 +1369,8 @@ div.notifications {
   padding: 1ex;
 }
 
-.member_area_list .box {
-  border: none;
-  padding: 0;
-}
-
 .slot_head,
+.area_list .area,
 .initiative_head,
 .issues .issue,
 .ui_tabs_links a,
@@ -1464,19 +1380,12 @@ div.notifications {
 .motd,
 .ui_filter a.active,
 .vote_info .content,
-.member_area_list,
 .box,
 div.notifications {
   box-shadow: #777 0px 5px 5px -5px;
   -mox-box-shadow: #777 0px 5px 5px -5px;
   -webkit-box-shadow: #ddd 3px 3px 3px -1px;
   clear: both;
-}
-
-.member_area_list .box {
-  box-shadow: none;
-  -mox-box-shadow: none;
-  -webkit-box-shadow: none;
 }
 
 .slot_footer {
