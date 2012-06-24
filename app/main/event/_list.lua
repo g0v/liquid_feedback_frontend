@@ -36,10 +36,12 @@ end
 
 local last_event_id
 
+local events = event_selector:exec()
+
 ui.container{ attr = { class = "issues events" }, content = function()
 
   local last_event_date
-  for i, event in ipairs(event_selector:exec()) do
+  for i, event in ipairs(events) do
     last_event_id = event.id
     event.issue:load_everything_for_member_id(app.session.member_id)
 
@@ -253,18 +255,23 @@ ui.container{ attr = { class = "issues events" }, content = function()
 
 end }
 
-ui.link{
-  text = _"Show older events",
-  module = request.get_module(),
-  view = request.get_view(),
-  id = param.get_id(),
-  params = { 
-    tab = param.get_all_cgi()["tab"],
-    events = param.get_all_cgi()["events"],
-    event_max_id = last_event_id
-  }
-}
+slot.put("<br />")
 
+if #events > 0 then
+  ui.link{
+    text = _"Show older events",
+    module = request.get_module(),
+    view = request.get_view(),
+    id = param.get_id(),
+    params = { 
+      tab = param.get_all_cgi()["tab"],
+      events = param.get_all_cgi()["events"],
+      event_max_id = last_event_id
+    }
+  }
+else
+  ui.tag{ content = _"No more events available" }
+end
 
 slot.put("<br />")
 slot.put("<br />")
