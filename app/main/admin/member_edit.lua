@@ -62,7 +62,7 @@ ui.form{
     
     ui.field.boolean{ 
       label = _"Member inactive?", name = "deactivate",
-      readonly = not member.active, value = member.active == false
+      readonly = member and member.active, value = member and member.active == false
     }
     
     slot.put("<br />")

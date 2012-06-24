@@ -2,17 +2,13 @@ local search = param.get("search")
 
 ui.title(_"Member list")
 
-slot.select("head", function()
-  ui.container{ attr = { class = "content" }, content = function()
-    ui.container{ attr = { class = "actions" }, content = function()
-      ui.link{
-        attr = { class = { "admin_only" } },
-        text = _"Register new member",
-        module = "admin",
-        view = "member_edit"
-      }
-    end }
-  end }
+ui.actions(function()
+  ui.link{
+    attr = { class = { "admin_only" } },
+    text = _"Register new member",
+    module = "admin",
+    view = "member_edit"
+  }
 end)
 
 

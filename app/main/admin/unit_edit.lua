@@ -3,9 +3,9 @@ local id = param.get_id()
 local unit = Unit:by_id(id)
 
 if unit then
-  slot.put_into("title", encode.html(_("Unit: '#{name}'", { name = unit.name })))
+  ui.title(_("Unit: '#{name}'", { name = unit.name }))
 else
-  slot.put_into("title", encode.html(_"Add new unit"))
+  ui.title(_"Add new unit")
 end
 
 local units = {
