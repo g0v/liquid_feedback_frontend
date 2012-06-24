@@ -29,12 +29,13 @@ end
 
 function Contact:build_selector(args)
   local selector = Contact:new_selector()
+  selector:join("member", nil, "member.id = contact.other_member_id")
   if args.member_id then
     selector:add_where{ "member_id = ?", args.member_id }
   end
-  if order then
-    if order == "name" then
-      selector:add_order_by("name")
+  if args.order then
+    if args.order == "name" then
+      selector:add_order_by("member.name")
     else
       error("invalid order")
     end
