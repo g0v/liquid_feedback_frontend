@@ -124,7 +124,23 @@ for i, unit in ipairs(units) do
         ui.container{ attr = { class = "area" }, content = function()
           ui.container{ attr = { class = "content" }, content = function()
             slot.put("<br />")
-            ui.link{ content = _("#{count} more areas in this unit, #{delegated_count} of them have an area delegation set", { count = more_area_count, delegated_count = delegated_count }), module = "unit", view = "show", id = unit.id }
+            local text
+            if more_area_count == 1 then
+              text = _("One more area in this unit")
+            else
+              text = _("#{count} more areas in this unit", { count = more_area_count })
+            end
+            ui.link{ module = "unit", view = "show", id = unit.id, text = text }
+            if delegated_count > 0 then
+              slot.put(" &middot; ")
+              local text
+              if delegated_count == 1 then
+                text = _("One of them have an area delegation set", { count = delegated_count })
+              else
+                text = _("#{count} of them have an area delegation set", { count = delegated_count })
+              end
+              ui.tag{ content = text }
+            end
           end }
         end }
       end
