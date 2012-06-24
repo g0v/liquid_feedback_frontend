@@ -413,7 +413,7 @@ return {
 ["Pad"] = false;
 ["Parent unit"] = "Übergeordnete Gliederung";
 ["Participants"] = "Teilnehmer";
-["Participate in this area"] = "Teilnehmer in diesem Themengebiet";
+["Participate in this area"] = "An diesem Themengebiet teilnehmen";
 ["Password"] = "Kennwort";
 ["Password (repeat)"] = "Kennwort (wiederholen)";
 ["Password has been reset successfully"] = "Kennwort wurde erfolgreich zurückgesetzt";
