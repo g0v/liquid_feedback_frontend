@@ -57,7 +57,7 @@ tabs[#tabs+1] = {
   label = _"Members",
   module = 'member',
   view   = '_list',
-  params = { members_selector = Member:new_selector() }
+  params = { members_selector = Member:new_selector():add_where("active") }
 }
 
 

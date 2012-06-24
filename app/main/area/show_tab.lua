@@ -8,7 +8,7 @@ local closed_issues_selector = area:get_reference_selector("issues")
   :add_where("issue.closed NOTNULL")
   :add_order_by("issue.closed DESC")
 
-local members_selector = area:get_reference_selector("members")
+local members_selector = area:get_reference_selector("members"):add_where("member.active")
 local delegations_selector = area:get_reference_selector("delegations")
 
 local tabs = {
