@@ -64,7 +64,8 @@ end
 
 function Delegation:selector_for_broken(member_id)
   return Delegation:new_selector()
-    :join("issue", nil, "issue.id = delegation.issue_id AND issue.closed ISNULL")
+    :left_join("issue", nil, "issue.id = delegation.issue_id")
+    :add_where("issue.id ISNULL OR issue.closed ISNULL")
     :join("member", nil, "delegation.trustee_id = member.id")
     :add_where{"delegation.truster_id = ?", member_id}
     :add_where{"member.active = 'f' OR (member.last_activity IS NULL OR age(member.last_activity) > ?::interval)", config.delegation_warning_time }
