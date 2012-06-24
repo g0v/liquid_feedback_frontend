@@ -21,8 +21,7 @@ ui.form{
       foreign_records = {
         { id = "global", name = _"Global search" },
         { id = "member", name = _"Search for members" },
-        { id = "issue", name = _"Search for issues" },
-        { id = "initiative", name = _"Search for initiatives" },
+        { id = "issue", name = _"Search for issues" }
       },
       foreign_id = "id",
       foreign_name = "name",
@@ -45,16 +44,7 @@ if search_string then
     }
   end
 
-  if search_for == "global" or search_for == "initiative" then
-    local initiatives_selector = Initiative:get_search_selector(search_string)
-    execute.view{
-      module = "initiative",
-      view = "_list",
-      params = { initiatives_selector = initiatives_selector },
-    }
-  end
-
-  if search_for == "issue" then
+  if search_for == "global" or search_for == "issue" then
     local issues_selector = Issue:get_search_selector(search_string)
     execute.view{
       module = "issue",

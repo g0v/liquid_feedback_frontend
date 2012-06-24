@@ -5,11 +5,11 @@ local issue = param.get("issue", "table")
 local initiative = param.get("initiative", "table")
 local trustee = param.get("trustee", "table")
 
-local name
+local name_html
 if member.name_highlighted then
-  name = encode.highlight(member.name_highlighted)
+  name_html = encode.highlight(member.name_highlighted)
 else
-  name = encode.html(member.name)
+  name_html = encode.html(member.name)
 end
 
 local container_class = "member_thumb"
@@ -171,7 +171,7 @@ ui.container{
         }
         ui.container{
           attr = { class = "member_name" },
-          content = name
+          content = function() slot.put(name_html) end
         }
       end
     }
