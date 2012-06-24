@@ -412,6 +412,7 @@ form.unit_selector {
 
 .page_head .unit_head .title,
 .page_head .area_head .title,
+.area_list .area .title,
 .issue .title {
   background-color: #eee;
   background-image: linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
