@@ -17,6 +17,7 @@ return {
 ["#{number} Image(s) has been deleted"] = "Διαγράφηκαν #{number} εικόνες";
 ["#{number} Image(s) has been updated"] = "Ενημερώθηκαν #{number} εικόνες";
 ["#{policy_name} ##{issue_id}"] = false;
+["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = "απομένουν #{time_left}";
 ["(#{more_count} duplicates removed)"] = "(Αφαιρέθηκαν #{more_count} αντίγραφα)";
 ["(new window)"] = "(νέο παράθυρο)";
@@ -687,6 +688,7 @@ return {
 ["Your support has been updated to the latest draft"] = "Η υποστήριξή σας έχει ενημερωθεί επί του τελευταίου σχεδίου";
 ["Your vote has been discarded. Delegation rules apply if set."] = "Η ψήφος σας έχει ανακληθεί. Οι κανόνες ανάθεσης ισχύουν αν έχουν οριστεί.";
 ["Z-A"] = "Ω-Α";
+["[Name of Language]"] = "ελληνική γλώσσα";
 ["[No voting privilege]"] = "[Χωρίς δικαίωμα ψήφου]";
 ["[Registered members only]"] = "[Μόνο εγγεγραμμένα μέλη]";
 ["[event mail]       URL: #{url}"] = "         URL: #{url}";
@@ -709,7 +711,6 @@ return {
 ["day"] = "ημέρα";
 ["days"] = "ημέρες";
 ["deactivated"] = "απενεργοποιημένο";
-["delegated to"] = "έχει ανατεθεί στον/στην";
 ["delegates to"] = false;
 ["delete<br /><br />"] = "διαγραφή<br /><br />";
 ["disabled"] = "απενεργοποιημένο";

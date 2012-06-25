@@ -17,6 +17,7 @@ return {
 ["#{number} Image(s) has been deleted"] = "#{number} bildo(j) estas viŝita(j)";
 ["#{number} Image(s) has been updated"] = "#{number} bildo(j) estas ĝisdatigita(j)";
 ["#{policy_name} ##{issue_id}"] = false;
+["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = false;
 ["(#{more_count} duplicates removed)"] = "(#{more_count} duoblaĵoj forigitaj)";
 ["(new window)"] = "(nova fenestro)";
@@ -687,6 +688,7 @@ return {
 ["Your support has been updated to the latest draft"] = "Via subteno estas ĝisdatigita al la plej nova skizo";
 ["Your vote has been discarded. Delegation rules apply if set."] = "Via voĉo estas retirita. La delegaciregularo aplikas se metita.";
 ["Z-A"] = "Z-A";
+["[Name of Language]"] = "Esperanto";
 ["[No voting privilege]"] = false;
 ["[Registered members only]"] = "[Nur registritaj membroj]";
 ["[event mail]       URL: #{url}"] = false;
@@ -709,7 +711,6 @@ return {
 ["day"] = false;
 ["days"] = false;
 ["deactivated"] = "malaktivigita";
-["delegated to"] = false;
 ["delegates to"] = false;
 ["delete<br /><br />"] = false;
 ["disabled"] = "malaktiva";

@@ -17,6 +17,7 @@ return {
 ["#{number} Image(s) has been deleted"] = false;
 ["#{number} Image(s) has been updated"] = false;
 ["#{policy_name} ##{issue_id}"] = false;
+["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = false;
 ["(#{more_count} duplicates removed)"] = false;
 ["(new window)"] = false;
@@ -687,6 +688,7 @@ return {
 ["Your support has been updated to the latest draft"] = false;
 ["Your vote has been discarded. Delegation rules apply if set."] = false;
 ["Z-A"] = false;
+["[Name of Language]"] = "English";
 ["[No voting privilege]"] = false;
 ["[Registered members only]"] = false;
 ["[event mail]       URL: #{url}"] = "       URL: #{url}";
@@ -709,7 +711,6 @@ return {
 ["day"] = false;
 ["days"] = false;
 ["deactivated"] = false;
-["delegated to"] = false;
 ["delegates to"] = false;
 ["delete<br /><br />"] = false;
 ["disabled"] = false;
