@@ -186,8 +186,7 @@ h2 {
 }
 
 .topbar  a:hover {
-  background-color: #000;
-  color: #fff;
+  color: #fc0;
 }
 
 .navigation {
@@ -218,9 +217,7 @@ form.unit_selector {
 
 
 #member_menu {
- xposition: relative;
  z-index: 2;
- xfloat: left;
 }
 
 #member_menu li {
@@ -267,7 +264,7 @@ form.unit_selector {
 
 #member_menu ul li a {
   float: none;
-  background: #444;
+  background: #000;
 }
 
 #member_menu ul ul {
@@ -282,53 +279,12 @@ form.unit_selector {
 #member_menu li li a {
   background: #000;
   border-radius: 5px;
-  color: #ddd;
+  color: #fff;
 }
 
 #member_menu ul li:hover a {
-  background: #444;
-  color: #fff;
-}
-
-/*
-#member_menu {
-  position: absolute;
-  right: 20px;
-  top: 19px;
-}
-
-#member_menu {
-  display: none;
-}
-
-.member_menu:hover #member_menu {
-  display: block;
-}
-
-#member_menu ul {
-  list-style: none;
-}
-
-#member_menu li span {
-  background-color: #333;
-  line-height: 200%;
-  display: block;
-  width: 15em;
-  color: #fff;
-}
-
-  
-
-#member_menu li a {
-  background-color: #333;
-  line-height: 200%;
-  display: block;
-  width: 15em;
-}
-
-#member_menu a:hover {
-  background-color: #eee;
-  color: #000;
+  background: #000;
+  color: #fc0;
 }
 
 */
@@ -541,7 +497,11 @@ x {
   font-weight: bold;
 }
 
-.ui_tabs_links a:hover,
+.ui_tabs_links a:hover {
+  box-shadow: 0px 0px 5px 0px #fc0;
+  text-decoration: none;
+}
+
 .ui_tabs_links a.selected {
   box-shadow: 0px 0px 3px 3px #fc0;
   text-decoration: none;

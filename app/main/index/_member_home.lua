@@ -102,9 +102,9 @@ for i, unit in ipairs(units) do
       delegated_text = _("#{count} of them have an area delegation set", { count = delegated_count })
     end
 
-              ui.container{ attr = { class = "area_list" }, content = function()
+    ui.container{ attr = { class = "area_list" }, content = function()
 
-    execute.view{ module = "unit", view = "_head", params = { unit = unit, show_content = true } }
+      execute.view{ module = "unit", view = "_head", params = { unit = unit, show_content = true } }
 
       if area_count > 0 then
         local areas = areas_selector:exec()

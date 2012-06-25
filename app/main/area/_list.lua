@@ -4,6 +4,7 @@ local hide_membership = param.get("hide_membership", atom.boolean)
 areas_selector
   :reset_fields()
   :add_field("area.id", nil, { "grouped" })
+  :add_field("area.unit_id", nil, { "grouped" })
   :add_field("area.name", nil, { "grouped" })
   :add_field("member_weight", nil, { "grouped" })
   :add_field("direct_member_count", nil, { "grouped" })
