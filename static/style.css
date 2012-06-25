@@ -316,6 +316,7 @@ form.unit_selector {
 .initiative_head,
 .issues .issue,
 .ui_tabs_links a,
+.ui_filter a,
 .draft_content,
 .help,
 .use_terms,
@@ -565,7 +566,7 @@ x {
   margin-right: 0.5em;
   background-color: #fff;
   padding: 0.5ex 0.5em;
-  border-radius: 4px;
+  border-radius: 6px;
   border: 1px solid #bbb;
 }
 
