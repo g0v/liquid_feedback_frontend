@@ -308,6 +308,9 @@ form.unit_selector {
 }
 
 
+.member_statement,
+.draft_content,
+.suggestion_content,
 .slot_head,
 .area_list,
 .initiative_head,
@@ -1091,13 +1094,6 @@ x.initiative_link.potentially_supported {
   border: 2px solid #f90;
 }
 
-.member_statement,
-.draft_content,
-.suggestion_content {
-  background-color: #f2f2f2;
-  padding: 1ex;
-  border-radius: 8px;
-}
 
 .member_statement {
   margin-right: 250px;
@@ -1399,17 +1395,26 @@ div.timeline_results {
 
 /* shadows */
 
+.member_statement,
+.draft_content,
+.suggestion_content,
 .initiative_head,
 .box,
 div.notifications {
   border-radius: 8px;
 }
 
+.member_statement,
+.draft_content,
+.suggestion_content,
 .initiative_head,
 .box {
   border: 1px solid #aaa;
 }
 
+.member_statement,
+.draft_content,
+.suggestion_content,
 .box {
   padding: 1ex;
 }
