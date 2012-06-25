@@ -581,9 +581,9 @@ x {
 
 div.notifications {
   margin-top: 1ex;
-  background-color: #fdd;
+  background-color: #fda;
   padding: 0.5ex;
-  border: 1px solid #fbb;
+  border: 1px solid #fa0;
 }
 
 .notifications ul {
