@@ -48,7 +48,7 @@ config.member_image_default_file = {
   photo = nil
 }
 
-config.available_languages = { 'en', 'de', 'eo', 'el' }
+config.available_languages = { 'en', 'de', 'eo', 'el', 'hu' }
 
 config.default_lang = "de"
 
