@@ -10,6 +10,7 @@ return {
 ["#{count} new"] = "#{count} neue";
 ["#{count} of them have an area delegation set"] = "bei #{count} davon ist eine Delegation für den Themenbereichs gesetzt";
 ["#{count} of your outgoing delegation(s) are broken"] = "#{count} deiner ausgehenden Delegationen sind kaputt";
+["#{date} at #{time}"] = "am #{date} im #{time}";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} Themen";
 ["#{name}\n\n"] = "#{name}\n\n";
@@ -303,6 +304,7 @@ return {
 ["Issue quorum denumerator"] = "Themen-Quorum Nenner";
 ["Issue quorum numerator"] = "Themen-Quorum Zähler";
 ["Issue reached next phase"] = "Thema hat die nächste Phase erreicht";
+["Issues:"] = "Themen:";
 ["JavaScript is disabled or not available."] = "JavaScript ist abgeschaltet oder nicht verfügbar.";
 ["Last activity (updated daily)"] = "Letzte Aktivität (täglich aktualisiert)";
 ["Last snapshot:"] = "Letzte Auszählung:";
@@ -570,7 +572,6 @@ return {
 ["This login is too short!"] = "Dieser Anmeldename ist zu kurz!";
 ["This member account has been created at #{created}"] = "Dieser Mitgliedszugang wurde am/um #{created} angelegt.";
 ["This member has rejected to become initiator of this initiative"] = "Dieses Mitglied hat die Einladung, Initiator zu werden, abgelehnt";
-["This member has voting privileges for this unit, but you ist not member of any of its areas."] = "Dieses Mitglied hat Stimmrecht für diese Gliederung, aber es ist in keinem Themenbereich Mitglied.";
 ["This member is already initiator of this initiative"] = "Dieses Mitglied ist bereits Initiator dieser Initiative";
 ["This member is already invited to become initiator of this initiative"] = "Dieses Mitglied ist bereits eingeladen Initiator dieser Initiative zu werden";
 ["This member is inactive"] = "Mitglied ist inaktiv";
@@ -590,7 +591,7 @@ return {
 ["Title"] = "Titel";
 ["Title (80 chars max)"] = "Titel (max. 80 Zeichen)";
 ["Title of initiative"] = "Titel der Initiative";
-["Today"] = "Heute";
+["Today at #{time}"] = "Heute um #{time}";
 ["Traditional wiki syntax"] = "Traditionelle Wiki-Syntax";
 ["Trustee"] = "Bevollmächtigter";
 ["Trustee has no voting right in this unit"] = "Bevollmächtigter hat kein Stimmrecht in dieser Gliederung";
@@ -633,7 +634,7 @@ return {
 ["Withdraw"] = "Zurückziehen";
 ["Withdraw membership"] = "Mitgliedschaft aufgeben";
 ["Yes"] = "Ja";
-["Yesterday"] = "Gestern";
+["Yesterday at #{time}"] = "Gestern um #{time}";
 ["You are already initiator"] = "Du bist bereits Initiator";
 ["You are already not supporting this initiative"] = "Diese Initiative hat bereits keine Unterstützung von Dir";
 ["You are already supporting the latest draft"] = "Du unterstützt bereits den neuesten Entwurf";
@@ -646,6 +647,8 @@ return {
 ["You are invited to LiquidFeedback. To register please click the following link:\n\n"] = "Du bist zu LiquidFeedback eingeladen. Bitte klicke auf den folgenden Link, um dich zu registrieren:";
 ["You are invited to become initiator of this initiative."] = "Du bist eingeladen Initiator dieser Initiative zu werden.";
 ["You are member"] = "Du bist Mitglied";
+["You are not participating in any of the #{count} areas in this unit"] = "Du nimmst an keinem der #{count} Themenbereiche dieser Gliederung teil";
+["You are not participating in the only area of the unit"] = "Du nimmst am einzigen Themenbereich der Gliederung nicht teil";
 ["You are now initiator of this initiative"] = "Du bist jetzt Initiator dieser Initiative";
 ["You are participating in this area"] = "Du bist Teilnehmer im Themengebiet";
 ["You are potential supporter"] = "Du bist potentieller Unterstützer";
@@ -666,7 +669,6 @@ return {
 ["You have saved this member as contact"] = "Du hast das Mitglied als Kontakt gespeichert";
 ["You have to mark 'Are you sure' to revoke!"] = "Zum Zurückziehen musst Du 'Sicher?' auswählen";
 ["You have voting privileges for this unit"] = "Du hast Stimmrecht in dieser Gliederung";
-["You have voting privileges for this unit, but you are not member of any of its areas."] = "Du hast Abstimmprivilegien für diese Gliederung bist jedoch in keinem Themenbereich Mitglied.";
 ["You need to be logged in, to use all features of this system."] = "Du musst eingeloggt sein, um alle Funktionen dieses Systems nutzen zu können.";
 ["You were interested"] = "Du warst interessiert";
 ["You were potential supporter"] = "Du bist potentieller Unterstützer";

@@ -428,7 +428,7 @@ x.issue .title {
   background-image: -webkit-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
   background-image: -ms-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
 }
-
+/*
 .unit_head {
   background-color: #cdf;
   background-image: -webkit-linear-gradient(top, #abf 0%, #cdf 20%, #f0f7ff 100%);
@@ -443,7 +443,7 @@ x.issue .title {
   background-color: #f0f7ff;
   background-image: -webkit-linear-gradient(top, #f0faff 0%, #f0f7ff 20%, #fff 100%);
 }
-
+*/
 .issue .initiative_list {
   background: #fff;
 }
@@ -530,7 +530,7 @@ x {
 
 .ui_tabs_links a {
   padding: 1ex 1em;
-  line-height: 225%;
+  line-height: 300%;
   background-color: #f7f7f7;
   background-color: #444;
   background-image: -webkit-linear-gradient(top, #000 0%, #444 70%, #777 90%, #888 100%);
@@ -817,13 +817,14 @@ div.notifications {
  * Area list
  */
 .area_list {
-  border: 1px solid #abf;
+  border: 1px solid #aaa;
   border-radius: 8px;
   margin-top: 2ex;
 }
 
+.area_list .unit_head,
 .area_list .area {
-  border-bottom: 1px solid #cdf;
+  border-bottom: 1px solid #aaa;
 }
 
 .area_list .unit_head {
