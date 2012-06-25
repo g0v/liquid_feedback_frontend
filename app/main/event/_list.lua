@@ -45,13 +45,6 @@ ui.container{ attr = { class = "issues events" }, content = function()
     last_event_id = event.id
     event.issue:load_everything_for_member_id(app.session.member_id)
 
-    local class = "issue"
-    if event.is_interested then
-      class = class .. " interested"
-    elseif event.is_interested_by_delegation_to_member_id then
-      class = class .. " interested_by_delegation"
-    end
-
     ui.container{ attr = { class = "issue_policy_info" }, content = function()
       if (app.session.member_id or config.public_access == "pseudonym") and event.member_id then
         if app.session.member_id then
@@ -117,91 +110,26 @@ ui.container{ attr = { class = "issues events" }, content = function()
       end
     end }
 
-    ui.container{ attr = { class = class }, content = function()
+    ui.container{ attr = { class = "issue" }, content = function()
 
-      ui.container { attr = { class = "issue_info" }, content = function()
-      
-        if event.is_interested then
-          ui.tag{
-            tag = "div", attr = { class = "interest_by_delegation"},
-            content = function()
-              local text = "You are interested in this issue"
-              ui.image{ attr = { alt = text, title = text }, static = "icons/16/eye.png" }
-            end
-          }
-          
-        elseif event.is_interested_by_delegation_to_member_id then
-          ui.tag{
-            tag = "div", attr = { class = "interest_by_delegation"},
-            content = function()
-              local member = Member:by_id(event.is_interested_by_delegation_to_member_id)
-              local text = _"delegated to"
-              ui.image{
-                attr = { class = "delegation_arrow", alt = text, title = text },
-                static = "delegation_arrow_24_horizontal.png"
-              }
-              execute.view{
-                module = "member_image",
-                view = "_show",
-                params = {
-                  member = member,
-                  image_type = "avatar",
-                  show_dummy = true,
-                  class = "micro_avatar",
-                  popup_text = member.name
-                }
-              }
-              if event.is_interested_by_delegation_to_member_id ~= event.is_interested_via_member_id then
-                if event.delegation_chain_length > 2 then
-                  local text = _"delegated to"
-                  ui.image{
-                    attr = { class = "delegation_arrow", alt = text, title = text },
-                    static = "delegation_arrow_24_horizontal.png"
-                  }
-                  ui.tag{ content = "..." }
-                end
-              local text = _"delegated to"
-                ui.image{
-                  attr = { class = "delegation_arrow", alt = text, title = text },
-                  static = "delegation_arrow_24_horizontal.png"
-                }
-                local member = Member:by_id(event.is_interested_via_member_id)
-                execute.view{
-                  module = "member_image",
-                  view = "_show",
-                  params = {
-                    member = member,
-                    image_type = "avatar",
-                    show_dummy = true,
-                    class = "micro_avatar",
-                    popup_text = member.name
-                  }
-                }
-              end
-            end
-          }
-        end
+      execute.view{ module = "delegation", view = "_info", params = { issue = event.issue } }
 
-        ui.container{ content = function()
-          ui.link{
-            attr = { class = "issue_id" },
-            text = _("Issue ##{id}", { id = tostring(event.issue_id) }),
-            module = "issue",
-            view = "show",
-            id = event.issue_id
-          }
-
-          slot.put(" &middot; ")
-          ui.tag{ content = event.issue.policy.name }
-          slot.put(" &middot; ")
-          ui.tag{ content = event.issue.area.name }
-          slot.put(" &middot; ")
-          ui.tag{ content = event.issue.area.unit.name }
-        end }
-
-
+      ui.container{ attr = { class = "content" }, content = function()
+        ui.tag{ content = event.issue.area.name }
+        slot.put(" &middot; ")
+        ui.tag{ content = event.issue.area.unit.name }
       end }
       
+      ui.container{ attr = { class = "title" }, content = function()
+        ui.link{
+          attr = { class = "issue_id" },
+          text = _("#{policy} ##{id}", { policy = event.issue.policy.name, id = event.issue_id }),
+          module = "issue",
+          view = "show",
+          id = event.issue_id
+        }
+      end }
+
       if event.suggestion_id then
         ui.container{ attr = { class = "suggestion" }, content = function()
           ui.link{
