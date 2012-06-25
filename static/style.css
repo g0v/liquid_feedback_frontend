@@ -344,6 +344,9 @@ form.unit_selector {
   margin-bottom: 1ex;
 }
 
+.area_head {
+  overflow: auto;
+}
 
 
 .page_head .title,
