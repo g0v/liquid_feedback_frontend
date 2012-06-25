@@ -115,24 +115,25 @@ for i, unit in ipairs(units) do
             }
           }
         end
-      end
-  
+      end 
+
       if area_count == 0 and member:has_voting_right_for_unit_id(unit.id) or
          more_area_count > 0 then
         
-        ui.container{ attr = { class = "area" }, content = function()
-          ui.container{ attr = { class = "content" }, content = function()
-            if more_area_text then
-              ui.link{ module = "unit", view = "show", id = unit.id, text = more_area_text }
-            end
-            if delegated_text then
-              slot.put(" &middot; ")
-              ui.tag{ content = delegated_text }
-            end
-          end }
-        end }
       end
     end }
+    ui.container{ attr = { class = "area", style="margin-top: 1ex; margin-left: 10px;" }, content = function()
+      ui.container{ attr = { class = "title" }, content = function()
+        if more_area_text then
+          ui.link{ module = "unit", view = "show", id = unit.id, text = more_area_text }
+        end
+        if delegated_text then
+          slot.put(" &middot; ")
+          ui.tag{ content = delegated_text }
+        end
+      end }
+    end }
+    slot.put("<br />")
   end
 end
 

@@ -239,5 +239,6 @@ ui.container{ attr = { class = class }, content = function()
       }
     }
   end }
+  slot.put("<br />")
 end }
 
