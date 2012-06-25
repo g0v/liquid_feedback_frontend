@@ -4,7 +4,9 @@ local show_content = param.get("show_content", atom.boolean)
 
 area:load_delegation_info_once_for_member_id(app.session.member_id)
 
-execute.view{ module = "unit", view = "_head", params = { unit = area.unit } }
+if not param.get("hide_unit", atom.boolean) then
+  execute.view{ module = "unit", view = "_head", params = { unit = area.unit } }
+end
 
 ui.container{ attr = { class = "area_head" }, content = function()
 
@@ -71,19 +73,18 @@ ui.container{ attr = { class = "area_head" }, content = function()
               }
             }
           }
-
         end
-
-        slot.put(" &middot; ")
-        if area.delegation_info.own_delegation_scope ~= "area" then
-          ui.link{ text = _"Delegate area", module = "delegation", view = "show", params = { area_id = area.id } }
-        else
-          ui.link{ text = _"Change area delegation", module = "delegation", view = "show", params = { area_id = area.id } }
-        end
-        slot.put(" &middot; ")
-
-        -- create new issue
+        
         if app.session.member:has_voting_right_for_unit_id(area.unit_id) then
+
+          slot.put(" &middot; ")
+          if area.delegation_info.own_delegation_scope ~= "area" then
+            ui.link{ text = _"Delegate area", module = "delegation", view = "show", params = { area_id = area.id } }
+          else
+            ui.link{ text = _"Change area delegation", module = "delegation", view = "show", params = { area_id = area.id } }
+          end
+          slot.put(" &middot; ")
+
           ui.link{
             content = function()
               slot.put(_"Create new issue")

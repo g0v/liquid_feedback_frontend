@@ -6,21 +6,13 @@ local show_not_in_use = param.get("show_not_in_use", atom.boolean) or false
 local areas = Area:build_selector{ unit_id = unit_id, active = not show_not_in_use }:exec()
 
 
-slot.put_into("title", _("Area list of '#{unit_name}'", { unit_name = unit.name}))
+ui.title(_("Area list of '#{unit_name}'", { unit_name = unit.name }))
 
 
-slot.select("actions", function()
-
-  ui.link{
-    attr = { class = { "admin_only" } },
-    text = _"Back to unit list",
-    module = "admin",
-    view = "unit_list"
-  }
+ui.actions(function()
 
   if show_not_in_use then
     ui.link{
-      attr = { class = { "admin_only" } },
       text = _"Show areas in use",
       module = "admin",
       view = "area_list",
@@ -29,14 +21,15 @@ slot.select("actions", function()
 
   else
     ui.link{
-      attr = { class = { "admin_only" } },
       text = _"Create new area",
       module = "admin",
       view = "area_show",
       params = { unit_id = unit_id }
     }
+
+    slot.put(" &middot; ")
+
     ui.link{
-      attr = { class = { "admin_only" } },
       text = _"Show areas not in use",
       module = "admin",
       view = "area_list",

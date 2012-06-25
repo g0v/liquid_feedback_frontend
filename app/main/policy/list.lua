@@ -1,4 +1,4 @@
-slot.put_into("title", _"Policies")
+ui.title(_"Policies")
 
 util.help("policy.list", _"Policies")
 local policies = Policy:new_selector()

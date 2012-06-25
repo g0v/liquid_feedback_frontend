@@ -15,21 +15,19 @@ local basepath = request.get_app_basepath()
 local found_help = false
 -- we try to load any help file that fits best
 for x,lang in ipairs{locale.get("lang"), "en"} do
-  for x,htype in ipairs{"_full", ""} do
-    local file_name = basepath .. "/locale/help/" .. id .. htype .. "." .. lang .. ".txt.html"
-    local file = io.open(file_name)
-    if file ~= nil then
-      local help_text = file:read("*a")
-      if #help_text > 0 then
-        found_help = true
-        ui.container{
-          attr = { class = "wiki" },
-          content = function()
-            slot.put(help_text)
-          end
-        }
-        break
-      end
+  local file_name = basepath .. "/locale/help/" .. id .. "." .. lang .. ".txt.html"
+  local file = io.open(file_name)
+  if file ~= nil then
+    local help_text = file:read("*a")
+    if #help_text > 0 then
+      found_help = true
+      ui.container{
+        attr = { class = "wiki" },
+        content = function()
+          slot.put(help_text)
+        end
+      }
+      break
     end
   end
 end

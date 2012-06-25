@@ -57,8 +57,13 @@ tabs[#tabs+1] = {
   label = _"Members",
   module = 'member',
   view   = '_list',
-  params = { members_selector = Member:new_selector() }
+  params = { members_selector = Member:new_selector():add_where("active") }
 }
 
+if not param.get("tab") then
+  execute.view{
+    module = "index", view = "_notifications"
+  }
+end
 
 ui.tabs(tabs)

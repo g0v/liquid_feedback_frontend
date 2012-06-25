@@ -1,18 +1,6 @@
 local policy = Policy:by_id(param.get_id()) or Policy:new()
 
-
-slot.put_into("title", _"Create / edit policy")
-
-
-slot.select("actions", function()
-  ui.link{
-    attr = { class = { "admin_only" } },
-    text = _"Cancel",
-    module = "admin",
-    view = "policy_list"
-  }
-end)
-
+ui.title(_"Create / edit policy")
 
 ui.form{
   attr = { class = "vertical" },

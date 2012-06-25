@@ -2,53 +2,46 @@ local id = param.get_id()
 
 local unit = Unit:by_id(id)
 
-if member then
-  slot.put_into("title", encode.html(_("Unit: '#{name}'", { name = unit.name })))
+if unit then
+  ui.title(_("Unit: '#{name}'", { name = unit.name }))
 else
-  slot.put_into("title", encode.html(_"Add new unit"))
+  ui.title(_"Add new unit")
 end
 
-local units_selector = Unit:new_selector()
-  
-if member then
-  units_selector
-    :left_join("privilege", nil, { "privilege.member_id = ? AND privilege.unit_id = unit.id", member.id })
-    :add_field("privilege.voting_right", "voting_right")
+local units = {
+  { id = nil, name = "" }
+}
+
+for i, unit in ipairs(Unit:get_flattened_tree()) do
+  units[#units+1] = { id = unit.id, name = unit.name }
 end
 
-local units = units_selector:exec()
-  
 ui.form{
   attr = { class = "vertical" },
   module = "admin",
-  action = "member_update",
-  id = member and member.id,
-  record = member,
-  readonly = not app.session.member.admin,
+  action = "unit_update",
+  id = unit and unit.id,
+  record = unit,
   routing = {
     default = {
       mode = "redirect",
       modules = "admin",
-      view = "member_list"
+      view = "unit_list"
     }
   },
   content = function()
-    ui.field.text{     label = _"Identification", name = "identification" }
-    ui.field.text{     label = _"Notification email", name = "notify_email" }
-    ui.field.boolean{  label = _"Admin?",       name = "admin" }
+    ui.field.select{
+      label = _"Parent unit",
+      name = "parent_id",
+      foreign_records = units,
+      foreign_id      = "id",
+      foreign_name    = "name"
+    }
+    ui.field.text{     label = _"Name",         name = "name" }
+    ui.field.text{     label = _"Description",  name = "description", multiline = true }
+    ui.field.boolean{  label = _"Active?",      name = "active" }
 
     slot.put("<br />")
-    
-    for i, unit in ipairs(units) do
-      ui.field.boolean{
-        name = "unit_" .. unit.id,
-        label = unit.name,
-        value = unit.voting_right
-      }
-    end
-    slot.put("<br /><br />")
-
-    ui.field.boolean{  label = _"Send invite?",       name = "invite_member" }
     ui.submit{         text  = _"Save" }
   end
 }

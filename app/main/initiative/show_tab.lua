@@ -83,7 +83,7 @@ if config.public_access == "full" or app.session.member_id then
   
   tabs[#tabs+1] = {
     name = "satisfied_supporter",
-    label = _"Supporter" .. " " .. count_string,
+    label = _"Supporters" .. " " .. count_string,
     icon = { static = "icons/16/thumb_up_green.png" },
     module = "member",
     view = "_list",
@@ -114,7 +114,7 @@ if config.public_access == "full" or app.session.member_id then
   
   tabs[#tabs+1] = {
     name = "supporter",
-    label = _"Potential supporter" .. " " .. count_string,
+    label = _"Potential supporters" .. " " .. count_string,
     icon = { static = "icons/16/thumb_up.png" },
     module = "member",
     view = "_list",

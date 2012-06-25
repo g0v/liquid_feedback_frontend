@@ -178,7 +178,7 @@ ui.container{ attr = { class = class }, content = function()
       elseif i > 1 then
         slot.put(" &middot; ")
       end
-      if link.module then
+      if link.module or link.external then
         ui.link(link)
       else
         ui.tag(link)
@@ -239,5 +239,6 @@ ui.container{ attr = { class = class }, content = function()
       }
     }
   end }
+  slot.put("<br />")
 end }
 

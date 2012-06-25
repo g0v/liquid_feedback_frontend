@@ -71,10 +71,6 @@ ui.tag{ tag = "ul", content = function()
     }
   end }
 
-  ui.tag{ tag = "li", content = function()
-    ui.tag{ tag = "span", content = _"Select language" }
-  end }
-
   for i, lang in ipairs(config.available_languages) do
     ui.tag{ tag = "li", content = function()
       ui.link{

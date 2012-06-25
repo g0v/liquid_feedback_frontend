@@ -1,3 +1,5 @@
+ui.title(_"Broken delegations")
+
 execute.view{
   module = "delegation",
   view = "_list",

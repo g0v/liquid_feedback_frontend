@@ -215,8 +215,6 @@ function Issue:get_search_selector(search_string)
     :add_group_by('"issue"."discussion_time"')
     :add_group_by('"issue"."verification_time"')
     :add_group_by('"issue"."voting_time"')
-    :add_group_by('"_interest"."member_id"')
-    :add_group_by("_delegating_interest.delegate_member_ids")
     --:set_distinct()
 end
 

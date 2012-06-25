@@ -1,13 +1,8 @@
-
-
 local initiatives_selector = Initiator:selector_for_invites(app.session.member_id)
 
-if initiatives_selector:count() > 0 then
-  ui.container{
-    attr = { style = "font-weight: bold;" },
-    content = _"Initiatives that invited you to become initiator:"
-  }
+ui.title(_"Initiatives that invited you to become initiator:")
 
+if initiatives_selector:count() > 0 then
   execute.view{
     module = "initiative",
     view = "_list",

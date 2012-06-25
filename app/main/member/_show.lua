@@ -17,19 +17,21 @@ tabs[#tabs+1] = {
   params = { member = member },
 }
 
+  --[[
 local areas_selector = member:get_reference_selector("areas")
 tabs[#tabs+1] = {
   name = "areas",
   label = _"Units",
   icon = { static = "icons/16/package.png" },
-  module = "member",
-  view = "_area_list",
+  module = "index",
+  view = "_member_home",
   params = { areas_selector = areas_selector, member = member, for_member = true },
 }
+  --]]
   
 tabs[#tabs+1] = {
   name = "timeline",
-  label = _"Events",
+  label = _"Latest events",
   module = "event",
   view = "_list",
   params = { for_member = member }

@@ -6,17 +6,7 @@ if not area.unit_id then
   area.unit_id = param.get("unit_id", atom.integer)
 end
 
-slot.put_into("title", _"Create / edit area")
-
-slot.select("actions", function()
-  ui.link{
-    attr = { class = { "admin_only" } },
-    text = _"Cancel",
-    module = "admin",
-    view = "area_list",
-    params = { unit_id = area.unit_id }
-  }
-end)
+ui.title(_"Create / edit area")
 
 ui.form{
   attr = { class = "vertical" },

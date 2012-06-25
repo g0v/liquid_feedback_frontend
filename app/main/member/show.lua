@@ -45,7 +45,14 @@ slot.select("head", function()
       slot.put(" &middot; ")
       ui.tag{
         attr = { class = "interest deactivated_member_info" },
-        content = _"This member is deactivated."
+        content = _"This member is inactive"
+      }
+    end
+    if member.locked then
+      slot.put(" &middot; ")
+      ui.tag{
+        attr = { class = "interest deactivated_member_info" },
+        content = _"This member is locked"
       }
     end
     if not (member.id == app.session.member.id) then

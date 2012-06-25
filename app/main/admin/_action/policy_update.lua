@@ -12,5 +12,3 @@ param.update(
 )
 
 policy:save()
-
-slot.put_into("notice", _"Policy successfully updated")

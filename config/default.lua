@@ -10,7 +10,7 @@ if not os.crypt then
 end
 
 config.app_name = "LiquidFeedback"
-config.app_version = "2.beta10"
+config.app_version = "2.beta11"
 
 config.instance_name = request.get_config_name()
 
@@ -48,7 +48,7 @@ config.member_image_default_file = {
   photo = nil
 }
 
-config.available_languages = { 'en', 'de', 'eo', 'el' }
+config.available_languages = { 'en', 'de', 'eo' }
 
 config.default_lang = "de"
 

@@ -241,6 +241,9 @@ function Member:build_selector(args)
   if args.active ~= nil then
     selector:add_where{ "member.active = ?", args.active }
   end
+  if args.locked ~= nil then
+    selector:add_where{ "member.locked = ?", args.locked }
+  end
   if args.is_contact_of_member_id then
     selector:join("contact", "__model_member__contact", "member.id = __model_member__contact.other_member_id")
     selector:add_where{ "__model_member__contact.member_id = ?", args.is_contact_of_member_id }
@@ -248,11 +251,15 @@ function Member:build_selector(args)
   if args.voting_right_for_unit_id then
     selector:join("privilege", "__model_member__privilege", { "member.id = __model_member__privilege.member_id AND __model_member__privilege.voting_right AND __model_member__privilege.unit_id = ?", args.voting_right_for_unit_id })
   end
+  if args.admin_search then
+    local search_string = "%" .. args.admin_search .. "%"
+    selector:add_where{ "member.identification ILIKE ? OR member.name ILIKE ?", search_string, search_string }
+  end
   if args.order then
     if args.order == "id" then
       selector:add_order_by("id")
-    elseif args.order == "login" then
-      selector:add_order_by("login")
+    elseif args.order == "identification" then
+      selector:add_order_by("identification")
     elseif args.order == "name" then
       selector:add_order_by("name")
     else

@@ -1,38 +1,36 @@
-local show_locked = param.get("show_locked", atom.boolean)
+local search = param.get("search")
 
-local members_selector = Member:build_selector{ 
-  active = not show_locked,
-  order = "login"
-}
+ui.title(_"Member list")
 
-
-slot.put_into("title", _"Member list")
-
-
-slot.select("actions", function()
+ui.actions(function()
   ui.link{
     attr = { class = { "admin_only" } },
     text = _"Register new member",
     module = "admin",
     view = "member_edit"
   }
-  if show_locked then
-    ui.link{
-      attr = { class = { "admin_only" } },
-      text = _"Show active members",
-      module = "admin",
-      view = "member_list"
-    }
-  else
-    ui.link{
-      attr = { class = { "admin_only" } },
-      text = _"Show locked members",
-      module = "admin",
-      view = "member_list",
-      params = { show_locked = true }
-    }
-  end
 end)
+
+
+ui.form{
+  module = "admin", view = "member_list",
+  content = function()
+  
+    ui.field.text{ label = _"Search for members", name = "search" }
+    
+    ui.submit{ value = _"Start search" }
+  
+  end
+}
+
+if not search then
+  return
+end
+
+local members_selector = Member:build_selector{
+  admin_search = search,
+  order = "identification"
+}
 
 
 ui.paginate{
@@ -48,26 +46,35 @@ ui.paginate{
           name = "id"
         },
         {
-          label = _"Login",
-          name = "login"
+          label = _"Identification",
+          name = "identification"
         },
         {
-          label = _"Name",
-          content = function(record)
-            util.put_highlighted_string(record.name)
-          end
-        },
-        {
-          label = _"Ident number",
-          name = "ident_number"
+          label = _"Screen name",
+          name = "name"
         },
         {
           label = _"Admin?",
-          name = "admin"
+          content = function(record)
+            if record.admin then
+              ui.field.text{ value = "admin" }
+            end
+          end
         },
         {
           content = function(record)
-            if not record.active then
+            if not record.activated then
+              ui.field.text{ value = "not activated" }
+            elseif not record.active then
+              ui.field.text{ value = "inactive" }
+            else
+              ui.field.text{ value = "active" }
+            end
+          end
+        },
+        {
+          content = function(record)
+            if record.locked then
               ui.field.text{ value = "locked" }
             end
           end

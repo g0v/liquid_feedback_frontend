@@ -4,8 +4,21 @@ local member = Member:by_id(id) or Member:new()
 
 param.update(member, "identification", "notify_email", "admin")
 
-if param.get("invite_member", atom.boolean) then
-  member:send_invitation()
+local locked = param.get("locked", atom.boolean)
+if locked ~= nil then
+  member.locked = locked
+end
+local deactivate = param.get("deactivate", atom.boolean)
+if deactivate then
+  member.active = false
+end
+local login = param.get("login")
+if login then
+  member.login = login
+end
+local name = param.get("name")
+if name then
+  member.name = name
 end
 
 local err = member:try_save()
@@ -41,6 +54,10 @@ for i, unit in ipairs(units) do
     local privilege = Privilege:by_pk(unit.id, member.id)
     privilege:destroy()
   end
+end
+
+if not member.activated and param.get("invite_member", atom.boolean) then
+  member:send_invitation()
 end
 
 if id then

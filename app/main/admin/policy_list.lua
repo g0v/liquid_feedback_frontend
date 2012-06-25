@@ -3,14 +3,13 @@ local show_not_in_use = param.get("show_not_in_use", atom.boolean) or false
 local policies = Policy:build_selector{ active = not show_not_in_use }:exec()
 
 
-slot.put_into("title", _"Policy list")
+ui.title(_"Policy list")
 
 
-slot.select("actions", function()
+ui.actions(function()
 
   if show_not_in_use then
     ui.link{
-      attr = { class = { "admin_only" } },
       text = _"Show policies in use",
       module = "admin",
       view = "policy_list"
@@ -18,13 +17,12 @@ slot.select("actions", function()
 
   else
     ui.link{
-      attr = { class = { "admin_only" } },
       text = _"Create new policy",
       module = "admin",
       view = "policy_show"
     }
+    slot.put(" &middot; ")
     ui.link{
-      attr = { class = { "admin_only" } },
       text = _"Show policies not in use",
       module = "admin",
       view = "policy_list",
@@ -44,7 +42,6 @@ ui.list{
 
     { content = function(record)
         ui.link{
-          attr = { class = { "action admin_only" } },
           text = _"Edit",
           module = "admin",
           view = "policy_show",

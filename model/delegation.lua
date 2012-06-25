@@ -19,6 +19,14 @@ Delegation:add_reference{
 
 Delegation:add_reference{
   mode          = 'm1',
+  to            = "Unit",
+  this_key      = 'unit_id',
+  that_key      = 'id',
+  ref           = 'unit',
+}
+
+Delegation:add_reference{
+  mode          = 'm1',
   to            = "Area",
   this_key      = 'area_id',
   that_key      = 'id',
@@ -56,7 +64,8 @@ end
 
 function Delegation:selector_for_broken(member_id)
   return Delegation:new_selector()
-    :join("issue", nil, "issue.id = delegation.issue_id AND issue.closed ISNULL")
+    :left_join("issue", nil, "issue.id = delegation.issue_id")
+    :add_where("issue.id ISNULL OR issue.closed ISNULL")
     :join("member", nil, "delegation.trustee_id = member.id")
     :add_where{"delegation.truster_id = ?", member_id}
     :add_where{"member.active = 'f' OR (member.last_activity IS NULL OR age(member.last_activity) > ?::interval)", config.delegation_warning_time }

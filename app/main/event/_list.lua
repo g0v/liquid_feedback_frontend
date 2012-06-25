@@ -36,30 +36,15 @@ end
 
 local last_event_id
 
+local events = event_selector:exec()
+
 ui.container{ attr = { class = "issues events" }, content = function()
 
   local last_event_date
-  for i, event in ipairs(event_selector:exec()) do
+  for i, event in ipairs(events) do
     last_event_id = event.id
     event.issue:load_everything_for_member_id(app.session.member_id)
 
-    if event.occurrence.date ~= last_event_date then
-      local days_ago_text
-      if event.time_ago == 0 then
-        days_ago_text = _"Today"
-      elseif event.time_ago == 1 then
-        days_ago_text = _"Yesterday"
-      else
-        days_ago_text = _("#{count} days ago", { count = event.time_ago })
-      end
-      ui.container{ attr = { class = "date" }, content = function()
-        ui.tag{ content = format.date(event.occurrence.date) }
-        slot.put(" &middot; ")
-        ui.tag{ content = days_ago_text }
-      end }
-      
-      last_event_date = event.occurrence.date
-    end
     local class = "issue"
     if event.is_interested then
       class = class .. " interested"
@@ -67,57 +52,70 @@ ui.container{ attr = { class = "issues events" }, content = function()
       class = class .. " interested_by_delegation"
     end
 
-            ui.container{ attr = { class = "issue_policy_info" }, content = function()
-          if (app.session.member_id or config.public_access == "pseudonym") and event.member_id then
-            if app.session.member_id then
-              ui.link{
-                content = function()
-                  execute.view{
-                    module = "member_image",
-                    view = "_show",
-                    params = {
-                      member = event.member,
-                      image_type = "avatar",
-                      show_dummy = true,
-                      class = "micro_avatar",
-                      popup_text = text
-                    }
-                  }
-                end,
-                module = "member", view = "show", id = event.member_id
+    ui.container{ attr = { class = "issue_policy_info" }, content = function()
+      if (app.session.member_id or config.public_access == "pseudonym") and event.member_id then
+        if app.session.member_id then
+          ui.link{
+            content = function()
+              execute.view{
+                module = "member_image",
+                view = "_show",
+                params = {
+                  member = event.member,
+                  image_type = "avatar",
+                  show_dummy = true,
+                  class = "micro_avatar",
+                  popup_text = text
+                }
               }
-              slot.put(" ")
-            end
-            ui.link{
-              text = event.member.name,
-              module = "member", view = "show", id = event.member_id
-            }
-            slot.put(" &middot; ") 
-          end
-          local event_name = event.event_name
-          local event_image
-          if event.event == "issue_state_changed" then
-            if event.state == "discussion" then
-              event_name = _"Discussion started"
-              event_image = "comments.png"
-            elseif event.state == "verification" then
-              event_name = _"Verification started"
-              event_image = "lock.png"
-            elseif event.state == "voting" then
-              event_name = _"Voting started"
-              event_image = "email_open.png"
-            else
-              event_name = event.state_name
-            end
-            if event_image then
-              ui.image{ static = "icons/16/" .. event_image }
-              slot.put(" ")
-            end
-          end
-          ui.tag{ attr = { class = "event_name" }, content = event_name }
-          slot.put(" &middot; ") 
-          ui.tag{ attr = { class = "time" }, content = format.time(event.occurrence) }
-        end }
+            end,
+            module = "member", view = "show", id = event.member_id
+          }
+          slot.put(" ")
+        end
+        ui.link{
+          text = event.member.name,
+          module = "member", view = "show", id = event.member_id
+        }
+        slot.put(" &middot; ") 
+      end
+      local event_name = event.event_name
+      local event_image
+      if event.event == "issue_state_changed" then
+        if event.state == "discussion" then
+          event_name = _"Discussion started"
+          event_image = "comments.png"
+        elseif event.state == "verification" then
+          event_name = _"Verification started"
+          event_image = "lock.png"
+        elseif event.state == "voting" then
+          event_name = _"Voting started"
+          event_image = "email_open.png"
+        else
+          event_name = event.state_name
+        end
+        if event_image then
+          ui.image{ static = "icons/16/" .. event_image }
+          slot.put(" ")
+        end
+      end
+      local days_ago_text
+      if event.time_ago == 0 then
+        days_ago_text = _("Today at #{time}", { time = format.time(event.occurrence) })
+      elseif event.time_ago == 1 then
+        days_ago_text = _("Yesterday at #{time}", { time = format.time(event.occurrence) })
+      else
+        days_ago_text = _("#{date} at #{time}", { date = format.date(event.occurrence.date), time = format.time(event.occurrence) })
+      end
+      ui.tag{ attr = { class = "event_name" }, content = event_name }
+      slot.put(" &middot; ") 
+      ui.tag{ content = days_ago_text }
+      if event.time_ago > 1 then
+        slot.put(" (")
+        ui.tag{ content = _("#{count} days ago", { count = event.time_ago }) }
+        slot.put(")")
+      end
+    end }
 
     ui.container{ attr = { class = class }, content = function()
 
@@ -253,18 +251,23 @@ ui.container{ attr = { class = "issues events" }, content = function()
 
 end }
 
-ui.link{
-  text = _"Show older events",
-  module = request.get_module(),
-  view = request.get_view(),
-  id = param.get_id(),
-  params = { 
-    tab = param.get_all_cgi()["tab"],
-    events = param.get_all_cgi()["events"],
-    event_max_id = last_event_id
-  }
-}
+slot.put("<br />")
 
+if #events > 0 then
+  ui.link{
+    text = _"Show older events",
+    module = request.get_module(),
+    view = request.get_view(),
+    id = param.get_id(),
+    params = { 
+      tab = param.get_all_cgi()["tab"],
+      events = param.get_all_cgi()["events"],
+      event_max_id = last_event_id
+    }
+  }
+else
+  ui.tag{ content = _"No more events available" }
+end
 
 slot.put("<br />")
 slot.put("<br />")

@@ -35,5 +35,3 @@ if default_policy_id and default_policy_id ~= -1 then
     pol:save()
   end
 end
-
-slot.put_into("notice", _"Area successfully updated")

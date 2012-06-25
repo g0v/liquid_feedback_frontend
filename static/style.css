@@ -166,7 +166,7 @@ h2 {
   );
   font-size: 90%;
   box-shadow: #aaa 0 0 5px;
-  overflow: hidden;
+  xoverflow: auto;
   -mox-box-shadow: #aaa 0 0 5px;
   -webkit-box-shadow: #aaa 0 0 5px;
   border-top: 1px solid #333;
@@ -186,8 +186,7 @@ h2 {
 }
 
 .topbar  a:hover {
-  background-color: #eee;
-  color: #000;
+  color: #f90;
 }
 
 .navigation {
@@ -200,8 +199,7 @@ h2 {
   vertical-align: middle;
 }
 
-.topbar a,
-.topbar .member_menu span {
+.topbar a {
   padding: 0 0.5em;
   float: left;
   display: block;
@@ -217,51 +215,79 @@ form.unit_selector {
   padding-right: 1%;
 }
 
-.member_menu {
+
+#member_menu {
+ z-index: 2;
+}
+
+#member_menu li {
+ float: left;
+}
+
+#member_menu li:hover {
+ position: relative;
+ z-index: 4;
+ cursor: default;
+}
+
+#member_menu {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+}
+
+#member_menu > li {
+  width: 200px;
+}
+
+#member_menu li a {
   float: right;
 }
-
-#member_menu {
-  position: absolute;
-  right: 20px;
-  top: 19px;
-}
-
-#member_menu {
-  display: none;
-}
-
-.member_menu:hover #member_menu {
-  display: block;
-}
-
+  
 #member_menu ul {
-  list-style: none;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 3;
+  width: 200px;
+  border-radius: 0 0 8px 8px;
+  background: #000;
 }
 
-#member_menu li span {
-  background-color: #333;
-  line-height: 200%;
+#member_menu ul li {
+  float: none;
+}
+
+#member_menu ul li a {
+  float: none;
+  background: #000;
+}
+
+#member_menu ul ul {
+  top: 1px;
+  right: 1px;
+}
+
+#member_menu li:hover ul {
   display: block;
-  width: 15em;
+}
+
+#member_menu li li a {
+  background: #000;
+  border-radius: 5px;
   color: #fff;
 }
 
-  
-
-#member_menu li a {
-  background-color: #333;
-  line-height: 200%;
-  display: block;
-  width: 15em;
+#member_menu ul li:hover a {
+  background: #000;
+  color: #f90;
 }
 
-#member_menu a:hover {
-  background-color: #eee;
-  color: #000;
-}
-
-
+*/
 /*************************************************************************
  * Title of current page including path and actions
  */
@@ -274,11 +300,6 @@ form.unit_selector {
   margin-top: 1ex;
 }
 
-.page_head .actions {
-  margin-top: 0.5ex;
-  margin-bottom: 1ex;
-}
-
 .slot_head {
   background-color: #fff;
   margin: 0px 10px 2ex 10px;
@@ -289,15 +310,29 @@ form.unit_selector {
 .page_head .title,
 .issue .context,
 .issue .title,
-.initiative_head .title {
+.initiative_head .title,
+.area_list .title {
   padding: 8px 10px 2px 10px;
 }
 
+.page_head .actions,
 .page_head .unit_head .content,
 .page_head .area_head .content,
 .issue .content,
-.initiative_head .content {
-  padding: 2px 10px 8px 10px;
+.initiative_head .content,
+.area_list .unit_head .content,
+.area_list .area .content {
+  padding: 10px 10px 0 10px;
+}
+
+.page_head .actions:last-child,
+.page_head .unit_head .content:last-child,
+.page_head .area_head .content:last-child,
+.issue .content:last-child,
+.initiative_head .content:last-child,
+.area_list .unit_head .content:last-child,
+.area_list .area .content:last-child {
+  padding: 10px 10px 10px 10px;
 }
 
 .page_head .initiative_list,
@@ -309,11 +344,16 @@ form.unit_selector {
   margin-bottom: 1ex;
 }
 
+.area_head {
+  overflow: auto;
+}
 
 
 .page_head .title,
 .issue .title,
-.initiative_head .title {
+.initiative_head .title,
+.area_list .unit_head .unit_name,
+.area_list .area_name {
   font-weight: bold;
   font-size: 120%;
 }
@@ -325,30 +365,53 @@ form.unit_selector {
   font-size: 75%;
 }
 
-.page_head .unit_head .content,
 .page_head .area_head .content,
 .page_head .area_head .content a,
 .page_head .issue .content.actions,
 .page_head .issue .content.actions a,
 .issues .issue .content.actions,
-.issues .issue .content.actions a {
-  color: #777;
+.issues .issue .content.actions a,
+.area_list .area .content,
+.area_list .area .content a {
+  color: #000;
 }
 
-.page_head .unit_head .title,
-.page_head .area_head .title,
-.issue .title {
-  background-color: #eee;
+
+.unit_head {
+  background-color: #44a;
+  background-image: -webkit-linear-gradient(top, #67d, #23a);
+}
+
+.unit_head:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+.area_head:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+.unit_head .content, .unit_head a {
+  color: #fff;
+}
+.area_head,
+.area_list .area_head {
+  background-color: #abf;
+  background-image: -webkit-linear-gradient(top, #cdf, #abe);
+}
+
+.area_list .area > .content,
+.issue {
+  background-color: #e0e9ff;
+  background-image: -webkit-linear-gradient(top, #f7faff, #e0e9ff);
+}
+
+
+x {
   background-image: linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
   background-image: -o-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
   background-image: -moz-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
-  background-image: -webkit-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
+  background-image: -webkit-linear-gradient(top, #dde 0%, #d7d7e7 10%, #fff 100%);
   background-image: -ms-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
-}
-
-.page_head .area_head .title,
-.page_head .issue .title {
-  border-top: 1px solid #ddd;
 }
 
 
@@ -373,11 +436,14 @@ form.unit_selector {
 }
 
 .delegation_info .micro_avatar {
-  border: 2px solid #fff;
+  border: none;
+  margin: 2px;
+  box-shadow: 1px 1px 2px #000;
 }
 
 .delegation_info .micro_avatar.highlighted {
-  border: 2px solid #fa0;
+  margin: none;
+  border: 2px solid #f90;
 }
 
 
@@ -415,23 +481,28 @@ form.unit_selector {
  * ui.tab
  */
 .ui_tabs {
-  margin: 10px 0px;
+  margin: 20px 0px;
 }
 
 .ui_tabs_links a {
-  padding: 0.75ex 0.6em;
-  line-height: 225%;
+  padding: 1ex 1em;
+  line-height: 300%;
   background-color: #f7f7f7;
+  background-color: #444;
+  background-image: -webkit-linear-gradient(top, #000 0%, #444 70%, #777 90%, #888 100%);
+  color: #fff;
   white-space: nowrap;
   border-radius: 5px;
-  margin-right: 5px;
+  margin-right: 2px;
   font-weight: bold;
 }
 
 .ui_tabs_links a:hover,
 .ui_tabs_links a.selected {
-  background-color: #444;
-  color: #fff;
+  box-shadow: 0px 0px 5px 3px #f90;
+}
+
+.ui_tabs_links a.selected {
   text-decoration: none;
 }
 
@@ -442,29 +513,29 @@ form.unit_selector {
 
 .ui_filter {
   overflow: auto;
+  margin: 2ex 0;
 }
 
 .ui_filter_head {
   color: #777;
-  margin-top: 1ex;
   font-size: 90%;
-  font-weight: bold;
   float: left;
   line-height: 200%;
   margin-right: 2em;
 }
 
-.ui_filter_head a {
-  color: #777;
-  padding: 0.5ex;
+.ui_filter a {
+  font-weight: bold;
+  margin-right: 0.5em;
 }
 
-.ui_filter_head a:hover,
+
 .ui_filter_head a.active {
+  text-decoration: none;
+  background-color: #555;
   color: #fff;
-  background-color: #777;
-  padding: 0.5ex;
-  border-radius: 5px;
+  padding: 0.5ex 0.5em;
+  border-radius: 4px;
 }
 
 /*************************************************************************
@@ -513,9 +584,9 @@ form.unit_selector {
 
 div.notifications {
   margin-top: 1ex;
-  background-color: #fdd;
+  background-color: #fda;
   padding: 0.5ex;
-  border: 1px solid #daa;
+  border: 1px solid #fa0;
 }
 
 .notifications ul {
@@ -704,105 +775,36 @@ div.notifications {
 /*************************************************************************
  * Area list
  */
-
-.member_area_list {
-  margin-bottom: 0ex;
-  border-radius: 8px;
-  border: 1px solid #aaa;
-  padding: 1ex;
-  margin-bottom: 2ex;
-}
-
-.member_area_list .unit_head {
-  font-size: 120%;
-  font-weight: bold;
-  float: left;
-  clear: both;
-}
-
-.member_area_list .unit_delegatee {
-  float: left;
-}
-
-.member_area_list .voting_priv_info {
-  clear: left;
-  margin-top: 4ex;
-}
-
-.member_area_list .more_areas {
-  font-style: italic;
-}
-
 .area_list {
-  margin-bottom: 4ex;
-}
-
-.member_area_list .area_list {
-  margin-bottom: 0;
+  border: 1px solid #54c;
+  border-radius: 10px;
+  margin-top: 2ex;
 }
 
 .area_list .area {
-  line-height: 32px;
-  clear: both;
+  border-top: 1px solid #44a;
 }
 
-.area_list .bargraph {
-  line-height: 10px;
+.area_list .area:first-child {
+  border-top: none;
 }
 
-.area_list .area .delegatee {
-  white-space: nowrap;
+.area_list .unit_head {
+  border-radius: 8px 8px 0 0;
 }
 
-.area_list .area.head .phases {
-  xmargin-top: 2ex;
+.area_list .unit_head:last-child {
+  border-radius: 8px;
 }
 
-.area_list .area img {
-  vertical-align: middle;
+.area_list .area:last-child .content:last-child{
+  border-radius: 0 0 8px 8px;
 }
 
-.area_list .area .bar {
-  float: left;
-  padding-top: 6px
+.area_list .area:first-child .area_head {
+  border-radius: 8px 8px 0 0;
 }
 
-.area_list .area .membership,
-.area_list .area .delegatee {
-  display: inline;
-  width: 24px
-}
-
-.area_list .area .name {
-  display: inline;
-  font-weight: bold;
-}
-
-.area_list .area .phases {
-  float: right;
-}
-
-.area_list .area .phases div {
-  float: left;
-  width: 3em;
-  text-align: right;
-}
-
-@media screen and (max-width: 480px) {
-  .area_list .area .name {
-    display: block;
-    line-height: 100%;
-  }
-  
-  .area_list .area .delegatee,
-  .area_list .area .membership {
-    float: left;
-    white-space: nowrap;
-  }
-  .area_list .area .bar {
-    display: none;
-  }
-}
 
 /*************************************************************************
  * Events
@@ -1053,7 +1055,7 @@ x.initiative_link.potentially_supported {
 }
 
 .member_thumb.in_delegation_chain {
-  border: 2px solid #fa0;
+  border: 2px solid #f90;
 }
 
 .member_statement,
@@ -1162,7 +1164,7 @@ x.initiative_link.potentially_supported {
 }
 
 .slot_help_hidden {
-  float: right;
+  float: left;
   margin-top: 1ex;
 }
 
@@ -1379,12 +1381,8 @@ div.notifications {
   padding: 1ex;
 }
 
-.member_area_list .box {
-  border: none;
-  padding: 0;
-}
-
 .slot_head,
+.area_list,
 .initiative_head,
 .issues .issue,
 .ui_tabs_links a,
@@ -1392,21 +1390,13 @@ div.notifications {
 .help,
 .use_terms,
 .motd,
-.ui_filter a.active,
 .vote_info .content,
-.member_area_list,
 .box,
 div.notifications {
   box-shadow: #777 0px 5px 5px -5px;
   -mox-box-shadow: #777 0px 5px 5px -5px;
   -webkit-box-shadow: #ddd 3px 3px 3px -1px;
   clear: both;
-}
-
-.member_area_list .box {
-  box-shadow: none;
-  -mox-box-shadow: none;
-  -webkit-box-shadow: none;
 }
 
 .slot_footer {
