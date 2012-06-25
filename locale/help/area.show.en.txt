@@ -1,11 +1,15 @@
-= Issue, interest =
-This page lists all initiatives belonging to this issue. If you add your ,,Interest at the issue'', you will be treated as equal to the members of the superior areas of this issue, and you increase the assessment basis for the supporter quorums to be reached by an initiative. As soon as you support an initiative of this issue, your interest will be automatically added. Even if you remove your support from all initiatives, your interest persists until you opt out. 
+= Subject area =
 
-= Delegation =
-A delegation for this issue takes precedence over a potentially existing global delegation and/or a delegation for the superior area. If you added your interest outgoing delegations will be suspended during the discussion phase, but will be active during the final voting.
+Here you find:
+- **Latest events:** Events in this subject area
+- **Open issues:** Issues of this subject area, which are currently open, i.e. new, in discussion, frozen or for voting
+- **Closed issues:** Issues of this subject area, where voting has been finished, or which have been canceled
+- **Participants:** Eligible voters, who decided to participate in this subject area
+- **Delegations:** Delegation settings of other members for this subject area (unit delegations and issue delegations are not listed here)
 
-= Discussion phase =
-During the discussion phase (in the states ,,New'' and ,,Discussion'') you should support **all** initiatives that you can agree with generally (or under certain conditions), and make suggestions for improvements (you can find details on the initiative page). Hereby you give the initiators the chance to improve the draft. During this phase you can also start your own (competing) initiative for this issue and ask people to support it. 
+As long as you're an eligible voter, you can indicate that you want to participate in this subject area. Click on "Participate in this area", if you want to do that. This has the following consequences:
+- The subject area will be shown on your homepage under the tab "My areas".
+- You are counted for the basic population for issue discussions. This has an impact on the supporter quorum, which initiatives have to reach.
+- E-mail notifies about events in the subject area will be sent, as long as your notification settings are configured respectively. Your notification settings can be changed by clicking on "Settings" in the user menu at the top right.
 
-= Final voting =
-Initiatives reaching a certain quorum, will be taken into the final voting. There you can list all initiatives that you approve, ordered by preference. For other initiatives you can abstain or disapprove (the latter also by preference). Only those initiatives can be decided that get in total more votes in favour than against.
+Your delegation of the subject area has an effect on all issues, where no divergent issue delegation has been set by you. When you do not set a delegation in the subject area, your delegation for the organizational unit may be in effect. If you're interested in an issue yourself, then potentially existent delegations will be postponed until voting. Voting on an issue cancels an existent delegation.

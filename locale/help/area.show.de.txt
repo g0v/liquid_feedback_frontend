@@ -1,11 +1,15 @@
-= Thema, Interesse =
-Auf dieser Seite werden alle Initiativen zu diesem Thema aufgelistet. Wenn du ,,Interesse am Thema'' anmeldest, wirst du für dieses Thema den Mitgliedern des übergeordneten Themenbereichs gleichgestellt und erhöhst die Bemessungsgrundlage der von Initiativen zu erreichenden Unterstützerquoren. Sobald du eine Initiative dieses Themas unterstützt, wird dein Interesse auch automatisch angemeldet. Sofern du allen Initiativen die Unterstützung entziehst, bleibt dein Interesse dennoch bestehen bis du es abmeldest. 
+= Themenbereich =
 
-= Delegation =
-Eine Delegation zu diesem Thema geht einer eventuell vorhandenen globalen Delegation und/oder Delegation für den übergeordneten Themenbereich vor. Bei angemeldetem Interesse werden ausgehende Delegationen während der Diskussionsphase ausgesetzt, gelten aber in der Endabstimmung.
+Hier finden sich jeweils unter:
+- **Letzte Ereignisse:** Alle Ereignisse im Themenbereich
+- **Offene Themen:** Alle Themen des Themenbereichs, die zur Zeit offen sind, also Neu, in Diskussion, Eingefroren oder in Abstimmung
+- **Geschlossene Themen:** Alle Themen des Themenbereichs, die bereits abgestimmt sind oder die abgebrochen wurden
+- **Teilnehmer:** Stimmberechtigte, die sich dazu entschieden haben, sich im Themenbereich einzubringen
+- **Delegationen:** Auf Themenbereichsebene gesetzte Delegationen (Delegationen auf darüberliegender Gliederungsebene, sowie Delegationen auf darunterliegender Themenebene werden hier nicht aufgeführt)
 
-= Diskussionsphase =
-Während der Diskussionsphase (Zustände ,,Neu'' und ,,Diskussion'') solltest du **alle** Initiativen, die du grundsätzlich (oder unter bestimmten Bedingungen) für zustimmungsfähig hältst, unterstützen und Anregungen zur Verbesserung geben (Näheres dazu findest du auf der Initiativenseite). Hierdurch gibst du den Initiatoren die Chance, den Entwurf zu verbessern. Während dieser Phase hast du auch die Möglichkeit, eine eigene (konkurrierende) Initiative zu diesem Thema zu starten und um Unterstützung zu ringen. 
+Sofern die Stimmberechtigung in der Gliederung vorhanden ist, kann man sich durch einen Klick auf "An diesem Themengebiet teilnehmen" als Teilnehmer des Themengebietes eintragen. Dies hat folgende Konsequenzen:
+- Der jeweilige Themenbereich wird auf deiner Startseite unter "Meine Themengebiete" angezeigt.
+- Du zählst zur Grundgesamtheit der Diskussionsteilnehmer von Themen im Themengebiet. Dies wirkt sich auf das von Initiativen zu erreichende Unterstützerquorum aus.
+- Benachrichtigungen zu Ereignissen im jeweiligen Themenbereich werden verschickt, sofern die Benachrichtigungseinstellungen entsprechend eingestellt sind. Die Benachrichtigungseinstellungen finden sich unter "Einstellungen" im Benutzermenü ganz rechts oben.
 
-= Endabstimmung =
-Initiativen, die ein bestimmtes Quorum erreichen, werden in die Endabstimmung übernommen. Du kannst dann alle Initiativen, denen du zustimmen möchtest, in eine Präferenzreihenfolge bringen. Bei den anderen Initiativen kannst Du dich enthalten oder auch dagegen stimmen (letzteres ebenfalls mit Präferenz). Beschlossen werden können nur Initiativen die insgesamt mehr Ja- als Nein-Stimmen erhalten.
+Delegationen im Themenbereich wirken sich auf alle Themen aus, bei denen keine abweichende Delegationseinstellung vermerkt ist. Ist keine Delegationseinstellung im Themenbereich vorhanden, gilt ggf. eine Delegation auf Gliederungsebene. Bei eigenem Interesse an einem Thema, wird eine eventuell vorhandene Delegation zunächst ausgesetzt. Ebenso werden Delegationen dort ausgesetzt, wo man selbst an der Endabstimmung teilnimmt.
