@@ -186,7 +186,7 @@ h2 {
 }
 
 .topbar  a:hover {
-  color: #fc0;
+  color: #f90;
 }
 
 .navigation {
@@ -284,7 +284,7 @@ form.unit_selector {
 
 #member_menu ul li:hover a {
   background: #000;
-  color: #fc0;
+  color: #f90;
 }
 
 */
@@ -393,7 +393,7 @@ form.unit_selector {
 .area_head,
 .area_list .area_head {
   background-color: #abf;
-  background-image: -webkit-linear-gradient(top, #cdf, #bcf);
+  background-image: -webkit-linear-gradient(top, #cdf, #abe);
 }
 
 .area_list .area > .content,
@@ -433,11 +433,14 @@ x {
 }
 
 .delegation_info .micro_avatar {
-  border: 2px solid #fff;
+  border: none;
+  margin: 2px;
+  box-shadow: 1px 1px 2px #000;
 }
 
 .delegation_info .micro_avatar.highlighted {
-  border: 2px solid #fc0;
+  margin: none;
+  border: 2px solid #f90;
 }
 
 
@@ -493,7 +496,7 @@ x {
 
 .ui_tabs_links a:hover,
 .ui_tabs_links a.selected {
-  box-shadow: 0px 0px 5px 3px #fc0;
+  box-shadow: 0px 0px 5px 3px #f90;
 }
 
 .ui_tabs_links a.selected {
@@ -1049,7 +1052,7 @@ x.initiative_link.potentially_supported {
 }
 
 .member_thumb.in_delegation_chain {
-  border: 2px solid #fc0;
+  border: 2px solid #f90;
 }
 
 .member_statement,
