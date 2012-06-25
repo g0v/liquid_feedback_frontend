@@ -48,7 +48,7 @@ caption, th, td {
  */
 
 body {
-  background: #fff;
+  background: #fafafa;
   line-height: 120%:
 }
 
@@ -307,7 +307,27 @@ form.unit_selector {
   border-radius: 0 0 8px 8px;
 }
 
-.slot_head div:last-child {
+
+.slot_head,
+.area_list,
+.initiative_head,
+.issues .issue,
+.ui_tabs_links a,
+.draft_content,
+.help,
+.use_terms,
+.motd,
+.vote_info .content,
+.box,
+div.notifications {
+  background-color: #fff;
+  box-shadow: #777 0px 5px 5px -5px;
+  -mox-box-shadow: #777 0px 5px 5px -5px;
+  -webkit-box-shadow: #ddd 3px 3px 3px -1px;
+  clear: both;
+}
+
+.slot_head > div:last-child {
   border-radius: 0 0 8px 8px;
 }
 
@@ -492,18 +512,18 @@ x {
 /*************************************************************************
  * ui.tab
  */
-.ui_tabs {
-  margin: 20px 0px;
+.ui_tabs_links {
+  margin: 20px 0px 10px 0px;
 }
 
 .ui_tabs_links a {
   padding: 1ex 1em;
   line-height: 300%;
   background-color: #444;
-  background-image: -webkit-linear-gradient(top, #000 0%, #444 70%, #777 90%, #888 100%);
+  background-image: -webkit-linear-gradient(top, #000, #666);
   color: #fff;
   white-space: nowrap;
-  border-radius: 10px;
+  border-radius: 8px;
   font-weight: bold;
   margin: 3px;
 }
@@ -1142,12 +1162,12 @@ x.initiative_link.potentially_supported {
 .initiator_invite_info,
 .motd,
 .public_access_issue_head {
-  background-color: #fffbce;
+  background-color: #fda;
   padding: 1ex;
   margin-top: 1ex;
   margin-bottom: 2ex;
-  border-top: 1px solid #ffe900;
-  border-bottom: 1px solid #ffe900;
+  border: 1px solid #fa0;
+  border-radius: 10px;
 }
 
 .suggestion_fulfilled {
@@ -1392,24 +1412,6 @@ div.notifications {
 
 .box {
   padding: 1ex;
-}
-
-.slot_head,
-.area_list,
-.initiative_head,
-.issues .issue,
-.ui_tabs_links a,
-.draft_content,
-.help,
-.use_terms,
-.motd,
-.vote_info .content,
-.box,
-div.notifications {
-  box-shadow: #777 0px 5px 5px -5px;
-  -mox-box-shadow: #777 0px 5px 5px -5px;
-  -webkit-box-shadow: #ddd 3px 3px 3px -1px;
-  clear: both;
 }
 
 .slot_footer {

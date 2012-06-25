@@ -220,7 +220,7 @@ ui.container{ attr = { class = class }, content = function()
 
   end
 
-  ui.container{ attr = { class = "initiative_list" }, content = function()
+  ui.container{ attr = { class = "initiative_list content" }, content = function()
 
     local initiatives_selector = issue:get_reference_selector("initiatives")
     local highlight_string = param.get("highlight_string")
