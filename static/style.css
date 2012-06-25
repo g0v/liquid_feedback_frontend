@@ -495,7 +495,7 @@ x {
   background-image: -webkit-linear-gradient(top, #000 0%, #444 70%, #777 90%, #888 100%);
   color: #fff;
   white-space: nowrap;
-  border-radius: 5px;
+  border-radius: 10px;
   font-weight: bold;
   margin: 3px;
 }
