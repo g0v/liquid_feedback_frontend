@@ -302,8 +302,12 @@ form.unit_selector {
 
 .slot_head {
   background-color: #fff;
-  margin: 0px 10px 2ex 10px;
-  border: 1px solid #aaa;
+  margin: 0px 1% 2ex 1%;
+  border: 1px solid #555;
+  border-radius: 0 0 8px 8px;
+}
+
+.slot_head div:last-child {
   border-radius: 0 0 8px 8px;
 }
 
@@ -487,19 +491,20 @@ x {
 .ui_tabs_links a {
   padding: 1ex 1em;
   line-height: 300%;
-  background-color: #f7f7f7;
   background-color: #444;
   background-image: -webkit-linear-gradient(top, #000 0%, #444 70%, #777 90%, #888 100%);
   color: #fff;
   white-space: nowrap;
   border-radius: 5px;
-  margin-right: 2px;
   font-weight: bold;
+  margin: 3px;
 }
 
 .ui_tabs_links a:hover,
 .ui_tabs_links a.selected {
-  box-shadow: 0px 0px 5px 3px #f90;
+  margin: 0;
+  border: 3px solid #f90;
+  box-shadow: 0px 0px 5px #f90;
 }
 
 .ui_tabs_links a.selected {
