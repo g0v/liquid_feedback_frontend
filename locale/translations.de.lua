@@ -51,7 +51,7 @@ return {
 ["Admission time"] = "Zeit für die Zulassung";
 ["Admitted"] = "zugelassen";
 ["All areas"] = "Alle Themenbereiche";
-["All areas in my units"] = "Alle Themengebiete in meiner Gliederung";
+["All areas in my units"] = "Alle Themengebiete in meinen Gliederungen";
 ["All issues"] = "Alle Themen";
 ["All of them"] = "Alle Benachrichtigungen";
 ["All units"] = "Alle Gliederungen";
