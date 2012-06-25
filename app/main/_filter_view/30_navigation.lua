@@ -47,44 +47,41 @@ slot.select('navigation', function()
 end)
 
 
-if app.session.member_id then
-
-  slot.select('navigation_right', function()
-    if app.session.member_id then
+slot.select('navigation_right', function()
+  ui.tag{ 
+    tag = "ul",
+    attr = { id = "member_menu" },
+    content = function()
       ui.tag{ 
-        tag = "ul",
-        attr = { id = "member_menu" },
+        tag = "li",
         content = function()
-          ui.tag{ 
-            tag = "li",
+          ui.link{
+            module = "index",
+            view = "menu",
             content = function()
-              ui.link{
-                module = "member",
-                view = "menu",
-                content = function()
-                  execute.view{
-                    module = "member_image",
-                    view = "_show",
-                    params = {
-                      member = app.session.member,
-                      image_type = "avatar",
-                      show_dummy = true,
-                      class = "micro_avatar",
-                    }
+              if app.session.member_id then
+                execute.view{
+                  module = "member_image",
+                  view = "_show",
+                  params = {
+                    member = app.session.member,
+                    image_type = "avatar",
+                    show_dummy = true,
+                    class = "micro_avatar",
                   }
-                  ui.tag{ content = app.session.member.name }
-                end
-              }
-              execute.view{ module = "member", view = "_menu" }
+                }
+                ui.tag{ content = app.session.member.name }
+              else
+                ui.tag{ content = _"Select language" }
+              end
             end
           }
+          execute.view{ module = "index", view = "_menu" }
         end
       }
     end
-
-  end)
-
-end
+  }
+end)
 
 slot.select("footer", function()
   if app.session.member_id and app.session.member.admin then

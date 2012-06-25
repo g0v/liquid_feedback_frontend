@@ -127,13 +127,6 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
 
   end }
 
-end }
-
-
-util.help("initiative.show")
-
---slot.select("initiative_head", function()
-
   if initiative.issue.ranks_available and initiative.admitted then
     local class = initiative.winner and "admitted_info" or "not_admitted_info"
     ui.container{
@@ -196,7 +189,10 @@ util.help("initiative.show")
     }
   end
 
---end)
+end }
+
+util.help("initiative.show")
+
 
 if initiator and initiator.accepted == nil and not initiative.issue.half_frozen and not initiative.issue.closed then
   ui.container{

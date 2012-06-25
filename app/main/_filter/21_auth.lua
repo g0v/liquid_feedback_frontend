@@ -11,6 +11,7 @@ local auth_needed = not (
     or request.get_action() == "reset_password"
     or request.get_view()   == "confirm_notify_email"
     or request.get_action() == "confirm_notify_email"
+    or request.get_view()   == "menu"
     or request.get_action() == "set_lang"
   )
   or request.get_module() == "openid"

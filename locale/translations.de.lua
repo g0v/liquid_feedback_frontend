@@ -17,6 +17,7 @@ return {
 ["#{number} Image(s) has been deleted"] = "Es wurde(n) #{number} Bild(er) gelöscht";
 ["#{number} Image(s) has been updated"] = "Es wurde(n) #{number} Bild(er) aktualisiert";
 ["#{policy_name} ##{issue_id}"] = false;
+["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = "noch #{time_left}";
 ["(#{more_count} duplicates removed)"] = "(#{more_count} Duplikate entfernt)";
 ["(new window)"] = "(neues Fenster)";
@@ -687,6 +688,7 @@ return {
 ["Your support has been updated to the latest draft"] = "Deine Unterstützung wurde auf den neuesten Entwurf aktualisiert";
 ["Your vote has been discarded. Delegation rules apply if set."] = "Deine Abstimmung wurde zurückgezogen. Delegationsregeln gelten sofern gesetzt.";
 ["Z-A"] = "Z-A";
+["[Name of Language]"] = "Deutsch";
 ["[No voting privilege]"] = "[Kein Stimmrecht]";
 ["[Registered members only]"] = "[nur für Registrierte]";
 ["[event mail]       URL: #{url}"] = "         URL: #{url}";
@@ -709,7 +711,6 @@ return {
 ["day"] = "Tag";
 ["days"] = "Tage";
 ["deactivated"] = "deaktiviert";
-["delegated to"] = "delegiert an";
 ["delegates to"] = "delegiert an";
 ["delete<br /><br />"] = "löschen<br /><br />";
 ["disabled"] = "ausgeschaltet";
