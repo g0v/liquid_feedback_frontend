@@ -344,11 +344,6 @@ form.unit_selector {
   margin-top: 1ex;
 }
 
-.page_head .actions {
-  margin-top: 0.5ex;
-  margin-bottom: 1ex;
-}
-
 .slot_head {
   background-color: #fff;
   margin: 0px 10px 2ex 10px;
@@ -364,12 +359,24 @@ form.unit_selector {
   padding: 8px 10px 2px 10px;
 }
 
+.page_head .actions,
 .page_head .unit_head .content,
 .page_head .area_head .content,
 .issue .content,
 .initiative_head .content,
+.area_list .unit_head .content,
 .area_list .area .content {
-  padding: 2px 10px 8px 10px;
+  padding: 10px 10px 0 10px;
+}
+
+.page_head .actions:last-child,
+.page_head .unit_head .content:last-child,
+.page_head .area_head .content:last-child,
+.issue .content:last-child,
+.initiative_head .content:last-child,
+.area_list .unit_head .content:last-child,
+.area_list .area .content:last-child {
+  padding: 10px 10px 10px 10px;
 }
 
 .page_head .initiative_list,
@@ -386,6 +393,7 @@ form.unit_selector {
 .page_head .title,
 .issue .title,
 .initiative_head .title,
+.area_list .unit_head .unit_name,
 .area_list .area_name {
   font-weight: bold;
   font-size: 120%;
@@ -407,18 +415,44 @@ form.unit_selector {
 .issues .issue .content.actions a,
 .area_list .area .content,
 .area_list .area .content a {
-  color: #777;
+  color: #000;
 }
 
-.page_head .unit_head .title,
-.page_head .area_head .title,
-.area_list .area .title,
-.issue .title {
+x.page_head .unit_head .title,
+x.page_head .area_head .title,
+x.issue .title {
   background-color: #eee;
   background-image: linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
   background-image: -o-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
   background-image: -moz-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
   background-image: -webkit-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
+  background-image: -ms-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
+}
+
+.unit_head {
+  background-color: #cdf;
+  background-image: -webkit-linear-gradient(top, #abf 0%, #cdf 20%, #f0f7ff 100%);
+}
+
+.area_head {
+  background-color: #def;
+  background-image: -webkit-linear-gradient(top, #bef 0%, #def 20%, #f7faff 100%);
+}
+
+.issue {
+  background-color: #f0f7ff;
+  background-image: -webkit-linear-gradient(top, #f0faff 0%, #f0f7ff 20%, #fff 100%);
+}
+
+.issue .initiative_list {
+  background: #fff;
+}
+
+x {
+  background-image: linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
+  background-image: -o-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
+  background-image: -moz-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
+  background-image: -webkit-linear-gradient(top, #dde 0%, #d7d7e7 10%, #fff 100%);
   background-image: -ms-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
 }
 
@@ -491,23 +525,25 @@ form.unit_selector {
  * ui.tab
  */
 .ui_tabs {
-  margin: 10px 0px;
+  margin: 20px 0px;
 }
 
 .ui_tabs_links a {
-  padding: 0.75ex 0.6em;
+  padding: 1ex 1em;
   line-height: 225%;
   background-color: #f7f7f7;
+  background-color: #444;
+  background-image: -webkit-linear-gradient(top, #000 0%, #444 70%, #777 90%, #888 100%);
+  color: #fff;
   white-space: nowrap;
   border-radius: 5px;
-  margin-right: 5px;
+  margin-right: 2px;
   font-weight: bold;
 }
 
 .ui_tabs_links a:hover,
 .ui_tabs_links a.selected {
-  background-color: #444;
-  color: #fff;
+  box-shadow: 0px 0px 3px 3px #fc0;
   text-decoration: none;
 }
 
@@ -518,29 +554,29 @@ form.unit_selector {
 
 .ui_filter {
   overflow: auto;
+  margin: 2ex 0;
 }
 
 .ui_filter_head {
   color: #777;
-  margin-top: 1ex;
   font-size: 90%;
-  font-weight: bold;
   float: left;
   line-height: 200%;
   margin-right: 2em;
 }
 
-.ui_filter_head a {
-  color: #777;
-  padding: 0.5ex;
+.ui_filter a {
+  font-weight: bold;
+  margin-right: 0.5em;
 }
 
-.ui_filter_head a:hover,
+
 .ui_filter_head a.active {
+  text-decoration: none;
+  background-color: #555;
   color: #fff;
-  background-color: #777;
-  padding: 0.5ex;
-  border-radius: 5px;
+  padding: 0.5ex 0.5em;
+  border-radius: 4px;
 }
 
 /*************************************************************************
@@ -591,7 +627,7 @@ div.notifications {
   margin-top: 1ex;
   background-color: #fdd;
   padding: 0.5ex;
-  border: 1px solid #daa;
+  border: 1px solid #fbb;
 }
 
 .notifications ul {
@@ -780,17 +816,27 @@ div.notifications {
 /*************************************************************************
  * Area list
  */
-
-.area_list .unit_head {
-  font-size: 120%;
-  font-weight: bold;
-  margin-bottom: 1ex;
+.area_list {
+  border: 1px solid #abf;
+  border-radius: 8px;
+  margin-top: 2ex;
 }
 
 .area_list .area {
-  margin-bottom: 1ex;
+  border-bottom: 1px solid #cdf;
 }
 
+.area_list .unit_head {
+  border-radius: 8px 8px 0 0;
+}
+
+.area_list .area:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+.area_list .area:first-child {
+  border-radius: 8px 8px 0 0;
+}
 
 
 /*************************************************************************
@@ -1353,14 +1399,12 @@ div.timeline_results {
 
 /* shadows */
 
-.area_list .area,
 .initiative_head,
 .box,
 div.notifications {
   border-radius: 8px;
 }
 
-.area_list .area,
 .initiative_head,
 .box {
   border: 1px solid #aaa;
@@ -1371,7 +1415,7 @@ div.notifications {
 }
 
 .slot_head,
-.area_list .area,
+.area_list,
 .initiative_head,
 .issues .issue,
 .ui_tabs_links a,
@@ -1379,7 +1423,6 @@ div.notifications {
 .help,
 .use_terms,
 .motd,
-.ui_filter a.active,
 .vote_info .content,
 .box,
 div.notifications {

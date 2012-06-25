@@ -3,10 +3,7 @@ local for_member = param.get("for_member", atom.boolean)
 local filter_unit = param.get_all_cgi()["filter_unit"] or "my_areas"
 
 if not for_member then
-  execute.view{
-    module = "index", view = "_notifications"
-  }
-    
+
   ui.container{ attr = { class = "ui_filter" }, content = function()
     ui.container{ attr = { class = "ui_filter_head" }, content = function()
 
@@ -34,8 +31,6 @@ if not for_member then
     end }
   end }
 end
-
-  slot.put("<br />")
 
 if not for_member then
   if filter_unit == "global" then
@@ -76,15 +71,40 @@ for i, unit in ipairs(units) do
     
     local area_count = areas_selector:count()
     
-    ui.container{ attr = { class = "area_list" }, content = function()
-      ui.container{ attr = { class = "unit_head" }, content = function()
-        ui.link{
-          text = unit.name,
-          module = "unit", view = "show", id = unit.id
-        }
+    local max_area_count = Area:new_selector()
+      :add_where{ "area.unit_id = ?", unit.id }
+      :add_where{ "area.active" }
+      :count()
+    local more_area_count = max_area_count - area_count
+    local delegated_count = Area:new_selector()
+      :add_where{ "area.unit_id = ?", unit.id }
+      :add_where{ "area.active" }
+      :left_join("membership", nil, { "membership.area_id = area.id AND membership.member_id = ?", member.id } )
+      :add_where{ "membership.member_id ISNULL" }
+      :join("delegation", nil, { "delegation.area_id = area.id AND delegation.truster_id = ?", member.id } )
+      :add_where{ "delegation.trustee_id NOTNULL" }
+      :count()
 
-        execute.view{ module = "delegation", view = "_info", params = { unit = unit } }
-      end }
+    local more_area_text
+    if area_count == 0 and more_area_count == 1 then
+      more_area_text = _("You are not participating in the only area of the unit")
+    elseif area_count == 0 and more_area_count > 0 then
+      more_area_text = _("You are not participating in any of the #{count} areas in this unit", { count = more_area_count })
+    elseif area_count > 0 and more_area_count == 1 then
+      more_area_text = _("One more area in this unit")
+    elseif area_count > 0 and more_area_count > 0 then
+      more_area_text = _("#{count} more areas in this unit", { count = more_area_count })
+    end
+    local delegated_text
+    if delegated_count == 1 then
+      delegated_text = _("One of them have an area delegation set", { count = delegated_count })
+    elseif delegated_count > 0 then
+      delegated_text = _("#{count} of them have an area delegation set", { count = delegated_count })
+    end
+
+              ui.container{ attr = { class = "area_list" }, content = function()
+
+    execute.view{ module = "unit", view = "_head", params = { unit = unit, show_content = true } }
 
       if area_count > 0 then
         local areas = areas_selector:exec()
@@ -95,57 +115,23 @@ for i, unit in ipairs(units) do
             }
           }
         end
-      elseif member:has_voting_right_for_unit_id(unit.id) then
-        ui.container{ attr = { class = "area" }, content = function()
-          ui.container{ attr = { class = "content" }, content = function()
-            slot.put("<br />")
-            if for_member then
-              ui.tag{ content = _"This member has voting privileges for this unit, but you ist not member of any of its areas." }
-            else
-              ui.tag{ content = _"You have voting privileges for this unit, but you are not member of any of its areas." }
-            end
-          end }
-        end }
       end
-      local max_area_count = Area:new_selector()
-        :add_where{ "area.unit_id = ?", unit.id }
-        :add_where{ "area.active" }
-        :count()
-      local more_area_count = max_area_count - area_count
-      local delegated_count = Area:new_selector()
-        :add_where{ "area.unit_id = ?", unit.id }
-        :add_where{ "area.active" }
-        :left_join("membership", nil, { "membership.area_id = area.id AND membership.member_id = ?", member.id } )
-        :add_where{ "membership.member_id ISNULL" }
-        :join("delegation", nil, { "delegation.area_id = area.id AND delegation.truster_id = ?", member.id } )
-        :add_where{ "delegation.trustee_id NOTNULL" }
-        :count()
-      if more_area_count > 0 then
+  
+      if area_count == 0 and member:has_voting_right_for_unit_id(unit.id) or
+         more_area_count > 0 then
+        
         ui.container{ attr = { class = "area" }, content = function()
           ui.container{ attr = { class = "content" }, content = function()
-            slot.put("<br />")
-            local text
-            if more_area_count == 1 then
-              text = _("One more area in this unit")
-            else
-              text = _("#{count} more areas in this unit", { count = more_area_count })
+            if more_area_text then
+              ui.link{ module = "unit", view = "show", id = unit.id, text = more_area_text }
             end
-            ui.link{ module = "unit", view = "show", id = unit.id, text = text }
-            if delegated_count > 0 then
+            if delegated_text then
               slot.put(" &middot; ")
-              local text
-              if delegated_count == 1 then
-                text = _("One of them have an area delegation set", { count = delegated_count })
-              else
-                text = _("#{count} of them have an area delegation set", { count = delegated_count })
-              end
-              ui.tag{ content = text }
+              ui.tag{ content = delegated_text }
             end
           end }
         end }
       end
-      slot.put("<br />")
-      slot.put("<br />")
     end }
   end
 end

@@ -1,17 +1,12 @@
 local area = param.get("area", "table")
 
 ui.container{ attr = { class = "area" }, content = function()
-  execute.view{ module = "delegation", view = "_info", params = { area = area } }
 
-  ui.container{ attr = { class = "title" }, content = function()
-    -- area name
-    ui.link{
-      module = "area", view = "show", id = area.id,
-      attr = { class = "area_name" }, content = area.name 
-    }
-  end }
+  execute.view{ module = "area", view = "_head", params = { area = area, hide_unit = true, show_content = true } }
   
   ui.container{ attr = { class = "content" }, content = function()
+    ui.tag{ content = _"Issues:" }
+    slot.put(" ")
     ui.link{ 
       module = "area", view = "show", id = area.id, params = { tab = "open", filter = "new" },
       text = _("#{count} new", { count = area.issues_new_count }) 

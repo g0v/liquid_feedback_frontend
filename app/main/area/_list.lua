@@ -29,13 +29,9 @@ else
   areas_selector:add_field("0", "issues_to_vote_count")
 end
 
-slot.put("<br />")
-
-for i, area in ipairs(areas_selector:exec()) do
-  
-  ui.container{ attr = { class = "area_list" }, content = function()
+ui.container{ attr = { class = "area_list" }, content = function()
+  for i, area in ipairs(areas_selector:exec()) do
     execute.view { module = "area", view = "_list_entry", params = { area = area } }
-  end }
-  
-end
+  end 
+end }
 

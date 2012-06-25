@@ -4,7 +4,9 @@ local show_content = param.get("show_content", atom.boolean)
 
 area:load_delegation_info_once_for_member_id(app.session.member_id)
 
-execute.view{ module = "unit", view = "_head", params = { unit = area.unit } }
+if not param.get("hide_unit", atom.boolean) then
+  execute.view{ module = "unit", view = "_head", params = { unit = area.unit } }
+end
 
 ui.container{ attr = { class = "area_head" }, content = function()
 

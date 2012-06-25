@@ -10,6 +10,8 @@ local closed_issues_selector = area:get_reference_selector("issues")
 
 local members_selector = area:get_reference_selector("members"):add_where("member.active")
 local delegations_selector = area:get_reference_selector("delegations")
+  :join("member", "truster", "truster.id = delegation.truster_id AND truster.active")
+  :join("member", "trustee", "trustee.id = delegation.trustee_id AND trustee.active")
 
 local tabs = {
   module = "area",
