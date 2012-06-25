@@ -33,7 +33,9 @@ p {
   margin-top: 2ex;
   margin-bottom: 2ex;
 }
-
+a {
+  text-decoration: underline;
+}
 table {
   border-collapse: separate;
   border-spacing: 0;
@@ -161,9 +163,12 @@ h2 {
 
 .topbar {
   background-color: #333;
-  background-image: -webkit-gradient(linear, left top, left bottom, 
-    color-stop(0%, #888), color-stop(25%,#333)
-  );
+  background: -webkit-linear-gradient(top, #777, #000);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #777), color-stop(100%,#000));
+  background: -moz-linear-gradient(#777, #000);
+  background: -ms-linear-gradient(#777, #000);
+  background: -o-linear-gradient(#777, #000);
+  background: linear-gradient(#777, #000);
   font-size: 90%;
   box-shadow: #aaa 0 0 5px;
   xoverflow: auto;
@@ -213,6 +218,10 @@ form.unit_selector {
 .topbar .navigation_right {
   float: right;
   padding-right: 1%;
+}
+
+.topbar ul {
+  list-style-type: none;
 }
 
 
@@ -304,6 +313,7 @@ form.unit_selector {
   background-color: #fff;
   margin: 0px 1% 2ex 1%;
   border: 1px solid #555;
+  border-top: none;
   border-radius: 0 0 8px 8px;
 }
 
@@ -414,7 +424,12 @@ div.notifications {
 
 .unit_head {
   background-color: #44a;
-  background-image: -webkit-linear-gradient(top, #67d, #23a);
+  background: -webkit-linear-gradient(top, #67d, #23a);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #67d), color-stop(100%,#23a));
+  background: -moz-linear-gradient(#67d, #23a);
+  background: -ms-linear-gradient(#67d, #23a);
+  background: -o-linear-gradient(#67d, #23a);
+  background: linear-gradient(#67d, #23a);
   color: #fff;
 }
 
@@ -432,24 +447,24 @@ div.notifications {
 .area_head,
 .area_list .area_head {
   background-color: #abf;
-  background-image: -webkit-linear-gradient(top, #cdf, #abe);
+  background: -webkit-linear-gradient(top, #cdf, #abe);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cdf), color-stop(100%,#abe));
+  background: -moz-linear-gradient(#cdf, #abe);
+  background: -ms-linear-gradient(#cdf, #abe);
+  background: -o-linear-gradient(#cdf, #abe);
+  background: linear-gradient(#cdf, #abe);
 }
 
 .area_list .area > .content,
 .issue {
   background-color: #e0e9ff;
-  background-image: -webkit-linear-gradient(top, #f7faff, #e0e9ff);
+  background: -webkit-linear-gradient(top, #f7faff, #e0e9ff);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f7faff), color-stop(100%,#e0e9ff));
+  background: -moz-linear-gradient(#f7faff, #e0e9ff);
+  background: -ms-linear-gradient(#f7faff, #e0e9ff);
+  background: -o-linear-gradient(#f7faff, #e0e9ff);
+  background: linear-gradient(#f7faff, #e0e9ff);
 }
-
-
-x {
-  background-image: linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
-  background-image: -o-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
-  background-image: -moz-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
-  background-image: -webkit-linear-gradient(top, #dde 0%, #d7d7e7 10%, #fff 100%);
-  background-image: -ms-linear-gradient(top, #eee 0%, #f7f7f7 10%, #fff 100%);
-}
-
 
 .delegation_info {
   float: right;
@@ -478,7 +493,7 @@ x {
 }
 
 .delegation_info .micro_avatar.highlighted {
-  margin: none;
+  margin: 0;
   border: 2px solid #f90;
 }
 
@@ -524,7 +539,12 @@ x {
   padding: 1ex 1em;
   line-height: 300%;
   background-color: #444;
-  background-image: -webkit-linear-gradient(top, #000, #666);
+  background: -webkit-linear-gradient(top, #000, #666);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #000), color-stop(100%,#666));
+  background: -moz-linear-gradient(#000, #666);
+  background: -ms-linear-gradient(#000, #666);
+  background: -o-linear-gradient(#000, #666);
+  background: linear-gradient(#000, #666);
   color: #fff;
   white-space: nowrap;
   border-radius: 8px;
@@ -625,8 +645,14 @@ x {
 div.notifications {
   margin-top: 1ex;
   background-color: #fda;
+  background: -webkit-linear-gradient(top, #fec, #fc9);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fec), color-stop(100%,#fc9));
+  background: -moz-linear-gradient(#fec, #fc9);
+  background: -ms-linear-gradient(#fec, #fc9);
+  background: -o-linear-gradient(#fec, #fc9);
+  background: linear-gradient(#fec, #fc9);
   padding: 0.5ex;
-  border: 1px solid #fa0;
+  border: 1px solid #fc0;
 }
 
 .notifications ul {
