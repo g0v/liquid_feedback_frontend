@@ -6,3 +6,4 @@ Unten findest du 4 Reiter:
 - **Letzte Ereignisse:** Ereignisse aus deinen Themenbereichen und Themen sowie die globale Zeitlinie
 - **Offene Themen:** Alle Themen, die zur Zeit offen sind, also Neu, in Diskussion, Eingefroren oder in Abstimmung
 - **Geschlossene Themen:** Alle Themen, die bereits abgestimmt sind oder die abgebrochen wurden
+- **Mitglieder:** Alle aktiven Mitglieder
