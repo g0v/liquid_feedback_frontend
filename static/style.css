@@ -1145,16 +1145,17 @@ x.initiative_link.potentially_supported {
 }
 
 .admitted_info {
-  background-color: #dfd;
+  background-color: #afc;
   padding: 1ex;
-  border-radius: 8px;
+  border-radius: 0 0 8px 8px;
 }
 
 .not_admitted_info,
 .revoked_info {
-  background-color: #fdd;
+  background-color: #fbb;
   padding: 1ex;
   border-radius: 8px;
+  border-radius: 0 0 8px 8px;
 }
 
 .draft_updated_info,
