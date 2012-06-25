@@ -13,17 +13,17 @@ ui.container{ attr = { class = "area" }, content = function()
     }
     slot.put(" &middot; ")
     ui.link{ 
-      module = "area", view = "show", id = area.id, params = { tab = "open", filter = "discussion" },
+      module = "area", view = "show", id = area.id, params = { tab = "open", filter = "accepted" },
       text = _("#{count} in discussion", { count = area.issues_discussion_count }) 
     }
     slot.put(" &middot; ")
     ui.link{ 
-      module = "area", view = "show", id = area.id, params = { tab = "open", filter = "verification" },
+      module = "area", view = "show", id = area.id, params = { tab = "open", filter = "half_frozen" },
       text = _("#{count} in verification", { count = area.issues_frozen_count }) 
     }
     slot.put(" &middot; ")
     ui.link{ 
-      module = "area", view = "show", id = area.id, params = { tab = "open", filter = "voting" },
+      module = "area", view = "show", id = area.id, params = { tab = "open", filter = "frozen" },
       text = _("#{count} in voting", { count = area.issues_voting_count }) 
     }
     slot.put(" &middot; ")
