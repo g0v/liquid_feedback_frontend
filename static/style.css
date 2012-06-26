@@ -56,8 +56,7 @@ body {
 
 body, th, td {
   font-family: sans-serif;
-  font-size: 15px;
-  font-size: 14px;
+  font-size: 10pt;
   padding: 0;
   margin: 0;
 }
@@ -318,6 +317,7 @@ form.unit_selector {
 }
 
 
+.member_thumb,
 .member_statement,
 .draft_content,
 .suggestion_content,
@@ -338,7 +338,6 @@ div.notifications {
   box-shadow: #777 0px 5px 5px -5px;
   -mox-box-shadow: #777 0px 5px 5px -5px;
   -webkit-box-shadow: #ddd 3px 3px 3px -1px;
-  clear: both;
 }
 
 .slot_head > div:last-child {
@@ -1047,21 +1046,22 @@ x.initiative_link.potentially_supported {
 
 .member_list .member_thumb {
   float: left;
-  margin-right: 1em;
-  margin-bottom: 2ex;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .member_thumb {
   text-decoration: none;
-  width: 14.5em;
+  width: 205px;
   height: 48px;
   display: block;
   float: left;
   background-color: #f2f2f2;
   overflow: hidden;
   position: relative;
-  border-radius: 7px;
+  border-radius: 8px;
   padding: 2px;
+  border: 1px solid #aaa;
 }
 
 .member_thumb a:hover div {
@@ -1086,7 +1086,6 @@ x.initiative_link.potentially_supported {
 
 .member_thumb .flags {
   float: right;
-  font-size: 75%;
 }
 
 .member_thumb .flags a,
@@ -1106,7 +1105,8 @@ x.initiative_link.potentially_supported {
 
 .member_thumb.not_accepted,
 .member_thumb.not_informed {
-  background: #fff;
+  border: 1px solid #ccc;
+  color: #777;
 }
 
 .member_thumb.not_accepted .member_image,
@@ -1116,12 +1116,9 @@ x.initiative_link.potentially_supported {
   opacity: 0.4;
 }
 
-.member_thumb {
-  border: 2px solid #fff;
-}
-
 .member_thumb.in_delegation_chain {
-  border: 2px solid #f90;
+  background-color: #fda;
+  xborder: 2px solid #f90;
 }
 
 
