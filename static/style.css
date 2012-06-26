@@ -659,7 +659,7 @@ div.notifications {
  */
 
 div.notifications {
-  margin-top: 1ex;
+  margin-top: 20px;
   background-color: #fda;
   background: -webkit-linear-gradient(top, #fec, #fc9);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fec), color-stop(100%,#fc9));
