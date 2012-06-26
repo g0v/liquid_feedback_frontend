@@ -10,7 +10,7 @@ return {
 ["#{count} new"] = "#{count} neue";
 ["#{count} of them have an area delegation set"] = "bei #{count} davon ist eine Delegation für den Themenbereichs gesetzt";
 ["#{count} of your outgoing delegation(s) are broken"] = "#{count} deiner ausgehenden Delegationen sind kaputt";
-["#{date} at #{time}"] = "am #{date} im #{time}";
+["#{date} at #{time}"] = "am #{date} um #{time}";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} Themen";
 ["#{name}\n\n"] = "#{name}\n\n";
