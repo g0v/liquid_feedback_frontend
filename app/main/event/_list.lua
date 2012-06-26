@@ -38,12 +38,19 @@ local last_event_id
 
 local events = event_selector:exec()
 
+local issues = events:load("issue")
+issues:load_everything_for_member_id(app.session.member_id)
+
+events:load("initiative")
+events:load("suggestion")
+events:load("member")
+
+
 ui.container{ attr = { class = "issues events" }, content = function()
 
   local last_event_date
   for i, event in ipairs(events) do
     last_event_id = event.id
-    event.issue:load_everything_for_member_id(app.session.member_id)
 
     ui.container{ attr = { class = "event_info" }, content = function()
       local event_name = event.event_name

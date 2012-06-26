@@ -11,6 +11,14 @@ Event:add_reference{
 
 Event:add_reference{
   mode          = 'm1',
+  to            = "Initiative",
+  this_key      = 'initiative_id',
+  that_key      = 'id',
+  ref           = 'initiative',
+}
+
+Event:add_reference{
+  mode          = 'm1',
   to            = "Suggestion",
   this_key      = 'suggestion_id',
   that_key      = 'id',
