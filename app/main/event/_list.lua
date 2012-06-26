@@ -45,7 +45,7 @@ ui.container{ attr = { class = "issues events" }, content = function()
     last_event_id = event.id
     event.issue:load_everything_for_member_id(app.session.member_id)
 
-    ui.container{ attr = { class = "issue_policy_info" }, content = function()
+    ui.container{ attr = { class = "event_info" }, content = function()
       if (app.session.member_id or config.public_access == "pseudonym") and event.member_id then
         if app.session.member_id then
           ui.link{

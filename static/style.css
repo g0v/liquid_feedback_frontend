@@ -910,37 +910,32 @@ div.notifications {
   border: 1px solid #b2cdff;
 }
 
-.issue .issue_info {
-  padding: 1ex 1ex 0.3ex 1ex;
-  line-height: 140%;
-  margin-bottom: 1ex;
-}
-
-.event_list .event .issue_id,
-.issue .issue_info .issue_id {
-  font-size: 125%;
-}
-
 .issue .suggestion {
   margin-left: 1ex;
   margin-bottom: 1ex;
   font-weight: bold;
 }
 
-.issue_policy_info {
-  line-height: 200%;
+.event_info {
+  float: left;
   display: inline;
-  padding: 5px;
+  padding: 6px 6px 1px 6px;
   background-color: #d0ddff;
   color: #000;
   font-style: italic;
   border-radius: 8px 8px 0 0;
 }
 
-.events .issue { 
+.event_info img {
+  vertical-align: middle;
+}
+
+.events .issue {
+  clear: left;
   border-radius: 0 8px 8px 8px;
 }
 
+.event_info .event_name,
 .issue_policy_info .event_name {
   font-weight: bold;
 }
