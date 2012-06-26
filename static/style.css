@@ -50,7 +50,7 @@ caption, th, td {
  */
 
 body {
-  background: #f8f8f9;
+/*   background: #f8f8f9; */
   line-height: 120%:
 }
 
@@ -174,7 +174,7 @@ h2 {
   border-top: 1px solid #333;
   line-height: 35px;
   padding-top: 5px;
-  font-size: 120%;
+  font-size: 115%;
 }
 
 .logo_liquidfeedback {
@@ -302,7 +302,7 @@ form.unit_selector {
  */
 
 .slot_title {
-  font-size: 120%;
+  font-size: 115%;
   font-weight: bold;
   margin-left: 10px;
   margin-right: 10px;
@@ -347,9 +347,12 @@ div.notifications {
 
 .page_head .title,
 .issue .context,
-.initiative_head .title,
-.area_list .title {
+.initiative_head .title {
   padding: 8px 10px 2px 10px;
+}
+
+.area_list .title {
+  padding: 8px 10px 0px 10px;
 }
 
 .issue .title {
@@ -367,7 +370,8 @@ div.notifications {
 .initiative_head .content,
 .area_list .unit_head .content,
 .area_list .area .content {
-  padding: 10px 10px 0 10px;
+  padding: 3px 10px 3px 10px;
+  line-height: 120%;
 }
 
 .page_head .actions:last-child,
@@ -377,7 +381,7 @@ div.notifications {
 .initiative_head .content:last-child,
 .area_list .unit_head .content:last-child,
 .area_list .area .content:last-child {
-  padding: 10px 10px 10px 10px;
+  padding: 3px 10px 6px 10px;
 }
 
 .page_head .initiative_list,
@@ -400,7 +404,7 @@ div.notifications {
 .area_list .unit_head .unit_name,
 .area_list .area_name {
   font-weight: bold;
-  font-size: 120%;
+  font-size: 115%;
 }
 
 .page_head .area_head .content,
@@ -546,7 +550,7 @@ div.notifications {
 }
 
 .ui_tabs_links a {
-  padding: 1.25ex 1em;
+  padding: 7px 10px;
   background-color: #444;
   background: -webkit-linear-gradient(top, #777, #000);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #777), color-stop(100%,#000));
@@ -557,13 +561,16 @@ div.notifications {
   color: #fff;
   white-space: nowrap;
   border-radius: 8px;
+  font-size: 115%;
   font-weight: bold;
   margin: 2px;
+  margin-right: 4px;
 }
 
 .ui_tabs_links a:hover,
 .ui_tabs_links a.selected {
   margin: 0;
+  margin-right: 2px;
   border: 2px solid #f90;
   box-shadow: 0px 0px 3px 1px #f90;
 }
@@ -579,7 +586,7 @@ div.notifications {
 
 .ui_filter {
   overflow: auto;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .ui_filter_head {
@@ -1275,17 +1282,17 @@ x.initiative_link.potentially_supported {
 }
 
 .wiki h1 {
-  font-size: 150%;
+  font-size: 133%;
   font-weight: bold;
 }
 
 .wiki h2 {
-  font-size: 125%;
+  font-size: 115%;
   font-weight: bold;
 }
 
 .wiki h3 {
-  font-size: 125%;
+  font-size: 115%;
 }
 
 .wiki h4 {
@@ -1319,7 +1326,7 @@ a.not_voted {
 
 .heading {
   display: block;
-  font-size: 120%;
+  font-size: 115%;
   font-weight: bold;
 }
 
