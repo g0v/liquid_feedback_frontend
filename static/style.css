@@ -922,7 +922,7 @@ div.notifications {
   overflow: hidden;
   border: 1px solid #d0ddff;
   border-radius: 8px;
-  margin-bottom: 2ex;
+  margin-bottom: 4ex;
 }
 
 .issue.interested,
