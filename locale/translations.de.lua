@@ -614,6 +614,7 @@ return {
 ["Verification starts soon"] = "Phase Eingefroren startet in Kürze";
 ["Verification time"] = "Zeit für Eingefroren";
 ["Version"] = "Version";
+["Vote now"] = "Jetzt abstimmen";
 ["Voted"] = "Abgestimmt";
 ["Voted no"] = "Mit Nein gestimmt";
 ["Voted proposal"] = "Abgestimmte Vorlage";
@@ -621,7 +622,6 @@ return {
 ["Voting"] = "Abstimmung";
 ["Voting details"] = "Abstimmdetails";
 ["Voting for this issue has already begun."] = "Die Abstimmung für dieses Thema hat schon begonnen.";
-["Voting for this issue is currently running!"] = "Über dieses Thema wird gerade abgestimmt!";
 ["Voting has not started yet."] = "Die Abstimmung hat noch nicht begonnen.";
 ["Voting proposal"] = "Abstimmungsvorlage";
 ["Voting started"] = "Abstimmung begonnen";

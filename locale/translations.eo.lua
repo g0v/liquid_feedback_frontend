@@ -614,6 +614,7 @@ return {
 ["Verification starts soon"] = false;
 ["Verification time"] = "Tempo por la kontrolo";
 ["Version"] = "Versio";
+["Vote now"] = false;
 ["Voted"] = "Balotita";
 ["Voted no"] = "Balotita nee";
 ["Voted proposal"] = "Propono balotita";
@@ -621,7 +622,6 @@ return {
 ["Voting"] = "Voĉdono";
 ["Voting details"] = "Voĉdonodetaloj";
 ["Voting for this issue has already begun."] = "Voĉdono pri tiu temo jam komenciĝis.";
-["Voting for this issue is currently running!"] = "Voĉdono pri tiu temo okazas nun!";
 ["Voting has not started yet."] = "Voĉdono por ĉi tiu temo ankoraŭ ne komenciĝis.";
 ["Voting proposal"] = "Privoĉdonendaj proponoj";
 ["Voting started"] = "Voĉdono komenciĝis";

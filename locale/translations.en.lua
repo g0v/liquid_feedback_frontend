@@ -614,6 +614,7 @@ return {
 ["Verification starts soon"] = false;
 ["Verification time"] = false;
 ["Version"] = false;
+["Vote now"] = false;
 ["Voted"] = false;
 ["Voted no"] = false;
 ["Voted proposal"] = false;
@@ -621,7 +622,6 @@ return {
 ["Voting"] = false;
 ["Voting details"] = false;
 ["Voting for this issue has already begun."] = false;
-["Voting for this issue is currently running!"] = false;
 ["Voting has not started yet."] = false;
 ["Voting proposal"] = false;
 ["Voting started"] = false;

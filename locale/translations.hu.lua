@@ -614,6 +614,7 @@ return {
 ["Verification starts soon"] = "Rövidesen kezdõdik az ellenõrzés";
 ["Verification time"] = "Ellenõrzési idõ";
 ["Version"] = "Verzió";
+["Vote now"] = false;
 ["Voted"] = "Szavazott";
 ["Voted no"] = "Nemmel szavazott";
 ["Voted proposal"] = "Szavazott javaslat";
@@ -621,7 +622,6 @@ return {
 ["Voting"] = "Szavazás";
 ["Voting details"] = "Szavazás részletei";
 ["Voting for this issue has already begun."] = "Már megkezdõdött a szavazás errõl a témáról.";
-["Voting for this issue is currently running!"] = "Már folyamatban van a szavazás errõl a témáról!";
 ["Voting has not started yet."] = "Még nem kezdõdött el a szavazás.";
 ["Voting proposal"] = "Szavazási javaslat";
 ["Voting started"] = "A szavazás megkezdõdött";

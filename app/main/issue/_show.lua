@@ -12,7 +12,7 @@ end
 local voteable = app.session.member_id and issue.state == 'voting' and
        app.session.member:has_voting_right_for_unit_id(issue.area.unit_id)
 
-local vote_link_text = direct_voter and _"Change vote" or "Vote now"
+local vote_link_text = direct_voter and _"Change vote" or _"Vote now"
 
 
 local class = "issue"

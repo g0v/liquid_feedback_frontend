@@ -614,6 +614,7 @@ return {
 ["Verification starts soon"] = "Η επιβεβαίωση αρχίζει σύντομα";
 ["Verification time"] = "Χρόνος επιβεβαίωσης";
 ["Version"] = "Έκδοση";
+["Vote now"] = false;
 ["Voted"] = "Ψήφισε";
 ["Voted no"] = "Ψήφισε όχι";
 ["Voted proposal"] = "Ψηφισμένη πρόταση";
@@ -621,7 +622,6 @@ return {
 ["Voting"] = "Ψηφοφορία";
 ["Voting details"] = "Λεπτομέρειες ψηφοφορίας";
 ["Voting for this issue has already begun."] = "Η ψηφοφορία για αυτό το θέμα έχει ξεκινήσει ήδη.";
-["Voting for this issue is currently running!"] = "Η ψηφοφορία για το θέμα αυτό βρίσκεται σε εξέλιξη!";
 ["Voting has not started yet."] = "Η ψηφοφορία δεν ξεκίνησε ακόμα.";
 ["Voting proposal"] = "Πρόταση υπό ψηφοφορία";
 ["Voting started"] = "Η ψηφοφορία ξεκίνησε";
