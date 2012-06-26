@@ -190,8 +190,7 @@ h2 {
 }
 
 .topbar a:hover, 
-.topbar a:hover .logo_liquid,
-.topbar a:hover .logo_feedback {
+.topbar a:hover .logo_liquidfeedback {
   color: #f90;
 }
 
