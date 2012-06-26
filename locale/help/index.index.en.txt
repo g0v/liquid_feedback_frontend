@@ -1,7 +1,7 @@
 = Welcome to LiquidFeedback and your homepage =
 All over the system, you'll find these boxes with help texts. You can switch off each help text, by clicking on "hide this help message" in the upper right corner of the yellow box, and switch it on again, by clicking on the small blue question mark in the menu bar above.
 
-Below you see 4 tabulators:
+Below you find: 
 - **Home:** Here you can switch between showing either (1) subject areas you want to participate in, (2) all subject areas of those organizational units you're member of, or (3) all organizational units
 - **Latest events:** Events in your subject areas and your issues, as well as the global timeline
 - **Open issues:** All issues, which are currently open, i.e. new, in discussion, frozen or for voting
