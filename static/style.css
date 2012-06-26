@@ -860,13 +860,13 @@ div.notifications {
  * Area list
  */
 .area_list {
-  border: 1px solid #54c;
+  border: 1px solid #444;
   border-radius: 10px;
   margin-top: 2ex;
 }
 
 .area_list .area {
-  border-top: 2px solid #44a;
+  border-top: 1px solid #444;
 }
 
 .area_list .area:first-child {
