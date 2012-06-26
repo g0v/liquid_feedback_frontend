@@ -418,12 +418,12 @@ div.notifications {
 
 .unit_head {
   background-color: #44a;
-  background: -webkit-linear-gradient(top, #67d, #23a);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #67d), color-stop(100%,#23a));
-  background: -moz-linear-gradient(#67d, #23a);
-  background: -ms-linear-gradient(#67d, #23a);
-  background: -o-linear-gradient(#67d, #23a);
-  background: linear-gradient(#67d, #23a);
+  background: -webkit-linear-gradient(top, #56f, #237);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #56f), color-stop(100%,#237));
+  background: -moz-linear-gradient(#56f, #237);
+  background: -ms-linear-gradient(#56f, #237);
+  background: -o-linear-gradient(#56f, #237);
+  background: linear-gradient(#56f, #237);
   color: #fff;
 }
 
