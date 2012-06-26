@@ -177,13 +177,9 @@ h2 {
   font-size: 120%;
 }
 
-.logo_liquid,
-.logo_feedback {
+.logo_liquidfeedback {
   font-weight: bold;
   color: #fff;
-}
-
-.logo_liquid {
   margin-left: 6px;
 }
 
