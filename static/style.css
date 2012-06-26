@@ -173,7 +173,8 @@ h2 {
   -mox-box-shadow: #aaa 0 0 5px;
   -webkit-box-shadow: #aaa 0 0 5px;
   border-top: 1px solid #333;
-  line-height: 30px;
+  line-height: 35px;
+  padding-top: 5px;
 }
 
 .topbar .logolf {
@@ -542,7 +543,7 @@ div.notifications {
 }
 
 .ui_tabs_links a {
-  padding: 1.33ex 1em;
+  padding: 1.25ex 1em;
   background-color: #444;
   background: -webkit-linear-gradient(top, #777, #000);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #777), color-stop(100%,#000));
