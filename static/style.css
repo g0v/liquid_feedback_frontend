@@ -944,12 +944,12 @@ div.notifications {
   display: inline;
   padding: 10px;
   background-color: #444;
-  background: -webkit-linear-gradient(top, #666, #222);
+  background: -webkit-linear-gradient(top, #888, #222);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #888), color-stop(100%,#222));
-  background: -moz-linear-gradient(#666, #222);
-  background: -ms-linear-gradient(#666, #222);
-  background: -o-linear-gradient(#666, #222);
-  background: linear-gradient(#666, #222);
+  background: -moz-linear-gradient(#888, #222);
+  background: -ms-linear-gradient(#888, #222);
+  background: -o-linear-gradient(#888, #222);
+  background: linear-gradient(#888, #222);
   color: #fff;  font-style: italic;
   border-radius: 8px 0 0 8px;
 }
