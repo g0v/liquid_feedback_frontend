@@ -169,17 +169,22 @@ h2 {
   background: -o-linear-gradient(#777, #000);
   background: linear-gradient(#777, #000);
   box-shadow: #aaa 0 0 5px;
-  xoverflow: auto;
   -mox-box-shadow: #aaa 0 0 5px;
   -webkit-box-shadow: #aaa 0 0 5px;
   border-top: 1px solid #333;
   line-height: 35px;
   padding-top: 5px;
+  font-size: 120%;
 }
 
-.topbar .logolf {
-  margin-left: 6px;
+.logo_liquid,
+.logo_feedback {
   font-weight: bold;
+  color: #fff;
+}
+
+.logo_liquid {
+  margin-left: 6px;
 }
 
 .topbar .instance_name,
@@ -188,7 +193,9 @@ h2 {
   line-height: 30px;
 }
 
-.topbar  a:hover {
+.topbar a:hover, 
+.topbar a:hover .logo_liquid,
+.topbar a:hover .logo_feedback {
   color: #f90;
 }
 
@@ -272,6 +279,7 @@ form.unit_selector {
 #member_menu ul li a {
   float: none;
   background: #000;
+  font-size: 80%;
 }
 
 #member_menu ul ul {

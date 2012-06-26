@@ -4,7 +4,8 @@ slot.select('navigation', function()
 
   ui.link{
     content = function()
-      ui.tag{ attr = { class = "logolf" }, content = _"LiquidFeedback" }
+      ui.tag{ attr = { class = "logo_liquid" }, content = "Liquid" }
+      ui.tag{ attr = { class = "logo_feedback" }, content = "Feedback" }
       slot.put(" &middot; ")
       ui.tag{ content = config.instance_name }
     end,
