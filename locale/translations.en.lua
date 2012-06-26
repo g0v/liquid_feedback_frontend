@@ -494,6 +494,7 @@ return {
 ["Search members"] = false;
 ["Search results for: '#{search}'"] = false;
 ["Search term (only complete words)"] = false;
+["Select language"] = false;
 ["Select language \"#{langcode}\""] = false;
 ["Send invite?"] = false;
 ["Set URL"] = false;

@@ -494,6 +494,7 @@ return {
 ["Search members"] = "Keresés a tagok között";
 ["Search results for: '#{search}'"] = "Keresési találatok ('#{search}')";
 ["Search term (only complete words)"] = "Keresési kulcs(ok) (csak egész szavakkal)";
+["Select language"] = false;
 ["Select language \"#{langcode}\""] = "\"#{langcode}\" nyelv választása";
 ["Send invite?"] = "Mehet a meghívó?";
 ["Set URL"] = "URL beállítása";

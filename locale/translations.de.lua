@@ -494,6 +494,7 @@ return {
 ["Search members"] = "Suche Mitglieder";
 ["Search results for: '#{search}'"] = "Suchergebnisse für: '#{search}'";
 ["Search term (only complete words)"] = "Suchbegriff(e) (nur ganze Wörter)";
+["Select language"] = "Sprache wählen";
 ["Select language \"#{langcode}\""] = "Sprache \"#{langcode}\" wählen";
 ["Send invite?"] = "Einladung schicken?";
 ["Set URL"] = "URL setzen";

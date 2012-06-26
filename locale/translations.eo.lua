@@ -494,6 +494,7 @@ return {
 ["Search members"] = "Serĉi membrojn";
 ["Search results for: '#{search}'"] = "Serĉorezultoj por: '#{search}'";
 ["Search term (only complete words)"] = false;
+["Select language"] = false;
 ["Select language \"#{langcode}\""] = "Elekti lingvon \"#{langcode}\"";
 ["Send invite?"] = false;
 ["Set URL"] = "Meti URLon";

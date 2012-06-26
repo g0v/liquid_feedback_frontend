@@ -17,6 +17,7 @@ return {
 ["#{number} Image(s) has been deleted"] = "Διαγράφηκαν #{number} εικόνες";
 ["#{number} Image(s) has been updated"] = "Ενημερώθηκαν #{number} εικόνες";
 ["#{policy_name} ##{issue_id}"] = false;
+["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = "απομένουν #{time_left}";
 ["(#{more_count} duplicates removed)"] = "(Αφαιρέθηκαν #{more_count} αντίγραφα)";
 ["(new window)"] = "(νέο παράθυρο)";
@@ -493,6 +494,7 @@ return {
 ["Search members"] = "Αναζήτηση μελών";
 ["Search results for: '#{search}'"] = "Αποτελέσματα αναζήτησης για: '#{search}'";
 ["Search term (only complete words)"] = "Όροι αναζήτησης (μόνο πλήρεις λέξεις)";
+["Select language"] = false;
 ["Select language \"#{langcode}\""] = "Επιλογή γλώσσας \"#{langcode}\"";
 ["Send invite?"] = "Αποστολή πρόσκλησης;";
 ["Set URL"] = "Ορισμός URL";
@@ -687,14 +689,15 @@ return {
 ["Your support has been updated to the latest draft"] = "Η υποστήριξή σας έχει ενημερωθεί επί του τελευταίου σχεδίου";
 ["Your vote has been discarded. Delegation rules apply if set."] = "Η ψήφος σας έχει ανακληθεί. Οι κανόνες ανάθεσης ισχύουν αν έχουν οριστεί.";
 ["Z-A"] = "Ω-Α";
+["[Name of Language]"] = false;
 ["[No voting privilege]"] = "[Χωρίς δικαίωμα ψήφου]";
 ["[Registered members only]"] = "[Μόνο εγγεγραμμένα μέλη]";
-["[event mail]       URL: #{url}"]    = "         URL: #{url}";
-["[event mail]      Area: #{name}"]   = "      Τομέας: #{name}";
-["[event mail]      Unit: #{name}"]   = "     Ενότητα: #{name}";
-["[event mail]     Event: #{event}"]  = "      Συμβάν: #{event}";
-["[event mail]     Issue: ##{id}"]    = "        Θέμα: ##{id}";
-["[event mail]     Phase: #{phase}"]  = "      Στάδιο: #{phase}";
+["[event mail]       URL: #{url}"] = "         URL: #{url}";
+["[event mail]      Area: #{name}"] = "      Τομέας: #{name}";
+["[event mail]      Unit: #{name}"] = "     Ενότητα: #{name}";
+["[event mail]     Event: #{event}"] = "      Συμβάν: #{event}";
+["[event mail]     Issue: ##{id}"] = "        Θέμα: ##{id}";
+["[event mail]     Phase: #{phase}"] = "      Στάδιο: #{phase}";
 ["[event mail]    Policy: #{policy}"] = "  Κανονισμός: #{policy}";
 ["[not displayed public]"] = "[δεν εμφανίζεται δημόσια]";
 ["a bit unsatisfied"] = "λίγο ανικανοποίητος/η";
@@ -709,7 +712,6 @@ return {
 ["day"] = "ημέρα";
 ["days"] = "ημέρες";
 ["deactivated"] = "απενεργοποιημένο";
-["delegated to"] = "έχει ανατεθεί στον/στην";
 ["delegates to"] = "αναθέτει στον/στην";
 ["delete<br /><br />"] = "διαγραφή<br /><br />";
 ["disabled"] = "απενεργοποιημένο";
