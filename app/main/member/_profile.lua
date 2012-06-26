@@ -10,7 +10,7 @@ if not member then
 end
 
 ui.form{
-  attr = { class = "box member vertical" },
+  attr = { class = "member_statement member vertical" },
   record = member,
   readonly = true,
   content = function()
@@ -110,16 +110,16 @@ ui.form{
     if member.last_activity then
       ui.field.text{ label = _"Last activity (updated daily)", value = format.date(member.last_activity) or _"not yet" }
     end
+    slot.put("<br style=\"clear: both;\" /><br />")
 
     if member.statement and #member.statement > 0 then
       ui.container{
-        attr = { class = "member_statement wiki" },
+        attr = { class = " wiki" },
         content = function()
           slot.put(member:get_content("html"))
         end
       }
     end
-    slot.put("<br style=\"clear: both;\" />")
   end
 }
 

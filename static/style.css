@@ -671,7 +671,7 @@ div.notifications {
   background: -o-linear-gradient(#fec, #fc9);
   background: linear-gradient(#fec, #fc9);
   padding: 0.5ex;
-  border: 1px solid #fc0;
+  border: 1px solid #777;
 }
 
 .notifications ul {
@@ -865,7 +865,7 @@ div.notifications {
 }
 
 .area_list .area {
-  border-top: 1px solid #444;
+  border-top: 1px solid #777;
 }
 
 .area_list .area:first-child {
@@ -1176,10 +1176,6 @@ x.initiative_link.potentially_supported {
 }
 
 
-.member_statement {
-  margin-right: 250px;
-}
-
 #suggestion_description {
   height: 15ex;
 }
@@ -1420,14 +1416,20 @@ div.notifications {
 .suggestion_content,
 .initiative_head,
 .box {
-  border: 1px solid #aaa;
+  border: 1px solid #777;
 }
 
 .member_statement,
 .draft_content,
 .suggestion_content,
 .box {
-  padding: 1ex;
+  padding: 0 12px;
+}
+
+.suggestion_content,
+.member_statement,
+.draft_content {
+  border-left: 12px solid #777;
 }
 
 .slot_footer {
