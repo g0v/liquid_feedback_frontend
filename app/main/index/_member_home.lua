@@ -67,6 +67,8 @@ for i, unit in ipairs(units) do
 
     if filter_unit == "my_areas" then
       areas_selector:join("membership", nil, { "membership.area_id = area.id AND membership.member_id = ?", member.id })
+    else
+      areas_selector:join("privilege", nil, { "privilege.unit_id = area.unit_id AND privilege.member_id = ? AND privilege.voting_right", member.id })
     end
     
     local area_count = areas_selector:count()
