@@ -70,7 +70,7 @@ ui.container{ attr = { class = "issues events" }, content = function()
           text = event.member.name,
           module = "member", view = "show", id = event.member_id
         }
-        slot.put(" &middot; ") 
+        slot.put("<br />") 
       end
       local event_name = event.event_name
       local event_image
@@ -101,10 +101,10 @@ ui.container{ attr = { class = "issues events" }, content = function()
         days_ago_text = _("#{date} at #{time}", { date = format.date(event.occurrence.date), time = format.time(event.occurrence) })
       end
       ui.tag{ attr = { class = "event_name" }, content = event_name }
-      slot.put(" &middot; ") 
+      slot.put("<br />") 
       ui.tag{ content = days_ago_text }
       if event.time_ago > 1 then
-        slot.put(" (")
+        slot.put("<br />(")
         ui.tag{ content = _("#{count} days ago", { count = event.time_ago }) }
         slot.put(")")
       end
