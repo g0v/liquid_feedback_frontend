@@ -185,7 +185,7 @@ h2 {
 .topbar .instance_name,
 .topbar a {
   line-height: 30px;
-  color: #f0f0f0;
+  color: #f7f7f7;
 }
 
 .topbar a:hover, 
@@ -435,7 +435,7 @@ div.notifications {
 }
 
 .unit_head .content, .unit_head a {
-  color: #f0f0f0;
+  color: #f7f7f7;
 }
 .area_head,
 .area_list .area_head {
