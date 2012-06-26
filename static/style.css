@@ -168,14 +168,12 @@ h2 {
   background: -ms-linear-gradient(#777, #000);
   background: -o-linear-gradient(#777, #000);
   background: linear-gradient(#777, #000);
-  font-size: 90%;
   box-shadow: #aaa 0 0 5px;
   xoverflow: auto;
   -mox-box-shadow: #aaa 0 0 5px;
   -webkit-box-shadow: #aaa 0 0 5px;
   border-top: 1px solid #333;
   line-height: 30px;
-
 }
 
 .topbar .logolf {
@@ -335,9 +333,9 @@ form.unit_selector {
 .box,
 div.notifications {
   background-color: #fff;
-  box-shadow: #777 0px 5px 5px -5px;
-  -mox-box-shadow: #777 0px 5px 5px -5px;
-  -webkit-box-shadow: #ddd 3px 3px 3px -1px;
+  box-shadow: #ccc 2px 2px 4px;
+  -mox-box-shadow: #ccc 2px 2px 4px;
+  -webkit-box-shadow: #ccc 2px 2px 4px;
 }
 
 .slot_head > div:last-child {
@@ -400,13 +398,6 @@ div.notifications {
 .area_list .area_name {
   font-weight: bold;
   font-size: 120%;
-}
-
-.page_head .unit_head .title .extra,
-.page_head .area_head .title .extra,
-.issue .title .extra {
-  margin-left: 0.7em;
-  font-size: 75%;
 }
 
 .page_head .area_head .content,
@@ -531,19 +522,19 @@ div.notifications {
  * ui.tab
  */
 .ui_tabs_links {
-  margin: 20px 0px 10px 0px;
+  margin: 20px 0px 10px -3px;
+  line-height: 300%;
 }
 
 .ui_tabs_links a {
-  padding: 1ex 1em;
-  line-height: 300%;
+  padding: 1.33ex 1em;
   background-color: #444;
-  background: -webkit-linear-gradient(top, #000, #666);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #000), color-stop(100%,#666));
-  background: -moz-linear-gradient(#000, #666);
-  background: -ms-linear-gradient(#000, #666);
-  background: -o-linear-gradient(#000, #666);
-  background: linear-gradient(#000, #666);
+  background: -webkit-linear-gradient(top, #555, #000);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #555), color-stop(100%,#000));
+  background: -moz-linear-gradient(#555, #000);
+  background: -ms-linear-gradient(#555, #000);
+  background: -o-linear-gradient(#555, #000);
+  background: linear-gradient(#555, #000);
   color: #fff;
   white-space: nowrap;
   border-radius: 8px;
@@ -569,23 +560,27 @@ div.notifications {
 
 .ui_filter {
   overflow: auto;
-  margin: 2ex 0;
+  margin-top: 20px;
 }
 
 .ui_filter_head {
   color: #777;
-  font-size: 90%;
-  float: left;
   line-height: 200%;
-  margin-right: 2em;
+  padding-bottom: 8px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #888;
+}
+
+.ui_filter_head:last-child {
+  border-bottom: none;
 }
 
 .ui_filter a {
   font-weight: bold;
-  margin-right: 0.5em;
+  margin-right: 0;
   background-color: #fff;
   padding: 0.5ex 0.5em;
-  border-radius: 6px;
+  border-radius: 5px;
   border: 1px solid #bbb;
 }
 
@@ -593,7 +588,13 @@ div.notifications {
 .ui_filter_head a.active {
   border: 1px solid #000;
   text-decoration: none;
-  background-color: #555;
+  background-color: #444;
+  background: -webkit-linear-gradient(top, #555, #000);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #666), color-stop(100%,#222));
+  background: -moz-linear-gradient(#555, #000);
+  background: -ms-linear-gradient(#555, #000);
+  background: -o-linear-gradient(#555, #000);
+  background: linear-gradient(#555, #000);
   color: #fff;
 }
 
@@ -701,9 +702,7 @@ div.notifications {
 
 .login .ui_field_label,
 .vertical .ui_field_label {
-  text-transform: uppercase;
-  font-size: 70%;
-  line-height: 120%;
+  line-height: 180%;
   font-weight: bold;
   color: #777;
   width: 29%;
@@ -1146,27 +1145,6 @@ x.initiative_link.potentially_supported {
   text-decoration: line-through;
 }
 
-.slot_issue_info {
-  background-color: #f2f2f2;
-  border: 1px solid #ccc;
-  float: right;
-  padding: 0.5ex;
-  line-height: 130%;
-  margin-right: 1em;
-}
-
-.issue_info label {
-  float: left;
-  width: 8em;
-  text-transform: uppercase;
-  font-size: 70%;
-  color: #777;
-  font-weight: bold;
-  clear: left;
-  text-align: right;
-  margin-right: 0.7em;
-}
-
 .admitted_info {
   background-color: #afc;
   padding: 1ex;
@@ -1226,7 +1204,6 @@ x.initiative_link.potentially_supported {
 }
 
 .help_actions {
-  font-size: 75%;
   float: right;
 }
 
@@ -1373,54 +1350,6 @@ a.not_voted {
   cursor: move;
 }
 
-/*************************************************************************
- * timeline
- */
-div.ignore_area_list {
-  float: left; 
-  width: 90%; 
-  margin: 0 0 1em 0;
-}
-
-div.ignore_area_list > 
-label.ui_field_label {
-  text-align: left ;
-  width: 100%;
-  border-bottom:1px solid #000000;
-  color: #000000;
-  font-size:75%;
-  font-weight:bold;
-  vertical-align:bottom;
-  text-transform:none;
-  padding:0.5ex 0.5em
-}
-
-div.ignore_area_item {
-  clear: none;
-  float: left; 
-  min-width: 10em;
-  margin: 0.1ex 0.5em;
-  margin-right: 0.5em;
-}
-
-div.ignore_area_item > input {
-  float: none;
-  clear: none;
-  display: inline;
-}
-
-div.ignore_area_item >
-label.ui_field_label {
-  float: none;
-  clear: none;
-  text-align: left;
-  display: inline;
-}
-
-div.timeline_results {
-  clear: both;
-}
-
 /* shadows */
 
 .member_statement,
@@ -1451,7 +1380,6 @@ div.notifications {
   margin: 0 1%;
   border-top: 1px solid #ccc;
   padding: 1ex;
-  font-size: 80%;
   text-align: center;
 }
 .slot_footer,

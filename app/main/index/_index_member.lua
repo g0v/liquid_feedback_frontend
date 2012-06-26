@@ -40,9 +40,6 @@ tabs[#tabs+1] = {
   label = _"Closed issues",
   module = "issue",
   view = "_list",
-  link_params = { 
-    filter_interest = not show_as_homepage and "issue" or nil,
-  },
   params = {
     for_state = "closed",
     issues_selector = Issue:new_selector()
