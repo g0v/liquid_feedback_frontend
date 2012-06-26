@@ -370,7 +370,7 @@ div.notifications {
 .initiative_head .content,
 .area_list .unit_head .content,
 .area_list .area .content {
-  padding: 3px 10px 3px 10px;
+  padding: 5px 10px 5px 10px;
   line-height: 120%;
 }
 
@@ -381,7 +381,7 @@ div.notifications {
 .initiative_head .content:last-child,
 .area_list .unit_head .content:last-child,
 .area_list .area .content:last-child {
-  padding: 3px 10px 6px 10px;
+  padding: 5px 10px 7px 10px;
 }
 
 .page_head .initiative_list,
@@ -894,6 +894,7 @@ div.notifications {
 .area_list .area:first-child .area_head {
   border-radius: 8px 8px 0 0;
 }
+
 
 
 /*************************************************************************
