@@ -197,25 +197,6 @@ ui.container{ attr = { class = class }, content = function()
   end }
 
   if not for_listing then
-    
-    if voteable then
-      ui.container{
-        attr = { class = "voting_active_info" },
-        content = function()
-          slot.put(_"Voting for this issue is currently running!")
-          slot.put(" ")
-          if app.session.member_id then
-            ui.link{
-              content = vote_link_text,
-              module = "vote",
-              view = "list",
-              params = { issue_id = issue.id }
-            }
-          end
-        end
-      }
-    end
-
     if issue.state == "cancelled" then
       local policy = issue.policy
       ui.container{
@@ -223,7 +204,6 @@ ui.container{ attr = { class = class }, content = function()
         content = _("This issue has been cancelled. It failed the quorum of #{quorum}.", { quorum = format.percentage(policy.issue_quorum_num / policy.issue_quorum_den) })
       }
     end
-
   end
 
   ui.container{ attr = { class = "initiative_list content" }, content = function()
