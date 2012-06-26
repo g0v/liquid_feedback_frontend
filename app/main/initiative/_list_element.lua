@@ -1,8 +1,13 @@
 local initiative = param.get("initiative", "table")
 local selected = param.get("selected", atom.boolean)
 
+local class = "initiative"
 
-ui.container{ attr = { class = "initiative" }, content = function()
+if selected then
+  class = class .. " selected"
+end
+
+ui.container{ attr = { class = class }, content = function()
 
   ui.container{ attr = { class = "rank" }, content = function()
     if initiative.issue.accepted and initiative.issue.closed
@@ -102,18 +107,6 @@ ui.container{ attr = { class = "initiative" }, content = function()
     local link_class = "initiative_link"
     if initiative.revoked then
       link_class = "revoked"
-    end
-    if selected then
-      link_class = link_class .. " selected"
-    end
-    if initiative.is_supporter then
-      link_class = link_class .. " supported"
-    end
-    if initiative.is_potential_supporter then
-      link_class = link_class .. " potentially_supported"
-    end
-    if initiative.is_supporter_via_delegation then
-      link_class = link_class .. " supported"
     end
     ui.link{
       attr = { class = link_class },

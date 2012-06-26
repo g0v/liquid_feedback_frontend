@@ -219,9 +219,10 @@ ui.container{ attr = { class = class }, content = function()
       params = {
         issue = issue,
         initiatives_selector = initiatives_selector,
+        highlight_initiative = for_initiative,
         highlight_string = highlight_string,
         no_sort = true,
-        limit = 5,
+        limit = (for_listing or for_initiative) and 5 or nil,
         for_member = for_member
       }
     }
