@@ -50,7 +50,8 @@ caption, th, td {
  */
 
 body {
-  background: #f8f8f9;
+  xbackground: #f8f8f9;
+  background-image: url("back.png");
   line-height: 120%:
 }
 
