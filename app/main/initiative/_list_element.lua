@@ -25,7 +25,7 @@ ui.container{ attr = { class = "initiative" }, content = function()
             max_value = max_value,
             width = 100,
             bars = {
-              { color = "#0a0", value = initiative.positive_votes },
+              { color = "#0a5", value = initiative.positive_votes },
               { color = "#aaa", value = max_value - initiative.negative_votes - initiative.positive_votes },
               { color = "#a00", value = initiative.negative_votes },
             }

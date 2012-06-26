@@ -529,12 +529,12 @@ div.notifications {
 .ui_tabs_links a {
   padding: 1.33ex 1em;
   background-color: #444;
-  background: -webkit-linear-gradient(top, #555, #000);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #555), color-stop(100%,#000));
-  background: -moz-linear-gradient(#555, #000);
-  background: -ms-linear-gradient(#555, #000);
-  background: -o-linear-gradient(#555, #000);
-  background: linear-gradient(#555, #000);
+  background: -webkit-linear-gradient(top, #777, #000);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #777), color-stop(100%,#000));
+  background: -moz-linear-gradient(#777, #000);
+  background: -ms-linear-gradient(#777, #000);
+  background: -o-linear-gradient(#777, #000);
+  background: linear-gradient(#777, #000);
   color: #fff;
   white-space: nowrap;
   border-radius: 8px;
@@ -586,15 +586,15 @@ div.notifications {
 
 
 .ui_filter_head a.active {
-  border: 1px solid #000;
+  border: 1px solid #666;
   text-decoration: none;
   background-color: #444;
-  background: -webkit-linear-gradient(top, #555, #000);
+  background: -webkit-linear-gradient(top, #666, #222);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #666), color-stop(100%,#222));
-  background: -moz-linear-gradient(#555, #000);
-  background: -ms-linear-gradient(#555, #000);
-  background: -o-linear-gradient(#555, #000);
-  background: linear-gradient(#555, #000);
+  background: -moz-linear-gradient(#666, #222);
+  background: -ms-linear-gradient(#666, #222);
+  background: -o-linear-gradient(#666, #222);
+  background: linear-gradient(#666, #222);
   color: #fff;
 }
 
@@ -900,7 +900,7 @@ div.notifications {
 
 .issues .issue {
   overflow: hidden;
-  border: 1px solid #ddd;
+  border: 1px solid #d0ddff;
   border-radius: 8px;
   margin-bottom: 2ex;
 }
@@ -928,7 +928,17 @@ div.notifications {
 }
 
 .issue_policy_info {
+  line-height: 200%;
+  display: inline;
+  padding: 5px;
+  background-color: #d0ddff;
+  color: #000;
   font-style: italic;
+  border-radius: 8px 8px 0 0;
+}
+
+.events .issue { 
+  border-radius: 0 8px 8px 8px;
 }
 
 .issue_policy_info .event_name {
