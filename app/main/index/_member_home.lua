@@ -52,6 +52,7 @@ for i, unit in ipairs(units) do
     local areas_selector = Area:new_selector()
       :reset_fields()
       :add_field("area.id", nil, { "grouped" })
+      :add_field("area.unit_id", nil, { "grouped" })
       :add_field("area.name", nil, { "grouped" })
       :add_field("member_weight", nil, { "grouped" })
       :add_field("direct_member_count", nil, { "grouped" })
@@ -105,11 +106,11 @@ for i, unit in ipairs(units) do
     end
 
     ui.container{ attr = { class = "area_list" }, content = function()
-
       execute.view{ module = "unit", view = "_head", params = { unit = unit, show_content = true } }
 
       if area_count > 0 then
         local areas = areas_selector:exec()
+        
         for i, area in ipairs(areas) do
           execute.view{
             module = "area", view = "_list_entry", params = {
