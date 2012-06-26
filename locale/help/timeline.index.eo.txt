@@ -1,4 +1,0 @@
-=Tempolinio=
-Ĉi tie vi povas informiĝi pri eventoj en la sistemoj. Vi povas direkti per filtril-agordoj tiujn eventspecojn, kiuj montriĝu al vi. Vi povas dependigi la montron de apartaj eventspecoj de pliaj kondiĉoj. Por ekzemple montri ĉiujn temojn, kiuj antingas la staton „diskuto“ post atingo de la subtena kvorumo, vi elektas la temeventon „temo akceptita“ kaj povas ekzemple krome difini, ke tiuj eventoj nur montriĝu, se vi estas membro de la respektiva temaro.
-=Konservi filtrilojn=
-Vi povas konservi filtril-agordojn laŭ nomo kaj poste efektivigi la respektivan demandon musklake. Se vi ne elektas alian daton, la demandoj rilatas al hodiaŭ.

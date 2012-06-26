@@ -1,4 +1,0 @@
-=Profilseiten aufrufen=
-Hier kannst du die Profilseiten der einzelnen Mitglieder aufrufen und dich über ihre Beteiligung in Themenbereichen, an Themen und Initiativen informieren. Darüber hinaus werden dir ein- und ausgehende Delegationen und die veröffentlichten Kontakte des Mitglieds angezeigt.
-=Kontaktliste erweitern=
-Auf der Profilseite eines Mitglieds findest du auch einen Link, mit dem du das Mitglied zu deinen Kontakten hinzufügen kannst. Dies ist zum Beispiel erforderlich, wenn du deine Stimme an ein Mitglied delegieren möchtest.

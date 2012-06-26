@@ -1,4 +1,5 @@
-=Profile=
-All information is voluntary. Only non-empty fields will be shown in your profile.
+= Profile =
 
-You can change your name, login name and password on the frontpage under settings.
+All information entered here is voluntary. Only non-empty fields will be shown in your profile.
+
+You can change your name, login name and password in your user menu at the upper right corner under ""settings"".

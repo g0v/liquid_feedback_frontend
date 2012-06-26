@@ -1,4 +1,0 @@
-=Display profile pages=
-Here you can display the profile pages of individual members and get an idea of the areas, issues and initiatives they participate in. You can also see the member's incoming and outgoing delegations and published contacts.
-=Extend list of contacts=
-On the profile page of a member you can also find a link for directly adding the member to your contacts. This is necessary e.g. when you want to delegate your vote to a member.

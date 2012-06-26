@@ -1,4 +1,5 @@
-=Profil=
+= Profil =
+
 Alle Angaben sind freiwillig. In Deinem Profil erscheinen nur die Felder, die nicht leer sind.
 
-Deinen Namen, Anmeldenamen sowie Kennwort kannst Du auf der Startseite unter Einstellungen ändern.
+Deinen Namen, Anmeldenamen sowie Kennwort kannst Du im Benutzermenü unter Einstellungen ändern.

@@ -1,9 +1,0 @@
-=Zeitachse=
-Hier kannst du dich über Ereignisse im System informieren. Über Filter-Einstellungen kannst du steuern, welche  Ereignisarten dir angezeigt werden sollen. Du kannst die Anzeige für einzelne Ereignisarten auch von weiteren Bedingungen abhängig machen. Um zum Beispiel alle Themen anzuzeigen, die nach Erreichen des Unterstützerquorums in den Status ,,Diskussion'' gelangen, wählst du das Themen-Ereignis ,,Thema akzeptiert'' und kannst zum Beispiel zusätzlich festlegen, dass diese Ereignisse nur dann angezeigt werden sollen, wenn du Mitglied des jeweiligen Themenbereichs bist.
-Du kannst im Datumsfeld spezielle Anfragen benutzen:
-- 2010-08-13            -> //Sucht nach einem Tag//
-- 2010-08-13:2010-08-16 -> //Ergebnisse die zwischen zwei Tage fallen//
-- age:10 days           -> //Einem alter von Ereignissen (minutes, hours, days, weeks, months)//
-- since:2010-08-13      -> //Seit dem gegebenen Datum//
-=Filter speichern=
-Du kannst Filtereinstellungen unter einem Namen abspeichern und die jeweilige Abfrage dann mit einem Klick ausführen. Wenn du kein anderes Datum auswählst, beziehen sich Abfragen standardmäßig auf heute.

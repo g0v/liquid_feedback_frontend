@@ -1,9 +1,0 @@
-=Timeline=
-Here you can get information about events in the system. Using filter settings you can control which type of events will be displayed for you. You can also define conditions for displaying individual event types. If you want to display e.g. all issues, that reach the support quorum and are moved to the ,,Discussion'' state, you can select the issue event ,,Issue accepted'' and specify additionally for these events to be displayed only if you are a member of the respective area. 
-There are special queries in the date field you can use:
-- 2010-08-13            -> //events on a specific date//
-- 2010-08-13:2010-08-16 -> //searches for all events between those dates//
-- age:10 days           -> //searches for events in the last 10 days//
-- since:2010-08-13      -> //since the date given//
-=Save filter=
-You can save filter settings under a name and run the respective request with a single click. If you do not specify any date the default date for your requests is today.

@@ -6,4 +6,4 @@ Below you see 4 tabulators:
 - **Latest events:** Events in your subject areas and your issues, as well as the global timeline
 - **Open issues:** All issues, which are currently open, i.e. new, in discussion, frozen or for voting
 - **Closed issues:** All issues, where voting has been finished, or which have been canceled
-- **Members:** All active members
+- **Members:** All active members. After you clicking on a particular member, you can add this member to your personal contact list, in order to be able to delegate to that member.

@@ -1,4 +1,5 @@
-=Images=
+= Images =
+
 Format: JPG
 Avatar: max. 48 x 48 pixels, an image in square format is preferred for your avatar
 Picture: max. 250 x 250 pixels

@@ -1,4 +1,5 @@
-=Voting=
+= Voting =
+
 At the beginning of the voting all initiatives will be in the Abstention field. It is recommended to start with your favourite and drag it with your mouse into the Approval field. Then you select the next initiative that you want to approve and drag it either
 - into the same green box, if you want to approve it equally  or
 - between the Approval and Abstention box, if you want this initiative to be your second choice.
