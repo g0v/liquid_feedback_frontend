@@ -111,6 +111,8 @@ for i, unit in ipairs(units) do
       if area_count > 0 then
         local areas = areas_selector:exec()
         
+        areas:load_delegation_info_once_for_member_id(member.id)
+        
         for i, area in ipairs(areas) do
           execute.view{
             module = "area", view = "_list_entry", params = {
