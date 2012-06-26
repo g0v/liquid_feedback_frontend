@@ -463,6 +463,7 @@ div.notifications {
 .unit_link, .area_link {
   padding: 2px 5px;
   border-radius: 5px;
+  line-height: 170%;
 }
 
 .unit_link {
@@ -541,7 +542,7 @@ div.notifications {
  * ui.tab
  */
 .ui_tabs_links {
-  margin: 20px 0px 10px -3px;
+  margin: 20px 0px 10px -2px;
   line-height: 300%;
 }
 
@@ -558,14 +559,14 @@ div.notifications {
   white-space: nowrap;
   border-radius: 8px;
   font-weight: bold;
-  margin: 3px;
+  margin: 2px;
 }
 
 .ui_tabs_links a:hover,
 .ui_tabs_links a.selected {
   margin: 0;
-  border: 3px solid #f90;
-  box-shadow: 0px 0px 5px #f90;
+  border: 2px solid #f90;
+  box-shadow: 0px 0px 3px 1px #f90;
 }
 
 .ui_tabs_links a.selected {
@@ -865,7 +866,7 @@ div.notifications {
 }
 
 .area_list .area {
-  border-top: 1px solid #44a;
+  border-top: 2px solid #44a;
 }
 
 .area_list .area:first-child {
@@ -919,7 +920,7 @@ div.notifications {
 
 .issues .issue {
   overflow: hidden;
-  border: 1px solid #d0ddff;
+  border: 1px solid #777;
   border-radius: 8px;
   margin-bottom: 4ex;
 }
@@ -936,13 +937,13 @@ div.notifications {
 }
 
 .event_info {
-  margin-top: 10px;
+  margin-top: 8px;
   clear: left;
   float: left;
   line-height: 125%;
-  width: 250px;
+  width: 240px;
   display: inline;
-  padding: 10px;
+  padding: 5px 8px;
   background-color: #444;
   background: -webkit-linear-gradient(top, #888, #222);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #888), color-stop(100%,#222));
@@ -950,7 +951,8 @@ div.notifications {
   background: -ms-linear-gradient(#888, #222);
   background: -o-linear-gradient(#888, #222);
   background: linear-gradient(#888, #222);
-  color: #fff;  font-style: italic;
+  color: #fff;
+  font-style: italic;
   border-radius: 8px 0 0 8px;
 }
 
@@ -960,12 +962,35 @@ div.notifications {
 
 .events .issue {
   min-height: 15ex;
+  border: 1px solid #777;
 }
 
 .event_info .event_name,
 .issue_policy_info .event_name {
   font-weight: bold;
 }
+
+@media screen and (max-width: 720px) {
+  .event_info {
+    width: auto;
+    margin-left: 8px;
+    margin-right: 8px;
+    border-radius: 8px 8px 0 0;
+  }
+  .events .issue {
+    clear: left;
+    
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .events .initiative .name {
+    clear: left;
+    margin-left: 0px;
+  }
+}
+
+
 
 .issue_policy_info img {
   vertical-align: middle;
@@ -1149,7 +1174,6 @@ x.initiative_link.potentially_supported {
 
 .member_thumb.in_delegation_chain {
   background-color: #fda;
-  xborder: 2px solid #f90;
 }
 
 

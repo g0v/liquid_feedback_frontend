@@ -58,6 +58,12 @@ ui.container{ attr = { class = "issues events" }, content = function()
         elseif event.state == "voting" then
           event_name = _"Voting started"
           event_image = "email_open.png"
+        elseif event.state == "finished_with_winner" then
+          event_name = event.state_name
+          event_image = "award_star_gold_2.png"
+        elseif event.state == "finished_without_winner" then
+          event_name = event.state_name
+          event_image = "cross.png"
         else
           event_name = event.state_name
         end
