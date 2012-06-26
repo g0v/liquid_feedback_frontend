@@ -28,9 +28,15 @@ ui.container{ attr = { class = class }, content = function()
 
   if for_listing then
     ui.container{ attr = { class = "content" }, content = function()
-      ui.tag{ content = issue.area.unit.name }
-      slot.put(" &middot; ")
-      ui.tag{ content = issue.area.name }
+      ui.link{
+        module = "unit", view = "show", id = issue.area.unit_id,
+        attr = { class = "unit_link" }, text = issue.area.unit.name
+      }
+      slot.put(" ")
+      ui.link{
+        module = "area", view = "show", id = issue.area_id,
+        attr = { class = "area_link" }, text = issue.area.name
+      }
     end }
   end
 

@@ -456,6 +456,21 @@ div.notifications {
   background: linear-gradient(#f7faff, #e0e9ff);
 }
 
+.unit_link, .area_link {
+  padding: 2px 5px;
+  border-radius: 5px;
+}
+
+.unit_link {
+  background-color: #44a;
+  color: #fff;
+}
+
+.area_link {
+  background-color: #abf;
+  color: #000;
+}
+
 .delegation_info {
   float: right;
   text-decoration: none;

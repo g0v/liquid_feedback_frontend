@@ -115,9 +115,15 @@ ui.container{ attr = { class = "issues events" }, content = function()
       execute.view{ module = "delegation", view = "_info", params = { issue = event.issue } }
 
       ui.container{ attr = { class = "content" }, content = function()
-        ui.tag{ content = event.issue.area.name }
-        slot.put(" &middot; ")
-        ui.tag{ content = event.issue.area.unit.name }
+        ui.link{
+          module = "unit", view = "show", id = event.issue.area.unit_id,
+          attr = { class = "unit_link" }, text = event.issue.area.unit.name
+        }
+        slot.put(" ")
+        ui.link{
+          module = "area", view = "show", id = event.issue.area_id,
+          attr = { class = "area_link" }, text = event.issue.area.name
+        }
       end }
       
       ui.container{ attr = { class = "title" }, content = function()
