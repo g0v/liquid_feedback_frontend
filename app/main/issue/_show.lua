@@ -74,7 +74,7 @@ ui.container{ attr = { class = class }, content = function()
             ui.tag{ content = _("Counting starts soon") }
           end
         else
-          ui.tag{ content = _("#{time_left} left", { time_left = issue.state_time_left:gsub("days", _"days"):gsub("day", _"day") }) }
+          ui.tag{ content = _("#{time_left} left", { time_left = issue.state_time_left:gsub("%..*", ""):gsub("days", _"days"):gsub("day", _"day") }) }
         end
       end
 
