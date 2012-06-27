@@ -559,7 +559,7 @@ div.notifications {
   background: -ms-linear-gradient(#777, #000);
   background: -o-linear-gradient(#777, #000);
   background: linear-gradient(#777, #000);
-  color: #fff;
+  color: #f7f7f7;
   white-space: nowrap;
   border-radius: 8px;
   font-size: 115%;
