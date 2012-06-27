@@ -15,7 +15,7 @@ end
 if config.fastpath_url_func then
   ui.image{
     attr = { title = popup_text, class = "member_image member_image_" .. image_type .. class },
-    external = config.fastpath_url_func(member.id, image_type)
+    external = config.fastpath_url_func(member_id, image_type)
   }
 else
   ui.image{
