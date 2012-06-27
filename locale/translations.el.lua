@@ -689,7 +689,7 @@ return {
 ["Your support has been updated to the latest draft"] = "Η υποστήριξή σας έχει ενημερωθεί επί του τελευταίου σχεδίου";
 ["Your vote has been discarded. Delegation rules apply if set."] = "Η ψήφος σας έχει ανακληθεί. Οι κανόνες ανάθεσης ισχύουν αν έχουν οριστεί.";
 ["Z-A"] = "Ω-Α";
-["[Name of Language]"] = false;
+["[Name of Language]"] = "Ελληνικά";
 ["[No voting privilege]"] = "[Χωρίς δικαίωμα ψήφου]";
 ["[Registered members only]"] = "[Μόνο εγγεγραμμένα μέλη]";
 ["[event mail]       URL: #{url}"] = "         URL: #{url}";
