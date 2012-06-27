@@ -1,4 +1,5 @@
 local initiative = Initiative:by_id(param.get_id())
+initiative:load_everything_for_member_id(app.session.member_id)
 
 local issue = initiative.issue
 
