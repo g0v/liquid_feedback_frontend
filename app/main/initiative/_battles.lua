@@ -19,11 +19,6 @@ local number_of_initiatives = Initiative:new_selector()
   :count()
 
 if number_of_initiatives > 1 then
-  ui.container{
-    attr = { class = "heading first" },
-    content = _"This initiative compared to alternative initiatives"
-  }
-
   ui.list{
     records = battled_initiatives,
     columns = {

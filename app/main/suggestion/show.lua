@@ -21,9 +21,9 @@ end
 app.html_title.title = suggestion.name
 app.html_title.subtitle = _("Suggestion ##{id}", { id = suggestion.id })
 
-slot.put_into("title", encode.html(_"Suggestion for initiative: '#{name}'":gsub("#{name}", suggestion.initiative.name) ))
+ui.title(_"Suggestion for initiative: '#{name}'":gsub("#{name}", suggestion.initiative.name))
 
-slot.select("actions", function()
+ui.actions(function()
   ui.link{
     content = function()
         ui.image{ static = "icons/16/resultset_previous.png" }

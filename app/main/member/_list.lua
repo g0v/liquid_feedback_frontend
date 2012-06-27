@@ -22,19 +22,6 @@ ui.add_partial_param_names{ "member_list" }
 local filter = { name = "member_list" }
 
 if issue or initiative then
-  if for_votes then
-    filter[#filter+1] = {
-      name = "delegations",
-      label = _"Delegations",
-      selector_modifier = function(selector) selector:add_order_by("voter_weight DESC") end
-    }
-  else
-    filter[#filter+1] = {
-      name = "delegations",
-      label = _"Delegations",
-      selector_modifier = function(selector) selector:add_order_by("weight DESC") end
-    }
-  end
 end
 
 filter[#filter+1] = {
@@ -59,7 +46,17 @@ filter[#filter+1] = {
   selector_modifier = function(selector) selector:add_order_by("name DESC") end
 }
 
-ui.filters{
+local ui_filters = ui.filters
+if issue or initiative then
+  ui_filters = function(args) args.content() end
+  if for_votes then
+      members_selector:add_order_by("voter_weight DESC, name, id")
+  else
+      members_selector:add_order_by("weight DESC, name, id")
+  end
+end
+
+ui_filters{
   label = _"Change order",
   selector = members_selector,
   filter,

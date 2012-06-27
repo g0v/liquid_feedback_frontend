@@ -19,7 +19,7 @@ ui.form{
 }
 execute.view{
   module = "suggestion",
-  view = "_list",
+  view = "_list_element",
   params = {
     suggestions_selector = Suggestion:new_selector():add_where{ "id = ?", suggestion.id },
     initiative = suggestion.initiative,

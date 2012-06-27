@@ -68,10 +68,6 @@ body, th, td {
   margin: 0 auto;
 }
 
-table {
-  margin-top: 1ex;
-}
-
 body, a {
   color: #000;
 }
@@ -321,7 +317,6 @@ form.unit_selector {
 
 .member_thumb,
 .member_statement,
-.draft_content,
 .suggestion_content,
 .slot_head,
 .area_list,
@@ -329,7 +324,6 @@ form.unit_selector {
 .issues .issue,
 .ui_tabs_links a,
 .ui_filter a,
-.draft_content,
 .help,
 .use_terms,
 .motd,
@@ -373,6 +367,10 @@ div.notifications {
 .area_list .area .content {
   padding: 5px 10px 5px 10px;
   line-height: 120%;
+}
+
+.initiative_head {
+  margin-bottom: 10px;
 }
 
 .page_head .actions:last-child,
@@ -1211,30 +1209,34 @@ x.initiative_link.potentially_supported {
   text-decoration: line-through;
 }
 
+.admitted_info,
+.not_admitted_info,
+.revoked_info,
+.draft_updated_info,
+.initiator_invite_info {
+  padding: 1ex;
+}
+
 .admitted_info {
   background-color: #afc;
-  padding: 1ex;
-  border-radius: 0 0 8px 8px;
 }
 
 .not_admitted_info,
 .revoked_info {
   background-color: #fbb;
-  padding: 1ex;
-  border-radius: 8px;
-  border-radius: 0 0 8px 8px;
 }
 
 .draft_updated_info,
-.initiator_invite_info,
+.initiator_invite_info {
+  background-color: #fda;
+}
+
 .motd,
 .public_access_issue_head {
   background-color: #fda;
   padding: 1ex;
   margin-top: 1ex;
   margin-bottom: 2ex;
-  border: 1px solid #fa0;
-  border-radius: 10px;
 }
 
 .suggestion_fulfilled {
@@ -1336,6 +1338,7 @@ a.not_voted {
   display: block;
   font-size: 115%;
   font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .heading.first {
@@ -1418,7 +1421,6 @@ a.not_voted {
 /* shadows */
 
 .member_statement,
-.draft_content,
 .suggestion_content,
 .initiative_head,
 .box,
@@ -1427,7 +1429,6 @@ div.notifications {
 }
 
 .member_statement,
-.draft_content,
 .suggestion_content,
 .initiative_head,
 .box {
