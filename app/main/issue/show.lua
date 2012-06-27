@@ -17,12 +17,33 @@ slot.select("head", function()
   execute.view{ module = "issue", view = "_show", params = { issue = issue } }
 end )
 
+if app.session.member_id or config.public_access == "full" then
 
-execute.view{
-  module = "issue",
-  view = "show_tab",
-  params = { issue = issue }
-}
+  ui.container{ attr = { class = "heading" }, content = _"Interested members" }
+  
+  local interested_members_selector = issue:get_reference_selector("interested_members_snapshot")
+    :join("issue", nil, "issue.id = direct_interest_snapshot.issue_id")
+    :add_field("direct_interest_snapshot.weight")
+    :add_where("direct_interest_snapshot.event = issue.latest_snapshot_event")
+
+  execute.view{
+    module = "member",
+    view = "_list",
+    params = {
+      issue = issue,
+      members_selector = interested_members_selector
+    }
+  }
+
+  ui.container{ attr = { class = "heading" }, content = _"Details" }
+  
+  execute.view{
+    module = "issue",
+    view = "_details",
+    params = { issue = issue }
+  }
+  
+end
 
 if issue.snapshot then
   slot.put("<br />")
