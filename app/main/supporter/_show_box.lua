@@ -77,25 +77,6 @@ if not initiative.issue.fully_frozen and not initiative.issue.closed then
   end
 end
 
-if app.session.member_id
-  and not initiative.issue.half_frozen
-  and not initiative.issue.closed
-  and not initiative.revoked
-  and app.session.member:has_voting_right_for_unit_id(initiative.issue.area.unit_id)
-then
-  ui.link{
-    content = function()
-      slot.put(_"Add suggestion")
-    end,
-    module = "suggestion",
-    view = "new",
-    params = {
-      initiative_id = initiative.id
-    }
-  }
-  slot.put(" ")
-end
-
 if (initiative.discussion_url and #initiative.discussion_url > 0) then
   if initiative.discussion_url:find("^https?://") then
     if initiative.discussion_url and #initiative.discussion_url > 0 then

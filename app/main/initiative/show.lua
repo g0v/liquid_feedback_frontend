@@ -348,8 +348,8 @@ if config.public_access == "full" or app.session.member_id then
           :add_field("coalesce(vote.grade, 0) as grade")
           :left_join("initiative", nil, "initiative.id = vote.initiative_id")
           :left_join("issue", nil, "issue.id = initiative.issue_id")
-          
-    ui.container{ attr = { class = "heading"}, content = _"Member voting" }
+    
+    ui.anchor{ name = "voter", attr = { class = "heading" }, content = _"Member voter" }
     
     execute.view{
       module = "member",
@@ -357,7 +357,8 @@ if config.public_access == "full" or app.session.member_id then
       params = {
         initiative = initiative,
         for_votes = true,
-        members_selector = members_selector
+        members_selector = members_selector,
+        paginator_name = "voter"
       }
     }
   end
@@ -370,29 +371,27 @@ if config.public_access == "full" or app.session.member_id then
             :add_where("direct_supporter_snapshot.satisfied")
             :add_field("direct_supporter_snapshot.informed", "is_informed")
 
-
-
   if members_selector:count() > 0 then
     if issue.fully_frozen then
-      ui.container{ attr = { class = "heading"}, content = _"Supporters (before begin of voting)" }
+      ui.anchor{ name = "supporters", attr = { class = "heading" }, content = _"Supporters (before begin of voting)" }
     else
-      ui.container{ attr = { class = "heading"}, content = _"Supporters" }
+      ui.anchor{ name = "supporters", attr = { class = "heading" }, content = _"Supporters" }
     end      
     
     execute.view{
       module = "member",
       view = "_list",
       params = {
-        
         initiative = initiative,
-        members_selector = members_selector
+        members_selector = members_selector,
+        paginator_name = "supporters"
       }
   }
   else
     if issue.fully_frozen then
-      ui.container{ attr = { class = "heading"}, content = _"No supporters (before begin of voting)" }
+      ui.anchor{ name = "supporters", attr = { class = "heading" }, content = _"No supporters (before begin of voting)" }
     else
-      ui.container{ attr = { class = "heading"}, content = _"No supporters" }
+      ui.anchor{ name = "supporters", attr = { class = "heading" }, content = _"No supporters" }
     end
     slot.put("<br />")
   end
@@ -405,33 +404,32 @@ if config.public_access == "full" or app.session.member_id then
             :add_where("NOT direct_supporter_snapshot.satisfied")
             :add_field("direct_supporter_snapshot.informed", "is_informed")
 
-
   if members_selector:count() > 0 then
     if issue.fully_frozen then
-      ui.container{ attr = { class = "heading"}, content = _"Potential supporters (before begin of voting" }
+      ui.anchor{ name = "potential_supporters", attr = { class = "heading" }, content = _"Potential supporters (before begin of voting)" }
     else
-      ui.container{ attr = { class = "heading"}, content = _"Potential supporters" }
+      ui.anchor{ name = "potential_supporters", attr = { class = "heading" }, content = _"Potential supporters" }
     end
               
     execute.view{
       module = "member",
       view = "_list",
       params = {
-        
         initiative = initiative,
-        members_selector = members_selector
+        members_selector = members_selector,
+        paginator_name = "potential_supporters"
       }
     }
   else
     if issue.fully_frozen then
-      ui.container{ attr = { class = "heading"}, content = _"No potential supporters (before begin of voting)" }
+      ui.anchor{ name = "potential_supporters", attr = { class = "heading" }, content = _"No potential supporters (before begin of voting)" }
     else
-      ui.container{ attr = { class = "heading"}, content = _"No potential supporters" }
+      ui.anchor{ name = "potential_supporters", attr = { class = "heading" }, content = _"No potential supporters" }
     end
     slot.put("<br />")
   end
   
-  ui.container{ attr = { class = "heading"}, content = _"Details" }
+  ui.container{ attr = { class = "heading" }, content = _"Details" }
   execute.view {
     module = "initiative",
     view = "_details",
@@ -442,22 +440,3 @@ if config.public_access == "full" or app.session.member_id then
   }
 
 end
-
-
---[[
-execute.view{
-  module = "initiative",
-  view = "show_tab",
-  params = {
-    initiative = initiative,
-    initiator = initiator
-  }
-}
-
-if initiative.issue.snapshot then
-  slot.put("<br />")
-  ui.field.timestamp{ label = _"Last snapshot:", value = initiative.issue.snapshot }
-end
-
-
---]]

@@ -86,7 +86,12 @@ ui.container{ attr = { class = "initiative_head" },
         end
       }
     end }
-    if not initiative.issue.fully_frozen and not initiative.issue.closed then
+    if app.session.member_id
+      and not initiative.issue.half_frozen
+      and not initiative.issue.closed
+      and not initiative.revoked
+      and app.session.member:has_voting_right_for_unit_id(initiative.issue.area.unit_id)
+    then
       ui.container{ attr = { class = "content" }, content = function()
         ui.link{
           module = "suggestion", view = "new", params = { initiative_id = initiative.id },

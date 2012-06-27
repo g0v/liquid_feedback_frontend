@@ -370,7 +370,7 @@ div.notifications {
 }
 
 .initiative_head {
-  margin-bottom: 10px;
+  margin-bottom: 2ex;
 }
 
 .page_head .actions:last-child,
@@ -634,6 +634,11 @@ div.notifications {
 
 .ui_paginate_foot {
   margin-top: 1ex;
+  margin-bottom: 4ex;
+}
+
+.initiative_head .ui_paginate_foot {
+  margin-bottom: 1ex;
 }
 
 .ui_paginate_select a {
@@ -1339,6 +1344,7 @@ a.not_voted {
   font-size: 115%;
   font-weight: bold;
   margin-bottom: 10px;
+  text-decoration: none;
 }
 
 .heading.first {

@@ -7,6 +7,8 @@ local trustee = param.get("trustee", "table")
 local initiator = param.get("initiator", "table")
 local for_votes = param.get("for_votes", atom.boolean)
 
+local paginator_name = param.get("paginator_name")
+
 if initiative or issue then
   if for_votes then
     members_selector:left_join("delegating_voter", "_member_list__delegating_voter", { "_member_list__delegating_voter.issue_id = issue.id AND _member_list__delegating_voter.member_id = ?", app.session.member_id })
@@ -62,8 +64,10 @@ ui_filters{
   filter,
   content = function()
     ui.paginate{
+      name = paginator_name,
+      anchor = paginator_name,
       selector = members_selector,
-      per_page = 100,
+      per_page = 50,
       content = function() 
         ui.container{
           attr = { class = "member_list" },
