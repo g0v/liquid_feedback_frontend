@@ -96,7 +96,6 @@ if (initiative.discussion_url and #initiative.discussion_url > 0) then
 end
 if initiator and initiator.accepted and not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked then
   ui.link{
-    image = { static = "icons/16/comments.png" },
     text   = _"change discussion URL",
     module = "initiative",
     view   = "edit",
@@ -107,7 +106,6 @@ end
 if initiator and initiator.accepted and not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked then
   ui.link{
     content = function()
-      ui.image{ static = "icons/16/script_add.png" }
       slot.put(_"Edit draft")
     end,
     module = "draft",
@@ -120,7 +118,6 @@ end
 if initiator and initiator.accepted and not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked then
   ui.link{
     content = function()
-      ui.image{ static = "icons/16/script_delete.png" }
       slot.put(_"Revoke initiative")
     end,
     module = "initiative",
