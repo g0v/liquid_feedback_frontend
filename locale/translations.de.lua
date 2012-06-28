@@ -38,6 +38,7 @@ return {
 ["Accept invitation"] = "Einladung annehmen";
 ["Accepted at"] = "Angenommen am/um";
 ["Access level"] = "Berechtigung";
+["Activate account"] = "Account aktivieren";
 ["Active?"] = "Aktiv?";
 ["Add alternative initiative to issue"] = "Alternative Initiative zum Thema hinzufügen";
 ["Add my interest"] = "Mein Interesse anmelden";
@@ -82,6 +83,7 @@ return {
 ["Author"] = "Autor";
 ["Avatar"] = "Avatar";
 ["Back"] = "Zurück";
+["Back to initiative"] = "Zurück zur Initiative";
 ["Back to timeline"] = "Zurück zur Zeitachse";
 ["Ballot of '#{member_name}' for issue ##{issue_id}"] = "Stimmzettel von '#{member_name}' für Thema ##{issue_id}";
 ["Become a member"] = "Mitglied werden";
@@ -143,7 +145,6 @@ return {
 ["Created at"] = "Erzeugt am/um";
 ["Current draft"] = "Aktueller Entwurf";
 ["Current name"] = "Aktueller Name";
-["Latest draft created from #{name} at #{date} #{time}"] = "Letzter Entwurf von #{name} am #{date} um #{time}";
 ["Current status"] = "Aktueller Status";
 ["Current trustee"] = "Aktueller Delegierter";
 ["Current votings in areas you are member of and issues you are interested in:"] = "Jetzt laufende Abstimmungen zu Themen aus Deinen Themenbereichen oder solchen an denen Du interessiert bist:";
@@ -212,7 +213,6 @@ return {
 ["Email confirmation request"] = "Bestätigung deiner E-Mail-Adresse";
 ["Empty help text: #{id}.#{lang}.txt"] = "Leerer Hilfe-Text: #{id}.#{lang}.txt";
 ["Error while converting image. Please note, that only JPG files are supported!"] = "Fehler beim Konvertieren des Bilds. Bitte beachte, dass nur JPG-Dateien unterstützt werden.";
-["Error while resolving openid. Internal message: '#{errmsg}'"] = "Fehler beim Auflösen der OpenID. Interne Fehlermeldung: '#{errmsg}'";
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Fehler beim aktualisieren des Mitglieds, die Datenbank berichtet folgenden Fehler:<br /><br /> (#{errormessage})";
 ["Etherpad authentication failed"] = "Etherpad-Anmeldung fehlgeschlagen";
 ["Event #{id} -> #{num} members"] = false;
@@ -270,8 +270,6 @@ return {
 ["Initiative successfully created"] = "Initiative erfolgreich erzeugt";
 ["Initiative successfully updated"] = "Initiative erfolgreich aktualisiert";
 ["Initiative: "] = "Initiative: ";
-["Initiatives in this area (last created first)"] = "Initiativen in diesem Themenbereich (zuletzt angelegte zuerst)";
-["Initiatives in this area (last updated first)"] = "Initiativen in diesem Themenbereich (zuletzt aktualisierte zuerst)";
 ["Initiatives that invited you to become initiator:"] = "Initiative, die Dich eingeladen haben, Initiator zu werden:";
 ["Initiator invites"] = "Einladungen";
 ["Initiators"] = "Initiatoren";
@@ -308,9 +306,11 @@ return {
 ["JavaScript is disabled or not available."] = "JavaScript ist abgeschaltet oder nicht verfügbar.";
 ["Last activity (updated daily)"] = "Letzte Aktivität (täglich aktualisiert)";
 ["Last snapshot:"] = "Letzte Auszählung:";
+["Latest draft created at #{date} #{time}"] = "Letzter Entwurf vom #{date} um #{time}";
 ["Latest events"] = "Letzte Ereignisse";
 ["License"] = "Lizenz";
 ["LiquidFeedback"] = "LiquidFeedback";
+["List all revisions (#{count})"] = "Zeige alle Versionen (#{count})";
 ["Lock member?"] = "Mitglied sperren?";
 ["Locked?"] = "Gesperrt?";
 ["Login"] = "Anmeldung";
@@ -409,8 +409,6 @@ return {
 ["Open"] = "Offen";
 ["Open initiatives you are supporting which has been updated their draft:"] = "Offene, von dir unterstützte Initiativen, deren Antragstext aktualisiert wurde:";
 ["Open issues"] = "Offene Themen";
-["OpenID"] = false;
-["OpenID Login"] = false;
 ["Opinions"] = "Meinungen";
 ["Options"] = "Optionen";
 ["Organizational unit"] = "Organisationseinheit";
@@ -455,6 +453,7 @@ return {
 ["Potential supporters (before begin of voting)"] = "Potentielle Unterstützer (zum Abstimmungsbeginn)";
 ["Potentially supported"] = "Potentiell unterstützt";
 ["Preview"] = "Vorschau";
+["Proceed with registration"] = "Registrierung fortsetzen";
 ["Profession"] = "Beruf";
 ["Profile"] = "Profil";
 ["Publish"] = "Veröffentlichen";
@@ -463,9 +462,11 @@ return {
 ["Real name"] = "Realname";
 ["Refresh support to current draft"] = "Unterstützung auf aktuellen Entwurf aktualisieren";
 ["Refuse invitation"] = "Einladung ablehnen";
-["Register"] = "Registrieren";
 ["Register new member"] = "Neues Mitglied registrieren";
 ["Registration"] = "Registrierung";
+["Registration (step 1 of 3: Invite code)"] = "Registrierung (Schritt 1 von 3: Einladungs-Code)";
+["Registration (step 2 of 3: Personal information)"] = "Registrierung (Schritt 2 von 3: Persönliche Daten)";
+["Registration (step 3 of 3: Terms of use and password)"] = "Registrierung (Schritt 3 von 3: Nutzungsbedingungen und Kennwort)";
 ["Rejected"] = "Abgelehnt";
 ["Remove"] = "Entfernen";
 ["Remove from contacts"] = "Aus den Kontakten entfernen";
@@ -516,7 +517,6 @@ return {
 ["Show help text"] = "Zeige Hilfe-Text";
 ["Show member"] = "Mitglied anzeigen";
 ["Show member history"] = "Historie des Mitglieds anzeigen";
-["Show old revision"] = "Zeige alte Entwürfe";
 ["Show older events"] = "Zeige ältere Ereignisse";
 ["Show only events which match... (or associtated)"] = "Zeige nur Ereignisse welche folgendes erfüllen... (oder-verknüpft)";
 ["Show policies in use"] = "Zeige Regelwerke in Verwendung";
@@ -526,7 +526,6 @@ return {
 ["Software"] = "Software";
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Sorry, aber für diesen Account ist keine bestätigte E-Mail-Adresse hinterlegt. Bitte wende Dich an den Administrator oder den Support.";
 ["Sorry, but you are currently not invited"] = "Sorry, aber Du bist zur Zeit nicht eingeladen";
-["Sorry, it was not possible to verify your OpenID."] = "Sorry, es war nicht möglich deine OpenID zu verifizieren.";
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Sorry, Du hast Dein persönliches Flood-Limit erreicht. Bitte sei langsamer...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Sorry, Dein Antragskontingent ist zur Zeit ausgeschöpft. Bitte versuche es später erneut!";
 ["Source"] = "Quelltext";
@@ -535,9 +534,6 @@ return {
 ["Statement"] = "Statement";
 ["Status"] = "Status";
 ["Status quo: #{rank}"] = "Status quo: #{rank}";
-["Step 1/3: Invite code"] = "Step 1/3: Einladungs-Code";
-["Step 2/3: Personal information"] = "Step 2/3: Persönliche Daten";
-["Step 3/3: Terms of use and password"] = "Step 3/3: Nutzungsbedingungen und Kennwort";
 ["Stop ignoring initiative"] = "Initiative nicht mehr ignorieren";
 ["Stop ignoring member"] = "nicht mehr ignorieren";
 ["Strict direct majority"] = "Strenge direkte Mehrheit";
@@ -565,7 +561,6 @@ return {
 ["The drafts do not differ"] = "Die Entwürfe unterscheiden sich nicht";
 ["The initiators suggest to support the following initiative:"] = "Die Initiatoren empfehlen folgende Initiative zu unterstützen:";
 ["This email address is too short!"] = "Diese E-Mail-Adresse ist zu kurz!";
-["This identifier is not allowed for this instance."] = "Dieser Identifier ist für diese Instanz nicht zugelassen.";
 ["This initiative"] = "Diese Initiative";
 ["This initiative has been revoked at #{revoked}"] = "Diese Initiative wurde am/um #{revoked} zurückgezogen";
 ["This initiative has not been admitted! It failed the quorum of #{quorum}."] = "Diese Initiative wurde nicht zugelassen. Sie hat das Quorum von #{quorum} nicht erreicht.";
