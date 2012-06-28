@@ -116,7 +116,7 @@ function Event.object:send_notification()
             body = body .. _("i#{id}: #{name}", { id = initiative.id, name = initiative.name }) .. "\n"
           end
           if initiative_count - 3 > 0 then
-            body = body .. _("and #{count} more initiatives", { count = initiative_count }) .. "\n"
+            body = body .. _("and #{count} more initiatives", { count = initiative_count - 3 }) .. "\n"
           end
           body = body .. "\n"
         end
