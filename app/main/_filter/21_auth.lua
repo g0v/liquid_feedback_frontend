@@ -34,6 +34,7 @@ if config.public_access then
     or module == "draft" and view == "show"
     or module == "draft" and view == "list"
     or module == "index" and view == "search"
+    or module == "index" and view = "use_terms"
   then
     auth_needed = false
   end
