@@ -281,7 +281,7 @@ return {
 ["Internal posts"] = "Interne Ämter";
 ["Interval format:"] = "Intervall-Format";
 ["Invalid query"] = "Ungültige Anfrage";
-["Invalid username or password!"] = "Ungültiger Benutzername oder Kennwort";
+["Invalid login or password!"] = "Anmeldename oder Kennwort ungültig";
 ["Invitation has been refused"] = "Einladung wurde widerrufen";
 ["Invitation to LiquidFeedback"] = "Einladung zu LiquidFeedback";
 ["Invite an initiator to initiative"] = "Initiator zur Initiative einladen";
@@ -587,7 +587,7 @@ return {
 ["This site is using"] = "Diese Seite benutzt";
 ["This suggestion has been meanwhile deleted"] = "Diese Anregung wurde zwischenzeitlich gelöscht";
 ["This title is really too short!"] = "Dieser Titel ist wirklich zu kurz!";
-["This username is too short!"] = "Dieser Benutzername ist zu kurz!";
+["This login name is too short!"] = "Dieser Anmeldename ist zu kurz!";
 ["Thursday"] = "Donnerstag";
 ["Timeline"] = "Zeitachse";
 ["Title"] = "Titel";
@@ -674,7 +674,7 @@ return {
 ["You were interested"] = "Du warst interessiert";
 ["You were potential supporter"] = "Du bist potentieller Unterstützer";
 ["You were supporter"] = "Du bist Unterstützer";
-["You've successfully registered and you can login now with your login and password!"] = "Du hast Dich erfolgreich registriert und kannst Dich jetzt mit Deinen Benutzernamen und Kennwort anmelden!";
+["You've successfully registered and you can login now with your login and password!"] = "Du hast Dich erfolgreich registriert und kannst Dich jetzt mit Deinen Anmeldenamen und Kennwort anmelden!";
 ["Your email address has been changed, please check for confirmation email with activation link!"] = "Deine E-Mail-Adresse wurde geändert, du hast eine Bestätigungs-E-Mail mit Aktivierungslink erhalten.";
 ["Your login has been changed to '#{login}'"] = "Dein Anmeldename wurde auf '#{login}' geändert";
 ["Your name has been changed"] = "Dein Name wurde geändert";
