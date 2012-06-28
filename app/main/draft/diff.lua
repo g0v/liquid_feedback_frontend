@@ -73,7 +73,7 @@ new_draft_file:write(new_draft_content)
 new_draft_file:write("\n")
 new_draft_file:close()
 
-local output, err, status = os.pfilter(nil, "sh", "-c", "diff -U 1000000000 '" .. old_draft_filename .. "' '" .. new_draft_filename .. "' | grep -v ^--- | grep -v ^+++ | grep -v ^@")
+local output, err, status = extos.pfilter(nil, "sh", "-c", "diff -U 1000000000 '" .. old_draft_filename .. "' '" .. new_draft_filename .. "' | grep -v ^--- | grep -v ^+++ | grep -v ^@")
 
 os.remove(old_draft_filename)
 os.remove(new_draft_filename)

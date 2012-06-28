@@ -1,13 +1,3 @@
--- forward compatibility for webmcp 1.2
-if not os.pfilter then
-  os.pfilter = extos.pfilter
-end
-if not os.listdir then
-  os.listdir = extos.listdir
-end
-if not os.crypt then
-  os.crypt = extos.crypt
-end
 
 config.app_name = "LiquidFeedback"
 config.app_version = "2.beta12"
@@ -39,8 +29,8 @@ config.locked_profile_fields = {
 
 config.member_image_content_type = "image/jpeg"
 config.member_image_convert_func = {
-  avatar = function(data) return os.pfilter(data, "convert", "jpeg:-", "-thumbnail",   "48x48", "jpeg:-") end,
-  photo =  function(data) return os.pfilter(data, "convert", "jpeg:-", "-thumbnail", "240x240", "jpeg:-") end
+  avatar = function(data) return extos.pfilter(data, "convert", "jpeg:-", "-thumbnail",   "48x48", "jpeg:-") end,
+  photo =  function(data) return extos.pfilter(data, "convert", "jpeg:-", "-thumbnail", "240x240", "jpeg:-") end
 }
 
 config.member_image_default_file = {

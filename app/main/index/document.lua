@@ -17,7 +17,7 @@ end)
 
 util.help("index.document", _"Download documents")
 
-local file_list = os.listdir(config.document_dir)
+local file_list = extos.listdir(config.document_dir)
 
 local tmp = {}
 for i, filename in ipairs(file_list) do

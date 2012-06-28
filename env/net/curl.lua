@@ -1,5 +1,5 @@
 function net.curl(url)
-  local stdout, errmsg, status = os.pfilter(nil, "curl", url)
+  local stdout, errmsg, status = extos.pfilter(nil, "curl", url)
   if not stdout then
     error("Error while executing curl: " .. errmsg)
   end

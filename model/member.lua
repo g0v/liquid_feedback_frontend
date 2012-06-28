@@ -270,20 +270,20 @@ function Member:build_selector(args)
 end
 
 function Member.object:set_password(password)
-  local hash = os.crypt(
+  local hash = extos.crypt(
     password,
     "$1$" .. multirand.string(
       8,
       "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz./"
     )
   )
-  assert(hash, "os.crypt failed")
+  assert(hash, "extos.crypt failed")
   self.password = hash
 end
 
 function Member.object:check_password(password)
   if type(password) == "string" and type(self.password) == "string" then
-    return os.crypt(password, self.password) == self.password
+    return extos.crypt(password, self.password) == self.password
   else
     return false
   end

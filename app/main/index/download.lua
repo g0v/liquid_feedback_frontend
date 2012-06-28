@@ -25,7 +25,7 @@ ui.container{
 }
 
 
-local file_list = os.listdir(config.download_dir)
+local file_list = extos.listdir(config.download_dir)
 
 local tmp = {}
 for i, filename in ipairs(file_list) do

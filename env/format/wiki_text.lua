@@ -1,7 +1,7 @@
 function format.wiki_text(wiki_text, formatting_engine)
   local formatting_engine = formatting_engine or "rocketwiki"
   local html, errmsg, exitcode = assert(
-    os.pfilter(wiki_text, config.formatting_engine_executeables[formatting_engine])
+    extos.pfilter(wiki_text, config.formatting_engine_executeables[formatting_engine])
   )
   if exitcode > 0 then
     error("Wiki parser process returned with error code " .. tostring(exitcode))
