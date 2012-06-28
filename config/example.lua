@@ -2,10 +2,6 @@
 -- MANDATORY CONFIG OPTIONS (MUST BE SET!)
 -- ========================================================================
 
--- Name of this instance, defaults to name of config file
--- ------------------------------------------------------------------------
-config.instance_name = "Instance name"
-
 -- Information about service provider (HTML)
 -- ------------------------------------------------------------------------
 config.app_service_provider = "Snake Oil<br/>10000 Berlin<br/>Germany"
@@ -21,13 +17,22 @@ config.use_terms_checkboxes = {
     name = "terms_of_use_v1",
     html = "I accept the terms of use.",
     not_accepted_error = "You have to accept the terms of use to be able to register."
-  }
+  },
+--  {
+--    name = "extra_terms_of_use_v1",
+--    html = "I accept the extra terms of use.",
+--    not_accepted_error = "You have to accept the extra terms of use to be able to register."
+--  }
 }
 
 -- ========================================================================
 -- Optional config options
 -- Remove leading -- to enable a option
 -- ========================================================================
+
+-- Name of this instance, defaults to name of config file
+-- ------------------------------------------------------------------------
+-- config.instance_name = "Instance name"
 
 -- Connection information for the LiquidFeedback database
 -- ------------------------------------------------------------------------
@@ -45,14 +50,17 @@ config.use_terms_checkboxes = {
 -- ------------------------------------------------------------------------
 -- config.default_lang = "en"
 
--- after how long is a user considered inactive and the trustee will see warning
--- notation is according to postgresql intervals
+-- after how long is a user considered inactive and the trustee will see warning,
+-- notation is according to postgresql intervals, default: no warning at all
 -- ------------------------------------------------------------------------
 -- config.delegation_warning_time = '6 months'
 
--- Sender and prefix of all automatic mails, default to "[Liquid Feedback] "
+-- Prefix of all automatic mails, defaults to "[Liquid Feedback] "
 -- ------------------------------------------------------------------------
 -- config.mail_subject_prefix = "[LiquidFeedback] "
+
+-- Sender of all automatic mails, defaults to system defaults
+-- ------------------------------------------------------------------------
 -- config.mail_envelope_from = "liquid-support@example.com"
 -- config.mail_from = "LiquidFeedback"
 -- config.mail_reply_to = "liquid-support@example.com"
@@ -71,10 +79,11 @@ config.use_terms_checkboxes = {
 
 -- Set public access level
 -- Available options: false, "anonymous", "pseudonym", "full"
+-- Defaults to "full"
 -- ------------------------------------------------------------------------
 -- config.public_access = "full"
 
--- Use custom image conversion
+-- Use custom image conversion, defaults to ImageMagick's convert
 -- ------------------------------------------------------------------------
 --config.member_image_content_type = "image/jpeg"
 --config.member_image_convert_func = {
@@ -82,7 +91,7 @@ config.use_terms_checkboxes = {
 --  photo =  function(data) return extos.pfilter(data, "convert", "jpeg:-", "-thumbnail", "240x240", "jpeg:-") end
 --}
 
--- Integration of Etherpad
+-- Integration of Etherpad, disabled by default
 -- ------------------------------------------------------------------------
 --config.etherpad = {
 --  base_url = "http://example.com:9001/",
@@ -102,7 +111,7 @@ config.use_terms_checkboxes = {
 
 
 -- ========================================================================
--- Do main initialisation (DO NOT REMOVE THIS SECTION)
+-- Do main initialisation (DO NOT REMOVE FOLLOWING SECTION)
 -- ========================================================================
 
 execute.config("init")

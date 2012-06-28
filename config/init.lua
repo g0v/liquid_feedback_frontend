@@ -1,3 +1,9 @@
+-- ========================================================================
+-- DO NOT CHANGE ANYTHING IN THIS FILE
+-- (except when you really know what you are doing!)
+-- ========================================================================
+
+
 config.app_version = "2.beta12"
 
 if not config.instance_name then
@@ -39,6 +45,10 @@ if config.member_image_convert_func == nil then
   }
 end
 
+if config.public_access == nil then
+  config.public_access = "full"
+end
+
 if not config.database then
   config.database = { engine='postgresql', dbname='liquid_feedback' }
 end
@@ -46,7 +56,7 @@ end
 request.set_404_route{ module = 'index', view = '404' }
 
 -- open and set default database handle
-db = assert(mondelefant.connect(config.database)
+db = assert(mondelefant.connect(config.database))
 at_exit(function() 
   db:close()
 end)
@@ -61,7 +71,6 @@ function db:sql_tracer(command)
 end
 
 request.set_absolute_baseurl(config.absolute_base_url)
-
 
 
 -- TODO abstraction
