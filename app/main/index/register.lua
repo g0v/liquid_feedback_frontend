@@ -39,6 +39,9 @@ ui.form{
         name  = 'code',
         value = param.get("invite")
       }
+      ui.submit{
+        text = _'Proceed with registration'
+      }
 
     else
       local member = Member:new_selector()
@@ -111,6 +114,9 @@ ui.form{
             value     = param.get("login") or member.login
           }
         end
+        ui.submit{
+          text = _'Proceed with registration'
+        }
       else
 
         ui.field.hidden{ name = "step", value = "3" }
@@ -204,13 +210,11 @@ ui.form{
           label     = _'Password (repeat)',
           name      = 'password2',
         }
-
+        ui.submit{
+          text = _'Activate account'
+        }
       end
     end
-
-        ui.submit{
-          text = _'Create account'
-        }
   end
 }
 
