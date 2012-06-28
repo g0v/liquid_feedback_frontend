@@ -1,14 +1,11 @@
 execute.view{ module = "index", view = "_lang_chooser" }
 
-slot.put_into("title", _"Registration")
-
 local step = param.get("step", atom.integer)
 local code = param.get("code")
 local notify_email = param.get("notify_email")
 local name = param.get("name")
 local login = param.get("login")
 
-slot.put_into("title", " (")
 ui.form{
   attr = { class = "vertical" },
   module = 'index',
@@ -22,7 +19,7 @@ ui.form{
   content = function()
 
     if not code then
-      slot.put_into("title", _"Step 1/3: Invite code")
+      ui.title(_"Registration (step 1 of 3: Invite code)")
       ui.field.hidden{ name = "step", value = 1 }
       ui.tag{
         tag = "p",
@@ -43,7 +40,7 @@ ui.form{
         :exec()
 
       if not member.notify_email and not notify_email or not member.name and not name or not member.login and not login or step == 1 then
-        slot.put_into("title", _"Step 2/3: Personal information")
+        ui.title(_"Registration (step 2 of 3: Personal information)")
         ui.field.hidden{ name = "step", value = 2 }
         slot.select("actions", function()
           ui.link{
@@ -101,7 +98,7 @@ ui.form{
       else
 
         ui.field.hidden{ name = "step", value = "3" }
-        slot.put_into("title", _"Step 3/3: Terms of use and password")
+        ui.title(_"Registration (step 3 of 3: Terms of use and password)")
         slot.select("actions", function()
           ui.link{
             content = function()
@@ -183,10 +180,9 @@ ui.form{
     end
 
         ui.submit{
-          text = _'Register'
+          text = _'Create account'
         }
 
-        slot.put_into("title", ")")
         slot.select("actions", function()
           ui.link{
             content = function()
