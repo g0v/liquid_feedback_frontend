@@ -33,7 +33,7 @@ config.motd_public = "==Public motd=="
 
 --config.motd_intern = "==Internal motd=="
 
-config.public_access = "full"
+config.public_access = "anonym"
 
 -- you can put some js code to the bottom on the page
 -- here it opens the trace window

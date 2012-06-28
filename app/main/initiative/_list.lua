@@ -14,6 +14,7 @@ local highlight_initiative = param.get("highlight_initiative", "table")
 local for_member = param.get("for_member", "table") or app.session.member
 
 local limit = param.get("limit", atom.number)
+local hide_more_initiatives = param.get("hide_more_initiatives", atom.boolean)
 
 local more_initiatives_count
 if limit then
@@ -60,7 +61,7 @@ for i, initiative in ipairs(initiatives) do
   }
 end
 
-if more_initiatives_count and more_initiatives_count > 0 then
+if not hide_more_initiatives and more_initiatives_count and more_initiatives_count > 0 then
   local text
   if more_initiatives_count == 1 then
     text = _("and one more initiative")

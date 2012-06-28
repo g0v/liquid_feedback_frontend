@@ -1,33 +1,40 @@
+local module = request.get_module()
+local view   = request.get_view()
+local action = request.get_action()
+
 local auth_needed = not (
-  request.get_module() == 'index'
+  module == 'index'
   and (
-       request.get_view()   == "index"
-    or request.get_view()   == "login"
-    or request.get_action() == "login"
-    or request.get_view()   == "register"
-    or request.get_action() == "register"
-    or request.get_view()   == "about"
-    or request.get_view()   == "reset_password"
-    or request.get_action() == "reset_password"
-    or request.get_view()   == "confirm_notify_email"
-    or request.get_action() == "confirm_notify_email"
-    or request.get_view()   == "menu"
-    or request.get_action() == "set_lang"
+       view   == "index"
+    or view   == "login"
+    or action == "login"
+    or view   == "register"
+    or action == "register"
+    or view   == "about"
+    or view   == "reset_password"
+    or action == "reset_password"
+    or view   == "confirm_notify_email"
+    or action == "confirm_notify_email"
+    or view   == "menu"
+    or action == "set_lang"
   )
-  or request.get_module() == "openid"
+  or module == "openid"
 )
 
 if config.public_access then
 
   if
-    request.get_module() == "area" and request.get_view() == "show"
-    or request.get_module() == "unit" and request.get_view() == "show"
-    or request.get_module() == "policy" and request.get_view() == "show"
-    or request.get_module() == "policy" and request.get_view() == "list"
-    or request.get_module() == "issue" and request.get_view() == "show"
-    or request.get_module() == "initiative" and request.get_view() == "show"
-    or request.get_module() == "suggestion" and request.get_view() == "show"
-    or request.get_module() == "draft" and request.get_view() == "diff"
+    module == "area" and view == "show"
+    or module == "unit" and view == "show"
+    or module == "policy" and view == "show"
+    or module == "policy" and view == "list"
+    or module == "issue" and view == "show"
+    or module == "initiative" and view == "show"
+    or module == "suggestion" and view == "show"
+    or module == "draft" and view == "diff"
+    or module == "draft" and view == "show"
+    or module == "draft" and view == "list"
+    or module == "index" and view == "search"
   then
     auth_needed = false
   end
@@ -35,19 +42,19 @@ if config.public_access then
 end
 
 if config.public_access == "full" then
-  if request.get_module() == "member_image" and request.get_view() == "show"
-   or request.get_module() == "vote" and request.get_view() == "show_incoming"
-   or request.get_module() == "interest" and request.get_view() == "show_incoming"
-   or request.get_module() == "supporter" and request.get_view() == "show_incoming" then
+  if module == "member_image" and view == "show"
+   or module == "vote" and view == "show_incoming"
+   or module == "interest" and view == "show_incoming"
+   or module == "supporter" and view == "show_incoming" then
     auth_needed = false
   end
 end
 
-if request.get_module() == "sitemap" then
+if module == "sitemap" then
   auth_needed = false
 end
 
-if config.public_access and not app.session.member_id and auth_needed and request.get_module() == "index" and request.get_view() == "index" then
+if config.public_access and not app.session.member_id and auth_needed and module == "index" and view == "index" then
   if config.single_unit_id then
     request.redirect{ module = "unit", view = "show", id = config.single_unit_id }
   else
@@ -65,8 +72,8 @@ if auth_needed and app.session.member == nil then
   trace.debug("Not authenticated yet.")
   request.redirect{
     module = 'index', view = 'login', params = {
-      redirect_module = request.get_module(),
-      redirect_view = request.get_view(),
+      redirect_module = module,
+      redirect_view = view,
       redirect_id = param.get_id()
     }
   }

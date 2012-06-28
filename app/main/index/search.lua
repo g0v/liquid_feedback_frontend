@@ -14,18 +14,21 @@ ui.form{
   } },
   attr = { class = "vertical" },
   content = function()
-    ui.field.select{
-      label = _"Search context",
-      name = "search_for",
-      value = search_for,
-      foreign_records = {
-        { id = "global", name = _"Global search" },
-        { id = "member", name = _"Search for members" },
-        { id = "issue", name = _"Search for issues" }
-      },
-      foreign_id = "id",
-      foreign_name = "name",
-    }
+    
+    if app.session.member_id or config.public_access == "full" then
+      ui.field.select{
+        label = _"Search context",
+        name = "search_for",
+        value = search_for,
+        foreign_records = {
+          { id = "global", name = _"Global search" },
+          { id = "member", name = _"Search for members" },
+          { id = "issue", name = _"Search for issues" }
+        },
+        foreign_id = "id",
+        foreign_name = "name",
+      }
+    end
     ui.field.text{ label = _"Search term (only complete words)", name = "search", value = search_string }
     ui.submit{ value = _"Start search" }
   end
@@ -35,15 +38,17 @@ slot.put("<br />")
 
 if search_string then
 
-  if search_for == "global" or search_for == "member" then
-    local members_selector = Member:get_search_selector(search_string)
-    execute.view{
-      module = "member",
-      view = "_list",
-      params = { members_selector = members_selector },
-    }
+  if app.session.member_id or config.public_access == "full" then
+    if search_for == "global" or search_for == "member" then
+      local members_selector = Member:get_search_selector(search_string)
+      execute.view{
+        module = "member",
+        view = "_list",
+        params = { members_selector = members_selector },
+      }
+    end
   end
-
+    
   if search_for == "global" or search_for == "issue" then
     local issues_selector = Issue:get_search_selector(search_string)
     execute.view{

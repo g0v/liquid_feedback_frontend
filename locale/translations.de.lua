@@ -43,7 +43,6 @@ return {
 ["Add my interest"] = "Mein Interesse anmelden";
 ["Add new suggestion"] = "Neue Anregung hinzufügen";
 ["Add new unit"] = "Neue Gliederung";
-["Add suggestion"] = "Neue Anregung";
 ["Add to my contacts"] = "Zu meinen Kontakten hinzufügen";
 ["Address"] = "Anschrift";
 ["Admin"] = "Admin";
@@ -144,6 +143,7 @@ return {
 ["Created at"] = "Erzeugt am/um";
 ["Current draft"] = "Aktueller Entwurf";
 ["Current name"] = "Aktueller Name";
+["Latest draft created from #{name} at #{date} #{time}"] = "Letzter Entwurf von #{name} am #{date} um #{time}";
 ["Current status"] = "Aktueller Status";
 ["Current trustee"] = "Aktueller Delegierter";
 ["Current votings in areas you are member of and issues you are interested in:"] = "Jetzt laufende Abstimmungen zu Themen aus Deinen Themenbereichen oder solchen an denen Du interessiert bist:";
@@ -260,7 +260,6 @@ return {
 ["Initiated"] = "Initiiert";
 ["Initiative"] = "Initiative";
 ["Initiative ##{id}"] = "Initiative ##{id}";
-["Initiative details"] = "Details zur Initiative";
 ["Initiative events"] = "Initiativen-Ereignisse";
 ["Initiative i#{id}: #{name}"] = "Initiative i#{id}: #{name}";
 ["Initiative is revoked now"] = "Initiative ist jetzt zurückgezogen";
@@ -280,6 +279,7 @@ return {
 ["Interest removed"] = "Interesse entfernt";
 ["Interest updated"] = "Interesse aktualisiert";
 ["Interested"] = "Interessiert";
+["Interested members"] = "Interessierte Mitglieder";
 ["Internal posts"] = "Interne Ämter";
 ["Interval format:"] = "Intervall-Format";
 ["Invalid query"] = "Ungültige Anfrage";
@@ -295,7 +295,6 @@ return {
 ["Issue accepted"] = "Thema akzeptiert";
 ["Issue canceled"] = "Thema abgebrochen";
 ["Issue delegation"] = "Issue-Delegation";
-["Issue details"] = "Details zum Thema";
 ["Issue events"] = "Themen-Ereignisse";
 ["Issue finished"] = "Thema abgeschlossen";
 ["Issue finished without voting"] = "Thema ohne Abstimmung abgeschlossen";
@@ -336,7 +335,7 @@ return {
 ["Member page"] = "Mitgliederseite";
 ["Member successfully registered"] = "Mitglied erfolgreich registriert";
 ["Member successfully updated"] = "Mitglied erfolgreich aktualisert";
-["Member voting"] = "Abstimmungsverhalten";
+["Member voter"] = false;
 ["Member: '#{identification}' (#{name})"] = "Mitglied: '#{identification}' (#{name})";
 ["Members"] = "Mitglieder";
 ["Membership not existent"] = "Mitgliedschaft existiert nicht";
@@ -374,14 +373,18 @@ return {
 ["No more events available"] = "Keine weiteren Ereignisse verfügbar";
 ["No multistage majority"] = "Keine mehrstufigen Mehrheiten";
 ["No notifications at all"] = "Gar keine Benachrichtigungen";
+["No potential supporters"] = "Keine potentiellen Unterstützer";
+["No potential supporters (before begin of voting)"] = "Keine potentiellen Unterstützer (zum Abstimmungsbeginn)";
 ["No reverse beat path"] = "Kein rückwärtsgerichteter Schlagpfad";
+["No suggestions"] = "Keine Anregungen";
+["No suggestions yet"] = "Noch keine Anregungen";
+["No supporters"] = "Keine Unterstützer";
+["No supporters (before begin of voting)"] = "Keine Unterstützer (zum Abstimmungsbeginn)";
 ["Not a member"] = "Kein Mitglied";
 ["Not accepted yet"] = "Bisher nicht angenommen";
 ["Not approved"] = "Nicht angenommen";
 ["Not approved (rank #{rank})"] = "Nicht angenommen (Rang #{rank})";
 ["Not voted"] = "Nicht abgestimmt";
-["Not voted (not admitted)"] = "Nicht abgestimmt (nicht zugelassen)";
-["Not voted (revoked from initiator)"] = "Nicht abgestimmt (durch Initiator zurückgezogen)";
 ["Not voted issues"] = "Nicht abgestimmt";
 ["Notification address unconfirmed"] = "E-Mail-Adresse für Benachrichtigungen unbestätigt";
 ["Notification email"] = "E-Mail für Benachrichtigungs";
@@ -449,6 +452,7 @@ return {
 ["Posts"] = "Ämter";
 ["Potential supported"] = "Potentiell unterstützt";
 ["Potential supporters"] = "Potentielle Unterstützer";
+["Potential supporters (before begin of voting)"] = "Potentielle Unterstützer (zum Abstimmungsbeginn)";
 ["Potentially supported"] = "Potentiell unterstützt";
 ["Preview"] = "Vorschau";
 ["Profession"] = "Beruf";
@@ -512,6 +516,7 @@ return {
 ["Show help text"] = "Zeige Hilfe-Text";
 ["Show member"] = "Mitglied anzeigen";
 ["Show member history"] = "Historie des Mitglieds anzeigen";
+["Show old revision"] = "Zeige alte Entwürfe";
 ["Show older events"] = "Zeige ältere Ereignisse";
 ["Show only events which match... (or associtated)"] = "Zeige nur Ereignisse welche folgendes erfüllen... (oder-verknüpft)";
 ["Show policies in use"] = "Zeige Regelwerke in Verwendung";
@@ -552,6 +557,7 @@ return {
 ["Support this initiative"] = "Diese Initiative unterstützen";
 ["Supported"] = "Unterstützt";
 ["Supporters"] = "Unterstützer";
+["Supporters (before begin of voting)"] = "Unterstützer (zum Abstimmungesbeginn)";
 ["Syntax help"] = "Syntax-Hilfe";
 ["Terms of use"] = "Nutzungsbedingungen";
 ["The code you've entered is invalid"] = "Der Code, den Du eingeben hast, ist nicht gültig!";
@@ -561,7 +567,6 @@ return {
 ["This email address is too short!"] = "Diese E-Mail-Adresse ist zu kurz!";
 ["This identifier is not allowed for this instance."] = "Dieser Identifier ist für diese Instanz nicht zugelassen.";
 ["This initiative"] = "Diese Initiative";
-["This initiative compared to alternative initiatives"] = "Diese Initiative im Vergleich zu alternativen Initiativen";
 ["This initiative has been revoked at #{revoked}"] = "Diese Initiative wurde am/um #{revoked} zurückgezogen";
 ["This initiative has not been admitted! It failed the quorum of #{quorum}."] = "Diese Initiative wurde nicht zugelassen. Sie hat das Quorum von #{quorum} nicht erreicht.";
 ["This initiative is already revoked"] = "Diese Initiative ist schon zurückgezogen";
@@ -668,7 +673,6 @@ return {
 ["You have ignored this initiative"] = "Du ignorierst diese Initiative";
 ["You have ignored this member"] = "Du ignorierst dieses Mitglied";
 ["You have not voted #{count} issue(s) you were interested in"] = "Du hast für #{count} Themen, die dich interessieren, noch nicht abgestimmt";
-["You have saved this member as contact"] = "Du hast das Mitglied als Kontakt gespeichert";
 ["You have to mark 'Are you sure' to revoke!"] = "Zum Zurückziehen musst Du 'Sicher?' auswählen";
 ["You have voting privileges for this unit"] = "Du hast Stimmrecht in dieser Gliederung";
 ["You need to be logged in, to use all features of this system."] = "Du musst eingeloggt sein, um alle Funktionen dieses Systems nutzen zu können.";

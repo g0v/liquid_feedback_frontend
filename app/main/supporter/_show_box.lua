@@ -1,7 +1,5 @@
 local initiative = param.get("initiative", "table") or Initiative:by_id(param.get_id())
 
--- TODO performance
-local initiator = Initiator:by_pk(initiative.id, app.session.member.id)
 
 local initiative = param.get("initiative", "table")
 local supporter = Supporter:by_pk(initiative.id, app.session.member.id)
@@ -77,57 +75,10 @@ if not initiative.issue.fully_frozen and not initiative.issue.closed then
   end
 end
 
-if (initiative.discussion_url and #initiative.discussion_url > 0) then
-  if initiative.discussion_url:find("^https?://") then
-    if initiative.discussion_url and #initiative.discussion_url > 0 then
-      ui.link{
-        attr = {
-          target = "_blank",
-          title = _"Discussion with initiators"
-        },
-        text = _"Discuss with initiators",
-        external = initiative.discussion_url
-      }
-      slot.put(" ")
-    end
-  else
-    slot.put(encode.html(initiative.discussion_url))
-  end
-end
-if initiator and initiator.accepted and not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked then
-  ui.link{
-    text   = _"change discussion URL",
-    module = "initiative",
-    view   = "edit",
-    id     = initiative.id
-  }
-  slot.put(" ")
-end
-if initiator and initiator.accepted and not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked then
-  ui.link{
-    content = function()
-      slot.put(_"Edit draft")
-    end,
-    module = "draft",
-    view = "new",
-    params = { initiative_id = initiative.id }
-  }
-  slot.put(" ")
-end
 
-if initiator and initiator.accepted and not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked then
-  ui.link{
-    content = function()
-      slot.put(_"Revoke initiative")
-    end,
-    module = "initiative",
-    view = "revoke",
-    id = initiative.id
-  }
-  slot.put(" ")
-end
 
 if not initiative.issue.closed then
+  slot.put(" &middot; ")
   local ignored_initiative = IgnoredInitiative:by_pk(app.session.member.id, initiative.id)
   if ignored_initiative then
     ui.tag{

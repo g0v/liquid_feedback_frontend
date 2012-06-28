@@ -346,6 +346,14 @@ div.notifications {
   padding: 8px 10px 2px 10px;
 }
 
+.initiative_head .draft_version {
+  font-weight: bold;
+}
+
+.initiative_head a.title {
+  display: block;
+}
+
 .area_list .title {
   padding: 8px 10px 0px 10px;
 }
@@ -942,7 +950,6 @@ div.notifications {
 }
 
 .issue .suggestion {
-  margin-left: 1ex;
   margin-bottom: 1ex;
   font-weight: bold;
 }
@@ -1285,7 +1292,7 @@ x.initiative_link.potentially_supported {
 }
 
 .wiki {
-  line-height: 133%;
+  line-height: 150%;
 }
 
 .wiki h1,

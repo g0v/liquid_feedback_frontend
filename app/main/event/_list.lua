@@ -151,15 +151,6 @@ ui.container{ attr = { class = "issues events" }, content = function()
         }
       end }
 
-      if event.suggestion_id then
-        ui.container{ attr = { class = "suggestion" }, content = function()
-          ui.link{
-            text = event.suggestion.name,
-            module = "suggestion", view = "show", id = event.suggestion_id
-          }
-        end }   
-      end
-
       ui.container{ attr = { class = "initiative_list" }, content = function()
         if not event.initiative_id then
           local initiatives_selector = Initiative:new_selector()
@@ -169,7 +160,7 @@ ui.container{ attr = { class = "issues events" }, content = function()
             issue = event.issue,
             initiatives_selector = initiatives_selector,
             no_sort = true,
-            limit = 3
+            limit = 5
           } }
         else
         local initiatives_selector = Initiative:new_selector()
@@ -178,23 +169,20 @@ ui.container{ attr = { class = "issues events" }, content = function()
             issue = event.issue,
             initiatives_selector = initiatives_selector,
             no_sort = true,
-            limit = 1
+            limit = 1,
+            hide_more_initiatives = true
           } }
         end
       end }
 
-      --[[      
-      if event.initiative_id then
-        ui.container{ attr = { class = "initiative_id" }, content = event.initiative_id }
-      end
-      if event.draft_id then
-        ui.container{ attr = { class = "draft_id" }, content = event.draft_id }
-      end
-      if event.suggestion_id then
-        ui.container{ attr = { class = "suggestion_id" }, content = event.suggestion_id }
-      end
---]]
-      
+      ui.container{ attr = { class = "content suggestion" }, content = function()
+        if event.suggestion_id then
+          ui.link{
+            text = event.suggestion.name,
+            module = "suggestion", view = "show", id = event.suggestion_id
+          }
+        end
+      end }
     end }
   end
 
