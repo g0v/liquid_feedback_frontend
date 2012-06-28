@@ -26,7 +26,12 @@ config.use_terms_checkboxes = {
 
 -- ========================================================================
 -- Optional config options
+-- Remove leading -- to enable a option
 -- ========================================================================
+
+-- Connection information for the LiquidFeedback database
+-- ------------------------------------------------------------------------
+-- config.database = { engine='postgresql', dbname='liquid_feedback' }
 
 -- Absolute base url of application
 -- ------------------------------------------------------------------------

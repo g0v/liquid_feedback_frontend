@@ -39,13 +39,14 @@ if config.member_image_convert_func == nil then
   }
 end
 
+if not config.database then
+  config.database = { engine='postgresql', dbname='liquid_feedback' }
+end
+
 request.set_404_route{ module = 'index', view = '404' }
 
 -- open and set default database handle
-db = assert(mondelefant.connect{
-  engine='postgresql',
-  dbname='liquid_feedback'
-})
+db = assert(mondelefant.connect(config.database)
 at_exit(function() 
   db:close()
 end)
