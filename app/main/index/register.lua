@@ -19,6 +19,7 @@ ui.form{
   content = function()
 
     if not code then
+      ui.title(_"Registration (step 1 of 3: Invite code)")
       ui.actions(function()
         ui.link{
           content = function()
@@ -29,6 +30,7 @@ ui.form{
           params = {
           }
         }
+        slot.put(" &middot; ")
         ui.link{
           content = function()
               slot.put(_"Cancel registration")
@@ -37,7 +39,6 @@ ui.form{
           view = "index"
         }
       end)
-      ui.title(_"Registration (step 1 of 3: Invite code)")
       ui.field.hidden{ name = "step", value = 1 }
       ui.tag{
         tag = "p",
@@ -70,6 +71,7 @@ ui.form{
             params = {
             }
           }
+          slot.put(" &middot; ")
           ui.link{
             content = function()
                 slot.put(_"Cancel registration")
@@ -138,6 +140,7 @@ ui.form{
               step = 1
             }
           }
+          slot.put(" &middot; ")
           ui.link{
             content = function()
                 slot.put(_"Cancel registration")
