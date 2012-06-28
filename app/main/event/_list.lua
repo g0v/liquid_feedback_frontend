@@ -196,10 +196,8 @@ if #events > 0 then
     text = _"Show older events",
     module = request.get_module(),
     view = request.get_view(),
-    id = param.get_id(),
+    id = for_unit and for_unit.id or for_area and for_area.id,
     params = {
-      unit_id = for_unit and for_unit.id,
-      area_id = for_area and for_area.id,
       tab = param.get_all_cgi()["tab"],
       events = param.get_all_cgi()["events"],
       event_max_id = last_event_id
