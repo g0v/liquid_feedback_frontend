@@ -130,6 +130,14 @@ ui.form{
           end
         }
 
+        member.notify_email = notify_email or member.notify_email
+        member.name = name or member.name
+        member.login = login or member.login
+        
+        execute.view{ module = "member", view = "_profile", params = {
+          member = member, include_private_data = true
+        } }
+        
         for i, checkbox in ipairs(config.use_terms_checkboxes) do
           slot.put("<br />")
           ui.tag{
@@ -158,14 +166,6 @@ ui.form{
 
         slot.put("<br />")
 
-        member.notify_email = notify_email or member.notify_email
-        member.name = name or member.name
-        member.login = login or member.login
-        
-        execute.view{ module = "member", view = "_profile", params = {
-          member = member, include_private_data = true
-        } }
-        
         ui.tag{
           tag = "p",
           content = _"Please choose a password and enter it twice. The password is case sensitive."
