@@ -90,9 +90,17 @@ for i, unit in ipairs(units) do
 
     local more_area_text
     if area_count == 0 and more_area_count == 1 then
-      more_area_text = _("You are not participating in the only area of the unit")
+      if app.session.member_id == member.id then
+        more_area_text = _("You are not participating in the only area of the unit")
+      else
+        more_area_text = _("Member is not participating in the only area of the unit")
+      end
     elseif area_count == 0 and more_area_count > 0 then
-      more_area_text = _("You are not participating in any of the #{count} areas in this unit", { count = more_area_count })
+      if app.session.member_id == member.id then
+        more_area_text = _("You are not participating in any of the #{count} areas in this unit", { count = more_area_count })
+      else
+        more_area_text = _("Member is not participating in any of the #{count} areas in this unit", { count = more_area_count })
+      end
     elseif area_count > 0 and more_area_count == 1 then
       more_area_text = _("One more area in this unit")
     elseif area_count > 0 and more_area_count > 0 then
