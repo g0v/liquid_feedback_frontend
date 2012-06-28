@@ -35,6 +35,7 @@ ui.container{ attr = { class = "area_head" }, content = function()
           
           if app.session.member_id == member.id then
             ui.tag{ content = _"You are participating in this area" }
+            slot.put(" ")
             ui.tag{ content = function()
               slot.put("(")
               ui.link{
@@ -57,7 +58,6 @@ ui.container{ attr = { class = "area_head" }, content = function()
           else
             ui.tag{ content = _"Member is participating in this area" }
           end
-          slot.put(" ")
 
         elseif app.session.member_id == member.id and member:has_voting_right_for_unit_id(area.unit_id) then
           ui.link{
