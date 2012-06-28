@@ -587,7 +587,7 @@ return {
 ["This site is using"] = "Diese Seite benutzt";
 ["This suggestion has been meanwhile deleted"] = "Diese Anregung wurde zwischenzeitlich gelöscht";
 ["This title is really too short!"] = "Dieser Titel ist wirklich zu kurz!";
-["This login name is too short!"] = "Dieser Anmeldename ist zu kurz!";
+["This screen name is too short!"] = "Dieser Screen-Name ist zu kurz!";
 ["Thursday"] = "Donnerstag";
 ["Timeline"] = "Zeitachse";
 ["Title"] = "Titel";
