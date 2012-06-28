@@ -2,6 +2,8 @@ if not app.session.member_id then
   return
 end
 
+local member = param.get("member", "table") or app.session.member
+
 local unit  = param.get("unit", "table")
 local area  = param.get("area", "table")
 local issue = param.get("issue", "table")
@@ -19,15 +21,13 @@ if unit then
 end
 
 if area then
-  area:load_delegation_info_once_for_member_id(app.session.member_id)
+  area:load_delegation_info_once_for_member_id(member.id)
   info = area.delegation_info
   delegation_text = _"Delegate area"
 end
 
 if issue then
-  if app.session.member_id then
-    info = issue.member_info
-  end
+  info = issue.member_info
   delegation_text = _"Delegate issue"
 end
 
@@ -53,7 +53,7 @@ if info.own_participation or info.first_trustee_id then
         end
         
         execute.view{ module = "member_image", view = "_show", params = {
-          member = app.session.member, class = class, popup_text = app.session.member.name,
+          member = member, class = class, popup_text = member.name,
           image_type = "avatar", show_dummy = true,
         } }
 
@@ -139,7 +139,7 @@ if info.own_participation or info.first_trustee_id then
           }
 
           execute.view{ module = "member_image", view = "_show", params = {
-            member = app.session.member, class = "micro_avatar", popup_text = app.session.member.name,
+            member = member, class = "micro_avatar", popup_text = member.name,
             image_type = "avatar", show_dummy = true,
           } }
 

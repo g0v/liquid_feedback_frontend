@@ -1,8 +1,9 @@
 local area = param.get("area", "table")
+local member = param.get("member", "table")
 
 ui.container{ attr = { class = "area" }, content = function()
 
-  execute.view{ module = "area", view = "_head", params = { area = area, hide_unit = true, show_content = true } }
+  execute.view{ module = "area", view = "_head", params = { area = area, hide_unit = true, show_content = true, member = member } }
   
   ui.container{ attr = { class = "content" }, content = function()
     ui.tag{ content = _"Issues:" }

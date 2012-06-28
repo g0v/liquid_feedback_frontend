@@ -106,7 +106,7 @@ for i, unit in ipairs(units) do
     end
 
     ui.container{ attr = { class = "area_list" }, content = function()
-      execute.view{ module = "unit", view = "_head", params = { unit = unit, show_content = true } }
+      execute.view{ module = "unit", view = "_head", params = { unit = unit, show_content = true, member = member } }
 
       if area_count > 0 then
         local areas = areas_selector:exec()
@@ -116,7 +116,7 @@ for i, unit in ipairs(units) do
         for i, area in ipairs(areas) do
           execute.view{
             module = "area", view = "_list_entry", params = {
-              area = area
+              area = area, member = member
             }
           }
         end

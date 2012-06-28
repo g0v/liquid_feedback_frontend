@@ -20,7 +20,7 @@ tabs[#tabs+1] = {
 local areas_selector = member:get_reference_selector("areas")
 tabs[#tabs+1] = {
   name = "areas",
-  label = _"Units",
+  label = _"Units and areas",
   icon = { static = "icons/16/package.png" },
   module = "index",
   view = "_member_home",

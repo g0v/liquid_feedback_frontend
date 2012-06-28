@@ -1,4 +1,5 @@
 local area = param.get("area", "table")
+local member = param.get("member", "table")
 
 local show_content = param.get("show_content", atom.boolean)
 
@@ -10,7 +11,7 @@ end
 
 ui.container{ attr = { class = "area_head" }, content = function()
 
-  execute.view{ module = "delegation", view = "_info", params = { area = area } }
+  execute.view{ module = "delegation", view = "_info", params = { area = area, member = member } }
 
   ui.container{ attr = { class = "title" }, content = function()
     -- area name
@@ -28,36 +29,37 @@ ui.container{ attr = { class = "area_head" }, content = function()
       if app.session.member_id then
 
         -- membership
-        local membership = Membership:by_pk(area.id, app.session.member.id)
+        local membership = Membership:by_pk(area.id, member.id)
 
         if membership then
           
-          ui.tag{ content = _"You are participating in this area" }
-          
-          slot.put(" ")
-          
-          ui.tag{ content = function()
-            slot.put("(")
-            ui.link{
-              text    = _"Withdraw",
-              module  = "membership",
-              action  = "update",
-              params  = { area_id = area.id, delete = true },
-              routing = {
-                default = {
-                  mode = "redirect",
-                  module = request.get_module(),
-                  view = request.get_view(),
-                  id = param.get_id_cgi(),
-                  params = param.get_all_cgi()
+          if app.session.member_id == member.id then
+            ui.tag{ content = _"You are participating in this area" }
+            ui.tag{ content = function()
+              slot.put("(")
+              ui.link{
+                text    = _"Withdraw",
+                module  = "membership",
+                action  = "update",
+                params  = { area_id = area.id, delete = true },
+                routing = {
+                  default = {
+                    mode = "redirect",
+                    module = request.get_module(),
+                    view = request.get_view(),
+                    id = param.get_id_cgi(),
+                    params = param.get_all_cgi()
+                  }
                 }
               }
-            }
-            slot.put(")")
-          end }
-          
+              slot.put(")")
+            end }
+          else
+            ui.tag{ content = _"Member is participating in this area" }
+          end
+          slot.put(" ")
 
-        elseif app.session.member:has_voting_right_for_unit_id(area.unit_id) then
+        elseif app.session.member_id == member.id and member:has_voting_right_for_unit_id(area.unit_id) then
           ui.link{
             text   = _"Participate in this area",
             module = "membership",
@@ -75,7 +77,7 @@ ui.container{ attr = { class = "area_head" }, content = function()
           }
         end
         
-        if app.session.member:has_voting_right_for_unit_id(area.unit_id) then
+        if app.session.member_id == member.id and app.session.member:has_voting_right_for_unit_id(area.unit_id) then
 
           slot.put(" &middot; ")
           if area.delegation_info.own_delegation_scope ~= "area" then
