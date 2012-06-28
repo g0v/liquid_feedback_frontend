@@ -651,7 +651,7 @@ return {
 ["You are interested"] = "Du bist interessiert";
 ["You are interested in this issue"] = "Du bist an diesem Thema interessiert";
 ["You are invited to #{count} initiative(s)"] = "Du bist zu #{count} Initiativen als Initiator eingeladen";
-["You are invited to LiquidFeedback. To register please click the following link:\n\n"] = "Du bist zu LiquidFeedback eingeladen. Bitte klicke auf den folgenden Link, um dich zu registrieren:";
+["You are invited to LiquidFeedback. To register please click the following link:\n\n"] = "Du bist zu LiquidFeedback eingeladen. Bitte klicke auf den folgenden Link, um dich zu registrieren:\n\n";
 ["You are invited to become initiator of this initiative."] = "Du bist eingeladen Initiator dieser Initiative zu werden.";
 ["You are member"] = "Du bist Mitglied";
 ["You are not participating in any of the #{count} areas in this unit"] = "Du nimmst an keinem der #{count} Themenbereiche dieser Gliederung teil";
