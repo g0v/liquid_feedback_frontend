@@ -6,10 +6,6 @@
 
 config.app_version = "2.beta12"
 
-if not config.instance_name then
-  config.instance_name = request.get_config_name()
-end
-
 if
   not config.app_service_provider or
   not config.use_terms or

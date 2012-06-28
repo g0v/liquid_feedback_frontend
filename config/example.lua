@@ -1,5 +1,5 @@
 -- ========================================================================
--- MANDATORY CONFIG OPTIONS (MUST BE SET!)
+-- MANDATORY (MUST BE SET!)
 -- ========================================================================
 
 -- Information about service provider (HTML)
@@ -32,22 +32,23 @@ config.formatting_engine_executeables = {
   compat = "/opt/rocketwiki-lqfb/rocketwiki-lqfb-compat"
 }
 
--- ========================================================================
--- Optional config options
--- Remove leading -- to enable a option
--- ========================================================================
+-- Absolute base url of application
+-- ------------------------------------------------------------------------
+config.absolute_base_url = "http://example.com/"
 
 -- Name of this instance, defaults to name of config file
 -- ------------------------------------------------------------------------
--- config.instance_name = "Instance name"
+config.instance_name = "Instance name"
 
 -- Connection information for the LiquidFeedback database
 -- ------------------------------------------------------------------------
--- config.database = { engine='postgresql', dbname='liquid_feedback' }
+config.database = { engine='postgresql', dbname='liquid_feedback' }
 
--- Absolute base url of application
--- ------------------------------------------------------------------------
--- config.absolute_base_url = "http://example.com/"
+
+-- ========================================================================
+-- OPTIONAL
+-- Remove leading -- to use a option
+-- ========================================================================
 
 -- List of enabled languages, defaults to available languages
 -- ------------------------------------------------------------------------
