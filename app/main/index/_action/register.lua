@@ -51,7 +51,7 @@ local name = util.trim(param.get("name"))
 if not config.locked_profile_fields.name and name then
 
   if #name < 3 then
-    slot.put_into("error", _"This username is too short!")
+    slot.put_into("error", _"This login name is too short!")
     request.redirect{
       mode   = "redirect",
       module = "index",
