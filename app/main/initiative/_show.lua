@@ -64,8 +64,8 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
   else
     ui.container{ attr = { class = "title" }, content = text }
   end
-  ui.container{ attr = { class = "content" }, content = function()
-    if app.session.member_id or config.public_access == "pseudonym" or config.public_access == "full" then
+  if app.session.member_id or config.public_access == "pseudonym" or config.public_access == "full" then
+    ui.container{ attr = { class = "content" }, content = function()
       ui.tag{
         attr = { class = "initiator_names" },
         content = function()
@@ -170,11 +170,11 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
           end
         end
       }
-    end
+    end }
+  end
 
-  end }
-  ui.container{ attr = { class = "content" }, content = function()
-    if app.session.member_id then
+  if app.session.member_id then
+    ui.container{ attr = { class = "content" }, content = function()
       execute.view{
         module = "supporter",
         view = "_show_box",
@@ -182,9 +182,8 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
           initiative = initiative
         }
       }
-    end
-
-  end }
+    end }
+  end
 
   
   -- voting results

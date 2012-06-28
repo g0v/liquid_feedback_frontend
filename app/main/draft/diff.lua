@@ -26,7 +26,7 @@ execute.view{
   params = { draft = new_draft}
 }
 
-slot.put_into("title", " &middot; " .. _"Diff")
+ui.title(_"Diff")
 
 if app.session.member_id and not new_draft.initiative.revoked then
   local supporter = Supporter:new_selector():add_where{"member_id = ?", app.session.member_id}:count()

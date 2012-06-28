@@ -2,7 +2,7 @@ local draft = param.get("draft", "table")
 local initiative = draft.initiative
 local issue = initiative.issue
 
-slot.select("title", function()
+ui.title(function()
   ui.link{
     content = issue.area.name,
     module = "area",
