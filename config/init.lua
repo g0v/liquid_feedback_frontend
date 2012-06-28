@@ -6,14 +6,6 @@
 
 config.app_version = "2.beta12"
 
-if
-  not config.app_service_provider or
-  not config.use_terms or
-  not config.use_terms_checkboxes
-then
-  error("Missing mandatory config option")
-end
-
 if config.enabled_languages == nil then
   config.enabled_languages = { 'en', 'de', 'eo', 'el', 'hu' }
 end
@@ -24,10 +16,6 @@ end
 
 if config.mail_subject_prefix == nil then
   config.mail_subject_prefix = "[LiquidFeedback] "
-end
-
-if config.absolute_base_url == nil then
-  config.absolute_base_url = request.get_relative_baseurl()
 end
 
 if config.member_image_content_type == nil then
