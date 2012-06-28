@@ -68,7 +68,7 @@ if member then
   end
 else
   slot.select("error", function()
-    ui.tag{ content = _'Invalid username or password!' }
+    ui.tag{ content = _'Invalid login name or password!' }
   end)
   trace.debug('User NOT authenticated')
   return false
