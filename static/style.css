@@ -502,7 +502,7 @@ div.notifications {
   color: #aaa;
 }
 
-.delegation_info:hover {
+a.delegation_info:hover {
   background-color: #ddd;
 }
 
