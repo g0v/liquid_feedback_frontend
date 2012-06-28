@@ -190,6 +190,12 @@ ui.form{
           tag = "p",
           content = _"Please choose a password and enter it twice. The password is case sensitive."
         }
+        ui.field.text{
+          readonly  = true,
+          label     = _'Login name',
+          name      = 'login',
+          value     = member.login
+        }
         ui.field.password{
           label     = _'Password',
           name      = 'password1',
