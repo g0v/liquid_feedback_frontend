@@ -327,6 +327,8 @@ return {
 ["Member has voting privileges for this unit"] = false;
 ["Member inactive?"] = "Απενεργοποιημένο μέλος;";
 ["Member is already saved in your contacts!"] = "Αυτό το μέλος είναι ήδη αποθηκευμένο στις επαφές σας!";
+["Member is not participating in any of the #{count} areas in this unit"] = false;
+["Member is not participating in the only area of the unit"] = false;
 ["Member is now invited to be initiator"] = "Το μέλος έχει προσκληθεί ως εισηγητής";
 ["Member is participating in this area"] = false;
 ["Member list"] = "Κατάλογος μελών";

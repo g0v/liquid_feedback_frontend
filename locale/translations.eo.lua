@@ -327,6 +327,8 @@ return {
 ["Member has voting privileges for this unit"] = false;
 ["Member inactive?"] = false;
 ["Member is already saved in your contacts!"] = "La membro estas jam konservita en viaj kontaktoj!";
+["Member is not participating in any of the #{count} areas in this unit"] = false;
+["Member is not participating in the only area of the unit"] = false;
 ["Member is now invited to be initiator"] = "La membro nun estas invitita kiel inicionto";
 ["Member is participating in this area"] = false;
 ["Member list"] = "Membrolisto";

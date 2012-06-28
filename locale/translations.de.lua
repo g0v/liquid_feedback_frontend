@@ -327,6 +327,8 @@ return {
 ["Member has voting privileges for this unit"] = "Mitglied hat Stimmrecht in dieser Gliederung";
 ["Member inactive?"] = "Mitglied inaktiv?";
 ["Member is already saved in your contacts!"] = "Mitglied ist schon in Deinen Kontakten!";
+["Member is not participating in any of the #{count} areas in this unit"] = "Mitglied nimmt an keinem der #{count} Themenbereiche dieser Gliederung teil";
+["Member is not participating in the only area of the unit"] = "Mitglied nimmt am einzigen Themenbereich der Gliederung nicht teil";
 ["Member is now invited to be initiator"] = "Mitglied ist jetzt als Initiator eingeladen";
 ["Member is participating in this area"] = "Mitglied ist Teilnehmer im Themenbereich";
 ["Member list"] = "Mitgliederliste";
