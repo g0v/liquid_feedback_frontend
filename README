@@ -1,72 +1,7 @@
+Official release page
+http://www.public-software-group.org/liquid_feedback_frontend
 
-################
-# Installation #
-################
-
-
-1. Choose a directory where to install the software, e.g. /opt :
-
-$ cd /opt
-
-
-2. Get the repositories of the core, the frondend and the web application
-   framework WebMCP:
-
-$ hg clone http://www.public-software-group.org/mercurial/liquid_feedback_core
-$ hg clone http://www.public-software-group.org/mercurial/liquid_feedback_frontend
-$ hg clone http://www.public-software-group.org/mercurial/webmcp
-
-
-3. Install LiquidFeedback Core:
-
-$ cd /opt/liquid_feedback_core
-$ make
-$ createdb liquid_feedback
-$ psql -v ON_ERROR_STOP=1 -f core.sql liquid_feedback
-
-You should initiatize your database using the command
-"psql liquid_feedback" and the examples shown in file "init.sql".
-
-
-4. Compile WebMCP
-
-$ cd /opt/webmcp
-$ make
-
-If you experience trouble during compilation, you might want to edit the
-file "Makefile.options" (i.e. to add -fPIC to compiler options) and then
-retry:
-
-$ vi Makefile.options
-$ make clean
-$ make
-
-
-5. Install Wiki-to-HTML converters
-
-Download latest LiquidFeedback Edition of RocketWiki from
-http://www.public-software-group.org/pub/projects/rocketwiki/liquid_feedback_edition/
-
-Compile the binaries by calling make, and copy them to a place of your
-choice, e.g. /opt/rocketwiki-lqfb/
-
-
-6. Configure the webserver and the LiquidFeedback Frontend application:
-
-Edit the configuration files in /opt/liquid_feedback_frontend/config/
-
-Use /opt/webmcp/doc/lighttpd.example.conf (or apache.sample.conf) to setup
-your webserver appropriatly.
-
-
-7. Compile help messages from wiki to html
-
-cd /opt/liquid_feedback_frontend/locale/
-make
-
-or by hand:
-
-for file in *.txt; do /opt/rocketwiki-lqfb/rocketwiki-lqfb < $file > $file.html; done
-
+Installation instruction (for Debian squeeze)
+http://dev.liquidfeedback.org/trac/lf/wiki/installation
 
 
