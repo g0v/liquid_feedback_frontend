@@ -727,8 +727,6 @@ div.notifications {
   margin-bottom: 1ex;
 }
 
-
-
 .login input[type=password],
 .vertical input[type=password] {
   width: 16em;
@@ -767,6 +765,7 @@ div.notifications {
 }
 
 .vertical span {
+  line-height: 180%;
   display: block;
   margin-bottom: 0.5ex;
 }
