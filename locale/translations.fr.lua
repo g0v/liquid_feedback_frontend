@@ -324,9 +324,11 @@ return {
 ["Member has been removed from initiators"] = false;
 ["Member has been removed from your contacts"] = false;
 ["Member has not approved latest draft"] = false;
+["Member has voting privileges for this unit"] = false;
 ["Member inactive?"] = false;
 ["Member is already saved in your contacts!"] = false;
 ["Member is now invited to be initiator"] = false;
+["Member is participating in this area"] = false;
 ["Member list"] = false;
 ["Member menu"] = false;
 ["Member name"] = false;
@@ -605,6 +607,7 @@ return {
 ["Unit list"] = false;
 ["Unit: '#{name}'"] = false;
 ["Units"] = false;
+["Units and areas"] = false;
 ["Unknown author"] = false;
 ["Updated drafts"] = false;
 ["Upload avatar/photo"] = false;

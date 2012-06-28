@@ -324,9 +324,11 @@ return {
 ["Member has been removed from initiators"] = "Το μέλος αφαιρέθηκε από τους εισηγητές";
 ["Member has been removed from your contacts"] = "Το μέλος αφαιρέθηκε από τις επαφές σας";
 ["Member has not approved latest draft"] = "Το μέλος δεν έχει εγκρίνει το τελευταίο προσχέδιο";
+["Member has voting privileges for this unit"] = false;
 ["Member inactive?"] = "Απενεργοποιημένο μέλος;";
 ["Member is already saved in your contacts!"] = "Αυτό το μέλος είναι ήδη αποθηκευμένο στις επαφές σας!";
 ["Member is now invited to be initiator"] = "Το μέλος έχει προσκληθεί ως εισηγητής";
+["Member is participating in this area"] = false;
 ["Member list"] = "Κατάλογος μελών";
 ["Member menu"] = "Μενού μέλους";
 ["Member name"] = "Όνομα μέλους";
@@ -605,6 +607,7 @@ return {
 ["Unit list"] = "Κατάλογος ενοτήτων";
 ["Unit: '#{name}'"] = "Ενότητα: '#{name}'";
 ["Units"] = "Ενότητες";
+["Units and areas"] = false;
 ["Unknown author"] = "Άγνωστος συντάκτης";
 ["Updated drafts"] = "Νέα προσχέδια";
 ["Upload avatar/photo"] = "Ανέβασμα εικόνας/φωτογραφίας";

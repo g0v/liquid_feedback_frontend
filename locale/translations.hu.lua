@@ -324,9 +324,11 @@ return {
 ["Member has been removed from initiators"] = "Tag eltávolítva a kezdeményezõk közül";
 ["Member has been removed from your contacts"] = "Tag eltávolítva a kapcsolataid közül";
 ["Member has not approved latest draft"] = "Ez a tag még nem fogadta el a legújabb vázlatot";
+["Member has voting privileges for this unit"] = false;
 ["Member inactive?"] = false;
 ["Member is already saved in your contacts!"] = "Ez a tag már el van mentve a kapcsolataid közé!";
 ["Member is now invited to be initiator"] = "Tag meghívva kezdeményezõnek";
+["Member is participating in this area"] = false;
 ["Member list"] = "Taglista";
 ["Member menu"] = false;
 ["Member name"] = "Tagnév";
@@ -605,6 +607,7 @@ return {
 ["Unit list"] = "Egységek listája";
 ["Unit: '#{name}'"] = false;
 ["Units"] = "Egységek";
+["Units and areas"] = false;
 ["Unknown author"] = "Ismeretlen szerzõ";
 ["Updated drafts"] = "Frissített vázlatok";
 ["Upload avatar/photo"] = false;

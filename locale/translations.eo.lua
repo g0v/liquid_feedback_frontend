@@ -324,9 +324,11 @@ return {
 ["Member has been removed from initiators"] = "La membro estas forigita de la iniciintaro";
 ["Member has been removed from your contacts"] = "La membro estas forigita de viaj kontaktoj";
 ["Member has not approved latest draft"] = "La membro ne konsentis la plej novan skizon";
+["Member has voting privileges for this unit"] = false;
 ["Member inactive?"] = false;
 ["Member is already saved in your contacts!"] = "La membro estas jam konservita en viaj kontaktoj!";
 ["Member is now invited to be initiator"] = "La membro nun estas invitita kiel inicionto";
+["Member is participating in this area"] = false;
 ["Member list"] = "Membrolisto";
 ["Member menu"] = false;
 ["Member name"] = "Membronomo";
@@ -605,6 +607,7 @@ return {
 ["Unit list"] = false;
 ["Unit: '#{name}'"] = false;
 ["Units"] = false;
+["Units and areas"] = false;
 ["Unknown author"] = false;
 ["Updated drafts"] = "Skizoj ĝisdatigitaj";
 ["Upload avatar/photo"] = false;
