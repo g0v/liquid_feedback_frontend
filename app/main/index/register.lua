@@ -19,6 +19,24 @@ ui.form{
   content = function()
 
     if not code then
+      ui.actions(function()
+        ui.link{
+          content = function()
+              slot.put(_"One step back")
+          end,
+          module = "index",
+          view = "register",
+          params = {
+          }
+        }
+        ui.link{
+          content = function()
+              slot.put(_"Cancel registration")
+          end,
+          module = "index",
+          view = "index"
+        }
+      end)
       ui.title(_"Registration (step 1 of 3: Invite code)")
       ui.field.hidden{ name = "step", value = 1 }
       ui.tag{
@@ -45,13 +63,19 @@ ui.form{
         ui.actions(function()
           ui.link{
             content = function()
-                ui.image{ static = "icons/16/resultset_previous.png" }
                 slot.put(_"One step back")
             end,
             module = "index",
             view = "register",
             params = {
             }
+          }
+          ui.link{
+            content = function()
+                slot.put(_"Cancel registration")
+            end,
+            module = "index",
+            view = "index"
           }
         end)
 
@@ -102,7 +126,6 @@ ui.form{
         ui.actions(function()
           ui.link{
             content = function()
-                ui.image{ static = "icons/16/resultset_previous.png" }
                 slot.put(_"One step back")
             end,
             module = "index",
@@ -114,6 +137,13 @@ ui.form{
               login = login, 
               step = 1
             }
+          }
+          ui.link{
+            content = function()
+                slot.put(_"Cancel registration")
+            end,
+            module = "index",
+            view = "index"
           }
         end)
         ui.container{
@@ -182,17 +212,6 @@ ui.form{
         ui.submit{
           text = _'Create account'
         }
-
-        ui.actions(function()
-          ui.link{
-            content = function()
-                ui.image{ static = "icons/16/cancel.png" }
-                slot.put(_"Cancel registration")
-            end,
-            module = "index",
-            view = "index"
-          }
-        end)
   end
 }
 
