@@ -16,8 +16,6 @@ if config.single_unit_id and not app.session.member_id and config.motd_public th
   }
 end
 
-util.help("unit.show", _"Unit")
-
 local areas_selector = Area:build_selector{ active = true, unit_id = unit_id }
 areas_selector:add_order_by("member_weight DESC")
 
