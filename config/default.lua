@@ -1,19 +1,12 @@
 -- ========================================================================
--- Include defaults (DO NOT REMOVE THIS SECTION)
--- ========================================================================
-
-execute.config("defaults")
-
-
--- ========================================================================
--- MANDATORY CONFIG OPTIONS
+-- MANDATORY CONFIG OPTIONS (MUST BE SET!)
 -- ========================================================================
 
 -- Name of this instance, defaults to name of config file
 -- ------------------------------------------------------------------------
--- config.instance_name = "Instance name"
+config.instance_name = "Instance name"
 
--- Information about service provider
+-- Information about service provider (HTML)
 -- ------------------------------------------------------------------------
 config.app_service_provider = "Snake Oil<br/>10000 Berlin<br/>Germany"
 
@@ -31,10 +24,13 @@ config.use_terms_checkboxes = {
   }
 }
 
-
 -- ========================================================================
 -- Optional config options
 -- ========================================================================
+
+-- Absolute base url of application
+-- ------------------------------------------------------------------------
+-- config.absolute_base_url = "http://example.com/"
 
 -- List of enabled languages, defaults to available languages
 -- ------------------------------------------------------------------------

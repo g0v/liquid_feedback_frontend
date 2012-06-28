@@ -1,3 +1,44 @@
+config.app_version = "2.beta12"
+
+if not config.instance_name then
+  config.instance_name = request.get_config_name()
+end
+
+if
+  not config.app_service_provider or
+  not config.use_terms or
+  not config.use_terms_checkboxes
+then
+  error("Missing mandatory config option")
+end
+
+if config.enabled_languages == nil then
+  config.enabled_languages = { 'en', 'de', 'eo', 'el', 'hu' }
+end
+
+if config.default_lang == nil then
+  config.default_lang = "en"
+end
+
+if config.mail_subject_prefix == nil then
+  config.mail_subject_prefix = "[LiquidFeedback] "
+end
+
+if config.absolute_base_url == nil then
+  config.absolute_base_url = request.get_relative_baseurl()
+end
+
+if config.member_image_content_type == nil then
+  config.member_image_content_type = "image/jpeg"
+end
+
+if config.member_image_convert_func == nil then
+  config.member_image_convert_func = {
+    avatar = function(data) return extos.pfilter(data, "convert", "jpeg:-", "-thumbnail",   "48x48", "jpeg:-") end,
+    photo =  function(data) return extos.pfilter(data, "convert", "jpeg:-", "-thumbnail", "240x240", "jpeg:-") end
+  }
+end
+
 request.set_404_route{ module = 'index', view = '404' }
 
 -- open and set default database handle
