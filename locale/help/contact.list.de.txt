@@ -1,4 +1,4 @@
 =persönliche Kontaktliste=
-Um sie schneller auffinden zu können, kannst du andere Mitglieder deiner persönlichen Kontaktliste hinzufügen. Auf der Profilseite des jeweiligen Mitglieds findest du einen Link zum Hinzufügen. Falls du einen Kontakt veröffentlichst, können andere sehen, dass dieses Mitglied auf deiner Kontaktliste steht.
+Um sie schneller auffinden zu können, kann man andere Mitglieder deiner persönlichen Kontaktliste hinzufügen. Auf der Profilseite des jeweiligen Mitglieds findet sich ein Link zum Hinzufügen. Falls man diesen Kontakt veröffentlicht, können andere sehen, dass dieses Mitglied auf der Kontaktliste vermerkt wurde.
 
-**Wichtig:** Zur Verbesserung des Bedienkomforts wird dir beim Delegieren deine persönliche Kontaktliste angezeigt. Um an ein Mitglied delegieren zu können, musst du es zunächst als Kontakt hinzufügen. Das Löschen eines Kontaktes führt jedoch nicht zum Widerruf der Delegation.
+**Wichtig:** Zur Verbesserung des Bedienkomforts wird beim Delegieren die persönliche Kontaktliste angezeigt. Um an ein Mitglied delegieren zu können, musst es zunächst als Kontakt hinzugefügt werden. Das Löschen eines Kontaktes führt jedoch nicht zum Widerruf der Delegation.

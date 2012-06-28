@@ -1,6 +1,6 @@
 = Thema =
 
-Auf dieser Seite werden alle Initiativen zu diesem Thema aufgelistet. Wenn du auf ,,Mein Interesse anmelden'' klickst, wirst du für dieses Thema den Teilnehmern des übergeordneten Themenbereichs gleichgestellt, wodurch du zur Grundgesamtheit der Diskussionsteilnehmer zählst, was sich auf das von Initiativen zu erreichende Unterstützerquorum auswirkt.
+Auf dieser Seite werden alle Initiativen zu diesem Thema aufgelistet. Durch Klicken auf ,,Mein Interesse anmelden'' wird man für dieses Thema den Teilnehmern des übergeordneten Themenbereichs gleichgestellt, wodurch man zur Grundgesamtheit der Diskussionsteilnehmer gezählt wird, was sich auf das von Initiativen zu erreichende Unterstützerquorum auswirkt.
 
 Angemeldetes Interesse am Thema ist Voraussetzung dafür, dass eine Initiative des Themas direkt unterstützt wird, oder eigene Anregungen gegeben werden. Bei angemeldetem Interesse kommen ausgehende Delegationen für dieses Thema bis zum Abschluss der Phase ,,Eingefroren'' nicht zum tragen. Sobald man eine Initiative des Themas (direkt, nicht durch Delegation) unterstützt, wird das Interesse automatisch angemeldet. Das Zurückziehen des angemeldeten Interesses, entzieht auch die direkten Unterstützerstimmen für Initiativen dieses Themas und aktiviert ggf. ausgesetzte Delegationen.
 
