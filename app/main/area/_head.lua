@@ -26,7 +26,7 @@ ui.container{ attr = { class = "area_head" }, content = function()
     ui.container{ attr = { class = "content" }, content = function()
 
       -- actions (members with appropriate voting right only)
-      if app.session.member_id then
+      if member then
 
         -- membership
         local membership = Membership:by_pk(area.id, member.id)
