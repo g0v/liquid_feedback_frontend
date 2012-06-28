@@ -73,7 +73,7 @@ ui.tag{ tag = "ul", content = function()
     end }
   end
   
-  for i, lang in ipairs(config.available_languages) do
+  for i, lang in ipairs(config.enabled_languages) do
     
     local langcode
     

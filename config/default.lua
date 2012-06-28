@@ -1,20 +1,25 @@
+---------------------------------------------------------------------------
+-- Include defaults (DO NOT REMOVE THIS SECTION)
+---------------------------------------------------------------------------
+execute.config("defaults")
 
-config.app_name = "LiquidFeedback"
-config.app_version = "2.beta12"
+---------------------------------------------------------------------------
+-- MANDATORY CONFIG OPTIONS
+---------------------------------------------------------------------------
 
-config.instance_name = request.get_config_name()
+-- Name of this instance, defaults to name of config file
+-- config.instance_name = "Instance name"
 
-config.app_title = config.app_name .. " " .. config.instance_name
-
-config.app_logo = nil
-
+-- Information about service provider
+---------------------------------------------------------------------------
 config.app_service_provider = "Snake Oil<br/>10000 Berlin<br/>Germany"
 
---config.footer_html = '<a href="somewhere">some link</a>'
+-- A rocketwiki formatted text the user has to accept while registering
+---------------------------------------------------------------------------
+config.use_terms = "=== Terms of Use ==="
 
-config.use_terms = "=== Terms of Use ===\nNothing is allowed."
---config.use_terms_html = ""
-
+-- Checkbox(es) the user has to accept while registering
+---------------------------------------------------------------------------
 config.use_terms_checkboxes = {
   {
     name = "terms_of_use_v1",
@@ -23,93 +28,76 @@ config.use_terms_checkboxes = {
   }
 }
 
-config.locked_profile_fields = {
-  field_name = true,
-}
+---------------------------------------------------------------------------
+-- Optional config options
+---------------------------------------------------------------------------
 
-config.member_image_content_type = "image/jpeg"
-config.member_image_convert_func = {
-  avatar = function(data) return extos.pfilter(data, "convert", "jpeg:-", "-thumbnail",   "48x48", "jpeg:-") end,
-  photo =  function(data) return extos.pfilter(data, "convert", "jpeg:-", "-thumbnail", "240x240", "jpeg:-") end
-}
+-- List of enabled languages, defaults to available languages
+---------------------------------------------------------------------------
+-- config.enabled_languages = { 'en', 'de', 'eo', 'el', 'hu' }
 
-config.member_image_default_file = {
-  avatar = "avatar.jpg",
-  photo = nil
-}
-
-config.available_languages = { 'en', 'de', 'eo', 'el', 'hu' }
-
-config.default_lang = "de"
+-- Default language, defaults to "en"
+---------------------------------------------------------------------------
+-- config.default_lang = "en"
 
 -- after how long is a user considered inactive and the trustee will see warning
 -- notation is according to postgresql intervals
-config.delegation_warning_time = '6 months'
+---------------------------------------------------------------------------
+-- config.delegation_warning_time = '6 months'
 
-config.mail_subject_prefix = "[LiquidFeedback] "
+-- Sender and prefix of all automatic mails, default to "[Liquid Feedback] "
+---------------------------------------------------------------------------
+-- config.mail_subject_prefix = "[LiquidFeedback] "
+-- config.mail_envelope_from = "liquid-support@example.com"
+-- config.mail_from = "LiquidFeedback"
+-- config.mail_reply_to = "liquid-support@example.com"
 
-config.fastpath_url_func = nil
+-- Supply custom url for avatar/photo delivery
+---------------------------------------------------------------------------
+-- config.fastpath_url_func = nil
 
-config.download_dir = nil
+-- Local directory for database dumps offered for download
+---------------------------------------------------------------------------
+-- config.download_dir = nil
 
-config.download_use_terms = "=== Nutzungsbedingungen ===\nAlles ist verboten"
+-- Special use terms for database dump download
+---------------------------------------------------------------------------
+-- config.download_use_terms = "=== Download use terms ===\n"
 
-config.public_access = false  -- Available options: "anonymous", "pseudonym"
+-- Set public access level
+-- Available options: false, "anonymous", "pseudonym", "full"
+---------------------------------------------------------------------------
+-- config.public_access = "full"
 
-config.api_enabled = true
+-- Use custom image conversion
+---------------------------------------------------------------------------
+--config.member_image_content_type = "image/jpeg"
+--config.member_image_convert_func = {
+--  avatar = function(data) return extos.pfilter(data, "convert", "jpeg:-", "-thumbnail",   "48x48", "jpeg:-") end,
+--  photo =  function(data) return extos.pfilter(data, "convert", "jpeg:-", "-thumbnail", "240x240", "jpeg:-") end
+--}
 
-config.feature_rss_enabled = false -- feature is broken
+-- Integration of Etherpad
+---------------------------------------------------------------------------
+--config.etherpad = {
+--  base_url = "http://example.com:9001/",
+--  api_base = "http://localhost:9001/",
+--  api_key = "mysecretapikey",
+--  group_id = "mygroupname",
+--  cookie_path = "/"
+--}
 
-config.single_unit_id = false
-
--- OpenID authentication is not fully implemented yet, DO NOT USE BEFORE THIS NOTICE HAS BEEN REMOVED!
-config.auth_openid_enabled = false
-config.auth_openid_https_as_default = true
-config.auth_openid_identifier_check_func = function(uri) return false end
-
-request.set_allowed_json_request_slots{ "title", "actions", "support", "default", "trace", "system_error" }
-
-
-if request.get_json_request_slots() then
-  request.force_absolute_baseurl()
-end
-
-request.set_404_route{ module = 'index', view = '404' }
-
+-- WebMCP accelerator
+---------------------------------------------------------------------------
 -- uncomment the following two lines to use C implementations of chosen
 -- functions and to disable garbage collection during the request, to
 -- increase speed:
 --
-require 'webmcp_accelerator'
-collectgarbage("stop")
-
--- open and set default database handle
-db = assert(mondelefant.connect{
-  engine='postgresql',
-  dbname='liquid_feedback'
-})
-at_exit(function() 
-  db:close()
-end)
-function mondelefant.class_prototype:get_db_conn() return db end
-
--- enable output of SQL commands in trace system
-function db:sql_tracer(command)
-  return function(error_info)
-    local error_info = error_info or {}
-    trace.sql{ command = command, error_position = error_info.position }
-  end
-end
-
-request.set_absolute_baseurl(config.absolute_base_url)
+-- require 'webmcp_accelerator'
+-- collectgarbage("stop")
 
 
-
--- TODO abstraction
--- get record by id
-function mondelefant.class_prototype:by_id(id)
-  local selector = self:new_selector()
-  selector:add_where{ 'id = ?', id }
-  selector:optional_object_mode()
-  return selector:exec()
-end
+---------------------------------------------------------------------------
+-- Do main initialisation (DO NOT REMOVE THIS SECTION)
+---------------------------------------------------------------------------
+execute.config("init")

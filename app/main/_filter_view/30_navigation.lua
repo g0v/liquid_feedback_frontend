@@ -1,5 +1,3 @@
-slot.put_into("app_name", config.app_title)
-
 slot.select('navigation', function()
 
   ui.link{
@@ -111,12 +109,5 @@ slot.select("footer", function()
     external = "http://www.public-software-group.org/liquid_feedback"
   }
 end)
-
-
-if config.app_logo then
-  slot.select("logo", function()
-    ui.image{ static = config.app_logo }
-  end)
-end
 
 execute.inner()

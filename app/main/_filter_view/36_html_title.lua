@@ -30,6 +30,6 @@ slot.put_into("html_title",
   ..
   ( app.html_title.subtitle or "" )
   ..
-  config.app_title
+  _"LiquidFeedback" .. " - " .. config.instance_name
 )
 

@@ -18,7 +18,6 @@ local auth_needed = not (
     or view   == "menu"
     or action == "set_lang"
   )
-  or module == "openid"
 )
 
 if config.public_access then

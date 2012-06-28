@@ -7,9 +7,8 @@ ui.tag{
 
 execute.view{ module = "index", view = "_lang_chooser" }
 
-slot.put_into("title", encode.html(config.app_title))
+ui.title(_"Login")
 app.html_title.title = _"Login"
-
 
 if config.motd_public then
   local help_text = config.motd_public
@@ -65,28 +64,3 @@ ui.form{
     }
   end
 }
-
-if config.auth_openid_enabled then
-  ui.form{
-    attr = { class = "login" },
-    module = 'openid',
-    action = 'initiate',
-    routing = {
-      default = {
-        mode   = 'forward',
-        module = 'index',
-        view   = 'login',
-      }
-    },
-    content = function()
-      ui.field.text{
-        label     = _'OpenID',
-        html_name = 'openid_identifier',
-        value     = ''
-      }
-      ui.submit{
-        text = _'OpenID Login'
-      }
-    end
-  }
-end
