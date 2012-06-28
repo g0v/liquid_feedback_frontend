@@ -280,8 +280,8 @@ return {
 ["Interested members"] = "Interessierte Mitglieder";
 ["Internal posts"] = "Interne Ämter";
 ["Interval format:"] = "Intervall-Format";
-["Invalid query"] = "Ungültige Anfrage";
 ["Invalid login name or password!"] = "Anmeldename oder Kennwort ungültig";
+["Invalid query"] = "Ungültige Anfrage";
 ["Invitation has been refused"] = "Einladung wurde widerrufen";
 ["Invitation to LiquidFeedback"] = "Einladung zu LiquidFeedback";
 ["Invite an initiator to initiative"] = "Initiator zur Initiative einladen";
@@ -324,9 +324,11 @@ return {
 ["Member has been removed from initiators"] = "Mitglied wurde von den Initiatoren entfernt";
 ["Member has been removed from your contacts"] = "Mitglied wurde aus Deinen Kontakten entfernt";
 ["Member has not approved latest draft"] = "Mitglied hat den letzten Entwurf noch nicht angenommen";
+["Member has voting privileges for this unit"] = "Mitglied hat Stimmrecht in dieser Gliederung";
 ["Member inactive?"] = "Mitglied inaktiv?";
 ["Member is already saved in your contacts!"] = "Mitglied ist schon in Deinen Kontakten!";
 ["Member is now invited to be initiator"] = "Mitglied ist jetzt als Initiator eingeladen";
+["Member is participating in this area"] = "Mitglied ist Teilnehmer im Themenbereich";
 ["Member list"] = "Mitgliederliste";
 ["Member menu"] = "Mietglieds-Menü";
 ["Member name"] = "Mitglied Name";
@@ -582,12 +584,12 @@ return {
 ["This name is already taken, please choose another one!"] = "Dieser Name ist bereits vergeben, bitte wähle einen anderen!";
 ["This name is really too short!"] = "Dieser Name ist wirklich zu kurz!";
 ["This name is too short!"] = "Dieser Name ist zu kurz!";
+["This screen name is too short!"] = "Dieser Screen-Name ist zu kurz!";
 ["This service is provided by:"] = "Diensteanbieter:";
 ["This service is provided using the following software components:"] = "Dieser Dienst ist mit folgender Software realisiert worden:";
 ["This site is using"] = "Diese Seite benutzt";
 ["This suggestion has been meanwhile deleted"] = "Diese Anregung wurde zwischenzeitlich gelöscht";
 ["This title is really too short!"] = "Dieser Titel ist wirklich zu kurz!";
-["This screen name is too short!"] = "Dieser Screen-Name ist zu kurz!";
 ["Thursday"] = "Donnerstag";
 ["Timeline"] = "Zeitachse";
 ["Title"] = "Titel";
@@ -605,6 +607,7 @@ return {
 ["Unit list"] = "Liste der Gliederungen";
 ["Unit: '#{name}'"] = "Gliederung: '#{name}'";
 ["Units"] = "Gliederungen";
+["Units and areas"] = "Gliederungen und Themengebiete";
 ["Unknown author"] = "Unbekannter Autor";
 ["Updated drafts"] = "Neue Entwürfe";
 ["Upload avatar/photo"] = "Avatar/Foto hochladen";
