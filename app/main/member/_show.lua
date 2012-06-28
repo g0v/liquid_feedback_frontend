@@ -17,7 +17,6 @@ tabs[#tabs+1] = {
   params = { member = member },
 }
 
-  --[[
 local areas_selector = member:get_reference_selector("areas")
 tabs[#tabs+1] = {
   name = "areas",
@@ -27,7 +26,6 @@ tabs[#tabs+1] = {
   view = "_member_home",
   params = { areas_selector = areas_selector, member = member, for_member = true },
 }
-  --]]
   
 tabs[#tabs+1] = {
   name = "timeline",
