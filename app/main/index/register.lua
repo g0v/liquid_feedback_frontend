@@ -62,6 +62,7 @@ ui.form{
             module = "index",
             view = "register",
             params = {
+              invite = code
             }
           }
           slot.put(" &middot; ")
