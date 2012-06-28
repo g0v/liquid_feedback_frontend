@@ -42,7 +42,7 @@ ui.form{
       if not member.notify_email and not notify_email or not member.name and not name or not member.login and not login or step == 1 then
         ui.title(_"Registration (step 2 of 3: Personal information)")
         ui.field.hidden{ name = "step", value = 2 }
-        slot.select("actions", function()
+        ui.actions(function()
           ui.link{
             content = function()
                 ui.image{ static = "icons/16/resultset_previous.png" }
@@ -99,7 +99,7 @@ ui.form{
 
         ui.field.hidden{ name = "step", value = "3" }
         ui.title(_"Registration (step 3 of 3: Terms of use and password)")
-        slot.select("actions", function()
+        ui.actions(function()
           ui.link{
             content = function()
                 ui.image{ static = "icons/16/resultset_previous.png" }
@@ -183,7 +183,7 @@ ui.form{
           text = _'Create account'
         }
 
-        slot.select("actions", function()
+        ui.actions(function()
           ui.link{
             content = function()
                 ui.image{ static = "icons/16/cancel.png" }
