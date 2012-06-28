@@ -192,6 +192,7 @@ slot.put("<br />")
 
 if #events > 0 then
   ui.link{
+    attr = { class = "more_events_links" },
     text = _"Show older events",
     module = request.get_module(),
     view = request.get_view(),

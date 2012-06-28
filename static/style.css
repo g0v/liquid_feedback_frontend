@@ -617,7 +617,6 @@ div.notifications {
   border: 1px solid #bbb;
 }
 
-
 .ui_filter_head a.active {
   border: 1px solid #666;
   text-decoration: none;
@@ -651,6 +650,7 @@ div.notifications {
 
 .ui_paginate_select a {
   padding: 0.5em;
+  border-radius: 4px;
 }
 
 /*************************************************************************
@@ -906,27 +906,6 @@ div.notifications {
   border-radius: 8px 8px 0 0;
 }
 
-
-
-/*************************************************************************
- * Events
- */
-
-.events .date {
-  font-size: 150%;
-  font-weight: bold;
-  margin-top: 2ex;
-  line-height: 150%;
-}
-
-.event_list .event div {
-}
-
-.event_list .event .member_id {
-  float: right;
-}
-
-
 /*************************************************************************
  * Issues
  */
@@ -987,6 +966,21 @@ div.notifications {
   font-weight: bold;
 }
 
+.more_events_links {
+  margin-left: 255px;
+  padding: 1ex;
+  background-color: #444;
+  background: -webkit-linear-gradient(top, #888, #222);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #888), color-stop(100%,#222));
+  background: -moz-linear-gradient(#888, #222);
+  background: -ms-linear-gradient(#888, #222);
+  background: -o-linear-gradient(#888, #222);
+  background: linear-gradient(#888, #222);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
 @media screen and (max-width: 720px) {
   .event_info {
     width: auto;
@@ -995,9 +989,12 @@ div.notifications {
     border-radius: 8px 8px 0 0;
   }
   .events .issue {
-    clear: left;
-    
+    clear: left;    
   }
+  .more_events_links {
+    margin-left: 0px;
+  }
+
 }
 
 @media screen and (max-width: 480px) {
