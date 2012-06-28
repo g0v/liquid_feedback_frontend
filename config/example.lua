@@ -24,6 +24,13 @@ config.use_terms_checkboxes = {
 --    not_accepted_error = "You have to accept the extra terms of use to be able to register."
 --  }
 }
+  
+-- Location of the rocketwiki binaries
+-- ------------------------------------------------------------------------
+config.formatting_engine_executeables = {
+  rocketwiki= "/opt/rocketwiki-lqfb/rocketwiki-lqfb",
+  compat = "/opt/rocketwiki-lqfb/rocketwiki-lqfb-compat"
+}
 
 -- ========================================================================
 -- Optional config options
