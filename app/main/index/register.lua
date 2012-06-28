@@ -23,16 +23,6 @@ ui.form{
       ui.actions(function()
         ui.link{
           content = function()
-              slot.put(_"One step back")
-          end,
-          module = "index",
-          view = "register",
-          params = {
-          }
-        }
-        slot.put(" &middot; ")
-        ui.link{
-          content = function()
               slot.put(_"Cancel registration")
           end,
           module = "index",
@@ -62,6 +52,16 @@ ui.form{
         ui.title(_"Registration (step 2 of 3: Personal information)")
         ui.field.hidden{ name = "step", value = 2 }
         ui.actions(function()
+          ui.link{
+            content = function()
+                slot.put(_"One step back")
+            end,
+            module = "index",
+            view = "register",
+            params = {
+            }
+          }
+          slot.put(" &middot; ")
           ui.link{
             content = function()
                 slot.put(_"Cancel registration")
