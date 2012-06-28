@@ -64,16 +64,6 @@ ui.form{
         ui.actions(function()
           ui.link{
             content = function()
-                slot.put(_"One step back")
-            end,
-            module = "index",
-            view = "register",
-            params = {
-            }
-          }
-          slot.put(" &middot; ")
-          ui.link{
-            content = function()
                 slot.put(_"Cancel registration")
             end,
             module = "index",
