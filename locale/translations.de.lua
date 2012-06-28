@@ -281,7 +281,7 @@ return {
 ["Internal posts"] = "Interne Ämter";
 ["Interval format:"] = "Intervall-Format";
 ["Invalid query"] = "Ungültige Anfrage";
-["Invalid login or password!"] = "Anmeldename oder Kennwort ungültig";
+["Invalid login name or password!"] = "Anmeldename oder Kennwort ungültig";
 ["Invitation has been refused"] = "Einladung wurde widerrufen";
 ["Invitation to LiquidFeedback"] = "Einladung zu LiquidFeedback";
 ["Invite an initiator to initiative"] = "Initiator zur Initiative einladen";
