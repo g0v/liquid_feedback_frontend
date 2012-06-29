@@ -1,5 +1,6 @@
 local areas_selector = param.get("areas_selector", "table")
 local hide_membership = param.get("hide_membership", atom.boolean)
+local member = param.get("member", "table")
 
 areas_selector
   :reset_fields()
@@ -32,7 +33,7 @@ end
 
 ui.container{ attr = { class = "area_list" }, content = function()
   for i, area in ipairs(areas_selector:exec()) do
-    execute.view { module = "area", view = "_list_entry", params = { area = area } }
+    execute.view { module = "area", view = "_list_entry", params = { area = area, member = member } }
   end 
 end }
 

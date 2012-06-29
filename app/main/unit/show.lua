@@ -3,7 +3,7 @@ local unit_id = config.single_unit_id or param.get_id()
 local unit = Unit:by_id(unit_id)
 
 slot.select("head", function()
-  execute.view{ module = "unit", view = "_head", params = { unit = unit, show_content = true } }
+  execute.view{ module = "unit", view = "_head", params = { unit = unit, show_content = true, member = app.session.member } }
 end)
 
 if config.single_unit_id and not app.session.member_id and config.motd_public then
@@ -54,7 +54,7 @@ tabs[#tabs+1] = {
   label = _"Areas",
   module = "area",
   view = "_list",
-  params = { areas_selector = areas_selector }
+  params = { areas_selector = areas_selector, member = app.session.member }
 }
 
 tabs[#tabs+1] = {
