@@ -115,7 +115,7 @@ config.database = { engine='postgresql', dbname='liquid_feedback' }
 -- increase speed:
 -- ------------------------------------------------------------------------
 -- require 'webmcp_accelerator'
--- collectgarbage("stop")
+-- if cgi then collectgarbage("stop") end
 
 
 -- ========================================================================
