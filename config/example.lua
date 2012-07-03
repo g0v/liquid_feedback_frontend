@@ -87,9 +87,9 @@ config.database = { engine='postgresql', dbname='liquid_feedback' }
 
 -- Set public access level
 -- Available options: false, "anonymous", "pseudonym", "full"
--- Defaults to "full"
+-- Defaults to false (no public access)
 -- ------------------------------------------------------------------------
--- config.public_access = "full"
+-- config.public_access = false
 
 -- Use custom image conversion, defaults to ImageMagick's convert
 -- ------------------------------------------------------------------------

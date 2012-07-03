@@ -29,7 +29,7 @@ if config.member_image_convert_func == nil then
 end
 
 if config.public_access == nil then
-  config.public_access = "full"
+  config.public_access = false
 end
 
 if config.locked_profile_fields == nil then
