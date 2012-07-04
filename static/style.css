@@ -158,13 +158,13 @@ h2 {
  */
 
 .topbar {
-  background-color: #333;
   background: -webkit-linear-gradient(top, #777, #000);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #777), color-stop(100%,#000));
   background: -moz-linear-gradient(#777, #000);
   background: -ms-linear-gradient(#777, #000);
   background: -o-linear-gradient(#777, #000);
   background: linear-gradient(#777, #000);
+  background-color: #333;
   box-shadow: #aaa 0 0 5px;
   -mox-box-shadow: #aaa 0 0 5px;
   -webkit-box-shadow: #aaa 0 0 5px;
@@ -191,7 +191,6 @@ h2 {
 }
 
 .navigation {
-  background-color: #333;
   line-height: 200%;
 }
 
@@ -428,13 +427,13 @@ div.notifications {
 
 
 .unit_head {
-  background-color: #44a;
   background: -webkit-linear-gradient(top, #67d, #23a);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #67d), color-stop(100%,#23a));
   background: -moz-linear-gradient(#67d, #23a);
   background: -ms-linear-gradient(#67d, #23a);
   background: -o-linear-gradient(#67d, #23a);
   background: linear-gradient(#67d, #23a);
+  background-color: #44a;
   color: #f0f0f0;
 }
 
@@ -451,24 +450,24 @@ div.notifications {
 }
 .area_head,
 .area_list .area_head {
-  background-color: #abf;
   background: -webkit-linear-gradient(top, #cdf, #abe);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cdf), color-stop(100%,#abe));
   background: -moz-linear-gradient(#cdf, #abe);
   background: -ms-linear-gradient(#cdf, #abe);
   background: -o-linear-gradient(#cdf, #abe);
   background: linear-gradient(#cdf, #abe);
+  background-color: #abf;
 }
 
 .area_list .area > .content,
 .issue {
-  background-color: #e0e9ff;
   background: -webkit-linear-gradient(top, #f7faff, #e0e9ff);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f7faff), color-stop(100%,#e0e9ff));
   background: -moz-linear-gradient(#f7faff, #e0e9ff);
   background: -ms-linear-gradient(#f7faff, #e0e9ff);
   background: -o-linear-gradient(#f7faff, #e0e9ff);
   background: linear-gradient(#f7faff, #e0e9ff);
+  background-color: #e0e9ff;
 }
 
 .unit_link, .area_link {
@@ -562,13 +561,13 @@ a.delegation_info:hover {
 
 .ui_tabs_links a {
   padding: 7px 10px;
-  background-color: #444;
   background: -webkit-linear-gradient(top, #777, #000);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #777), color-stop(100%,#000));
   background: -moz-linear-gradient(#777, #000);
   background: -ms-linear-gradient(#777, #000);
   background: -o-linear-gradient(#777, #000);
   background: linear-gradient(#777, #000);
+  background-color: #444;
   color: #f7f7f7;
   white-space: nowrap;
   border-radius: 8px;
@@ -624,13 +623,13 @@ a.delegation_info:hover {
 .ui_filter_head a.active {
   border: 1px solid #666;
   text-decoration: none;
-  background-color: #444;
   background: -webkit-linear-gradient(top, #666, #222);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #666), color-stop(100%,#222));
   background: -moz-linear-gradient(#666, #222);
   background: -ms-linear-gradient(#666, #222);
   background: -o-linear-gradient(#666, #222);
   background: linear-gradient(#666, #222);
+  background-color: #444;
   color: #fff;
 }
 
@@ -686,13 +685,13 @@ a.delegation_info:hover {
 
 div.notifications {
   margin-top: 20px;
-  background-color: #fda;
   background: -webkit-linear-gradient(top, #fec, #fc9);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fec), color-stop(100%,#fc9));
   background: -moz-linear-gradient(#fec, #fc9);
   background: -ms-linear-gradient(#fec, #fc9);
   background: -o-linear-gradient(#fec, #fc9);
   background: linear-gradient(#fec, #fc9);
+  background-color: #fda;
   padding: 0.5ex;
   border: 1px solid #777;
 }
@@ -944,13 +943,13 @@ div.notifications {
   width: 240px;
   display: inline;
   padding: 5px 8px;
-  background-color: #444;
   background: -webkit-linear-gradient(top, #888, #222);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #888), color-stop(100%,#222));
   background: -moz-linear-gradient(#888, #222);
   background: -ms-linear-gradient(#888, #222);
   background: -o-linear-gradient(#888, #222);
   background: linear-gradient(#888, #222);
+  background-color: #444;
   color: #fff;
   font-style: italic;
   border-radius: 8px 0 0 8px;
@@ -973,13 +972,13 @@ div.notifications {
 .more_events_links {
   margin-left: 255px;
   padding: 1ex;
-  background-color: #444;
   background: -webkit-linear-gradient(top, #888, #222);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #888), color-stop(100%,#222));
   background: -moz-linear-gradient(#888, #222);
   background: -ms-linear-gradient(#888, #222);
   background: -o-linear-gradient(#888, #222);
   background: linear-gradient(#888, #222);
+  background-color: #444;
   color: #fff;
   border-radius: 8px;
   font-weight: bold;
