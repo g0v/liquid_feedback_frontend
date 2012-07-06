@@ -163,13 +163,11 @@ ui.container{ attr = { class = "issues events" }, content = function()
             limit = 5
           } }
         else
-        local initiatives_selector = Initiative:new_selector()
-          :add_where{ "initiative.id = ?", event.initiative_id }
+          local initiatives_selector = Initiative:new_selector()
+            :add_where{ "initiative.id = ?", event.initiative_id }
           execute.view{ module = "initiative", view = "_list", params = { 
-            issue = event.issue,
             initiatives_selector = initiatives_selector,
             no_sort = true,
-            limit = 1,
             hide_more_initiatives = true
           } }
         end
