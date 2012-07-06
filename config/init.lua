@@ -3,7 +3,7 @@
 -- (except when you really know what you are doing!)
 -- ========================================================================
 
-config.app_version = "2.0.1"
+config.app_version = "2.0.2"
 
 if config.enabled_languages == nil then
   config.enabled_languages = { 'en', 'de', 'eo', 'el', 'hu' }
