@@ -3,7 +3,9 @@ local member = param.get("member", "table")
 
 local show_content = param.get("show_content", atom.boolean)
 
-unit:load_delegation_info_once_for_member_id(app.session.member_id)
+if app.session.member_id then
+  unit:load_delegation_info_once_for_member_id(app.session.member_id)
+end
 
 ui.container{ attr = { class = "unit_head" }, content = function()
 
