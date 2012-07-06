@@ -5,7 +5,7 @@ if app.session.member_id then
     module = "index", view = "_index_member"
   }
 
-elseif config.public_access then
+elseif app.session:has_access("anonymous") then
   if config.motd_public then
     local help_text = config.motd_public
     ui.container{

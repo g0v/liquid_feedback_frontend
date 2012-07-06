@@ -55,7 +55,7 @@ slot.select("head", function()
         content = _"This member is locked"
       }
     end
-    if not (member.id == app.session.member.id) then
+    if app.session.member_id and not (member.id == app.session.member.id) then
       slot.put(" &middot; ")
       --TODO performance
       local contact = Contact:by_pk(app.session.member.id, member.id)
@@ -93,47 +93,49 @@ slot.select("head", function()
         }
       end
     end
-    local ignored_member = IgnoredMember:by_pk(app.session.member.id, member.id)
-    slot.put(" &middot; ")
-    if ignored_member then
-      ui.tag{
-        attr = { class = "interest" },
-        content = _"You have ignored this member"
-      }
+    if app.session.member_id then
+      local ignored_member = IgnoredMember:by_pk(app.session.member.id, member.id)
       slot.put(" &middot; ")
-      ui.link{
-        text   = _"Stop ignoring member",
-        module = "member",
-        action = "update_ignore_member",
-        id     = member.id,
-        params = { delete = true },
-        routing = {
-          default = {
-            mode = "redirect",
-            module = request.get_module(),
-            view = request.get_view(),
-            id = param.get_id_cgi(),
-            params = param.get_all_cgi()
+      if ignored_member then
+        ui.tag{
+          attr = { class = "interest" },
+          content = _"You have ignored this member"
+        }
+        slot.put(" &middot; ")
+        ui.link{
+          text   = _"Stop ignoring member",
+          module = "member",
+          action = "update_ignore_member",
+          id     = member.id,
+          params = { delete = true },
+          routing = {
+            default = {
+              mode = "redirect",
+              module = request.get_module(),
+              view = request.get_view(),
+              id = param.get_id_cgi(),
+              params = param.get_all_cgi()
+            }
           }
         }
-      }
-    elseif member.activated then
-      ui.link{
-        attr = { class = "interest" },
-        text    = _"Ignore member",
-        module  = "member",
-        action  = "update_ignore_member",
-        id      = member.id,
-        routing = {
-          default = {
-            mode = "redirect",
-            module = request.get_module(),
-            view = request.get_view(),
-            id = param.get_id_cgi(),
-            params = param.get_all_cgi()
+      elseif member.activated then
+        ui.link{
+          attr = { class = "interest" },
+          text    = _"Ignore member",
+          module  = "member",
+          action  = "update_ignore_member",
+          id      = member.id,
+          routing = {
+            default = {
+              mode = "redirect",
+              module = request.get_module(),
+              view = request.get_view(),
+              id = param.get_id_cgi(),
+              params = param.get_all_cgi()
+            }
           }
         }
-      }
+      end
     end
   end }
 end)

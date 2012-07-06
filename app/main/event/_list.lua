@@ -96,7 +96,7 @@ ui.container{ attr = { class = "issues events" }, content = function()
         slot.put(")")
       end
       --]]
-      if (app.session.member_id or config.public_access == "pseudonym") and event.member_id then
+      if app.session:has_access("authors_pseudonymous") and event.member_id then
         slot.put("<br />") 
         slot.put("<br />") 
         if app.session.member_id then

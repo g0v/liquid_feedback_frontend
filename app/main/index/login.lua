@@ -20,7 +20,7 @@ if config.motd_public then
   }
 end
 
-if config.public_access then
+if app.session:has_access("anonymous") then
   ui.tag{
     tag = 'p',
     content = _'You need to be logged in, to use all features of this system.'

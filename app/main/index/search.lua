@@ -15,7 +15,7 @@ ui.form{
   attr = { class = "vertical" },
   content = function()
     
-    if app.session.member_id or config.public_access == "full" then
+    if app.session:has_access("all_pseudonymous") then
       ui.field.select{
         label = _"Search context",
         name = "search_for",
@@ -38,7 +38,7 @@ slot.put("<br />")
 
 if search_string then
 
-  if app.session.member_id or config.public_access == "full" then
+  if app.session:has_access("all_pseudonymous") then
     if search_for == "global" or search_for == "member" then
       local members_selector = Member:get_search_selector(search_string)
       execute.view{

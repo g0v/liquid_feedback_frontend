@@ -9,25 +9,28 @@ slot.select('navigation', function()
     module = 'index',
     view   = 'index'
   }
-        ui.link{
-        content = _"Search",
-        module = 'index',
-        view   = 'search'
-      }
-
-
   
-  if config.public_access and app.session.member == nil then
+  if app.session:has_access("anonymous") then
+
     ui.link{
-      text   = _"Login",
+      content = _"Search",
       module = 'index',
-      view   = 'login',
-      params = {
-        redirect_module = request.get_module(),
-        redirect_view = request.get_view(),
-        redirect_id = param.get_id()
-      }
+      view   = 'search'
     }
+  
+    if app.session.member == nil then
+      ui.link{
+        text   = _"Login",
+        module = 'index',
+        view   = 'login',
+        params = {
+          redirect_module = request.get_module(),
+          redirect_view = request.get_view(),
+          redirect_id = param.get_id()
+        }
+      }
+    end
+    
   end
 
   if app.session.member == nil then

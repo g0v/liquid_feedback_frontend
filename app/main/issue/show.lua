@@ -17,7 +17,7 @@ slot.select("head", function()
   execute.view{ module = "issue", view = "_show", params = { issue = issue } }
 end )
 
-if app.session.member_id or config.public_access == "full" then
+if app.session:has_access("all_pseudonymous") then
 
   ui.container{ attr = { class = "heading" }, content = _"Interested members" }
   

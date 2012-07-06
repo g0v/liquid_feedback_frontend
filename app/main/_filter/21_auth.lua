@@ -20,7 +20,7 @@ local auth_needed = not (
   )
 )
 
-if config.public_access then
+if app.session:has_access("anonymous") then
 
   if
     module == "area" and view == "show"
@@ -41,7 +41,7 @@ if config.public_access then
 
 end
 
-if config.public_access == "full" then
+if app.session:has_access("all_pseudonymous") then
   if module == "member_image" and view == "show"
    or module == "vote" and view == "show_incoming"
    or module == "interest" and view == "show_incoming"
@@ -50,11 +50,17 @@ if config.public_access == "full" then
   end
 end
 
+if app.session:has_access("everything") then
+  if module == "member" and (view == "show" or view == "history") then
+    auth_needed = false
+  end
+end
+
 if module == "sitemap" then
   auth_needed = false
 end
 
-if config.public_access and not app.session.member_id and auth_needed and module == "index" and view == "index" then
+if app.session:has_access("anonymous") and not app.session.member_id and auth_needed and module == "index" and view == "index" then
   if config.single_unit_id then
     request.redirect{ module = "unit", view = "show", id = config.single_unit_id }
   else

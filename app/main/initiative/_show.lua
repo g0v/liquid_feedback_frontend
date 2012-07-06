@@ -64,14 +64,14 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
   else
     ui.container{ attr = { class = "title" }, content = text }
   end
-  if app.session.member_id or config.public_access == "pseudonym" or config.public_access == "full" then
+  if app.session:has_access("authors_pseudonymous") then
     ui.container{ attr = { class = "content" }, content = function()
       ui.tag{
         attr = { class = "initiator_names" },
         content = function()
           for i, initiator in ipairs(initiators) do
             slot.put(" ")
-            if app.session.member_id or config.public_access == "full" then
+            if app.session:has_access("all_pseudonymous") then
               ui.link{
                 content = function ()
                   execute.view{
@@ -421,7 +421,7 @@ if not show_as_head then
   }
 
 
-  if config.public_access == "full" or app.session.member_id then
+  if app.session:has_access("all_pseudonymous") then
     if initiative.issue.ranks_available then
       local members_selector = initiative.issue:get_reference_selector("direct_voters")
             :left_join("vote", nil, { "vote.initiative_id = ? AND vote.member_id = member.id", initiative.id })

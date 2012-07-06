@@ -470,7 +470,7 @@ end
 
 function Member.object:ui_field_text(args)
   args = args or {}
-  if app.session.member_id or config.public_access == "pseudonym" or config.public_access == "full" then
+  if app.session:has_access("authors_pseudonymous") then
     -- ugly workaround for getting html into a replaced string and to the user
     ui.container{label = args.label, label_attr={class="ui_field_label"}, content = function()
         slot.put(string.format('<span><a href="%s">%s</a></span>',

@@ -1,14 +1,21 @@
 -- ========================================================================
--- MANDATORY (MUST BE SET!)
+-- MANDATORY (MUST BE CAREFULLY CHECKED AND PROPERLY SET!)
 -- ========================================================================
+
+-- Name of this instance, defaults to name of config file
+-- ------------------------------------------------------------------------
+config.instance_name = "Instance name"
+
 
 -- Information about service provider (HTML)
 -- ------------------------------------------------------------------------
 config.app_service_provider = "Snake Oil<br/>10000 Berlin<br/>Germany"
 
+
 -- A rocketwiki formatted text the user has to accept while registering
 -- ------------------------------------------------------------------------
 config.use_terms = "=== Terms of Use ==="
+
 
 -- Checkbox(es) the user has to accept while registering
 -- ------------------------------------------------------------------------
@@ -24,7 +31,18 @@ config.use_terms_checkboxes = {
 --    not_accepted_error = "You have to accept the extra terms of use to be able to register."
 --  }
 }
+
   
+-- Absolute base url of application
+-- ------------------------------------------------------------------------
+config.absolute_base_url = "http://example.com/"
+
+
+-- Connection information for the LiquidFeedback database
+-- ------------------------------------------------------------------------
+config.database = { engine='postgresql', dbname='liquid_feedback' }
+
+
 -- Location of the rocketwiki binaries
 -- ------------------------------------------------------------------------
 config.formatting_engine_executeables = {
@@ -32,17 +50,25 @@ config.formatting_engine_executeables = {
   compat = "/opt/rocketwiki-lqfb/rocketwiki-lqfb-compat"
 }
 
--- Absolute base url of application
--- ------------------------------------------------------------------------
-config.absolute_base_url = "http://example.com/"
 
--- Name of this instance, defaults to name of config file
+-- Public access level
 -- ------------------------------------------------------------------------
-config.instance_name = "Instance name"
+-- Available options:
+-- "none" 
+--     -> Closed user group, no public access at all
+--        (except login/registration/password reset)
+-- "anonymous"
+--     -> Shows only initiative/suggestions texts and aggregated
+--        supporter/voter counts
+-- "authors_pseudonymous" 
+--     -> Like anonymous, but shows screen names of authors
+-- "all_pseudonymous" 
+--     -> Show everything a member can see, except profile pages
+-- "everything"
+--     -> Show everything a member can see, including profile pages
+-- ------------------------------------------------------------------------
+config.public_access = "none"
 
--- Connection information for the LiquidFeedback database
--- ------------------------------------------------------------------------
-config.database = { engine='postgresql', dbname='liquid_feedback' }
 
 
 -- ========================================================================
@@ -84,12 +110,6 @@ config.database = { engine='postgresql', dbname='liquid_feedback' }
 -- Special use terms for database dump download
 -- ------------------------------------------------------------------------
 -- config.download_use_terms = "=== Download use terms ===\n"
-
--- Set public access level
--- Available options: false, "anonymous", "pseudonym", "full"
--- Defaults to false (no public access)
--- ------------------------------------------------------------------------
--- config.public_access = false
 
 -- Use custom image conversion, defaults to ImageMagick's convert
 -- ------------------------------------------------------------------------
