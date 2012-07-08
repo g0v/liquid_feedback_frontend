@@ -6,7 +6,7 @@
 config.app_version = "2.0.2"
 
 if config.enabled_languages == nil then
-  config.enabled_languages = { 'en', 'de', 'eo', 'el', 'hu' }
+  config.enabled_languages = { 'en', 'de', 'eo', 'el', 'hu', 'it' }
 end
 
 if config.default_lang == nil then

@@ -78,7 +78,7 @@ config.public_access = "none"
 
 -- List of enabled languages, defaults to available languages
 -- ------------------------------------------------------------------------
--- config.enabled_languages = { 'en', 'de', 'eo', 'el', 'hu' }
+-- config.enabled_languages = { 'en', 'de', 'eo', 'el', 'hu', 'it' }
 
 -- Default language, defaults to "en"
 -- ------------------------------------------------------------------------
