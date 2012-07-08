@@ -687,7 +687,7 @@ return {
 ["Your support has been updated to the latest draft"] = "Il tuo sostegno e' stato confermato anche per la bozza piu' recente";
 ["Your vote has been discarded. Delegation rules apply if set."] = "Il tuo voto e' stato scartato. Verifica se ci sono deleghe impostate.";
 ["Z-A"] = "Z-A";
-["[Name of Language]"] = false;
+["[Name of Language]"] = "italiano";
 ["[No voting privilege]"] = "[Nessun diritto di voto]";
 ["[Registered members only]"] = "[Solo utenti registrati]";
 ["[event mail]       URL: #{url}"] = "[event mail]       URL: #{url}";
