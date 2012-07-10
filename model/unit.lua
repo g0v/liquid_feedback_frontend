@@ -94,8 +94,13 @@ function recursive_get_child_units(units, parent_unit, depth)
   end
 end
 
-function Unit:get_flattened_tree()
-  local units = Unit:new_selector():add_order_by("name"):exec()
+function Unit:get_flattened_tree(args)
+  local units_selector = Unit:new_selector()
+    :add_order_by("name")
+  if not args or not args.include_inactive then
+    units_selector:add_where("active")
+  end
+  local units = units_selector:exec()
   local unit_tree = {}
   for i, unit in ipairs(units) do
     if not unit.parent_id then
