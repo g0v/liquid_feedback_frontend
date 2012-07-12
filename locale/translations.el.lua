@@ -174,12 +174,12 @@ return {
 ["Direct majority non negative"] = "Άμεση πλειοψηφία μη αρνητικών";
 ["Direct majority numerator"] = "Αριθμητής άμεσης πλειοψηφίας";
 ["Direct majority positive"] = "Άμεση πλειοψηφία θετικών";
-["Disapproval (prefer to last block) [many entries]"] = "Αποδοκιμασία (προτιμήσεις του τελευταίου μπλοκ)";
-["Disapproval (prefer to last block) [single entry]"] = "Αποδοκιμασία (προτίμηση του τελευταίου μπλοκ)";
-["Disapproval (prefer to lower block) [many entries]"] = "Αποδοκιμασία (προτιμήσεις του χαμηλότερου μπλοκ)";
-["Disapproval (prefer to lower block) [single entry]"] = "Αποδοκιμασία (προτίμηση του χαμηλότερου μπλοκ)";
-["Disapproval (prefer to lower blocks) [many entries]"] = "Αποδοκιμασία (προτιμήσεις των χαμηλοτέρων μπλοκ)";
-["Disapproval (prefer to lower blocks) [single entry]"] = "Αποδοκιμασία (προτίμηση των χαμηλοτέρων μπλοκ)";
+["Disapproval (prefer to last block) [many entries]"] = "Αποδοκιμασία (αλλά προτιμότερα από το τελευταίο πλαίσιο)";
+["Disapproval (prefer to last block) [single entry]"] = "Αποδοκιμασία (αλλά προτιμότερο από το τελευταίο πλαίσιο)";
+["Disapproval (prefer to lower block) [many entries]"] = "Αποδοκιμασία (αλλά προτιμότερα από το παρακάτω)";
+["Disapproval (prefer to lower block) [single entry]"] = "Αποδοκιμασία (αλλά προτιμότερο από το παρακάτω)";
+["Disapproval (prefer to lower blocks) [many entries]"] = "Αποδοκιμασία (αλλά προτιμότερα από τα παρακάτω)";
+["Disapproval (prefer to lower blocks) [single entry]"] = "Αποδοκιμασία (αλλά προτιμότερο από τα παρακάτω)";
 ["Disapproval [many entries]"] = "Αποδοκιμασία";
 ["Disapproval [single entry]"] = "Αποδοκιμασία";
 ["Discard voting"] = "Ακύρωση ψήφου";
@@ -388,7 +388,7 @@ return {
 ["Not accepted yet"] = "Μη αποδεκτή ακόμη";
 ["Not approved"] = "Μη εγκεκριμένη";
 ["Not approved (rank #{rank})"] = "Μη εγκεκριμένη (Κατάταξη #{rank})";
-["Not voted"] = "Δεν έχει ψηφιστεί";
+["Not voted"] = "Δεν έχω ψηφίσει";
 ["Not voted issues"] = "Θέματα που δεν έχουν ψηφιστεί";
 ["Notification address unconfirmed"] = "Ανεπιβεβαίωτη διεύθυνση email για ειδοποιήσεις";
 ["Notification email"] = "Email για ειδοποιήσεις";
@@ -443,7 +443,7 @@ return {
 ["Please enter the email reset code you have received:"] = "Παρακαλώ εισάγετε τον κωδικό επαναφοράς που έχετε λάβει:";
 ["Please enter the invite code you've received."] = "Παρακαλώ εισάγετε τον κωδικό πρόσκλησης που έχετε λάβει.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Παρακαλώ εισάγετε τη διεύθυνση email σας. Αυτή η διεύθυνση θα χρησιμοποιηθεί για αυτόματες ειδοποιήσεις (αν το επιλέξετε) και σε περίπτωση που έχετε χάσει τον κωδικό πρόσβασής σας. Αυτή η διεύθυνση δεν θα δημοσιευθεί. Μετά την εγγραφή θα λάβετε ένα email με έναν σύνδεσμο επιβεβαίωσης.";
-["Please enter your login name. You will receive an email with a link to reset your password."] = "Παρακαλώ εισάγετε το όνομα σύνδεσής σας. Θα λάβετε ένα email με ένα σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας.";
+["Please enter your login name. You will receive an email with a link to reset your password."] = "Παρακαλώ εισάγετε το όνομα σύνδεσής σας. Θα λάβετε ένα email με ένα σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας. Προσοχή στα κεφαλαία/πεζά γράμματα, έχουν σημασία.";
 ["Please enter your new password twice."] = "Παρακαλώ εισάγετε τον νέο σας κωδικό πρόσβασης δύο φορες:";
 ["Please select your preferred notification level"] = "Παρακαλώ επιλέξτε το προτιμώμενο επίπεδο ειδοποίησης σας";
 ["Policies"] = "Κανονισμοί";
@@ -566,7 +566,7 @@ return {
 ["The initiators suggest to support the following initiative:"] = "Οι εισηγητές προτείνουν να υποστηρίξετε την ακόλουθη πρωτοβουλία:";
 ["This email address is too short!"] = "Η διεύθυνση email είναι πολύ μικρή!";
 ["This initiative"] = "Αυτή η πρωτοβουλία";
-["This initiative has been revoked at #{revoked}"] = "Αυτή η πρωτοβουλία έχει ανακληθεί στις #{revoked}";
+["This initiative has been revoked at #{revoked}"] = "Αυτή η πρωτοβουλία ανακλήθηκε στις #{revoked}";
 ["This initiative has not been admitted! It failed the quorum of #{quorum}."] = "Αυτή η πρωτοβουλία δεν προκρίθηκε. Δεν είχε την απαιτούμενη απαρτία #{quorum}.";
 ["This initiative is already revoked"] = "Αυτή η πρωτοβουλία έχει ήδη ανακληθεί";
 ["This initiative is revoked"] = "Αυτή η πρωτοβουλία έχει ανακληθεί";
@@ -620,7 +620,7 @@ return {
 ["Verification time"] = "Διάρκεια επιβεβαίωσης";
 ["Version"] = "Έκδοση";
 ["Vote now"] = "Ψηφίστε τώρα";
-["Voted"] = "Ψήφισε";
+["Voted"] = "Έχω ψηφίσει";
 ["Voted no"] = "Ψήφισε όχι";
 ["Voted proposal"] = "Ψηφισμένη πρόταση";
 ["Voted yes"] = "Ψήφισε ναι";
@@ -725,7 +725,7 @@ return {
 ["implemented"] = "υλοποιημένη";
 ["inactive"] = "ανενεργός/ή";
 ["last 24 hours"] = "τις τελευταίες 24 ώρες";
-["login name"] = "όνομα σύνδεσης";
+["login name"] = "Όνομα σύνδεσης";
 ["majority"] = "πλειοψηφία";
 ["more unsatisfied"] = "περισσότερο ανικανοποίητος/η";
 ["must"] = "οπωσδήποτε";
