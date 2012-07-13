@@ -119,6 +119,12 @@ config.public_access = "none"
 --  photo =  function(data) return extos.pfilter(data, "convert", "jpeg:-", "-thumbnail", "240x240", "jpeg:-") end
 --}
 
+-- Automatic issue related discussion URL
+-- ------------------------------------------------------------------------
+-- config.issue_discussion_url_func = function(issue)
+--   return "http://example.com/discussion/issue_" .. tostring(issue.id)
+-- end
+
 -- Integration of Etherpad, disabled by default
 -- ------------------------------------------------------------------------
 --config.etherpad = {
