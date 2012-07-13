@@ -20,6 +20,14 @@ local name = param.get("name")
 if name then
   member.name = name
 end
+local identification = param.get("identification")
+if identification then
+  identification = util.trim(identification)
+  if identification == "" then
+    identification = nil
+  end
+end
+member.identification = identification
 
 local err = member:try_save()
 
