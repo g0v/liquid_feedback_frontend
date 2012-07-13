@@ -119,6 +119,10 @@ config.public_access = "none"
 --  photo =  function(data) return extos.pfilter(data, "convert", "jpeg:-", "-thumbnail", "240x240", "jpeg:-") end
 --}
 
+-- Display a public message of the day
+-- ------------------------------------------------------------------------
+config.motd_public = "===Message of the day===\nThe MOTD is formatted with rocket wiki"
+
 -- Automatic issue related discussion URL
 -- ------------------------------------------------------------------------
 -- config.issue_discussion_url_func = function(issue)
