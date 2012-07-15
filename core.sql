@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('2.0.11', 2, 0, 11))
+  SELECT * FROM (VALUES ('2.1.0', 2, 1, 0))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -1036,39 +1036,6 @@ COMMENT ON TABLE "vote" IS 'Manual and delegated votes without abstentions; Fron
 
 COMMENT ON COLUMN "vote"."issue_id" IS 'WARNING: No index: For selections use column "initiative_id" and join via table "initiative" where neccessary';
 COMMENT ON COLUMN "vote"."grade"    IS 'Values smaller than zero mean reject, values greater than zero mean acceptance, zero or missing row means abstention. Preferences are expressed by different positive or negative numbers.';
-
-
-CREATE TABLE "issue_comment" (
-        PRIMARY KEY ("issue_id", "member_id"),
-        "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "changed"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
-        "formatting_engine"     TEXT,
-        "content"               TEXT            NOT NULL,
-        "text_search_data"      TSVECTOR );
-CREATE INDEX "issue_comment_member_id_idx" ON "issue_comment" ("member_id");
-CREATE INDEX "issue_comment_text_search_data_idx" ON "issue_comment" USING gin ("text_search_data");
-CREATE TRIGGER "update_text_search_data"
-  BEFORE INSERT OR UPDATE ON "issue_comment"
-  FOR EACH ROW EXECUTE PROCEDURE
-  tsvector_update_trigger('text_search_data', 'pg_catalog.simple', "content");
-
-COMMENT ON TABLE "issue_comment" IS 'Place to store free comments of members related to issues';
-
-COMMENT ON COLUMN "issue_comment"."changed" IS 'Time the comment was last changed';
-
-
-CREATE TABLE "rendered_issue_comment" (
-        PRIMARY KEY ("issue_id", "member_id", "format"),
-        FOREIGN KEY ("issue_id", "member_id")
-          REFERENCES "issue_comment" ("issue_id", "member_id")
-          ON DELETE CASCADE ON UPDATE CASCADE,
-        "issue_id"              INT4,
-        "member_id"             INT4,
-        "format"                TEXT,
-        "content"               TEXT            NOT NULL );
-
-COMMENT ON TABLE "rendered_issue_comment" IS 'This table may be used by frontends to cache "rendered" issue comments (e.g. HTML output generated from wiki text)';
 
 
 CREATE TABLE "voting_comment" (
@@ -4283,8 +4250,6 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
           "closed"          = NULL,
           "ranks_available" = FALSE
           WHERE "id" = "issue_id_p";
-        DELETE FROM "issue_comment"
-          WHERE "issue_id" = "issue_id_p";
         DELETE FROM "voting_comment"
           WHERE "issue_id" = "issue_id_p";
         DELETE FROM "delegating_voter"
