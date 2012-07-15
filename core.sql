@@ -328,11 +328,11 @@ CREATE TABLE "policy" (
         "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
         "name"                  TEXT            NOT NULL UNIQUE,
         "description"           TEXT            NOT NULL DEFAULT '',
-        "free_timing"           BOOLEAN         NOT NULL DEFAULT FALSE,
-        "admission_time"        INTERVAL        NOT NULL,
-        "discussion_time"       INTERVAL        NOT NULL,
-        "verification_time"     INTERVAL        NOT NULL,
-        "voting_time"           INTERVAL        NOT NULL,
+        "polling"               BOOLEAN         NOT NULL DEFAULT FALSE,
+        "admission_time"        INTERVAL,
+        "discussion_time"       INTERVAL,
+        "verification_time"     INTERVAL,
+        "voting_time"           INTERVAL,
         "issue_quorum_num"      INT4            NOT NULL,
         "issue_quorum_den"      INT4            NOT NULL,
         "initiative_quorum_num" INT4            NOT NULL,
@@ -350,10 +350,13 @@ CREATE TABLE "policy" (
         "no_reverse_beat_path"          BOOLEAN NOT NULL DEFAULT TRUE,
         "no_multistage_majority"        BOOLEAN NOT NULL DEFAULT FALSE,
         CONSTRAINT "timing" CHECK (
-          ( "free_timing" = FALSE AND
+          ( "polling" = FALSE AND
             "admission_time" NOTNULL AND "discussion_time" NOTNULL AND
             "verification_time" NOTNULL AND "voting_time" NOTNULL ) OR
-          ( "free_timing" = TRUE AND
+          ( "polling" = TRUE AND
+            "admission_time" NOTNULL AND "discussion_time" NOTNULL AND
+            "verification_time" NOTNULL AND "voting_time" NOTNULL ) OR
+          ( "polling" = TRUE AND
             "admission_time" ISNULL AND "discussion_time" ISNULL AND
             "verification_time" ISNULL AND "voting_time" ISNULL ) ) );
 CREATE INDEX "policy_active_idx" ON "policy" ("active");
@@ -362,7 +365,7 @@ COMMENT ON TABLE "policy" IS 'Policies for a particular proceeding type (timelim
 
 COMMENT ON COLUMN "policy"."index"                 IS 'Determines the order in listings';
 COMMENT ON COLUMN "policy"."active"                IS 'TRUE = policy can be used for new issues';
-COMMENT ON COLUMN "policy"."free_timing"           IS 'TRUE = special policy for non-user-generated issues without predefined timing (all _time fields must be set to NULL then)';
+COMMENT ON COLUMN "policy"."polling"               IS 'TRUE = special policy for non-user-generated issues, i.e. polls (time values may be set to NULL, allowing individual timing for issues)';
 COMMENT ON COLUMN "policy"."admission_time"        IS 'Maximum duration of issue state ''admission''; Maximum time an issue stays open without being "accepted"';
 COMMENT ON COLUMN "policy"."discussion_time"       IS 'Duration of issue state ''discussion''; Regular time until an issue is "half_frozen" after being "accepted"';
 COMMENT ON COLUMN "policy"."verification_time"     IS 'Duration of issue state ''verification''; Regular time until an issue is "fully_frozen" (e.g. entering issue state ''voting'') after being "half_frozen"';
@@ -586,6 +589,7 @@ CREATE TABLE "initiative" (
         "issue_id"              INT4            NOT NULL REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "id"                    SERIAL4         PRIMARY KEY,
         "name"                  TEXT            NOT NULL,
+        "polling"               BOOLEAN         NOT NULL DEFAULT FALSE,
         "discussion_url"        TEXT,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "revoked"               TIMESTAMPTZ,
@@ -642,6 +646,7 @@ CREATE TRIGGER "update_text_search_data"
 
 COMMENT ON TABLE "initiative" IS 'Group of members publishing drafts for resolutions to be passed; Frontends must ensure that initiatives of half_frozen issues are not revoked, and that initiatives of fully_frozen or closed issues are neither revoked nor created.';
 
+COMMENT ON COLUMN "initiative"."polling"                IS 'Initiative is an option for a poll (see "policy"."polling"), and does not need to pass the initiative quorum';
 COMMENT ON COLUMN "initiative"."discussion_url"         IS 'URL pointing to a discussion platform for this initiative';
 COMMENT ON COLUMN "initiative"."revoked"                IS 'Point in time, when one initiator decided to revoke the initiative';
 COMMENT ON COLUMN "initiative"."revoked_by_member_id"   IS 'Member, who decided to revoke the initiative';
@@ -801,16 +806,20 @@ CREATE TABLE "privilege" (
         "admin_manager"         BOOLEAN         NOT NULL DEFAULT FALSE,
         "unit_manager"          BOOLEAN         NOT NULL DEFAULT FALSE,
         "area_manager"          BOOLEAN         NOT NULL DEFAULT FALSE,
-        "voting_right_manager"  BOOLEAN         NOT NULL DEFAULT FALSE,
-        "voting_right"          BOOLEAN         NOT NULL DEFAULT TRUE );
+        "member_manager"        BOOLEAN         NOT NULL DEFAULT FALSE,
+        "initiative_right"      BOOLEAN         NOT NULL DEFAULT TRUE,
+        "voting_right"          BOOLEAN         NOT NULL DEFAULT TRUE,
+        "polling_right"         BOOLEAN         NOT NULL DEFAULT FALSE );
 
 COMMENT ON TABLE "privilege" IS 'Members rights related to each unit';
 
-COMMENT ON COLUMN "privilege"."admin_manager"        IS 'Grant/revoke admin privileges to/from other members';
+COMMENT ON COLUMN "privilege"."admin_manager"        IS 'Grant/revoke any privileges to/from other members';
 COMMENT ON COLUMN "privilege"."unit_manager"         IS 'Create and disable sub units';
 COMMENT ON COLUMN "privilege"."area_manager"         IS 'Create and disable areas and set area parameters';
-COMMENT ON COLUMN "privilege"."voting_right_manager" IS 'Select which members are allowed to discuss and vote within the unit';
-COMMENT ON COLUMN "privilege"."voting_right"         IS 'Right to discuss and vote';
+COMMENT ON COLUMN "privilege"."member_manager"       IS 'Adding/removing members from the unit, granting or revoking "initiative_right" and "voting_right"';
+COMMENT ON COLUMN "privilege"."initiative_right"     IS 'Right to create an initiative';
+COMMENT ON COLUMN "privilege"."voting_right"         IS 'Right to support initiatives, create and rate suggestions, and to vote';
+COMMENT ON COLUMN "privilege"."polling_right"        IS 'Right to create polls (see "policy"."polling" and "initiative"."polling")';
 
 
 CREATE TABLE "membership" (
@@ -3509,10 +3518,12 @@ CREATE FUNCTION "freeze_after_snapshot"
         WHERE "issue_id" = "issue_id_p" AND "revoked" ISNULL
       LOOP
         IF
-          "initiative_row"."satisfied_supporter_count" > 0 AND
-          "initiative_row"."satisfied_supporter_count" *
-          "policy_row"."initiative_quorum_den" >=
-          "issue_row"."population" * "policy_row"."initiative_quorum_num"
+          "initiative_row"."polling" OR (
+            "initiative_row"."satisfied_supporter_count" > 0 AND
+            "initiative_row"."satisfied_supporter_count" *
+            "policy_row"."initiative_quorum_den" >=
+            "issue_row"."population" * "policy_row"."initiative_quorum_num"
+          )
         THEN
           UPDATE "initiative" SET "admitted" = TRUE
             WHERE "id" = "initiative_row"."id";
