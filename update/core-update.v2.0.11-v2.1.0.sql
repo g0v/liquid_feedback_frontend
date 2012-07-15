@@ -14,12 +14,12 @@ ALTER TABLE "policy" ADD CONSTRAINT "timing" CHECK (
             "admission_time" NOTNULL AND "discussion_time" NOTNULL AND
             "verification_time" NOTNULL AND "voting_time" NOTNULL ) OR
           ( "polling" = TRUE AND
-            "admission_time" NOTNULL AND "discussion_time" NOTNULL AND
+            "admission_time" ISNULL AND "discussion_time" NOTNULL AND
             "verification_time" NOTNULL AND "voting_time" NOTNULL ) OR
           ( "polling" = TRUE AND
             "admission_time" ISNULL AND "discussion_time" ISNULL AND
             "verification_time" ISNULL AND "voting_time" ISNULL ) );
-COMMENT ON COLUMN "policy"."polling" IS 'TRUE = special policy for non-user-generated issues, i.e. polls (time values may be set to NULL, allowing individual timing for issues)';
+COMMENT ON COLUMN "policy"."polling" IS 'TRUE = special policy for non-user-generated issues, i.e. polls ("admission_time" MUST be set to NULL, the other timings may be set to NULL altogether, allowing individual timing for issues)';
 
 ALTER TABLE "initiative" ADD COLUMN "polling" BOOLEAN NOT NULL DEFAULT FALSE;
 COMMENT ON COLUMN "initiative"."polling" IS 'Initiative is an option for a poll (see "policy"."polling"), and does not need to pass the initiative quorum';

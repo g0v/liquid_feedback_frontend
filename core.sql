@@ -354,7 +354,7 @@ CREATE TABLE "policy" (
             "admission_time" NOTNULL AND "discussion_time" NOTNULL AND
             "verification_time" NOTNULL AND "voting_time" NOTNULL ) OR
           ( "polling" = TRUE AND
-            "admission_time" NOTNULL AND "discussion_time" NOTNULL AND
+            "admission_time" ISNULL AND "discussion_time" NOTNULL AND
             "verification_time" NOTNULL AND "voting_time" NOTNULL ) OR
           ( "polling" = TRUE AND
             "admission_time" ISNULL AND "discussion_time" ISNULL AND
@@ -365,7 +365,7 @@ COMMENT ON TABLE "policy" IS 'Policies for a particular proceeding type (timelim
 
 COMMENT ON COLUMN "policy"."index"                 IS 'Determines the order in listings';
 COMMENT ON COLUMN "policy"."active"                IS 'TRUE = policy can be used for new issues';
-COMMENT ON COLUMN "policy"."polling"               IS 'TRUE = special policy for non-user-generated issues, i.e. polls (time values may be set to NULL, allowing individual timing for issues)';
+COMMENT ON COLUMN "policy"."polling"               IS 'TRUE = special policy for non-user-generated issues, i.e. polls ("admission_time" MUST be set to NULL, the other timings may be set to NULL altogether, allowing individual timing for issues)';
 COMMENT ON COLUMN "policy"."admission_time"        IS 'Maximum duration of issue state ''admission''; Maximum time an issue stays open without being "accepted"';
 COMMENT ON COLUMN "policy"."discussion_time"       IS 'Duration of issue state ''discussion''; Regular time until an issue is "half_frozen" after being "accepted"';
 COMMENT ON COLUMN "policy"."verification_time"     IS 'Duration of issue state ''verification''; Regular time until an issue is "fully_frozen" (e.g. entering issue state ''voting'') after being "half_frozen"';
