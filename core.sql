@@ -328,6 +328,7 @@ CREATE TABLE "policy" (
         "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
         "name"                  TEXT            NOT NULL UNIQUE,
         "description"           TEXT            NOT NULL DEFAULT '',
+        "free_timing"           BOOLEAN         NOT NULL DEFAULT FALSE,
         "admission_time"        INTERVAL        NOT NULL,
         "discussion_time"       INTERVAL        NOT NULL,
         "verification_time"     INTERVAL        NOT NULL,
@@ -347,13 +348,21 @@ CREATE TABLE "policy" (
         "indirect_majority_positive"    INT4    NOT NULL DEFAULT 0,
         "indirect_majority_non_negative" INT4   NOT NULL DEFAULT 0,
         "no_reverse_beat_path"          BOOLEAN NOT NULL DEFAULT TRUE,
-        "no_multistage_majority"        BOOLEAN NOT NULL DEFAULT FALSE );
+        "no_multistage_majority"        BOOLEAN NOT NULL DEFAULT FALSE,
+        CONSTRAINT "timing" CHECK (
+          ( "free_timing" = FALSE AND
+            "admission_time" NOTNULL AND "discussion_time" NOTNULL AND
+            "verification_time" NOTNULL AND "voting_time" NOTNULL ) OR
+          ( "free_timing" = TRUE AND
+            "admission_time" ISNULL AND "discussion_time" ISNULL AND
+            "verification_time" ISNULL AND "voting_time" ISNULL ) ) );
 CREATE INDEX "policy_active_idx" ON "policy" ("active");
 
 COMMENT ON TABLE "policy" IS 'Policies for a particular proceeding type (timelimits, quorum)';
 
 COMMENT ON COLUMN "policy"."index"                 IS 'Determines the order in listings';
 COMMENT ON COLUMN "policy"."active"                IS 'TRUE = policy can be used for new issues';
+COMMENT ON COLUMN "policy"."free_timing"           IS 'TRUE = special policy for non-user-generated issues without predefined timing (all _time fields must be set to NULL then)';
 COMMENT ON COLUMN "policy"."admission_time"        IS 'Maximum duration of issue state ''admission''; Maximum time an issue stays open without being "accepted"';
 COMMENT ON COLUMN "policy"."discussion_time"       IS 'Duration of issue state ''discussion''; Regular time until an issue is "half_frozen" after being "accepted"';
 COMMENT ON COLUMN "policy"."verification_time"     IS 'Duration of issue state ''verification''; Regular time until an issue is "fully_frozen" (e.g. entering issue state ''voting'') after being "half_frozen"';
