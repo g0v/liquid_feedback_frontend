@@ -121,7 +121,7 @@ config.public_access = "none"
 
 -- Display a public message of the day
 -- ------------------------------------------------------------------------
-config.motd_public = "===Message of the day===\nThe MOTD is formatted with rocket wiki"
+-- config.motd_public = "===Message of the day===\nThe MOTD is formatted with rocket wiki"
 
 -- Automatic issue related discussion URL
 -- ------------------------------------------------------------------------

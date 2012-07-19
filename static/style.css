@@ -44,7 +44,9 @@ caption, th, td {
   text-align: left;
   font-weight: normal;
 }
-
+a:focus {
+  outline: 1px solid #f90;
+}
 /*************************************************************************
  * Some global definitions 
  */
@@ -186,7 +188,9 @@ h2 {
 }
 
 .topbar a:hover, 
-.topbar a:hover .logo_liquidfeedback {
+.topbar a:hover .logo_liquidfeedback,
+.topbar a:focus, 
+.topbar a:focus .logo_liquidfeedback {
   color: #f90;
 }
 
@@ -505,7 +509,8 @@ div.notifications {
   color: #aaa;
 }
 
-a.delegation_info:hover {
+a.delegation_info:hover,
+a.delegation_info:focus {
   background-color: #ddd;
 }
 
@@ -578,6 +583,7 @@ a.delegation_info:hover {
 }
 
 .ui_tabs_links a:hover,
+.ui_tabs_links a:focus,
 .ui_tabs_links a.selected {
   margin: 0;
   margin-right: 2px;
@@ -793,7 +799,9 @@ div.notifications {
 }
 
 .login input[type=submit]:hover,
-.vertical input[type=submit]:hover {
+.vertical input[type=submit]:hover,
+.login input[type=submit]:focus,
+.vertical input[type=submit]:focus {
   background-color: #444444;
 }
 
