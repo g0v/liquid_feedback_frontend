@@ -526,7 +526,7 @@ return {
 ["Show policies in use"] = "顯示所使用的規則";
 ["Show policies not in use"] = "顯示停用規則";
 ["Show profile"] = "顯示個人簡介";
-["So I'm"] = "我的表情"
+["So I'm"] = "我的表情";
 ["Software"] = "軟體";
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "抱歉，您的帳號並無經認證的電郵地址。請聯絡管理員或支援。";
 ["Sorry, but you are currently not invited"] = "抱歉，您目前未受邀請。";
