@@ -240,7 +240,7 @@ return {
 ["Hint"] = "提示";
 ["History"] = "紀錄";
 ["Home"] = "首頁";
-["I consider suggestion as"] = "我對此建議的看法為：";
+["I consider suggestion as"] = "我認為該建議";
 ["I like to receive notifications by email about events in my areas and issues:"] = "我願意接收關於我的領域及議題的相關動態的電郵通知";
 ["Id"] = "身分";
 ["Identification"] = "身分";
@@ -526,7 +526,7 @@ return {
 ["Show policies in use"] = "顯示所使用的規則";
 ["Show policies not in use"] = "顯示停用規則";
 ["Show profile"] = "顯示個人簡介";
-["So I'm"] = "我的表情";
+["So I'm"] = "因此我";
 ["Software"] = "軟體";
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "抱歉，您的帳號並無經認證的電郵地址。請聯絡管理員或支援。";
 ["Sorry, but you are currently not invited"] = "抱歉，您目前未受邀請。";
@@ -722,7 +722,7 @@ return {
 ["email"] = "電郵";
 ["global"] = "全面";
 ["i#{id}: #{name}"] = false;
-["implemented"] = "已執行";
+["implemented"] = "已被採用";
 ["inactive"] = "不活動的";
 ["last 24 hours"] = "最近 24 小時內";
 ["login name"] = "帳號";
@@ -733,7 +733,7 @@ return {
 ["neutral"] = "中立";
 ["no reverse beat path to status quo (including ties)"] = "無循環性優先順序導至現狀 (包括平手)";
 ["none"] = "無";
-["not implemented"] = "未執行";
+["not implemented"] = "為被採用";
 ["not yet"] = "尚未";
 ["possibly instable result caused by multistage majority"] = "因多階段多數可能導致不穩定結果";
 ["prohibit potentially instable results caused by multistage majorities"] = "防止因多階段多數導致潛在不穩定結果";
