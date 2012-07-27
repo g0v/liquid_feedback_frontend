@@ -200,7 +200,7 @@ return {
 ["Edit areas"] = "編輯議題領域";
 ["Edit draft"] = "編輯草案";
 ["Edit initiative"] = "編輯提案";
-["Edit my page"] = "編輯我的個人專頁;
+["Edit my page"] = "編輯我的個人專頁";
 ["Edit my profile"] = "編輯我的個人簡介";
 ["Edit profile"] = "編輯個人簡介";
 ["Edit unit"] = "編輯單位";
@@ -588,7 +588,7 @@ return {
 ["This name is too short!"] = "此名太短！";
 ["This screen name is too short!"] = "此使用者代號太短！";
 ["This service is provided by:"] = "服務提供者為：";
-["This service is provided using the following software components:"] = 此服務是經由下列軟體組件提供：";
+["This service is provided using the following software components:"] = "此服務是經由下列軟體組件提供：";
 ["This site is using"] = "此網站使用";
 ["This suggestion has been meanwhile deleted"] = "此建議已在期間被刪除";
 ["This title is really too short!"] = "此標題真的太短！";
