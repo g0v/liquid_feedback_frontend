@@ -733,7 +733,7 @@ return {
 ["neutral"] = "中立";
 ["no reverse beat path to status quo (including ties)"] = "無循環性優先順序導至現狀 (包括平手)";
 ["none"] = "無";
-["not implemented"] = "為被採用";
+["not implemented"] = "未被採用";
 ["not yet"] = "尚未";
 ["possibly instable result caused by multistage majority"] = "因多階段多數可能導致不穩定結果";
 ["prohibit potentially instable results caused by multistage majorities"] = "防止因多階段多數導致潛在不穩定結果";
