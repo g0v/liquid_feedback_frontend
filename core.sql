@@ -174,72 +174,61 @@ CREATE TYPE "api_access_level" AS ENUM (
   'none', 'anonymous', 'authors_pseudonymous', 'all_pseudonymous', 'everything', 'member' );
 
 
-CREATE TABLE "system_api_client" (
-        "id"                    INT4            PRIMARY KEY,
-        "name"                  TEXT            NOT NULL UNIQUE,
-        "client_identifier"     TEXT            NOT NULL UNIQUE,
-        "client_secret"         TEXT,
-        "redirection_endpoint"  TEXT,
-        "access_level"          "api_access_level" NOT NULL,
-        "multi_access"          BOOLEAN         NOT NULL,
-        "validity_period"       INTERVAL        NOT NULL,
-        "last_usage"            TIMESTAMPTZ     NOT NULL );
-
-COMMENT ON TABLE "system_api_client" IS 'Registered OAuth2 clients by the system administrator';
-
-COMMENT ON COLUMN "system_api_client"."name"                 IS 'Name of the client as chosen by member';
-COMMENT ON COLUMN "system_api_client"."client_identifier"    IS 'OAuth2 client id';
-COMMENT ON COLUMN "system_api_client"."client_secret"        IS 'Secret for client authentication, enables OAuth2 Client Credentials Grant when set';
-COMMENT ON COLUMN "system_api_client"."redirection_endpoint" IS 'OAuth2 redirection endpoint, enables OAuth2 Authorization Code Grant and Implicit Grant when set';
-COMMENT ON COLUMN "system_api_client"."multi_access"         IS 'TRUE = Allow to issue more than one access token simultanously';
-COMMENT ON COLUMN "system_api_client"."validity_period"      IS 'Life time of an OAuth2 access token';
-
-
-CREATE TABLE "member_api_client" (
+CREATE TABLE "api_client" (
         "id"                    SERIAL8         PRIMARY KEY,
         UNIQUE ("member_id", "name"),
         UNIQUE ("member_id", "client_identifier"),
-        "member_id"             INT4            NOT NULL REFERENCES "member" ("id")
+        "member_id"             INT4            REFERENCES "member" ("id")
                                                 ON DELETE CASCADE ON UPDATE CASCADE,
         "name"                  TEXT            NOT NULL,
         "client_identifier"     TEXT            NOT NULL,
-        "redirection_endpoint"  TEXT            NOT NULL,
+        "client_secret"         TEXT,
+        "redirection_endpoint"  TEXT,
+        "public_access_level"   "api_access_level",
         "access_level"          "api_access_level" NOT NULL,
-        "multi_access"          BOOLEAN         NOT NULL,
         "validity_period"       INTERVAL        NOT NULL,
-        "last_usage"            TIMESTAMPTZ     NOT NULL );
+        "last_usage"            TIMESTAMPTZ     NOT NULL,
+        CONSTRAINT "public_access_level_set_if_and_only_if_system_client"
+          CHECK ("member_id" ISNULL OR "client_secret" NOTNULL OR "access_level"='none'),
+        CONSTRAINT "system_client_with_public_access_requires_secret"
+          CHECK ("member_id" ISNULL OR "client_secret" NOTNULL OR "public_access_level"='none'),
+        CONSTRAINT "member_client_requires_redirection_endpoint"
+          CHECK ("member_id" ISNULL OR "redirection_endpoint" NOTNULL) );
+CREATE UNIQUE INDEX "api_client_non_member_name_idx" ON "api_client" ("name") WHERE "member_id" ISNULL;
+CREATE UNIQUE INDEX "api_client_non_member_client_identifier_idx" ON "api_client" ("client_identifier") WHERE "member_id" ISNULL;
 
-COMMENT ON TABLE "member_api_client" IS 'Registered OAuth2 client for a member';
+COMMENT ON TABLE "api_client" IS 'Registered OAuth2 client for a member';
 
-COMMENT ON COLUMN "member_api_client"."name"                 IS 'Name of the client as chosen by member';
-COMMENT ON COLUMN "member_api_client"."client_identifier"    IS 'OAuth2 client id';
-COMMENT ON COLUMN "member_api_client"."redirection_endpoint" IS 'OAuth2 redirection endpoint';
-COMMENT ON COLUMN "member_api_client"."multi_access"         IS 'TRUE = Allow to issue more than one access token simultanously';
-COMMENT ON COLUMN "member_api_client"."validity_period"      IS 'Life time of an OAuth2 access token';
+COMMENT ON COLUMN "api_client"."member_id"            IS 'Member, who registered the client for him/herself, or NULL for clients registered by administrator';
+COMMENT ON COLUMN "api_client"."name"                 IS 'Name of the client as chosen by member or administrator';
+COMMENT ON COLUMN "api_client"."client_identifier"    IS 'OAuth2 client id';
+COMMENT ON COLUMN "api_client"."client_secret"        IS 'Secret for client authentication, enables OAuth2 Client Credentials Grant when set';
+COMMENT ON COLUMN "api_client"."redirection_endpoint" IS 'OAuth2 redirection endpoint, must be set for clients registered by members';
+COMMENT ON COLUMN "api_client"."access_level"         IS 'For clients registered by administrator: access level for OAuth2 Client Credentials Grant; For clients registered by member: access level for OAuth ';
+COMMENT ON COLUMN "api_client"."validity_period"      IS 'Life time of an OAuth2 access token';
 
 
 CREATE TABLE "api_access" (
         "id"                    SERIAL8         PRIMARY KEY,
-        "client_identifier"     TEXT            NOT NULL,
-        "redirection_endpoint"  TEXT,
-        "access_level"          "api_access_level" NOT NULL,
+        "api_client_id"         INT8            NOT NULL REFERENCES "api_client" ("id")
+                                                ON DELETE CASCADE ON UPDATE CASCADE,
         "member_id"             INT4            REFERENCES "member" ("id")
                                                 ON DELETE CASCADE ON UPDATE CASCADE,
-        "expiry"                TIMESTAMPTZ     NOT NULL,
+        "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "authorization_code"    TEXT,
-        "access_token"          TEXT,
-        CONSTRAINT "authorization_code_requires_redirection_endpoint"
-          CHECK ("authorization_code" ISNULL OR "redirection_endpoint" NOTNULL),
-        CONSTRAINT "one_of_authorization_code_and_access_token_set"
-          CHECK ("authorization_code" NOTNULL OR "access_token" NOTNULL) );
+        "refreshed"             TIMESTAMPTZ,
+        "refresh_token"         TEXT,
+        CONSTRAINT "one_of_authorization_code_and_refresh_token_set"
+          CHECK ("authorization_code" NOTNULL OR "refresh_token" NOTNULL),
+        CONSTRAINT "refresh_token_if_and_only_if_refreshed"
+          CHECK ("refreshed" NOTNULL = "refresh_token" NOTNULL) );
 
-COMMENT ON TABLE "api_access" IS 'Issued OAuth2 authorization codes and access tokens';
+COMMENT ON TABLE "api_access" IS 'Issued OAuth2 authorization codes and refresh tokens';
 
-COMMENT ON COLUMN "api_access"."client_identifier"    IS 'OAuth2 client id';
-COMMENT ON COLUMN "api_access"."redirection_endpoint" IS 'OAuth2 redirection endpoint';
-COMMENT ON COLUMN "api_access"."expiry"               IS 'Expiry of access token, or expiry of authorization code when access token is NULL';
+COMMENT ON COLUMN "api_access"."created"              IS 'Date/time when authorization code (or first refresh token when there is no authorization code) has been created';
 COMMENT ON COLUMN "api_access"."authorization_code"   IS 'OAuth2 authorization code';
-COMMENT ON COLUMN "api_access"."access_token"         IS 'OAuth2 access token';
+COMMENT ON COLUMN "api_access"."refreshed"            IS 'Date/time of last refresh';
+COMMENT ON COLUMN "api_access"."refresh_token"        IS 'OAuth2 refresh token';
 
 
 CREATE TABLE "member_history" (
