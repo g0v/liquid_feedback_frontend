@@ -209,9 +209,9 @@ COMMENT ON COLUMN "api_client"."client_secret"              IS 'Secret for clien
 COMMENT ON COLUMN "api_client"."code_grant"                 IS 'Enable OAuth2 Authorization Code Grant';
 COMMENT ON COLUMN "api_client"."token_grant"                IS 'Enable OAuth2 Implicit Grant';
 COMMENT ON COLUMN "api_client"."client_grant"               IS 'Enable OAuth2 Client Credentials Grant';
-COMMENT ON COLUMN "api_client"."code_grant_validity_period" IS 'Validity period of OAuth2 Authorization Code Grant, after which no more refresh is possible';
-COMMENT ON COLUMN "api_client"."access_level"               IS 'Access level for OAuth2 Authorization Code Grant and Implicit Grant';
-COMMENT ON COLUMN "api_client"."client_grant_access_level"  IS 'Access level for OAuth2 Authorization Code Grant and Implicit Grant';
+COMMENT ON COLUMN "api_client"."code_grant_validity_period" IS 'Maximum validity period of OAuth2 Authorization Code Grant, after which no more refresh is possible';
+COMMENT ON COLUMN "api_client"."access_level"               IS 'Maximum access level for OAuth2 Authorization Code Grant and Implicit Grant';
+COMMENT ON COLUMN "api_client"."client_grant_access_level"  IS 'Maximum access level for OAuth2 Authorization Code Grant and Implicit Grant';
 COMMENT ON COLUMN "api_client"."last_usage"                 IS 'Date/time when this client registration was last used';
 
 
