@@ -176,36 +176,32 @@ CREATE TYPE "api_access_level" AS ENUM (
 
 CREATE TABLE "api_client" (
         "id"                    SERIAL8         PRIMARY KEY,
-        UNIQUE ("member_id", "name"),
+        "name"                  TEXT            NOT NULL,
         UNIQUE ("member_id", "client_identifier"),
         "member_id"             INT4            REFERENCES "member" ("id")
                                                 ON DELETE CASCADE ON UPDATE CASCADE,
-        "name"                  TEXT            NOT NULL,
         "client_identifier"     TEXT            NOT NULL,
         "client_secret"         TEXT,
-        "redirection_endpoint"  TEXT,
+        "member_authorization"  BOOLEAN         NOT NULL,
         "public_access_level"   "api_access_level",
         "access_level"          "api_access_level" NOT NULL,
         "validity_period"       INTERVAL        NOT NULL,
         "last_usage"            TIMESTAMPTZ     NOT NULL,
         CONSTRAINT "public_access_level_set_if_and_only_if_system_client"
-          CHECK ("member_id" ISNULL OR "client_secret" NOTNULL OR "access_level"='none'),
-        CONSTRAINT "system_client_with_public_access_requires_secret"
-          CHECK ("member_id" ISNULL OR "client_secret" NOTNULL OR "public_access_level"='none'),
-        CONSTRAINT "member_client_requires_redirection_endpoint"
-          CHECK ("member_id" ISNULL OR "redirection_endpoint" NOTNULL) );
-CREATE UNIQUE INDEX "api_client_non_member_name_idx" ON "api_client" ("name") WHERE "member_id" ISNULL;
-CREATE UNIQUE INDEX "api_client_non_member_client_identifier_idx" ON "api_client" ("client_identifier") WHERE "member_id" ISNULL;
+          CHECK ("member_id" ISNULL = "public_access_level" NOTNULL) );
+CREATE UNIQUE INDEX "api_client_non_member_client_identifier_idx"
+  ON "api_client" ("client_identifier") WHERE "member_id" ISNULL;
 
 COMMENT ON TABLE "api_client" IS 'Registered OAuth2 client for a member';
 
 COMMENT ON COLUMN "api_client"."member_id"            IS 'Member, who registered the client for him/herself, or NULL for clients registered by administrator';
 COMMENT ON COLUMN "api_client"."name"                 IS 'Name of the client as chosen by member or administrator';
-COMMENT ON COLUMN "api_client"."client_identifier"    IS 'OAuth2 client id';
+COMMENT ON COLUMN "api_client"."client_identifier"    IS 'OAuth2 client id, also used as redirection endpoint if "member_authorization" is set to TRUE';
 COMMENT ON COLUMN "api_client"."client_secret"        IS 'Secret for client authentication, enables OAuth2 Client Credentials Grant when set';
-COMMENT ON COLUMN "api_client"."redirection_endpoint" IS 'OAuth2 redirection endpoint, must be set for clients registered by members';
-COMMENT ON COLUMN "api_client"."access_level"         IS 'For clients registered by administrator: access level for OAuth2 Client Credentials Grant; For clients registered by member: access level for OAuth ';
-COMMENT ON COLUMN "api_client"."validity_period"      IS 'Life time of an OAuth2 access token';
+COMMENT ON COLUMN "api_client"."member_authorization" IS 'Allow OAuth2 Authorization Code Grant and Implicit Grant, in which case the "client_identifier" is used as the redirection endpoint';
+COMMENT ON COLUMN "api_client"."public_access_level"  IS 'Access level for OAuth2 Client Credentials Grant';
+COMMENT ON COLUMN "api_client"."access_level"         IS 'Access level for OAuth2 Authorization Code Grant and Implicit Grant';
+COMMENT ON COLUMN "api_client"."validity_period"      IS 'Life time of an OAuth2 refresh token';
 
 
 CREATE TABLE "api_access" (
