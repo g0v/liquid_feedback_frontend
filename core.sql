@@ -176,7 +176,7 @@ CREATE TYPE "api_access_level" AS ENUM (
 
 CREATE TABLE "api_client" (
         "id"                    SERIAL8         PRIMARY KEY,
-        "name"                  TEXT            NOT NULL,
+        "name"                  TEXT,
         UNIQUE ("member_id", "client_identifier"),
         "member_id"             INT4            REFERENCES "member" ("id")
                                                 ON DELETE CASCADE ON UPDATE CASCADE,
@@ -185,9 +185,10 @@ CREATE TABLE "api_client" (
         "member_authorization"  BOOLEAN         NOT NULL,
         "public_access_level"   "api_access_level",
         "access_level"          "api_access_level" NOT NULL,
-        "parallel_access"       BOOLEAN         NOT NULL,
         "validity_period"       INTERVAL        NOT NULL,
         "last_usage"            TIMESTAMPTZ     NOT NULL,
+        CONSTRAINT "system_clients_require_name"
+          CHECK ("name" NOTNULL OR "member_id" ISNULL),
         CONSTRAINT "public_access_level_set_if_and_only_if_system_client"
           CHECK ("member_id" ISNULL = "public_access_level" NOTNULL) );
 CREATE UNIQUE INDEX "api_client_non_member_client_identifier_idx"
@@ -196,13 +197,12 @@ CREATE UNIQUE INDEX "api_client_non_member_client_identifier_idx"
 COMMENT ON TABLE "api_client" IS 'Registered OAuth2 client for a member';
 
 COMMENT ON COLUMN "api_client"."member_id"            IS 'Member, who registered the client for him/herself, or NULL for clients registered by administrator';
-COMMENT ON COLUMN "api_client"."name"                 IS 'Name of the client as chosen by member or administrator';
+COMMENT ON COLUMN "api_client"."name"                 IS 'Name of the client as chosen by member or administrator, NULL means unnamed';
 COMMENT ON COLUMN "api_client"."client_identifier"    IS 'OAuth2 client id, also used as redirection endpoint if "member_authorization" is set to TRUE';
 COMMENT ON COLUMN "api_client"."client_secret"        IS 'Secret for client authentication, enables OAuth2 Client Credentials Grant when set';
 COMMENT ON COLUMN "api_client"."member_authorization" IS 'Allow OAuth2 Authorization Code Grant and Implicit Grant, in which case the "client_identifier" is used as the redirection endpoint';
 COMMENT ON COLUMN "api_client"."public_access_level"  IS 'Access level for OAuth2 Client Credentials Grant';
 COMMENT ON COLUMN "api_client"."access_level"         IS 'Access level for OAuth2 Authorization Code Grant and Implicit Grant';
-COMMENT ON COLUMN "api_client"."parallel_access"      IS 'Multiple entries in "api_access" table allowed';
 COMMENT ON COLUMN "api_client"."validity_period"      IS 'Period after which an entry in the "api_access" table expires';
 
 
@@ -212,6 +212,8 @@ CREATE TABLE "api_access" (
                                                 ON DELETE CASCADE ON UPDATE CASCADE,
         "member_id"             INT4            REFERENCES "member" ("id")
                                                 ON DELETE CASCADE ON UPDATE CASCADE,
+        "access_level"          "api_access_level" NOT NULL,
+        "validity_period"       INTERVAL        NOT NULL,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "authorization_code"    TEXT,
         "refreshed"             TIMESTAMPTZ,
@@ -220,12 +222,15 @@ CREATE TABLE "api_access" (
         CONSTRAINT "one_of_authorization_code_and_refresh_token_set"
           CHECK ("authorization_code" NOTNULL OR "refresh_token" NOTNULL),
         CONSTRAINT "refresh_token_if_and_only_if_refreshed"
-          CHECK ("refreshed" NOTNULL = "refresh_token" NOTNULL) );
+          CHECK ("refreshed" NOTNULL = "refresh_token" NOTNULL),
+        CONSTRAINT "old_refresh_token_requires_current_refresh_token"
+          CHECK ("refresh_token" NOTNULL OR "old_refresh_token" ISNULL) );
 
 COMMENT ON TABLE "api_access" IS 'Issued OAuth2 authorization codes and refresh tokens';
 
+COMMENT ON COLUMN "api_client"."validity_period"      IS 'Period after which an entry in the "api_access" table expires';
 COMMENT ON COLUMN "api_access"."created"              IS 'Date/time when authorization code (or first refresh token when there is no authorization code) has been created';
-COMMENT ON COLUMN "api_access"."authorization_code"   IS 'OAuth2 authorization code';
+COMMENT ON COLUMN "api_access"."authorization_code"   IS 'OAuth2 authorization code (only valid for a very short time after it has been created)';
 COMMENT ON COLUMN "api_access"."refreshed"            IS 'Date/time of last refresh';
 COMMENT ON COLUMN "api_access"."refresh_token"        IS 'OAuth2 refresh token';
 
