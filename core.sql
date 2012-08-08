@@ -185,6 +185,7 @@ CREATE TABLE "api_client" (
         "member_authorization"  BOOLEAN         NOT NULL,
         "public_access_level"   "api_access_level",
         "access_level"          "api_access_level" NOT NULL,
+        "parallel_access"       BOOLEAN         NOT NULL,
         "validity_period"       INTERVAL        NOT NULL,
         "last_usage"            TIMESTAMPTZ     NOT NULL,
         CONSTRAINT "public_access_level_set_if_and_only_if_system_client"
@@ -201,7 +202,8 @@ COMMENT ON COLUMN "api_client"."client_secret"        IS 'Secret for client auth
 COMMENT ON COLUMN "api_client"."member_authorization" IS 'Allow OAuth2 Authorization Code Grant and Implicit Grant, in which case the "client_identifier" is used as the redirection endpoint';
 COMMENT ON COLUMN "api_client"."public_access_level"  IS 'Access level for OAuth2 Client Credentials Grant';
 COMMENT ON COLUMN "api_client"."access_level"         IS 'Access level for OAuth2 Authorization Code Grant and Implicit Grant';
-COMMENT ON COLUMN "api_client"."validity_period"      IS 'Life time of an OAuth2 refresh token';
+COMMENT ON COLUMN "api_client"."parallel_access"      IS 'Multiple entries in "api_access" table allowed';
+COMMENT ON COLUMN "api_client"."validity_period"      IS 'Period after which an entry in the "api_access" table expires';
 
 
 CREATE TABLE "api_access" (
@@ -214,6 +216,7 @@ CREATE TABLE "api_access" (
         "authorization_code"    TEXT,
         "refreshed"             TIMESTAMPTZ,
         "refresh_token"         TEXT,
+        "old_refresh_token"     TEXT,
         CONSTRAINT "one_of_authorization_code_and_refresh_token_set"
           CHECK ("authorization_code" NOTNULL OR "refresh_token" NOTNULL),
         CONSTRAINT "refresh_token_if_and_only_if_refreshed"
