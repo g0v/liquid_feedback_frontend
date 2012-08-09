@@ -183,7 +183,7 @@ CREATE TABLE "api_client" (
         "client_identifier"     TEXT            NOT NULL,
         "client_secret"         TEXT,
         "code_grant"            BOOLEAN         NOT NULL,
-        "token_grant"           BOOLEAN         NOT NULL,
+        "implicit_grant"        BOOLEAN         NOT NULL,
         "client_grant"          BOOLEAN         NOT NULL,
         "code_grant_validity_period" INTERVAL,
         "access_level"               "api_access_level",
@@ -193,8 +193,8 @@ CREATE TABLE "api_client" (
           CHECK ("name" NOTNULL OR "member_id" ISNULL),
         CONSTRAINT "code_grant_requires_validity_period"
           CHECK ("code_grant"=FALSE OR "code_grant_validity_period" NOTNULL),
-        CONSTRAINT "code_or_token_grant_requires_access_level"
-          CHECK (("code_grant"=FALSE AND "token_grant"=FALSE) OR "access_level" NOTNULL),
+        CONSTRAINT "code_or_implicit_grant_requires_access_level"
+          CHECK (("code_grant"=FALSE AND "implicit_grant"=FALSE) OR "access_level" NOTNULL),
         CONSTRAINT "client_grant_requires_client_grant_access_level"
           CHECK ("client_grant"=FALSE OR "client_grant_access_level" NOTNULL) );
 CREATE UNIQUE INDEX "api_client_non_member_client_identifier_idx"
@@ -204,10 +204,10 @@ COMMENT ON TABLE "api_client" IS 'Registered OAuth2 client for a member';
 
 COMMENT ON COLUMN "api_client"."name"                       IS 'Name of the client as chosen by member or administrator, NULL is allowed for unnamed member-registered clients';
 COMMENT ON COLUMN "api_client"."member_id"                  IS 'Member, who registered the client for him/herself, or NULL for clients registered by administrator';
-COMMENT ON COLUMN "api_client"."client_identifier"          IS 'OAuth2 client id, also used as redirection endpoint if "authorization_code_grant" or "implicit_grant" is set to TRUE';
+COMMENT ON COLUMN "api_client"."client_identifier"          IS 'OAuth2 client id, also used as redirection endpoint if "code_grant" or "implicit_grant" is set to TRUE';
 COMMENT ON COLUMN "api_client"."client_secret"              IS 'Secret for client authentication';
 COMMENT ON COLUMN "api_client"."code_grant"                 IS 'Enable OAuth2 Authorization Code Grant';
-COMMENT ON COLUMN "api_client"."token_grant"                IS 'Enable OAuth2 Implicit Grant';
+COMMENT ON COLUMN "api_client"."implicit_grant"             IS 'Enable OAuth2 Implicit Grant';
 COMMENT ON COLUMN "api_client"."client_grant"               IS 'Enable OAuth2 Client Credentials Grant';
 COMMENT ON COLUMN "api_client"."code_grant_validity_period" IS 'Maximum validity period of OAuth2 Authorization Code Grant, after which no more refresh is possible';
 COMMENT ON COLUMN "api_client"."access_level"               IS 'Maximum access level for OAuth2 Authorization Code Grant and Implicit Grant';
