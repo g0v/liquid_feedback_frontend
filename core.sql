@@ -170,6 +170,26 @@ COMMENT ON COLUMN "member"."formatting_engine"    IS 'Allows different formattin
 COMMENT ON COLUMN "member"."statement"            IS 'Freely chosen text of the member for his/her profile';
 
 
+CREATE TYPE "application_access_level" AS ENUM
+  ('member', 'full', 'pseudonymous', 'anonymous');
+
+COMMENT ON TYPE "application_access_level" IS 'DEPRECATED, WILL BE REMOVED! Access privileges for applications using the API';
+
+
+CREATE TABLE "member_application" (
+        "id"                    SERIAL8         PRIMARY KEY,
+        UNIQUE ("member_id", "name"),
+        "member_id"             INT4            NOT NULL REFERENCES "member" ("id")
+                                                ON DELETE CASCADE ON UPDATE CASCADE,
+        "name"                  TEXT            NOT NULL,
+        "comment"               TEXT,
+        "access_level" "application_access_level" NOT NULL,
+        "key"                   TEXT            NOT NULL UNIQUE,
+        "last_usage"            TIMESTAMPTZ );
+
+COMMENT ON TABLE "member_application" IS 'DEPRECATED, WILL BE REMOVED! Registered application being allowed to use the API';
+
+
 CREATE TYPE "api_access_level" AS ENUM (
   'none', 'anonymous', 'authors_pseudonymous', 'all_pseudonymous', 'everything', 'member' );
 
