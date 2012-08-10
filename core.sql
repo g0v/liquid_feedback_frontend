@@ -173,6 +173,8 @@ COMMENT ON COLUMN "member"."statement"            IS 'Freely chosen text of the 
 CREATE TYPE "api_access_level" AS ENUM (
   'none', 'anonymous', 'authors_pseudonymous', 'all_pseudonymous', 'everything', 'member' );
 
+COMMENT ON TYPE "api_access_level" IS 'PRELIMINARY, SUBJECT TO CHANGE! Access scope for API consumers.';
+
 
 CREATE TABLE "api_client" (
         "id"                    SERIAL8         PRIMARY KEY,
@@ -201,7 +203,7 @@ CREATE TABLE "api_client" (
 CREATE UNIQUE INDEX "api_client_non_member_client_identifier_idx"
   ON "api_client" ("client_identifier") WHERE "member_id" ISNULL;
 
-COMMENT ON TABLE "api_client" IS 'Registered OAuth2 client for a member';
+COMMENT ON TABLE "api_client" IS 'PRELIMINARY, SUBJECT TO CHANGE! Registered OAuth2 client for a member';
 
 COMMENT ON COLUMN "api_client"."name"                       IS 'Name of the client as chosen by member or administrator, NULL is allowed for unnamed member-registered clients';
 COMMENT ON COLUMN "api_client"."member_id"                  IS 'Member, who registered the client for him/herself, or NULL for clients registered by administrator';
@@ -237,7 +239,7 @@ CREATE TABLE "api_code_grant" (
         CONSTRAINT "old_refresh_token_requires_current_refresh_token"
           CHECK ("refresh_token" NOTNULL OR "old_refresh_token" ISNULL) );
 
-COMMENT ON TABLE "api_code_grant" IS 'Issued OAuth2 authorization codes and refresh tokens';
+COMMENT ON TABLE "api_code_grant" IS 'PRELIMINARY, SUBJECT TO CHANGE! Issued OAuth2 authorization codes and refresh tokens';
 
 COMMENT ON COLUMN "api_code_grant"."validity_period"    IS 'Period after which no more refreshing is possible';
 COMMENT ON COLUMN "api_code_grant"."created"            IS 'Date/time when authorization code (or first refresh token when there is no authorization code) has been created';
