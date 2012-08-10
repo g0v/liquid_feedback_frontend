@@ -186,6 +186,7 @@ CREATE TABLE "api_client" (
         "implicit_grant"        BOOLEAN         NOT NULL,
         "client_grant"          BOOLEAN         NOT NULL,
         "code_grant_validity_period" INTERVAL,
+        "code_grant_multiple"        BOOLEAN,
         "access_level"               "api_access_level",
         "client_grant_access_level"  "api_access_level",
         "last_usage"            TIMESTAMPTZ     NOT NULL,
@@ -210,6 +211,7 @@ COMMENT ON COLUMN "api_client"."code_grant"                 IS 'Enable OAuth2 Au
 COMMENT ON COLUMN "api_client"."implicit_grant"             IS 'Enable OAuth2 Implicit Grant';
 COMMENT ON COLUMN "api_client"."client_grant"               IS 'Enable OAuth2 Client Credentials Grant';
 COMMENT ON COLUMN "api_client"."code_grant_validity_period" IS 'Maximum validity period of OAuth2 Authorization Code Grant, after which no more refresh is possible';
+COMMENT ON COLUMN "api_client"."code_grant_multiple"        IS 'If set to FALSE, invalidates previously issued OAuth2 Refresh Tokens during authorization; If set to NULL, the member is asked interactively during authorization, whether previously issued authorizations shall be revoked';
 COMMENT ON COLUMN "api_client"."access_level"               IS 'Maximum access level for OAuth2 Authorization Code Grant and Implicit Grant';
 COMMENT ON COLUMN "api_client"."client_grant_access_level"  IS 'Maximum access level for OAuth2 Authorization Code Grant and Implicit Grant';
 COMMENT ON COLUMN "api_client"."last_usage"                 IS 'Date/time when this client registration was last used';
