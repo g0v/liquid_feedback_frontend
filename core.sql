@@ -205,6 +205,7 @@ COMMENT ON TYPE "api_access_level" IS 'PRELIMINARY, SUBJECT TO CHANGE! Access sc
 CREATE TABLE "registered_client" (
         "id"                    SERIAL8         PRIMARY KEY,
         "name"                  TEXT            NOT NULL,
+        "url"                   TEXT,
         "client_identifier"     TEXT            NOT NULL UNIQUE,
         "client_secret"         TEXT,
         "code_grant"            BOOLEAN         NOT NULL,
@@ -226,6 +227,7 @@ CREATE TABLE "registered_client" (
 COMMENT ON TABLE "registered_client" IS 'PRELIMINARY, SUBJECT TO CHANGE! OAuth2 client registered by administrator';
 
 COMMENT ON COLUMN "registered_client"."name"                      IS 'Name of the registered client';
+COMMENT ON COLUMN "registered_client"."url"                       IS 'Optional URL for web clients';
 COMMENT ON COLUMN "registered_client"."client_identifier"         IS 'OAuth2 client id, also used as redirection endpoint if "code_grant" or "implicit_grant" is set to TRUE';
 COMMENT ON COLUMN "registered_client"."client_secret"             IS 'Secret for client authentication';
 COMMENT ON COLUMN "registered_client"."code_grant"                IS 'Enable OAuth2 Authorization Code Grant';
