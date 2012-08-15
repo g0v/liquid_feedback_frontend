@@ -203,10 +203,9 @@ COMMENT ON TYPE "api_access_level" IS 'PRELIMINARY, SUBJECT TO CHANGE! Access sc
 
 
 CREATE TABLE "registered_client" (
-        UNIQUE ("client_identifier", "id"),  -- index needed for foreign-key on table "authorized_client"
         "id"                    SERIAL8         PRIMARY KEY,
         "name"                  TEXT            NOT NULL,
-        "client_identifier"     TEXT            NOT NULL,
+        "client_identifier"     TEXT            NOT NULL UNIQUE,
         "client_secret"         TEXT,
         "code_grant"            BOOLEAN         NOT NULL,
         "implicit_grant"        BOOLEAN         NOT NULL,
@@ -244,12 +243,8 @@ COMMENT ON COLUMN "registered_client"."access_duration"           IS 'Life time 
 
 CREATE TABLE "authorized_client" (
         "id"                    SERIAL8         PRIMARY KEY,
-        "registered_client_id"  INT8            REFERENCES "registered_client" ("id")
-                                                ON DELETE CASCADE ON UPDATE CASCADE,
+        UNIQUE ("client_identifier", "member_id"),
         "client_identifier"     TEXT            NOT NULL,
-        FOREIGN KEY ("registered_client_id", "client_identifier")
-          REFERENCES "registered_client" ("id", "client_identifier")
-          ON DELETE CASCADE ON UPDATE CASCADE,
         "member_id"             INT4            NOT NULL REFERENCES "member" ("id")
                                                 ON DELETE CASCADE ON UPDATE CASCADE,
         "access_level"          "api_access_level" NOT NULL,
@@ -259,7 +254,6 @@ CREATE TABLE "authorized_client" (
 
 COMMENT ON TABLE "authorized_client" IS 'PRELIMINARY, SUBJECT TO CHANGE! OAuth2 client authorized by member, or automatically authorized for a member if "registered_client"."always_authorized" is set';
 
-COMMENT ON COLUMN "authorized_client"."registered_client_id" IS 'Set, if client is a registered client';
 COMMENT ON COLUMN "authorized_client"."client_identifier"    IS 'OAuth2 client id, also used as redirection endpoint';
 COMMENT ON COLUMN "authorized_client"."member_id"            IS 'Member who authorized the client';
 COMMENT ON COLUMN "authorized_client"."access_level"         IS 'Authorized access level';
