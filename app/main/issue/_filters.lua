@@ -4,6 +4,8 @@ local state = param.get("state")
 local for_unit = param.get("for_unit", atom.boolean)
 local for_area = param.get("for_area", atom.boolean)
 
+local for_events = param.get("for_events", atom.boolean)
+
 local filters = {}
 
 local filter = { name = "filter" }
@@ -21,7 +23,11 @@ if not state then
     name = "open",
     label = _"Open",
     selector_modifier = function(selector)
-      selector:add_where("issue.closed ISNULL")
+      if for_events then
+        selector:add_where("event.state in ('admission', 'discussion', 'verification', 'voting')")
+      else
+        selector:add_where("issue.closed ISNULL")
+      end
     end
   }
 end
@@ -31,28 +37,44 @@ if not state or state == "open" then
     name = "new",
     label = _"New",
     selector_modifier = function(selector)
-      selector:add_where("issue.accepted ISNULL AND issue.closed ISNULL")
+      if for_events then
+        selector:add_where("event.state = 'admission'")
+      else
+        selector:add_where("issue.accepted ISNULL AND issue.closed ISNULL")
+      end
     end
   }
   filter[#filter+1] = {
     name = "accepted",
     label = _"Discussion",
     selector_modifier = function(selector)
-      selector:add_where("issue.accepted NOTNULL AND issue.half_frozen ISNULL AND issue.closed ISNULL")
+      if for_events then
+        selector:add_where("event.state = 'discussion'")
+      else
+        selector:add_where("issue.accepted NOTNULL AND issue.half_frozen ISNULL AND issue.closed ISNULL")
+      end
     end
   }
   filter[#filter+1] = {
     name = "half_frozen",
     label = _"Frozen",
     selector_modifier = function(selector)
-      selector:add_where("issue.half_frozen NOTNULL AND issue.fully_frozen ISNULL")
+      if for_events then
+        selector:add_where("event.state = 'verification'")
+      else
+        selector:add_where("issue.half_frozen NOTNULL AND issue.fully_frozen ISNULL")
+      end
     end
   }
   filter[#filter+1] = {
     name = "frozen",
     label = _"Voting",
     selector_modifier = function(selector)
-      selector:add_where("issue.fully_frozen NOTNULL AND issue.closed ISNULL")
+      if for_events then
+        selector:add_where("event.state = 'voting'")
+      else
+        selector:add_where("issue.fully_frozen NOTNULL AND issue.closed ISNULL")
+      end
       filter_voting = true
     end
   }
@@ -63,14 +85,23 @@ if not state then
     name = "finished",
     label = _"Finished",
     selector_modifier = function(selector)
-      selector:add_where("issue.closed NOTNULL AND issue.fully_frozen NOTNULL")
+      if for_events then
+        selector:add_where("event.state IN ('finished_with_winner', 'finished_without_winner')")
+      else
+        selector:add_where("issue.closed NOTNULL AND issue.fully_frozen NOTNULL")
+      end
     end
   }
   filter[#filter+1] = {
     name = "cancelled",
     label = _"Cancelled",
     selector_modifier = function(selector)
-      selector:add_where("issue.closed NOTNULL AND issue.fully_frozen ISNULL")
+        
+      if for_events then
+        selector:add_where("event.state IN ('canceled_revoked_before_accepted', 'canceled_issue_not_accepted', 'canceled_after_revocation_during_discussion', 'canceled_after_revocation_during_verification')")
+      else
+        selector:add_where("issue.closed NOTNULL AND issue.fully_frozen ISNULL")
+      end
     end
   }
 end
@@ -86,28 +117,44 @@ if state == "closed" then
     name = "finished",
     label = _"Finished",
     selector_modifier = function(selector)
-      selector:add_where("issue.state IN ('finished_with_winner', 'finished_without_winner')")
+      if for_events then
+        selector:add_where("event.state IN ('finished_with_winner', 'finished_without_winner')")
+      else
+        selector:add_where("issue.state IN ('finished_with_winner', 'finished_without_winner')")
+      end
     end
   }
   filter[#filter+1] = {
     name = "finished_with_winner",
     label = _"with winner",
     selector_modifier = function(selector)
-      selector:add_where("issue.state = 'finished_with_winner'")
+      if for_events then
+        selector:add_where("event.state = 'finished_with_winner'")
+      else
+        selector:add_where("issue.state = 'finished_with_winner'")
+      end
     end
   }
   filter[#filter+1] = {
     name = "finished_without_winner",
     label = _"without winner",
     selector_modifier = function(selector)
-      selector:add_where("issue.state = 'finished_without_winner'")
+      if for_events then
+        selector:add_where("event.state = 'finished_without_winner'")
+      else
+        selector:add_where("issue.state = 'finished_without_winner'")
+      end
     end
   }
   filter[#filter+1] = {
     name = "cancelled",
     label = _"Cancelled",
     selector_modifier = function(selector)
-      selector:add_where("issue.state NOT IN ('finished_with_winner', 'finished_without_winner')")
+      if for_events then
+        selector:add_where("event.state NOT IN ('finished_with_winner', 'finished_without_winner')")
+      else
+        selector:add_where("issue.state NOT IN ('finished_with_winner', 'finished_without_winner')")
+      end
     end
   }
 end
@@ -165,6 +212,13 @@ if member then
     selector_modifier = function() end
   }
   filter[#filter+1] = {
+    name = "initiated",
+    label = _"Initiated",
+    selector_modifier = function(selector)
+      selector:add_where({ "EXISTS (SELECT 1 FROM initiative JOIN initiator ON initiator.initiative_id = initiative.id AND initiator.member_id = ? AND initiator.accepted WHERE initiative.issue_id = issue.id)", member.id })
+    end
+  }
+  filter[#filter+1] = {
     name = "supported",
     label = _"Supported",
     selector_modifier = function() end
@@ -174,13 +228,13 @@ if member then
     label = _"Potentially supported",
     selector_modifier = function() end
   }
-  filter[#filter+1] = {
-    name = "initiated",
-    label = _"Initiated",
-    selector_modifier = function(selector)
-      selector:add_where({ "EXISTS (SELECT 1 FROM initiative JOIN initiator ON initiator.initiative_id = initiative.id AND initiator.member_id = ? AND initiator.accepted WHERE initiative.issue_id = issue.id)", member.id })
-    end
-  }
+  if state == 'closed' or for_events then
+    filter[#filter+1] = {
+      name = "voted",
+      label = _"Voted",
+      selector_modifier = function() end
+    }
+  end
 
   filters[#filters+1] = filter
 end
@@ -192,7 +246,7 @@ if app.session.member then
   local filter_interest = param.get_all_cgi()["filter_interest"]
     
   if filter_interest ~= "any" and filter_interest ~= nil and (
-    filter_interest == "issue" or filter_interest == "supported" or filter_interest == "potentially_supported" 
+    filter_interest == "issue" or filter_interest == "supported" or filter_interest == "potentially_supported" or filter_interest == 'voted'
   ) then
     
     local function add_default_joins(selector)
@@ -225,6 +279,9 @@ if app.session.member then
                 "EXISTS(SELECT 1 FROM direct_supporter_snapshot WHERE direct_supporter_snapshot.event = issue.latest_snapshot_event AND direct_supporter_snapshot.issue_id = issue.id AND direct_supporter_snapshot.member_id = ? AND NOT direct_supporter_snapshot.satisfied) " ..
               "END OR EXISTS(SELECT 1 FROM direct_supporter_snapshot WHERE direct_supporter_snapshot.event = issue.latest_snapshot_event AND direct_supporter_snapshot.issue_id = issue.id AND direct_supporter_snapshot.member_id = filter_d_interest_s.delegate_member_ids[array_upper(filter_d_interest_s.delegate_member_ids,1)] AND NOT direct_supporter_snapshot.satisfied)", member.id, member.id, member.id })
 
+          elseif filter_interest == "voted" then
+            selector:add_where({ "EXISTS(SELECT 1 FROM direct_voter WHERE direct_voter.issue_id = issue.id AND direct_voter.member_id = ?) OR EXISTS(SELECT 1 FROM delegating_voter WHERE delegating_voter.issue_id = issue.id AND delegating_voter.member_id = ?) ", member.id, member.id })
+
           end
 
         end
@@ -251,6 +308,8 @@ if app.session.member then
               "ELSE " ..
                 "EXISTS(SELECT 1 FROM direct_supporter_snapshot WHERE direct_supporter_snapshot.event = issue.latest_snapshot_event AND direct_supporter_snapshot.issue_id = issue.id AND direct_supporter_snapshot.member_id = ? AND NOT direct_supporter_snapshot.satisfied) " ..
               "END", member.id, member.id })
+          elseif filter_interest == "voted" then
+            selector:add_where({ "EXISTS(SELECT 1 FROM direct_voter WHERE direct_voter.issue_id = issue.id AND direct_voter.member_id = ?) ", member.id })
 
           end
         end
@@ -269,6 +328,8 @@ if app.session.member then
           elseif filter_interest == "potentially_supported" then
             selector:add_where({ 
               "EXISTS(SELECT 1 FROM direct_supporter_snapshot WHERE direct_supporter_snapshot.event = issue.latest_snapshot_event AND direct_supporter_snapshot.issue_id = issue.id AND direct_supporter_snapshot.member_id = filter_d_interest_s.delegate_member_ids[array_upper(filter_d_interest_s.delegate_member_ids,1)] AND NOT direct_supporter_snapshot.satisfied)", member.id })
+          elseif filter_interest == "voted" then
+            selector:add_where({ "EXISTS(SELECT 1 FROM delegating_voter WHERE delegating_voter.issue_id = issue.id AND delegating_voter.member_id = ?) ", member.id })
 
           end
         end

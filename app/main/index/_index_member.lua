@@ -16,8 +16,8 @@ tabs[#tabs+1] = {
 tabs[#tabs+1] = {
   name = "timeline",
   label = _"Latest events",
-  module = "member",
-  view = "_event_list",
+  module = "event",
+  view = "_list",
   params = { }
 }
 
