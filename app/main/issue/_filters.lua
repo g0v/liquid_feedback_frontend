@@ -228,7 +228,7 @@ if member then
     label = _"Potentially supported",
     selector_modifier = function() end
   }
-  if state == 'closed' or for_events then
+  if state == 'closed' or (for_events) then
     filter[#filter+1] = {
       name = "voted",
       label = _"Voted",
@@ -246,7 +246,8 @@ if app.session.member then
   local filter_interest = param.get_all_cgi()["filter_interest"]
     
   if filter_interest ~= "any" and filter_interest ~= nil and (
-    filter_interest == "issue" or filter_interest == "supported" or filter_interest == "potentially_supported" or filter_interest == 'voted'
+    filter_interest == "issue" or filter_interest == "supported" or filter_interest == "potentially_supported" or 
+    (filter_interest == 'voted' and state ~= 'open')
   ) then
     
     local function add_default_joins(selector)
@@ -339,7 +340,7 @@ if app.session.member then
 
 end
 
-if app.session.member and member.id == app.session.member_id and (param.get_all_cgi()["filter"] == "frozen") then
+if not for_events and app.session.member and member.id == app.session.member_id and (param.get_all_cgi()["filter"] == "frozen") then
   filters[#filters+1] = {
     name = "filter_voting",
     {
