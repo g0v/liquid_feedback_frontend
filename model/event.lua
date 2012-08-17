@@ -68,6 +68,8 @@ function Event.object:send_notification()
     :add_where("member.activated NOTNULL AND member.notify_email NOTNULL")
     -- SAFETY FIRST, NEVER send notifications for events more then 3 days in past or future
     :add_where("now() - event_seen_by_member.occurrence BETWEEN '-3 days'::interval AND '3 days'::interval")
+    -- do not notify a member about the events caused by the member
+    :add_where("event_seen_by_member.member_id ISNULL OR event_seen_by_member.member_id != member.id")
     :exec()
     
   print (_("Event #{id} -> #{num} members", { id = self.id, num = #members_to_notify }))
