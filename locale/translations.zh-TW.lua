@@ -9,9 +9,9 @@ return {
 ["#{count} more areas in this unit"] = "此單位的另外 #{count} 個領域";
 ["#{count} new"] = "#{count} 個新的";
 ["#{count} of them have an area delegation set"] = "其中 #{count} 個已設有領域委任";
-["#{count} of your outgoing delegation(s) are broken"] = "你所委任的表決中有 #{count} 個已經毀損";
+["#{count} of your outgoing delegation(s) are broken"] = "您所委任的表決中有 #{count} 個已經毀損";
 ["#{date} at #{time}"] = "於 #{date} #{time}";
-["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} 個你所關心的議題";
+["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} 個您所關心的議題";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} 個議題";
 ["#{name}\n\n"] = "#{name}\n\n";
 ["#{number} Image(s) has been deleted"] = "#{number} 張圖片已被刪除";
@@ -162,7 +162,7 @@ return {
 ["Delegation turned off for issue"] = "對議題的委任被停用";
 ["Delegations"] = "委任清單";
 ["Delete"] = "刪除";
-["Delete filter"] = "刪除篩選器";
+["Delete filter"] = "刪除篩選條件";
 ["Description"] = "描述";
 ["Details"] = "詳細資料";
 ["Developer settings"] = "開發者設定";
@@ -211,7 +211,7 @@ return {
 ["Email address is confirmed now"] = "電郵地址現已被確認";
 ["Email address too short!"] = "電郵地址太短！";
 ["Email confirmation request"] = "申請電郵地址確認";
-["Empty help text: #{id}.#{lang}.txt"] = "清空協助文件 #{id}.#{lang}.txt";
+["Empty help text: #{id}.#{lang}.txt"] = "清空說明文件 #{id}.#{lang}.txt";
 ["Error while converting image. Please note, that only JPG files are supported!"] = "轉換圖片錯誤。請注意，只支援 JPG 檔案！";
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "更新成員錯誤，系統通報錯誤訊息：<br /><br /> (#{errormessage})";
 ["Etherpad authentication failed"] = "Etherpad 認證失敗";
@@ -232,10 +232,10 @@ return {
 ["Half frozen at"] = "半底定於";
 ["Hello\n\n"] = "您好\n\n";
 ["Hello "] = "您好 ";
-["Help #{id}"] = "協助文件 #{id}";
-["Help for: #{text}"] = "#{text} 的協助文件";
+["Help #{id}"] = "說明文件 #{id}";
+["Help for: #{text}"] = "#{text} 的說明文件";
 ["Hide"] = "隱藏";
-["Hide filter details"] = "隱藏篩選細節";
+["Hide filter details"] = "隱藏篩選條件細節";
 ["Hide this help message"] = "隱藏此說明文件";
 ["Hint"] = "提示";
 ["History"] = "紀錄";
@@ -294,8 +294,8 @@ return {
 ["Issue canceled"] = "議題被取消";
 ["Issue delegation"] = "議題委任";
 ["Issue events"] = "議題動態";
-["Issue finished"] = "議題已終結";
-["Issue finished without voting"] = "議題未經表決而被終結";
+["Issue finished"] = "議題已結束";
+["Issue finished without voting"] = "議題未經表決而結束";
 ["Issue frozen"] = "議題已底定";
 ["Issue pad"] = "議題討論版";
 ["Issue quorum"] = "議題法定門檻";
@@ -346,7 +346,7 @@ return {
 ["Membership removed"] = "成員身分被移除";
 ["Membership updated"] = "成員身分被更新";
 ["Memberships"] = "成員身分";
-["Missing help text: #{id}.#{lang}.txt"] = "缺少協助文件： #{id}.#{lang}.txt";
+["Missing help text: #{id}.#{lang}.txt"] = "缺少說明文件： #{id}.#{lang}.txt";
 ["Mobile phone"] = "行動電話";
 ["Monday"] = "週一";
 ["Move down"] = "下移";
@@ -356,7 +356,7 @@ return {
 ["My opinion"] = "我的意見";
 ["My units"] = "我的單位";
 ["Name"] = "使用者代號";
-["New"] = "新增期";
+["New"] = "遞交期";
 ["New address"] = "新電郵地址";
 ["New draft"] = "新草案";
 ["New draft has been added to initiative"] = "新草案已加入提案";
@@ -411,7 +411,7 @@ return {
 ["Only for issues reaching the frozen phase"] = "限已進入底定階段的議題";
 ["Only for issues reaching the voting phase"] = "限已進入表決階段的議題";
 ["Open"] = "開啟";
-["Open initiatives you are supporting which has been updated their draft:"] = "開啟你所支持的提案中有草稿更新者：";
+["Open initiatives you are supporting which has been updated their draft:"] = "開啟您所支持的提案中有草稿更新者：";
 ["Open issues"] = "開放性議題";
 ["Opinions"] = "意見";
 ["Options"] = "選項";
@@ -518,7 +518,7 @@ return {
 ["Show areas not in use"] = "顯示未使用的領域";
 ["Show diff"] = "顯示更改";
 ["Show filter details"] = "顯示篩選條件細節";
-["Show help text"] = "顯示協助文件";
+["Show help text"] = "顯示說明文件";
 ["Show member"] = "顯示成員";
 ["Show member history"] = "顯示該成員紀錄";
 ["Show older events"] = "顯示較早動態";
@@ -526,7 +526,7 @@ return {
 ["Show policies in use"] = "顯示所使用的規則";
 ["Show policies not in use"] = "顯示停用規則";
 ["Show profile"] = "顯示個人簡介";
-["So I'm"] = "因此我";
+["So I'm"] = "因此我感覺";
 ["Software"] = "軟體";
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "抱歉，您的帳號並無經認證的電郵地址。請聯絡管理員或支援。";
 ["Sorry, but you are currently not invited"] = "抱歉，您目前未受邀請。";
@@ -544,8 +544,8 @@ return {
 ["Strict indirect majority"] = "嚴格間接多數";
 ["Stylesheet URL"] = "樣式網址";
 ["Stylesheet URL has been updated"] = "樣式網址已更新";
-["Suggest no initiative"] = "無推薦提案";
-["Suggested initiative"] = "被推薦的提案";
+["Suggest no initiative"] = "無建議提案";
+["Suggested initiative"] = "被建議的提案";
 ["Suggestion"] = "建議";
 ["Suggestion ##{id}"] = "建議 ##{id}";
 ["Suggestion currently implemented"] = "建議目前被採納";
@@ -558,7 +558,7 @@ return {
 ["Supported"] = "所支持的";
 ["Supporters"] = "支持者";
 ["Supporters (before begin of voting)"] = "支持者 (直到表決開始)";
-["Syntax help"] = "Syntax 協助";
+["Syntax help"] = "Syntax 說明";
 ["Terms of use"] = "使用條款";
 ["The code you've entered is invalid"] = "您所輸入的密碼無效";
 ["The draft of this initiative has been updated!"] = "此提案之草案已被更新！";
@@ -583,9 +583,9 @@ return {
 ["This member is inactive"] = "該成員怠惰";
 ["This member is locked"] = "該成員被鎖定";
 ["This member is participating, the rest of delegation chain is suspended while discussing"] = "該成員參與中，其餘的委任設定在討論期間停用。";
-["This name is already taken, please choose another one!"] = "此名已被使用，請另擇一！";
-["This name is really too short!"] = "此名真的太短了！";
-["This name is too short!"] = "此名太短！";
+["This name is already taken, please choose another one!"] = "此使用者代號已被使用，請另擇一！";
+["This name is really too short!"] = "此使用者代號真的太短了！";
+["This name is too short!"] = "此使用者代號太短！";
 ["This screen name is too short!"] = "此使用者代號太短！";
 ["This service is provided by:"] = "服務提供者為：";
 ["This service is provided using the following software components:"] = "此服務是經由下列軟體組件提供：";
@@ -662,7 +662,7 @@ return {
 ["You are potential supporter of this initiative"] = "您是此提案的可能支持者";
 ["You are potential supporter of this initiative via delegation"] = "經由委任，您是此提案的可能支持者。";
 ["You are supporter"] = "您是支持者";
-["You are supporter of this initiative"] = "您是此提案之支持者";
+["You are supporter of this initiative"] = "您是此提案的支持者";
 ["You are supporter of this initiative via delegation"] = "經由委任，您是此提案的支持者。";
 ["You can change your email address only once per hour. Please try again later."] = "您只能在一小時內更改電郵地址一次，請稍後重試。";
 ["You can't suggest the initiative you are revoking"] = "您無法對您所撤銷的提案提出建議。";
