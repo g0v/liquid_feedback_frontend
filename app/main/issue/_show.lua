@@ -1,5 +1,6 @@
 local issue = param.get("issue", "table")
 local initiative_limit = param.get("initiative_limit", atom.integer)
+local for_member = param.get("for_member", "table")
 local for_listing = param.get("for_listing", atom.boolean)
 local for_initiative = param.get("for_initiative", "table")
 local for_initiative_id = for_initiative and for_initiative.id or nil
@@ -24,7 +25,7 @@ end
 
 ui.container{ attr = { class = class }, content = function()
 
-  execute.view{ module = "delegation", view = "_info", params = { issue = issue } }
+  execute.view{ module = "delegation", view = "_info", params = { issue = issue, member = for_member } }
 
   if for_listing then
     ui.container{ attr = { class = "content" }, content = function()
@@ -61,7 +62,10 @@ ui.container{ attr = { class = class }, content = function()
     
       ui.tag{ attr = { class = "event_name" }, content = issue.state_name }
 
-      if issue.state_time_left then
+      if issue.closed then
+        slot.put(" &middot; ")
+        ui.tag{ content = _("#{closed_ago} ago", { closed_ago = issue.closed_ago:gsub("%..*", ""):gsub("days", _"days"):gsub("day", _"day") }) }        
+      elseif issue.state_time_left then
         slot.put(" &middot; ")
         if issue.state_time_left:sub(1,1) == "-" then
           if issue.state == "accepted" then
@@ -83,15 +87,17 @@ ui.container{ attr = { class = class }, content = function()
 
   local links = {}
   
-    if voteable then
-      links[#links+1] ={
-        content = vote_link_text,
-        module = "vote",
-        view = "list",
-        params = { issue_id = issue.id }
-      }
-    end
+  if voteable then
+    links[#links+1] ={
+      content = vote_link_text,
+      module = "vote",
+      view = "list",
+      params = { issue_id = issue.id }
+    }
+  end
 
+  if not for_member or for_member.id == app.session.member_id then
+    
     if app.session.member_id then
 
       if issue.member_info.own_participation then
@@ -138,13 +144,13 @@ ui.container{ attr = { class = class }, content = function()
           }
         end
       end
-    end
 
-    if not issue.closed and app.session.member_id and app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
-      if issue.member_info.own_delegation_scope ~= "issue" then
-        links[#links+1] = { text = _"Delegate issue", module = "delegation", view = "show", params = { issue_id = issue.id, initiative_id = for_initiative_id } }
-      else
-        links[#links+1] = { text = _"Change issue delegation", module = "delegation", view = "show", params = { issue_id = issue.id, initiative_id = for_initiative_id } }
+      if not issue.closed and app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
+        if issue.member_info.own_delegation_scope ~= "issue" then
+          links[#links+1] = { text = _"Delegate issue", module = "delegation", view = "show", params = { issue_id = issue.id, initiative_id = for_initiative_id } }
+        else
+          links[#links+1] = { text = _"Change issue delegation", module = "delegation", view = "show", params = { issue_id = issue.id, initiative_id = for_initiative_id } }
+        end
       end
     end
 
@@ -178,6 +184,8 @@ ui.container{ attr = { class = class }, content = function()
       end
     end
 
+  end
+    
   ui.container{ attr = { class = "content actions" }, content = function()
     for i, link in ipairs(links) do
       if link.in_brackets then

@@ -138,7 +138,7 @@ filters.content = function()
 
       ui.container{ attr = { class = "issue" }, content = function()
 
-        execute.view{ module = "delegation", view = "_info", params = { issue = event.issue } }
+        execute.view{ module = "delegation", view = "_info", params = { issue = event.issue, member = for_member } }
 
         ui.container{ attr = { class = "content" }, content = function()
           ui.link{
@@ -171,7 +171,8 @@ filters.content = function()
               issue = event.issue,
               initiatives_selector = initiatives_selector,
               no_sort = true,
-              limit = 5
+              limit = 5,
+              for_member = for_member
             } }
           else
             local initiatives_selector = Initiative:new_selector()
@@ -179,7 +180,8 @@ filters.content = function()
             execute.view{ module = "initiative", view = "_list", params = { 
               initiatives_selector = initiatives_selector,
               no_sort = true,
-              hide_more_initiatives = true
+              hide_more_initiatives = true,
+              for_member = for_member
             } }
           end
         end }

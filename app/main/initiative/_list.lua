@@ -57,6 +57,7 @@ for i, initiative in ipairs(initiatives) do
     params = {
       initiative = initiative,
       selected = highlight_initiative and highlight_initiative.id == initiative.id or nil,
+      for_member = for_member
     }
   }
 end

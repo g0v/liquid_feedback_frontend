@@ -6,6 +6,7 @@ local new_selector = Issue.new_selector
 function Issue:new_selector()
   local selector = new_selector(self)
   selector:add_field("coalesce(issue.fully_frozen + issue.voting_time, issue.half_frozen + issue.verification_time, issue.accepted + issue.discussion_time, issue.created + issue.admission_time) - now()", "state_time_left")
+  selector:add_field("now() - issue.closed", "closed_ago")
   return selector
 end
 
