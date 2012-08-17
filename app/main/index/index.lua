@@ -65,6 +65,17 @@ elseif app.session:has_access("anonymous") then
       issues_selector = closed_issues_selector
     }
   }
+
+  if app.session:has_access('all_pseudonymous') then
+    tabs[#tabs+1] = {
+      name = "members",
+      label = _"Members",
+      module = 'member',
+      view   = '_list',
+      params = { members_selector = Member:new_selector():add_where("active") }
+    }
+  end
+
   ui.tabs(tabs)
   
 else

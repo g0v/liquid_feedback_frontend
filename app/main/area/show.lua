@@ -65,7 +65,7 @@ tabs[#tabs+1] = {
   }
 }
 
-if app.session.member_id then
+if app.session:has_access("all_pseudonymous") then
   tabs[#tabs+1] =
     {
       name = "members",
