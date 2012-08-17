@@ -13,8 +13,8 @@ ui.list{
       label_attr = { width = "500" },
       label = _"Policy",
       content = function(policy)
-        ui.tag{
-          tag = "div",
+        ui.link{
+          module = "policy", view = "show", id = policy.id,
           attr = { style = "font-weight: bold" },
           content = function()
             slot.put(encode.html(policy.name))
@@ -52,8 +52,12 @@ ui.list{
           value = "≥ " .. tostring(policy.initiative_quorum_num) .. "/" .. tostring(policy.initiative_quorum_den)
         }
         ui.field.text{
-          label = _"majority" .. ":", 
+          label = _"Direct majority" .. ":", 
           value = (policy.direct_majority_strict and ">" or "≥" ) .. " " .. tostring(policy.direct_majority_num) .. "/" .. tostring(policy.direct_majority_den)
+        }
+        ui.field.text{
+          label = _"Indirect majority" .. ":", 
+          value = (policy.indirect_majority_strict and ">" or "≥" ) .. " " .. tostring(policy.indirect_majority_num) .. "/" .. tostring(policy.indirect_majority_den)
         }
       end
     },
