@@ -340,7 +340,7 @@ if app.session.member then
 
 end
 
-if not for_events and app.session.member and member.id == app.session.member_id and (param.get_all_cgi()["filter"] == "frozen") then
+if state == 'open' and app.session.member and member.id == app.session.member_id and (param.get_all_cgi()["filter"] == "frozen") then
   filters[#filters+1] = {
     name = "filter_voting",
     {
