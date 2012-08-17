@@ -270,6 +270,7 @@ function Member:build_selector(args)
 end
 
 function Member.object:set_password(password)
+  trace.disable()
   local hash = extos.crypt(
     password,
     "$1$" .. multirand.string(
