@@ -62,7 +62,10 @@ ui.container{ attr = { class = class }, content = function()
     
       ui.tag{ attr = { class = "event_name" }, content = issue.state_name }
 
-      if issue.state_time_left then
+      if issue.closed then
+        slot.put(" &middot; ")
+        ui.tag{ content = _("#{closed_ago} ago", { closed_ago = issue.closed_ago:gsub("%..*", ""):gsub("days", _"days"):gsub("day", _"day") }) }        
+      elseif issue.state_time_left then
         slot.put(" &middot; ")
         if issue.state_time_left:sub(1,1) == "-" then
           if issue.state == "accepted" then
