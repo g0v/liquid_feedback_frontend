@@ -1,5 +1,6 @@
 local initiative = param.get("initiative", "table")
 local selected = param.get("selected", atom.boolean)
+local for_member = param.get("for_member", "table") or app.session.member
 
 local class = "initiative"
 
@@ -66,20 +67,33 @@ ui.container{ attr = { class = class }, content = function()
   if app.session.member_id then
     ui.container{ attr = { class = "interest" }, content = function()
       if initiative.member_info.initiated then
-        local label = _"You are initiator of this initiative"
+        local label 
+        if for_member and for_member.id ~= app.session.member_id then
+          label = _"This member is initiator of this initiative"
+        else
+          label = _"You are initiator of this initiative"
+        end
         ui.image{
           attr = { alt = label, title = label },
           static = "icons/16/user_edit.png"
         }
       elseif initiative.member_info.directly_supported then
         if initiative.member_info.satisfied then
-          local label = _"You are supporter of this initiative"
+          if for_member and for_member.id ~= app.session.member_id then
+            label = _"This member is supporter of this initiative"
+          else
+            local label = _"You are supporter of this initiative"
+          end
           ui.image{
             attr = { alt = label, title = label },
             static = "icons/16/thumb_up_green.png"
           }
         else
-          local label = _"You are potential supporter of this initiative"
+          if for_member and for_member.id ~= app.session.member_id then
+            label = _"This member is potential supporter of this initiative"
+          else
+            local label = _"You are potential supporter of this initiative"
+          end
           ui.image{
             attr = { alt = label, title = label },
             static = "icons/16/thumb_up.png"
@@ -87,13 +101,21 @@ ui.container{ attr = { class = class }, content = function()
         end
       elseif initiative.member_info.supported then
         if initiative.member_info.satisfied then
-          local label = _"You are supporter of this initiative via delegation"
+          if for_member and for_member.id ~= app.session.member_id then
+            label = _"This member is supporter of this initiative via delegation"
+          else
+            local label = _"You are supporter of this initiative via delegation"
+          end
           ui.image{
             attr = { alt = label, title = label },
             static = "icons/16/thumb_up_green_arrow.png"
           }
         else
-          local label = _"You are potential supporter of this initiative via delegation"
+          if for_member and for_member.id ~= app.session.member_id then
+            label = _"This member is potential supporter of this initiative via delegation"
+          else
+            local label = _"You are potential supporter of this initiative via delegation"
+          end
           ui.image{
             attr = { alt = label, title = label },
             static = "icons/16/thumb_up_arrow.png"
