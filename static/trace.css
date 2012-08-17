@@ -1,15 +1,6 @@
-.layout_trace {
-  position: absolute;
-  right: 0;
-  margin-top: 20px;
-  border: 1px solid #404040;
-  font-size: 70%;
-  padding: 5px;
-  background: #ffe0c0;
-}
-
 #trace_show {
   cursor: pointer;
+  float: right;
 }
 
 .trace_list {

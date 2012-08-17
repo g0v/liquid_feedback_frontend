@@ -36,6 +36,13 @@ if not config.database then
   config.database = { engine='postgresql', dbname='liquid_feedback' }
 end
 
+if not config.enable_debug_trace then
+  trace.disable()
+else
+  slot.put_into('trace_button', '<div id="trace_show" onclick="document.getElementById(\'trace_content\').style.display=\'block\';this.style.display=\'none\';">TRACE</div>')
+end
+
+
 request.set_404_route{ module = 'index', view = '404' }
 
 -- open and set default database handle

@@ -50,15 +50,13 @@
     <div class="footer" id="footer">
       <!-- WEBMCP SLOT footer -->
     </div>
-    <div class="layout_trace" id="layout_trace" style="xdisplay: none">
-      <div id="trace_show" onclick="document.getElementById('trace_content').style.display='block';this.style.display='none';">TRACE</div>
-      <div id="trace_content" style="display: none;">
-        <tt id="system_error"><!-- WEBMCP SLOT system_error --></tt>
-        <div id="trace">&nbsp;</div><hr />
-        <!-- WEBMCP SLOT trace -->
-        <div class="trace_close" onclick="document.getElementById('trace_show').style.display='block';document.getElementById('trace_content').style.display='none';">
-          close
-        </div>
+    <!-- WEBMCP SLOT trace_button -->
+    <div id="trace_content" style="display: none;">
+      <tt id="system_error"><!-- WEBMCP SLOT system_error --></tt>
+      <div id="trace">&nbsp;</div><hr />
+      <!-- WEBMCP SLOT trace -->
+      <div class="trace_close" onclick="document.getElementById('trace_show').style.display='block';document.getElementById('trace_content').style.display='none';">
+        close
       </div>
     </div>
     <script type="text/javascript">

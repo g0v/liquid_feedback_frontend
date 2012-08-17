@@ -147,6 +147,9 @@ config.public_access = "none"
 -- require 'webmcp_accelerator'
 -- if cgi then collectgarbage("stop") end
 
+-- Trace debug
+-- uncomment the following line to enable debug trace
+-- config.enable_debug_trace = true
 
 -- ========================================================================
 -- Do main initialisation (DO NOT REMOVE FOLLOWING SECTION)
