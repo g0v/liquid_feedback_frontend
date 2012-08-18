@@ -22,28 +22,33 @@ int main(int argc, const char * const *argv) {
   char *image_type;
   const char *sql_member_image_params[2];
 
+#ifndef PUBLIC_ACCESS
   char *cookies;
   regex_t session_ident_regex;
   ssize_t start, length;
   regmatch_t session_ident_regmatch[3];
   char *session_ident;
   const char *sql_session_params[1];
+#endif
 
   PGconn *conn;
   PGresult *dbr;
 
   args_string = getenv("QUERY_STRING");
+#ifndef PUBLIC_ACCESS
   cookies = getenv("HTTP_COOKIE");
   if (!args_string || !cookies) {
     fputs("Status: 403 Access Denied\n\n", stdout);
     return 0;
   }
+#endif
 
   member_id   = strtok(args_string, "+");
   image_type  = strtok(NULL, "+");
   sql_member_image_params[0] = member_id;
   sql_member_image_params[1] = image_type;
 
+#ifndef PUBLIC_ACCESS
   if (regcomp(&session_ident_regex, "(^|[; \t])liquid_feedback_session=([0-9A-Za-z]+)", REG_EXTENDED) != 0) {
     // shouldn't happen
     abort();
@@ -85,6 +90,7 @@ int main(int argc, const char * const *argv) {
     PQfinish(conn);
     return 0;
   }
+#endif
 
   dbr = PQexecParams(conn,
     "SELECT content_type, data "
