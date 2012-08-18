@@ -35,7 +35,12 @@ int main(int argc, const char * const *argv) {
   PGresult *dbr;
 
   args_string = getenv("QUERY_STRING");
-#ifndef PUBLIC_ACCESS
+#ifdef PUBLIC_ACCESS
+  if (!args_string) {
+    fputs("Status: 403 Access Denied\n\n", stdout);
+    return 0;
+  }
+#else
   cookies = getenv("HTTP_COOKIE");
   if (!args_string || !cookies) {
     fputs("Status: 403 Access Denied\n\n", stdout);
