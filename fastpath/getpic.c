@@ -69,6 +69,7 @@ int main(int argc, const char * const *argv) {
   strncpy(session_ident, cookies + start, length);
   session_ident[length] = 0;
   sql_session_params[0] = session_ident;
+#endif
 
   conn = PQconnectdb(GETPIC_CONNINFO);
   if (!conn) {
@@ -81,6 +82,7 @@ int main(int argc, const char * const *argv) {
     return 1;
   }
 
+#ifndef PUBLIC_ACCESS
   dbr = PQexecParams(conn,
     "SELECT NULL FROM session JOIN member ON member.id = session.member_id WHERE session.ident = $1 AND member.active",
     1, NULL, sql_session_params, NULL, NULL, 0
