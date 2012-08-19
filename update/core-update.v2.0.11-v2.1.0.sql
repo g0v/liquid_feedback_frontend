@@ -161,6 +161,36 @@ CREATE TRIGGER "voter_comment_fields_only_set_when_voter_comment_is_set"
 COMMENT ON FUNCTION "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"() IS 'Implementation of trigger "voter_comment_fields_only_set_when_voter_comment_is_set" ON table "direct_voter"';
 COMMENT ON TRIGGER "voter_comment_fields_only_set_when_voter_comment_is_set" ON "direct_voter" IS 'If "comment" is set to NULL, then other comment related fields are also set to NULL.';
 
+CREATE OR REPLACE FUNCTION "forbid_changes_on_closed_issue_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    DECLARE
+      "issue_id_v" "issue"."id"%TYPE;
+      "issue_row"  "issue"%ROWTYPE;
+    BEGIN
+      IF TG_RELID = 'direct_voter'::regclass AND TG_OP = 'UPDATE' THEN
+        IF
+          OLD."issue_id"  = NEW."issue_id"  AND
+          OLD."member_id" = NEW."member_id" AND
+          OLD."weight"    = NEW."weight"
+        THEN
+          RETURN NULL;  -- allows changing of voter comment
+        END IF;
+      END IF;
+      IF TG_OP = 'DELETE' THEN
+        "issue_id_v" := OLD."issue_id";
+      ELSE
+        "issue_id_v" := NEW."issue_id";
+      END IF;
+      SELECT INTO "issue_row" * FROM "issue"
+        WHERE "id" = "issue_id_v" FOR SHARE;
+      IF "issue_row"."closed" NOTNULL THEN
+        RAISE EXCEPTION 'Tried to modify data belonging to a closed issue.';
+      END IF;
+      RETURN NULL;
+    END;
+  $$;
+
 CREATE OR REPLACE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$

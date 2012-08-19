@@ -1576,6 +1576,15 @@ CREATE FUNCTION "forbid_changes_on_closed_issue_trigger"()
       "issue_id_v" "issue"."id"%TYPE;
       "issue_row"  "issue"%ROWTYPE;
     BEGIN
+      IF TG_RELID = 'direct_voter'::regclass AND TG_OP = 'UPDATE' THEN
+        IF
+          OLD."issue_id"  = NEW."issue_id"  AND
+          OLD."member_id" = NEW."member_id" AND
+          OLD."weight"    = NEW."weight"
+        THEN
+          RETURN NULL;  -- allows changing of voter comment
+        END IF;
+      END IF;
       IF TG_OP = 'DELETE' THEN
         "issue_id_v" := OLD."issue_id";
       ELSE
