@@ -1510,6 +1510,44 @@ COMMENT ON FUNCTION "last_opinion_deletes_suggestion_trigger"()   IS 'Implementa
 COMMENT ON TRIGGER "last_opinion_deletes_suggestion" ON "opinion" IS 'Removing the last opinion of a suggestion deletes the suggestion';
 
 
+CREATE FUNCTION "non_voter_deletes_direct_voter_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      DELETE FROM "direct_voter"
+        WHERE "issue_id" = NEW."issue_id" AND "member_id" = NEW."member_id";
+      RETURN NULL;
+    END;
+  $$;
+
+CREATE TRIGGER "non_voter_deletes_direct_voter"
+  AFTER INSERT OR UPDATE ON "non_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "non_voter_deletes_direct_voter_trigger"();
+
+COMMENT ON FUNCTION "non_voter_deletes_direct_voter_trigger"()     IS 'Implementation of trigger "non_voter_deletes_direct_voter" on table "non_voter"';
+COMMENT ON TRIGGER "non_voter_deletes_direct_voter" ON "non_voter" IS 'An entry in the "non_voter" table deletes an entry in the "direct_voter" table (and vice versa due to trigger "direct_voter_deletes_non_voter" on table "direct_voter")';
+
+
+CREATE FUNCTION "direct_voter_deletes_non_voter_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      DELETE FROM "non_voter"
+        WHERE "issue_id" = NEW."issue_id" AND "member_id" = NEW."member_id";
+      RETURN NULL;
+    END;
+  $$;
+
+CREATE TRIGGER "direct_voter_deletes_non_voter"
+  AFTER INSERT OR UPDATE ON "direct_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "direct_voter_deletes_non_voter_trigger"();
+
+COMMENT ON FUNCTION "direct_voter_deletes_non_voter_trigger"()        IS 'Implementation of trigger "direct_voter_deletes_non_voter" on table "direct_voter"';
+COMMENT ON TRIGGER "direct_voter_deletes_non_voter" ON "direct_voter" IS 'An entry in the "direct_voter" table deletes an entry in the "non_voter" table (and vice versa due to trigger "non_voter_deletes_direct_voter" on table "non_voter")';
+
+
 
 ---------------------------------------------------------------
 -- Ensure that votes are not modified when issues are frozen --
