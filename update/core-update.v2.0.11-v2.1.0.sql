@@ -4,6 +4,9 @@ CREATE OR REPLACE VIEW "liquid_feedback_version" AS
   SELECT * FROM (VALUES ('2.1.0', 2, 1, 0))
   AS "subquery"("string", "major", "minor", "revision");
 
+COMMENT ON TYPE "application_access_level" IS 'DEPRECATED, WILL BE REMOVED! Access privileges for applications using the API';
+COMMENT ON TABLE "member_application" IS 'DEPRECATED, WILL BE REMOVED! Registered application being allowed to use the API';
+
 ALTER TABLE "policy" ADD COLUMN "polling" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "policy" ALTER COLUMN "admission_time"    DROP NOT NULL;
 ALTER TABLE "policy" ALTER COLUMN "discussion_time"   DROP NOT NULL;
