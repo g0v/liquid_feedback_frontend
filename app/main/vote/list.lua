@@ -47,7 +47,7 @@ if member then
                                           encode.html(tostring(issue.id)))
                   }
               )
-  ui.title(str)
+  ui.raw_title(str)
 else
   member = app.session.member
 
@@ -435,7 +435,14 @@ ui.form{
       slot.put(rendered_comment)
     end
     if (readonly or direct_voter.comment) and not preview then
-      ui.heading{ level = "2", content = _("Voting comment (last updated: #{timestamp})", { timestamp = format.timestamp(direct_voter.comment_changed) }) }
+      local text
+      if direct_voter.comment_changed then
+        text = _("Voting comment (last updated: #{timestamp})", { timestamp = format.timestamp(direct_voter.comment_changed) })
+      else
+        text = _"Voting comment"
+      end
+        ui.heading{ level = "2", content = text }
+        
       if direct_voter.comment then
         local rendered_comment = direct_voter:get_content('html')
         ui.container{ attr = { class = "member_statement" }, content = function()

@@ -73,12 +73,16 @@ if not move_down and not move_up then
       if #comment > 0 then
         direct_voter.formatting_engine = formatting_engine
         direct_voter.comment = comment
-        direct_voter.comment_changed = 'now'
+        if issue.closed then
+          direct_voter.comment_changed = 'now'
+        end
         direct_voter:render_content(true)
       else
         direct_voter.formatting_engine = null
         direct_voter.comment = null
-        direct_voter.comment_changed = 'now'
+        if issue.closed then
+          direct_voter.comment_changed = 'now'
+        end
       end
     end
     direct_voter:save()
