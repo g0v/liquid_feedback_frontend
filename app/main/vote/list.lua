@@ -436,14 +436,15 @@ ui.form{
     end
     if (readonly or direct_voter.comment) and not preview then
       local text
-      if direct_voter.comment_changed then
+      if direct_voter and direct_voter.comment_changed then
         text = _("Voting comment (last updated: #{timestamp})", { timestamp = format.timestamp(direct_voter.comment_changed) })
-      else
+      elseif direct_voter and direct_voter.comment then
         text = _"Voting comment"
       end
+      if text then
         ui.heading{ level = "2", content = text }
-        
-      if direct_voter.comment then
+      end
+      if direct_voter and direct_voter.comment then
         local rendered_comment = direct_voter:get_content('html')
         ui.container{ attr = { class = "member_statement" }, content = function()
           slot.put(rendered_comment)
