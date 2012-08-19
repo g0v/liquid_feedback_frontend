@@ -369,7 +369,7 @@ COMMENT ON TABLE "policy" IS 'Policies for a particular proceeding type (timelim
 
 COMMENT ON COLUMN "policy"."index"                 IS 'Determines the order in listings';
 COMMENT ON COLUMN "policy"."active"                IS 'TRUE = policy can be used for new issues';
-COMMENT ON COLUMN "policy"."polling"               IS 'TRUE = special policy for non-user-generated issues, i.e. polls ("admission_time" MUST be set to NULL, the other timings may be set to NULL altogether, allowing individual timing for issues)';
+COMMENT ON COLUMN "policy"."polling"               IS 'TRUE = special policy for non-user-generated issues without issue quorum, where certain initiatives (those having the "polling" flag set) do not need to pass the initiative quorum; "admission_time" MUST be set to NULL, the other timings may be set to NULL altogether, allowing individual timing for those issues';
 COMMENT ON COLUMN "policy"."admission_time"        IS 'Maximum duration of issue state ''admission''; Maximum time an issue stays open without being "accepted"';
 COMMENT ON COLUMN "policy"."discussion_time"       IS 'Duration of issue state ''discussion''; Regular time until an issue is "half_frozen" after being "accepted"';
 COMMENT ON COLUMN "policy"."verification_time"     IS 'Duration of issue state ''verification''; Regular time until an issue is "fully_frozen" (e.g. entering issue state ''voting'') after being "half_frozen"';
@@ -650,7 +650,7 @@ CREATE TRIGGER "update_text_search_data"
 
 COMMENT ON TABLE "initiative" IS 'Group of members publishing drafts for resolutions to be passed; Frontends must ensure that initiatives of half_frozen issues are not revoked, and that initiatives of fully_frozen or closed issues are neither revoked nor created.';
 
-COMMENT ON COLUMN "initiative"."polling"                IS 'Initiative is an option for a poll (see "policy"."polling"), and does not need to pass the initiative quorum';
+COMMENT ON COLUMN "initiative"."polling"                IS 'Initiative does not need to pass the initiative quorum (see "policy"."polling")';
 COMMENT ON COLUMN "initiative"."discussion_url"         IS 'URL pointing to a discussion platform for this initiative';
 COMMENT ON COLUMN "initiative"."revoked"                IS 'Point in time, when one initiator decided to revoke the initiative';
 COMMENT ON COLUMN "initiative"."revoked_by_member_id"   IS 'Member, who decided to revoke the initiative';
@@ -817,13 +817,13 @@ CREATE TABLE "privilege" (
 
 COMMENT ON TABLE "privilege" IS 'Members rights related to each unit';
 
-COMMENT ON COLUMN "privilege"."admin_manager"        IS 'Grant/revoke any privileges to/from other members';
-COMMENT ON COLUMN "privilege"."unit_manager"         IS 'Create and disable sub units';
-COMMENT ON COLUMN "privilege"."area_manager"         IS 'Create and disable areas and set area parameters';
-COMMENT ON COLUMN "privilege"."member_manager"       IS 'Adding/removing members from the unit, granting or revoking "initiative_right" and "voting_right"';
-COMMENT ON COLUMN "privilege"."initiative_right"     IS 'Right to create an initiative';
-COMMENT ON COLUMN "privilege"."voting_right"         IS 'Right to support initiatives, create and rate suggestions, and to vote';
-COMMENT ON COLUMN "privilege"."polling_right"        IS 'Right to create polls (see "policy"."polling" and "initiative"."polling")';
+COMMENT ON COLUMN "privilege"."admin_manager"    IS 'Grant/revoke any privileges to/from other members';
+COMMENT ON COLUMN "privilege"."unit_manager"     IS 'Create and disable sub units';
+COMMENT ON COLUMN "privilege"."area_manager"     IS 'Create and disable areas and set area parameters';
+COMMENT ON COLUMN "privilege"."member_manager"   IS 'Adding/removing members from the unit, granting or revoking "initiative_right" and "voting_right"';
+COMMENT ON COLUMN "privilege"."initiative_right" IS 'Right to create an initiative';
+COMMENT ON COLUMN "privilege"."voting_right"     IS 'Right to support initiatives, create and rate suggestions, and to vote';
+COMMENT ON COLUMN "privilege"."polling_right"    IS 'Right to create issues with policies having the "policy"."polling" flag set, and to add initiatives having the "initiative"."polling" flag set to those issues';
 
 
 CREATE TABLE "membership" (

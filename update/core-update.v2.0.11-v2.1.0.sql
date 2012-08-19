@@ -31,10 +31,10 @@ ALTER TABLE "policy" ADD CONSTRAINT "timing" CHECK (
           ( "polling" = TRUE AND
             "admission_time" ISNULL AND "discussion_time" ISNULL AND
             "verification_time" ISNULL AND "voting_time" ISNULL ) );
-COMMENT ON COLUMN "policy"."polling" IS 'TRUE = special policy for non-user-generated issues, i.e. polls ("admission_time" MUST be set to NULL, the other timings may be set to NULL altogether, allowing individual timing for issues)';
+COMMENT ON COLUMN "policy"."polling" IS 'TRUE = special policy for non-user-generated issues without issue quorum, where certain initiatives (those having the "polling" flag set) do not need to pass the initiative quorum; "admission_time" MUST be set to NULL, the other timings may be set to NULL altogether, allowing individual timing for those issues';
 
 ALTER TABLE "initiative" ADD COLUMN "polling" BOOLEAN NOT NULL DEFAULT FALSE;
-COMMENT ON COLUMN "initiative"."polling" IS 'Initiative is an option for a poll (see "policy"."polling"), and does not need to pass the initiative quorum';
+COMMENT ON COLUMN "initiative"."polling" IS 'Initiative does not need to pass the initiative quorum (see "policy"."polling")';
 
 ALTER TABLE "privilege" RENAME COLUMN "voting_right_manager" TO "member_manager";
 ALTER TABLE "privilege" ADD COLUMN "initiative_right" BOOLEAN NOT NULL DEFAULT TRUE;
@@ -44,7 +44,7 @@ COMMENT ON COLUMN "privilege"."admin_manager"    IS 'Grant/revoke any privileges
 COMMENT ON COLUMN "privilege"."member_manager"   IS 'Adding/removing members from the unit, granting or revoking "initiative_right" and "voting_right"';
 COMMENT ON COLUMN "privilege"."initiative_right" IS 'Right to create an initiative';
 COMMENT ON COLUMN "privilege"."voting_right"     IS 'Right to support initiatives, create and rate suggestions, and to vote';
-COMMENT ON COLUMN "privilege"."polling_right"    IS 'Right to create polls (see "policy"."polling" and "initiative"."polling")';
+COMMENT ON COLUMN "privilege"."polling_right"    IS 'Right to create issues with policies having the "policy"."polling" flag set, and to add initiatives having the "initiative"."polling" flag set to those issues';
 
 CREATE OR REPLACE FUNCTION "freeze_after_snapshot"
   ( "issue_id_p" "issue"."id"%TYPE )
