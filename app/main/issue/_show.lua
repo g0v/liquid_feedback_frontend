@@ -19,7 +19,7 @@ local vote_link_text
 if voteable then 
   vote_link_text = direct_voter and _"Change vote" or _"Vote now"
 elseif vote_comment_able then
-  vote_link_text = direct_voter and _"Change voting comment"
+  vote_link_text = direct_voter and _"Update voting comment"
 end  
 
 
