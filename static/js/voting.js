@@ -287,8 +287,13 @@ if (!jsFail) {
     var elements = document.getElementsByTagName("input");
     for (var i=0; i<elements.length; i++) {
       var element = elements[i];
-      if (element.className == "voting_done") {
+      if (element.className == "voting_done1" ||
+          element.className == "voting_done2" ||
+          element.name == "preview") {
         element.addEventListener("click", function(event) {
+          if (event.srcElement.name == "preview") {
+            document.getElementById("preview2").value = "1";
+          }
           var scoringString = "";
           var approvalCount = 0;
           var disapprovalCount = 0;

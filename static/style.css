@@ -727,6 +727,7 @@ div.notifications {
 .login input[type=password],
 .vertical input[type=password],
 .vertical textarea,
+#voting_form textarea,
 .vertical select {
   font-family: sans-serif;
   font-size: 100%;
@@ -745,6 +746,7 @@ div.notifications {
   padding-right: 0;
 }
 
+#voting_form .ui_field_label,
 .login .ui_field_label,
 .vertical .ui_field_label {
   line-height: 180%;
@@ -788,6 +790,7 @@ div.notifications {
   margin-bottom: 0;
 }
 
+#voting_form input[type=submit],
 .login input[type=submit],
 .vertical input[type=submit] {
   font-size: 100%;
@@ -797,6 +800,11 @@ div.notifications {
   border: none;
   padding: 0.75ex;
 }
+
+#voting_form input[type=submit] {
+  margin-left: 0;
+}
+
 
 .login input[type=submit]:hover,
 .vertical input[type=submit]:hover,

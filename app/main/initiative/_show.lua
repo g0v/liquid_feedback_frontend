@@ -427,6 +427,7 @@ if not show_as_head then
             :left_join("vote", nil, { "vote.initiative_id = ? AND vote.member_id = member.id", initiative.id })
             :add_field("direct_voter.weight as voter_weight")
             :add_field("coalesce(vote.grade, 0) as grade")
+            :add_field("direct_voter.comment as voter_comment")
             :left_join("initiative", nil, "initiative.id = vote.initiative_id")
             :left_join("issue", nil, "issue.id = initiative.issue_id")
       

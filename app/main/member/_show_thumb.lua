@@ -59,6 +59,16 @@ ui.container{
               member_id = member.id,
             },
             content = function()
+              if (member.voter_comment) then
+                ui.image{
+                  attr = { 
+                    alt   = _"Voting comment available",
+                    title = _"Voting comment available"
+                  },
+                  static = "icons/16/comment.png"
+                }
+              end
+
               if member.grade > 0 then
                 ui.image{
                   attr = { 
@@ -121,7 +131,7 @@ ui.container{
             }
           }
         end
-
+        
         if initiator and initiator.accepted then
           if member.accepted == nil then
             slot.put(_"Invited")

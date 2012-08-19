@@ -51,7 +51,8 @@ if app.session:has_access("all_pseudonymous") then
 end
 
 if app.session:has_access("everything") then
-  if module == "member" and (view == "show" or view == "history") then
+  if module == "member" and (view == "show" or view == "history") 
+    or module == "vote" and view == "list" then
     auth_needed = false
   end
 end

@@ -1,15 +1,22 @@
+local cancel = param.get("cancel") and true or false
+if cancel then return end
+
 local issue = Issue:new_selector():add_where{ "id = ?", param.get("issue_id", atom.integer) }:for_share():single_object_mode():exec()
+
+local preview = param.get("preview") or param.get("preview2") == "1" and true or false
 
 if not app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
   error("access denied")
 end
 
-if issue.closed then
+local update_comment = param.get("update_comment") == "1" and true or false
+
+if issue.closed and not update_comment then
   slot.put_into("error", _"This issue is already closed.")
   return false
 end
 
-if issue.state ~= "voting" then
+if issue.state ~= "voting" and not issue.closed then
   slot.put_into("error", _"Voting has not started yet.")
   return false
 end
@@ -30,44 +37,84 @@ local move_down
 local tempvoting_string = param.get("scoring")
 
 local tempvotings = {}
-for match in tempvoting_string:gmatch("([^;]+)") do
-  for initiative_id, grade in match:gmatch("([^:;]+):([^:;]+)") do
-    tempvotings[tonumber(initiative_id)] = tonumber(grade)
-    if param.get("move_up_" .. initiative_id .. ".x", atom.integer) then
-      move_up = tonumber(initiative_id)
-    elseif param.get("move_down_" .. initiative_id .. ".x", atom.integer) then
-      move_down = tonumber(initiative_id)
+if not update_comment then
+  for match in tempvoting_string:gmatch("([^;]+)") do
+    for initiative_id, grade in match:gmatch("([^:;]+):([^:;]+)") do
+      tempvotings[tonumber(initiative_id)] = tonumber(grade)
+      if param.get("move_up_" .. initiative_id .. ".x", atom.integer) then
+        move_up = tonumber(initiative_id)
+      elseif param.get("move_down_" .. initiative_id .. ".x", atom.integer) then
+        move_down = tonumber(initiative_id)
+      end
     end
   end
 end
 
 if not move_down and not move_up then
-  if not direct_voter then
-    direct_voter = DirectVoter:new()
-    direct_voter.issue_id = issue.id
-    direct_voter.member_id = app.session.member_id
+  if not preview then
+    if not direct_voter then
+      if issue.closed then
+        slot.put_into("error", _"This issue is already closed.")
+        return false
+      else 
+        direct_voter = DirectVoter:new()
+        direct_voter.issue_id = issue.id
+        direct_voter.member_id = app.session.member_id
+        direct_voter:save()
+
+        direct_voter = DirectVoter:by_pk(issue.id, app.session.member_id)
+      end
+    end
+    
+    local formatting_engine = param.get("formatting_engine")
+    local comment = util.trim(param.get("comment"))
+
+    if comment ~= direct_voter.comment then
+      if #comment > 0 then
+        direct_voter.formatting_engine = formatting_engine
+        direct_voter.comment = comment
+        direct_voter.comment_changed = 'now'
+        direct_voter:render_content(true)
+      else
+        direct_voter.formatting_engine = null
+        direct_voter.comment = null
+        direct_voter.comment_changed = 'now'
+      end
+    end
+    direct_voter:save()
+    
   end
 
-  direct_voter:save()
+  if not update_comment then
+    local scoring = param.get("scoring")
 
-  local scoring = param.get("scoring")
+    for initiative_id, grade in scoring:gmatch("([^:;]+):([^:;]+)") do
+      local initiative_id = tonumber(initiative_id)
+      local grade = tonumber(grade)
+      local initiative = Initiative:by_id(initiative_id)
+      if initiative.issue.id ~= issue.id then
+        error("initiative from wrong issue")
+      end
+      if not preview and not issue.closed then
+        local vote = Vote:by_pk(initiative_id, app.session.member.id)
+        if not vote then
+          vote = Vote:new()
+          vote.issue_id = issue.id
+          vote.initiative_id = initiative.id
+          vote.member_id = app.session.member.id
+        end
+        vote.grade = grade
+        vote:save()
+      end
+    end
+  end
 
-  for initiative_id, grade in scoring:gmatch("([^:;]+):([^:;]+)") do
-    local initiative_id = tonumber(initiative_id)
-    local grade = tonumber(grade)
-    local initiative = Initiative:by_id(initiative_id)
-    if initiative.issue.id ~= issue.id then
-      error("initiative from wrong issue")
-    end
-    local vote = Vote:by_pk(initiative_id, app.session.member.id)
-    if not vote then
-      vote = Vote:new()
-      vote.issue_id = issue.id
-      vote.initiative_id = initiative.id
-      vote.member_id = app.session.member.id
-    end
-    vote.grade = grade
-    vote:save()
+  if not preview and not cancel then
+    request.redirect{
+      module = "issue",
+      view = "show",
+      id = issue.id
+    }
   end
 
 else

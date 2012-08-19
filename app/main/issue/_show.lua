@@ -13,7 +13,14 @@ end
 local voteable = app.session.member_id and issue.state == 'voting' and
        app.session.member:has_voting_right_for_unit_id(issue.area.unit_id)
 
-local vote_link_text = direct_voter and _"Change vote" or _"Vote now"
+local vote_comment_able = app.session.member_id and issue.closed and direct_voter
+
+local vote_link_text
+if voteable then 
+  vote_link_text = direct_voter and _"Change vote" or _"Vote now"
+elseif vote_comment_able then
+  vote_link_text = direct_voter and _"Change voting comment"
+end  
 
 
 local class = "issue"
@@ -87,7 +94,7 @@ ui.container{ attr = { class = class }, content = function()
 
   local links = {}
   
-  if voteable then
+  if vote_link_text then
     links[#links+1] ={
       content = vote_link_text,
       module = "vote",
