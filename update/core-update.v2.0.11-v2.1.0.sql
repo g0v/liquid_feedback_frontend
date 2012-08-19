@@ -34,8 +34,37 @@ COMMENT ON COLUMN "privilege"."initiative_right" IS 'Right to create an initiati
 COMMENT ON COLUMN "privilege"."voting_right"     IS 'Right to support initiatives, create and rate suggestions, and to vote';
 COMMENT ON COLUMN "privilege"."polling_right"    IS 'Right to create polls (see "policy"."polling" and "initiative"."polling")';
 
+ALTER TABLE "direct_voter" ADD COLUMN "comment_changed"   TIMESTAMPTZ;
+ALTER TABLE "direct_voter" ADD COLUMN "formatting_engine" TEXT;
+ALTER TABLE "direct_voter" ADD COLUMN "comment"           TEXT;
+ALTER TABLE "direct_voter" ADD COLUMN "text_search_data"  TSVECTOR;
+CREATE INDEX "direct_voter_text_search_data_idx" ON "direct_voter" USING gin ("text_search_data");
+CREATE TRIGGER "update_text_search_data"
+  BEFORE INSERT OR UPDATE ON "direct_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  tsvector_update_trigger('text_search_data', 'pg_catalog.simple', "comment");
+
+COMMENT ON COLUMN "direct_voter"."comment_changed"   IS 'Shall be set on comment change, to indicate a comment being modified after voting has been finished; Automatically set to NULL after voting phase; Automatically set to NULL by trigger, if "comment" is set to NULL';
+COMMENT ON COLUMN "direct_voter"."formatting_engine" IS 'Allows different formatting engines (i.e. wiki formats) to be used for "direct_voter"."comment"; Automatically set to NULL by trigger, if "comment" is set to NULL';
+COMMENT ON COLUMN "direct_voter"."comment"           IS 'Is to be set or updated by the frontend, if comment was inserted or updated AFTER the issue has been closed. Otherwise it shall be set to NULL.';
+
+CREATE TABLE "rendered_voter_comment" (
+        PRIMARY KEY ("issue_id", "member_id", "format"),
+        FOREIGN KEY ("issue_id", "member_id")
+          REFERENCES "direct_voter" ("issue_id", "member_id")
+          ON DELETE CASCADE ON UPDATE CASCADE,
+        "issue_id"              INT4,
+        "member_id"             INT4,
+        "format"                TEXT,
+        "content"               TEXT            NOT NULL );
+
+COMMENT ON TABLE "rendered_voter_comment" IS 'This table may be used by frontends to cache "rendered" voter comments (e.g. HTML output generated from wiki text)';
+
+
 DROP TABLE "rendered_issue_comment";
 DROP TABLE "issue_comment";
+DROP TABLE "rendered_voting_comment";
+DROP TABLE "voting_comment";
 
 CREATE FUNCTION "non_voter_deletes_direct_voter_trigger"()
   RETURNS TRIGGER
@@ -72,6 +101,26 @@ CREATE TRIGGER "direct_voter_deletes_non_voter"
 
 COMMENT ON FUNCTION "direct_voter_deletes_non_voter_trigger"()        IS 'Implementation of trigger "direct_voter_deletes_non_voter" on table "direct_voter"';
 COMMENT ON TRIGGER "direct_voter_deletes_non_voter" ON "direct_voter" IS 'An entry in the "direct_voter" table deletes an entry in the "non_voter" table (and vice versa due to trigger "non_voter_deletes_direct_voter" on table "non_voter")';
+
+CREATE FUNCTION "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      IF NEW."comment" ISNULL THEN
+        NEW."comment_changed" := NULL;
+        NEW."formatting_engine" := NULL;
+      END IF;
+      RETURN NEW;
+    END;
+  $$;
+
+CREATE TRIGGER "voter_comment_fields_only_set_when_voter_comment_is_set"
+  BEFORE INSERT OR UPDATE ON "direct_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"();
+
+COMMENT ON FUNCTION "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"() IS 'Implementation of trigger "voter_comment_fields_only_set_when_voter_comment_is_set" ON table "direct_voter"';
+COMMENT ON TRIGGER "voter_comment_fields_only_set_when_voter_comment_is_set" ON "direct_voter" IS 'If "comment" is set to NULL, then other comment related fields are also set to NULL.';
 
 CREATE OR REPLACE FUNCTION "freeze_after_snapshot"
   ( "issue_id_p" "issue"."id"%TYPE )
@@ -149,8 +198,6 @@ CREATE OR REPLACE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
           "closed"          = NULL,
           "ranks_available" = FALSE
           WHERE "id" = "issue_id_p";
-        DELETE FROM "voting_comment"
-          WHERE "issue_id" = "issue_id_p";
         DELETE FROM "delegating_voter"
           WHERE "issue_id" = "issue_id_p";
         DELETE FROM "direct_voter"
@@ -177,6 +224,81 @@ CREATE OR REPLACE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
           WHERE "id" = "issue_id_p";
       END IF;
       RETURN;
+    END;
+  $$;
+
+CREATE OR REPLACE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
+  RETURNS VOID
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    DECLARE
+      "area_id_v"   "area"."id"%TYPE;
+      "unit_id_v"   "unit"."id"%TYPE;
+      "member_id_v" "member"."id"%TYPE;
+    BEGIN
+      PERFORM "lock_issue"("issue_id_p");
+      SELECT "area_id" INTO "area_id_v" FROM "issue" WHERE "id" = "issue_id_p";
+      SELECT "unit_id" INTO "unit_id_v" FROM "area"  WHERE "id" = "area_id_v";
+      -- delete timestamp of voting comment:
+      UPDATE "direct_voter" SET "comment_changed" = NULL
+        WHERE "issue_id" = "issue_id_p";
+      -- delete delegating votes (in cases of manual reset of issue state):
+      DELETE FROM "delegating_voter"
+        WHERE "issue_id" = "issue_id_p";
+      -- delete votes from non-privileged voters:
+      DELETE FROM "direct_voter"
+        USING (
+          SELECT
+            "direct_voter"."member_id"
+          FROM "direct_voter"
+          JOIN "member" ON "direct_voter"."member_id" = "member"."id"
+          LEFT JOIN "privilege"
+          ON "privilege"."unit_id" = "unit_id_v"
+          AND "privilege"."member_id" = "direct_voter"."member_id"
+          WHERE "direct_voter"."issue_id" = "issue_id_p" AND (
+            "member"."active" = FALSE OR
+            "privilege"."voting_right" ISNULL OR
+            "privilege"."voting_right" = FALSE
+          )
+        ) AS "subquery"
+        WHERE "direct_voter"."issue_id" = "issue_id_p"
+        AND "direct_voter"."member_id" = "subquery"."member_id";
+      -- consider delegations:
+      UPDATE "direct_voter" SET "weight" = 1
+        WHERE "issue_id" = "issue_id_p";
+      PERFORM "add_vote_delegations"("issue_id_p");
+      -- set voter count and mark issue as being calculated:
+      UPDATE "issue" SET
+        "state"  = 'calculation',
+        "closed" = now(),
+        "voter_count" = (
+          SELECT coalesce(sum("weight"), 0)
+          FROM "direct_voter" WHERE "issue_id" = "issue_id_p"
+        )
+        WHERE "id" = "issue_id_p";
+      -- materialize battle_view:
+      -- NOTE: "closed" column of issue must be set at this point
+      DELETE FROM "battle" WHERE "issue_id" = "issue_id_p";
+      INSERT INTO "battle" (
+        "issue_id",
+        "winning_initiative_id", "losing_initiative_id",
+        "count"
+      ) SELECT
+        "issue_id",
+        "winning_initiative_id", "losing_initiative_id",
+        "count"
+        FROM "battle_view" WHERE "issue_id" = "issue_id_p";
+      -- copy "positive_votes" and "negative_votes" from "battle" table:
+      UPDATE "initiative" SET
+        "positive_votes" = "battle_win"."count",
+        "negative_votes" = "battle_lose"."count"
+        FROM "battle" AS "battle_win", "battle" AS "battle_lose"
+        WHERE
+          "battle_win"."issue_id" = "issue_id_p" AND
+          "battle_win"."winning_initiative_id" = "initiative"."id" AND
+          "battle_win"."losing_initiative_id" ISNULL AND
+          "battle_lose"."issue_id" = "issue_id_p" AND
+          "battle_lose"."losing_initiative_id" = "initiative"."id" AND
+          "battle_lose"."winning_initiative_id" ISNULL;
     END;
   $$;
 

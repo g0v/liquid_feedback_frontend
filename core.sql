@@ -1020,12 +1020,37 @@ CREATE TABLE "direct_voter" (
         PRIMARY KEY ("issue_id", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT,
-        "weight"                INT4 );
+        "weight"                INT4,
+        "comment_changed"       TIMESTAMPTZ,
+        "formatting_engine"     TEXT,
+        "comment"               TEXT,
+        "text_search_data"      TSVECTOR );
 CREATE INDEX "direct_voter_member_id_idx" ON "direct_voter" ("member_id");
+CREATE INDEX "direct_voter_text_search_data_idx" ON "direct_voter" USING gin ("text_search_data");
+CREATE TRIGGER "update_text_search_data"
+  BEFORE INSERT OR UPDATE ON "direct_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  tsvector_update_trigger('text_search_data', 'pg_catalog.simple', "comment");
 
 COMMENT ON TABLE "direct_voter" IS 'Members having directly voted for/against initiatives of an issue; Frontends must ensure that no voters are added or removed to/from this table when the issue has been closed.';
 
-COMMENT ON COLUMN "direct_voter"."weight" IS 'Weight of member (1 or higher) according to "delegating_voter" table';
+COMMENT ON COLUMN "direct_voter"."weight"            IS 'Weight of member (1 or higher) according to "delegating_voter" table';
+COMMENT ON COLUMN "direct_voter"."comment_changed"   IS 'Shall be set on comment change, to indicate a comment being modified after voting has been finished; Automatically set to NULL after voting phase; Automatically set to NULL by trigger, if "comment" is set to NULL';
+COMMENT ON COLUMN "direct_voter"."formatting_engine" IS 'Allows different formatting engines (i.e. wiki formats) to be used for "direct_voter"."comment"; Automatically set to NULL by trigger, if "comment" is set to NULL';
+COMMENT ON COLUMN "direct_voter"."comment"           IS 'Is to be set or updated by the frontend, if comment was inserted or updated AFTER the issue has been closed. Otherwise it shall be set to NULL.';
+
+
+CREATE TABLE "rendered_voter_comment" (
+        PRIMARY KEY ("issue_id", "member_id", "format"),
+        FOREIGN KEY ("issue_id", "member_id")
+          REFERENCES "direct_voter" ("issue_id", "member_id")
+          ON DELETE CASCADE ON UPDATE CASCADE,
+        "issue_id"              INT4,
+        "member_id"             INT4,
+        "format"                TEXT,
+        "content"               TEXT            NOT NULL );
+
+COMMENT ON TABLE "rendered_voter_comment" IS 'This table may be used by frontends to cache "rendered" voter comments (e.g. HTML output generated from wiki text)';
 
 
 CREATE TABLE "delegating_voter" (
@@ -1058,39 +1083,6 @@ COMMENT ON TABLE "vote" IS 'Manual and delegated votes without abstentions; Fron
 
 COMMENT ON COLUMN "vote"."issue_id" IS 'WARNING: No index: For selections use column "initiative_id" and join via table "initiative" where neccessary';
 COMMENT ON COLUMN "vote"."grade"    IS 'Values smaller than zero mean reject, values greater than zero mean acceptance, zero or missing row means abstention. Preferences are expressed by different positive or negative numbers.';
-
-
-CREATE TABLE "voting_comment" (
-        PRIMARY KEY ("issue_id", "member_id"),
-        "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "changed"               TIMESTAMPTZ,
-        "formatting_engine"     TEXT,
-        "content"               TEXT            NOT NULL,
-        "text_search_data"      TSVECTOR );
-CREATE INDEX "voting_comment_member_id_idx" ON "voting_comment" ("member_id");
-CREATE INDEX "voting_comment_text_search_data_idx" ON "voting_comment" USING gin ("text_search_data");
-CREATE TRIGGER "update_text_search_data"
-  BEFORE INSERT OR UPDATE ON "voting_comment"
-  FOR EACH ROW EXECUTE PROCEDURE
-  tsvector_update_trigger('text_search_data', 'pg_catalog.simple', "content");
-
-COMMENT ON TABLE "voting_comment" IS 'Storage for comments of voters to be published after voting has finished.';
-
-COMMENT ON COLUMN "voting_comment"."changed" IS 'Is to be set or updated by the frontend, if comment was inserted or updated AFTER the issue has been closed. Otherwise it shall be set to NULL.';
-
-
-CREATE TABLE "rendered_voting_comment" (
-        PRIMARY KEY ("issue_id", "member_id", "format"),
-        FOREIGN KEY ("issue_id", "member_id")
-          REFERENCES "voting_comment" ("issue_id", "member_id")
-          ON DELETE CASCADE ON UPDATE CASCADE,
-        "issue_id"              INT4,
-        "member_id"             INT4,
-        "format"                TEXT,
-        "content"               TEXT            NOT NULL );
-
-COMMENT ON TABLE "rendered_voting_comment" IS 'This table may be used by frontends to cache "rendered" voting comments (e.g. HTML output generated from wiki text)';
 
 
 CREATE TYPE "event_type" AS ENUM (
@@ -1547,6 +1539,26 @@ CREATE TRIGGER "direct_voter_deletes_non_voter"
 COMMENT ON FUNCTION "direct_voter_deletes_non_voter_trigger"()        IS 'Implementation of trigger "direct_voter_deletes_non_voter" on table "direct_voter"';
 COMMENT ON TRIGGER "direct_voter_deletes_non_voter" ON "direct_voter" IS 'An entry in the "direct_voter" table deletes an entry in the "non_voter" table (and vice versa due to trigger "non_voter_deletes_direct_voter" on table "non_voter")';
 
+
+CREATE FUNCTION "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      IF NEW."comment" ISNULL THEN
+        NEW."comment_changed" := NULL;
+        NEW."formatting_engine" := NULL;
+      END IF;
+      RETURN NEW;
+    END;
+  $$;
+
+CREATE TRIGGER "voter_comment_fields_only_set_when_voter_comment_is_set"
+  BEFORE INSERT OR UPDATE ON "direct_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"();
+
+COMMENT ON FUNCTION "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"() IS 'Implementation of trigger "voter_comment_fields_only_set_when_voter_comment_is_set" ON table "direct_voter"';
+COMMENT ON TRIGGER "voter_comment_fields_only_set_when_voter_comment_is_set" ON "direct_voter" IS 'If "comment" is set to NULL, then other comment related fields are also set to NULL.';
 
 
 ---------------------------------------------------------------
@@ -3735,6 +3747,9 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       PERFORM "lock_issue"("issue_id_p");
       SELECT "area_id" INTO "area_id_v" FROM "issue" WHERE "id" = "issue_id_p";
       SELECT "unit_id" INTO "unit_id_v" FROM "area"  WHERE "id" = "area_id_v";
+      -- delete timestamp of voting comment:
+      UPDATE "direct_voter" SET "comment_changed" = NULL
+        WHERE "issue_id" = "issue_id_p";
       -- delete delegating votes (in cases of manual reset of issue state):
       DELETE FROM "delegating_voter"
         WHERE "issue_id" = "issue_id_p";
@@ -4312,8 +4327,6 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
           "closed"          = NULL,
           "ranks_available" = FALSE
           WHERE "id" = "issue_id_p";
-        DELETE FROM "voting_comment"
-          WHERE "issue_id" = "issue_id_p";
         DELETE FROM "delegating_voter"
           WHERE "issue_id" = "issue_id_p";
         DELETE FROM "direct_voter"
