@@ -161,50 +161,6 @@ CREATE TRIGGER "voter_comment_fields_only_set_when_voter_comment_is_set"
 COMMENT ON FUNCTION "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"() IS 'Implementation of trigger "voter_comment_fields_only_set_when_voter_comment_is_set" ON table "direct_voter"';
 COMMENT ON TRIGGER "voter_comment_fields_only_set_when_voter_comment_is_set" ON "direct_voter" IS 'If "comment" is set to NULL, then other comment related fields are also set to NULL.';
 
-CREATE OR REPLACE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
-  RETURNS VOID
-  LANGUAGE 'plpgsql' VOLATILE AS $$
-    DECLARE
-      "issue_row" "issue"%ROWTYPE;
-    BEGIN
-      SELECT * INTO "issue_row"
-        FROM "issue" WHERE "id" = "issue_id_p"
-        FOR UPDATE;
-      IF "issue_row"."cleaned" ISNULL THEN
-        UPDATE "issue" SET
-          "state"           = 'voting',
-          "closed"          = NULL,
-          "ranks_available" = FALSE
-          WHERE "id" = "issue_id_p";
-        DELETE FROM "delegating_voter"
-          WHERE "issue_id" = "issue_id_p";
-        DELETE FROM "direct_voter"
-          WHERE "issue_id" = "issue_id_p";
-        DELETE FROM "delegating_interest_snapshot"
-          WHERE "issue_id" = "issue_id_p";
-        DELETE FROM "direct_interest_snapshot"
-          WHERE "issue_id" = "issue_id_p";
-        DELETE FROM "delegating_population_snapshot"
-          WHERE "issue_id" = "issue_id_p";
-        DELETE FROM "direct_population_snapshot"
-          WHERE "issue_id" = "issue_id_p";
-        DELETE FROM "non_voter"
-          WHERE "issue_id" = "issue_id_p";
-        DELETE FROM "delegation"
-          WHERE "issue_id" = "issue_id_p";
-        DELETE FROM "supporter"
-          WHERE "issue_id" = "issue_id_p";
-        UPDATE "issue" SET
-          "state"           = "issue_row"."state",
-          "closed"          = "issue_row"."closed",
-          "ranks_available" = "issue_row"."ranks_available",
-          "cleaned"         = now()
-          WHERE "id" = "issue_id_p";
-      END IF;
-      RETURN;
-    END;
-  $$;
-
 CREATE OR REPLACE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
@@ -277,6 +233,50 @@ CREATE OR REPLACE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
           "battle_lose"."issue_id" = "issue_id_p" AND
           "battle_lose"."losing_initiative_id" = "initiative"."id" AND
           "battle_lose"."winning_initiative_id" ISNULL;
+    END;
+  $$;
+
+CREATE OR REPLACE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
+  RETURNS VOID
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    DECLARE
+      "issue_row" "issue"%ROWTYPE;
+    BEGIN
+      SELECT * INTO "issue_row"
+        FROM "issue" WHERE "id" = "issue_id_p"
+        FOR UPDATE;
+      IF "issue_row"."cleaned" ISNULL THEN
+        UPDATE "issue" SET
+          "state"           = 'voting',
+          "closed"          = NULL,
+          "ranks_available" = FALSE
+          WHERE "id" = "issue_id_p";
+        DELETE FROM "delegating_voter"
+          WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "direct_voter"
+          WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "delegating_interest_snapshot"
+          WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "direct_interest_snapshot"
+          WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "delegating_population_snapshot"
+          WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "direct_population_snapshot"
+          WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "non_voter"
+          WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "delegation"
+          WHERE "issue_id" = "issue_id_p";
+        DELETE FROM "supporter"
+          WHERE "issue_id" = "issue_id_p";
+        UPDATE "issue" SET
+          "state"           = "issue_row"."state",
+          "closed"          = "issue_row"."closed",
+          "ranks_available" = "issue_row"."ranks_available",
+          "cleaned"         = now()
+          WHERE "id" = "issue_id_p";
+      END IF;
+      RETURN;
     END;
   $$;
 
