@@ -1,11 +1,20 @@
 BEGIN;
 
+
+-- update version number
+
 CREATE OR REPLACE VIEW "liquid_feedback_version" AS
   SELECT * FROM (VALUES ('2.1.0', 2, 1, 0))
   AS "subquery"("string", "major", "minor", "revision");
 
+
+-- old API tables are now deprecated
+
 COMMENT ON TYPE "application_access_level" IS 'DEPRECATED, WILL BE REMOVED! Access privileges for applications using the API';
 COMMENT ON TABLE "member_application" IS 'DEPRECATED, WILL BE REMOVED! Registered application being allowed to use the API';
+
+
+-- new polling mode and changed privileges
 
 ALTER TABLE "policy" ADD COLUMN "polling" BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE "policy" ALTER COLUMN "admission_time"    DROP NOT NULL;
@@ -36,94 +45,6 @@ COMMENT ON COLUMN "privilege"."member_manager"   IS 'Adding/removing members fro
 COMMENT ON COLUMN "privilege"."initiative_right" IS 'Right to create an initiative';
 COMMENT ON COLUMN "privilege"."voting_right"     IS 'Right to support initiatives, create and rate suggestions, and to vote';
 COMMENT ON COLUMN "privilege"."polling_right"    IS 'Right to create polls (see "policy"."polling" and "initiative"."polling")';
-
-ALTER TABLE "direct_voter" ADD COLUMN "comment_changed"   TIMESTAMPTZ;
-ALTER TABLE "direct_voter" ADD COLUMN "formatting_engine" TEXT;
-ALTER TABLE "direct_voter" ADD COLUMN "comment"           TEXT;
-ALTER TABLE "direct_voter" ADD COLUMN "text_search_data"  TSVECTOR;
-CREATE INDEX "direct_voter_text_search_data_idx" ON "direct_voter" USING gin ("text_search_data");
-CREATE TRIGGER "update_text_search_data"
-  BEFORE INSERT OR UPDATE ON "direct_voter"
-  FOR EACH ROW EXECUTE PROCEDURE
-  tsvector_update_trigger('text_search_data', 'pg_catalog.simple', "comment");
-
-COMMENT ON COLUMN "direct_voter"."comment_changed"   IS 'Shall be set on comment change, to indicate a comment being modified after voting has been finished; Automatically set to NULL after voting phase; Automatically set to NULL by trigger, if "comment" is set to NULL';
-COMMENT ON COLUMN "direct_voter"."formatting_engine" IS 'Allows different formatting engines (i.e. wiki formats) to be used for "direct_voter"."comment"; Automatically set to NULL by trigger, if "comment" is set to NULL';
-COMMENT ON COLUMN "direct_voter"."comment"           IS 'Is to be set or updated by the frontend, if comment was inserted or updated AFTER the issue has been closed. Otherwise it shall be set to NULL.';
-
-CREATE TABLE "rendered_voter_comment" (
-        PRIMARY KEY ("issue_id", "member_id", "format"),
-        FOREIGN KEY ("issue_id", "member_id")
-          REFERENCES "direct_voter" ("issue_id", "member_id")
-          ON DELETE CASCADE ON UPDATE CASCADE,
-        "issue_id"              INT4,
-        "member_id"             INT4,
-        "format"                TEXT,
-        "content"               TEXT            NOT NULL );
-
-COMMENT ON TABLE "rendered_voter_comment" IS 'This table may be used by frontends to cache "rendered" voter comments (e.g. HTML output generated from wiki text)';
-
-
-DROP TABLE "rendered_issue_comment";
-DROP TABLE "issue_comment";
-DROP TABLE "rendered_voting_comment";
-DROP TABLE "voting_comment";
-
-CREATE FUNCTION "non_voter_deletes_direct_voter_trigger"()
-  RETURNS TRIGGER
-  LANGUAGE 'plpgsql' VOLATILE AS $$
-    BEGIN
-      DELETE FROM "direct_voter"
-        WHERE "issue_id" = NEW."issue_id" AND "member_id" = NEW."member_id";
-      RETURN NULL;
-    END;
-  $$;
-
-CREATE TRIGGER "non_voter_deletes_direct_voter"
-  AFTER INSERT OR UPDATE ON "non_voter"
-  FOR EACH ROW EXECUTE PROCEDURE
-  "non_voter_deletes_direct_voter_trigger"();
-
-COMMENT ON FUNCTION "non_voter_deletes_direct_voter_trigger"()     IS 'Implementation of trigger "non_voter_deletes_direct_voter" on table "non_voter"';
-COMMENT ON TRIGGER "non_voter_deletes_direct_voter" ON "non_voter" IS 'An entry in the "non_voter" table deletes an entry in the "direct_voter" table (and vice versa due to trigger "direct_voter_deletes_non_voter" on table "direct_voter")';
-
-CREATE FUNCTION "direct_voter_deletes_non_voter_trigger"()
-  RETURNS TRIGGER
-  LANGUAGE 'plpgsql' VOLATILE AS $$
-    BEGIN
-      DELETE FROM "non_voter"
-        WHERE "issue_id" = NEW."issue_id" AND "member_id" = NEW."member_id";
-      RETURN NULL;
-    END;
-  $$;
-
-CREATE TRIGGER "direct_voter_deletes_non_voter"
-  AFTER INSERT OR UPDATE ON "direct_voter"
-  FOR EACH ROW EXECUTE PROCEDURE
-  "direct_voter_deletes_non_voter_trigger"();
-
-COMMENT ON FUNCTION "direct_voter_deletes_non_voter_trigger"()        IS 'Implementation of trigger "direct_voter_deletes_non_voter" on table "direct_voter"';
-COMMENT ON TRIGGER "direct_voter_deletes_non_voter" ON "direct_voter" IS 'An entry in the "direct_voter" table deletes an entry in the "non_voter" table (and vice versa due to trigger "non_voter_deletes_direct_voter" on table "non_voter")';
-
-CREATE FUNCTION "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"()
-  RETURNS TRIGGER
-  LANGUAGE 'plpgsql' VOLATILE AS $$
-    BEGIN
-      IF NEW."comment" ISNULL THEN
-        NEW."comment_changed" := NULL;
-        NEW."formatting_engine" := NULL;
-      END IF;
-      RETURN NEW;
-    END;
-  $$;
-
-CREATE TRIGGER "voter_comment_fields_only_set_when_voter_comment_is_set"
-  BEFORE INSERT OR UPDATE ON "direct_voter"
-  FOR EACH ROW EXECUTE PROCEDURE
-  "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"();
-
-COMMENT ON FUNCTION "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"() IS 'Implementation of trigger "voter_comment_fields_only_set_when_voter_comment_is_set" ON table "direct_voter"';
-COMMENT ON TRIGGER "voter_comment_fields_only_set_when_voter_comment_is_set" ON "direct_voter" IS 'If "comment" is set to NULL, then other comment related fields are also set to NULL.';
 
 CREATE OR REPLACE FUNCTION "freeze_after_snapshot"
   ( "issue_id_p" "issue"."id"%TYPE )
@@ -185,6 +106,60 @@ CREATE OR REPLACE FUNCTION "freeze_after_snapshot"
       RETURN;
     END;
   $$;
+
+
+-- issue comments removed, voting comments integrated in "direct_voter" table
+
+ALTER TABLE "direct_voter" ADD COLUMN "comment_changed"   TIMESTAMPTZ;
+ALTER TABLE "direct_voter" ADD COLUMN "formatting_engine" TEXT;
+ALTER TABLE "direct_voter" ADD COLUMN "comment"           TEXT;
+ALTER TABLE "direct_voter" ADD COLUMN "text_search_data"  TSVECTOR;
+CREATE INDEX "direct_voter_text_search_data_idx" ON "direct_voter" USING gin ("text_search_data");
+CREATE TRIGGER "update_text_search_data"
+  BEFORE INSERT OR UPDATE ON "direct_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  tsvector_update_trigger('text_search_data', 'pg_catalog.simple', "comment");
+
+COMMENT ON COLUMN "direct_voter"."comment_changed"   IS 'Shall be set on comment change, to indicate a comment being modified after voting has been finished; Automatically set to NULL after voting phase; Automatically set to NULL by trigger, if "comment" is set to NULL';
+COMMENT ON COLUMN "direct_voter"."formatting_engine" IS 'Allows different formatting engines (i.e. wiki formats) to be used for "direct_voter"."comment"; Automatically set to NULL by trigger, if "comment" is set to NULL';
+COMMENT ON COLUMN "direct_voter"."comment"           IS 'Is to be set or updated by the frontend, if comment was inserted or updated AFTER the issue has been closed. Otherwise it shall be set to NULL.';
+
+CREATE TABLE "rendered_voter_comment" (
+        PRIMARY KEY ("issue_id", "member_id", "format"),
+        FOREIGN KEY ("issue_id", "member_id")
+          REFERENCES "direct_voter" ("issue_id", "member_id")
+          ON DELETE CASCADE ON UPDATE CASCADE,
+        "issue_id"              INT4,
+        "member_id"             INT4,
+        "format"                TEXT,
+        "content"               TEXT            NOT NULL );
+
+COMMENT ON TABLE "rendered_voter_comment" IS 'This table may be used by frontends to cache "rendered" voter comments (e.g. HTML output generated from wiki text)';
+
+DROP TABLE "rendered_issue_comment";
+DROP TABLE "issue_comment";
+DROP TABLE "rendered_voting_comment";
+DROP TABLE "voting_comment";
+
+CREATE FUNCTION "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      IF NEW."comment" ISNULL THEN
+        NEW."comment_changed" := NULL;
+        NEW."formatting_engine" := NULL;
+      END IF;
+      RETURN NEW;
+    END;
+  $$;
+
+CREATE TRIGGER "voter_comment_fields_only_set_when_voter_comment_is_set"
+  BEFORE INSERT OR UPDATE ON "direct_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"();
+
+COMMENT ON FUNCTION "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"() IS 'Implementation of trigger "voter_comment_fields_only_set_when_voter_comment_is_set" ON table "direct_voter"';
+COMMENT ON TRIGGER "voter_comment_fields_only_set_when_voter_comment_is_set" ON "direct_voter" IS 'If "comment" is set to NULL, then other comment related fields are also set to NULL.';
 
 CREATE OR REPLACE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
   RETURNS VOID
@@ -305,6 +280,49 @@ CREATE OR REPLACE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
     END;
   $$;
 
+
+-- "non_voter" deletes "direct_voter" and vice versa
+
+CREATE FUNCTION "non_voter_deletes_direct_voter_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      DELETE FROM "direct_voter"
+        WHERE "issue_id" = NEW."issue_id" AND "member_id" = NEW."member_id";
+      RETURN NULL;
+    END;
+  $$;
+
+CREATE TRIGGER "non_voter_deletes_direct_voter"
+  AFTER INSERT OR UPDATE ON "non_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "non_voter_deletes_direct_voter_trigger"();
+
+COMMENT ON FUNCTION "non_voter_deletes_direct_voter_trigger"()     IS 'Implementation of trigger "non_voter_deletes_direct_voter" on table "non_voter"';
+COMMENT ON TRIGGER "non_voter_deletes_direct_voter" ON "non_voter" IS 'An entry in the "non_voter" table deletes an entry in the "direct_voter" table (and vice versa due to trigger "direct_voter_deletes_non_voter" on table "direct_voter")';
+
+CREATE FUNCTION "direct_voter_deletes_non_voter_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      DELETE FROM "non_voter"
+        WHERE "issue_id" = NEW."issue_id" AND "member_id" = NEW."member_id";
+      RETURN NULL;
+    END;
+  $$;
+
+CREATE TRIGGER "direct_voter_deletes_non_voter"
+  AFTER INSERT OR UPDATE ON "direct_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "direct_voter_deletes_non_voter_trigger"();
+
+COMMENT ON FUNCTION "direct_voter_deletes_non_voter_trigger"()        IS 'Implementation of trigger "direct_voter_deletes_non_voter" on table "direct_voter"';
+COMMENT ON TRIGGER "direct_voter_deletes_non_voter" ON "direct_voter" IS 'An entry in the "direct_voter" table deletes an entry in the "non_voter" table (and vice versa due to trigger "non_voter_deletes_direct_voter" on table "non_voter")';
+
+
+-- new comment on function "delete_private_data"()
+
 COMMENT ON FUNCTION "delete_private_data"() IS 'Used by lf_export script. DO NOT USE on productive database, but only on a copy! This function deletes all data which should not be publicly available, and can be used to create a database dump for publication. See source code to see which data is deleted. If you need a different behaviour, copy this function and modify lf_export accordingly, to avoid data-leaks after updating.';
+
 
 COMMIT;
