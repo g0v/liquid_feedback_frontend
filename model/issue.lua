@@ -183,9 +183,9 @@ end
 
 function Issue:get_state_name_for_state(value)
   local state_name_table = {
-    new          = _"New",
-    accepted     = _"Discussion",
-    frozen       = _"Frozen",
+    admission    = _"New",
+    discussion   = _"Discussion",
+    verification = _"Frozen",
     voting       = _"Voting",
     finished     = _"Finished",
     cancelled    = _"Cancelled"
@@ -239,42 +239,9 @@ function Issue:modify_selector_for_state(initiatives_selector, state)
   end
 end
 
-function Issue.object_get:state()
-  if self.closed then
-    if self.fully_frozen then
-      return "finished"
-    else
-      return "cancelled"
-    end
-  elseif self.fully_frozen then
-    return "voting"
-  elseif self.half_frozen then
-    return "frozen"
-  elseif self.accepted then
-    return "accepted"
-  else
-    return "new"
-  end
-
-end
 
 function Issue.object_get:state_name()
   return Issue:get_state_name_for_state(self.state)
-end
-
-function Issue.object_get:next_states()
-  local state = self.state
-  local next_states
-  if state == "new" then
-    next_states = { "accepted", "cancelled" }
-  elseif state == "accepted" then
-    next_states = { "frozen" }
-  elseif state == "frozen" then
-    next_states = { "voting" }
-  elseif state == "voting" then
-    next_states = { "finished" }
-  end
-  return next_states
 end
 
 function Issue.object_get:next_states_names()

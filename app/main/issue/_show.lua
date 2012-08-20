@@ -75,11 +75,11 @@ ui.container{ attr = { class = class }, content = function()
       elseif issue.state_time_left then
         slot.put(" &middot; ")
         if issue.state_time_left:sub(1,1) == "-" then
-          if issue.state == "accepted" then
+          if issue.state == "admission" then
             ui.tag{ content = _("Discussion starts soon") }
           elseif issue.state == "discussion" then
             ui.tag{ content = _("Verification starts soon") }
-          elseif issue.state == "frozen" then
+          elseif issue.state == "verification" then
             ui.tag{ content = _("Voting starts soon") }
           elseif issue.state == "voting" then
             ui.tag{ content = _("Counting starts soon") }
@@ -250,7 +250,7 @@ ui.container{ attr = { class = class }, content = function()
   end }
 
   if not for_listing then
-    if issue.state == "cancelled" then
+    if issue.state:sub(1, #("canceled_")) == "canceled_" then
       local policy = issue.policy
       ui.container{
         attr = { class = "not_admitted_info" },
