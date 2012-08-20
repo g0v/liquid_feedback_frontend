@@ -1,5 +1,6 @@
 #!/usr/bin/env lua
 return {
+["#{closed_ago} ago"] = "seit #{closed_ago}";
 ["#{count} cancelled"] = "#{count} abgebrochen";
 ["#{count} days ago"] = "vor #{count} Tagen";
 ["#{count} finished"] = "#{count} abgeschlossen";
@@ -94,6 +95,7 @@ return {
 ["Can't remove last initiator"] = "Der letzte Initiator kann nicht entfernt werden";
 ["Can't send confirmation email"] = "Bestätigungs-E-Mail kann nicht versendet werden.";
 ["Cancel"] = "Abbrechen";
+["Cancel [nullify]"] = "Aufheben";
 ["Cancel password reset"] = "Kennwort-Rücksetzung abbrechen";
 ["Cancel refuse of invitation"] = "Ablehnung der Einladung aufheben";
 ["Cancel registration"] = "Registrierung abbrechen";
@@ -143,7 +145,6 @@ return {
 ["Create new policy"] = "Neues Regelwerk anlegen";
 ["Create new unit"] = "Neue Gliederung anlegen";
 ["Created at"] = "Erzeugt am/um";
-["Current draft"] = "Aktueller Entwurf";
 ["Current name"] = "Aktueller Name";
 ["Current status"] = "Aktueller Status";
 ["Current trustee"] = "Aktueller Delegierter";
@@ -191,11 +192,11 @@ return {
 ["Discussion starts soon"] = "Diskussion startet in Kürze";
 ["Discussion time"] = "Zeit für die Diskussion";
 ["Discussion with initiators"] = "Diskussion mit den Initiatoren";
+["Do not vote directly"] = "Nicht selbst abstimmen";
 ["Download"] = "Download";
 ["Download database export"] = "Datenbankexport herunterladen";
 ["Download documents"] = "Dokumente herunterladen";
 ["Draft"] = "Entwurf";
-["Draft history"] = "Entwurfshistorie";
 ["Edit"] = "Bearbeiten";
 ["Edit areas"] = "Themenbereiche bearbeiten";
 ["Edit draft"] = "Entwurf bearbeiten";
@@ -203,7 +204,6 @@ return {
 ["Edit my page"] = "Meine Seite bearbeiten";
 ["Edit my profile"] = "Mein Profil bearbeiten";
 ["Edit profile"] = "Profil bearbeiten";
-["Edit unit"] = "Gliederung bearbeiten";
 ["Eligible as winner"] = "Als Gewinner qualifiziert";
 ["Eligible voters"] = "Stimmberechtigte";
 ["Email address"] = "E-Mail-Adresse";
@@ -235,6 +235,7 @@ return {
 ["Help #{id}"] = "Hilfe #{id}";
 ["Help for: #{text}"] = "Hilfe zu: #{text}";
 ["Hide"] = "Verstecken";
+["Hide active units"] = "Aktive units ausblenden";
 ["Hide filter details"] = "Filter-Details verstecken";
 ["Hide this help message"] = "Diesen Hilfetext ausblenden";
 ["Hint"] = "Hinweis";
@@ -418,7 +419,6 @@ return {
 ["Organizational unit"] = "Organisationseinheit";
 ["Other failures"] = "Weitere Mängel";
 ["Outgoing delegations"] = "Ausgehende Delegationen";
-["Pad"] = false;
 ["Parent unit"] = "Übergeordnete Gliederung";
 ["Participants"] = "Teilnehmer";
 ["Participate in this area"] = "An diesem Themengebiet teilnehmen";
@@ -457,6 +457,7 @@ return {
 ["Potential supporters (before begin of voting)"] = "Potentielle Unterstützer (zum Abstimmungsbeginn)";
 ["Potentially supported"] = "Potentiell unterstützt";
 ["Preview"] = "Vorschau";
+["Preview voting comment"] = "Vorschau Abstimmmungskommentar";
 ["Proceed with registration"] = "Registrierung fortsetzen";
 ["Profession"] = "Beruf";
 ["Profile"] = "Profil";
@@ -519,6 +520,7 @@ return {
 ["Show diff"] = "Änderungen anzeigen";
 ["Show filter details"] = "Zeige Filter-Details";
 ["Show help text"] = "Zeige Hilfe-Text";
+["Show inactive units"] = "Zeige deaktivierte Gliederungen";
 ["Show member"] = "Mitglied anzeigen";
 ["Show member history"] = "Historie des Mitglieds anzeigen";
 ["Show older events"] = "Zeige ältere Ereignisse";
@@ -538,7 +540,6 @@ return {
 ["Statement"] = "Statement";
 ["Status"] = "Status";
 ["Status quo: #{rank}"] = "Status quo: #{rank}";
-["Stop ignoring initiative"] = "Initiative nicht mehr ignorieren";
 ["Stop ignoring member"] = "nicht mehr ignorieren";
 ["Strict direct majority"] = "Strenge direkte Mehrheit";
 ["Strict indirect majority"] = "Strenge indirekte Mehrheit";
@@ -581,8 +582,13 @@ return {
 ["This member is already initiator of this initiative"] = "Dieses Mitglied ist bereits Initiator dieser Initiative";
 ["This member is already invited to become initiator of this initiative"] = "Dieses Mitglied ist bereits eingeladen Initiator dieser Initiative zu werden";
 ["This member is inactive"] = "Mitglied ist inaktiv";
+["This member is initiator of this initiative"] = "Dieses Mitglied ist Initiator dieser Initiative";
 ["This member is locked"] = "Mitglied ist gesperrt";
 ["This member is participating, the rest of delegation chain is suspended while discussing"] = "Dieses Mitglied partizipiert, Rest der Delegationskette während der Diskussion ausgesetzt.";
+["This member is potential supporter of this initiative"] = "Dieses Mitglied ist potentieller Unterstützer dieser Initiative";
+["This member is potential supporter of this initiative via delegation"] = "Dieses Mitglied ist durch Delegation potentieller Unterstützer dieser Initiative";
+["This member is supporter of this initiative"] = "Dieses Mitglied ist Unterstützer dieser Initiative";
+["This member is supporter of this initiative via delegation"] = "Dieses Mitglied ist durch Delegation Unterstützer dieser Initiative";
 ["This name is already taken, please choose another one!"] = "Dieser Name ist bereits vergeben, bitte wähle einen anderen!";
 ["This name is really too short!"] = "Dieser Name ist wirklich zu kurz!";
 ["This name is too short!"] = "Dieser Name ist zu kurz!";
@@ -611,6 +617,7 @@ return {
 ["Units"] = "Gliederungen";
 ["Units and areas"] = "Gliederungen und Themengebiete";
 ["Unknown author"] = "Unbekannter Autor";
+["Update voting comment"] = "Abstimmungskommentar ändern";
 ["Updated drafts"] = "Neue Entwürfe";
 ["Upload avatar/photo"] = "Avatar/Foto hochladen";
 ["Upload images"] = "Bilder hochladen";
@@ -622,13 +629,14 @@ return {
 ["Vote now"] = "Jetzt abstimmen";
 ["Voted"] = "Abgestimmt";
 ["Voted no"] = "Mit Nein gestimmt";
-["Voted proposal"] = "Abgestimmte Vorlage";
 ["Voted yes"] = "Mit Ja gestimmt";
 ["Voting"] = "Abstimmung";
-["Voting details"] = "Abstimmdetails";
+["Voting comment"] = "Abstimmungskommentar";
+["Voting comment (last updated: #{timestamp})"] = "Abstimmmungskommentar (Letzte Änderung: #{timestamp})";
+["Voting comment (optional)"] = "Abstimmmungskommentar (optional)";
+["Voting comment available"] = "Abstimmungskommentar verfügbar";
 ["Voting for this issue has already begun."] = "Die Abstimmung für dieses Thema hat schon begonnen.";
 ["Voting has not started yet."] = "Die Abstimmung hat noch nicht begonnen.";
-["Voting proposal"] = "Abstimmungsvorlage";
 ["Voting started"] = "Abstimmung begonnen";
 ["Voting starts soon"] = "Abstimmung beginnt in Kürze";
 ["Voting time"] = "Zeit für die Abstimmung";
@@ -642,6 +650,7 @@ return {
 ["Withdraw membership"] = "Mitgliedschaft aufgeben";
 ["Yes"] = "Ja";
 ["Yesterday at #{time}"] = "Gestern um #{time}";
+["You already voted this issue"] = "Du hast dieses Thema bereits abgestimmt";
 ["You are already initiator"] = "Du bist bereits Initiator";
 ["You are already not supporting this initiative"] = "Diese Initiative hat bereits keine Unterstützung von Dir";
 ["You are already supporting the latest draft"] = "Du unterstützt bereits den neuesten Entwurf";
@@ -670,7 +679,6 @@ return {
 ["You didn't confirm your email address '#{email}'. You have received an email with an activation link."] = "Du hast die E-Mail-Adresse '#{email}' nicht bestätigt. Du hast hierzu eine E-Mail mit einem Aktivierungslink erhalten.";
 ["You didn't save any member as contact yet."] = "Du hast noch kein Mitglied als Kontakt gespeichert!";
 ["You didn't set the level of notifications you like to receive"] = "Du hast noch nicht ausgewählt, ob und welche Benachrichtigungen du erhalten möchtest.";
-["You have ignored this initiative"] = "Du ignorierst diese Initiative";
 ["You have ignored this member"] = "Du ignorierst dieses Mitglied";
 ["You have not voted #{count} issue(s) you were interested in"] = "Du hast für #{count} Themen, die dich interessieren, noch nicht abgestimmt";
 ["You have to mark 'Are you sure' to revoke!"] = "Zum Zurückziehen musst Du 'Sicher?' auswählen";
@@ -726,7 +734,6 @@ return {
 ["inactive"] = "inaktiv";
 ["last 24 hours"] = "letzte 24 Stunden";
 ["login name"] = "Anmeldename";
-["majority"] = "Mehrheit";
 ["more unsatisfied"] = "sehr unzufrieden";
 ["must"] = "muss";
 ["must not"] = "darf nicht";
