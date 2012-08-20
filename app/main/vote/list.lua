@@ -434,7 +434,7 @@ ui.form{
       local rendered_comment = format.wiki_text(comment, formatting_engine)
       slot.put(rendered_comment)
     end
-    if (readonly or direct_voter.comment) and not preview then
+    if (readonly or direct_voter and direct_voter.comment) and not preview then
       local text
       if direct_voter and direct_voter.comment_changed then
         text = _("Voting comment (last updated: #{timestamp})", { timestamp = format.timestamp(direct_voter.comment_changed) })
