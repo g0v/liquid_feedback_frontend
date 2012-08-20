@@ -8,6 +8,10 @@ if selected then
   class = class .. " selected"
 end
 
+if initiative.polling then
+  class = class .. " polling"
+end
+
 ui.container{ attr = { class = class }, content = function()
 
   ui.container{ attr = { class = "rank" }, content = function()

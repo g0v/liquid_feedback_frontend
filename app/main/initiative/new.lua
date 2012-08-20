@@ -34,7 +34,9 @@ ui.form{
     else
       tmp = { { id = -1, name = _"Please choose a policy" } }
       for i, allowed_policy in ipairs(area.allowed_policies) do
-        tmp[#tmp+1] = allowed_policy
+        if not allowed_policy.polling or app.session.member:has_polling_right_for_unit_id(area.unit_id) then
+          tmp[#tmp+1] = allowed_policy
+        end
       end
       ui.field.select{
         label = _"Policy",
@@ -70,6 +72,10 @@ ui.form{
           }
         end
       }
+    end
+    
+    if issue and issue.policy.polling and app.session.member:has_polling_right_for_unit_id(area.unit_id) then
+      ui.field.boolean{ name = "polling", label = _"Poll" }
     end
     
     if param.get("preview") then

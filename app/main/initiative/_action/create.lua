@@ -76,6 +76,10 @@ if not issue then
     slot.put_into("error", "Invalid policy.")
     return false
   end
+  if policy.polling and not app.session.member:has_polling_right_for_unit_id(area.unit_id) then
+    error("no polling right for this unit")
+  end
+  
   if not area:get_reference_selector("allowed_policies")
     :add_where{ "policy.id = ?", policy_id }
     :optional_object_mode()
@@ -86,6 +90,13 @@ if not issue then
   issue = Issue:new()
   issue.area_id = area.id
   issue.policy_id = policy_id
+  
+  if policy.polling then
+    issue.accepted = 'now'
+    issue.state = 'discussion'
+    initiative.polling = true
+  end
+  
   issue:save()
 
   if config.etherpad then
@@ -99,6 +110,9 @@ if not issue then
   end
 end
 
+if param.get("polling", atom.boolean) and app.session.member:has_polling_right_for_unit_id(area.unit_id) then
+  initiative.polling = true
+end
 initiative.issue_id = issue.id
 initiative.name = name
 param.update(initiative, "discussion_url")

@@ -1076,6 +1076,11 @@ div.notifications {
   xfont-style: italic;
 }
 
+.initiative.polling .name,
+.initiative_head.polling .title {
+  font-style: italic;
+}
+
 @media screen and (max-width: 480px) {
   .initiative .name {
     clear: left;

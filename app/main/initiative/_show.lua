@@ -53,7 +53,13 @@ end)
 
 util.help("initiative.show")
 
-ui.container{ attr = { class = "initiative_head" }, content = function()
+local class = "initiative_head"
+
+if initiative.polling then
+  class = class .. " polling"
+end
+
+ui.container{ attr = { class = class }, content = function()
 
   local text = _("Initiative i#{id}: #{name}", { id = initiative.id, name = initiative.name }) 
   if show_as_head then
