@@ -24,10 +24,19 @@ else
   ui.title(_"Create new issue")
 end
 
-if not issue_id and app.session.member:has_polling_right_for_unit_id(area.unit_id) then
+local preview = param.get("preview")
+
+if not preview and not issue_id and app.session.member:has_polling_right_for_unit_id(area.unit_id) then
   ui.actions(function()
+    ui.link{ 
+      text = _"Standard policies",
+      module = "initiative", view = "new", params = {
+        area_id = area.id
+      }
+    }
     for i, policy in ipairs(area.allowed_policies) do
       if policy.polling  then
+        slot.put(" &middot; ")
         ui.link{ 
           text = policy.name,
           module = "initiative", view = "new", params = {
@@ -70,10 +79,11 @@ ui.form{
             name = _"free_timing",
             foreign_records = available_timings,
             foreign_id = "id",
-            foreign_name = "name"
+            foreign_name = "name",
+            value = param.get("free_timing")
           }
         else
-          ui.field.text{ label = _"Free timing", name = "free_timing" }
+          ui.field.text{ label = _"Free timing", name = "free_timing", value = param.get("free_timing") }
         end
       end
     else
@@ -123,7 +133,7 @@ ui.form{
       ui.field.boolean{ name = "polling", label = _"Poll" }
     end
     
-    if param.get("preview") then
+    if preview then
       ui.heading{ level = 1, content = encode.html(param.get("name")) }
       local discussion_url = param.get("discussion_url")
       ui.container{
