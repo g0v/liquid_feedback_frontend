@@ -1,6 +1,7 @@
 #!/usr/bin/env lua
 return {
-["#{count} xcancelled"] = "#{count} afgebroken";
+["#{closed_ago} ago"] = false;
+["#{count} cancelled"] = false;
 ["#{count} days ago"] = "#{count} dagen geleden";
 ["#{count} finished"] = "#{count} geëindigd";
 ["#{count} in discussion"] = "#{count} in discussie";
@@ -94,6 +95,7 @@ return {
 ["Can't remove last initiator"] = "De laatste initiatiefnemer kan niet verwijderd worden";
 ["Can't send confirmation email"] = "De bevestigingsemail kan niet verzonden worden.";
 ["Cancel"] = "Afbreken";
+["Cancel [nullify]"] = false;
 ["Cancel password reset"] = "Wachtwoord reset afbreken";
 ["Cancel refuse of invitation"] = "Uitnodiging weigeren afbreken";
 ["Cancel registration"] = "Registratie afbreken";
@@ -143,7 +145,6 @@ return {
 ["Create new policy"] = "Nieuwe procedure creëren";
 ["Create new unit"] = "Nieuwe dossier creëren";
 ["Created at"] = "Gecreëerd op";
-["Current draft"] = "Huidig ontwerp";
 ["Current name"] = "Huidige naam";
 ["Current status"] = "Huidige status";
 ["Current trustee"] = "De huidige gedelegeerde";
@@ -191,11 +192,11 @@ return {
 ["Discussion starts soon"] = "De discussie start snel";
 ["Discussion time"] = "Tijd voor discussie";
 ["Discussion with initiators"] = "Discussie met initiatiefnemers";
+["Do not vote directly"] = false;
 ["Download"] = "Download";
 ["Download database export"] = "Download database export";
 ["Download documents"] = "Download documenten";
 ["Draft"] = "Ontwerp";
-["Draft history"] = "Ontwerp historie";
 ["Edit"] = "Edit";
 ["Edit areas"] = "Edit themagebieden";
 ["Edit draft"] = "Edit ontwerp";
@@ -203,7 +204,6 @@ return {
 ["Edit my page"] = "Edit mijn pagina";
 ["Edit my profile"] = "Edit mijn profiel";
 ["Edit profile"] = "Edit profiel";
-["Edit unit"] = "Edit dossier";
 ["Eligible as winner"] = "Als winnaar aangewezen";
 ["Eligible voters"] = "Geschikte kiezers";
 ["Email address"] = "Emailadres";
@@ -235,6 +235,7 @@ return {
 ["Help #{id}"] = "Help #{id}";
 ["Help for: #{text}"] = "Hulp voor: #{text}";
 ["Hide"] = "Verbergen";
+["Hide active units"] = false;
 ["Hide filter details"] = "Filter-details verbergen";
 ["Hide this help message"] = "Deze helptekst verbergen";
 ["Hint"] = "Hint";
@@ -418,7 +419,6 @@ return {
 ["Organizational unit"] = "Organisatorische eenheid";
 ["Other failures"] = "Andere fouten";
 ["Outgoing delegations"] = "Uitgaande delegaties";
-["Pad"] = "Pad";
 ["Parent unit"] = "Moederdossier";
 ["Participants"] = "Deelnemers";
 ["Participate in this area"] = "Neem deel aan dit themagebied";
@@ -457,6 +457,7 @@ return {
 ["Potential supporters (before begin of voting)"] = "Potentieële ondersteuners (voor de stemming)";
 ["Potentially supported"] = "Potentieel ondersteund";
 ["Preview"] = "Preview";
+["Preview voting comment"] = false;
 ["Proceed with registration"] = "Ga verder met registratie";
 ["Profession"] = "Beroep";
 ["Profile"] = "Profiel";
@@ -519,6 +520,7 @@ return {
 ["Show diff"] = "Toon veranderingen";
 ["Show filter details"] = "Toon filter details";
 ["Show help text"] = "Toon help tekst";
+["Show inactive units"] = false;
 ["Show member"] = "Toon deelnemer";
 ["Show member history"] = "Toon historie van deelnemer";
 ["Show older events"] = "Toon oudere evenementen";
@@ -538,7 +540,6 @@ return {
 ["Statement"] = "Verklaring";
 ["Status"] = "Status";
 ["Status quo: #{rank}"] = "Status quo: #{rank}";
-["Stop ignoring initiative"] = "dit initiatief niet meer negeren";
 ["Stop ignoring member"] = "Deze deelnemer niet meer negeren";
 ["Strict direct majority"] = "Een strikte directe meerderheid";
 ["Strict indirect majority"] = "Een strikte indirecte meerderheid";
@@ -581,8 +582,13 @@ return {
 ["This member is already initiator of this initiative"] = "Deze deelnemer is al initiator van dit initiatief";
 ["This member is already invited to become initiator of this initiative"] = "Deze deelnemer is al uitgenodigd om initiator van dit initiatief worden";
 ["This member is inactive"] = "Deze deelnemer is niet actief";
+["This member is initiator of this initiative"] = false;
 ["This member is locked"] = "Deze deelnemer is vergrendeld";
 ["This member is participating, the rest of delegation chain is suspended while discussing"] = "Deze deelnemer participeerd, de rest van de delegatie is opgeschort gedurende de bespreking.";
+["This member is potential supporter of this initiative"] = false;
+["This member is potential supporter of this initiative via delegation"] = false;
+["This member is supporter of this initiative"] = false;
+["This member is supporter of this initiative via delegation"] = false;
 ["This name is already taken, please choose another one!"] = "Deze naam is al in gebruik, kiest u alstublieft een andere!";
 ["This name is really too short!"] = "Deze naam is echt te kort!";
 ["This name is too short!"] = "Deze naam is te kort!";
@@ -611,6 +617,7 @@ return {
 ["Units"] = "Dossiers";
 ["Units and areas"] = "Dossiers en themagebieden";
 ["Unknown author"] = "Onbekende auteur";
+["Update voting comment"] = false;
 ["Updated drafts"] = "Nieuwe ontwerpen";
 ["Upload avatar/photo"] = "Upload een avatar/foto";
 ["Upload images"] = "Laadt de plaatjes";
@@ -622,13 +629,14 @@ return {
 ["Vote now"] = "Nu stemmen";
 ["Voted"] = "Gestemd";
 ["Voted no"] = "Nee gestemd";
-["Voted proposal"] = "Stemmingsvoorstel";
 ["Voted yes"] = "Ja gestemd";
 ["Voting"] = "De stemming";
-["Voting details"] = "Stemmings details";
+["Voting comment"] = false;
+["Voting comment (last updated: #{timestamp})"] = false;
+["Voting comment (optional)"] = false;
+["Voting comment available"] = false;
 ["Voting for this issue has already begun."] = "De stemming over dit onderwerp is al begonnen.";
 ["Voting has not started yet."] = "De stemming is nog niet begonnen";
-["Voting proposal"] = "Stemmingsvoorstel";
 ["Voting started"] = "De stemming is begonnen";
 ["Voting starts soon"] = "De stemming begint snel";
 ["Voting time"] = "Tijd om te stemmen";
@@ -642,6 +650,7 @@ return {
 ["Withdraw membership"] = "Lidmaatschap terugtrekken";
 ["Yes"] = "Ja";
 ["Yesterday at #{time}"] = "Gisteren om #{time}";
+["You already voted this issue"] = false;
 ["You are already initiator"] = "U bent al initiator";
 ["You are already not supporting this initiative"] = "U bent al geen voorstander van dit initiatief";
 ["You are already supporting the latest draft"] = "U ondersteunt het laatste ontwerp al";
@@ -670,7 +679,6 @@ return {
 ["You didn't confirm your email address '#{email}'. You have received an email with an activation link."] = "U heeft uw emailadres '#{email}' niet bevestigd. U heeft een email met een activeringslink ontvangen.";
 ["You didn't save any member as contact yet."] = "U heeft geen enkele deelnemer als contact aangegeven!";
 ["You didn't set the level of notifications you like to receive"] = "U heeft niet aangegeven welke meldingen u wilt ontvangen.";
-["You have ignored this initiative"] = "U heeft dit initiatief genegeerd";
 ["You have ignored this member"] = "U heeft deze deelnemer genegeerd";
 ["You have not voted #{count} issue(s) you were interested in"] = "U hebt niet gestemd over #{count} onderwerp(en) waar u geïnteresseerd in was";
 ["You have to mark 'Are you sure' to revoke!"] = "Om terug te trekken moet u 'Weet u zeker dat' bevestigen";
@@ -696,12 +704,12 @@ return {
 ["[Name of Language]"] = "Nederlands";
 ["[No voting privilege]"] = "[geen stemrecht]";
 ["[Registered members only]"] = "[alleen voor leden]";
-["[event mail]       URL: #{url}"]    = "        URL: #{url}";
-["[event mail]      Area: #{name}"]   = "Themagebied: #{name}";
-["[event mail]      Unit: #{name}"]   = "    Dossier: #{name}";
-["[event mail]     Event: #{event}"]  = "Gebeurtenis: #{event}";
-["[event mail]     Issue: ##{id}"]    = "  Onderwerp: ##{id}";
-["[event mail]     Phase: #{phase}"]  = "       Fase: #{phase}";
+["[event mail]       URL: #{url}"] = "        URL: #{url}";
+["[event mail]      Area: #{name}"] = "Themagebied: #{name}";
+["[event mail]      Unit: #{name}"] = "    Dossier: #{name}";
+["[event mail]     Event: #{event}"] = "Gebeurtenis: #{event}";
+["[event mail]     Issue: ##{id}"] = "  Onderwerp: ##{id}";
+["[event mail]     Phase: #{phase}"] = "       Fase: #{phase}";
 ["[event mail]    Policy: #{policy}"] = "  Procedure: #{policy}";
 ["[not displayed public]"] = "[niet publiekelijk weergegeven]";
 ["a bit unsatisfied"] = "een beetje onbevredigend";
@@ -726,7 +734,6 @@ return {
 ["inactive"] = false;
 ["last 24 hours"] = "laatste 24 uur";
 ["login name"] = "login naam";
-["majority"] = "meerderheid";
 ["more unsatisfied"] = "meer ontevreden";
 ["must"] = "moet";
 ["must not"] = "mag niet";

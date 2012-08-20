@@ -1,5 +1,6 @@
 #!/usr/bin/env lua
 return {
+["#{closed_ago} ago"] = false;
 ["#{count} cancelled"] = "#{count} annullati";
 ["#{count} days ago"] = "#{count} giorni fa";
 ["#{count} finished"] = "#{count} terminati";
@@ -94,6 +95,7 @@ return {
 ["Can't remove last initiator"] = "Non posso eliminare l'ultimo promotore";
 ["Can't send confirmation email"] = "Non posso inviare l'email di conferma";
 ["Cancel"] = "Annulla";
+["Cancel [nullify]"] = false;
 ["Cancel password reset"] = "Annulla il ripristino della password";
 ["Cancel refuse of invitation"] = "Annulla il rifiuto all'invito";
 ["Cancel registration"] = "Annulla la registrazione";
@@ -190,6 +192,7 @@ return {
 ["Discussion starts soon"] = "La discussione sara' aperta presto";
 ["Discussion time"] = "Discussione in corso";
 ["Discussion with initiators"] = "Discussione con i promotori";
+["Do not vote directly"] = false;
 ["Download"] = "Scarica";
 ["Download database export"] = "Scarica il database esportato";
 ["Download documents"] = "Scarica i documenti";
@@ -201,7 +204,6 @@ return {
 ["Edit my page"] = "Modifica la mia pagina";
 ["Edit my profile"] = "Modifica il mio profilo";
 ["Edit profile"] = "Modifica il profilo";
-["Edit unit"] = "Modifica la sezione";
 ["Eligible as winner"] = "Candidato all'approvazione";
 ["Eligible voters"] = "Aventi diritto al voto";
 ["Email address"] = "Indirizzo email";
@@ -233,6 +235,7 @@ return {
 ["Help #{id}"] = "Aiuto #{id}";
 ["Help for: #{text}"] = "Aiuto su: #{text}";
 ["Hide"] = "Nascondi";
+["Hide active units"] = false;
 ["Hide filter details"] = "Nascondi i dettagli del filtro";
 ["Hide this help message"] = "Nascondi messaggio di aiuto";
 ["Hint"] = "Suggerimento";
@@ -337,7 +340,7 @@ return {
 ["Member page"] = "Pagina utente";
 ["Member successfully registered"] = "L'utente registrato con successo";
 ["Member successfully updated"] = "Utente aggiornato con successo";
-["Member voter"] ="Utente votante";
+["Member voter"] = "Utente votante";
 ["Member: '#{identification}' (#{name})"] = "Utente: '#{identification}' (#{name})";
 ["Members"] = "Utenti";
 ["Membership not existent"] = "Utente non esistente";
@@ -454,6 +457,7 @@ return {
 ["Potential supporters (before begin of voting)"] = "Sostenitori potenziali (prima del voto)";
 ["Potentially supported"] = "Potenzialmente sostenuto";
 ["Preview"] = "Anteprima";
+["Preview voting comment"] = false;
 ["Proceed with registration"] = "Continua con la registrazione";
 ["Profession"] = "Professione";
 ["Profile"] = "Profilo";
@@ -516,6 +520,7 @@ return {
 ["Show diff"] = "Mostra le differenze";
 ["Show filter details"] = "Mostra i dettagli del filtro";
 ["Show help text"] = "Mostra l'aiuto";
+["Show inactive units"] = false;
 ["Show member"] = "Mostra l'utente";
 ["Show member history"] = "Mostra la storia dell'utente";
 ["Show older events"] = "Mostra gli eventi piu' vecchi";
@@ -535,7 +540,6 @@ return {
 ["Statement"] = "Testo";
 ["Status"] = "Stato";
 ["Status quo: #{rank}"] = "Status quo: #{rank}";
-["Stop ignoring initiative"] = "Smetti di ignorare l'iniziativa";
 ["Stop ignoring member"] = "Smatti di ignorare l'utente";
 ["Strict direct majority"] = "Maggioranza diretta assoluta";
 ["Strict indirect majority"] = "Maggioranza indiretta assoluta";
@@ -578,8 +582,13 @@ return {
 ["This member is already initiator of this initiative"] = "L'utente e' gia' promotore di questa iniziativa";
 ["This member is already invited to become initiator of this initiative"] = "L'utente e' gia' invitato ad essere promotore di questa iniziativa";
 ["This member is inactive"] = "L'utente non e' attivo";
+["This member is initiator of this initiative"] = false;
 ["This member is locked"] = "L'utente e' bloccato";
 ["This member is participating, the rest of delegation chain is suspended while discussing"] = "L'utente sta partecipando, il resto della catena di deleghe e' sospeso durante la discussione";
+["This member is potential supporter of this initiative"] = false;
+["This member is potential supporter of this initiative via delegation"] = false;
+["This member is supporter of this initiative"] = false;
+["This member is supporter of this initiative via delegation"] = false;
 ["This name is already taken, please choose another one!"] = "Questo nome e' stato gia' scelto , prova a sceglierne un altro!";
 ["This name is really too short!"] = "Questo nome e' davvero troppo breve!";
 ["This name is too short!"] = "Questo nome e' troppo breve!";
@@ -608,6 +617,7 @@ return {
 ["Units"] = "Sezioni";
 ["Units and areas"] = "Sezioni e aree";
 ["Unknown author"] = "Autore sconosciuto";
+["Update voting comment"] = false;
 ["Updated drafts"] = "Bozze aggiornate";
 ["Upload avatar/photo"] = "Carica avatar/foto";
 ["Upload images"] = "Immagini caricate";
@@ -621,6 +631,10 @@ return {
 ["Voted no"] = "Votato no";
 ["Voted yes"] = "Votato si";
 ["Voting"] = "Votazione";
+["Voting comment"] = false;
+["Voting comment (last updated: #{timestamp})"] = false;
+["Voting comment (optional)"] = false;
+["Voting comment available"] = false;
 ["Voting for this issue has already begun."] = "La votazione per questa tematica e' gia' cominciata.";
 ["Voting has not started yet."] = "La votazione non e' ancora cominciata";
 ["Voting started"] = "La votazione e' iniziata";
@@ -636,6 +650,7 @@ return {
 ["Withdraw membership"] = "Ritira l'iscrizione";
 ["Yes"] = "Si";
 ["Yesterday at #{time}"] = "Ieri alle #{time}";
+["You already voted this issue"] = false;
 ["You are already initiator"] = "Sei gia' un promotore";
 ["You are already not supporting this initiative"] = "Non stai sostenendo questa iniziativa";
 ["You are already supporting the latest draft"] = "Stai gia' sostenendo l'ultima bozza";
@@ -664,7 +679,6 @@ return {
 ["You didn't confirm your email address '#{email}'. You have received an email with an activation link."] = "Non hai confermato l'indirizzo '#{email}'. Ti e' stato spedito un messaggio con il link di attivazione.";
 ["You didn't save any member as contact yet."] = "Ancora non hai salvato nessun utente come contatto.";
 ["You didn't set the level of notifications you like to receive"] = "Non hai impostato il livello di notifiche che vuoi ricevere.";
-["You have ignored this initiative"] = "Stai ignorando questa iniziativa";
 ["You have ignored this member"] = "Stai ignorando questo utente";
 ["You have not voted #{count} issue(s) you were interested in"] = "Non hai votato #{count} tematiche a cui sei interessato";
 ["You have to mark 'Are you sure' to revoke!"] = "Devi scegliere che 'Confermi' per revocare!";
@@ -720,7 +734,6 @@ return {
 ["inactive"] = "inattivo";
 ["last 24 hours"] = "ultime 24 ore";
 ["login name"] = "nome utente";
-["majority"] = "maggioranza";
 ["more unsatisfied"] = "maggiore disaccordo";
 ["must"] = "deve";
 ["must not"] = "non deve";

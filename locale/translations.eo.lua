@@ -1,5 +1,6 @@
 #!/usr/bin/env lua
 return {
+["#{closed_ago} ago"] = false;
 ["#{count} cancelled"] = false;
 ["#{count} days ago"] = false;
 ["#{count} finished"] = false;
@@ -94,6 +95,7 @@ return {
 ["Can't remove last initiator"] = "Ne povas forigi la lastan iniciinton";
 ["Can't send confirmation email"] = "Ne povas dissendi konfirmoretpoŝton.";
 ["Cancel"] = "Nuligi";
+["Cancel [nullify]"] = false;
 ["Cancel password reset"] = "Nuligi pasvortoremeton";
 ["Cancel refuse of invitation"] = "Nuligi rifuzon de la invito";
 ["Cancel registration"] = "Nuligi registradon";
@@ -143,7 +145,6 @@ return {
 ["Create new policy"] = "Krei novan regularon";
 ["Create new unit"] = false;
 ["Created at"] = "Kreita je";
-["Current draft"] = "Aktuala skizo";
 ["Current name"] = "Aktuala nomo";
 ["Current status"] = "Aktuala stato";
 ["Current trustee"] = false;
@@ -191,11 +192,11 @@ return {
 ["Discussion starts soon"] = false;
 ["Discussion time"] = "Tempo de la diskuto";
 ["Discussion with initiators"] = "Diskuto kun la iniciintoj";
+["Do not vote directly"] = false;
 ["Download"] = "Elŝuti";
 ["Download database export"] = "Elŝuti datumbazeksporton";
 ["Download documents"] = false;
 ["Draft"] = "Skizo";
-["Draft history"] = "Skizohistorio";
 ["Edit"] = "Redakti";
 ["Edit areas"] = false;
 ["Edit draft"] = "Redakti skizon";
@@ -203,7 +204,6 @@ return {
 ["Edit my page"] = "Redakti mian paĝon";
 ["Edit my profile"] = "Redakti mian profilon";
 ["Edit profile"] = false;
-["Edit unit"] = false;
 ["Eligible as winner"] = false;
 ["Eligible voters"] = false;
 ["Email address"] = "Retpoŝtadreso";
@@ -235,6 +235,7 @@ return {
 ["Help #{id}"] = "Helpo #{id}";
 ["Help for: #{text}"] = "Helpo por: #{text}";
 ["Hide"] = "Kaŝi";
+["Hide active units"] = false;
 ["Hide filter details"] = "Kaŝi filtrodetalojn";
 ["Hide this help message"] = false;
 ["Hint"] = "Konsilo";
@@ -418,7 +419,6 @@ return {
 ["Organizational unit"] = "Organiza unuo";
 ["Other failures"] = false;
 ["Outgoing delegations"] = "Elirantaj delegacioj";
-["Pad"] = false;
 ["Parent unit"] = false;
 ["Participants"] = false;
 ["Participate in this area"] = false;
@@ -457,6 +457,7 @@ return {
 ["Potential supporters (before begin of voting)"] = false;
 ["Potentially supported"] = false;
 ["Preview"] = "Antaŭrigardo";
+["Preview voting comment"] = false;
 ["Proceed with registration"] = false;
 ["Profession"] = "Profesio";
 ["Profile"] = "Profilo";
@@ -519,6 +520,7 @@ return {
 ["Show diff"] = "Montri diferencojn";
 ["Show filter details"] = "Montri filtrilodetalojn";
 ["Show help text"] = "Montri helpotekston";
+["Show inactive units"] = false;
 ["Show member"] = "Montri membron";
 ["Show member history"] = false;
 ["Show older events"] = false;
@@ -538,7 +540,6 @@ return {
 ["Statement"] = "Deklaro";
 ["Status"] = "Stato";
 ["Status quo: #{rank}"] = false;
-["Stop ignoring initiative"] = false;
 ["Stop ignoring member"] = false;
 ["Strict direct majority"] = false;
 ["Strict indirect majority"] = false;
@@ -581,8 +582,13 @@ return {
 ["This member is already initiator of this initiative"] = "Tiu membro estas jam iniciinto de tiu iniciato";
 ["This member is already invited to become initiator of this initiative"] = "Tiu membro estis jam invitita por esti inicionto de tiu iniciato";
 ["This member is inactive"] = false;
+["This member is initiator of this initiative"] = false;
 ["This member is locked"] = false;
 ["This member is participating, the rest of delegation chain is suspended while discussing"] = "Tiu membro partoprenas, la resta delegaciĉeno estas blokita dum la diskuto";
+["This member is potential supporter of this initiative"] = false;
+["This member is potential supporter of this initiative via delegation"] = false;
+["This member is supporter of this initiative"] = false;
+["This member is supporter of this initiative via delegation"] = false;
 ["This name is already taken, please choose another one!"] = "Tiu nomo estas jam prenita, bonvolu elekti alian!";
 ["This name is really too short!"] = "Tiu nomo estas vere tro mallonga!";
 ["This name is too short!"] = "Tiu nomo estas tro mallonga!";
@@ -611,6 +617,7 @@ return {
 ["Units"] = false;
 ["Units and areas"] = false;
 ["Unknown author"] = false;
+["Update voting comment"] = false;
 ["Updated drafts"] = "Skizoj ĝisdatigitaj";
 ["Upload avatar/photo"] = false;
 ["Upload images"] = "Alŝuti bildojn";
@@ -622,13 +629,14 @@ return {
 ["Vote now"] = false;
 ["Voted"] = "Balotita";
 ["Voted no"] = "Balotita nee";
-["Voted proposal"] = "Propono balotita";
 ["Voted yes"] = "Balotita jese";
 ["Voting"] = "Voĉdono";
-["Voting details"] = "Voĉdonodetaloj";
+["Voting comment"] = false;
+["Voting comment (last updated: #{timestamp})"] = false;
+["Voting comment (optional)"] = false;
+["Voting comment available"] = false;
 ["Voting for this issue has already begun."] = "Voĉdono pri tiu temo jam komenciĝis.";
 ["Voting has not started yet."] = "Voĉdono por ĉi tiu temo ankoraŭ ne komenciĝis.";
-["Voting proposal"] = "Privoĉdonendaj proponoj";
 ["Voting started"] = "Voĉdono komenciĝis";
 ["Voting starts soon"] = false;
 ["Voting time"] = "Tempo por la voĉdono";
@@ -642,6 +650,7 @@ return {
 ["Withdraw membership"] = false;
 ["Yes"] = "Jes";
 ["Yesterday at #{time}"] = false;
+["You already voted this issue"] = false;
 ["You are already initiator"] = "Vi estas jam iniciinto";
 ["You are already not supporting this initiative"] = "Vi jam malsubtenas tiun iniciaton";
 ["You are already supporting the latest draft"] = "Vi jam subtenas la plej novan skizon";
@@ -670,7 +679,6 @@ return {
 ["You didn't confirm your email address '#{email}'. You have received an email with an activation link."] = "Vi ne konfirmis vian retpoŝtadreson '#{email}'. Vi ricevis aktivigan ligilon.";
 ["You didn't save any member as contact yet."] = "Vi ankoraŭ ne konservis membron kiel kontakton!";
 ["You didn't set the level of notifications you like to receive"] = false;
-["You have ignored this initiative"] = false;
 ["You have ignored this member"] = false;
 ["You have not voted #{count} issue(s) you were interested in"] = false;
 ["You have to mark 'Are you sure' to revoke!"] = "Por nuligi vi devas elekti 'Ĉu certa?'";
@@ -726,7 +734,6 @@ return {
 ["inactive"] = false;
 ["last 24 hours"] = "lastaj 24 horoj";
 ["login name"] = "Salutnomo";
-["majority"] = false;
 ["more unsatisfied"] = "pli malkonsenta";
 ["must"] = "devas";
 ["must not"] = "ne rajtas";

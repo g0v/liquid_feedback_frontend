@@ -1,5 +1,6 @@
 #!/usr/bin/env lua
 return {
+["#{closed_ago} ago"] = false;
 ["#{count} cancelled"] = false;
 ["#{count} days ago"] = "#{count} nappal ezelõtt";
 ["#{count} finished"] = false;
@@ -94,6 +95,7 @@ return {
 ["Can't remove last initiator"] = "Nem távolítható el az utolsó kezdeményezõ";
 ["Can't send confirmation email"] = "Nem lehet elküldeni a megerõsítõ emailt";
 ["Cancel"] = "Megszakítás";
+["Cancel [nullify]"] = false;
 ["Cancel password reset"] = "Jelszóvisszaállítás megszakítása";
 ["Cancel refuse of invitation"] = "Meghívás elutasításának megszakítása";
 ["Cancel registration"] = "Regisztrálás megszakítása";
@@ -143,7 +145,6 @@ return {
 ["Create new policy"] = "Új irányelv létrehozása";
 ["Create new unit"] = "Új egység létrehozása";
 ["Created at"] = "Létrehozás idõpontja:";
-["Current draft"] = "Jelenlegi vázlat";
 ["Current name"] = "Jelenlegi név";
 ["Current status"] = "Jelenlegi állapot";
 ["Current trustee"] = false;
@@ -191,11 +192,11 @@ return {
 ["Discussion starts soon"] = "Rövidesen indul a tárgyalás";
 ["Discussion time"] = "Tárgyalás ideje";
 ["Discussion with initiators"] = "Tárgyalás a kezdeményezõkkel";
+["Do not vote directly"] = false;
 ["Download"] = "Letöltés";
 ["Download database export"] = "Exportált adatbázis letöltése";
 ["Download documents"] = "Dokumentumok letöltése";
 ["Draft"] = "Vázlat";
-["Draft history"] = "Vázlattörténet";
 ["Edit"] = "Szerkesztés";
 ["Edit areas"] = "Témakörök szerkesztése";
 ["Edit draft"] = "Vázlat szerkesztése";
@@ -203,7 +204,6 @@ return {
 ["Edit my page"] = "Saját oldalam szerkesztése";
 ["Edit my profile"] = "Saját profilom szerkesztése";
 ["Edit profile"] = false;
-["Edit unit"] = "Egység szerkesztése";
 ["Eligible as winner"] = "Gyõztesként választható";
 ["Eligible voters"] = false;
 ["Email address"] = "Email-cím";
@@ -235,6 +235,7 @@ return {
 ["Help #{id}"] = "Súgó: #{id}";
 ["Help for: #{text}"] = "Súgó: #{text}";
 ["Hide"] = "Elrejtés";
+["Hide active units"] = false;
 ["Hide filter details"] = "Szûrõrészletek elrejtése";
 ["Hide this help message"] = "Súgószöveg elrejtése";
 ["Hint"] = "Tipp";
@@ -418,7 +419,6 @@ return {
 ["Organizational unit"] = "Szervezeti egység";
 ["Other failures"] = "További hibák";
 ["Outgoing delegations"] = "Kimenõ delegációk";
-["Pad"] = false;
 ["Parent unit"] = false;
 ["Participants"] = false;
 ["Participate in this area"] = false;
@@ -457,6 +457,7 @@ return {
 ["Potential supporters (before begin of voting)"] = false;
 ["Potentially supported"] = "Potenciálisan támogatva";
 ["Preview"] = "Elõnézet";
+["Preview voting comment"] = false;
 ["Proceed with registration"] = false;
 ["Profession"] = "Foglalkozás";
 ["Profile"] = "Profil";
@@ -519,6 +520,7 @@ return {
 ["Show diff"] = "Változtatások mutatása";
 ["Show filter details"] = "Szûrõ-részletek mutatása";
 ["Show help text"] = "Súgószöveg mutatása";
+["Show inactive units"] = false;
 ["Show member"] = "Tag mutatása";
 ["Show member history"] = "Tag történetének mutatása";
 ["Show older events"] = "Régebbi események mutatása";
@@ -538,7 +540,6 @@ return {
 ["Statement"] = "Állítás";
 ["Status"] = "Állapot";
 ["Status quo: #{rank}"] = "Status quo: #{rank}";
-["Stop ignoring initiative"] = "kezdeményezés ignorálásának feloldása";
 ["Stop ignoring member"] = "tag ignorálásának feloldása";
 ["Strict direct majority"] = "Szigorú közvetlen többség";
 ["Strict indirect majority"] = "Szigorú közvetett többség";
@@ -581,8 +582,13 @@ return {
 ["This member is already initiator of this initiative"] = "Ez a tag már kezdeményezõje ennek a kezdeményezésnek";
 ["This member is already invited to become initiator of this initiative"] = "Ezt a tagot már meghívták kezdeményezõnek ehhez a kezdeményezéshez";
 ["This member is inactive"] = false;
+["This member is initiator of this initiative"] = false;
 ["This member is locked"] = false;
 ["This member is participating, the rest of delegation chain is suspended while discussing"] = "Résztvevõ tag. A delegációs lánc többi része a tárgyalás idejére felfüggesztve";
+["This member is potential supporter of this initiative"] = false;
+["This member is potential supporter of this initiative via delegation"] = false;
+["This member is supporter of this initiative"] = false;
+["This member is supporter of this initiative via delegation"] = false;
 ["This name is already taken, please choose another one!"] = "Ez a név már foglalt, kérlek, válassz másikat";
 ["This name is really too short!"] = "Ez a név tényleg túl rövid!";
 ["This name is too short!"] = "Ez a név túl rövid!";
@@ -611,6 +617,7 @@ return {
 ["Units"] = "Egységek";
 ["Units and areas"] = false;
 ["Unknown author"] = "Ismeretlen szerzõ";
+["Update voting comment"] = false;
 ["Updated drafts"] = "Frissített vázlatok";
 ["Upload avatar/photo"] = false;
 ["Upload images"] = "Képek feltöltése";
@@ -622,13 +629,14 @@ return {
 ["Vote now"] = false;
 ["Voted"] = "Szavazott";
 ["Voted no"] = "Nemmel szavazott";
-["Voted proposal"] = "Szavazott javaslat";
 ["Voted yes"] = "Igennel szavazott";
 ["Voting"] = "Szavazás";
-["Voting details"] = "Szavazás részletei";
+["Voting comment"] = false;
+["Voting comment (last updated: #{timestamp})"] = false;
+["Voting comment (optional)"] = false;
+["Voting comment available"] = false;
 ["Voting for this issue has already begun."] = "Már megkezdõdött a szavazás errõl a témáról.";
 ["Voting has not started yet."] = "Még nem kezdõdött el a szavazás.";
-["Voting proposal"] = "Szavazási javaslat";
 ["Voting started"] = "A szavazás megkezdõdött";
 ["Voting starts soon"] = "Rövidesen kezdõdik a szavazás";
 ["Voting time"] = "Szavazás idõpontja";
@@ -642,6 +650,7 @@ return {
 ["Withdraw membership"] = "Tagság feladása";
 ["Yes"] = "Igen";
 ["Yesterday at #{time}"] = false;
+["You already voted this issue"] = false;
 ["You are already initiator"] = "Már kezdeményezõ vagy";
 ["You are already not supporting this initiative"] = "Már jelezted, hogy nem támogatod ezt a kezdeményezést";
 ["You are already supporting the latest draft"] = "Már támogatod a legfrissebb vázlatot";
@@ -670,7 +679,6 @@ return {
 ["You didn't confirm your email address '#{email}'. You have received an email with an activation link."] = "Még nem erõsítetted meg a(z) '#{email}' emailcímedet a megerõsítõ mail aktivációs linkjével.";
 ["You didn't save any member as contact yet."] = "Még nem mentettél el senkit a kapcsolataid közé.";
 ["You didn't set the level of notifications you like to receive"] = "Még nem állítottad be, hogy milyen és mennyi értesítést szeretnél mirõl (ha egyáltalán)";
-["You have ignored this initiative"] = "Ignorálod ezt a kezdeményezést";
 ["You have ignored this member"] = "Ignorálod ezt a tagot";
 ["You have not voted #{count} issue(s) you were interested in"] = false;
 ["You have to mark 'Are you sure' to revoke!"] = "Visszavonáshoz be kell jelölnöd a 'Biztos?'-t is!";
@@ -726,7 +734,6 @@ return {
 ["inactive"] = false;
 ["last 24 hours"] = "elmúlt 24 óra";
 ["login name"] = "bejelentkezési név";
-["majority"] = "többség";
 ["more unsatisfied"] = "nagyon elégedetlen";
 ["must"] = "kell";
 ["must not"] = "tilos";

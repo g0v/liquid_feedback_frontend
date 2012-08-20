@@ -1,5 +1,6 @@
 #!/usr/bin/env lua
 return {
+["#{closed_ago} ago"] = false;
 ["#{count} cancelled"] = false;
 ["#{count} days ago"] = false;
 ["#{count} finished"] = false;
@@ -94,6 +95,7 @@ return {
 ["Can't remove last initiator"] = false;
 ["Can't send confirmation email"] = false;
 ["Cancel"] = false;
+["Cancel [nullify]"] = "Cancel";
 ["Cancel password reset"] = false;
 ["Cancel refuse of invitation"] = false;
 ["Cancel registration"] = false;
@@ -143,7 +145,6 @@ return {
 ["Create new policy"] = false;
 ["Create new unit"] = false;
 ["Created at"] = false;
-["Current draft"] = false;
 ["Current name"] = false;
 ["Current status"] = false;
 ["Current trustee"] = false;
@@ -191,11 +192,11 @@ return {
 ["Discussion starts soon"] = false;
 ["Discussion time"] = false;
 ["Discussion with initiators"] = false;
+["Do not vote directly"] = false;
 ["Download"] = false;
 ["Download database export"] = false;
 ["Download documents"] = false;
 ["Draft"] = false;
-["Draft history"] = false;
 ["Edit"] = false;
 ["Edit areas"] = false;
 ["Edit draft"] = false;
@@ -203,7 +204,6 @@ return {
 ["Edit my page"] = false;
 ["Edit my profile"] = false;
 ["Edit profile"] = false;
-["Edit unit"] = false;
 ["Eligible as winner"] = false;
 ["Eligible voters"] = false;
 ["Email address"] = false;
@@ -235,6 +235,7 @@ return {
 ["Help #{id}"] = false;
 ["Help for: #{text}"] = false;
 ["Hide"] = false;
+["Hide active units"] = false;
 ["Hide filter details"] = false;
 ["Hide this help message"] = false;
 ["Hint"] = false;
@@ -418,7 +419,6 @@ return {
 ["Organizational unit"] = false;
 ["Other failures"] = false;
 ["Outgoing delegations"] = false;
-["Pad"] = false;
 ["Parent unit"] = false;
 ["Participants"] = false;
 ["Participate in this area"] = false;
@@ -457,6 +457,7 @@ return {
 ["Potential supporters (before begin of voting)"] = false;
 ["Potentially supported"] = false;
 ["Preview"] = false;
+["Preview voting comment"] = false;
 ["Proceed with registration"] = false;
 ["Profession"] = false;
 ["Profile"] = false;
@@ -519,6 +520,7 @@ return {
 ["Show diff"] = false;
 ["Show filter details"] = false;
 ["Show help text"] = false;
+["Show inactive units"] = false;
 ["Show member"] = false;
 ["Show member history"] = false;
 ["Show older events"] = false;
@@ -538,7 +540,6 @@ return {
 ["Statement"] = false;
 ["Status"] = false;
 ["Status quo: #{rank}"] = false;
-["Stop ignoring initiative"] = false;
 ["Stop ignoring member"] = false;
 ["Strict direct majority"] = false;
 ["Strict indirect majority"] = false;
@@ -581,8 +582,13 @@ return {
 ["This member is already initiator of this initiative"] = false;
 ["This member is already invited to become initiator of this initiative"] = false;
 ["This member is inactive"] = false;
+["This member is initiator of this initiative"] = false;
 ["This member is locked"] = false;
 ["This member is participating, the rest of delegation chain is suspended while discussing"] = false;
+["This member is potential supporter of this initiative"] = false;
+["This member is potential supporter of this initiative via delegation"] = false;
+["This member is supporter of this initiative"] = false;
+["This member is supporter of this initiative via delegation"] = false;
 ["This name is already taken, please choose another one!"] = false;
 ["This name is really too short!"] = false;
 ["This name is too short!"] = false;
@@ -611,6 +617,7 @@ return {
 ["Units"] = false;
 ["Units and areas"] = false;
 ["Unknown author"] = false;
+["Update voting comment"] = false;
 ["Updated drafts"] = false;
 ["Upload avatar/photo"] = false;
 ["Upload images"] = false;
@@ -622,13 +629,14 @@ return {
 ["Vote now"] = false;
 ["Voted"] = false;
 ["Voted no"] = false;
-["Voted proposal"] = false;
 ["Voted yes"] = false;
 ["Voting"] = false;
-["Voting details"] = false;
+["Voting comment"] = false;
+["Voting comment (last updated: #{timestamp})"] = false;
+["Voting comment (optional)"] = false;
+["Voting comment available"] = false;
 ["Voting for this issue has already begun."] = false;
 ["Voting has not started yet."] = false;
-["Voting proposal"] = false;
 ["Voting started"] = false;
 ["Voting starts soon"] = false;
 ["Voting time"] = false;
@@ -642,6 +650,7 @@ return {
 ["Withdraw membership"] = false;
 ["Yes"] = false;
 ["Yesterday at #{time}"] = false;
+["You already voted this issue"] = false;
 ["You are already initiator"] = false;
 ["You are already not supporting this initiative"] = false;
 ["You are already supporting the latest draft"] = false;
@@ -670,7 +679,6 @@ return {
 ["You didn't confirm your email address '#{email}'. You have received an email with an activation link."] = false;
 ["You didn't save any member as contact yet."] = false;
 ["You didn't set the level of notifications you like to receive"] = false;
-["You have ignored this initiative"] = false;
 ["You have ignored this member"] = false;
 ["You have not voted #{count} issue(s) you were interested in"] = false;
 ["You have to mark 'Are you sure' to revoke!"] = false;
@@ -726,7 +734,6 @@ return {
 ["inactive"] = false;
 ["last 24 hours"] = false;
 ["login name"] = false;
-["majority"] = false;
 ["more unsatisfied"] = false;
 ["must"] = false;
 ["must not"] = false;

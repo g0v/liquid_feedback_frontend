@@ -1,5 +1,6 @@
 #!/usr/bin/env lua
 return {
+["#{closed_ago} ago"] = false;
 ["#{count} cancelled"] = "#{count} ακυρώθηκαν";
 ["#{count} days ago"] = "#{count} μέρες πριν";
 ["#{count} finished"] = "#{count} ολοκληρώθηκαν";
@@ -94,6 +95,7 @@ return {
 ["Can't remove last initiator"] = "Δεν μπορεί να αφαιρεθεί ο τελευταίος εισηγητής";
 ["Can't send confirmation email"] = "Δεν ήταν δυνατή η αποστολή email επιβεβαίωσης.";
 ["Cancel"] = "Άκυρο";
+["Cancel [nullify]"] = false;
 ["Cancel password reset"] = "Ακύρωση επαναφοράς κωδικού πρόσβασης";
 ["Cancel refuse of invitation"] = "Ακύρωση απόρριψης της πρόσκλησης";
 ["Cancel registration"] = "Ακύρωση εγγραφής";
@@ -143,7 +145,6 @@ return {
 ["Create new policy"] = "Δημιουργία νέου κανονισμού";
 ["Create new unit"] = "Δημιουργία νέας ενότητας";
 ["Created at"] = "Δημιουργήθηκε στις";
-["Current draft"] = "Τρέχον προσχέδιο";
 ["Current name"] = "Τρέχουσα ονομασία";
 ["Current status"] = "Τρέχουσα κατάσταση";
 ["Current trustee"] = "Τρέχων αντιπρόσωπος";
@@ -191,11 +192,11 @@ return {
 ["Discussion starts soon"] = "Η συζήτηση ξεκινά σύντομα";
 ["Discussion time"] = "Διάρκεια διαβούλευσης";
 ["Discussion with initiators"] = "Συζήτηση με τους εισηγητές";
+["Do not vote directly"] = false;
 ["Download"] = "Κατέβασμα";
 ["Download database export"] = "Κατέβασμα βάσης δεδομένων";
 ["Download documents"] = "Κατέβασμα εγγράφων";
 ["Draft"] = "Προσχέδιο";
-["Draft history"] = "Ιστορικό προσχεδίου";
 ["Edit"] = "Επεξεργασία";
 ["Edit areas"] = "Επεξεργασία τομέων";
 ["Edit draft"] = "Επεξεργασία προσχεδίου";
@@ -203,7 +204,6 @@ return {
 ["Edit my page"] = "Επεξεργασία της σελίδας μου";
 ["Edit my profile"] = "Επεξεργασία του προφίλ μου";
 ["Edit profile"] = "Επεξεργασία προφίλ";
-["Edit unit"] = "Επεξεργασία ενότητας";
 ["Eligible as winner"] = "Επιλέξιμο ως νικητής";
 ["Eligible voters"] = "Ψηφοφόροι";
 ["Email address"] = "Διεύθυνση email";
@@ -235,6 +235,7 @@ return {
 ["Help #{id}"] = "Βοήθεια #{id}";
 ["Help for: #{text}"] = "Βοήθεια για: #{text}";
 ["Hide"] = "Απόκρυψη";
+["Hide active units"] = false;
 ["Hide filter details"] = "Απόκρυψη λεπτομερειών φίλτρου";
 ["Hide this help message"] = "Απόκρυψη αυτού του μηνύματος βοήθειας";
 ["Hint"] = "Συμβουλή";
@@ -418,7 +419,6 @@ return {
 ["Organizational unit"] = "Ενότητα";
 ["Other failures"] = "Άλλες αποτυχίες";
 ["Outgoing delegations"] = "Εξερχόμενες αναθέσεις";
-["Pad"] = false;
 ["Parent unit"] = "Γονική ενότητα";
 ["Participants"] = "Συμμετέχοντες";
 ["Participate in this area"] = "Συμμετοχή σε αυτόν τον τομέα";
@@ -457,6 +457,7 @@ return {
 ["Potential supporters (before begin of voting)"] = "Δυνητικοί υποστηρικτές (πριν την έναρξη της ψηφοφορίας)";
 ["Potentially supported"] = "Ενδεχομένως να υποστηρίξω";
 ["Preview"] = "Προεπισκόπηση";
+["Preview voting comment"] = false;
 ["Proceed with registration"] = "Προχωρήστε με την εγγραφή";
 ["Profession"] = "Επάγγελμα";
 ["Profile"] = "Προφίλ";
@@ -519,6 +520,7 @@ return {
 ["Show diff"] = "Προβολή διαφορών";
 ["Show filter details"] = "Προβολή λεπτομερειών φίλτρου";
 ["Show help text"] = "Προβολή κειμένου βοήθειας";
+["Show inactive units"] = false;
 ["Show member"] = "Προβολή μέλους";
 ["Show member history"] = "Προβολή ιστορικού μέλους";
 ["Show older events"] = "Προβολή παλαιοτέρων συμβάντων";
@@ -538,7 +540,6 @@ return {
 ["Statement"] = "Δήλωση";
 ["Status"] = "Κατάσταση";
 ["Status quo: #{rank}"] = "Παρούσα κατάσταση: #{rank}";
-["Stop ignoring initiative"] = "Τερματισμός αγνόησης πρωτοβουλίας";
 ["Stop ignoring member"] = "Τερματισμός αγνόησης μέλους";
 ["Strict direct majority"] = "Αυστηρή άμεση πλειοψηφία";
 ["Strict indirect majority"] = "Αυστηρή έμμεση πλειοψηφία";
@@ -581,8 +582,13 @@ return {
 ["This member is already initiator of this initiative"] = "Αυτό το μέλος είναι ήδη εισηγητής αυτής της πρωτοβουλίας";
 ["This member is already invited to become initiator of this initiative"] = "Αυτό το μέλος έχει ήδη προσκληθεί να γίνει εισηγητής αυτής της πρωτοβουλίας";
 ["This member is inactive"] = "Αυτό το μέλος είναι ανενεργό";
+["This member is initiator of this initiative"] = false;
 ["This member is locked"] = "Αυτό το μέλος είναι κλειδωμένο";
 ["This member is participating, the rest of delegation chain is suspended while discussing"] = "Αυτό το μέλος συμμετέχει, η υπόλοιπη αλυσίδα αντιπροσώπευσης αναστέλεται κατά τη διάρκεια των συνομιλιών.";
+["This member is potential supporter of this initiative"] = false;
+["This member is potential supporter of this initiative via delegation"] = false;
+["This member is supporter of this initiative"] = false;
+["This member is supporter of this initiative via delegation"] = false;
 ["This name is already taken, please choose another one!"] = "Αυτό το όνομα υπάρχει ήδη, παρακαλώ επιλέξτε κάποιο άλλο!";
 ["This name is really too short!"] = "Αυτό το όνομα είναι πραγματικά πολύ μικρό!";
 ["This name is too short!"] = "Αυτό το όνομα είναι πολύ μικρό!";
@@ -611,6 +617,7 @@ return {
 ["Units"] = "Ενότητες";
 ["Units and areas"] = "Ενότητες και τομείς";
 ["Unknown author"] = "Άγνωστος συντάκτης";
+["Update voting comment"] = false;
 ["Updated drafts"] = "Νέα προσχέδια";
 ["Upload avatar/photo"] = "Ανέβασμα εικόνας/φωτό";
 ["Upload images"] = "Ανέβασμα φωτογραφίας";
@@ -622,13 +629,14 @@ return {
 ["Vote now"] = "Ψηφίστε τώρα";
 ["Voted"] = "Έχω ψηφίσει";
 ["Voted no"] = "Ψήφισε όχι";
-["Voted proposal"] = "Ψηφισμένη πρόταση";
 ["Voted yes"] = "Ψήφισε ναι";
 ["Voting"] = "Ψηφοφορία";
-["Voting details"] = "Λεπτομέρειες ψηφοφορίας";
+["Voting comment"] = false;
+["Voting comment (last updated: #{timestamp})"] = false;
+["Voting comment (optional)"] = false;
+["Voting comment available"] = false;
 ["Voting for this issue has already begun."] = "Η ψηφοφορία για αυτό το θέμα έχει ξεκινήσει ήδη.";
 ["Voting has not started yet."] = "Η ψηφοφορία δεν ξεκίνησε ακόμα.";
-["Voting proposal"] = "Πρόταση υπό ψηφοφορία";
 ["Voting started"] = "Η ψηφοφορία ξεκίνησε";
 ["Voting starts soon"] = "Η ψηφοφορία ξεκινά σύντομα";
 ["Voting time"] = "Διάρκεια ψηφοφορίας";
@@ -642,6 +650,7 @@ return {
 ["Withdraw membership"] = "Απόσυρση συμμετοχής";
 ["Yes"] = "Ναι";
 ["Yesterday at #{time}"] = "Χτες στις #{time}";
+["You already voted this issue"] = false;
 ["You are already initiator"] = "Είστε ήδη εισηγητής";
 ["You are already not supporting this initiative"] = "Ήδη δεν υποστηρίζετε αυτή την πρωτοβουλία";
 ["You are already supporting the latest draft"] = "Ήδη υποστηρίζετε το τελευταίο προσχέδιο";
@@ -670,7 +679,6 @@ return {
 ["You didn't confirm your email address '#{email}'. You have received an email with an activation link."] = "Δεν έχετε επιβεβαιώσει την διεύθυνση email σας ('#{email}'). Έχετε λάβει ένα email με ένα σύνδεσμο επιβεβαίωσης.";
 ["You didn't save any member as contact yet."] = "Δεν έχετε αποθηκεύσει κανένα μέλος στις επαφές σας ακόμα!";
 ["You didn't set the level of notifications you like to receive"] = "Δεν έχετε ορίσει το επίπεδο ειδοποιήσεων που θέλετε να λαμβάνετε.";
-["You have ignored this initiative"] = "Έχετε αγνοήσει αυτήν την πρωτοβουλία";
 ["You have ignored this member"] = "Έχετε αγνοήσει αυτό το μέλος";
 ["You have not voted #{count} issue(s) you were interested in"] = "Δεν έχετε ψηφίσει σε #{count} θέμα(τα) που σας ενδιέφεραν";
 ["You have to mark 'Are you sure' to revoke!"] = "Πρέπει να μαρκάρετε το 'Είστε σίγουροι;' για να ανακαλέσετε";
@@ -696,12 +704,12 @@ return {
 ["[Name of Language]"] = "Ελληνικά";
 ["[No voting privilege]"] = "[Χωρίς δικαίωμα ψήφου]";
 ["[Registered members only]"] = "[Μόνο εγγεγραμμένα μέλη]";
-["[event mail]       URL: #{url}"]    = "         URL: #{url}";
-["[event mail]      Area: #{name}"]   = "      Τομέας: #{name}";
-["[event mail]      Unit: #{name}"]   = "     Ενότητα: #{name}";
-["[event mail]     Event: #{event}"]  = "      Συμβάν: #{event}";
-["[event mail]     Issue: ##{id}"]    = "        Θέμα: ##{id}";
-["[event mail]     Phase: #{phase}"]  = "      Στάδιο: #{phase}";
+["[event mail]       URL: #{url}"] = "         URL: #{url}";
+["[event mail]      Area: #{name}"] = "      Τομέας: #{name}";
+["[event mail]      Unit: #{name}"] = "     Ενότητα: #{name}";
+["[event mail]     Event: #{event}"] = "      Συμβάν: #{event}";
+["[event mail]     Issue: ##{id}"] = "        Θέμα: ##{id}";
+["[event mail]     Phase: #{phase}"] = "      Στάδιο: #{phase}";
 ["[event mail]    Policy: #{policy}"] = "  Κανονισμός: #{policy}";
 ["[not displayed public]"] = "[δεν εμφανίζεται δημόσια]";
 ["a bit unsatisfied"] = "λίγο ανικανοποίητος/η";
@@ -726,7 +734,6 @@ return {
 ["inactive"] = "ανενεργός/ή";
 ["last 24 hours"] = "τις τελευταίες 24 ώρες";
 ["login name"] = "Όνομα σύνδεσης";
-["majority"] = "πλειοψηφία";
 ["more unsatisfied"] = "περισσότερο ανικανοποίητος/η";
 ["must"] = "οπωσδήποτε";
 ["must not"] = "με τίποτα";
