@@ -28,8 +28,10 @@ local selector = Issue:new_selector()
   :join("area", nil, "area.id = issue.area_id")
   :join("privilege", nil, { "privilege.unit_id = area.unit_id AND privilege.member_id = ? AND privilege.voting_right", app.session.member_id })
   :left_join("direct_voter", nil, { "direct_voter.issue_id = issue.id AND direct_voter.member_id = ?", app.session.member.id })
+  :left_join("non_voter", nil, { "non_voter.issue_id = issue.id AND non_voter.member_id = ?", app.session.member.id })
   :left_join("interest", nil, { "interest.issue_id = issue.id AND interest.member_id = ?", app.session.member.id })
   :add_where{ "direct_voter.member_id ISNULL" }
+  :add_where{ "non_voter.member_id ISNULL" }
   :add_where{ "interest.member_id NOTNULL" }
   :add_where{ "issue.fully_frozen NOTNULL" }
   :add_where{ "issue.closed ISNULL" }
