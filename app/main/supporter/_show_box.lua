@@ -78,14 +78,17 @@ end
 
 
 if not initiative.issue.closed then
-  slot.put(" &middot; ")
+  if not initiative.issue.fully_frozen and app.session.member:has_voting_right_for_unit_id(initiative.issue.area.unit_id) then
+    slot.put(" &middot; ")
+  end
   local ignored_initiative = IgnoredInitiative:by_pk(app.session.member.id, initiative.id)
   if ignored_initiative then
     ui.tag{
-      content = _"You have ignored this initiative"
+      content = _"Ignore initiative"
     }
+    slot.put(" (")
     ui.link{
-      text   = _"Stop ignoring initiative",
+      text   = _"Cancel [nullify]",
       module = "initiative",
       action = "update_ignore",
       id     = initiative.id,
@@ -100,6 +103,7 @@ if not initiative.issue.closed then
         }
       }
     }
+    slot.put(")")
   else
     ui.link{
       text    = _"Ignore initiative",
