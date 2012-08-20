@@ -1,5 +1,15 @@
 local issue = Issue:new_selector():add_where{ "id = ?", param.get("issue_id", atom.integer) }:for_share():single_object_mode():exec()
 
+if issue.closed then
+  slot.put_into("error", _"This issue is already closed.")
+  return false
+end
+
+if issue.state ~= "voting" then
+  slot.put_into("error", _"Voting has not started yet.")
+  return false
+end
+
 local direct_voter = DirectVoter:by_pk(issue.id, app.session.member_id)
 
 if direct_voter then
