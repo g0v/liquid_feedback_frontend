@@ -504,7 +504,7 @@ CREATE TABLE "issue" (
         "closed"                TIMESTAMPTZ,
         "ranks_available"       BOOLEAN         NOT NULL DEFAULT FALSE,
         "cleaned"               TIMESTAMPTZ,
-        "admission_time"        INTERVAL        NOT NULL,
+        "admission_time"        INTERVAL,
         "discussion_time"       INTERVAL        NOT NULL,
         "verification_time"     INTERVAL        NOT NULL,
         "voting_time"           INTERVAL        NOT NULL,
@@ -513,6 +513,8 @@ CREATE TABLE "issue" (
         "population"            INT4,
         "voter_count"           INT4,
         "status_quo_schulze_rank" INT4,
+        CONSTRAINT "admission_time_not_null_unless_instantly_accepted" CHECK (
+          "admission_time" NOTNULL OR ("accepted" NOTNULL AND "accepted" = "created") ),
         CONSTRAINT "valid_state" CHECK ((
           ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
           ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" NOTNULL AND "ranks_available" = FALSE) OR

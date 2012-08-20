@@ -33,6 +33,10 @@ ALTER TABLE "policy" ADD CONSTRAINT "timing" CHECK (
             "verification_time" ISNULL AND "voting_time" ISNULL ) );
 COMMENT ON COLUMN "policy"."polling" IS 'TRUE = special policy for non-user-generated issues without issue quorum, where certain initiatives (those having the "polling" flag set) do not need to pass the initiative quorum; "admission_time" MUST be set to NULL, the other timings may be set to NULL altogether, allowing individual timing for those issues';
 
+ALTER TABLE "issue" ALTER COLUMN "admission_time" DROP NOT NULL;
+ALTER TABLE "issue" ADD CONSTRAINT "admission_time_not_null_unless_instantly_accepted" CHECK (
+  "admission_time" NOTNULL OR ("accepted" NOTNULL AND "accepted" = "created") );
+
 ALTER TABLE "initiative" ADD COLUMN "polling" BOOLEAN NOT NULL DEFAULT FALSE;
 COMMENT ON COLUMN "initiative"."polling" IS 'Initiative does not need to pass the initiative quorum (see "policy"."polling")';
 
