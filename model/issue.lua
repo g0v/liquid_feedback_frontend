@@ -153,6 +153,8 @@ Issue:add_reference{
     selector:add_field("other_trustee.name", "other_trustee_name")
     selector:left_join("direct_voter", nil, { "direct_voter.issue_id = issue.id AND direct_voter.member_id = ?", options.member_id })
     selector:add_field("direct_voter.member_id NOTNULL", "direct_voted")
+    selector:left_join("non_voter", nil, { "non_voter.issue_id = issue.id AND non_voter.member_id = ?", options.member_id })
+    selector:add_field("non_voter.member_id NOTNULL", "non_voter")
     return selector
   end
 }

@@ -102,6 +102,43 @@ ui.container{ attr = { class = class }, content = function()
       params = { issue_id = issue.id }
     }
   end
+  
+  if voteable and not direct_voter then
+    if not issue.member_info.non_voter then
+      links[#links+1] ={
+        content = _"Do not vote directly",
+        module = "vote",
+        action = "non_voter",
+        params = { issue_id = issue.id },
+        routing = {
+          default = {
+            mode = "redirect",
+            module = request.get_module(),
+            view = request.get_view(),
+            id = param.get_id_cgi(),
+            params = param.get_all_cgi()
+          }
+        }
+      }
+    else
+      links[#links+1] = { attr = { class = "action" }, content = _"Do not vote directly" }
+      links[#links+1] ={
+        content = _"Cancel do not vote",
+        module = "vote",
+        action = "non_voter",
+        params = { issue_id = issue.id, delete = true },
+        routing = {
+          default = {
+            mode = "redirect",
+            module = request.get_module(),
+            view = request.get_view(),
+            id = param.get_id_cgi(),
+            params = param.get_all_cgi()
+          }
+        }
+      }
+    end
+  end
 
   if not for_member or for_member.id == app.session.member_id then
     
