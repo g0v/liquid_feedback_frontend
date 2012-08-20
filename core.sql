@@ -337,8 +337,8 @@ CREATE TABLE "policy" (
         "discussion_time"       INTERVAL,
         "verification_time"     INTERVAL,
         "voting_time"           INTERVAL,
-        "issue_quorum_num"      INT4            NOT NULL,
-        "issue_quorum_den"      INT4            NOT NULL,
+        "issue_quorum_num"      INT4,
+        "issue_quorum_den"      INT4,
         "initiative_quorum_num" INT4            NOT NULL,
         "initiative_quorum_den" INT4            NOT NULL,
         "direct_majority_num"           INT4    NOT NULL DEFAULT 1,
@@ -362,7 +362,10 @@ CREATE TABLE "policy" (
             "verification_time" NOTNULL AND "voting_time" NOTNULL ) OR
           ( "polling" = TRUE AND
             "admission_time" ISNULL AND "discussion_time" ISNULL AND
-            "verification_time" ISNULL AND "voting_time" ISNULL ) ) );
+            "verification_time" ISNULL AND "voting_time" ISNULL ) ),
+        CONSTRAINT "issue_quorum_if_and_only_if_not_polling" CHECK (
+          "polling" = "issue_quorum_num" ISNULL AND
+          "polling" = "issue_quorum_den" ISNULL ) );
 CREATE INDEX "policy_active_idx" ON "policy" ("active");
 
 COMMENT ON TABLE "policy" IS 'Policies for a particular proceeding type (timelimits, quorum)';
