@@ -11,10 +11,32 @@ else
   area = Area:new_selector():add_where{"id=?",area_id}:single_object_mode():exec()
 end
 
+local policy_id = param.get("policy_id", atom.integer)
+local policy
+
+if policy_id then
+  policy = Policy:by_id(policy_id)
+end
+
 if issue_id then
   ui.title(_"Add alternative initiative to issue")
 else
   ui.title(_"Create new issue")
+end
+
+if not issue_id and app.session.member:has_polling_right_for_unit_id(area.unit_id) then
+  ui.actions(function()
+    for i, policy in ipairs(area.allowed_policies) do
+      if policy.polling  then
+        ui.link{ 
+          text = policy.name,
+          module = "initiative", view = "new", params = {
+            area_id = area.id, policy_id = policy.id        
+          }
+        }
+      end
+    end
+  end)
 end
 
 ui.form{
@@ -31,6 +53,29 @@ ui.form{
     slot.put("<br />")
     if issue_id then
       ui.field.text{ label = _"Issue",  value = issue_id }
+    elseif policy_id then
+      ui.field.hidden{ name = "policy_id", value = policy.id }
+      ui.field.text{ label = _"Policy",  value = policy.name }
+      if policy.free_timeable then
+        local available_timings
+        if config.free_timing and config.free_timing.available_func then
+          available_timings = config.free_timing.available_func(policy)
+          if available_timings == false then
+            error("error in free timing config")
+          end
+        end
+        if available_timings then
+          ui.field.select{
+            label = _"Free timing",
+            name = _"free_timing",
+            foreign_records = available_timings,
+            foreign_id = "id",
+            foreign_name = "name"
+          }
+        else
+          ui.field.text{ label = _"Free timing", name = "free_timing" }
+        end
+      end
     else
       tmp = { { id = -1, name = _"Please choose a policy" } }
       for i, allowed_policy in ipairs(area.allowed_policies) do

@@ -12,5 +12,8 @@ param.update(
 )
 
 if policy.admission_time == "" then policy.admission_time = nil end
+if policy.discussion_time == "" then policy.discussion_time = nil end
+if policy.verification_time == "" then policy.verification_time = nil end
+if policy.voting_time == "" then policy.voting_time = nil end
 
 policy:save()

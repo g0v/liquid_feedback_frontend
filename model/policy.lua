@@ -18,3 +18,10 @@ function Policy:build_selector(args)
   selector:add_order_by("index")
   return selector
 end
+
+function Policy.object_get:free_timeable()
+  if self.discussion_time == nil and self.verification_time == nil and self.voting_time == nil then
+    return true
+  end
+  return false
+end
