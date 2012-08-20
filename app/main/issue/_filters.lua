@@ -354,6 +354,8 @@ if state == 'open' and app.session.member and member.id == app.session.member_id
       selector_modifier = function(selector)
         selector:left_join("direct_voter", nil, { "direct_voter.issue_id = issue.id AND direct_voter.member_id = ?", member.id })
         selector:add_where("direct_voter.member_id ISNULL")
+        selector:left_join("non_voter", nil, { "non_voter.issue_id = issue.id AND non_voter.member_id = ?", member.id })
+        selector:add_where("non_voter.member_id ISNULL")
       end
     },
     {

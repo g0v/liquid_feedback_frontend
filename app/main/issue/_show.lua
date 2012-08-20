@@ -123,7 +123,8 @@ ui.container{ attr = { class = class }, content = function()
     else
       links[#links+1] = { attr = { class = "action" }, content = _"Do not vote directly" }
       links[#links+1] ={
-        content = _"Cancel do not vote",
+        in_brackets = true,
+        content = _"Cancel [nullify]",
         module = "vote",
         action = "non_voter",
         params = { issue_id = issue.id, delete = true },
