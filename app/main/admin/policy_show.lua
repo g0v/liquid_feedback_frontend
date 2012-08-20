@@ -49,6 +49,7 @@ ui.form{
 
     ui.field.boolean{ label = _"No reverse beat path", name = "no_reverse_beat_path" }
     ui.field.boolean{ label = _"No multistage majority", name = "no_multistage_majority" }
+    ui.field.boolean{ label = _"Polling", name = "polling" }
 
 
     ui.field.boolean{ label = _"Active?", name = "active" }
