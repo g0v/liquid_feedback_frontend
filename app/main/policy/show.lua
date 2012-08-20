@@ -11,10 +11,10 @@ ui.form{
     else
       ui.field.text{ label = _"New" .. ":", value = "≤ " .. policy.admission_time }
     end
-    ui.field.text{ label = _"Discussion", value = policy.discussion_time }
-    ui.field.text{ label = _"Frozen", value = policy.verification_time }
-    ui.field.text{ label = _"Voting", value = policy.voting_time }
-
+    ui.field.text{ label = _"Discussion" .. ":", value = policy.discussion_time or _"variable" }
+    ui.field.text{ label = _"Frozen" .. ":", value = policy.verification_time or _"variable" }
+    ui.field.text{ label = _"Voting" .. ":", value = policy.voting_time or _"variable" }
+    
     if policy.polling then
       ui.field.text{ label = _"Issue quorum" .. ":", value = _"without" }
     else
