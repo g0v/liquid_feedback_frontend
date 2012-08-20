@@ -7,18 +7,21 @@ ui.form{
   attr = { class = "vertical" },
   content = function()
     ui.field.text{       label = _"Population",            name = "population" }
-    ui.field.text{       label = _"State",                 name = "state_name" }
     ui.field.timestamp{  label = _"Created at",            name = "created" }
-    ui.field.text{       label = _"Admission time",        value = issue.admission_time }
-    ui.field.text{
-      label = _"Issue quorum",
-      value = format.percentage(policy.issue_quorum_num / policy.issue_quorum_den)
-    }
-    if issue.population then
+    if policy.polling then
+      ui.field.text{       label = _"Admission time",        value = _"Automatically admitted (poll mode)" }
+    else
+      ui.field.text{       label = _"Admission time",        value = issue.admission_time }
       ui.field.text{
-        label = _"Currently required",
-        value = math.ceil(issue.population * policy.issue_quorum_num / policy.issue_quorum_den)
+        label = _"Issue quorum",
+        value = format.percentage(policy.issue_quorum_num / policy.issue_quorum_den)
       }
+      if issue.population then
+        ui.field.text{
+          label = _"Currently required",
+          value = math.ceil(issue.population * policy.issue_quorum_num / policy.issue_quorum_den)
+        }
+      end
     end
     if issue.accepted then
       ui.field.timestamp{  label = _"Accepted at",           name = "accepted" }
