@@ -8,7 +8,7 @@ function model.has_rendered_content(class, rendered_class, content_field_name)
 
     local selector = class:new_selector()
 
-    if class.primary_key then
+    if type(class.primary_key) == "table" then
       for i, key in ipairs(class.primary_key) do
         selector:add_where{ "$ = ?", { key }, self[key] }
         trace.debug(key, self[key], self.id)
@@ -26,7 +26,7 @@ function model.has_rendered_content(class, rendered_class, content_field_name)
           selector:add_where{ "$.$ = ?", { rendered_class.table }, { key }, self[key] }
         end
       else
-        selector:add_where{ "$.id = ?", { rendered_class.table }, self.id }
+        selector:add_where{ "$." .. class.table .. "_id = ?", { rendered_class.table }, self.id }
       end
       local rendered = selector:add_where{ "format = 'html'" }
       :optional_object_mode()
