@@ -33,7 +33,11 @@ ui.list{
       label_attr = { width = "200" },
       label = _"Phases",
       content = function(policy)
-        ui.field.text{ label = _"New" .. ":", value = "≤ " .. policy.admission_time }
+        if policy.polling then
+          ui.field.text{ label = _"New" .. ":", value = _"without" }
+        else
+          ui.field.text{ label = _"New" .. ":", value = "≤ " .. policy.admission_time }
+        end
         ui.field.text{ label = _"Discussion" .. ":", value = policy.discussion_time }
         ui.field.text{ label = _"Frozen" .. ":", value = policy.verification_time }
         ui.field.text{ label = _"Voting" .. ":", value = policy.voting_time }
@@ -43,10 +47,14 @@ ui.list{
       label_attr = { width = "200" },
       label = _"Quorum",
       content = function(policy)
-        ui.field.text{
-          label = _"Issue quorum" .. ":", 
-          value = "≥ " .. tostring(policy.issue_quorum_num) .. "/" .. tostring(policy.issue_quorum_den)
-        }
+        if policy.polling then
+          ui.field.text{ label = _"Issue quorum" .. ":", value = _"without" }
+        else
+          ui.field.text{
+            label = _"Issue quorum" .. ":", 
+            value = "≥ " .. tostring(policy.issue_quorum_num) .. "/" .. tostring(policy.issue_quorum_den)
+          }
+        end
         ui.field.text{
           label = _"Initiative quorum" .. ":", 
           value = "≥ " .. tostring(policy.initiative_quorum_num) .. "/" .. tostring(policy.initiative_quorum_den)
