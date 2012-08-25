@@ -55,6 +55,60 @@ COMMENT ON COLUMN "privilege"."initiative_right" IS 'Right to create an initiati
 COMMENT ON COLUMN "privilege"."voting_right"     IS 'Right to support initiatives, create and rate suggestions, and to vote';
 COMMENT ON COLUMN "privilege"."polling_right"    IS 'Right to create issues with policies having the "policy"."polling" flag set, and to add initiatives having the "initiative"."polling" flag set to those issues';
 
+DROP VIEW "member_contingent_left";
+DROP VIEW "member_contingent";
+ALTER TABLE "contingent" DROP CONSTRAINT "contingent_pkey";
+ALTER TABLE "contingent" ALTER COLUMN "time_frame" DROP NOT NULL;
+ALTER TABLE "contingent" ADD COLUMN "polling" BOOLEAN;
+ALTER TABLE "contingent" ADD PRIMARY KEY ("polling", "time_frame");
+COMMENT ON COLUMN "contingent"."polling" IS 'Determines if settings are for creating initiatives and new drafts of initiatives with "polling" flag set';
+
+CREATE VIEW "member_contingent" AS
+  SELECT
+    "member"."id" AS "member_id",
+    "contingent"."polling",
+    "contingent"."time_frame",
+    CASE WHEN "contingent"."text_entry_limit" NOTNULL THEN
+      (
+        SELECT count(1) FROM "draft"
+        JOIN "initiative" ON "initiative"."id" = "draft"."initiative_id"
+        WHERE "draft"."author_id" = "member"."id"
+        AND "initiative"."polling" = "contingent"."polling"
+        AND "draft"."created" > now() - "contingent"."time_frame"
+      ) + (
+        SELECT count(1) FROM "suggestion"
+        JOIN "initiative" ON "initiative"."id" = "suggestion"."initiative_id"
+        WHERE "suggestion"."author_id" = "member"."id"
+        AND "contingent"."polling" = FALSE
+        AND "suggestion"."created" > now() - "contingent"."time_frame"
+      )
+    ELSE NULL END AS "text_entry_count",
+    "contingent"."text_entry_limit",
+    CASE WHEN "contingent"."initiative_limit" NOTNULL THEN (
+      SELECT count(1) FROM "opening_draft" AS "draft"
+        JOIN "initiative" ON "initiative"."id" = "draft"."initiative_id"
+      WHERE "draft"."author_id" = "member"."id"
+      AND "initiative"."polling" = "contingent"."polling"
+      AND "draft"."created" > now() - "contingent"."time_frame"
+    ) ELSE NULL END AS "initiative_count",
+    "contingent"."initiative_limit"
+  FROM "member" CROSS JOIN "contingent";
+
+COMMENT ON VIEW "member_contingent" IS 'Actual counts of text entries and initiatives are calculated per member for each limit in the "contingent" table.';
+
+COMMENT ON COLUMN "member_contingent"."text_entry_count" IS 'Only calculated when "text_entry_limit" is not null in the same row';
+COMMENT ON COLUMN "member_contingent"."initiative_count" IS 'Only calculated when "initiative_limit" is not null in the same row';
+
+CREATE VIEW "member_contingent_left" AS
+  SELECT
+    "member_id",
+    "polling",
+    max("text_entry_limit" - "text_entry_count") AS "text_entries_left",
+    max("initiative_limit" - "initiative_count") AS "initiatives_left"
+  FROM "member_contingent" GROUP BY "member_id", "polling";
+
+COMMENT ON VIEW "member_contingent_left" IS 'Amount of text entries or initiatives which can be posted now instantly by a member. This view should be used by a frontend to determine, if the contingent for posting is exhausted.';
+
 CREATE OR REPLACE FUNCTION "freeze_after_snapshot"
   ( "issue_id_p" "issue"."id"%TYPE )
   RETURNS VOID

@@ -65,12 +65,15 @@ COMMENT ON COLUMN "system_setting"."member_ttl" IS 'Time after members get their
 
 
 CREATE TABLE "contingent" (
-        "time_frame"            INTERVAL        PRIMARY KEY,
+        PRIMARY KEY ("polling", "time_frame"),
+        "polling"               BOOLEAN,
+        "time_frame"            INTERVAL,
         "text_entry_limit"      INT4,
         "initiative_limit"      INT4 );
 
 COMMENT ON TABLE "contingent" IS 'Amount of text entries or initiatives a user may create within a given time frame. Only one row needs to be fulfilled for a member to be allowed to post. This table must not be empty.';
 
+COMMENT ON COLUMN "contingent"."polling"          IS 'Determines if settings are for creating initiatives and new drafts of initiatives with "polling" flag set';
 COMMENT ON COLUMN "contingent"."text_entry_limit" IS 'Number of new drafts or suggestions to be submitted by each member within the given time frame';
 COMMENT ON COLUMN "contingent"."initiative_limit" IS 'Number of new initiatives to be opened by each member within a given time frame';
 
@@ -2094,23 +2097,30 @@ COMMENT ON VIEW "issue_with_ranks_missing" IS 'Issues where voting was finished,
 CREATE VIEW "member_contingent" AS
   SELECT
     "member"."id" AS "member_id",
+    "contingent"."polling",
     "contingent"."time_frame",
     CASE WHEN "contingent"."text_entry_limit" NOTNULL THEN
       (
         SELECT count(1) FROM "draft"
+        JOIN "initiative" ON "initiative"."id" = "draft"."initiative_id"
         WHERE "draft"."author_id" = "member"."id"
+        AND "initiative"."polling" = "contingent"."polling"
         AND "draft"."created" > now() - "contingent"."time_frame"
       ) + (
         SELECT count(1) FROM "suggestion"
+        JOIN "initiative" ON "initiative"."id" = "suggestion"."initiative_id"
         WHERE "suggestion"."author_id" = "member"."id"
+        AND "contingent"."polling" = FALSE
         AND "suggestion"."created" > now() - "contingent"."time_frame"
       )
     ELSE NULL END AS "text_entry_count",
     "contingent"."text_entry_limit",
     CASE WHEN "contingent"."initiative_limit" NOTNULL THEN (
-      SELECT count(1) FROM "opening_draft"
-      WHERE "opening_draft"."author_id" = "member"."id"
-      AND "opening_draft"."created" > now() - "contingent"."time_frame"
+      SELECT count(1) FROM "opening_draft" AS "draft"
+        JOIN "initiative" ON "initiative"."id" = "draft"."initiative_id"
+      WHERE "draft"."author_id" = "member"."id"
+      AND "initiative"."polling" = "contingent"."polling"
+      AND "draft"."created" > now() - "contingent"."time_frame"
     ) ELSE NULL END AS "initiative_count",
     "contingent"."initiative_limit"
   FROM "member" CROSS JOIN "contingent";
@@ -2124,9 +2134,10 @@ COMMENT ON COLUMN "member_contingent"."initiative_count" IS 'Only calculated whe
 CREATE VIEW "member_contingent_left" AS
   SELECT
     "member_id",
+    "polling",
     max("text_entry_limit" - "text_entry_count") AS "text_entries_left",
     max("initiative_limit" - "initiative_count") AS "initiatives_left"
-  FROM "member_contingent" GROUP BY "member_id";
+  FROM "member_contingent" GROUP BY "member_id", "polling";
 
 COMMENT ON VIEW "member_contingent_left" IS 'Amount of text entries or initiatives which can be posted now instantly by a member. This view should be used by a frontend to determine, if the contingent for posting is exhausted.';
 
