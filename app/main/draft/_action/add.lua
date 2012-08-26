@@ -1,9 +1,3 @@
-local tmp = db:query({ "SELECT text_entries_left FROM member_contingent_left WHERE member_id = ?", app.session.member.id }, "opt_object")
-if tmp and tmp.text_entries_left and tmp.text_entries_left < 1 then
-  slot.put_into("error", _"Sorry, you have reached your personal flood limit. Please be slower...")
-  return false
-end
-
 local initiative = Initiative:by_id(param.get("initiative_id", atom.integer))
 
 -- TODO important m1 selectors returning result _SET_!
@@ -20,6 +14,12 @@ end
 local initiator = Initiator:by_pk(initiative.id, app.session.member.id)
 if not initiator or not initiator.accepted then
   error("access denied")
+end
+
+local tmp = db:query({ "SELECT text_entries_left FROM member_contingent_left WHERE member_id = ? AND polling = ?", app.session.member.id, initiative.polling }, "opt_object")
+if not tmp or tmp.text_entries_left < 1 then
+  slot.put_into("error", _"Sorry, you have reached your personal flood limit. Please be slower...")
+  return false
 end
 
 local formatting_engine = param.get("formatting_engine")

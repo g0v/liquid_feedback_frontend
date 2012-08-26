@@ -1,15 +1,3 @@
-local tmp = db:query({ "SELECT text_entries_left, initiatives_left FROM member_contingent_left WHERE member_id = ?", app.session.member.id }, "opt_object")
-if tmp then
-  if tmp.initiatives_left and tmp.initiatives_left < 1 then
-    slot.put_into("error", _"Sorry, your contingent for creating initiatives has been used up. Please try again later.")
-    return false
-  end
-  if tmp.text_entries_left and tmp.text_entries_left < 1 then
-    slot.put_into("error", _"Sorry, you have reached your personal flood limit. Please be slower...")
-    return false
-  end
-end
-
 local issue
 local area
 
@@ -35,6 +23,46 @@ end
 
 if not app.session.member:has_voting_right_for_unit_id(area.unit_id) then
   error("access denied")
+end
+
+local policy_id = param.get("policy_id", atom.integer)
+local policy
+if policy_id then
+  policy = Policy:by_id(policy_id)
+end
+
+if not issue then
+  if policy_id == -1 then
+    slot.put_into("error", _"Please choose a policy")
+    return false
+  end
+  if not policy.active then
+    slot.put_into("error", "Invalid policy.")
+    return false
+  end
+  if policy.polling and not app.session.member:has_polling_right_for_unit_id(area.unit_id) then
+    error("no polling right for this unit")
+  end
+  
+  if not area:get_reference_selector("allowed_policies")
+    :add_where{ "policy.id = ?", policy_id }
+    :optional_object_mode()
+    :exec()
+  then
+    error("policy not allowed")
+  end
+end
+
+local is_polling = (issue and param.get("polling", atom.boolean)) or (policy and policy.polling) or false
+
+local tmp = db:query({ "SELECT text_entries_left, initiatives_left FROM member_contingent_left WHERE member_id = ? AND polling = ?", app.session.member.id, is_polling }, "opt_object")
+if not tmp or tmp.initiatives_left < 1 then
+  slot.put_into("error", _"Sorry, your contingent for creating initiatives has been used up. Please try again later.")
+  return false
+end
+if tmp and tmp.text_entries_left < 1 then
+  slot.put_into("error", _"Sorry, you have reached your personal flood limit. Please be slower...")
+  return false
 end
 
 local name = param.get("name")
@@ -66,27 +94,6 @@ end
 local initiative = Initiative:new()
 
 if not issue then
-  local policy_id = param.get("policy_id", atom.integer)
-  if policy_id == -1 then
-    slot.put_into("error", _"Please choose a policy")
-    return false
-  end
-  local policy = Policy:by_id(policy_id)
-  if not policy.active then
-    slot.put_into("error", "Invalid policy.")
-    return false
-  end
-  if policy.polling and not app.session.member:has_polling_right_for_unit_id(area.unit_id) then
-    error("no polling right for this unit")
-  end
-  
-  if not area:get_reference_selector("allowed_policies")
-    :add_where{ "policy.id = ?", policy_id }
-    :optional_object_mode()
-    :exec()
-  then
-    error("policy not allowed")
-  end
   issue = Issue:new()
   issue.area_id = area.id
   issue.policy_id = policy_id

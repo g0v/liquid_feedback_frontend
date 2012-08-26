@@ -11,6 +11,8 @@ else
   area = Area:new_selector():add_where{"id=?",area_id}:single_object_mode():exec()
 end
 
+local polling = param.get("polling", atom.boolean)
+
 local policy_id = param.get("policy_id", atom.integer)
 local policy
 
@@ -62,7 +64,7 @@ ui.form{
     slot.put("<br />")
     if issue_id then
       ui.field.text{ label = _"Issue",  value = issue_id }
-    elseif policy_id then
+    elseif policy then
       ui.field.hidden{ name = "policy_id", value = policy.id }
       ui.field.text{ label = _"Policy",  value = policy.name }
       if policy.free_timeable then
@@ -89,7 +91,7 @@ ui.form{
     else
       tmp = { { id = -1, name = _"Please choose a policy" } }
       for i, allowed_policy in ipairs(area.allowed_policies) do
-        if not allowed_policy.polling or app.session.member:has_polling_right_for_unit_id(area.unit_id) then
+        if not allowed_policy.polling then
           tmp[#tmp+1] = allowed_policy
         end
       end
@@ -130,7 +132,7 @@ ui.form{
     end
     
     if issue and issue.policy.polling and app.session.member:has_polling_right_for_unit_id(area.unit_id) then
-      ui.field.boolean{ name = "polling", label = _"Poll" }
+      ui.field.boolean{ name = "polling", label = _"Poll", value = polling }
     end
     
     if preview then
