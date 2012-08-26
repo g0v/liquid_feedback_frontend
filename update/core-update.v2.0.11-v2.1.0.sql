@@ -59,8 +59,9 @@ DROP VIEW "member_contingent_left";
 DROP VIEW "member_contingent";
 ALTER TABLE "contingent" DROP CONSTRAINT "contingent_pkey";
 ALTER TABLE "contingent" ALTER COLUMN "time_frame" DROP NOT NULL;
-ALTER TABLE "contingent" ADD COLUMN "polling" BOOLEAN;
+ALTER TABLE "contingent" ADD COLUMN "polling" BOOLEAN DEFAULT FALSE;
 ALTER TABLE "contingent" ADD PRIMARY KEY ("polling", "time_frame");
+ALTER TABLE "contingent" ALTER COLUMN "polling" DROP DEFAULT;
 COMMENT ON COLUMN "contingent"."polling" IS 'Determines if settings are for creating initiatives and new drafts of initiatives with "polling" flag set';
 
 CREATE VIEW "member_contingent" AS
