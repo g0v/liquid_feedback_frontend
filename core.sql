@@ -2925,10 +2925,10 @@ CREATE FUNCTION "lock_issue"
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
-      LOCK TABLE "member"     IN SHARE MODE;
-      LOCK TABLE "privilege"  IN SHARE MODE;
-      LOCK TABLE "membership" IN SHARE MODE;
-      LOCK TABLE "policy"     IN SHARE MODE;
+      LOCK TABLE "member"     IN EXCLUSIVE MODE;
+      LOCK TABLE "privilege"  IN EXCLUSIVE MODE;
+      LOCK TABLE "membership" IN EXCLUSIVE MODE;
+      LOCK TABLE "policy"     IN EXCLUSIVE MODE;
       PERFORM NULL FROM "issue" WHERE "id" = "issue_id_p" FOR UPDATE;
       -- NOTE: The row-level exclusive lock in combination with the
       -- share_row_lock_issue(_via_initiative)_trigger functions (which
@@ -2936,7 +2936,7 @@ CREATE FUNCTION "lock_issue"
       -- is changed, which could affect calculation of snapshots or
       -- counting of votes. Table "delegation" must be table-level-locked,
       -- as it also contains issue- and global-scope delegations.
-      LOCK TABLE "delegation" IN SHARE MODE;
+      LOCK TABLE "delegation" IN EXCLUSIVE MODE;
       LOCK TABLE "direct_population_snapshot"     IN EXCLUSIVE MODE;
       LOCK TABLE "delegating_population_snapshot" IN EXCLUSIVE MODE;
       LOCK TABLE "direct_interest_snapshot"       IN EXCLUSIVE MODE;
