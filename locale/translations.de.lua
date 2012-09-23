@@ -22,6 +22,7 @@ return {
 ["#{time_left} left"] = "noch #{time_left}";
 ["(#{more_count} duplicates removed)"] = "(#{more_count} Duplikate entfernt)";
 ["(new window)"] = "(neues Fenster)";
+[")) == "] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = false;
 ["A-Z"] = "A-Z";
@@ -223,6 +224,7 @@ return {
 ["Finished"] = "Abgeschlossen";
 ["Finished (with winner)"] = "Abgeschlossen (mit Gewinner)";
 ["Finished (without winner)"] = "Abgeschlossen (ohne Gewinner)";
+["Free timing"] = "Freie Zeitsteuerung";
 ["Friday"] = "Freitag";
 ["Frozen"] = "Eingefroren";
 ["Fully frozen at"] = "Ganz eingefroren am/um";
@@ -250,6 +252,7 @@ return {
 ["Ignore initiative"] = "Initiative ignorieren";
 ["Ignore member"] = "Mitglied ignorieren";
 ["Images"] = "Bilder";
+["Implicitly admitted"] = "Implizit zugelassen";
 ["Incoming delegations"] = "Eingehende Delegationen";
 ["Index"] = "Positionsnummer";
 ["Indirect majority"] = "Indirekte Mehrheit";
@@ -340,7 +343,6 @@ return {
 ["Member page"] = "Mitgliederseite";
 ["Member successfully registered"] = "Mitglied erfolgreich registriert";
 ["Member successfully updated"] = "Mitglied erfolgreich aktualisert";
-["Member voter"] = false;
 ["Member: '#{identification}' (#{name})"] = "Mitglied: '#{identification}' (#{name})";
 ["Members"] = "Mitglieder";
 ["Membership not existent"] = "Mitgliedschaft existiert nicht";
@@ -371,6 +373,7 @@ return {
 ["New suggestion"] = "Neue Anregung";
 ["Newest"] = "Neueste";
 ["No"] = "Nein";
+["No admission needed"] = "Keine Zulassung nötig";
 ["No changes to your images were made"] = "An Deinen Bildern wurde nichts geändert";
 ["No default"] = "Kein Standard";
 ["No delegation"] = "Keine Delegation";
@@ -450,6 +453,7 @@ return {
 ["Policy"] = "Regelwerk";
 ["Policy '#{name}'"] = "Regelwerk '#{name}'";
 ["Policy list"] = "Liste der Regelwerke";
+["Polling mode"] = "Befragungsmodus";
 ["Population"] = "Grundgesamtheit";
 ["Posts"] = "Ämter";
 ["Potential supported"] = "Potentiell unterstützt";
@@ -535,8 +539,8 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Sorry, Du hast Dein persönliches Flood-Limit erreicht. Bitte sei langsamer...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Sorry, Dein Antragskontingent ist zur Zeit ausgeschöpft. Bitte versuche es später erneut!";
 ["Source"] = "Quelltext";
+["Standard policies"] = "Standardverfahren";
 ["Start search"] = "Suche starten";
-["State"] = "Zustand";
 ["Statement"] = "Statement";
 ["Status"] = "Status";
 ["Status quo: #{rank}"] = "Status quo: #{rank}";
@@ -630,6 +634,7 @@ return {
 ["Voted"] = "Abgestimmt";
 ["Voted no"] = "Mit Nein gestimmt";
 ["Voted yes"] = "Mit Ja gestimmt";
+["Voters"] = "Abstimmende";
 ["Voting"] = "Abstimmung";
 ["Voting comment"] = "Abstimmungskommentar";
 ["Voting comment (last updated: #{timestamp})"] = "Abstimmmungskommentar (Letzte Änderung: #{timestamp})";
@@ -751,7 +756,9 @@ return {
 ["to reset your password please click on the following link:\n\n"] = "um Dein Kennwort zurückzusetzen klicke bitte den folgenden Link an:\n\n";
 ["unit"] = "Gliederung";
 ["until"] = "bis";
+["variable"] = "variabel";
 ["with winner"] = "mit Gewinner";
+["without"] = "ohne";
 ["without winner"] = "ohne Gewinner";
 ["xmpp"] = "Jabber (XMPP)";
 }
