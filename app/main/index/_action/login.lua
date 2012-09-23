@@ -1,4 +1,7 @@
-local member = Member:by_login_and_password(param.get('login'), param.get('password'))
+local login = param.get("login")
+local password = param.get("password")
+
+local member = Member:by_login_and_password(login, password)
 
 function do_etherpad_auth(member)
   local result = net.curl(
@@ -59,6 +62,11 @@ if member then
   else
     app.session.lang = member.lang
   end
+
+  if member.password_hash_needs_update then
+    member:set_password(password)
+  end
+  
   member:save()
   app.session.member = member
   app.session:save()

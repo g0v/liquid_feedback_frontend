@@ -5,6 +5,18 @@
 
 config.app_version = "2.0.5"
 
+if not config.password_hash_algorithm then
+  config.password_hash_algorithm = "crypt_sha512"
+end
+
+if not config.password_hash_min_rounds then
+ config.password_hash_min_rounds = 10000
+end
+
+if not config.password_hash_max_rounds then
+  config.password_hash_max_rounds = 20000
+end
+
 if config.enabled_languages == nil then
   config.enabled_languages = { 'en', 'de', 'eo', 'el', 'hu', 'it', 'nl', 'zh-Hans', 'zh-TW' }
 end

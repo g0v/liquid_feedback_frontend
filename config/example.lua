@@ -99,6 +99,19 @@ config.public_access = "none"
 -- config.mail_from = { name = "LiquidFeedback", address = "liquidfeedback@example.com" }
 -- config.mail_reply_to = { name = "Support", address = "support@example.com" }
 
+-- Configuration of password hashing algorithm (defaults to "crypt_sha512")
+-- ------------------------------------------------------------------------
+-- config.password_hash_algorithm = "crypt_sha512"
+-- config.password_hash_algorithm = "crypt_sha256"
+-- config.password_hash_algorithm = "crypt_md5"
+
+-- Number of rounds for crypt_sha* algorithms, minimum and maximum
+-- (defaults to minimum 10000 and maximum 20000)
+-- ------------------------------------------------------------------------
+-- config.password_hash_min_rounds = 10000
+-- config.password_hash_max_rounds = 20000
+
+
 -- Supply custom url for avatar/photo delivery
 -- ------------------------------------------------------------------------
 -- config.fastpath_url_func = nil

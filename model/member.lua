@@ -271,14 +271,46 @@ end
 
 function Member.object:set_password(password)
   trace.disable()
+  
+  local hash_prefix
+  local salt_length
+
+  local function rounds()
+    return multirand.integer(
+      config.password_hash_min_rounds,
+      config.password_hash_max_rounds
+    )
+  end
+      
+  if config.password_hash_algorithm == "crypt_md5" then
+    hash_prefix = "$1$" 
+    salt_length = 8
+    
+  elseif config.password_hash_algorithm == "crypt_sha256" then
+    hash_prefix = "$5$rounds=" .. rounds() .. "$"
+    salt_length = 16
+    
+  elseif config.password_hash_algorithm == "crypt_sha512" then
+    hash_prefix = "$6$rounds=" .. rounds() .. "$"
+    salt_length = 16
+    
+  else
+    error("Unknown hash algorithm selected in configuration")
+
+  end
+
   local hash = extos.crypt(
     password,
-    "$1$" .. multirand.string(
-      8,
+    hash_prefix .. multirand.string(
+      salt_length,
       "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz./"
     )
   )
-  assert(hash, "extos.crypt failed")
+
+  if not hash or hash:sub(1, #hash_prefix) ~= hash_prefix then
+    error("Password hashing algorithm failed")
+  end
+  
   self.password = hash
 end
 
@@ -288,6 +320,44 @@ function Member.object:check_password(password)
   else
     return false
   end
+end
+
+function Member.object_get:password_hash_needs_update()
+  
+  if self.password == nil then
+    return nil
+  end
+
+  local function check_rounds(rounds)
+    if rounds then
+      rounds = tonumber(rounds)
+      if 
+        rounds >= config.password_hash_min_rounds and 
+        rounds <= config.password_hash_max_rounds
+      then
+        return false
+      end
+    end
+    return true
+  end
+  
+  if config.password_hash_algorithm == "crypt_md5" then
+
+    return self.password:sub(1,3) ~= "$1$"
+    
+  elseif config.password_hash_algorithm == "crypt_sha256" then
+    
+    return check_rounds(self.password:match("^%$5%$rounds=([1-9][0-9]*)%$"))
+    
+  elseif config.password_hash_algorithm == "crypt_sha512" then
+
+    return check_rounds(self.password:match("^%$6%$rounds=([1-9][0-9]*)%$"))
+
+  else
+    error("Unknown hash algorithm selected in configuration")
+
+  end
+  
 end
 
 function Member.object_get:published_contacts()
