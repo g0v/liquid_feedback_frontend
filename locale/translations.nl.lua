@@ -22,6 +22,7 @@ return {
 ["#{time_left} left"] = "nog #{time_left}";
 ["(#{more_count} duplicates removed)"] = "(#{more_count} dubbelingen verwijderd)";
 ["(new window)"] = "(nieuw venster)";
+[")) == "] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = false;
 ["A-Z"] = "A-Z";
@@ -223,6 +224,7 @@ return {
 ["Finished"] = "Afgesloten";
 ["Finished (with winner)"] = "Afgesloten (met winnaar)";
 ["Finished (without winner)"] = "Afgesloten (zonder winnaar)";
+["Free timing"] = false;
 ["Friday"] = "Vrijdag";
 ["Frozen"] = "Bevroren";
 ["Fully frozen at"] = "Totaal bevroren op";
@@ -250,6 +252,7 @@ return {
 ["Ignore initiative"] = "Negeer initiatieven";
 ["Ignore member"] = "Negeer deelnemer";
 ["Images"] = "Plaatjes";
+["Implicitly admitted"] = false;
 ["Incoming delegations"] = "Binnenkomende delegaties";
 ["Index"] = "Index";
 ["Indirect majority"] = "Indirecte meerderheid";
@@ -340,7 +343,6 @@ return {
 ["Member page"] = "Deelnemer pagina";
 ["Member successfully registered"] = "Deelnemer is succesvol geregistreerd";
 ["Member successfully updated"] = "Deelnemer is succesvol geactualiseerd";
-["Member voter"] = "Stem deelnemer";
 ["Member: '#{identification}' (#{name})"] = "Deelnemer: '#{identification}' (#{name})";
 ["Members"] = "Deelnemers";
 ["Membership not existent"] = "Lidmaatschap bestaat niet";
@@ -371,6 +373,7 @@ return {
 ["New suggestion"] = "Nieuwe suggestie";
 ["Newest"] = "Nieuwste";
 ["No"] = "Nee";
+["No admission needed"] = false;
 ["No changes to your images were made"] = "Er is niks veranderd aan de plaatjes";
 ["No default"] = "Geen standaard";
 ["No delegation"] = "Geen delegatie";
@@ -450,6 +453,7 @@ return {
 ["Policy"] = "Procedure";
 ["Policy '#{name}'"] = "Procedures '#{name}'";
 ["Policy list"] = "Procedurelijst";
+["Polling mode"] = false;
 ["Population"] = "Populatie";
 ["Posts"] = "Posts";
 ["Potential supported"] = "Potentieel ondersteund";
@@ -535,8 +539,8 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Sorry, U heeft uw persoonlijke flood-limiet overschreden. Wees alstublieft langzamer...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Sorry, uw voorraad om initiatieven te starten is op, Probeert u het alstublieft later!";
 ["Source"] = "Brontekst";
+["Standard policies"] = false;
 ["Start search"] = "Start zoeken";
-["State"] = "Toestand";
 ["Statement"] = "Verklaring";
 ["Status"] = "Status";
 ["Status quo: #{rank}"] = "Status quo: #{rank}";
@@ -630,6 +634,7 @@ return {
 ["Voted"] = "Gestemd";
 ["Voted no"] = "Nee gestemd";
 ["Voted yes"] = "Ja gestemd";
+["Voters"] = false;
 ["Voting"] = "De stemming";
 ["Voting comment"] = false;
 ["Voting comment (last updated: #{timestamp})"] = false;
@@ -751,7 +756,9 @@ return {
 ["to reset your password please click on the following link:\n\n"] = "om uw wachtwoord opnieuw in te stellen klikt u op de volgende link an:\n\n";
 ["unit"] = "dossier";
 ["until"] = "tot";
+["variable"] = false;
 ["with winner"] = "met winnaar";
+["without"] = false;
 ["without winner"] = "zonder winnaar";
 ["xmpp"] = "Jabber (XMPP)";
 }

@@ -22,6 +22,7 @@ return {
 ["#{time_left} left"] = "απομένουν #{time_left}";
 ["(#{more_count} duplicates removed)"] = "(Αφαιρέθηκαν #{more_count} αντίγραφα)";
 ["(new window)"] = "(νέο παράθυρο)";
+[")) == "] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = false;
 ["A-Z"] = "Α-Ω";
@@ -223,6 +224,7 @@ return {
 ["Finished"] = "Ολοκληρώθηκε";
 ["Finished (with winner)"] = "Ολοκληρώθηκε (με νικητή)";
 ["Finished (without winner)"] = "Ολοκληρώθηκε (χωρίς νικητή)";
+["Free timing"] = false;
 ["Friday"] = "Παρασκευή";
 ["Frozen"] = "Παγωμένο";
 ["Fully frozen at"] = "Πλήρως παγωμένο στις";
@@ -250,6 +252,7 @@ return {
 ["Ignore initiative"] = "Αγνόηση πρωτοβουλίας";
 ["Ignore member"] = "Αγνόηση μέλους";
 ["Images"] = "Εικόνες";
+["Implicitly admitted"] = false;
 ["Incoming delegations"] = "Εισερχόμενες αναθέσεις";
 ["Index"] = "Δείκτης";
 ["Indirect majority"] = "Έμμεση πλειοψηφία";
@@ -340,7 +343,6 @@ return {
 ["Member page"] = "Σελίδα μέλους";
 ["Member successfully registered"] = "Το μέλος έχει εγγραφεί επιτυχώς";
 ["Member successfully updated"] = "Το μέλος ενημερώθηκε επιτυχώς";
-["Member voter"] = "Ψήφοι των μελών";
 ["Member: '#{identification}' (#{name})"] = "Μέλος: #{name} (#{identification})";
 ["Members"] = "Μέλη";
 ["Membership not existent"] = "Μη υπαρκτή συμμετοχή";
@@ -371,6 +373,7 @@ return {
 ["New suggestion"] = "Νέα πρόταση";
 ["Newest"] = "Νεότερο";
 ["No"] = "Όχι";
+["No admission needed"] = false;
 ["No changes to your images were made"] = "Δεν έγιναν αλλαγές στις εικόνες σας";
 ["No default"] = "Χωρίς προεπιλογή";
 ["No delegation"] = "Χωρίς ανάθεση";
@@ -450,6 +453,7 @@ return {
 ["Policy"] = "Κανονισμός";
 ["Policy '#{name}'"] = "Κανονισμός '#{name}'";
 ["Policy list"] = "Κατάλογος κανονισμών";
+["Polling mode"] = false;
 ["Population"] = "Πληθυσμός";
 ["Posts"] = "Δημοσιέυσεις";
 ["Potential supported"] = "Ενδεχομένως υποστηρίζω";
@@ -535,8 +539,8 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Λυπούμαστε, έχετε προσωπικά φτάσει το όριο ταχύτητας. Παρακαλώ χαλαρώστε...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Λυπούμαστε, έχετε εξαντλήσει το όριο υποβολής πρωτοβουλιών για τώρα. Παρακαλώ ξαναδοκιμάστε αργότερα.";
 ["Source"] = "Πηγή";
+["Standard policies"] = false;
 ["Start search"] = "Έναρξη αναζήτησης";
-["State"] = "Κατάσταση";
 ["Statement"] = "Δήλωση";
 ["Status"] = "Κατάσταση";
 ["Status quo: #{rank}"] = "Παρούσα κατάσταση: #{rank}";
@@ -630,6 +634,7 @@ return {
 ["Voted"] = "Έχω ψηφίσει";
 ["Voted no"] = "Ψήφισε όχι";
 ["Voted yes"] = "Ψήφισε ναι";
+["Voters"] = false;
 ["Voting"] = "Ψηφοφορία";
 ["Voting comment"] = false;
 ["Voting comment (last updated: #{timestamp})"] = false;
@@ -751,7 +756,9 @@ return {
 ["to reset your password please click on the following link:\n\n"] = "Πατήστε στον παρακάτω σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας:\n\n";
 ["unit"] = "Ενότητα";
 ["until"] = "μέχρι";
+["variable"] = false;
 ["with winner"] = "Με νικητή";
+["without"] = false;
 ["without winner"] = "Χωρίς νικητή";
 ["xmpp"] = "Jabber (XMPP)";
 }

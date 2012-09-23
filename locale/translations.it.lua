@@ -22,6 +22,7 @@ return {
 ["#{time_left} left"] = "tempo rimanente #{time_left}";
 ["(#{more_count} duplicates removed)"] = "(#{more_count} duplicati eliminati)";
 ["(new window)"] = "(nuova finestra)";
+[")) == "] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = "+getElementById(";
 ["A-Z"] = "A-Z";
@@ -223,6 +224,7 @@ return {
 ["Finished"] = "Finito";
 ["Finished (with winner)"] = "Finito (con risultato approvato)";
 ["Finished (without winner)"] = "Finito (senza risultato approvato)";
+["Free timing"] = false;
 ["Friday"] = "Venerdi'";
 ["Frozen"] = "Sospeso";
 ["Fully frozen at"] = "Sospeso dal";
@@ -250,6 +252,7 @@ return {
 ["Ignore initiative"] = "Ignora l'iniziativa";
 ["Ignore member"] = "Ignora l'utente";
 ["Images"] = "Immagini";
+["Implicitly admitted"] = false;
 ["Incoming delegations"] = "Deleghe ricevute";
 ["Index"] = "Indice";
 ["Indirect majority"] = "Maggioranza indiretta";
@@ -340,7 +343,6 @@ return {
 ["Member page"] = "Pagina utente";
 ["Member successfully registered"] = "L'utente registrato con successo";
 ["Member successfully updated"] = "Utente aggiornato con successo";
-["Member voter"] = "Utente votante";
 ["Member: '#{identification}' (#{name})"] = "Utente: '#{identification}' (#{name})";
 ["Members"] = "Utenti";
 ["Membership not existent"] = "Utente non esistente";
@@ -371,6 +373,7 @@ return {
 ["New suggestion"] = "Nuovo suggerimento";
 ["Newest"] = "Piu' recenti";
 ["No"] = "No";
+["No admission needed"] = false;
 ["No changes to your images were made"] = "Le tue immagini non sono state modificate";
 ["No default"] = "Nessun valore predefinito";
 ["No delegation"] = "Nessuna delega";
@@ -450,6 +453,7 @@ return {
 ["Policy"] = "Policy";
 ["Policy '#{name}'"] = "Policy '#{name}'";
 ["Policy list"] = "Elenco policy";
+["Polling mode"] = false;
 ["Population"] = "Popolazione";
 ["Posts"] = "Post";
 ["Potential supported"] = "Potenzialmente sostenuto";
@@ -535,8 +539,8 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Purtroppo hai svolto un'attivita' eccessiva. Prova a partecipare piu' lentamente...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Purtroppo hai creato troppe iniziative in un tempo breve. Riprova piu' tardi.";
 ["Source"] = "Sorgente";
+["Standard policies"] = false;
 ["Start search"] = "Avvia la ricerca";
-["State"] = "Stato";
 ["Statement"] = "Testo";
 ["Status"] = "Stato";
 ["Status quo: #{rank}"] = "Status quo: #{rank}";
@@ -630,6 +634,7 @@ return {
 ["Voted"] = "Votato";
 ["Voted no"] = "Votato no";
 ["Voted yes"] = "Votato si";
+["Voters"] = false;
 ["Voting"] = "Votazione";
 ["Voting comment"] = false;
 ["Voting comment (last updated: #{timestamp})"] = false;
@@ -751,7 +756,9 @@ return {
 ["to reset your password please click on the following link:\n\n"] = "per reimpostare la password per favore segui il link sottostante:\n\n";
 ["unit"] = "sezione";
 ["until"] = "finche'";
+["variable"] = false;
 ["with winner"] = "con risultato approvato";
+["without"] = false;
 ["without winner"] = "senza risultato approvato";
 ["xmpp"] = "xmpp";
 }

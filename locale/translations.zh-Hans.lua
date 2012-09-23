@@ -22,6 +22,7 @@ return {
 ["#{time_left} left"] = "剩下 #{time_left}";
 ["(#{more_count} duplicates removed)"] = "(移除了 #{more_count} 个重复项目)";
 ["(new window)"] = "(新视窗)";
+[")) == "] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = false;
 ["A-Z"] = "A-Z";
@@ -223,6 +224,7 @@ return {
 ["Finished"] = "已结束";
 ["Finished (with winner)"] = "已结束 (有获选者)";
 ["Finished (without winner)"] = "已结束 (无获选者)";
+["Free timing"] = false;
 ["Friday"] = "周五";
 ["Frozen"] = "底定期";
 ["Fully frozen at"] = "全底定于";
@@ -250,6 +252,7 @@ return {
 ["Ignore initiative"] = "忽略提案";
 ["Ignore member"] = "忽略成员";
 ["Images"] = "图片";
+["Implicitly admitted"] = false;
 ["Incoming delegations"] = "受委任的表决";
 ["Index"] = "索引";
 ["Indirect majority"] = "间接多数";
@@ -340,7 +343,6 @@ return {
 ["Member page"] = "成员专页";
 ["Member successfully registered"] = "成员注册成功";
 ["Member successfully updated"] = "成员更新成功";
-["Member voter"] = "表决成员";
 ["Member: '#{identification}' (#{name})"] = "成员: '#{identification}' (#{name})";
 ["Members"] = "成员";
 ["Membership not existent"] = "不具成员身分";
@@ -371,6 +373,7 @@ return {
 ["New suggestion"] = "新增建议";
 ["Newest"] = "由新至旧";
 ["No"] = "否定";
+["No admission needed"] = false;
 ["No changes to your images were made"] = "您的图片未被更改";
 ["No default"] = "无預设值";
 ["No delegation"] = "无委任";
@@ -450,6 +453,7 @@ return {
 ["Policy"] = "规则";
 ["Policy '#{name}'"] = "规则 '#{name}'";
 ["Policy list"] = "规则清单";
+["Polling mode"] = false;
 ["Population"] = "人数";
 ["Posts"] = "职位";
 ["Potential supported"] = "可能支持的";
@@ -535,8 +539,8 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "抱歉，您已经达到个人流量限制。请减缓...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "抱歉，您的提案申请额度已经用尽。请稍后重试！";
 ["Source"] = "来源";
+["Standard policies"] = false;
 ["Start search"] = "开始搜寻";
-["State"] = "状态";
 ["Statement"] = "自述";
 ["Status"] = "状态";
 ["Status quo: #{rank}"] = "现状： #{rank}";
@@ -630,6 +634,7 @@ return {
 ["Voted"] = "已表决";
 ["Voted no"] = "投否定票";
 ["Voted yes"] = "投肯定票";
+["Voters"] = false;
 ["Voting"] = "表决中";
 ["Voting comment"] = false;
 ["Voting comment (last updated: #{timestamp})"] = false;
@@ -751,7 +756,9 @@ return {
 ["to reset your password please click on the following link:\n\n"] = "欲重设您的密码请点击下列连结：\n\n";
 ["unit"] = "单位";
 ["until"] = "直到";
+["variable"] = false;
 ["with winner"] = "有获选者";
+["without"] = false;
 ["without winner"] = "无获选者";
 ["xmpp"] = "Jabber (XMPP)";
 }

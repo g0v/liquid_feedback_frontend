@@ -22,6 +22,7 @@ return {
 ["#{time_left} left"] = false;
 ["(#{more_count} duplicates removed)"] = false;
 ["(new window)"] = false;
+[")) == "] = false;
 ["+ #{weight}"] = false;
 ["+getElementById("] = false;
 ["A-Z"] = false;
@@ -223,6 +224,7 @@ return {
 ["Finished"] = false;
 ["Finished (with winner)"] = false;
 ["Finished (without winner)"] = false;
+["Free timing"] = false;
 ["Friday"] = false;
 ["Frozen"] = false;
 ["Fully frozen at"] = false;
@@ -250,6 +252,7 @@ return {
 ["Ignore initiative"] = false;
 ["Ignore member"] = false;
 ["Images"] = false;
+["Implicitly admitted"] = false;
 ["Incoming delegations"] = false;
 ["Index"] = false;
 ["Indirect majority"] = false;
@@ -340,7 +343,6 @@ return {
 ["Member page"] = false;
 ["Member successfully registered"] = false;
 ["Member successfully updated"] = false;
-["Member voter"] = false;
 ["Member: '#{identification}' (#{name})"] = false;
 ["Members"] = false;
 ["Membership not existent"] = false;
@@ -371,6 +373,7 @@ return {
 ["New suggestion"] = false;
 ["Newest"] = false;
 ["No"] = false;
+["No admission needed"] = false;
 ["No changes to your images were made"] = false;
 ["No default"] = false;
 ["No delegation"] = false;
@@ -450,6 +453,7 @@ return {
 ["Policy"] = false;
 ["Policy '#{name}'"] = false;
 ["Policy list"] = false;
+["Polling mode"] = false;
 ["Population"] = false;
 ["Posts"] = false;
 ["Potential supported"] = false;
@@ -535,8 +539,8 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = false;
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = false;
 ["Source"] = false;
+["Standard policies"] = false;
 ["Start search"] = false;
-["State"] = false;
 ["Statement"] = false;
 ["Status"] = false;
 ["Status quo: #{rank}"] = false;
@@ -630,6 +634,7 @@ return {
 ["Voted"] = false;
 ["Voted no"] = false;
 ["Voted yes"] = false;
+["Voters"] = false;
 ["Voting"] = false;
 ["Voting comment"] = false;
 ["Voting comment (last updated: #{timestamp})"] = false;
@@ -751,7 +756,9 @@ return {
 ["to reset your password please click on the following link:\n\n"] = false;
 ["unit"] = false;
 ["until"] = false;
+["variable"] = false;
 ["with winner"] = false;
+["without"] = false;
 ["without winner"] = false;
 ["xmpp"] = false;
 }

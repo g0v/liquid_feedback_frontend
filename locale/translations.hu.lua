@@ -22,6 +22,7 @@ return {
 ["#{time_left} left"] = "#{time_left} idõ van hátra";
 ["(#{more_count} duplicates removed)"] = "(#{more_count} másolat eltávolítva)";
 ["(new window)"] = "(új ablak)";
+[")) == "] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = "+getElementById(";
 ["A-Z"] = "A-Z";
@@ -223,6 +224,7 @@ return {
 ["Finished"] = "Lezárva";
 ["Finished (with winner)"] = "Lezárva (nyertessel)";
 ["Finished (without winner)"] = "Lezárva (nyertes nélkül)";
+["Free timing"] = false;
 ["Friday"] = "Péntek";
 ["Frozen"] = "Befagyasztva";
 ["Fully frozen at"] = "Teljesen befagyasztva ekkor:";
@@ -250,6 +252,7 @@ return {
 ["Ignore initiative"] = "Kezdeményezés ignorálása";
 ["Ignore member"] = "Tag ignorálása";
 ["Images"] = "Képek";
+["Implicitly admitted"] = false;
 ["Incoming delegations"] = "Bejövõ delegációk";
 ["Index"] = "Index";
 ["Indirect majority"] = "Közvetett többség";
@@ -340,7 +343,6 @@ return {
 ["Member page"] = "Tagoldal";
 ["Member successfully registered"] = "Tag regisztrálva";
 ["Member successfully updated"] = "Tag frissítve";
-["Member voter"] = false;
 ["Member: '#{identification}' (#{name})"] = false;
 ["Members"] = "Tagok";
 ["Membership not existent"] = "Tagság nem létezik";
@@ -371,6 +373,7 @@ return {
 ["New suggestion"] = "Új javaslat";
 ["Newest"] = "Legújabb";
 ["No"] = "Nem";
+["No admission needed"] = false;
 ["No changes to your images were made"] = "Nem lettek módosítva a képeid";
 ["No default"] = "Nincs alapértelmezés";
 ["No delegation"] = "Nincs delegáció";
@@ -450,6 +453,7 @@ return {
 ["Policy"] = "Irányelv";
 ["Policy '#{name}'"] = "'#{name}' irányelv";
 ["Policy list"] = "Irányelvek listája";
+["Polling mode"] = false;
 ["Population"] = "Népesség";
 ["Posts"] = "Tisztségek";
 ["Potential supported"] = "Támogatott potenciál";
@@ -535,8 +539,8 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Elérted a személyes floodlimitedet. Lassíts.";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Egyelõre kimerítetted a kezdeményezés-létrehozási lehetõségeidet. Próbáld újra késõbb.";
 ["Source"] = "Forrásszöveg";
+["Standard policies"] = false;
 ["Start search"] = "Keresés indítása";
-["State"] = "Helyzet";
 ["Statement"] = "Állítás";
 ["Status"] = "Állapot";
 ["Status quo: #{rank}"] = "Status quo: #{rank}";
@@ -630,6 +634,7 @@ return {
 ["Voted"] = "Szavazott";
 ["Voted no"] = "Nemmel szavazott";
 ["Voted yes"] = "Igennel szavazott";
+["Voters"] = false;
 ["Voting"] = "Szavazás";
 ["Voting comment"] = false;
 ["Voting comment (last updated: #{timestamp})"] = false;
@@ -751,7 +756,9 @@ return {
 ["to reset your password please click on the following link:\n\n"] = "A jelszavad visszaállításához klikkelj erre a linkre:\n\n";
 ["unit"] = "egység";
 ["until"] = "(a)míg";
+["variable"] = false;
 ["with winner"] = "gyõztessel";
+["without"] = false;
 ["without winner"] = "gyõztes nélkül";
 ["xmpp"] = "Fecsegés (XMPP)";
 }

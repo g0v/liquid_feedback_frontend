@@ -22,6 +22,7 @@ return {
 ["#{time_left} left"] = false;
 ["(#{more_count} duplicates removed)"] = "(#{more_count} duoblaĵoj forigitaj)";
 ["(new window)"] = "(nova fenestro)";
+[")) == "] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = false;
 ["A-Z"] = "A-Z";
@@ -223,6 +224,7 @@ return {
 ["Finished"] = "Finita";
 ["Finished (with winner)"] = false;
 ["Finished (without winner)"] = false;
+["Free timing"] = false;
 ["Friday"] = "Vendredo";
 ["Frozen"] = "Ĝelita";
 ["Fully frozen at"] = "Tute ĝelita je";
@@ -250,6 +252,7 @@ return {
 ["Ignore initiative"] = false;
 ["Ignore member"] = false;
 ["Images"] = "Bildoj";
+["Implicitly admitted"] = false;
 ["Incoming delegations"] = "Alvenantaj delegacioj";
 ["Index"] = "indico";
 ["Indirect majority"] = false;
@@ -340,7 +343,6 @@ return {
 ["Member page"] = "Membropaĝo";
 ["Member successfully registered"] = "Membro sukcese registrita";
 ["Member successfully updated"] = "Membro sukcese ĝisdatigita";
-["Member voter"] = false;
 ["Member: '#{identification}' (#{name})"] = false;
 ["Members"] = "Membroj";
 ["Membership not existent"] = "Membreco ne ekzistas";
@@ -371,6 +373,7 @@ return {
 ["New suggestion"] = "Nova sugesto";
 ["Newest"] = "Plej nova";
 ["No"] = "Ne";
+["No admission needed"] = false;
 ["No changes to your images were made"] = "Viaj bildoj ne estas ŝanĝitaj";
 ["No default"] = "Neniu aprioraĵo";
 ["No delegation"] = "Neniu delegacio";
@@ -450,6 +453,7 @@ return {
 ["Policy"] = "Regularo";
 ["Policy '#{name}'"] = "Regularo '#{name}'";
 ["Policy list"] = "Listo de rugularoj";
+["Polling mode"] = false;
 ["Population"] = "Loĝantaro";
 ["Posts"] = "Postenoj";
 ["Potential supported"] = "Eble subtenota";
@@ -535,8 +539,8 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Pardonu, vi atingis vian propran inundolimigon. Bonvolu esti pli malrapida...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Pardonu, via kontingento por krei iniciatojn estas aktuale elĉerpita. Bonvolu provi pli malfrue denove!";
 ["Source"] = "Fonto";
+["Standard policies"] = false;
 ["Start search"] = false;
-["State"] = "Stato";
 ["Statement"] = "Deklaro";
 ["Status"] = "Stato";
 ["Status quo: #{rank}"] = false;
@@ -630,6 +634,7 @@ return {
 ["Voted"] = "Balotita";
 ["Voted no"] = "Balotita nee";
 ["Voted yes"] = "Balotita jese";
+["Voters"] = false;
 ["Voting"] = "Voĉdono";
 ["Voting comment"] = false;
 ["Voting comment (last updated: #{timestamp})"] = false;
@@ -751,7 +756,9 @@ return {
 ["to reset your password please click on the following link:\n\n"] = "por remeti vian pasvorton bonvolu klaki sekvan ligilon:\n\n";
 ["unit"] = false;
 ["until"] = "ĝis";
+["variable"] = false;
 ["with winner"] = false;
+["without"] = false;
 ["without winner"] = false;
 ["xmpp"] = "Jabber (XMPP)";
 }
