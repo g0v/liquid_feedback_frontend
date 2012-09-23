@@ -5,6 +5,22 @@ ui.form{
   record = initiative,
   readonly = true,
   content = function()
+    ui.field.text{
+      label = _"Created at",
+      value = tostring(initiative.created)
+    }
+    if initiative.revoked then
+      ui.field.text{
+         label = _"Revoked at",
+         value = format.timestamp(initiative.revoked)
+       }
+    end
+    if initiative.admitted ~= nil then
+      ui.field.boolean{ label = _"Admitted", name = "admitted" }
+    end
+    if initiative.issue.fully_frozen and initiative.polling then
+      ui.field.text{ label = _"Admitted", value = "Implicitly admitted" }
+    end
     if initiative.issue.closed then
       ui.field.boolean{ label = _"Direct majority", value = initiative.direct_majority }
       ui.field.boolean{ label = _"Indirect majority", value = initiative.indirect_majority }
@@ -24,19 +40,6 @@ ui.form{
         value = table.concat(texts, ", ")
       }
       ui.field.boolean{ label = _"Eligible as winner", value = initiative.eligible }
-    end
-    ui.field.text{
-      label = _"Created at",
-      value = tostring(initiative.created)
-    }
-    if initiative.revoked then
-      ui.field.text{
-         label = _"Revoked at",
-         value = format.timestamp(initiative.revoked)
-       }
-    end
-    if initiative.admitted ~= nil then
-      ui.field.boolean{ label = _"Admitted", name = "admitted" }
     end
   end
 }

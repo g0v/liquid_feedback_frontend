@@ -9,7 +9,7 @@ ui.form{
     ui.field.text{       label = _"Population",            name = "population" }
     ui.field.timestamp{  label = _"Created at",            name = "created" }
     if policy.polling then
-      ui.field.text{       label = _"Admission time",        value = _"Automatically admitted (poll mode)" }
+      ui.field.text{       label = _"Admission time",        value = _"Implicitly admitted" }
     else
       ui.field.text{       label = _"Admission time",        value = issue.admission_time }
       ui.field.text{

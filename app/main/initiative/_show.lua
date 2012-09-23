@@ -437,7 +437,7 @@ if not show_as_head then
             :left_join("initiative", nil, "initiative.id = vote.initiative_id")
             :left_join("issue", nil, "issue.id = initiative.issue_id")
       
-      ui.anchor{ name = "voter", attr = { class = "heading" }, content = _"Member voter" }
+      ui.anchor{ name = "voter", attr = { class = "heading" }, content = _"Voters" }
       
       execute.view{
         module = "member",

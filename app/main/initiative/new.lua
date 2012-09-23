@@ -78,7 +78,7 @@ ui.form{
         if available_timings then
           ui.field.select{
             label = _"Free timing",
-            name = _"free_timing",
+            name = "free_timing",
             foreign_records = available_timings,
             foreign_id = "id",
             foreign_name = "name",
@@ -132,7 +132,7 @@ ui.form{
     end
     
     if issue and issue.policy.polling and app.session.member:has_polling_right_for_unit_id(area.unit_id) then
-      ui.field.boolean{ name = "polling", label = _"Poll", value = polling }
+      ui.field.boolean{ name = "polling", label = _"No admission needed", value = polling }
     end
     
     if preview then
