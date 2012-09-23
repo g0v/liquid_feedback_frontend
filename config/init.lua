@@ -3,7 +3,7 @@
 -- (except when you really know what you are doing!)
 -- ========================================================================
 
-config.app_version = "2.0.5"
+config.app_version = "2.1.0"
 
 if not config.password_hash_algorithm then
   config.password_hash_algorithm = "crypt_sha512"
