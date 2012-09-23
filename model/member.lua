@@ -298,14 +298,13 @@ function Member.object:set_password(password)
     error("Unknown hash algorithm selected in configuration")
 
   end
-
-  local hash = extos.crypt(
-    password,
-    hash_prefix .. multirand.string(
-      salt_length,
-      "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz./"
-    )
+  
+  hash_prefix = hash_prefix .. multirand.string(
+    salt_length,
+    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz./"
   )
+
+  local hash = extos.crypt(password, hash_prefix)
 
   if not hash or hash:sub(1, #hash_prefix) ~= hash_prefix then
     error("Password hashing algorithm failed")
