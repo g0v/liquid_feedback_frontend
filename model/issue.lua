@@ -140,7 +140,7 @@ Issue:add_reference{
     end
     sub_selector:from("issue")
     sub_selector:add_field("issue.id", "issue_id")
-    sub_selector:add_field{ '(delegation_info(?, null, null, issue.id, ?)).*', options.member_id, options.trustee_id }
+    sub_selector:add_field{ '(delegation_info(?, null, null, issue.id)).*', options.member_id }
     sub_selector:add_where{ 'issue.id IN ($)', ids }
 
     local selector = Issue:get_db_conn():new_selector()

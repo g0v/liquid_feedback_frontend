@@ -41,9 +41,34 @@ Delegation:add_reference{
   ref           = 'issue',
 }
 
+-- get all delegations
 function Delegation:by_pk(truster_id, unit_id, area_id, issue_id)
-  local selector = self:new_selector():optional_object_mode()
+  local selector = self:new_selector()
   selector:add_where{ "truster_id = ?", truster_id }
+  if unit_id then
+    selector:add_where{ "unit_id = ?",    unit_id }
+  else
+    selector:add_where("unit_id ISNULL")
+  end
+  if area_id then
+    selector:add_where{ "area_id = ?",    area_id }
+  else
+    selector:add_where("area_id ISNULL")
+  end
+  if issue_id then
+    selector:add_where{ "issue_id = ? ",  issue_id }
+  else
+    selector:add_where("issue_id ISNULL ")
+  end
+  selector:add_order_by("preference")
+  return selector:exec()
+end
+
+function Delegation:by_trustee(truster_id, trustee_id, unit_id, area_id, issue_id)
+  local selector = self:new_selector()
+  selector:optional_object_mode()
+  selector:add_where{ "truster_id = ?", truster_id }
+  selector:add_where{ "trustee_id = ?", trustee_id }
   if unit_id then
     selector:add_where{ "unit_id = ?",    unit_id }
   else

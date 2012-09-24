@@ -145,13 +145,6 @@ ui.container{ attr = { class = class }, content = function()
         end
       end
 
-      if not issue.closed and app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
-        if issue.member_info.own_delegation_scope ~= "issue" then
-          links[#links+1] = { text = _"Delegate issue", module = "delegation", view = "show", params = { issue_id = issue.id, initiative_id = for_initiative_id } }
-        else
-          links[#links+1] = { text = _"Change issue delegation", module = "delegation", view = "show", params = { issue_id = issue.id, initiative_id = for_initiative_id } }
-        end
-      end
     end
 
     if config.issue_discussion_url_func then

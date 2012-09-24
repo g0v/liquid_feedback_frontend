@@ -80,7 +80,7 @@ Area:add_reference{
     end
     sub_selector:from("area")
     sub_selector:add_field("area.id", "area_id")
-    sub_selector:add_field{ '(delegation_info(?, null, area.id, null, ?)).*', options.member_id, options.trustee_id }
+    sub_selector:add_field{ '(delegation_info(?, null, area.id, null)).*', options.member_id }
     sub_selector:add_where{ 'area.id IN ($)', ids }
 
     local selector = Area:get_db_conn():new_selector()

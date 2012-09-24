@@ -5,8 +5,7 @@ local member = Member:by_id(param.get("member_id", atom.integer))
 local members_selector = Member:new_selector()
   :join("delegating_voter", nil, "delegating_voter.member_id = member.id")
   :add_where{ "delegating_voter.issue_id = ?", issue.id }
-  :add_where{ "delegating_voter.delegate_member_ids[1] = ?", member.id }
-  :add_field("delegating_voter.weight", "voter_weight")
+  :add_where{ "delegating_voter.delegate_member_id = ?", member.id }
   :join("issue", nil, "issue.id = delegating_voter.issue_id")
 
 execute.view{

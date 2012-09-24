@@ -1131,6 +1131,18 @@ x.initiative_link.potentially_supported {
   display: block;
 }
 
+.delegation_participation {
+  margin-left: 17em;
+  margin-top: 1.5ex;
+  margin-bottom: 0;
+  font-style: italic;
+}
+
+.delegation_action {
+  margin-left: 17em;
+  margin-top: 2.5ex;
+}
+
 .member_list .member_thumb {
   float: left;
   margin-right: 10px;

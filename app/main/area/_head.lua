@@ -1,3 +1,6 @@
+-- displays the head bar of an area
+
+
 local area = param.get("area", "table")
 local member = param.get("member", "table")
 
@@ -13,10 +16,11 @@ end
 
 ui.container{ attr = { class = "area_head" }, content = function()
 
+  -- show area delegation
   execute.view{ module = "delegation", view = "_info", params = { area = area, member = member } }
 
+  -- area name
   ui.container{ attr = { class = "title" }, content = function()
-    -- area name
     ui.link{
       module = "area", view = "show", id = area.id,
       attr = { class = "area_name" }, content = area.name 
@@ -32,9 +36,7 @@ ui.container{ attr = { class = "area_head" }, content = function()
 
         -- membership
         local membership = Membership:by_pk(area.id, member.id)
-
         if membership then
-          
           if app.session.member_id == member.id then
             ui.tag{ content = _"You are participating in this area" }
             slot.put(" ")
@@ -60,7 +62,6 @@ ui.container{ attr = { class = "area_head" }, content = function()
           else
             ui.tag{ content = _"Member is participating in this area" }
           end
-
         elseif app.session.member_id == member.id and member:has_voting_right_for_unit_id(area.unit_id) then
           ui.link{
             text   = _"Participate in this area",
@@ -79,16 +80,9 @@ ui.container{ attr = { class = "area_head" }, content = function()
           }
         end
         
+        -- create new issue
         if app.session.member_id == member.id and app.session.member:has_voting_right_for_unit_id(area.unit_id) then
-
           slot.put(" &middot; ")
-          if area.delegation_info.own_delegation_scope ~= "area" then
-            ui.link{ text = _"Delegate area", module = "delegation", view = "show", params = { area_id = area.id } }
-          else
-            ui.link{ text = _"Change area delegation", module = "delegation", view = "show", params = { area_id = area.id } }
-          end
-          slot.put(" &middot; ")
-
           ui.link{
             content = function()
               slot.put(_"Create new issue")

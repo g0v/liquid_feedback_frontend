@@ -29,9 +29,8 @@ if app.session.member_id then
     :left_join("interest", "_interest", { "_interest.issue_id = issue.id AND _interest.member_id = ?", app.session.member.id } )
     :add_field("(_interest.member_id NOTNULL)", "is_interested")
     :left_join("delegating_interest_snapshot", "_delegating_interest", { "_delegating_interest.issue_id = issue.id AND _delegating_interest.member_id = ? AND _delegating_interest.event = issue.latest_snapshot_event", app.session.member.id } )
-    :add_field("_delegating_interest.delegate_member_ids[1]", "is_interested_by_delegation_to_member_id")
-    :add_field("_delegating_interest.delegate_member_ids[array_upper(_delegating_interest.delegate_member_ids, 1)]", "is_interested_via_member_id")
-    :add_field("array_length(_delegating_interest.delegate_member_ids, 1)", "delegation_chain_length")
+    :add_field("_delegating_interest.delegate_member_id", "is_interested_by_delegation_to_member_id")
+    :add_field("_delegating_interest.delegate_member_id", "is_interested_via_member_id")
 end
 
 local filters = execute.load_chunk{module="issue", chunk="_filters.lua", params = {

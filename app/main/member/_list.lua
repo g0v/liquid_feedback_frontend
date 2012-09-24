@@ -12,10 +12,10 @@ local paginator_name = param.get("paginator_name")
 if initiative or issue then
   if for_votes then
     members_selector:left_join("delegating_voter", "_member_list__delegating_voter", { "_member_list__delegating_voter.issue_id = issue.id AND _member_list__delegating_voter.member_id = ?", app.session.member_id })
-    members_selector:add_field("_member_list__delegating_voter.delegate_member_ids", "delegate_member_ids")
+    members_selector:add_field("_member_list__delegating_voter.delegate_member_id", "delegate_member_id")
   else
     members_selector:left_join("delegating_interest_snapshot", "_member_list__delegating_interest", { "_member_list__delegating_interest.event = issue.latest_snapshot_event AND _member_list__delegating_interest.issue_id = issue.id AND _member_list__delegating_interest.member_id = ?", app.session.member_id })
-    members_selector:add_field("_member_list__delegating_interest.delegate_member_ids", "delegate_member_ids")
+    members_selector:add_field("_member_list__delegating_interest.delegate_member_id", "delegate_member_id")
   end
 end
 
@@ -49,7 +49,7 @@ filter[#filter+1] = {
 }
 
 local ui_filters = ui.filters
-if issue or initiative then
+if (issue or initiative) and not trustee then
   ui_filters = function(args) args.content() end
   if for_votes then
       members_selector:add_order_by("voter_weight DESC, name, id")

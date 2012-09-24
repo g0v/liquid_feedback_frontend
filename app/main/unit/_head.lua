@@ -1,3 +1,6 @@
+-- displays the head bar of a unit
+
+
 local unit = param.get("unit", "table")
 local member = param.get("member", "table")
 
@@ -9,8 +12,10 @@ end
 
 ui.container{ attr = { class = "unit_head" }, content = function()
 
+  -- show unit delegation
   execute.view{ module = "delegation", view = "_info", params = { unit = unit, member = member } }
 
+  -- unit title
   ui.container{ attr = { class = "title" }, content = function()
     if not config.single_unit_id then
       ui.link{ 
@@ -25,18 +30,12 @@ ui.container{ attr = { class = "unit_head" }, content = function()
     end
   end }
 
+  -- voting rights
   if show_content then
     ui.container{ attr = { class = "content" }, content = function()
-
       if member and member:has_voting_right_for_unit_id(unit.id) then
         if app.session.member_id == member.id then
           ui.tag{ content = _"You have voting privileges for this unit" }
-          slot.put(" &middot; ")
-          if unit.delegation_info.first_trustee_id == nil then
-            ui.link{ text = _"Delegate unit", module = "delegation", view = "show", params = { unit_id = unit.id } }
-          else
-            ui.link{ text = _"Change unit delegation", module = "delegation", view = "show", params = { unit_id = unit.id } }
-          end
         else
           ui.tag{ content = _"Member has voting privileges for this unit" }
         end

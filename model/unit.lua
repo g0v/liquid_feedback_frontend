@@ -43,7 +43,7 @@ Unit:add_reference{
     end
     sub_selector:from("unit")
     sub_selector:add_field("unit.id", "unit_id")
-    sub_selector:add_field{ '(delegation_info(?, unit.id, null, null, ?)).*', options.member_id, options.trustee_id }
+    sub_selector:add_field{ '(delegation_info(?, unit.id, null, null)).*', options.member_id }
     sub_selector:add_where{ 'unit.id IN ($)', ids }
 
     local selector = Unit:get_db_conn():new_selector()

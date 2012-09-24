@@ -30,6 +30,7 @@ local delegations_selector = Delegation:new_selector()
   :join("member", "trustee", "trustee.id = delegation.trustee_id AND truster.active")
   :join("privilege", "trustee_privilege", "trustee_privilege.member_id = trustee.id AND trustee_privilege.unit_id = delegation.unit_id AND trustee_privilege.voting_right")
   :add_where{ "delegation.unit_id = ?", unit.id }
+  :add_order_by("truster.name, delegation.preference")
 
 local open_issues_selector = Issue:new_selector()
   :join("area", nil, "area.id = issue.area_id")

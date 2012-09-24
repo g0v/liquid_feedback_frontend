@@ -7,8 +7,7 @@ local members_selector = Member:new_selector()
   :join("issue", nil, "issue.id = delegating_interest_snapshot.issue_id")
   :add_where{ "delegating_interest_snapshot.issue_id = ?", issue.id }
   :add_where{ "delegating_interest_snapshot.event = ?", issue.latest_snapshot_event }
-  :add_where{ "delegating_interest_snapshot.delegate_member_ids[1] = ?", member.id }
-  :add_field{ "delegating_interest_snapshot.weight" }
+  :add_where{ "delegating_interest_snapshot.delegate_member_id = ?", member.id }
 
 execute.view{
   module = "member",
