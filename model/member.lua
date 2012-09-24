@@ -576,7 +576,6 @@ function Member.object:has_polling_right_for_unit_id(unit_id)
     local privileges = Privilege:new_selector()
       :add_where{ "member_id = ?", self.id }
       :add_where("polling_right")
-      :for_share()
       :exec()
     self.__units_with_polling_right_hash = {}
     for i, privilege in ipairs(privileges) do
