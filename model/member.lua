@@ -560,7 +560,6 @@ end
 function Member.object:has_voting_right_for_unit_id(unit_id)
   if not self.__units_with_voting_right_hash then
     local privileges = Privilege:new_selector()
-      :join("member", nil, "member.id = privilege.member_id")
       :add_where{ "member_id = ?", self.id }
       :add_where("voting_right")
       :for_share()
