@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('2.0.11', 2, 0, 11))
+  SELECT * FROM (VALUES ('2.1.0', 2, 1, 0))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -65,12 +65,15 @@ COMMENT ON COLUMN "system_setting"."member_ttl" IS 'Time after members get their
 
 
 CREATE TABLE "contingent" (
-        "time_frame"            INTERVAL        PRIMARY KEY,
+        PRIMARY KEY ("polling", "time_frame"),
+        "polling"               BOOLEAN,
+        "time_frame"            INTERVAL,
         "text_entry_limit"      INT4,
         "initiative_limit"      INT4 );
 
 COMMENT ON TABLE "contingent" IS 'Amount of text entries or initiatives a user may create within a given time frame. Only one row needs to be fulfilled for a member to be allowed to post. This table must not be empty.';
 
+COMMENT ON COLUMN "contingent"."polling"          IS 'Determines if settings are for creating initiatives and new drafts of initiatives with "polling" flag set';
 COMMENT ON COLUMN "contingent"."text_entry_limit" IS 'Number of new drafts or suggestions to be submitted by each member within the given time frame';
 COMMENT ON COLUMN "contingent"."initiative_limit" IS 'Number of new initiatives to be opened by each member within a given time frame';
 
@@ -170,10 +173,12 @@ COMMENT ON COLUMN "member"."formatting_engine"    IS 'Allows different formattin
 COMMENT ON COLUMN "member"."statement"            IS 'Freely chosen text of the member for his/her profile';
 
 
+-- DEPRECATED API TABLES --
+
 CREATE TYPE "application_access_level" AS ENUM
   ('member', 'full', 'pseudonymous', 'anonymous');
 
-COMMENT ON TYPE "application_access_level" IS 'Access privileges for applications using the API';
+COMMENT ON TYPE "application_access_level" IS 'DEPRECATED, WILL BE REMOVED! Access privileges for applications using the API';
 
 
 CREATE TABLE "member_application" (
@@ -187,7 +192,9 @@ CREATE TABLE "member_application" (
         "key"                   TEXT            NOT NULL UNIQUE,
         "last_usage"            TIMESTAMPTZ );
 
-COMMENT ON TABLE "member_application" IS 'Registered application being allowed to use the API';
+COMMENT ON TABLE "member_application" IS 'DEPRECATED, WILL BE REMOVED! Registered application being allowed to use the API';
+
+-- END OF DEPRECARED API TABLES --
 
 
 CREATE TABLE "member_history" (
@@ -328,12 +335,13 @@ CREATE TABLE "policy" (
         "active"                BOOLEAN         NOT NULL DEFAULT TRUE,
         "name"                  TEXT            NOT NULL UNIQUE,
         "description"           TEXT            NOT NULL DEFAULT '',
-        "admission_time"        INTERVAL        NOT NULL,
-        "discussion_time"       INTERVAL        NOT NULL,
-        "verification_time"     INTERVAL        NOT NULL,
-        "voting_time"           INTERVAL        NOT NULL,
-        "issue_quorum_num"      INT4            NOT NULL,
-        "issue_quorum_den"      INT4            NOT NULL,
+        "polling"               BOOLEAN         NOT NULL DEFAULT FALSE,
+        "admission_time"        INTERVAL,
+        "discussion_time"       INTERVAL,
+        "verification_time"     INTERVAL,
+        "voting_time"           INTERVAL,
+        "issue_quorum_num"      INT4,
+        "issue_quorum_den"      INT4,
         "initiative_quorum_num" INT4            NOT NULL,
         "initiative_quorum_den" INT4            NOT NULL,
         "direct_majority_num"           INT4    NOT NULL DEFAULT 1,
@@ -347,13 +355,27 @@ CREATE TABLE "policy" (
         "indirect_majority_positive"    INT4    NOT NULL DEFAULT 0,
         "indirect_majority_non_negative" INT4   NOT NULL DEFAULT 0,
         "no_reverse_beat_path"          BOOLEAN NOT NULL DEFAULT TRUE,
-        "no_multistage_majority"        BOOLEAN NOT NULL DEFAULT FALSE );
+        "no_multistage_majority"        BOOLEAN NOT NULL DEFAULT FALSE,
+        CONSTRAINT "timing" CHECK (
+          ( "polling" = FALSE AND
+            "admission_time" NOTNULL AND "discussion_time" NOTNULL AND
+            "verification_time" NOTNULL AND "voting_time" NOTNULL ) OR
+          ( "polling" = TRUE AND
+            "admission_time" ISNULL AND "discussion_time" NOTNULL AND
+            "verification_time" NOTNULL AND "voting_time" NOTNULL ) OR
+          ( "polling" = TRUE AND
+            "admission_time" ISNULL AND "discussion_time" ISNULL AND
+            "verification_time" ISNULL AND "voting_time" ISNULL ) ),
+        CONSTRAINT "issue_quorum_if_and_only_if_not_polling" CHECK (
+          "polling" = "issue_quorum_num" ISNULL AND
+          "polling" = "issue_quorum_den" ISNULL ) );
 CREATE INDEX "policy_active_idx" ON "policy" ("active");
 
 COMMENT ON TABLE "policy" IS 'Policies for a particular proceeding type (timelimits, quorum)';
 
 COMMENT ON COLUMN "policy"."index"                 IS 'Determines the order in listings';
 COMMENT ON COLUMN "policy"."active"                IS 'TRUE = policy can be used for new issues';
+COMMENT ON COLUMN "policy"."polling"               IS 'TRUE = special policy for non-user-generated issues without issue quorum, where certain initiatives (those having the "polling" flag set) do not need to pass the initiative quorum; "admission_time" MUST be set to NULL, the other timings may be set to NULL altogether, allowing individual timing for those issues';
 COMMENT ON COLUMN "policy"."admission_time"        IS 'Maximum duration of issue state ''admission''; Maximum time an issue stays open without being "accepted"';
 COMMENT ON COLUMN "policy"."discussion_time"       IS 'Duration of issue state ''discussion''; Regular time until an issue is "half_frozen" after being "accepted"';
 COMMENT ON COLUMN "policy"."verification_time"     IS 'Duration of issue state ''verification''; Regular time until an issue is "fully_frozen" (e.g. entering issue state ''voting'') after being "half_frozen"';
@@ -488,7 +510,7 @@ CREATE TABLE "issue" (
         "closed"                TIMESTAMPTZ,
         "ranks_available"       BOOLEAN         NOT NULL DEFAULT FALSE,
         "cleaned"               TIMESTAMPTZ,
-        "admission_time"        INTERVAL        NOT NULL,
+        "admission_time"        INTERVAL,
         "discussion_time"       INTERVAL        NOT NULL,
         "verification_time"     INTERVAL        NOT NULL,
         "voting_time"           INTERVAL        NOT NULL,
@@ -497,6 +519,8 @@ CREATE TABLE "issue" (
         "population"            INT4,
         "voter_count"           INT4,
         "status_quo_schulze_rank" INT4,
+        CONSTRAINT "admission_time_not_null_unless_instantly_accepted" CHECK (
+          "admission_time" NOTNULL OR ("accepted" NOTNULL AND "accepted" = "created") ),
         CONSTRAINT "valid_state" CHECK ((
           ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
           ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" NOTNULL AND "ranks_available" = FALSE) OR
@@ -577,6 +601,7 @@ CREATE TABLE "initiative" (
         "issue_id"              INT4            NOT NULL REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "id"                    SERIAL4         PRIMARY KEY,
         "name"                  TEXT            NOT NULL,
+        "polling"               BOOLEAN         NOT NULL DEFAULT FALSE,
         "discussion_url"        TEXT,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "revoked"               TIMESTAMPTZ,
@@ -633,6 +658,7 @@ CREATE TRIGGER "update_text_search_data"
 
 COMMENT ON TABLE "initiative" IS 'Group of members publishing drafts for resolutions to be passed; Frontends must ensure that initiatives of half_frozen issues are not revoked, and that initiatives of fully_frozen or closed issues are neither revoked nor created.';
 
+COMMENT ON COLUMN "initiative"."polling"                IS 'Initiative does not need to pass the initiative quorum (see "policy"."polling")';
 COMMENT ON COLUMN "initiative"."discussion_url"         IS 'URL pointing to a discussion platform for this initiative';
 COMMENT ON COLUMN "initiative"."revoked"                IS 'Point in time, when one initiator decided to revoke the initiative';
 COMMENT ON COLUMN "initiative"."revoked_by_member_id"   IS 'Member, who decided to revoke the initiative';
@@ -792,16 +818,20 @@ CREATE TABLE "privilege" (
         "admin_manager"         BOOLEAN         NOT NULL DEFAULT FALSE,
         "unit_manager"          BOOLEAN         NOT NULL DEFAULT FALSE,
         "area_manager"          BOOLEAN         NOT NULL DEFAULT FALSE,
-        "voting_right_manager"  BOOLEAN         NOT NULL DEFAULT FALSE,
-        "voting_right"          BOOLEAN         NOT NULL DEFAULT TRUE );
+        "member_manager"        BOOLEAN         NOT NULL DEFAULT FALSE,
+        "initiative_right"      BOOLEAN         NOT NULL DEFAULT TRUE,
+        "voting_right"          BOOLEAN         NOT NULL DEFAULT TRUE,
+        "polling_right"         BOOLEAN         NOT NULL DEFAULT FALSE );
 
 COMMENT ON TABLE "privilege" IS 'Members rights related to each unit';
 
-COMMENT ON COLUMN "privilege"."admin_manager"        IS 'Grant/revoke admin privileges to/from other members';
-COMMENT ON COLUMN "privilege"."unit_manager"         IS 'Create and disable sub units';
-COMMENT ON COLUMN "privilege"."area_manager"         IS 'Create and disable areas and set area parameters';
-COMMENT ON COLUMN "privilege"."voting_right_manager" IS 'Select which members are allowed to discuss and vote within the unit';
-COMMENT ON COLUMN "privilege"."voting_right"         IS 'Right to discuss and vote';
+COMMENT ON COLUMN "privilege"."admin_manager"    IS 'Grant/revoke any privileges to/from other members';
+COMMENT ON COLUMN "privilege"."unit_manager"     IS 'Create and disable sub units';
+COMMENT ON COLUMN "privilege"."area_manager"     IS 'Create and disable areas and set area parameters';
+COMMENT ON COLUMN "privilege"."member_manager"   IS 'Adding/removing members from the unit, granting or revoking "initiative_right" and "voting_right"';
+COMMENT ON COLUMN "privilege"."initiative_right" IS 'Right to create an initiative';
+COMMENT ON COLUMN "privilege"."voting_right"     IS 'Right to support initiatives, create and rate suggestions, and to vote';
+COMMENT ON COLUMN "privilege"."polling_right"    IS 'Right to create issues with policies having the "policy"."polling" flag set, and to add initiatives having the "initiative"."polling" flag set to those issues';
 
 
 CREATE TABLE "membership" (
@@ -998,12 +1028,37 @@ CREATE TABLE "direct_voter" (
         PRIMARY KEY ("issue_id", "member_id"),
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE RESTRICT,
-        "weight"                INT4 );
+        "weight"                INT4,
+        "comment_changed"       TIMESTAMPTZ,
+        "formatting_engine"     TEXT,
+        "comment"               TEXT,
+        "text_search_data"      TSVECTOR );
 CREATE INDEX "direct_voter_member_id_idx" ON "direct_voter" ("member_id");
+CREATE INDEX "direct_voter_text_search_data_idx" ON "direct_voter" USING gin ("text_search_data");
+CREATE TRIGGER "update_text_search_data"
+  BEFORE INSERT OR UPDATE ON "direct_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  tsvector_update_trigger('text_search_data', 'pg_catalog.simple', "comment");
 
 COMMENT ON TABLE "direct_voter" IS 'Members having directly voted for/against initiatives of an issue; Frontends must ensure that no voters are added or removed to/from this table when the issue has been closed.';
 
-COMMENT ON COLUMN "direct_voter"."weight" IS 'Weight of member (1 or higher) according to "delegating_voter" table';
+COMMENT ON COLUMN "direct_voter"."weight"            IS 'Weight of member (1 or higher) according to "delegating_voter" table';
+COMMENT ON COLUMN "direct_voter"."comment_changed"   IS 'Shall be set on comment change, to indicate a comment being modified after voting has been finished; Automatically set to NULL after voting phase; Automatically set to NULL by trigger, if "comment" is set to NULL';
+COMMENT ON COLUMN "direct_voter"."formatting_engine" IS 'Allows different formatting engines (i.e. wiki formats) to be used for "direct_voter"."comment"; Automatically set to NULL by trigger, if "comment" is set to NULL';
+COMMENT ON COLUMN "direct_voter"."comment"           IS 'Is to be set or updated by the frontend, if comment was inserted or updated AFTER the issue has been closed. Otherwise it shall be set to NULL.';
+
+
+CREATE TABLE "rendered_voter_comment" (
+        PRIMARY KEY ("issue_id", "member_id", "format"),
+        FOREIGN KEY ("issue_id", "member_id")
+          REFERENCES "direct_voter" ("issue_id", "member_id")
+          ON DELETE CASCADE ON UPDATE CASCADE,
+        "issue_id"              INT4,
+        "member_id"             INT4,
+        "format"                TEXT,
+        "content"               TEXT            NOT NULL );
+
+COMMENT ON TABLE "rendered_voter_comment" IS 'This table may be used by frontends to cache "rendered" voter comments (e.g. HTML output generated from wiki text)';
 
 
 CREATE TABLE "delegating_voter" (
@@ -1036,72 +1091,6 @@ COMMENT ON TABLE "vote" IS 'Manual and delegated votes without abstentions; Fron
 
 COMMENT ON COLUMN "vote"."issue_id" IS 'WARNING: No index: For selections use column "initiative_id" and join via table "initiative" where neccessary';
 COMMENT ON COLUMN "vote"."grade"    IS 'Values smaller than zero mean reject, values greater than zero mean acceptance, zero or missing row means abstention. Preferences are expressed by different positive or negative numbers.';
-
-
-CREATE TABLE "issue_comment" (
-        PRIMARY KEY ("issue_id", "member_id"),
-        "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "changed"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
-        "formatting_engine"     TEXT,
-        "content"               TEXT            NOT NULL,
-        "text_search_data"      TSVECTOR );
-CREATE INDEX "issue_comment_member_id_idx" ON "issue_comment" ("member_id");
-CREATE INDEX "issue_comment_text_search_data_idx" ON "issue_comment" USING gin ("text_search_data");
-CREATE TRIGGER "update_text_search_data"
-  BEFORE INSERT OR UPDATE ON "issue_comment"
-  FOR EACH ROW EXECUTE PROCEDURE
-  tsvector_update_trigger('text_search_data', 'pg_catalog.simple', "content");
-
-COMMENT ON TABLE "issue_comment" IS 'Place to store free comments of members related to issues';
-
-COMMENT ON COLUMN "issue_comment"."changed" IS 'Time the comment was last changed';
-
-
-CREATE TABLE "rendered_issue_comment" (
-        PRIMARY KEY ("issue_id", "member_id", "format"),
-        FOREIGN KEY ("issue_id", "member_id")
-          REFERENCES "issue_comment" ("issue_id", "member_id")
-          ON DELETE CASCADE ON UPDATE CASCADE,
-        "issue_id"              INT4,
-        "member_id"             INT4,
-        "format"                TEXT,
-        "content"               TEXT            NOT NULL );
-
-COMMENT ON TABLE "rendered_issue_comment" IS 'This table may be used by frontends to cache "rendered" issue comments (e.g. HTML output generated from wiki text)';
-
-
-CREATE TABLE "voting_comment" (
-        PRIMARY KEY ("issue_id", "member_id"),
-        "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "member_id"             INT4            REFERENCES "member" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "changed"               TIMESTAMPTZ,
-        "formatting_engine"     TEXT,
-        "content"               TEXT            NOT NULL,
-        "text_search_data"      TSVECTOR );
-CREATE INDEX "voting_comment_member_id_idx" ON "voting_comment" ("member_id");
-CREATE INDEX "voting_comment_text_search_data_idx" ON "voting_comment" USING gin ("text_search_data");
-CREATE TRIGGER "update_text_search_data"
-  BEFORE INSERT OR UPDATE ON "voting_comment"
-  FOR EACH ROW EXECUTE PROCEDURE
-  tsvector_update_trigger('text_search_data', 'pg_catalog.simple', "content");
-
-COMMENT ON TABLE "voting_comment" IS 'Storage for comments of voters to be published after voting has finished.';
-
-COMMENT ON COLUMN "voting_comment"."changed" IS 'Is to be set or updated by the frontend, if comment was inserted or updated AFTER the issue has been closed. Otherwise it shall be set to NULL.';
-
-
-CREATE TABLE "rendered_voting_comment" (
-        PRIMARY KEY ("issue_id", "member_id", "format"),
-        FOREIGN KEY ("issue_id", "member_id")
-          REFERENCES "voting_comment" ("issue_id", "member_id")
-          ON DELETE CASCADE ON UPDATE CASCADE,
-        "issue_id"              INT4,
-        "member_id"             INT4,
-        "format"                TEXT,
-        "content"               TEXT            NOT NULL );
-
-COMMENT ON TABLE "rendered_voting_comment" IS 'This table may be used by frontends to cache "rendered" voting comments (e.g. HTML output generated from wiki text)';
 
 
 CREATE TYPE "event_type" AS ENUM (
@@ -1521,6 +1510,64 @@ COMMENT ON FUNCTION "last_opinion_deletes_suggestion_trigger"()   IS 'Implementa
 COMMENT ON TRIGGER "last_opinion_deletes_suggestion" ON "opinion" IS 'Removing the last opinion of a suggestion deletes the suggestion';
 
 
+CREATE FUNCTION "non_voter_deletes_direct_voter_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      DELETE FROM "direct_voter"
+        WHERE "issue_id" = NEW."issue_id" AND "member_id" = NEW."member_id";
+      RETURN NULL;
+    END;
+  $$;
+
+CREATE TRIGGER "non_voter_deletes_direct_voter"
+  AFTER INSERT OR UPDATE ON "non_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "non_voter_deletes_direct_voter_trigger"();
+
+COMMENT ON FUNCTION "non_voter_deletes_direct_voter_trigger"()     IS 'Implementation of trigger "non_voter_deletes_direct_voter" on table "non_voter"';
+COMMENT ON TRIGGER "non_voter_deletes_direct_voter" ON "non_voter" IS 'An entry in the "non_voter" table deletes an entry in the "direct_voter" table (and vice versa due to trigger "direct_voter_deletes_non_voter" on table "direct_voter")';
+
+
+CREATE FUNCTION "direct_voter_deletes_non_voter_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      DELETE FROM "non_voter"
+        WHERE "issue_id" = NEW."issue_id" AND "member_id" = NEW."member_id";
+      RETURN NULL;
+    END;
+  $$;
+
+CREATE TRIGGER "direct_voter_deletes_non_voter"
+  AFTER INSERT OR UPDATE ON "direct_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "direct_voter_deletes_non_voter_trigger"();
+
+COMMENT ON FUNCTION "direct_voter_deletes_non_voter_trigger"()        IS 'Implementation of trigger "direct_voter_deletes_non_voter" on table "direct_voter"';
+COMMENT ON TRIGGER "direct_voter_deletes_non_voter" ON "direct_voter" IS 'An entry in the "direct_voter" table deletes an entry in the "non_voter" table (and vice versa due to trigger "non_voter_deletes_direct_voter" on table "non_voter")';
+
+
+CREATE FUNCTION "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"()
+  RETURNS TRIGGER
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      IF NEW."comment" ISNULL THEN
+        NEW."comment_changed" := NULL;
+        NEW."formatting_engine" := NULL;
+      END IF;
+      RETURN NEW;
+    END;
+  $$;
+
+CREATE TRIGGER "voter_comment_fields_only_set_when_voter_comment_is_set"
+  BEFORE INSERT OR UPDATE ON "direct_voter"
+  FOR EACH ROW EXECUTE PROCEDURE
+  "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"();
+
+COMMENT ON FUNCTION "voter_comment_fields_only_set_when_voter_comment_is_set_trigger"() IS 'Implementation of trigger "voter_comment_fields_only_set_when_voter_comment_is_set" ON table "direct_voter"';
+COMMENT ON TRIGGER "voter_comment_fields_only_set_when_voter_comment_is_set" ON "direct_voter" IS 'If "comment" is set to NULL, then other comment related fields are also set to NULL.';
+
 
 ---------------------------------------------------------------
 -- Ensure that votes are not modified when issues are frozen --
@@ -1537,6 +1584,15 @@ CREATE FUNCTION "forbid_changes_on_closed_issue_trigger"()
       "issue_id_v" "issue"."id"%TYPE;
       "issue_row"  "issue"%ROWTYPE;
     BEGIN
+      IF TG_RELID = 'direct_voter'::regclass AND TG_OP = 'UPDATE' THEN
+        IF
+          OLD."issue_id"  = NEW."issue_id"  AND
+          OLD."member_id" = NEW."member_id" AND
+          OLD."weight"    = NEW."weight"
+        THEN
+          RETURN NULL;  -- allows changing of voter comment
+        END IF;
+      END IF;
       IF TG_OP = 'DELETE' THEN
         "issue_id_v" := OLD."issue_id";
       ELSE
@@ -2041,23 +2097,30 @@ COMMENT ON VIEW "issue_with_ranks_missing" IS 'Issues where voting was finished,
 CREATE VIEW "member_contingent" AS
   SELECT
     "member"."id" AS "member_id",
+    "contingent"."polling",
     "contingent"."time_frame",
     CASE WHEN "contingent"."text_entry_limit" NOTNULL THEN
       (
         SELECT count(1) FROM "draft"
+        JOIN "initiative" ON "initiative"."id" = "draft"."initiative_id"
         WHERE "draft"."author_id" = "member"."id"
+        AND "initiative"."polling" = "contingent"."polling"
         AND "draft"."created" > now() - "contingent"."time_frame"
       ) + (
         SELECT count(1) FROM "suggestion"
+        JOIN "initiative" ON "initiative"."id" = "suggestion"."initiative_id"
         WHERE "suggestion"."author_id" = "member"."id"
+        AND "contingent"."polling" = FALSE
         AND "suggestion"."created" > now() - "contingent"."time_frame"
       )
     ELSE NULL END AS "text_entry_count",
     "contingent"."text_entry_limit",
     CASE WHEN "contingent"."initiative_limit" NOTNULL THEN (
-      SELECT count(1) FROM "opening_draft"
-      WHERE "opening_draft"."author_id" = "member"."id"
-      AND "opening_draft"."created" > now() - "contingent"."time_frame"
+      SELECT count(1) FROM "opening_draft" AS "draft"
+        JOIN "initiative" ON "initiative"."id" = "draft"."initiative_id"
+      WHERE "draft"."author_id" = "member"."id"
+      AND "initiative"."polling" = "contingent"."polling"
+      AND "draft"."created" > now() - "contingent"."time_frame"
     ) ELSE NULL END AS "initiative_count",
     "contingent"."initiative_limit"
   FROM "member" CROSS JOIN "contingent";
@@ -2071,9 +2134,10 @@ COMMENT ON COLUMN "member_contingent"."initiative_count" IS 'Only calculated whe
 CREATE VIEW "member_contingent_left" AS
   SELECT
     "member_id",
+    "polling",
     max("text_entry_limit" - "text_entry_count") AS "text_entries_left",
     max("initiative_limit" - "initiative_count") AS "initiatives_left"
-  FROM "member_contingent" GROUP BY "member_id";
+  FROM "member_contingent" GROUP BY "member_id", "polling";
 
 COMMENT ON VIEW "member_contingent_left" IS 'Amount of text entries or initiatives which can be posted now instantly by a member. This view should be used by a frontend to determine, if the contingent for posting is exhausted.';
 
@@ -3536,10 +3600,12 @@ CREATE FUNCTION "freeze_after_snapshot"
         WHERE "issue_id" = "issue_id_p" AND "revoked" ISNULL
       LOOP
         IF
-          "initiative_row"."satisfied_supporter_count" > 0 AND
-          "initiative_row"."satisfied_supporter_count" *
-          "policy_row"."initiative_quorum_den" >=
-          "issue_row"."population" * "policy_row"."initiative_quorum_num"
+          "initiative_row"."polling" OR (
+            "initiative_row"."satisfied_supporter_count" > 0 AND
+            "initiative_row"."satisfied_supporter_count" *
+            "policy_row"."initiative_quorum_den" >=
+            "issue_row"."population" * "policy_row"."initiative_quorum_num"
+          )
         THEN
           UPDATE "initiative" SET "admitted" = TRUE
             WHERE "id" = "initiative_row"."id";
@@ -3709,6 +3775,9 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       PERFORM "lock_issue"("issue_id_p");
       SELECT "area_id" INTO "area_id_v" FROM "issue" WHERE "id" = "issue_id_p";
       SELECT "unit_id" INTO "unit_id_v" FROM "area"  WHERE "id" = "area_id_v";
+      -- delete timestamp of voting comment:
+      UPDATE "direct_voter" SET "comment_changed" = NULL
+        WHERE "issue_id" = "issue_id_p";
       -- delete delegating votes (in cases of manual reset of issue state):
       DELETE FROM "delegating_voter"
         WHERE "issue_id" = "issue_id_p";
@@ -4286,10 +4355,6 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
           "closed"          = NULL,
           "ranks_available" = FALSE
           WHERE "id" = "issue_id_p";
-        DELETE FROM "issue_comment"
-          WHERE "issue_id" = "issue_id_p";
-        DELETE FROM "voting_comment"
-          WHERE "issue_id" = "issue_id_p";
         DELETE FROM "delegating_voter"
           WHERE "issue_id" = "issue_id_p";
         DELETE FROM "direct_voter"
@@ -4438,7 +4503,7 @@ CREATE FUNCTION "delete_private_data"()
     END;
   $$;
 
-COMMENT ON FUNCTION "delete_private_data"() IS 'Used by lf_export script. DO NOT USE on productive database, but only on a copy! This function deletes all data which should not be publicly available, and can be used to create a database dump for publication.';
+COMMENT ON FUNCTION "delete_private_data"() IS 'Used by lf_export script. DO NOT USE on productive database, but only on a copy! This function deletes all data which should not be publicly available, and can be used to create a database dump for publication. See source code to see which data is deleted. If you need a different behaviour, copy this function and modify lf_export accordingly, to avoid data-leaks after updating.';
 
 
 
