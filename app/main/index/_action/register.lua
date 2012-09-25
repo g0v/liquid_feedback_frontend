@@ -1,5 +1,28 @@
 local code = util.trim(param.get("code"))
 
+--[[ allow registration without invite code
+if code == '' then
+  code = multirand.string( 24, "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz" )  
+  local member = Member:new()
+  member.invite_code = code
+  member:save()  
+  local units = Unit:new_selector()
+    :add_field("privilege.member_id NOTNULL", "privilege_exists")
+    :add_field("privilege.voting_right", "voting_right")
+    :left_join("privilege", nil, { "privilege.member_id = ? AND privilege.unit_id = unit.id", member.id })
+    :exec()
+  for i, unit in ipairs(units) do
+    if not unit.privilege_exists then
+      privilege = Privilege:new()
+      privilege.unit_id = unit.id
+      privilege.member_id = member.id
+      privilege.voting_right = true
+      privilege:save()
+    end
+  end    
+end
+--]] 
+
 local member = Member:new_selector()
   :add_where{ "invite_code = ?", code }
   :add_where{ "activated ISNULL" }
