@@ -44,6 +44,7 @@ return {
 ["Add my interest"] = "Mein Interesse anmelden";
 ["Add new suggestion"] = "Neue Anregung hinzufügen";
 ["Add new unit"] = "Neue Gliederung";
+["Add to list"] = "Zur Liste hinzufügen";
 ["Add to my contacts"] = "Zu meinen Kontakten hinzufügen";
 ["Address"] = "Anschrift";
 ["Admin"] = "Admin";
@@ -126,6 +127,7 @@ return {
 ["Collective opinion of supporters"] = "Meinungsbild der Unterstützer";
 ["Commit suggestion"] = "Anregung speichern";
 ["Compare"] = "Vergleichen";
+["Complete preference list over all scopes"] = "Vollständige Präferenzliste über alle Ebenen";
 ["Configure notifications now"] = "Benachrichtigungen jetzt konfigurieren";
 ["Confirm"] = "Bestätigen";
 ["Confirmation code"] = "Bestätigungscode";
@@ -312,6 +314,7 @@ return {
 ["LiquidFeedback"] = "LiquidFeedback";
 ["List all revisions (#{count})"] = "Zeige alle Versionen (#{count})";
 ["Lock member?"] = "Mitglied sperren?";
+["List of trustees"] = "Liste der Bevollmächtigten";
 ["Locked?"] = "Gesperrt?";
 ["Login"] = "Anmeldung";
 ["Login name"] = "Anmeldename";
@@ -717,8 +720,10 @@ return {
 ["days"] = "Tage";
 ["deactivated"] = "deaktiviert";
 ["delegates to"] = "delegiert an";
+["delete"] = "löschen";
 ["delete<br /><br />"] = "löschen<br /><br />";
 ["disabled"] = "ausgeschaltet";
+["down"] = "runter";
 ["email"] = "E-Mail";
 ["global"] = "Global";
 ["i#{id}: #{name}"] = false;
@@ -744,6 +749,7 @@ return {
 ["to reset your password please click on the following link:\n\n"] = "um Dein Kennwort zurückzusetzen klicke bitte den folgenden Link an:\n\n";
 ["unit"] = "Gliederung";
 ["until"] = "bis";
+["up"] = "rauf";
 ["with winner"] = "mit Gewinner";
 ["without winner"] = "ohne Gewinner";
 ["xmpp"] = "Jabber (XMPP)";
