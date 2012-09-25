@@ -2935,10 +2935,11 @@ CREATE FUNCTION "lock_issue"
       -- is changed, which could affect calculation of snapshots or
       -- counting of votes. Table "delegation" must be table-level-locked,
       -- as it also contains issue- and global-scope delegations.
-      LOCK TABLE "member"     IN SHARE MODE;
-      -- NOTE: As we later cause implicit row-level share locks on many
-      -- active members, we lock them right here to avoid deadlocks
       PERFORM NULL FROM "member" WHERE "active" FOR SHARE;
+      -- NOTE: As we later cause implicit row-level share locks on many
+      -- active members, we lock them before locking any other table
+      -- to avoid deadlocks
+      LOCK TABLE "member"     IN SHARE MODE;
       LOCK TABLE "privilege"  IN SHARE MODE;
       LOCK TABLE "membership" IN SHARE MODE;
       LOCK TABLE "policy"     IN SHARE MODE;
