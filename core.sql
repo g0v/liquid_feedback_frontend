@@ -4054,6 +4054,7 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
                   "j" := 1;
                   LOOP
                     IF "i" != "j" THEN
+                      -- TODO: Bug here. This can cause other links to be forbidden, which should not be forbidden:
                       IF "modified_matrix"["m"]["n"] = "direct_matrix"["i"]["j"] THEN
                         "forbidden_matrix"["i"]["j"] := TRUE;
                       END IF;
