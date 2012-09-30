@@ -41,8 +41,7 @@ INSERT INTO "policy" (
     "issue_quorum_num", "issue_quorum_den",
     "initiative_quorum_num", "initiative_quorum_den",
     "direct_majority_num", "direct_majority_den", "direct_majority_strict",
-    "no_reverse_beat_path", "no_multistage_majority",
-    "schulze_variant"
+    "no_reverse_beat_path", "no_multistage_majority"
   ) VALUES (
     1,
     'Default policy',
@@ -50,8 +49,7 @@ INSERT INTO "policy" (
     25, 100,
     20, 100,
     1, 2, TRUE,
-    TRUE, FALSE,
-    'tie_breaking_with_negative_strength'::"schulze_variant" );
+    TRUE, FALSE );
 
 CREATE FUNCTION "time_warp"() RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
@@ -120,37 +118,10 @@ INSERT INTO "delegation"
   (18, 'unit', 1, 19),
   (23, 'unit', 1, 22);
 
--- no delegations in area #1
-INSERT INTO "delegation"
-  ("truster_id", "scope", "area_id", "trustee_id") VALUES
-  ( 1, 'area', 1, NULL),
-  ( 2, 'area', 1, NULL),
-  ( 3, 'area', 1, NULL),
-  ( 4, 'area', 1, NULL),
-  ( 5, 'area', 1, NULL),
-  ( 6, 'area', 1, NULL),
-  ( 7, 'area', 1, NULL),
-  ( 8, 'area', 1, NULL),
-  ( 9, 'area', 1, NULL),
-  (10, 'area', 1, NULL),
-  (11, 'area', 1, NULL),
-  (12, 'area', 1, NULL),
-  (13, 'area', 1, NULL),
-  (14, 'area', 1, NULL),
-  (15, 'area', 1, NULL),
-  (16, 'area', 1, NULL),
-  (17, 'area', 1, NULL),
-  (18, 'area', 1, NULL),
-  (19, 'area', 1, NULL),
-  (20, 'area', 1, NULL),
-  (21, 'area', 1, NULL),
-  (22, 'area', 1, NULL),
-  (23, 'area', 1, NULL);
-
 -- delegations for topics
 INSERT INTO "delegation"
   ("area_id", "truster_id", "scope", "trustee_id") VALUES
-  --(1,  3, 'area', 17),
+  (1,  3, 'area', 17),
   (2,  5, 'area', 10),
   (2,  9, 'area', 10),
   (3,  4, 'area', 14),
@@ -265,25 +236,6 @@ INSERT INTO "supporter" ("member_id", "initiative_id", "draft_id") VALUES
   (6,  9,  9),
   (6, 10, 10),
   (6, 11, 11);
-
-INSERT INTO "issue" ("area_id", "policy_id") VALUES
-  (1, 1);  -- id 3
-
-INSERT INTO "initiative" ("issue_id", "name") VALUES
-  (3, 'First initiative'),   -- id 12
-  (3, 'Second initiative');  -- id 13
-
-INSERT INTO "draft" ("initiative_id", "author_id", "content") VALUES
-  (12, 1, 'Lorem ipsum...'),  -- id 12
-  (13, 2, 'Lorem ipsum...');  -- id 13
-
-INSERT INTO "initiator" ("initiative_id", "member_id") VALUES
-  (12, 1),
-  (13, 2);
-
-INSERT INTO "supporter" ("initiative_id", "member_id") VALUES
-  (12, 1),
-  (13, 2);
  
 SELECT "time_warp"();
 SELECT "time_warp"();
@@ -449,25 +401,6 @@ INSERT INTO "vote" ("member_id", "issue_id", "initiative_id", "grade") VALUES
   (20, 2,  9,  2),
   (20, 2, 10, -1),
   (20, 2, 11,  3);
-
-INSERT INTO "direct_voter" ("member_id", "issue_id") VALUES
-  ( 1, 3),
-  ( 2, 3),
-  ( 3, 3),
-  ( 4, 3),
-  ( 5, 3);
-
-INSERT INTO "vote" ("member_id", "issue_id", "initiative_id", "grade") VALUES
-  (1, 3, 12,  1),
-  (1, 3, 13,  1),
-  (2, 3, 12,  1),
-  (2, 3, 13,  1),
-  (3, 3, 12,  0),
-  (3, 3, 13,  1),
-  (4, 3, 12,  0),
-  (4, 3, 13, -1),
-  (5, 3, 12, -1),
-  (5, 3, 13, -1);
 
 SELECT "time_warp"();
 

@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('2.2.0', 2, 2, 0))
+  SELECT * FROM (VALUES ('2.1.0', 2, 1, 0))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -329,11 +329,6 @@ COMMENT ON COLUMN "session"."member_id"         IS 'Reference to member, who is 
 COMMENT ON COLUMN "session"."lang"              IS 'Language code of the selected language';
 
 
-CREATE TYPE "schulze_variant" AS ENUM ('absolute_strength', 'tuple_strength', 'partial_tie_breaking', 'tie_breaking_with_negative_strength');
-
-COMMENT ON TYPE "schulze_variant" IS 'Variant of schulze method, which differ by complexity; greater values have a higher complexity';
-
-
 CREATE TABLE "policy" (
         "id"                    SERIAL4         PRIMARY KEY,
         "index"                 INT4            NOT NULL,
@@ -361,7 +356,6 @@ CREATE TABLE "policy" (
         "indirect_majority_non_negative" INT4   NOT NULL DEFAULT 0,
         "no_reverse_beat_path"          BOOLEAN NOT NULL DEFAULT TRUE,
         "no_multistage_majority"        BOOLEAN NOT NULL DEFAULT FALSE,
-        "schulze_variant"     "schulze_variant" NOT NULL DEFAULT 'tie_breaking_with_negative_strength',
         CONSTRAINT "timing" CHECK (
           ( "polling" = FALSE AND
             "admission_time" NOTNULL AND "discussion_time" NOTNULL AND
@@ -677,13 +671,13 @@ COMMENT ON COLUMN "initiative"."positive_votes"         IS 'Calculated from tabl
 COMMENT ON COLUMN "initiative"."negative_votes"         IS 'Calculated from table "direct_voter"';
 COMMENT ON COLUMN "initiative"."direct_majority"        IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "direct_majority_num"/"direct_majority_den", and "positive_votes" is greater-equal than "direct_majority_positive", and ("positive_votes"+abstentions) is greater-equal than "direct_majority_non_negative"';
 COMMENT ON COLUMN "initiative"."indirect_majority"      IS 'Same as "direct_majority", but also considering indirect beat paths';
-COMMENT ON COLUMN "initiative"."schulze_rank"           IS 'Schulze-Ranking';
-COMMENT ON COLUMN "initiative"."better_than_status_quo" IS 'TRUE, if initiative has a schulze-ranking better than the status quo';
-COMMENT ON COLUMN "initiative"."worse_than_status_quo"  IS 'TRUE, if initiative has a schulze-ranking worse than the status quo';
+COMMENT ON COLUMN "initiative"."schulze_rank"           IS 'Schulze-Ranking without tie-breaking';
+COMMENT ON COLUMN "initiative"."better_than_status_quo" IS 'TRUE, if initiative has a schulze-ranking better than the status quo (without tie-breaking)';
+COMMENT ON COLUMN "initiative"."worse_than_status_quo"  IS 'TRUE, if initiative has a schulze-ranking worse than the status quo (without tie-breaking)';
 COMMENT ON COLUMN "initiative"."reverse_beat_path"      IS 'TRUE, if there is a beat path (may include ties) from this initiative to the status quo';
 COMMENT ON COLUMN "initiative"."multistage_majority"    IS 'TRUE, if either (a) this initiative has no better rank than the status quo, or (b) there exists a better ranked initiative X, which directly beats this initiative, and either more voters prefer X to this initiative than voters preferring X to the status quo or less voters prefer this initiative to X than voters preferring the status quo to X';
 COMMENT ON COLUMN "initiative"."eligible"               IS 'Initiative has a "direct_majority" and an "indirect_majority", is "better_than_status_quo" and depending on selected policy the initiative has no "reverse_beat_path" or "multistage_majority"';
-COMMENT ON COLUMN "initiative"."winner"                 IS 'Winner is the "eligible" initiative with best "schulze_rank" and in case of unresolved ties with lowest "id"';
+COMMENT ON COLUMN "initiative"."winner"                 IS 'Winner is the "eligible" initiative with best "schulze_rank" and in case of ties with lowest "id"';
 COMMENT ON COLUMN "initiative"."rank"                   IS 'Unique ranking for all "admitted" initiatives per issue; lower rank is better; a winner always has rank 1, but rank 1 does not imply that an initiative is winner; initiatives with "direct_majority" AND "indirect_majority" always have a better (lower) rank than other initiatives';
 
 
@@ -3854,47 +3848,22 @@ COMMENT ON FUNCTION "close_voting"
   IS 'Closes the voting on an issue, and calculates positive and negative votes for each initiative; The ranking is not calculated yet, to keep the (locking) transaction short.';
 
 
-CREATE FUNCTION "impossible_defeat_strength"()
-  RETURNS INT8
-  LANGUAGE 'plpgsql' IMMUTABLE AS $$
-    BEGIN
-      RETURN -1::INT8 << 63;
-    END;
-  $$;
-
-COMMENT ON FUNCTION "impossible_defeat_strength"() IS 'An INT8 value lower than any other value returned by function "defeat_strength"(INT4, INT4)';
-
-
 CREATE FUNCTION "defeat_strength"
-  ( "schulze_variant_p" "schulze_variant",
-    "positive_votes_p" INT4,
-    "negative_votes_p" INT4 )
+  ( "positive_votes_p" INT4, "negative_votes_p" INT4 )
   RETURNS INT8
   LANGUAGE 'plpgsql' IMMUTABLE AS $$
     BEGIN
-      IF "schulze_variant_p" >= 'tuple_strength'::"schulze_variant" THEN
-        IF "positive_votes_p" > "negative_votes_p" THEN
-          RETURN ("positive_votes_p"::INT8 << 31) - "negative_votes_p"::INT8;
-        ELSIF "positive_votes_p" = "negative_votes_p" THEN
-          RETURN 0::INT8;
-        ELSE
-          IF "schulze_variant_p" >= 'tie_breaking_with_negative_strength'::"schulze_variant" THEN
-            RETURN "positive_votes_p"::INT8 - ("negative_votes_p"::INT8 << 31);
-          ELSE
-            RETURN "impossible_defeat_strength"();
-          END IF;
-        END IF;
+      IF "positive_votes_p" > "negative_votes_p" THEN
+        RETURN ("positive_votes_p"::INT8 << 31) - "negative_votes_p"::INT8;
+      ELSIF "positive_votes_p" = "negative_votes_p" THEN
+        RETURN 0;
       ELSE
-        IF "positive_votes_p" > "negative_votes_p" THEN
-          RETURN "positive_votes_p"::INT8;
-        ELSE
-          RETURN 0::INT8;
-        END IF;
+        RETURN -1;
       END IF;
     END;
   $$;
 
-COMMENT ON FUNCTION "defeat_strength"("schulze_variant", INT4, INT4) IS 'Calculates defeat strength (INT8!) of a pairwise defeat primarily by the absolute number of votes for the winner and secondarily by the absolute number of votes for the loser. A tie has a strength of zero.';
+COMMENT ON FUNCTION "defeat_strength"(INT4, INT4) IS 'Calculates defeat strength (INT8!) of a pairwise defeat primarily by the absolute number of votes for the winner and secondarily by the absolute number of votes for the loser';
 
 
 CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
@@ -3904,17 +3873,11 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
       "issue_row"         "issue"%ROWTYPE;
       "policy_row"        "policy"%ROWTYPE;
       "dimension_v"       INTEGER;
-      "vote_matrix"       INT4[][];     -- absolute votes
-      "direct_matrix"     INT8[][];     -- direct defeat strength
-      "path_matrix"       INT8[][];     -- defeat strength of best path
-      "compare_matrix"    BOOLEAN[][];  -- binary relation to create schulze-rank
-      "forbidden_matrix"  BOOLEAN[][];  -- forbidden links for tie-breaking
-      "modified_matrix"   INT8[][];     -- defeat strength after tie-breaking
+      "vote_matrix"       INT4[][];  -- absolute votes
+      "matrix"            INT8[][];  -- defeat strength / best paths
       "i"                 INTEGER;
       "j"                 INTEGER;
       "k"                 INTEGER;
-      "m"                 INTEGER;
-      "n"                 INTEGER;
       "battle_row"        "battle"%ROWTYPE;
       "rank_ary"          INT4[];
       "rank_v"            INT4;
@@ -3954,16 +3917,15 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
       IF "i" != "dimension_v" OR "j" != "dimension_v" + 1 THEN
         RAISE EXCEPTION 'Wrong battle count (should not happen)';
       END IF;
-      -- Store defeat strengths in "path_matrix" using "defeat_strength"
+      -- Store defeat strengths in "matrix" using "defeat_strength"
       -- function:
-      "direct_matrix" := array_fill(NULL::INT8, ARRAY["dimension_v", "dimension_v"]);
+      "matrix" := array_fill(NULL::INT8, ARRAY["dimension_v", "dimension_v"]);
       "i" := 1;
       LOOP
         "j" := 1;
         LOOP
           IF "i" != "j" THEN
-            "direct_matrix"["i"]["j"] := "defeat_strength"(
-              "policy_row"."schulze_variant",
+            "matrix"["i"]["j"] := "defeat_strength"(
               "vote_matrix"["i"]["j"],
               "vote_matrix"["j"]["i"]
             );
@@ -3975,7 +3937,6 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
         "i" := "i" + 1;
       END LOOP;
       -- Find best paths:
-      "path_matrix" := "direct_matrix";
       "i" := 1;
       LOOP
         "j" := 1;
@@ -3984,13 +3945,13 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
             "k" := 1;
             LOOP
               IF "i" != "k" AND "j" != "k" THEN
-                IF "path_matrix"["j"]["i"] < "path_matrix"["i"]["k"] THEN
-                  IF "path_matrix"["j"]["i"] > "path_matrix"["j"]["k"] THEN
-                    "path_matrix"["j"]["k"] := "path_matrix"["j"]["i"];
+                IF "matrix"["j"]["i"] < "matrix"["i"]["k"] THEN
+                  IF "matrix"["j"]["i"] > "matrix"["j"]["k"] THEN
+                    "matrix"["j"]["k"] := "matrix"["j"]["i"];
                   END IF;
                 ELSE
-                  IF "path_matrix"["i"]["k"] > "path_matrix"["j"]["k"] THEN
-                    "path_matrix"["j"]["k"] := "path_matrix"["i"]["k"];
+                  IF "matrix"["i"]["k"] > "matrix"["j"]["k"] THEN
+                    "matrix"["j"]["k"] := "matrix"["i"]["k"];
                   END IF;
                 END IF;
               END IF;
@@ -4004,132 +3965,6 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
         EXIT WHEN "i" = "dimension_v";
         "i" := "i" + 1;
       END LOOP;
-      -- initial calculation of binary relation:
-      "compare_matrix" := array_fill(NULL::BOOLEAN, ARRAY["dimension_v", "dimension_v"]);
-      "i" := 1;
-      LOOP
-        "j" := 1;
-        LOOP
-          IF "i" != "j" THEN
-            IF "path_matrix"["i"]["j"] > "path_matrix"["j"]["i"] THEN
-              "compare_matrix"["i"]["j"] = TRUE;
-              "compare_matrix"["j"]["i"] = FALSE;
-            ELSIF "path_matrix"["i"]["j"] < "path_matrix"["j"]["i"] THEN
-              "compare_matrix"["i"]["j"] = FALSE;
-              "compare_matrix"["j"]["i"] = TRUE;
-            END IF;
-          END IF;
-          EXIT WHEN "j" = "dimension_v";
-          "j" := "j" + 1;
-        END LOOP;
-        EXIT WHEN "i" = "dimension_v";
-        "i" := "i" + 1;
-      END LOOP;
-      -- tie-breaking:
-      IF "policy_row"."schulze_variant" >= 'partial_tie_breaking'::"schulze_variant" THEN
-        "modified_matrix"  := array_fill(NULL::INT8, ARRAY["dimension_v", "dimension_v"]);
-        "forbidden_matrix" := array_fill(NULL::BOOLEAN, ARRAY["dimension_v", "dimension_v"]);
-        "m" := 1;
-        LOOP
-          "n" := "m" + 1;
-          LOOP
-            IF "compare_matrix"["m"]["n"] ISNULL THEN
-              "i" := 1;
-              LOOP
-                "j" := 1;
-                LOOP
-                  IF "i" != "j" THEN
-                    "forbidden_matrix"["i"]["j"] := FALSE;
-                    "modified_matrix"["i"]["j"] := "path_matrix"["i"]["j"];
-                  END IF;
-                  EXIT WHEN "j" = "dimension_v";
-                  "j" := "j" + 1;
-                END LOOP;
-                EXIT WHEN "i" = "dimension_v";
-                "i" := "i" + 1;
-              END LOOP;
-              LOOP
-                "i" := 1;
-                LOOP
-                  "j" := 1;
-                  LOOP
-                    IF "i" != "j" THEN
-                      -- TODO: Bug here. This can cause other links to be forbidden, which should not be forbidden:
-                      IF "modified_matrix"["m"]["n"] = "direct_matrix"["i"]["j"] THEN
-                        "forbidden_matrix"["i"]["j"] := TRUE;
-                      END IF;
-                    END IF;
-                    EXIT WHEN "j" = "dimension_v";
-                    "j" := "j" + 1;
-                  END LOOP;
-                  EXIT WHEN "i" = "dimension_v";
-                  "i" := "i" + 1;
-                END LOOP;
-                "i" := 1;
-                LOOP
-                  "j" := 1;
-                  LOOP
-                    IF "i" != "j" THEN
-                      IF "forbidden_matrix"["i"]["j"] THEN
-                        "modified_matrix"["i"]["j"] := "impossible_defeat_strength"();
-                      ELSE
-                        "modified_matrix"["i"]["j"] := "direct_matrix"["i"]["j"];
-                      END IF;
-                    END IF;
-                    EXIT WHEN "j" = "dimension_v";
-                    "j" := "j" + 1;
-                  END LOOP;
-                  EXIT WHEN "i" = "dimension_v";
-                  "i" := "i" + 1;
-                END LOOP;
-                "i" := 1;
-                LOOP
-                  "j" := 1;
-                  LOOP
-                    IF "i" != "j" THEN
-                      "k" := 1;
-                      LOOP
-                        IF "i" != "k" AND "j" != "k" THEN
-                          IF "modified_matrix"["j"]["i"] < "modified_matrix"["i"]["k"] THEN
-                            IF "modified_matrix"["j"]["i"] > "modified_matrix"["j"]["k"] THEN
-                              "modified_matrix"["j"]["k"] := "modified_matrix"["j"]["i"];
-                            END IF;
-                          ELSE
-                            IF "modified_matrix"["i"]["k"] > "modified_matrix"["j"]["k"] THEN
-                              "modified_matrix"["j"]["k"] := "modified_matrix"["i"]["k"];
-                            END IF;
-                          END IF;
-                        END IF;
-                        EXIT WHEN "k" = "dimension_v";
-                        "k" := "k" + 1;
-                      END LOOP;
-                    END IF;
-                    EXIT WHEN "j" = "dimension_v";
-                    "j" := "j" + 1;
-                  END LOOP;
-                  EXIT WHEN "i" = "dimension_v";
-                  "i" := "i" + 1;
-                END LOOP;
-                IF "modified_matrix"["m"]["n"] > "modified_matrix"["n"]["m"] THEN
-                  "compare_matrix"["m"]["n"] := TRUE;
-                  "compare_matrix"["n"]["m"] := FALSE;
-                  EXIT;
-                ELSIF "modified_matrix"["m"]["n"] < "modified_matrix"["n"]["m"] THEN
-                  "compare_matrix"["m"]["n"] := FALSE;
-                  "compare_matrix"["n"]["m"] := TRUE;
-                  EXIT;
-                ELSIF "modified_matrix"["m"]["n"] = "impossible_defeat_strength"() THEN
-                  EXIT;
-                END IF;
-              END LOOP;
-            END IF;
-            EXIT WHEN "n" = "dimension_v";
-            "n" := "n" + 1;
-          END LOOP;
-          EXIT WHEN "m" = "dimension_v" - 1;
-          "m" := "m" + 1;
-        END LOOP;
-      END IF;
       -- Determine order of winners:
       "rank_ary" := array_fill(NULL::INT4, ARRAY["dimension_v"]);
       "rank_v" := 1;
@@ -4144,7 +3979,7 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
               IF
                 "i" != "j" AND
                 "rank_ary"["j"] ISNULL AND
-                "compare_matrix"["j"]["i"]
+                "matrix"["j"]["i"] > "matrix"["i"]["j"]
               THEN
                 -- someone else is better
                 EXIT;
@@ -4204,7 +4039,7 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           "better_than_status_quo" = "rank_ary"["i"] < "rank_ary"["dimension_v"],
           "worse_than_status_quo"  = "rank_ary"["i"] > "rank_ary"["dimension_v"],
           "multistage_majority"    = "rank_ary"["i"] >= "rank_ary"["dimension_v"],
-          "reverse_beat_path"      = "path_matrix"["dimension_v"]["i"] >= 0,
+          "reverse_beat_path"      = "matrix"["dimension_v"]["i"] >= 0,
           "eligible"               = FALSE,
           "winner"                 = FALSE,
           "rank"                   = NULL  -- NOTE: in cases of manual reset of issue state
