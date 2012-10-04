@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 return {
-["#{closed_ago} ago"] = "πριν από #{closed_ago}"];
+["#{closed_ago} ago"] = "πριν από #{closed_ago}";
 ["#{count} cancelled"] = "#{count} ακυρώθηκαν";
 ["#{count} days ago"] = "#{count} μέρες πριν";
 ["#{count} finished"] = "#{count} ολοκληρώθηκαν";
@@ -734,7 +734,7 @@ return {
 ["disabled"] = "απενεργοποιημένο";
 ["email"] = "Email";
 ["global"] = "Καθολικό";
-["i#{id}: #{name}"] = i#{id}: #{name}";
+["i#{id}: #{name}"] = "i#{id}: #{name}";
 ["implemented"] = "υλοποιημένη";
 ["inactive"] = "ανενεργός/ή";
 ["last 24 hours"] = "τις τελευταίες 24 ώρες";
