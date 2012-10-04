@@ -96,7 +96,7 @@ return {
 ["Can't remove last initiator"] = "Δεν μπορεί να αφαιρεθεί ο τελευταίος εισηγητής";
 ["Can't send confirmation email"] = "Δεν ήταν δυνατή η αποστολή email επιβεβαίωσης.";
 ["Cancel"] = "Άκυρο";
-["Cancel [nullify]"] = "Ακύρωση [nullify]";
+["Cancel [nullify]"] = "Ακύρωση";
 ["Cancel password reset"] = "Ακύρωση επαναφοράς κωδικού πρόσβασης";
 ["Cancel refuse of invitation"] = "Ακύρωση απόρριψης της πρόσκλησης";
 ["Cancel registration"] = "Ακύρωση εγγραφής";
