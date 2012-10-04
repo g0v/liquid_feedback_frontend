@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 return {
-["#{closed_ago} ago"] = “＃{closed_ago} 之前”;
+["#{closed_ago} ago"] = "＃{closed_ago} 之前";
 ["#{count} cancelled"] = "#{count} 个已取消";
 ["#{count} days ago"] = "#{count} 日前";
 ["#{count} finished"] = "#{count} 个已结束";
