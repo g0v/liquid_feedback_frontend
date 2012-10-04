@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 return {
-["#{closed_ago} ago"] = false;
+["#{closed_ago} ago"] = “＃{closed_ago} 之前”;
 ["#{count} cancelled"] = "#{count} 个已取消";
 ["#{count} days ago"] = "#{count} 日前";
 ["#{count} finished"] = "#{count} 个已结束";
@@ -96,7 +96,7 @@ return {
 ["Can't remove last initiator"] = "无法移除最末位发起者";
 ["Can't send confirmation email"] = "无法寄送确认电邮";
 ["Cancel"] = "取消";
-["Cancel [nullify]"] = false;
+["Cancel [nullify]"] = "取消 [nullify]";
 ["Cancel password reset"] = "取消密码重设";
 ["Cancel refuse of invitation"] = "取消婉拒邀请";
 ["Cancel registration"] = "取消注册";
@@ -193,7 +193,7 @@ return {
 ["Discussion starts soon"] = "讨论即将开始";
 ["Discussion time"] = "剩余讨论时间";
 ["Discussion with initiators"] = "与发起者讨论";
-["Do not vote directly"] = false;
+["Do not vote directly"] = "请勿直接表决";
 ["Download"] = "下载";
 ["Download database export"] = "下载汇出的资料库";
 ["Download documents"] = "下载文件";
@@ -216,7 +216,7 @@ return {
 ["Error while converting image. Please note, that only JPG files are supported!"] = "轉換图片错误。请注意，只支援 JPG 檔案！";
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "更新成员错误，系统通报错误讯息：<br /><br /> (#{errormessage})";
 ["Etherpad authentication failed"] = "Etherpad 认证失败";
-["Event #{id} -> #{num} members"] = false;
+["Event #{id} -> #{num} members"] = "项目 #{id} -> #{num} 位成员";
 ["Everything"] = "全部";
 ["External memberships"] = "外部成员";
 ["External posts"] = "外部职位";
@@ -224,7 +224,7 @@ return {
 ["Finished"] = "已结束";
 ["Finished (with winner)"] = "已结束 (有获选者)";
 ["Finished (without winner)"] = "已结束 (无获选者)";
-["Free timing"] = false;
+["Free timing"] = "自定期限";
 ["Friday"] = "周五";
 ["Frozen"] = "底定期";
 ["Fully frozen at"] = "全底定于";
@@ -237,7 +237,7 @@ return {
 ["Help #{id}"] = "说明文件 #{id}";
 ["Help for: #{text}"] = "#{text} 的说明文件";
 ["Hide"] = "隐藏";
-["Hide active units"] = false;
+["Hide active units"] = "隐藏活跃的单位";
 ["Hide filter details"] = "隐藏筛选条件细节";
 ["Hide this help message"] = "隐藏此说明文件";
 ["Hint"] = "提示";
@@ -252,7 +252,7 @@ return {
 ["Ignore initiative"] = "忽略提案";
 ["Ignore member"] = "忽略成员";
 ["Images"] = "图片";
-["Implicitly admitted"] = false;
+["Implicitly admitted"] = "被默许递交";
 ["Incoming delegations"] = "受委任的表决";
 ["Index"] = "索引";
 ["Indirect majority"] = "间接多数";
@@ -373,7 +373,7 @@ return {
 ["New suggestion"] = "新增建议";
 ["Newest"] = "由新至旧";
 ["No"] = "否定";
-["No admission needed"] = false;
+["No admission needed"] = "无须递交";
 ["No changes to your images were made"] = "您的图片未被更改";
 ["No default"] = "无預设值";
 ["No delegation"] = "无委任";
@@ -453,7 +453,7 @@ return {
 ["Policy"] = "规则";
 ["Policy '#{name}'"] = "规则 '#{name}'";
 ["Policy list"] = "规则清单";
-["Polling mode"] = false;
+["Polling mode"] = "计票模式";
 ["Population"] = "人数";
 ["Posts"] = "职位";
 ["Potential supported"] = "可能支持的";
@@ -461,7 +461,7 @@ return {
 ["Potential supporters (before begin of voting)"] = "可能支持者 (直到表决开始)";
 ["Potentially supported"] = "可能支持";
 ["Preview"] = "預览";
-["Preview voting comment"] = false;
+["Preview voting comment"] = "预览表决评论";
 ["Proceed with registration"] = "继续注册";
 ["Profession"] = "职業";
 ["Profile"] = "个人简介";
@@ -524,7 +524,7 @@ return {
 ["Show diff"] = "显示更改";
 ["Show filter details"] = "显示筛选条件细节";
 ["Show help text"] = "显示说明文件";
-["Show inactive units"] = false;
+["Show inactive units"] = "显示不活跃的单位";
 ["Show member"] = "显示成员";
 ["Show member history"] = "显示该成员紀录";
 ["Show older events"] = "显示较早动态";
@@ -539,7 +539,7 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "抱歉，您已经达到个人流量限制。请减缓...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "抱歉，您的提案申请额度已经用尽。请稍后重试！";
 ["Source"] = "来源";
-["Standard policies"] = false;
+["Standard policies"] = "标准规则";
 ["Start search"] = "开始搜寻";
 ["Statement"] = "自述";
 ["Status"] = "状态";
@@ -586,13 +586,13 @@ return {
 ["This member is already initiator of this initiative"] = "该成员已是此提案的发起者。";
 ["This member is already invited to become initiator of this initiative"] = "该成员已被邀请成为此提案的发起者。";
 ["This member is inactive"] = "该成员怠惰";
-["This member is initiator of this initiative"] = false;
+["This member is initiator of this initiative"] = "该成员是此提案的发起者";
 ["This member is locked"] = "该成员被锁定";
 ["This member is participating, the rest of delegation chain is suspended while discussing"] = "该成员參与中，其余的委任设定在讨论期间停用。";
-["This member is potential supporter of this initiative"] = false;
-["This member is potential supporter of this initiative via delegation"] = false;
-["This member is supporter of this initiative"] = false;
-["This member is supporter of this initiative via delegation"] = false;
+["This member is potential supporter of this initiative"] = "该成员是此提案的潜在支持者";
+["This member is potential supporter of this initiative via delegation"] = "经委任，该成员是此提案的潜在支持者";
+["This member is supporter of this initiative"] = "该成员是此提案的支持者";
+["This member is supporter of this initiative via delegation"] = "经委任，该成员是此提案的支持者";
 ["This name is already taken, please choose another one!"] = "此使用者代号已被使用，请另择一！";
 ["This name is really too short!"] = "此使用者代号真的太短了！";
 ["This name is too short!"] = "此使用者代号太短！";
@@ -621,7 +621,7 @@ return {
 ["Units"] = "单位";
 ["Units and areas"] = "单位与领域";
 ["Unknown author"] = "无名作者";
-["Update voting comment"] = false;
+["Update voting comment"] = "更新表决评论";
 ["Updated drafts"] = "更新的草案";
 ["Upload avatar/photo"] = "上传头像";
 ["Upload images"] = "上传图片";
@@ -634,12 +634,12 @@ return {
 ["Voted"] = "已表决";
 ["Voted no"] = "投否定票";
 ["Voted yes"] = "投肯定票";
-["Voters"] = false;
+["Voters"] = "投票人";
 ["Voting"] = "表决中";
-["Voting comment"] = false;
-["Voting comment (last updated: #{timestamp})"] = false;
-["Voting comment (optional)"] = false;
-["Voting comment available"] = false;
+["Voting comment"] = "表决评论";
+["Voting comment (last updated: #{timestamp})"] = "表决评论 (最后更新：#{timestamp})";
+["Voting comment (optional)"] = "表决评论 (自选)";
+["Voting comment available"] = "有表决评论";
 ["Voting for this issue has already begun."] = "对此议题的表决已开始。";
 ["Voting has not started yet."] = "此表决尚未开始。";
 ["Voting started"] = "表决已开始";
@@ -655,7 +655,7 @@ return {
 ["Withdraw membership"] = "退出成员身分";
 ["Yes"] = "肯定";
 ["Yesterday at #{time}"] = "昨日于 #{time}";
-["You already voted this issue"] = false;
+["You already voted this issue"] = "您已表决过此议题";
 ["You are already initiator"] = "您已是发起者";
 ["You are already not supporting this initiative"] = "您已不再支持此提案";
 ["You are already supporting the latest draft"] = "您已支持最新的草案";
@@ -756,9 +756,9 @@ return {
 ["to reset your password please click on the following link:\n\n"] = "欲重设您的密码请点击下列连结：\n\n";
 ["unit"] = "单位";
 ["until"] = "直到";
-["variable"] = false;
+["variable"] = "不固定";
 ["with winner"] = "有获选者";
-["without"] = false;
+["without"] = "无须";
 ["without winner"] = "无获选者";
 ["xmpp"] = "Jabber (XMPP)";
 }
