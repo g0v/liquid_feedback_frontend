@@ -2,7 +2,7 @@ slot.select('navigation', function()
 
   ui.link{
     content = function()
-      ui.tag{ attr = { class = "logo_liquidfeedback" }, content = _"LiquidFeedback" }
+      ui.tag{ attr = { class = "logo_liquidfeedback" }, content = _"DiscreteFeedback" }
       slot.put(" &middot; ")
       ui.tag{ content = config.instance_name }
     end,
@@ -103,13 +103,6 @@ slot.select("footer", function()
     text   = _"Use terms",
     module = 'index',
     view   = 'usage_terms'
-  }
-  slot.put(" &middot; ")
-  ui.tag{ content = _"This site is using" }
-  slot.put(" ")
-  ui.link{
-    text   = _"LiquidFeedback",
-    external = "http://www.public-software-group.org/liquid_feedback"
   }
 end)
 

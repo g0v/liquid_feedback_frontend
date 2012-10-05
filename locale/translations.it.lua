@@ -281,7 +281,7 @@ return {
 ["Invalid login name or password!"] = "Il nome utente o la password non sono validi!";
 ["Invalid query"] = "Query non valida";
 ["Invitation has been refused"] = "L'invito e' stato rifiutato";
-["Invitation to LiquidFeedback"] = "Invito per LiquidFeedback";
+["Invitation to DiscreteFeedback"] = "Invito per DiscreteFeedback";
 ["Invite an initiator to initiative"] = "Invita un promotore all'iniziativa";
 ["Invite code"] = "Codice di invito";
 ["Invite initiator"] = "Promotore dell'invito";
@@ -307,7 +307,7 @@ return {
 ["Latest draft created at #{date} #{time}"] = "Ultima bozza creata il #{date} alle #{time}";
 ["Latest events"] = "Ultimi eventi";
 ["License"] = "Licensa";
-["LiquidFeedback"] = "LiquidFeedback";
+["DiscreteFeedback"] = "DiscreteFeedback";
 ["List all revisions (#{count})"] = "Elenca tutte le revisioni (#{count})";
 ["Lock member?"] = "Blocca membro?";
 ["Locked?"] = "Bloccato?";
@@ -645,7 +645,7 @@ return {
 ["You are interested"] = "Sei interessato";
 ["You are interested in this issue"] = "Sei interessato in questa iniziativa";
 ["You are invited to #{count} initiative(s)"] = "Sei invitato a partecipare a #{count} iniziative";
-["You are invited to LiquidFeedback. To register please click the following link:\n\n"] = "Hai ricevuto un invito per LiquidFeedback. Per registrarti clicca sul link sottostante:\n\n";
+["You are invited to DiscreteFeedback. To register please click the following link:\n\n"] = "Hai ricevuto un invito per DiscreteFeedback. Per registrarti clicca sul link sottostante:\n\n";
 ["You are invited to become initiator of this initiative."] = "Hai un invito a diventare promotore di questa iniziativa";
 ["You are member"] = "Sei un membro";
 ["You are not participating in any of the #{count} areas in this unit"] = "Non stai partecipando a nessuna delle #{count} aree in questa sezione";
@@ -729,7 +729,7 @@ return {
 ["none"] = "nessuno";
 ["not implemented"] = "non implementato";
 ["not yet"] = "non ancora";
-["possibly instable result caused by multistage majority"] = "il risultato può essere instabile a causa di maggioranze multistage";
+["possibly instable result caused by multistage majority"] = "il risultato puÃš essere instabile a causa di maggioranze multistage";
 ["prohibit potentially instable results caused by multistage majorities"] = "impedisci risultati instabili causati da maggioranze multistage";
 ["reverse beat path to status quo (including ties)"] = "il 'reverse beat path' rispetto allo status quo e' permesso (incluso parimerito)";
 ["satisfied"] = "soddisfatto";

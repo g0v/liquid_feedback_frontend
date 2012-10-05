@@ -185,6 +185,7 @@ return {
 ["Disapproval [many entries]"] = "Ablehnung";
 ["Disapproval [single entry]"] = "Ablehnung";
 ["Discard voting"] = "Abstimmung zurückziehen";
+["DiscreteFeedback is a specially customized version of the software LiquidFeedback. In particular, the concept of chain delegation has been replaced by the concept of <a href='https://andipopp.wordpress.com/2012/04/02/discrete-democracy-ein-vorschlag-zur-weiterentwicklung-von-liquid-democracy/'>preference delegation</a>. To avoid confusion and thus corresponding to a concern of the authors of LiquidFeedback, this project has received its own name."] = "DiscreteFeedback ist eine speziell angepasste Version der Software LiquidFeedback. Insbesondere wurde das Konzept der Kettendelegation durch das Konzept der <a href='https://andipopp.wordpress.com/2012/04/02/discrete-democracy-ein-vorschlag-zur-weiterentwicklung-von-liquid-democracy/'>Präferenzdelegation</a> ersetzt. Um Verwechslungen und zu vermeiden und damit einem Anliegen der Autoren von LiquidFeedback zu entsprechen, hat dieses Projekt einen eigenen Namen erhalten.";
 ["Discuss with initiators"] = "Diskussion mit den Initiatoren";
 ["Discussion"] = "Diskussion";
 ["Discussion URL"] = "Diskussions-URL";
@@ -285,7 +286,7 @@ return {
 ["Invalid login name or password!"] = "Anmeldename oder Kennwort ungültig";
 ["Invalid query"] = "Ungültige Anfrage";
 ["Invitation has been refused"] = "Einladung wurde widerrufen";
-["Invitation to LiquidFeedback"] = "Einladung zu LiquidFeedback";
+["Invitation to DiscreteFeedback"] = "Einladung zu DiscreteFeedback";
 ["Invite an initiator to initiative"] = "Initiator zur Initiative einladen";
 ["Invite code"] = "Einladungscode";
 ["Invite initiator"] = "Initiator einladen";
@@ -311,7 +312,7 @@ return {
 ["Latest draft created at #{date} #{time}"] = "Letzter Entwurf vom #{date} um #{time}";
 ["Latest events"] = "Letzte Ereignisse";
 ["License"] = "Lizenz";
-["LiquidFeedback"] = "LiquidFeedback";
+["DiscreteFeedback"] = "DiscreteFeedback";
 ["List all revisions (#{count})"] = "Zeige alle Versionen (#{count})";
 ["Lock member?"] = "Mitglied sperren?";
 ["List of trustees"] = "Liste der Bevollmächtigten";
@@ -654,7 +655,7 @@ return {
 ["You are interested"] = "Du bist interessiert";
 ["You are interested in this issue"] = "Du bist an diesem Thema interessiert";
 ["You are invited to #{count} initiative(s)"] = "Du bist zu #{count} Initiativen als Initiator eingeladen";
-["You are invited to LiquidFeedback. To register please click the following link:\n\n"] = "Du bist zu LiquidFeedback eingeladen. Bitte klicke auf den folgenden Link, um dich zu registrieren:\n\n";
+["You are invited to DiscreteFeedback. To register please click the following link:\n\n"] = "Du bist zu DiscreteFeedback eingeladen. Bitte klicke auf den folgenden Link, um dich zu registrieren:\n\n";
 ["You are invited to become initiator of this initiative."] = "Du bist eingeladen Initiator dieser Initiative zu werden.";
 ["You are member"] = "Du bist Mitglied";
 ["You are not participating in any of the #{count} areas in this unit"] = "Du nimmst an keinem der #{count} Themenbereiche dieser Gliederung teil";

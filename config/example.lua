@@ -89,14 +89,14 @@ config.public_access = "none"
 -- ------------------------------------------------------------------------
 -- config.delegation_warning_time = '6 months'
 
--- Prefix of all automatic mails, defaults to "[Liquid Feedback] "
+-- Prefix of all automatic mails, defaults to "[DiscreteFeedback] "
 -- ------------------------------------------------------------------------
--- config.mail_subject_prefix = "[LiquidFeedback] "
+-- config.mail_subject_prefix = "[DiscreteFeedback] "
 
 -- Sender of all automatic mails, defaults to system defaults
 -- ------------------------------------------------------------------------
--- config.mail_envelope_from = "liquidfeedback@example.com"
--- config.mail_from = { name = "LiquidFeedback", address = "liquidfeedback@example.com" }
+-- config.mail_envelope_from = "discretefeedback@example.com"
+-- config.mail_from = { name = "DiscreteFeedback", address = "discretefeedback@example.com" }
 -- config.mail_reply_to = { name = "Support", address = "support@example.com" }
 
 -- Supply custom url for avatar/photo delivery

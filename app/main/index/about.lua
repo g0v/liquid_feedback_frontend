@@ -93,6 +93,8 @@ ui.list{
 }
 
 slot.put("<br />")
+slot.put(_"DiscreteFeedback is a specially customized version of the software LiquidFeedback. In particular, the concept of chain delegation has been replaced by the concept of <a href='https://andipopp.wordpress.com/2012/04/02/discrete-democracy-ein-vorschlag-zur-weiterentwicklung-von-liquid-democracy/'>preference delegation</a>. To avoid confusion and thus corresponding to a concern of the authors of LiquidFeedback, this project has received its own name.")
+slot.put("<br />")
 slot.put("<br />")
 slot.put("<br />")
 

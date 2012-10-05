@@ -283,7 +283,7 @@ return {
 ["Invalid login name or password!"] = false;
 ["Invalid query"] = "Érvénytelen kérdés";
 ["Invitation has been refused"] = "Elutasították a meghívást";
-["Invitation to LiquidFeedback"] = "Meghívás a LiquidFeedbackhez";
+["Invitation to DiscreteFeedback"] = "Meghívás a DiscreteFeedbackhez";
 ["Invite an initiator to initiative"] = "Kezdeményezõ meghívása a kezdeményezéshez";
 ["Invite code"] = "Meghívókód";
 ["Invite initiator"] = "Kezdeményezõ meghívása";
@@ -309,7 +309,7 @@ return {
 ["Latest draft created at #{date} #{time}"] = false;
 ["Latest events"] = false;
 ["License"] = "Licensz";
-["LiquidFeedback"] = false;
+["DiscreteFeedback"] = false;
 ["List all revisions (#{count})"] = false;
 ["Lock member?"] = false;
 ["Locked?"] = "Zárva?";
@@ -651,7 +651,7 @@ return {
 ["You are interested"] = false;
 ["You are interested in this issue"] = "Érdekel ez a téma";
 ["You are invited to #{count} initiative(s)"] = false;
-["You are invited to LiquidFeedback. To register please click the following link:\n\n"] = "Meghívtak a LiquidFeedbackhez. Regisztráláshoz kattints a következõ linkre:";
+["You are invited to DiscreteFeedback. To register please click the following link:\n\n"] = "Meghívtak a DiscreteFeedbackhez. Regisztráláshoz kattints a következõ linkre:";
 ["You are invited to become initiator of this initiative."] = "Meghívtak kezdeményezõnek ehhez a kezdeményezéshez.";
 ["You are member"] = "Tag vagy";
 ["You are not participating in any of the #{count} areas in this unit"] = false;
