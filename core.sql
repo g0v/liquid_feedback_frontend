@@ -2860,37 +2860,6 @@ COMMENT ON FUNCTION "delegation_info"
 
 
 
-------------------------------
--- Comparison by vote count --
-------------------------------
-
-CREATE FUNCTION "vote_ratio"
-  ( "positive_votes_p" "initiative"."positive_votes"%TYPE,
-    "negative_votes_p" "initiative"."negative_votes"%TYPE )
-  RETURNS FLOAT8
-  LANGUAGE 'plpgsql' STABLE AS $$
-    BEGIN
-      IF "positive_votes_p" > 0 AND "negative_votes_p" > 0 THEN
-        RETURN
-          "positive_votes_p"::FLOAT8 /
-          ("positive_votes_p" + "negative_votes_p")::FLOAT8;
-      ELSIF "positive_votes_p" > 0 THEN
-        RETURN "positive_votes_p";
-      ELSIF "negative_votes_p" > 0 THEN
-        RETURN 1 - "negative_votes_p";
-      ELSE
-        RETURN 0.5;
-      END IF;
-    END;
-  $$;
-
-COMMENT ON FUNCTION "vote_ratio"
-  ( "initiative"."positive_votes"%TYPE,
-    "initiative"."negative_votes"%TYPE )
-  IS 'Returns a number, which can be used for comparison of initiatives based on count of approvals and disapprovals. Greater numbers indicate a better result. This function is NOT injective.';
-
-
-
 ------------------------------------------------
 -- Locking for snapshots and voting procedure --
 ------------------------------------------------
@@ -4130,7 +4099,6 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           WHERE "issue_id" = "issue_id_p" AND "eligible"
           ORDER BY
             "schulze_rank",
-            "vote_ratio"("positive_votes", "negative_votes"),
             "id"
           LIMIT 1
         ) AS "subquery"
@@ -4145,7 +4113,6 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
           "winner" DESC,
           "eligible" DESC,
           "schulze_rank",
-          "vote_ratio"("positive_votes", "negative_votes"),
           "id"
       LOOP
         UPDATE "initiative" SET "rank" = "rank_v"
