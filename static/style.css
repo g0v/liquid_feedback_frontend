@@ -126,6 +126,8 @@ h2 {
   display: inline;
 }
 
+
+
 .member_thumb,
 .member_statement,
 .suggestion_content,
@@ -563,7 +565,6 @@ a.delegation_info:focus {
 /*************************************************************************
  * ui.tab
  */
- 
 .ui_tabs_links {
   margin: 20px 0px 10px -2px;
   line-height: 300%;
@@ -841,6 +842,7 @@ div.notifications {
  * Positive / Negtive votes
  */
 
+
 .positive_votes span {
   display: inline;
 }
@@ -891,7 +893,6 @@ div.notifications {
 /*************************************************************************
  * Area list
  */
- 
 .area_list {
   border: 1px solid #444;
   border-radius: 10px;
