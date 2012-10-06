@@ -691,7 +691,7 @@ return {
 ["Your password has been updated successfully"] = "Das Kennwort wurde erfolgreich geändert";
 ["Your rating has been deleted"] = "Deine Bewertung wurde gelöscht";
 ["Your rating has been updated"] = "Deine Bewertung wurde aktualisiert";
-["Your suggestion has been added"] = "Deine Anregung wurde hinzufügt";
+["Your suggestion has been added"] = "Deine Anregung wurde hinzugefügt";
 ["Your support has been added to this initiative"] = "Deine Unterstützung wurde der Initiative hinzugefügt";
 ["Your support has been removed from this initiative"] = "Deine Unterstützung wurde der Initiative entzogen";
 ["Your support has been updated to the latest draft"] = "Deine Unterstützung wurde auf den neuesten Entwurf aktualisiert";
