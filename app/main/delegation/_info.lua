@@ -21,14 +21,23 @@ local issue_id = issue and issue.id or nil
 local function print_delegation_info()
   
   local participant_occured = false
+
+  -- configure how many delegates should be displayed
+  local show_max_delegates = 15
  
   local delegation_chain = Member:new_selector()
     :add_field("delegation_chain.*")
     :join({ "delegation_chain(?,?,?,?,FALSE)", app.session.member.id, unit_id, area_id, issue_id }, "delegation_chain", "member.id = delegation_chain.member_id")
     :add_order_by("index")
+    :limit(show_max_delegates + 2)
     :exec()
   
   for i, record in ipairs(delegation_chain) do
+    
+    if i == show_max_delegates + 2 then
+      slot.put("...")
+      break
+    end
     
     local style
     --local overridden = (not issue or issue.state ~= 'voting') and record.overridden
