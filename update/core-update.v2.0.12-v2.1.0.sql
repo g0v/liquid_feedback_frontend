@@ -455,4 +455,13 @@ CREATE OR REPLACE FUNCTION "lock_issue"
 COMMENT ON FUNCTION "delete_private_data"() IS 'Used by lf_export script. DO NOT USE on productive database, but only on a copy! This function deletes all data which should not be publicly available, and can be used to create a database dump for publication. See source code to see which data is deleted. If you need a different behaviour, copy this function and modify lf_export accordingly, to avoid data-leaks after updating.';
 
 
+-- NOTE: The first version of the previous update script didn't
+-- remove the "vote_ratio" function.
+-- The function is therefore removed here as well, if existent.
+
+DROP FUNCTION IF EXISTS "vote_ratio"
+  ( "initiative"."positive_votes"%TYPE,
+    "initiative"."negative_votes"%TYPE );
+
+
 COMMIT;

@@ -306,4 +306,8 @@ CREATE OR REPLACE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
     END;
   $$;
 
+DROP FUNCTION IF EXISTS "vote_ratio"
+  ( "initiative"."positive_votes"%TYPE,
+    "initiative"."negative_votes"%TYPE );
+
 COMMIT;
