@@ -92,10 +92,10 @@ function Event.object:send_notification()
         body = body .. _("[event mail]     Event: #{event}", { event = self.event_name }) .. "\n\n"
         body = body .. _("[event mail]     Phase: #{phase}", { phase = self.state_name }) .. "\n\n"
 
-        if self.initiative_id then
-          url = request.get_absolute_baseurl() .. "initiative/show/" .. self.initiative_id .. ".html"
-        elseif self.suggestion_id then
+        if self.suggestion_id then
           url = request.get_absolute_baseurl() .. "suggestion/show/" .. self.suggestion_id .. ".html"
+        elseif self.initiative_id then
+          url = request.get_absolute_baseurl() .. "initiative/show/" .. self.initiative_id .. ".html"
         else
           url = request.get_absolute_baseurl() .. "issue/show/" .. self.issue_id .. ".html"
         end
