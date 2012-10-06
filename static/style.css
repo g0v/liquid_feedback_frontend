@@ -47,6 +47,7 @@ caption, th, td {
 a:focus {
   outline: 1px solid #f90;
 }
+
 /*************************************************************************
  * Some global definitions 
  */
@@ -125,12 +126,35 @@ h2 {
   display: inline;
 }
 
+.member_thumb,
+.member_statement,
+.suggestion_content,
+.slot_head,
+.area_list,
+.initiative_head,
+.issues .issue,
+.ui_tabs_links a,
+.ui_filter a,
+.help,
+.use_terms,
+.motd,
+.vote_info .content,
+.box,
+div.notifications,
+.slot_notice,
+.slot_warning,
+.slot_error {
+  background-color: #fff;
+  box-shadow: #ccc 2px 2px 4px;
+  -mox-box-shadow: #ccc 2px 2px 4px;
+  -webkit-box-shadow: #ccc 2px 2px 4px;
+}
+
 /*************************************************************************
  * Notices, warnings and errors
  */
 
 .layout_notice, .layout_error, .layout_warning {
-  background: #fff;
   font-weight: bold;
   line-height: 1.7em;
   -moz-opacity:0.7;
@@ -138,6 +162,9 @@ h2 {
 
 .slot_notice, .slot_warning, .slot_error {
   padding-left: 1em;
+  margin: 2ex 1% 2ex 1%;
+  border: 1px solid #777777;
+  border-radius: 8px;
 }
 
 .slot_notice {
@@ -296,7 +323,6 @@ form.unit_selector {
   color: #f90;
 }
 
-*/
 /*************************************************************************
  * Title of current page including path and actions
  */
@@ -315,28 +341,6 @@ form.unit_selector {
   border: 1px solid #555;
   border-top: none;
   border-radius: 0 0 8px 8px;
-}
-
-
-.member_thumb,
-.member_statement,
-.suggestion_content,
-.slot_head,
-.area_list,
-.initiative_head,
-.issues .issue,
-.ui_tabs_links a,
-.ui_filter a,
-.help,
-.use_terms,
-.motd,
-.vote_info .content,
-.box,
-div.notifications {
-  background-color: #fff;
-  box-shadow: #ccc 2px 2px 4px;
-  -mox-box-shadow: #ccc 2px 2px 4px;
-  -webkit-box-shadow: #ccc 2px 2px 4px;
 }
 
 .slot_head > div:last-child {
@@ -559,6 +563,7 @@ a.delegation_info:focus {
 /*************************************************************************
  * ui.tab
  */
+ 
 .ui_tabs_links {
   margin: 20px 0px 10px -2px;
   line-height: 300%;
@@ -836,7 +841,6 @@ div.notifications {
  * Positive / Negtive votes
  */
 
-
 .positive_votes span {
   display: inline;
 }
@@ -887,6 +891,7 @@ div.notifications {
 /*************************************************************************
  * Area list
  */
+ 
 .area_list {
   border: 1px solid #444;
   border-radius: 10px;
