@@ -151,6 +151,10 @@ config.public_access = "none"
 -- uncomment the following line to enable debug trace
 -- config.enable_debug_trace = true
 
+-- Registration without invite code (for demonstration purposes)
+-- uncomment the following line to allow registration without an invite code 
+-- config.register_without_invite_code = true
+
 -- ========================================================================
 -- Do main initialisation (DO NOT REMOVE FOLLOWING SECTION)
 -- ========================================================================

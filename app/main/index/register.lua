@@ -34,6 +34,13 @@ ui.form{
         tag = "p",
         content = _"Please enter the invite code you've received."
       }
+      if config.register_without_invite_code then
+        ui.tag{
+          tag = "p",
+          attr = { style = "font-style:italic" },
+          content = _"In this installation registration is also possible without an invite code. Therefor please just leave the field empty."
+        }
+      end
       ui.field.text{
         label = _'Invite code',
         name  = 'code',

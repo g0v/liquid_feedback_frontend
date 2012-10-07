@@ -1,11 +1,13 @@
 local code = util.trim(param.get("code"))
 
---[[ allow registration without invite code
-if code == '' then
+-- optionally allow registration without invite code
+if config.register_without_invite_code and code == '' then
+  -- create new member 
   code = multirand.string( 24, "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz" )  
   local member = Member:new()
   member.invite_code = code
   member:save()  
+  -- grant voting right in all existing units
   local units = Unit:new_selector()
     :add_field("privilege.member_id NOTNULL", "privilege_exists")
     :add_field("privilege.voting_right", "voting_right")
@@ -21,7 +23,6 @@ if code == '' then
     end
   end    
 end
---]] 
 
 local member = Member:new_selector()
   :add_where{ "invite_code = ?", code }
