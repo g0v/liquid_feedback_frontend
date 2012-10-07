@@ -1,5 +1,10 @@
 tmp
 .+~
+.AppleDouble
 
 syntax: regexp
 ^locale/help/.*\.html
+^config/myconfig\.lua
+^fastpath/getpic
+^publish.sh
+
