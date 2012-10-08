@@ -1,12 +1,13 @@
 #!/usr/bin/env lua
 return {
+["#{closed_ago} ago"] = "vor #{closed_ago}";
 ["#{count} cancelled"] = "#{count} abgebrochen";
 ["#{count} days ago"] = "vor #{count} Tagen";
 ["#{count} finished"] = "#{count} abgeschlossen";
 ["#{count} in discussion"] = "#{count} in Diskussion";
 ["#{count} in verification"] = "#{count} eingefroren";
 ["#{count} in voting"] = "#{count} in Abstimmung";
-["#{count} more areas in this unit"] = "#{count} weitere Themengebiete in dieser Gliederung";
+["#{count} more areas in this unit"] = "#{count} weitere Themenbereiche in dieser Gliederung";
 ["#{count} new"] = "#{count} neue";
 ["#{count} of them have an area delegation set"] = "bei #{count} davon ist eine Delegation für den Themenbereichs gesetzt";
 ["#{count} of your outgoing delegation(s) are broken"] = "#{count} deiner ausgehenden Delegationen sind kaputt";
@@ -28,7 +29,7 @@ return {
 ["API key has been created"] = "API-Schlüssel wurde erzeugt";
 ["API key has been deleted"] = "API-Schlüssel wurde gelöscht";
 ["API keys"] = "API-Schlüssel";
-["Abandon global delegation for this area"] = "Aussetzen der globale Delegation";
+["Abandon global delegation for this area"] = "Aussetzen der globalen Delegation";
 ["Abandon unit and area delegations for this issue"] = "Aussetzen der Gliederungs-/Themenbereichsdelegation";
 ["Abandon unit delegation for this area"] = "Aussetzen der Gliederungsdelegation";
 ["About site"] = "Impressum";
@@ -53,7 +54,7 @@ return {
 ["Admission time"] = "Zeit für die Zulassung";
 ["Admitted"] = "zugelassen";
 ["All areas"] = "Alle Themenbereiche";
-["All areas in my units"] = "Alle Themengebiete in meinen Gliederungen";
+["All areas in my units"] = "Alle Themenbereiche in meinen Gliederungen";
 ["All issues"] = "Alle Themen";
 ["All of them"] = "Alle Benachrichtigungen";
 ["All units"] = "Alle Gliederungen";
@@ -137,7 +138,7 @@ return {
 ["Content"] = "Inhalt";
 ["Counting of votes"] = "Auszählung";
 ["Counting starts soon"] = "Auszählung beginnt in Kürze";
-["Create / edit area"] = "Themengebiet anlegen / bearbeiten";
+["Create / edit area"] = "Themenbereich anlegen / bearbeiten";
 ["Create / edit policy"] = "Regelwerk anlegen / bearbeiten";
 ["Create alternative initiative"] = "Alternative Initiative hinzufügen";
 ["Create new area"] = "Neuen Themenbereich anlegen";
@@ -156,11 +157,13 @@ return {
 ["Date format is not valid. Please use following format: YYYY-MM-DD"] = "Datumsformat nicht korrekt. Bitte verwende: JJJJ-MM-TT, also z.B. 1945-05-23";
 ["Default Policy"] = "Standard-Regelwerk";
 ["Degree"] = "Grad";
-["Delegate area"] = "Themengebiet delegieren";
+["Delegate area"] = "Themenbereich delegieren";
 ["Delegate issue"] = "Thema delegieren";
 ["Delegate unit"] = "Gliederung delegieren";
 ["Delegation abandoned"] = "Delegation ausgesetzt";
-["Delegation turned off for area"] = "Delegation für Themengebiet ausgesetzt";
+["Delegation for Area '#{name}'"] = "Delegation für Themenbereich '#{name}'";
+["Delegation for Issue ##{number} in Area '#{area_name}'"] = "Delegation für Thema ##{number} in Themenbereich '#{area_name}'";
+["Delegation turned off for area"] = "Delegation für Themenbereich ausgesetzt";
 ["Delegation turned off for issue"] = "Delegation für Thema ausgesetzt";
 ["Delegations"] = "Delegationen";
 ["Delete"] = "Löschen";
@@ -185,6 +188,7 @@ return {
 ["Disapproval [many entries]"] = "Ablehnung";
 ["Disapproval [single entry]"] = "Ablehnung";
 ["Discard voting"] = "Abstimmung zurückziehen";
+["DiscreteFeedback"] = "DiscreteFeedback";
 ["DiscreteFeedback is a specially customized version of the software LiquidFeedback. In particular, the concept of chain delegation has been replaced by the concept of <a href='https://andipopp.wordpress.com/2012/04/02/discrete-democracy-ein-vorschlag-zur-weiterentwicklung-von-liquid-democracy/'>preference delegation</a>. To avoid confusion and thus corresponding to a concern of the authors of LiquidFeedback, this project has received its own name."] = "DiscreteFeedback ist eine speziell angepasste Version der Software LiquidFeedback. Insbesondere wurde das Konzept der Kettendelegation durch das Konzept der <a href='https://andipopp.wordpress.com/2012/04/02/discrete-democracy-ein-vorschlag-zur-weiterentwicklung-von-liquid-democracy/'>Präferenzdelegation</a> ersetzt. Um Verwechslungen und zu vermeiden und damit einem Anliegen der Autoren von LiquidFeedback zu entsprechen, hat dieses Projekt einen eigenen Namen erhalten.";
 ["Discuss with initiators"] = "Diskussion mit den Initiatoren";
 ["Discussion"] = "Diskussion";
@@ -239,6 +243,7 @@ return {
 ["Help for: #{text}"] = "Hilfe zu: #{text}";
 ["Hide"] = "Verstecken";
 ["Hide filter details"] = "Filter-Details verstecken";
+["Hide inactive units"] = "Inaktive Gliederungen ausblenden";
 ["Hide this help message"] = "Diesen Hilfetext ausblenden";
 ["Hint"] = "Hinweis";
 ["History"] = "Historie";
@@ -296,7 +301,7 @@ return {
 ["Issue ##{id}"] = "Thema ##{id}";
 ["Issue accepted"] = "Thema akzeptiert";
 ["Issue canceled"] = "Thema abgebrochen";
-["Issue delegation"] = "Issue-Delegation";
+["Issue delegation"] = "Delegation für Thema";
 ["Issue events"] = "Themen-Ereignisse";
 ["Issue finished"] = "Thema abgeschlossen";
 ["Issue finished without voting"] = "Thema ohne Abstimmung abgeschlossen";
@@ -315,8 +320,8 @@ return {
 ["License"] = "Lizenz";
 ["DiscreteFeedback"] = "DiscreteFeedback";
 ["List all revisions (#{count})"] = "Zeige alle Versionen (#{count})";
-["Lock member?"] = "Mitglied sperren?";
 ["List of trustees"] = "Liste der Bevollmächtigten";
+["Lock member?"] = "Mitglied sperren?";
 ["Locked?"] = "Gesperrt?";
 ["Login"] = "Anmeldung";
 ["Login name"] = "Anmeldename";
@@ -356,8 +361,8 @@ return {
 ["Monday"] = "Montag";
 ["Move down"] = "Runter schieben";
 ["Move up"] = "Hoch schieben";
-["My areas"] = "Meine Themengebiete";
-["My areas and issues"] = "Meine Themengebiete und Themen";
+["My areas"] = "Meine Themenbereiche";
+["My areas and issues"] = "Meine Themenbereiche und Themen";
 ["My opinion"] = "Meine Meinung";
 ["My units"] = "Meine Gliederungen";
 ["Name"] = "Name";
@@ -409,7 +414,7 @@ return {
 ["On that page please enter the reset code:\n\n"] = "Auf dieser Seite gib bitte den folgenden Rücksetzcode ein:\n\n";
 ["One issue"] = "Ein Thema";
 ["One issue you are interested in"] = "Ein Thema, das Dich interessiert";
-["One more area in this unit"] = "Ein weiteres Themengebiet in dieser Gliederung";
+["One more area in this unit"] = "Ein weiterer Themenbereich in dieser Gliederung";
 ["One of them have an area delegation set"] = "Bei einem davon ist eine Delegation für den Themenbereich gesetzt";
 ["One step back"] = "Ein Schritt zurück";
 ["Only for issues reaching the discussion phase"] = "Nur für Themen, die die Diskussion erreichen.";
@@ -426,7 +431,7 @@ return {
 ["Pad"] = false;
 ["Parent unit"] = "Übergeordnete Gliederung";
 ["Participants"] = "Teilnehmer";
-["Participate in this area"] = "An diesem Themengebiet teilnehmen";
+["Participate in this area"] = "An diesem Themenbereich teilnehmen";
 ["Password"] = "Kennwort";
 ["Password (repeat)"] = "Kennwort (wiederholen)";
 ["Password has been reset successfully"] = "Kennwort wurde erfolgreich zurückgesetzt";
@@ -524,6 +529,7 @@ return {
 ["Show diff"] = "Änderungen anzeigen";
 ["Show filter details"] = "Zeige Filter-Details";
 ["Show help text"] = "Zeige Hilfe-Text";
+["Show inactive units"] = "Inaktive Gliederungen anzeigen";
 ["Show member"] = "Mitglied anzeigen";
 ["Show member history"] = "Historie des Mitglieds anzeigen";
 ["Show older events"] = "Zeige ältere Ereignisse";
@@ -569,6 +575,7 @@ return {
 ["The draft of this initiative has been updated!"] = "Der Entwurfstext der Initiative wurde aktualisiert!";
 ["The drafts do not differ"] = "Die Entwürfe unterscheiden sich nicht";
 ["The initiators suggest to support the following initiative:"] = "Die Initiatoren empfehlen folgende Initiative zu unterstützen:";
+["There are no trustees selected."] = "Es sind keine Bevollmächtigten ausgewählt.";
 ["This email address is too short!"] = "Diese E-Mail-Adresse ist zu kurz!";
 ["This initiative"] = "Diese Initiative";
 ["This initiative has been revoked at #{revoked}"] = "Diese Initiative wurde am/um #{revoked} zurückgezogen";
@@ -586,8 +593,13 @@ return {
 ["This member is already initiator of this initiative"] = "Dieses Mitglied ist bereits Initiator dieser Initiative";
 ["This member is already invited to become initiator of this initiative"] = "Dieses Mitglied ist bereits eingeladen Initiator dieser Initiative zu werden";
 ["This member is inactive"] = "Mitglied ist inaktiv";
+["This member is initiator of this initiative"] = "Dieses Mitglied ist Initiator dieser Initiative";
 ["This member is locked"] = "Mitglied ist gesperrt";
 ["This member is participating, the rest of delegation chain is suspended while discussing"] = "Dieses Mitglied partizipiert, Rest der Delegationskette während der Diskussion ausgesetzt.";
+["This member is potential supporter of this initiative"] = "Dieses Mitglied ist potenzieller Unterstützer dieser Initiative";
+["This member is potential supporter of this initiative via delegation"] = "Dieses Mitglied ist durch Delegation potenzieller Unterstützer dieser Initiative";
+["This member is supporter of this initiative"] = "Dieses Mitglied ist Unterstützer dieser Initiative";
+["This member is supporter of this initiative via delegation"] = "Dieses Mitglied ist durch Delegation Unterstützer dieser Initiative";
 ["This name is already taken, please choose another one!"] = "Dieser Name ist bereits vergeben, bitte wähle einen anderen!";
 ["This name is really too short!"] = "Dieser Name ist wirklich zu kurz!";
 ["This name is too short!"] = "Dieser Name ist zu kurz!";
@@ -614,7 +626,7 @@ return {
 ["Unit list"] = "Liste der Gliederungen";
 ["Unit: '#{name}'"] = "Gliederung: '#{name}'";
 ["Units"] = "Gliederungen";
-["Units and areas"] = "Gliederungen und Themengebiete";
+["Units and areas"] = "Gliederungen und Themenbereiche";
 ["Unknown author"] = "Unbekannter Autor";
 ["Updated drafts"] = "Neue Entwürfe";
 ["Upload avatar/photo"] = "Avatar/Foto hochladen";
@@ -662,7 +674,7 @@ return {
 ["You are not participating in any of the #{count} areas in this unit"] = "Du nimmst an keinem der #{count} Themenbereiche dieser Gliederung teil";
 ["You are not participating in the only area of the unit"] = "Du nimmst am einzigen Themenbereich der Gliederung nicht teil";
 ["You are now initiator of this initiative"] = "Du bist jetzt Initiator dieser Initiative";
-["You are participating in this area"] = "Du bist Teilnehmer im Themengebiet";
+["You are participating in this area"] = "Du bist Teilnehmer im Themenbereich";
 ["You are potential supporter"] = "Du bist potentieller Unterstützer";
 ["You are potential supporter of this initiative"] = "Du bist potentieller Unterstützer der Initiative";
 ["You are potential supporter of this initiative via delegation"] = "Du bist durch Delegation potentieller Unterstützer der Initiative";
@@ -702,7 +714,7 @@ return {
 ["[No voting privilege]"] = "[Kein Stimmrecht]";
 ["[Registered members only]"] = "[nur für Registrierte]";
 ["[event mail]       URL: #{url}"] = "         URL: #{url}";
-["[event mail]      Area: #{name}"] = "Themengebiet: #{name}";
+["[event mail]      Area: #{name}"] = "Themenbereich: #{name}";
 ["[event mail]      Unit: #{name}"] = "  Gliederung: #{name}";
 ["[event mail]     Event: #{event}"] = "    Ereignis: #{event}";
 ["[event mail]     Issue: ##{id}"] = "       Thema: ##{id}";
@@ -714,7 +726,7 @@ return {
 ["activated"] = "aktiviert";
 ["and #{count} more initiatives"] = "und #{count} weitere Initiativen";
 ["and one more initiative"] = "und eine weitere Initiative";
-["area"] = "Themengebiet";
+["area"] = "Themenbereich";
 ["at least #{count} approvals"] = "mindestens #{count} Zustimmungen";
 ["at least #{count} approvals or abstentions"] = "mindestens #{count} Zustimmungen oder Enthaltungen";
 ["change discussion URL"] = "Diskussions-URL ändern";
