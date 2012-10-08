@@ -13,7 +13,7 @@ ui.actions(function()
   slot.put(" &middot; ")
   if inactive then
     ui.link{
-      text = _"Hide active units",
+      text = _"Hide inactive units",
       module = "admin",
       view = "unit_list"
     }
