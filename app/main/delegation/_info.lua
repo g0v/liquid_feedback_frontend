@@ -69,9 +69,8 @@ ui.link{
       --local overridden = (not issue or issue.state ~= 'voting') and record.overridden
   
       if i == 2 then      
-        local text = _"delegates to"
         ui.image{
-          attr = { class = "delegation_arrow", alt = text },
+          attr = { class = "delegation_arrow", alt = _"delegates to" },
           static = "delegation_arrow_24_horizontal.png"
         }
       end

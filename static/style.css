@@ -126,7 +126,28 @@ h2 {
   display: inline;
 }
 
+/* forms */
 
+input[type=text],
+input[type=password],
+textarea,
+select {
+  font-family: sans-serif;
+  font-size: 100%;
+  border: 1px solid #444;
+  padding: 0.2ex 0.2em 0.2ex 0.2em;
+  margin-bottom: 1ex;
+}
+
+input[type=submit] {
+  font-size: 100%;
+  background-color: #444444;
+  color: #fff;
+  border: none;
+  padding: 0.75ex;
+}
+
+/* common shadow */
 
 .member_thumb,
 .member_statement,
@@ -499,6 +520,8 @@ form.unit_selector {
   color: #000;
 }
 
+/* delegation info */
+
 .delegation_info {
   float: right;
   text-decoration: none;
@@ -565,6 +588,7 @@ a.delegation_info:focus {
 /*************************************************************************
  * ui.tab
  */
+ 
 .ui_tabs_links {
   margin: 20px 0px 10px -2px;
   line-height: 300%;
@@ -734,12 +758,7 @@ div.notifications {
 .vertical input[type=password],
 .vertical textarea,
 .vertical select {
-  font-family: sans-serif;
-  font-size: 100%;
   width: 68%;
-  border: 1px solid #444;
-  padding: 0.2ex 0.2em 0.2ex 0.2em;
-  margin-bottom: 1ex;
 }
 
 .login input[type=password],
@@ -795,13 +814,9 @@ div.notifications {
 }
 
 .login input[type=submit],
-.vertical input[type=submit] {
-  font-size: 100%;
+.vertical input[type=submit],
+.delegation_add input[type=submit] {
   margin-left: 29%;
-  background-color: #444444;
-  color: #fff;
-  border: none;
-  padding: 0.75ex;
 }
 
 .login input[type=submit]:hover,
@@ -837,19 +852,71 @@ div.notifications {
   }
 }
 
-.delegation_form {
-  display:inline;
+/*************************************************************************
+* delegation page
+*/
+
+.delegation_arrow_overridden,
+.delegation_overridden .member_thumb {
+  opacity: 0.4;
 }
-.delegation_form input[type=submit] {
-  margin-left: 10px;
+.delegation_scope_overridden {
+  color: #777;
 }
 
+/* List of trustees */
 
+div.delegation_form_row {
+  position: relative;
+  height: 58px;
+}
+
+form.delegation_up {
+  position: absolute;
+  left: 224px;
+  top: 12px;
+}
+
+form.delegation_down {
+  position: absolute;
+  left: 260px;
+  top: 12px;
+}
+
+form.delegation_delete {
+  position:absolute;
+  left: 310px;
+  top: 15px;
+}
+
+form.delegation_add {
+  margin-top: 15px;  
+}
+form.delegation_add select {
+  width: 90%;
+}
+
+/* Complete preference list over all scopes */
+
+.delegation_scope {
+  font-size: 110%;
+}
+
+div.delegation_list_row {
+  height: 58px;
+  position: relative;
+}
+
+div.delegation_participation {
+  position: absolute;
+  top: 10px;
+  left: 220px;
+  font-style: italic;
+}
 
 /*************************************************************************
  * Positive / Negtive votes
  */
-
 
 .positive_votes span {
   display: inline;
@@ -1125,37 +1192,6 @@ x.initiative_link.potentially_supported {
   margin-right: 0.5em;
 }
 
-.delegation_list_entry {
-  margin-right: 2em;
-  margin-bottom: 2ex;
-  float: left;
-  clear: left;
-}
-
-.delegation_list_entry .delegation_arrow {
-  float: left;
-}
-
-.delegation_list_entry .delegation_scope {
-  float: left;
-  width: 25em;
-}
-
-.delegation_list_entry .delegation_scope a {
-  display: block;
-}
-
-.delegation_participation {
-  margin-left: 17em;
-  margin-top: 1.5ex;
-  margin-bottom: 0;
-  font-style: italic;
-}
-
-.delegation_action {
-  margin-left: 17em;
-  margin-top: 2.2ex;
-}
 
 .member_list .member_thumb {
   float: left;

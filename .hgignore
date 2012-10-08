@@ -1,10 +1,12 @@
 tmp
 .+~
 .AppleDouble
+:2eDS_Store
 
 syntax: regexp
 ^locale/help/.*\.html
 ^config/myconfig\.lua
 ^fastpath/getpic
-^publish.sh
+^publish\.sh
+^locale/show_changes\.sh
 

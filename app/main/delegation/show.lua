@@ -146,23 +146,25 @@ slot.put("<table border='0' width='100%'><tr><td width='50%' valign='top'>")
 -- List of trustees
 
 ui.heading{ level = 2, content = _"List of trustees" }
+slot.put("<br />")
 
 for i, delegation in ipairs(delegations) do
       
-  execute.view{
-    module = "member",
-    view = "_show_thumb",
-    params = { member = Member:by_id(delegation.trustee_id) }
-  }
+  ui.container{
+    attr = { class = "delegation_form_row" },
+    content = function()  
       
-  if member.id == app.session.member.id then
-    ui.container{
-      attr = { class = "delegation_action" },
-      content = function()
-       
+      execute.view{
+        module = "member",
+        view = "_show_thumb",
+        params = { member = Member:by_id(delegation.trustee_id) }
+      }
+      
+      if member.id == app.session.member.id then
+      
         if i ~= 1 then
           ui.form{
-            attr = { class = "vertical delegation_form", id = "delegationForm" },
+            attr = { class = "delegation_up" },
             module = "delegation",
             action = "update",
             params = {
@@ -182,14 +184,24 @@ for i, delegation in ipairs(delegations) do
                 params = param.get_all_cgi()
               }
             },
-            content = function()
-              ui.submit{ text = _"up" }
+            content = function()            
+              ui.tag{
+                tag = "input",
+                attr = {
+                  class = "clickable",
+                  type = "image",
+                  src = encode.url{ static = "icons/move_up.png" },
+                  name = _"up",
+                  alt = _"up"
+                }
+              }
             end
-          }
+          }          
         end
-        if i ~= #delegations then
+            
+        if i ~= #delegations then                
           ui.form{
-            attr = { class = "vertical delegation_form", id = "delegationForm" },
+            attr = { class = "delegation_down" },
             module = "delegation",
             action = "update",
             params = {
@@ -210,12 +222,22 @@ for i, delegation in ipairs(delegations) do
               }
             },
             content = function()
-              ui.submit{ text = _"down" }
+              ui.tag{
+                tag = "input",
+                attr = {
+                  class = "clickable",
+                  type = "image",
+                  src = encode.url{ static = "icons/move_down.png" },
+                  name = _"down",
+                  alt = _"down"
+                }
+              } 
             end
-          }
-        end 
+          }          
+        end         
+
         ui.form{
-          attr = { class = "vertical delegation_form", id = "delegationForm" },
+          attr = { class = "delegation_delete" },
           module = "delegation",
           action = "update",
           params = {
@@ -239,12 +261,14 @@ for i, delegation in ipairs(delegations) do
             ui.submit{ text = _"delete" }
           end
         }
+        
       end
-    }
-  end
-                        
-  slot.put("<br style='clear: left'/>")
+      
+    end
+  }
+                           
 end    
+
 
 if #delegations == 0 then
   ui.tag{
@@ -259,7 +283,7 @@ end
 
 if member.id == app.session.member.id then
   ui.form{
-    attr = { class = "vertical", id = "delegationForm" },
+    attr = { class = "delegation_add" },
     module = "delegation",
     action = "update",
     params = {
@@ -326,6 +350,7 @@ slot.put("</td><td width='50%' valign='top'>")
 -- ------------------------
 
 ui.heading{ level = 2, content = _"Complete preference list over all scopes" }
+slot.put("<br />")
 
 local delegation_chain = Member:new_selector()
   :add_field("delegation_chain.*")
@@ -337,21 +362,19 @@ for i, record in ipairs(delegation_chain) do
   local style
   local overridden = (not issue or issue.state ~= 'voting') and record.overridden
   
+  -- arrow
   if i == 2 then
-    if not overridden then
-      ui.image{
-        attr = { class = "delegation_arrow" },
-        static = "delegation_arrow_24_vertical.png"
-      }
-    else
-      ui.image{
-        attr = { class = "delegation_arrow delegation_arrow_overridden" },
-        static = "delegation_arrow_24_vertical.png"
-      }
-    end
+    ui.image{
+      attr = {
+        class = "delegation_arrow" .. (overridden and " delegation_arrow_overridden" or ""),
+        alt = _"delegates to"
+      },
+      static = "delegation_arrow_24_vertical.png"
+    }
     slot.put("<br>")
   end
 
+  -- scope
   if record.scope_out ~= record.scope_in then
     ui.tag{
       attr = { class = "delegation_scope" .. (overridden and " delegation_scope_overridden" or "") },
@@ -367,27 +390,26 @@ for i, record in ipairs(delegation_chain) do
     }
   end
   
+  -- delegation
   ui.container{
-    attr = { class = overridden and "delegation_overridden" or "" },
+    attr = { class = "delegation_list_row" .. (overridden and " delegation_overridden" or "") },
     content = function()
       execute.view{
         module = "member",
         view = "_show_thumb",
         params = { member = record }
       }
+      if (not issue or issue.state ~= 'voting') and record.participation and not record.overridden then
+        ui.container{
+          attr = { class = "delegation_participation" },
+          content = function()
+            slot.put(_"This member is participating, the rest of delegation list is suspended while discussing")
+          end
+        }
+      end      
     end
   }
   
-  if (not issue or issue.state ~= 'voting') and record.participation and not record.overridden then
-    ui.container{
-      attr = { class = "delegation_participation" },
-      content = function()
-        slot.put(_"This member is participating, the rest of delegation chain is suspended while discussing")
-      end
-    }
-  end
-  
-  slot.put("<br style='clear: left'/>")
 end
 
 slot.put("</td></tr></table>")
