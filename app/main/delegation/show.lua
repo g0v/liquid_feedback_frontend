@@ -161,8 +161,8 @@ for i, delegation in ipairs(delegations) do
       content = function()
        
         if i ~= 1 then
-          ui.link{
-            text   = _"up",
+          ui.form{
+            attr = { class = "vertical delegation_form", id = "delegationForm" },
             module = "delegation",
             action = "update",
             params = {
@@ -181,13 +181,15 @@ for i, delegation in ipairs(delegations) do
                 id = param.get_id_cgi(),
                 params = param.get_all_cgi()
               }
-            }
+            },
+            content = function()
+              ui.submit{ text = _"up" }
+            end
           }
-          slot.put("&nbsp;&nbsp;&nbsp;")
         end
         if i ~= #delegations then
-          ui.link{
-            text   = _"down",
+          ui.form{
+            attr = { class = "vertical delegation_form", id = "delegationForm" },
             module = "delegation",
             action = "update",
             params = {
@@ -206,21 +208,23 @@ for i, delegation in ipairs(delegations) do
                 id = param.get_id_cgi(),
                 params = param.get_all_cgi()
               }
-            }
-          }     
-          slot.put("&nbsp;&nbsp;&nbsp;")
+            },
+            content = function()
+              ui.submit{ text = _"down" }
+            end
+          }
         end 
-        ui.link{
-          text   = _"delete",
+        ui.form{
+          attr = { class = "vertical delegation_form", id = "delegationForm" },
           module = "delegation",
           action = "update",
           params = {
-            unit_id = unit and unit.id or nil,
-            area_id = area and area.id or nil,
-            issue_id = issue and issue.id or nil,
-            initiative_id = initiative_id,
-            trustee_id = delegation.trustee_id,
-            delete = true
+           unit_id = unit and unit.id or nil,
+           area_id = area and area.id or nil,
+           issue_id = issue and issue.id or nil,
+           initiative_id = initiative_id,
+           trustee_id = delegation.trustee_id,
+           delete = true
           },
           routing = {
             default = {
@@ -229,10 +233,12 @@ for i, delegation in ipairs(delegations) do
               view = request.get_view(),
               id = param.get_id_cgi(),
               params = param.get_all_cgi()
-            }
-          }
+            },
+          },
+          content = function()
+            ui.submit{ text = _"delete" }
+          end
         }
-        
       end
     }
   end

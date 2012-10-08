@@ -595,7 +595,7 @@ return {
 ["This member is inactive"] = "Mitglied ist inaktiv";
 ["This member is initiator of this initiative"] = "Dieses Mitglied ist Initiator dieser Initiative";
 ["This member is locked"] = "Mitglied ist gesperrt";
-["This member is participating, the rest of delegation chain is suspended while discussing"] = "Dieses Mitglied partizipiert, Rest der Delegationskette während der Diskussion ausgesetzt.";
+["This member is participating, the rest of delegation chain is suspended while discussing"] = "Dieses Mitglied beteiligt sich, Rest der Delegationskette während der Diskussion ausgesetzt.";
 ["This member is potential supporter of this initiative"] = "Dieses Mitglied ist potenzieller Unterstützer dieser Initiative";
 ["This member is potential supporter of this initiative via delegation"] = "Dieses Mitglied ist durch Delegation potenzieller Unterstützer dieser Initiative";
 ["This member is supporter of this initiative"] = "Dieses Mitglied ist Unterstützer dieser Initiative";

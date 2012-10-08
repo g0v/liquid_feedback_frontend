@@ -10,3 +10,5 @@ Unten finden sich folgende Ansichten:
 - **Offene Themen:** Alle Themen, die zur Zeit offen sind, also Neu, in Diskussion, Eingefroren oder in Abstimmung
 - **Geschlossene Themen:** Alle Themen, die bereits abgestimmt sind oder die abgebrochen wurden
 - **Mitglieder:** Alle aktiven Mitglieder. Nach einem Klick auf ein bestimmtes Mitglied kann man dieses zur persönlichen Kontaktliste hinzufügen, um später an dieses Mitglied delegieren zu können.
+
+Über die Benutzersymbole auf der rechten Seite kann man Delegationen anlegen.

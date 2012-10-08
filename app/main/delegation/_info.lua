@@ -71,7 +71,7 @@ ui.link{
       if i == 2 then      
         local text = _"delegates to"
         ui.image{
-          attr = { class = "delegation_arrow", alt = text, title = text },
+          attr = { class = "delegation_arrow", alt = text },
           static = "delegation_arrow_24_horizontal.png"
         }
       end
@@ -83,8 +83,12 @@ ui.link{
         class = class .. " highlighted"
       end
         
-      -- get name of member
-      local member = Member:by_id(record.member_id)
+      -- name of member
+      local popup_text = link_title        
+      if i > 1 then
+        local member = Member:by_id(record.member_id)
+        popup_text = link_title .. ": " .. member.name 
+      end
         
       execute.view{
         module = "member_image",
@@ -92,7 +96,7 @@ ui.link{
         params = {
           member_id = record.member_id,
           class = class,
-          popup_text = member.name,
+          popup_text = popup_text,
           image_type = "avatar",
           show_dummy = true
         }

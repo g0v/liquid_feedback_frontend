@@ -837,6 +837,14 @@ div.notifications {
   }
 }
 
+.delegation_form {
+  display:inline;
+}
+.delegation_form input[type=submit] {
+  margin-left: 10px;
+}
+
+
 
 /*************************************************************************
  * Positive / Negtive votes
@@ -1146,7 +1154,7 @@ x.initiative_link.potentially_supported {
 
 .delegation_action {
   margin-left: 17em;
-  margin-top: 2.5ex;
+  margin-top: 2.2ex;
 }
 
 .member_list .member_thumb {
