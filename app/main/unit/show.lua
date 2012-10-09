@@ -24,13 +24,23 @@ local members_selector = Member:build_selector{
   voting_right_for_unit_id = unit.id
 }
 
-local delegations_selector = Delegation:new_selector()
-  :join("member", "truster", "truster.id = delegation.truster_id AND truster.active")
-  :join("privilege", "truster_privilege", "truster_privilege.member_id = truster.id AND truster_privilege.unit_id = delegation.unit_id AND truster_privilege.voting_right")
-  :join("member", "trustee", "trustee.id = delegation.trustee_id AND truster.active")
+local delegations_selector = Member:new_selector()
+  :reset_fields()
+  :add_field("member.id", "member_id")
+  :add_field("delegation.unit_id")
+  :add_field("delegation.area_id")
+  :add_field("delegation.issue_id")
+  :join("delegation", "delegation", "member.id = delegation.truster_id")
+  :join("privilege", "truster_privilege", "truster_privilege.member_id = member.id AND truster_privilege.unit_id = delegation.unit_id AND truster_privilege.voting_right")
+  :join("member", "trustee", "trustee.id = delegation.trustee_id")
   :join("privilege", "trustee_privilege", "trustee_privilege.member_id = trustee.id AND trustee_privilege.unit_id = delegation.unit_id AND trustee_privilege.voting_right")
+  :add_where{ "member.active" }
+  :add_where{ "trustee.active" }
   :add_where{ "delegation.unit_id = ?", unit.id }
-  :add_order_by("truster.name, delegation.preference")
+  :add_where{ "delegation.area_id ISNULL" }
+  :add_where{ "delegation.issue_id ISNULL" }
+  :add_order_by("member.name")
+  :add_group_by("member.name, member.id, delegation.unit_id, delegation.area_id, delegation.issue_id")
 
 local open_issues_selector = Issue:new_selector()
   :join("area", nil, "area.id = issue.area_id")

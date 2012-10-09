@@ -26,9 +26,22 @@ local closed_issues_selector = area:get_reference_selector("issues")
   :add_order_by("issue.closed DESC")
 
 local members_selector = area:get_reference_selector("members"):add_where("member.active")
-local delegations_selector = area:get_reference_selector("delegations")
-  :join("member", "truster", "truster.id = delegation.truster_id AND truster.active")
-  :join("member", "trustee", "trustee.id = delegation.trustee_id AND trustee.active")
+
+local delegations_selector = Member:new_selector()
+:reset_fields()
+:add_field("member.id", "member_id")
+:add_field("delegation.unit_id")
+:add_field("delegation.area_id")
+:add_field("delegation.issue_id")
+:join("delegation", "delegation", "member.id = delegation.truster_id")
+:join("member", "trustee", "trustee.id = delegation.trustee_id")
+:add_where{ "member.active" }
+:add_where{ "trustee.active" }
+:add_where{ "delegation.unit_id ISNULL" }
+:add_where{ "delegation.area_id = ?", area.id }
+:add_where{ "delegation.issue_id ISNULL" }
+:add_order_by("member.name")
+:add_group_by("member.name, member.id, delegation.unit_id, delegation.area_id, delegation.issue_id")
 
 local tabs = {
   module = "area",

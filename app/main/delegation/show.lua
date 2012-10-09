@@ -391,15 +391,21 @@ for i, record in ipairs(delegation_chain) do
   end
   
   -- delegation
+  local class = "delegation_list_row"
+  if overridden then
+    class = class .. " delegation_overridden"
+  elseif record.participation then
+    class = class .. " delegations_list_row_highlighted"
+  end  
   ui.container{
-    attr = { class = "delegation_list_row" .. (overridden and " delegation_overridden" or "") },
+    attr = { class = class },
     content = function()
       execute.view{
         module = "member",
         view = "_show_thumb",
         params = { member = record }
       }
-      if (not issue or issue.state ~= 'voting') and record.participation and not record.overridden then
+      if not overridden and record.participation then
         ui.container{
           attr = { class = "delegation_participation" },
           content = function()

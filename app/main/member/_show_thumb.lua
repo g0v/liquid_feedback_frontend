@@ -5,6 +5,8 @@ local issue = param.get("issue", "table")
 local initiative = param.get("initiative", "table")
 local trustee = param.get("trustee", "table")
 
+local highlight = param.get("highlight", atom.boolean)
+
 local name_html
 if member.name_highlighted then
   name_html = encode.highlight(member.name_highlighted)
@@ -30,7 +32,7 @@ if member.delegate_member_ids then
   end
 end
 
-if in_delegation_chain or ((issue or initiative) and member.id == app.session.member_id) then
+if in_delegation_chain or highlight or ((issue or initiative) and member.id == app.session.member_id) then
   container_class = container_class .. " in_delegation_chain"
 end
 

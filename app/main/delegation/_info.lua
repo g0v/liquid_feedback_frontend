@@ -46,8 +46,6 @@ ui.link{
   attr = { class = "delegation_info", title = link_title },
   content = function()
 
-    local participant_occured = false
-  
     -- configure how many delegates should be displayed
     local show_max_delegates = 15
    
@@ -65,9 +63,6 @@ ui.link{
         break
       end
       
-      local style
-      --local overridden = (not issue or issue.state ~= 'voting') and record.overridden
-  
       if i == 2 then      
         ui.image{
           attr = { class = "delegation_arrow", alt = _"delegates to" },
@@ -76,9 +71,9 @@ ui.link{
       end
         
       -- highlight if participating 
+      local overridden = (not issue or issue.state ~= 'voting') and record.overridden
       local class = "micro_avatar"
-      if participant_occured and record.participation then
-        participant_occured = true
+      if not overridden and record.participation then
         class = class .. " highlighted"
       end
         

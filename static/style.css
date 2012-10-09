@@ -864,6 +864,28 @@ div.notifications {
   color: #777;
 }
 
+/* delegation._list */
+
+.delegation_list_entry {
+  margin-right: 2em;
+  margin-bottom: 2ex;
+  float: left;
+  clear: left;
+}
+ 
+.delegation_list_entry .delegation_arrow {
+  float: left;
+}
+ 
+.delegation_list_entry .delegation_scope {
+  float: left;
+  width: 25em;
+}
+ 
+.delegation_list_entry .delegation_scope a {
+  display: block;
+}
+
 /* List of trustees */
 
 div.delegation_form_row {
@@ -909,9 +931,41 @@ div.delegation_list_row {
 
 div.delegation_participation {
   position: absolute;
-  top: 10px;
+  top: 3px;
   left: 220px;
   font-style: italic;
+}
+
+.delegations_scope {
+  margin-top: 1.5ex;
+  margin-bottom: 0.5ex;
+}
+
+.delegations_list_row_highlighted .member_thumb {
+  border-bottom: 2px solid #f90;
+  border-left: 2px solid #f90;
+  border-right: 2px solid #f90;
+  border-top: 2px solid #f90;
+  padding: 1px;
+}
+
+div.delegations_participation {
+  font-style: italic;
+}
+
+.delegations_arrow {
+  float: left;
+  margin-top: 14px;
+}
+
+img.delegations_more {
+  margin-left: 5px;
+  margin-top: 8px;
+}
+
+div.delegations_dots {
+  font-size: 150%;
+  line-height: 10px;
 }
 
 /*************************************************************************
@@ -968,6 +1022,7 @@ div.delegation_participation {
 /*************************************************************************
  * Area list
  */
+ 
 .area_list {
   border: 1px solid #444;
   border-radius: 10px;
@@ -1268,7 +1323,6 @@ x.initiative_link.potentially_supported {
 .member_thumb.in_delegation_chain {
   background-color: #fda;
 }
-
 
 #suggestion_description {
   height: 15ex;

@@ -2,11 +2,13 @@
 
 Die Liste der Bevollmächtigten auf der linken Seite zeigt die Mitglieder, an die man delegiert. Man kann dieser Liste Mitglieder aus seinen Kontakten hinzufügen, sie wieder entfernen und die Reihenfolge ändern. 
 
-Eine Delegation wird erst relevant, wenn die entsprechenden Mitglieder sich an einem Thema beteiligen indem sie ihr Interesse anmelden oder selbst abstimmen. Solange ein Bevollmächtigter sich nicht beteiligt, hat eine Delegation an ihn keine Auswirkungen. Die Reihenfolge der Bevollmächtigten bestimmt, an wen die eigene Stimme geht, wenn sich mehrere der Bevollmächtigten beteiligen. 
+Eine Delegation wird erst relevant, wenn die entsprechenden Mitglieder sich beteiligen, also an einem Themenbereich teilnehmen oder bei einem Thema ihr Interesse anmelden oder selbst abstimmen. Solange ein Bevollmächtigter sich nicht beteiligt, hat eine Delegation an ihn keine Auswirkungen. Die Reihenfolge der Bevollmächtigten bestimmt, an wen die eigene Stimme geht, wenn sich mehrere der Bevollmächtigten beteiligen.
 
 Die Liste auf der rechten Seite zeigt zusätzlich auch die angelegten Delegationen auf übergeordneten Ebenen an. Wenn sich auf einer Ebene keiner der Bevollmächtigten beteiligt, folgen danach die Bevollmächtigten auf der übergeordneten Ebene. 
 
 Ganz oben in der Liste steht man selbst. Wenn man sich selbst beteiligt, haben Delegationen keine Auswirkung. Wenn sich niemand aus der ganzen Liste beteiligt, verfällt die Stimme.
+
+Der erste sich beteiligende Bevollmächtigte, der somit über die eigene Stimme verfügt, ist an einem orangen Rahmen zu erkennen. Die danach folgenden Bevollmächtigten spielen keine Rolle mehr und werden grau dargestellt, auch falls sie sich selbst beteiligen.
 
 = Themen-Delegation =
 
