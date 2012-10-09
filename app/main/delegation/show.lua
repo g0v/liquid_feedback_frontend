@@ -366,7 +366,7 @@ for i, record in ipairs(delegation_chain) do
   if i == 2 then
     ui.image{
       attr = {
-        class = "delegation_arrow" .. (overridden and " delegation_arrow_overridden" or ""),
+        class = "delegation_arrow" .. (overridden and " overridden" or ""),
         alt = _"delegates to"
       },
       static = "delegation_arrow_24_vertical.png"
@@ -377,7 +377,7 @@ for i, record in ipairs(delegation_chain) do
   -- scope
   if record.scope_out ~= record.scope_in then
     ui.tag{
-      attr = { class = "delegation_scope" .. (overridden and " delegation_scope_overridden" or "") },
+      attr = { class = "delegation_scope" .. (overridden and " scope_overridden" or "") },
       content = function()
         if record.scope_out == "unit" then
           slot.put(config.single_object_mode and _"Global delegation" or _"Unit delegation")
@@ -393,7 +393,7 @@ for i, record in ipairs(delegation_chain) do
   -- delegation
   local class = "delegation_list_row"
   if overridden then
-    class = class .. " delegation_overridden"
+    class = class .. " overridden"
   elseif record.participation then
     class = class .. " delegations_list_row_highlighted"
   end  

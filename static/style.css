@@ -856,11 +856,10 @@ div.notifications {
 * delegation page
 */
 
-.delegation_arrow_overridden,
-.delegation_overridden .member_thumb {
+.overridden {
   opacity: 0.4;
 }
-.delegation_scope_overridden {
+.scope_overridden {
   color: #777;
 }
 
@@ -936,12 +935,18 @@ div.delegation_participation {
   font-style: italic;
 }
 
+/* List of delegations for a unit, an area or a member (incoming and outgoing) */
+
 .delegations_scope {
   margin-top: 1.5ex;
   margin-bottom: 0.5ex;
 }
 
-.delegations_list_row_highlighted .member_thumb {
+.delegations_list_row {
+  height: 58px;
+}
+
+.delegations_list_row div.highlighted .member_thumb {
   border-bottom: 2px solid #f90;
   border-left: 2px solid #f90;
   border-right: 2px solid #f90;
@@ -953,17 +958,17 @@ div.delegations_participation {
   font-style: italic;
 }
 
-.delegations_arrow {
+.delegations_list_row img.delegation_arrow {
   float: left;
   margin-top: 14px;
 }
 
-img.delegations_more {
+.delegations_list_row img.more {
   margin-left: 5px;
   margin-top: 8px;
 }
 
-div.delegations_dots {
+.delegations_list_row div.dots {
   font-size: 150%;
   line-height: 10px;
 }
