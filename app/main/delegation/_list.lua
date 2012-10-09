@@ -43,10 +43,19 @@ end
 ui.paginate{
   selector = delegations_selector,
   content = function()
+  
+    local delegation_last_unit_id
+    local delegation_last_area_id
+    local delegation_last_issue_id
+        
     for i, delegation in ipairs(delegations_selector:exec()) do
       
-      if incoming or outgoing then
+      -- scope
+      if (incoming or outgoing) and (delegation.unit_id ~= delegation_last_unit_id or delegation.area_id ~= delegation_last_area_id or delegation.issue_id ~= delegation_last_issue_id) then        
         delegation_scope(delegation)
+        delegation_last_unit_id  = delegation.unit_id
+        delegation_last_area_id  = delegation.area_id
+        delegation_last_issue_id = delegation.issue_id       
       end
       
       local delegation_chain = Member:new_selector()
