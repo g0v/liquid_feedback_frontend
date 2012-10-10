@@ -12,7 +12,7 @@ if membership then
       ui.image{
         static = "icons/16/user_green.png"
       }
-      slot.put(_"You are member")
+      slot.put(_"You are member.")
     end
   }
   

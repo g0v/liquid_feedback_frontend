@@ -31,7 +31,11 @@ function ui.tabs(tabs)
               content = tab.label,
               params  = params
             }
-            slot.put(" ")
+            if tab.br then
+              slot.put("<br/>")
+            else
+              slot.put(" ")
+            end
           end
         end
       }

@@ -4,10 +4,8 @@ local source = param.get("source", atom.boolean)
 execute.view{
   module = "draft",
   view = "_head",
-  params = { draft = draft}
+  params = { draft = draft, title = _"History" }
 }
-
-slot.put_into("title", " &middot; " .. _"History")
 
 if source then
   slot.select("actions", function()

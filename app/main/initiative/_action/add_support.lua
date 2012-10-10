@@ -9,15 +9,15 @@ if not app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
 end
 
 if issue.closed then
-  slot.put_into("error", _"This issue is already closed.")
+  slot.put_into("error", _"This issue is already closed!")
   return false
 elseif issue.fully_frozen then 
-  slot.put_into("error", _"Voting for this issue has already begun.")
+  slot.put_into("error", _"Voting for this issue has already begun!")
   return false
 end
 
 if initiative.revoked then
-  slot.put_into("error", _"This initiative is revoked")
+  slot.put_into("error", _"This initiative is revoked!")
   return false
 end
 
@@ -41,12 +41,12 @@ if not supporter then
     supporter.auto_support = auto_support
   end
   supporter:save()
---  slot.put_into("notice", _"Your support has been added to this initiative")
+--  slot.put_into("notice", _"Your support has been added to this initiative.")
 elseif supporter.draft_id ~= last_draft.id then
   supporter.draft_id = last_draft.id
   supporter:save()
---  slot.put_into("notice", _"Your support has been updated to the latest draft")
+--  slot.put_into("notice", _"Your support has been updated to the latest draft.")
 else
---  slot.put_into("notice", _"You are already supporting the latest draft")
+--  slot.put_into("notice", _"You are already supporting the latest draft.")
 end
 

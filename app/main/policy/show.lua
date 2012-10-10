@@ -1,6 +1,6 @@
 local policy = Policy:by_id(param.get_id())
 
-slot.put_into("title", encode.html(_("Policy '#{name}'", { name = policy.name })))
+ui.title(encode.html(_("Policy '#{name}'", { name = policy.name })))
 
 ui.form{
   attr = { class = "vertical" },

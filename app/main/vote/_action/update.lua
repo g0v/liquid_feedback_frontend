@@ -5,12 +5,12 @@ if not app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
 end
 
 if issue.closed then
-  slot.put_into("error", _"This issue is already closed.")
+  slot.put_into("error", _"This issue is already closed!")
   return false
 end
 
 if issue.state ~= "voting" then
-  slot.put_into("error", _"Voting has not started yet.")
+  slot.put_into("error", _"Voting has not started yet!")
   return false
 end
 

@@ -1,7 +1,11 @@
-app.html_title.title = _("Member menu")
+ui.title(_("Member menu") .. " / " .. _("Select language"))
 
-execute.view{
-  module = "index",
-  view = "_menu"
+ui.container{
+  attr = { class = "menu_list" },
+  content = function()
+    execute.view{
+      module = "index",
+      view = "_menu"
+    }
+  end 
 }
-

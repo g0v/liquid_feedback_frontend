@@ -405,13 +405,13 @@ return {
 ["One issue"] = "Ένα θέμα";
 ["One issue you are interested in"] = "Ένα θέμα που σας ενδιαφέρει";
 ["One more area in this unit"] = "Ένας ακόμη τομέας σε αυτή την ενότητα";
-["One of them have an area delegation set"] = "Ένας απ' αυτούς έχει ανατεθεί σε άλλο μέλος";
+["One of them has an area delegation set"] = "Ένας απ' αυτούς έχει ανατεθεί σε άλλο μέλος";
 ["One step back"] = "Ένα βήμα πίσω";
 ["Only for issues reaching the discussion phase"] = "Μόνο για θέματα που φτάνουν στο στάδιο της συζήτησης.";
 ["Only for issues reaching the frozen phase"] = "Μόνο για θέματα που φτάνουν στο στάδιο του παγώματος.";
 ["Only for issues reaching the voting phase"] = "Μόνο για θέματα που φτάνουν στο στάδιο της ψηφοφορίας.";
 ["Open"] = "Ανοιχτό";
-["Open initiatives you are supporting which has been updated their draft:"] = "Ανοιχτές πρωτοβουλίες που υποστηρίζετε και έχουν ανανεωμένο προσχέδιο";
+["Open initiatives you are supporting which have been updated their draft:"] = "Ανοιχτές πρωτοβουλίες που υποστηρίζετε και έχουν ανανεωμένο προσχέδιο";
 ["Open issues"] = "Ανοιχτά θέματα";
 ["Opinions"] = "Γνώμες";
 ["Options"] = "Επιλογές";

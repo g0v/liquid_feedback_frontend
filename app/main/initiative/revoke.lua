@@ -1,12 +1,12 @@
 local initiative = Initiative:by_id(param.get_id())
 
-slot.put_into("title", _"Revoke initiative")
+ui.title(_"Revoke initiative")
 
-slot.select("actions", function()
+ui.actions(function()
   ui.link{
     content = function()
-        ui.image{ static = "icons/16/cancel.png" }
-        slot.put(_"Cancel")
+      ui.image{ static = "icons/16/cancel.png" }
+      slot.put(_"Cancel")
     end,
     module = "initiative",
     view = "show",
@@ -38,7 +38,6 @@ ui.form{
       :join("issue", nil, "issue.id = initiative.issue_id")
       :add_field("'Issue #' || issue.id || ': ' || initiative.name", "myname")
       :exec()
-
     local tmp = { { id = -1, myname = _"Suggest no initiative" }}
     for i, initiative in ipairs(initiatives) do
       tmp[#tmp+1] = initiative
@@ -51,12 +50,11 @@ ui.form{
       foreign_name = "myname",
       value = param.get("suggested_initiative_id", atom.integer)
     }
-    slot.put("")
     ui.field.boolean{
       label = _"Are you sure?",
       name = "are_you_sure",
     }
-
+    slot.put("<br clear='all'/>")
     ui.submit{ text = _"Revoke initiative" }
   end
 }

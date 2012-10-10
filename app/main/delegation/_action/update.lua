@@ -65,7 +65,7 @@ else
   
   local trustee = Member:by_id(trustee_id)
   if not trustee:has_voting_right_for_unit_id(check_unit_id) then
-    slot.put_into("error", _"Trustee has no voting right in this unit")
+    slot.put_into("error", _"Trustee has no voting right in this unit!")
     return false
   end
 

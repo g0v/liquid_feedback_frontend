@@ -69,20 +69,18 @@ ui.link{
           static = "delegation_arrow_24_horizontal.png"
         }
       end
+      
+      -- name of member
+      local member = Member:by_id(record.member_id)
+      local popup_text = link_title .. ": " .. member.name 
         
       -- highlight if participating 
       local overridden = (not issue or issue.state ~= 'voting') and record.overridden
       local class = "micro_avatar"
       if not overridden and record.participation then
         class = class .. " highlighted"
-      end
-        
-      -- name of member
-      local popup_text = link_title        
-      if i > 1 then
-        local member = Member:by_id(record.member_id)
-        popup_text = link_title .. ": " .. member.name 
-      end
+        popup_text = popup_text .. " - " .. _"This member is participating."
+      end        
         
       execute.view{
         module = "member_image",

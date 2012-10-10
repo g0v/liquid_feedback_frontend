@@ -15,7 +15,7 @@ end
 
 if issue.closed then
   if not member then
-    slot.put_into("error", _"This issue is already closed.")
+    slot.put_into("error", _"This issue is already closed!")
   end
   if not member then
     member = app.session.member

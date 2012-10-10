@@ -35,9 +35,9 @@ ui.container{ attr = { class = "unit_head" }, content = function()
     ui.container{ attr = { class = "content" }, content = function()
       if member and member:has_voting_right_for_unit_id(unit.id) then
         if app.session.member_id == member.id then
-          ui.tag{ content = _"You have voting privileges for this unit" }
+          ui.tag{ content = _"You have voting privileges for this unit." }
         else
-          ui.tag{ content = _"Member has voting privileges for this unit" }
+          ui.tag{ content = _"Member has voting privileges for this unit." }
         end
       end
     end }

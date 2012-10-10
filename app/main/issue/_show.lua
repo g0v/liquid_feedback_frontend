@@ -69,13 +69,13 @@ ui.container{ attr = { class = class }, content = function()
         slot.put(" &middot; ")
         if issue.state_time_left:sub(1,1) == "-" then
           if issue.state == "accepted" then
-            ui.tag{ content = _("Discussion starts soon") }
+            ui.tag{ content = _("Discussion starts soon.") }
           elseif issue.state == "discussion" then
-            ui.tag{ content = _("Verification starts soon") }
+            ui.tag{ content = _("Verification starts soon.") }
           elseif issue.state == "frozen" then
-            ui.tag{ content = _("Voting starts soon") }
+            ui.tag{ content = _("Voting starts soon.") }
           elseif issue.state == "voting" then
-            ui.tag{ content = _("Counting starts soon") }
+            ui.tag{ content = _("Counting starts soon.") }
           end
         else
           ui.tag{ content = _("#{time_left} left", { time_left = issue.state_time_left:gsub("%..*", ""):gsub("days", _"days"):gsub("day", _"day") }) }
@@ -102,9 +102,9 @@ ui.container{ attr = { class = class }, content = function()
 
       if issue.member_info.own_participation then
         if issue.closed then
-          links[#links+1] = { content = _"You were interested" }
+          links[#links+1] = { content = _"You were interested." }
         else
-          links[#links+1] = { content = _"You are interested" }
+          links[#links+1] = { content = _"You are interested." }
         end
       end
       

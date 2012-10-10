@@ -2,13 +2,13 @@ if not config.document_dir then
   error("feature not enabled")
 end
 
-slot.put_into("title", _"Download documents")
+ui.title(_"Download documents")
 
-slot.select("actions", function()
+ui.actions(function()
   ui.link{
     content = function()
-        ui.image{ static = "icons/16/cancel.png" }
-        slot.put(_"Cancel")
+      ui.image{ static = "icons/16/cancel.png" }
+      slot.put(_"Cancel")
     end,
     module = "index",
     view = "index"

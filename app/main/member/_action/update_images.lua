@@ -61,13 +61,13 @@ for i, image_type in ipairs{"avatar", "photo"} do
 end
 
 if updated > 0 then
-  slot.put_into("notice", _("#{number} Image(s) has been updated", { number = updated }))
+  slot.put_into("notice", _("#{number} Image(s) have been updated.", { number = updated }))
 end
 if updated > 0 and deleted > 0 then
   slot.put_into("notice", " &middot; ")
 end
 if deleted > 0 then
-  slot.put_into("notice", _("#{number} Image(s) has been deleted", { number = deleted }))
+  slot.put_into("notice", _("#{number} Image(s) have been deleted.", { number = deleted }))
 end
 
 if updated == 0 and deleted == 0 then

@@ -69,9 +69,9 @@ ui.container{ attr = { class = class }, content = function()
       if initiative.member_info.initiated then
         local label 
         if for_member and for_member.id ~= app.session.member_id then
-          label = _"This member is initiator of this initiative"
+          label = _"This member is initiator of this initiative."
         else
-          label = _"You are initiator of this initiative"
+          label = _"You are initiator of this initiative."
         end
         ui.image{
           attr = { alt = label, title = label },
@@ -80,9 +80,9 @@ ui.container{ attr = { class = class }, content = function()
       elseif initiative.member_info.directly_supported then
         if initiative.member_info.satisfied then
           if for_member and for_member.id ~= app.session.member_id then
-            label = _"This member is supporter of this initiative"
+            label = _"This member is supporter of this initiative."
           else
-            local label = _"You are supporter of this initiative"
+            local label = _"You are supporter of this initiative."
           end
           ui.image{
             attr = { alt = label, title = label },
@@ -90,9 +90,9 @@ ui.container{ attr = { class = class }, content = function()
           }
         else
           if for_member and for_member.id ~= app.session.member_id then
-            label = _"This member is potential supporter of this initiative"
+            label = _"This member is potential supporter of this initiative."
           else
-            local label = _"You are potential supporter of this initiative"
+            local label = _"You are potential supporter of this initiative."
           end
           ui.image{
             attr = { alt = label, title = label },
@@ -102,9 +102,9 @@ ui.container{ attr = { class = class }, content = function()
       elseif initiative.member_info.supported then
         if initiative.member_info.satisfied then
           if for_member and for_member.id ~= app.session.member_id then
-            label = _"This member is supporter of this initiative via delegation"
+            label = _"This member is supporter of this initiative via delegation."
           else
-            local label = _"You are supporter of this initiative via delegation"
+            local label = _"You are supporter of this initiative via delegation."
           end
           ui.image{
             attr = { alt = label, title = label },
@@ -112,9 +112,9 @@ ui.container{ attr = { class = class }, content = function()
           }
         else
           if for_member and for_member.id ~= app.session.member_id then
-            label = _"This member is potential supporter of this initiative via delegation"
+            label = _"This member is potential supporter of this initiative via delegation."
           else
-            local label = _"You are potential supporter of this initiative via delegation"
+            local label = _"You are potential supporter of this initiative via delegation."
           end
           ui.image{
             attr = { alt = label, title = label },

@@ -33,9 +33,9 @@ if not initiative.issue.fully_frozen and not initiative.issue.closed then
           static = "icons/16/thumb_up_green.png"
         }
         if initiative.issue.closed then
-          slot.put(_"You were supporter")
+          slot.put(_"You were supporter.")
         else
-          slot.put(_"You are supporter")
+          slot.put(_"You are supporter.")
         end
       end }
     else
@@ -44,9 +44,9 @@ if not initiative.issue.fully_frozen and not initiative.issue.closed then
           static = "icons/16/thumb_up.png"
         }
         if initiative.issue.closed then
-          slot.put(_"You were potential supporter")
+          slot.put(_"You were potential supporter.")
         else
-          slot.put(_"You are potential supporter")
+          slot.put(_"You are potential supporter.")
         end
       end }
     end
@@ -82,10 +82,10 @@ if not initiative.issue.closed then
   local ignored_initiative = IgnoredInitiative:by_pk(app.session.member.id, initiative.id)
   if ignored_initiative then
     ui.tag{
-      content = _"You have ignored this initiative"
+      content = _"You have ignored this initiative." .. " "
     }
     ui.link{
-      text   = _"Stop ignoring initiative",
+      text   = "(" .. _"Stop ignoring initiative" .. ")",
       module = "initiative",
       action = "update_ignore",
       id     = initiative.id,

@@ -2,13 +2,13 @@ if not config.download_dir then
   error("feature not enabled")
 end
 
-slot.put_into("title", _"Download database export")
+ui.title(_"Download database export")
 
-slot.select("actions", function()
+ui.actions(function()
   ui.link{
     content = function()
-        ui.image{ static = "icons/16/cancel.png" }
-        slot.put(_"Cancel")
+      ui.image{ static = "icons/16/cancel.png" }
+      slot.put(_"Cancel")
     end,
     module = "index",
     view = "index"

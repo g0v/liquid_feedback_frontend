@@ -33,7 +33,11 @@ ui.paginate{
           {
             label = _"Published",
             content = function(record)
-              ui.field.boolean{ value = record.public }
+              if record.public then
+                slot.put(_"Yes")
+              else
+                slot.put(_"No")
+              end
             end
           },
           {

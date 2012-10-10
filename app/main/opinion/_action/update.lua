@@ -7,7 +7,7 @@ local opinion = Opinion:by_pk(member_id, suggestion_id)
 local suggestion = Suggestion:by_id(suggestion_id)
 
 if not suggestion then
-  slot.put_into("error", _"This suggestion has been meanwhile deleted")
+  slot.put_into("error", _"This suggestion has been meanwhile deleted!")
   return false
 end
 
@@ -15,10 +15,10 @@ end
 local issue = suggestion.initiative:get_reference_selector("issue"):for_share():single_object_mode():exec()
 
 if issue.closed then
-  slot.put_into("error", _"This issue is already closed.")
+  slot.put_into("error", _"This issue is already closed!")
   return false
 elseif issue.fully_frozen then 
-  slot.put_into("error", _"Voting for this issue has already begun.")
+  slot.put_into("error", _"Voting for this issue has already begun!")
   return false
 end
 
@@ -26,7 +26,7 @@ if param.get("delete") then
   if opinion then
     opinion:destroy()
   end
-  --slot.put_into("notice", _"Your rating has been deleted")
+  --slot.put_into("notice", _"Your rating has been deleted.")
   return
 end
 
@@ -55,4 +55,4 @@ end
 
 opinion:save()
 
---slot.put_into("notice", _"Your rating has been updated")
+--slot.put_into("notice", _"Your rating has been updated.")

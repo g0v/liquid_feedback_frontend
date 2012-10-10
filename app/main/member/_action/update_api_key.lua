@@ -9,7 +9,7 @@ if param.get_id() and param.get("delete", atom.boolean) then
     member_application:destroy()
   end
 
-  slot.put_into("notice", _"API key has been deleted")
+  slot.put_into("notice", _"API key has been deleted.")
 else
 
   local member_application = MemberApplication:new()
@@ -23,5 +23,5 @@ else
   member_application.access_level = 'member'
 
   member_application:save()
-  slot.put_into("notice", _"API key has been created")
+  slot.put_into("notice", _"API key has been created.")
 end

@@ -405,13 +405,13 @@ return {
 ["One issue"] = false;
 ["One issue you are interested in"] = false;
 ["One more area in this unit"] = false;
-["One of them have an area delegation set"] = false;
+["One of them has an area delegation set"] = false;
 ["One step back"] = false;
 ["Only for issues reaching the discussion phase"] = false;
 ["Only for issues reaching the frozen phase"] = false;
 ["Only for issues reaching the voting phase"] = false;
 ["Open"] = false;
-["Open initiatives you are supporting which has been updated their draft:"] = false;
+["Open initiatives you are supporting which have been updated their draft:"] = false;
 ["Open issues"] = false;
 ["Opinions"] = false;
 ["Options"] = false;

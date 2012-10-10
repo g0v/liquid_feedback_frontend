@@ -395,7 +395,7 @@ for i, record in ipairs(delegation_chain) do
   if overridden then
     class = class .. " overridden"
   elseif record.participation then
-    class = class .. " delegations_list_row_highlighted"
+    class = class .. " delegation_highlighted"
   end  
   ui.container{
     attr = { class = class },
@@ -409,7 +409,7 @@ for i, record in ipairs(delegation_chain) do
         ui.container{
           attr = { class = "delegation_participation" },
           content = function()
-            slot.put(_"This member is participating, the rest of delegation list is suspended while discussing")
+            slot.put(_"This member is participating, the rest of delegation list is suspended while discussing.")
           end
         }
       end      

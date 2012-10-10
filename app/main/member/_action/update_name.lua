@@ -23,4 +23,4 @@ if db_error then
   db_error:escalate()
 end
 
-slot.put_into("notice", _"Your name has been changed")
+slot.put_into("notice", _"Your name has been changed.")

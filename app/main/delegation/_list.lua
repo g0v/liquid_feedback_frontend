@@ -2,32 +2,36 @@ local delegations_selector = param.get("delegations_selector", "table")
 local outgoing = param.get("outgoing", atom.boolean)
 local incoming = param.get("incoming", atom.boolean)
 
+-- display the scope
 local function delegation_scope(delegation)
   ui.container{
     attr = { class = "delegations_scope" },
     content = function()
       if delegation.unit_id then
         ui.link{
-          content = _"Unit '#{name}'":gsub("#{name}", delegation.unit_id),
           module = "unit",
           view = "show",
-          id = delegation.unit_id
+          id = delegation.unit_id,
+          attr = { class = "unit_link" },
+          text = _"Unit '#{name}'":gsub("#{name}", delegation.unit_name)
         }
       end
       if delegation.area_id then
         ui.link{
-          content = _"Area '#{name}'":gsub("#{name}", delegation.area_name),
           module = "area",
           view = "show",
-          id = delegation.area_id
-        }
+          id = delegation.area_id,
+          attr = { class = "area_link" },
+          text = _"Area '#{name}'":gsub("#{name}", delegation.area_name)
+        }        
       end
       if delegation.issue_id then
         ui.link{
-          content = _"Issue ##{id}":gsub("#{id}", delegation.issue_id),
           module = "issue",
           view = "show",
-          id = delegation.issue_id
+          id = delegation.issue_id,
+          attr = { class = "issue_link" },
+          text = _"Issue ##{id}":gsub("#{id}", delegation.issue_id)
         }
       end
     end

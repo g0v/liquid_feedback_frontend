@@ -405,13 +405,13 @@ return {
 ["One issue"] = "一個議題";
 ["One issue you are interested in"] = "一個您所關心的議題";
 ["One more area in this unit"] = "此單位的另一個領域";
-["One of them have an area delegation set"] = "其中設有一組領域委任";
+["One of them has an area delegation set"] = "其中設有一組領域委任";
 ["One step back"] = "上一步";
 ["Only for issues reaching the discussion phase"] = "限已進入討論階段的議題";
 ["Only for issues reaching the frozen phase"] = "限已進入底定階段的議題";
 ["Only for issues reaching the voting phase"] = "限已進入表決階段的議題";
 ["Open"] = "開啟";
-["Open initiatives you are supporting which has been updated their draft:"] = "開啟您所支持的提案中有草稿更新者：";
+["Open initiatives you are supporting which have been updated their draft:"] = "開啟您所支持的提案中有草稿更新者：";
 ["Open issues"] = "開放性議題";
 ["Opinions"] = "意見";
 ["Options"] = "選項";

@@ -11,13 +11,15 @@ slot.select('navigation', function()
   }
   
   if app.session:has_access("anonymous") then
-
+    
+    -- search
     ui.link{
       content = _"Search",
       module = 'index',
       view   = 'search'
     }
   
+    -- login
     if app.session.member == nil then
       ui.link{
         text   = _"Login",
@@ -31,24 +33,28 @@ slot.select('navigation', function()
       }
     end
     
-  end
-
-  if app.session.member == nil then
-    ui.link{
-      text   = _"Registration",
-      module = 'index',
-      view   = 'register'
-    }
-    ui.link{
-      text   = _"Reset password",
-      module = 'index',
-      view   = 'reset_password'
-    }
-  end
+  end  
+  
 end)
 
-
 slot.select('navigation_right', function()
+
+  -- logout  
+  if app.session.member ~= nil then
+    ui.link{
+      text   = _"Logout",
+      module = 'index',
+      action = 'logout',
+      routing = {
+        default = {
+          mode = "redirect",
+          module = "index",
+          view = "index"
+        }
+      }
+    }
+  end
+
   ui.tag{ 
     tag = "ul",
     attr = { id = "member_menu" },

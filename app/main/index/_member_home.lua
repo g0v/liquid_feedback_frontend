@@ -86,20 +86,21 @@ for i, unit in ipairs(units) do
       :add_where{ "membership.member_id ISNULL" }
       :join("delegation", nil, { "delegation.area_id = area.id AND delegation.truster_id = ?", member.id } )
       :add_where{ "delegation.trustee_id NOTNULL" }
+      :add_group_by("area.id")
       :count()
 
     local more_area_text
     if area_count == 0 and more_area_count == 1 then
       if app.session.member_id == member.id then
-        more_area_text = _("You are not participating in the only area of the unit")
+        more_area_text = _("You are not participating in the only area of the unit.")
       else
-        more_area_text = _("Member is not participating in the only area of the unit")
+        more_area_text = _("Member is not participating in the only area of the unit.")
       end
     elseif area_count == 0 and more_area_count > 0 then
       if app.session.member_id == member.id then
-        more_area_text = _("You are not participating in any of the #{count} areas in this unit", { count = more_area_count })
+        more_area_text = _("You are not participating in any of the #{count} areas in this unit.", { count = more_area_count })
       else
-        more_area_text = _("Member is not participating in any of the #{count} areas in this unit", { count = more_area_count })
+        more_area_text = _("Member is not participating in any of the #{count} areas in this unit.", { count = more_area_count })
       end
     elseif area_count > 0 and more_area_count == 1 then
       more_area_text = _("One more area in this unit")
@@ -108,9 +109,9 @@ for i, unit in ipairs(units) do
     end
     local delegated_text
     if delegated_count == 1 then
-      delegated_text = _("One of them have an area delegation set", { count = delegated_count })
+      delegated_text = _("One of them has an area delegation set.", { count = delegated_count })
     elseif delegated_count > 0 then
-      delegated_text = _("#{count} of them have an area delegation set", { count = delegated_count })
+      delegated_text = _("#{count} of them have an area delegation set.", { count = delegated_count })
     end
 
     ui.container{ attr = { class = "area_list" }, content = function()
@@ -135,6 +136,7 @@ for i, unit in ipairs(units) do
         
       end
     end }
+    
     ui.container{ attr = { class = "area", style="margin-top: 1ex; margin-left: 10px;" }, content = function()
       ui.container{ attr = { class = "title" }, content = function()
         if more_area_text then
@@ -146,7 +148,7 @@ for i, unit in ipairs(units) do
         end
       end }
     end }
-    slot.put("<br />")
+
   end
 end
 

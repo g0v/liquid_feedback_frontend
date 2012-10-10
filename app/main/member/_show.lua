@@ -14,7 +14,7 @@ tabs[#tabs+1] = {
   icon = { static = "icons/16/application_form.png" },
   module = "member",
   view = "_profile",
-  params = { member = member },
+  params = { member = member }
 }
 
 local areas_selector = member:get_reference_selector("areas")
@@ -24,7 +24,7 @@ tabs[#tabs+1] = {
   icon = { static = "icons/16/package.png" },
   module = "index",
   view = "_member_home",
-  params = { areas_selector = areas_selector, member = member, for_member = true },
+  params = { areas_selector = areas_selector, member = member, for_member = true }
 }
   
 tabs[#tabs+1] = {
@@ -66,10 +66,9 @@ tabs[#tabs+1] = {
     issues_selector = Issue:new_selector()
       :add_where("issue.closed NOTNULL")
       :add_order_by("issue.closed DESC")
-
-  }
+  },
+  br = true -- line break after this tab
 }
-
 
 local outgoing_delegations_selector = Member:new_selector()
 :reset_fields()
@@ -77,6 +76,7 @@ local outgoing_delegations_selector = Member:new_selector()
 :add_field("delegation.unit_id")
 :add_field("delegation.area_id")
 :add_field("delegation.issue_id")
+:add_field("unit.name", "unit_name")
 :add_field("area.name", "area_name")
 :join("delegation", "delegation", "member.id = delegation.truster_id")
 :join("member", "trustee", "trustee.id = delegation.trustee_id")
@@ -93,7 +93,7 @@ tabs[#tabs+1] = {
   icon = { static = "icons/16/table_go.png" },
   module = "delegation",
   view = "_list",
-  params = { delegations_selector = outgoing_delegations_selector, outgoing = true },
+  params = { delegations_selector = outgoing_delegations_selector, outgoing = true }
 }
 
 local incoming_delegations_selector = Member:new_selector()
@@ -102,6 +102,7 @@ local incoming_delegations_selector = Member:new_selector()
 :add_field("delegation.unit_id")
 :add_field("delegation.area_id")
 :add_field("delegation.issue_id")
+:add_field("unit.name", "unit_name")
 :add_field("area.name", "area_name")
 :join("delegation", "delegation", "member.id = delegation.truster_id")
 :join("member", "trustee", "trustee.id = delegation.trustee_id")
@@ -118,7 +119,7 @@ tabs[#tabs+1] = {
   icon = { static = "icons/16/table_go.png" },
   module = "delegation",
   view = "_list",
-  params = { delegations_selector = incoming_delegations_selector, incoming = true },
+  params = { delegations_selector = incoming_delegations_selector, incoming = true }
 }
 
 local contacts_selector = member:get_reference_selector("saved_members"):add_where("public")
@@ -128,7 +129,7 @@ tabs[#tabs+1] = {
   icon = { static = "icons/16/book_edit.png" },
   module = "member",
   view = "_list",
-  params = { members_selector = contacts_selector },
+  params = { members_selector = contacts_selector }
 }
 
 ui.tabs(tabs)

@@ -35,8 +35,7 @@ if app.session:has_access("all_pseudonymous") then
     }
   }
 
-  ui.container{ attr = { class = "heading" }, content = _"Details" }
-  
+  -- issue details
   execute.view{
     module = "issue",
     view = "_details",
@@ -44,9 +43,3 @@ if app.session:has_access("all_pseudonymous") then
   }
   
 end
-
-if issue.snapshot then
-  slot.put("<br />")
-  ui.field.timestamp{ label = _"Last snapshot:", value = issue.snapshot }
-end
-

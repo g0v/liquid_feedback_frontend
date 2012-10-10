@@ -2,9 +2,9 @@ local search_for = param.get("search_for", atom.string) or "global"
 local search_string = param.get("search", atom.string)
 
 if search_string then
-  slot.put_into("title", encode.html(_("Search results for: '#{search}'", { search  = search_string })))
+  ui.title(encode.html(_("Search results for: '#{search}'", { search  = search_string })))
 else
-  slot.put_into("title", encode.html(_"Search"))
+  ui.title(_"Search")
 end
 
 ui.form{

@@ -403,13 +403,13 @@ return {
 ["One issue"] = "Una tematica";
 ["One issue you are interested in"] = "Una tematica che ti interessa";
 ["One more area in this unit"] = "Una o piu' aree in questa sezione";
-["One of them have an area delegation set"] = "Una di queste ha una delega di area";
+["One of them has an area delegation set"] = "Una di queste ha una delega di area";
 ["One step back"] = "Un passo indietro";
 ["Only for issues reaching the discussion phase"] = "Solo per tematiche che raggiungono la fase di discussione";
 ["Only for issues reaching the frozen phase"] = "Solo per tematiche che sono sospese";
 ["Only for issues reaching the voting phase"] = "Solo per tematiche che raggiungono la fase di voto";
 ["Open"] = "Aperta";
-["Open initiatives you are supporting which has been updated their draft:"] = "Iniziative aperte che supporti che hanno novita' nella bozza:";
+["Open initiatives you are supporting which have been updated their draft:"] = "Iniziative aperte che supporti che hanno novita' nella bozza:";
 ["Open issues"] = "Tematiche aperte";
 ["Opinions"] = "Opinioni";
 ["Options"] = "Opzioni";

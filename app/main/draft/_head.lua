@@ -18,9 +18,16 @@ ui.title(function()
   }
   slot.put(" &middot; ")
   ui.link{
-    content = _("Initiative: ")..initiative.name,
+    content = _("Initiative: ") .. initiative.name,
     module = "initiative",
     view = "show",
     id = initiative.id
   }
+  local title = param.get("title")
+  if title then
+    slot.put(" &middot; ")
+    ui.tag{
+      content = title
+    }    
+  end
 end)

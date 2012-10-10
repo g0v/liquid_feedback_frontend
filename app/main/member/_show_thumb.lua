@@ -133,7 +133,7 @@ ui.container{
         end
 
         if member.is_informed == false then
-          local text = _"Member has not approved latest draft"
+          local text = _"Member has not approved latest draft."
           ui.image{
             attr = { alt = text, title = text },
             static = "icons/16/help_yellow.png"

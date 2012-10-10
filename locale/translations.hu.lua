@@ -405,13 +405,13 @@ return {
 ["One issue"] = "Egy téma";
 ["One issue you are interested in"] = "Egy téged érdeklõ téma";
 ["One more area in this unit"] = false;
-["One of them have an area delegation set"] = false;
+["One of them has an area delegation set"] = false;
 ["One step back"] = "Vissza egy lépéssel";
 ["Only for issues reaching the discussion phase"] = "Csak a tárgyalási fázisba eljutó témákhoz.";
 ["Only for issues reaching the frozen phase"] = "Csak a befagyasztott fázisba eljutó témákhoz.";
 ["Only for issues reaching the voting phase"] = "Csak a szavazati fázisba eljutó témákhoz.";
 ["Open"] = "Nyitott";
-["Open initiatives you are supporting which has been updated their draft:"] = "Nyitott, általad támogatott, frissített vázlatú kezdeményezések:";
+["Open initiatives you are supporting which have been updated their draft:"] = "Nyitott, általad támogatott, frissített vázlatú kezdeményezések:";
 ["Open issues"] = "Nyitott témák";
 ["Opinions"] = "Vélemények";
 ["Options"] = "Opciók";

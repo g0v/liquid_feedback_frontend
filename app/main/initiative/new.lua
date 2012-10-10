@@ -32,7 +32,7 @@ ui.form{
     if issue_id then
       ui.field.text{ label = _"Issue",  value = issue_id }
     else
-      tmp = { { id = -1, name = _"Please choose a policy" } }
+      tmp = { { id = -1, name = _"Please choose a policy!" } }
       for i, allowed_policy in ipairs(area.allowed_policies) do
         tmp[#tmp+1] = allowed_policy
       end
@@ -171,6 +171,7 @@ ui.form{
       value = param.get("draft")
     }
     ui.submit{ name = "preview", text = _"Preview" }
-    ui.submit{ text = _"Save" }
+    -- hack for the additional submit button, because ui.submit does not allow to set the class attribute
+    ui.tag{ tag = "input", attr = { type = "submit", class = "additional", value = _"Save" } }
   end
 }

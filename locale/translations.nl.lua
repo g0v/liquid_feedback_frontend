@@ -405,13 +405,13 @@ return {
 ["One issue"] = "Eén onderwerp";
 ["One issue you are interested in"] = "Eén onderwerp dat u interesseert";
 ["One more area in this unit"] = "Nog één themagebied in dit dossier";
-["One of them have an area delegation set"] = "Eén van deze heeft een themagebied delegatie actief";
+["One of them has an area delegation set"] = "Eén van deze heeft een themagebied delegatie actief";
 ["One step back"] = "Een stap terug";
 ["Only for issues reaching the discussion phase"] = "Alleen voor onderwerpen die de discussie fase bereiken.";
 ["Only for issues reaching the frozen phase"] = "Alleen voor onderwerpen die de bevroren fase bereiken.";
 ["Only for issues reaching the voting phase"] = "Alleen voor onderwerpen die de stemmingsfase bereiken.";
 ["Open"] = "Open";
-["Open initiatives you are supporting which has been updated their draft:"] = "Open initiatieven die door u ondersteund worden, waarvan de ontwerptekst geactualiseerd is:";
+["Open initiatives you are supporting which have been updated their draft:"] = "Open initiatieven die door u ondersteund worden, waarvan de ontwerptekst geactualiseerd is:";
 ["Open issues"] = "Open onderwerpen";
 ["Opinions"] = "Meningen";
 ["Options"] = "Opties";

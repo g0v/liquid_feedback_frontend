@@ -22,4 +22,4 @@ if db_error then
   db_error:escalate()
 end
 
-slot.put_into("notice", _("Your login has been changed to '#{login}'", { login = login }))
+slot.put_into("notice", _("Your login has been changed to '#{login}'.", { login = login }))

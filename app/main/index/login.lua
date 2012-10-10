@@ -7,8 +7,24 @@ ui.tag{
 
 execute.view{ module = "index", view = "_lang_chooser" }
 
-ui.title(_"Login")
 app.html_title.title = _"Login"
+ui.title(_"Login")
+
+ui.actions(function()
+  if app.session.member == nil then
+    ui.link{
+      text   = _"Registration",
+      module = 'index',
+      view   = 'register'
+    }
+    slot.put(" &middot; ")
+    ui.link{
+      text   = _"Reset password",
+      module = 'index',
+      view   = 'reset_password'
+    }
+  end
+end)
 
 if config.motd_public then
   local help_text = config.motd_public

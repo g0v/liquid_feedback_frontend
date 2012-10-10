@@ -1,12 +1,12 @@
 execute.view{ module = "index", view = "_lang_chooser" }
 
-slot.put_into("title", _"Reset password")
+ui.title(_"Reset password")
 
-slot.select("actions", function()
+ui.actions(function()
   ui.link{
     content = function()
-        ui.image{ static = "icons/16/cancel.png" }
-        slot.put(_"Cancel password reset")
+      ui.image{ static = "icons/16/cancel.png" }
+      slot.put(_"Cancel password reset")
     end,
     module = "index",
     view = "index"
@@ -66,7 +66,7 @@ else
       }
       ui.tag{
         tag = 'p',
-        content = _'Please enter your new password twice.'
+        content = _'Please enter your new password twice:'
       }
       ui.field.password{
         label = "New password",

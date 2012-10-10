@@ -9,20 +9,20 @@ end
 local issue = initiative:get_reference_selector("issue"):for_share():single_object_mode():exec()
 
 if issue.closed then
-  slot.put_into("error", _"This issue is already closed.")
+  slot.put_into("error", _"This issue is already closed!")
   return false
 elseif issue.half_frozen then 
-  slot.put_into("error", _"This issue is already frozen.")
+  slot.put_into("error", _"This issue is already frozen!")
   return false
 end
 
 if initiative.revoked then
-  slot.put_into("error", _"This initiative is revoked")
+  slot.put_into("error", _"This initiative is revoked!")
   return false
 end
 
 param.update(initiative, "discussion_url")
 initiative:save()
 
-slot.put_into("notice", _"Initiative successfully updated")
+slot.put_into("notice", _"Initiative successfully updated.")
 

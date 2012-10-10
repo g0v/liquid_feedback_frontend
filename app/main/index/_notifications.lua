@@ -3,14 +3,14 @@ local notification_links = {}
 if app.session.member.notify_email_unconfirmed then
   notification_links[#notification_links+1] = {
     module = "index", view = "email_unconfirmed",
-    text = _"Please confirm your email address"
+    text = _"Please confirm your email address!"
   }
 end
 
 if app.session.member.notify_level == nil then
   notification_links[#notification_links+1] = {
     module = "member", view = "settings_notification",
-    text = _"Please select your preferred notification level"
+    text = _"Please select your preferred notification level!"
   }
 end
 
@@ -19,7 +19,7 @@ local broken_delegations_count = Delegation:selector_for_broken(app.session.memb
 if broken_delegations_count > 0 then
   notification_links[#notification_links+1] = {
     module = "index", view = "broken_delegations",
-    text = _("#{count} of your outgoing delegation(s) are broken", { count = broken_delegations_count })
+    text = _("#{count} of your outgoing delegation(s) are broken.", { count = broken_delegations_count })
   }
   
 end
@@ -42,7 +42,7 @@ if issues_to_vote_count > 0 then
     params = {
       tab = "open", filter = "frozen", filter_interest = "issue", filter_delegation = "direct", filter_voting = "not_voted"
     },
-    text = _("You have not voted #{count} issue(s) you were interested in", { count = issues_to_vote_count })
+    text = _("You have not voted #{count} issue(s) you were interested in.", { count = issues_to_vote_count })
   }
 end
 
@@ -51,7 +51,7 @@ local initiator_invites_count = Initiator:selector_for_invites(app.session.membe
 if initiator_invites_count > 0 then
   notification_links[#notification_links+1] = {
     module = "index", view = "initiator_invites",
-    text = _("You are invited to #{count} initiative(s)", { count = initiator_invites_count })
+    text = _("You are invited to #{count} initiative(s).", { count = initiator_invites_count })
   }
 end
 

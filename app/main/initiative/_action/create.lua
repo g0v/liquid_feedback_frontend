@@ -17,10 +17,10 @@ local issue_id = param.get("issue_id", atom.integer)
 if issue_id then
   issue = Issue:new_selector():add_where{"id=?",issue_id}:single_object_mode():exec()
   if issue.closed then
-    slot.put_into("error", _"This issue is already closed.")
+    slot.put_into("error", _"This issue is already closed!")
     return false
   elseif issue.fully_frozen then 
-    slot.put_into("error", _"Voting for this issue has already begun.")
+    slot.put_into("error", _"Voting for this issue has already begun!")
     return false
   end
   area = issue.area
@@ -68,12 +68,12 @@ local initiative = Initiative:new()
 if not issue then
   local policy_id = param.get("policy_id", atom.integer)
   if policy_id == -1 then
-    slot.put_into("error", _"Please choose a policy")
+    slot.put_into("error", _"Please choose a policy!")
     return false
   end
   local policy = Policy:by_id(policy_id)
   if not policy.active then
-    slot.put_into("error", "Invalid policy.")
+    slot.put_into("error", "Invalid policy!")
     return false
   end
   if not area:get_reference_selector("allowed_policies")
@@ -123,7 +123,7 @@ supporter.member_id = app.session.member.id
 supporter.draft_id = draft.id
 supporter:save()
 
-slot.put_into("notice", _"Initiative successfully created")
+slot.put_into("notice", _"Initiative successfully created.")
 
 request.redirect{
   module = "initiative",

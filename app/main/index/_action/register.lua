@@ -225,7 +225,7 @@ if step > 2 then
   if notify_email ~= old_notify_email then
     local success = member:set_notify_email(notify_email)
     if not success then
-      slot.put_into("error", _"Can't send confirmation email")
+      slot.put_into("error", _"Can't send confirmation email!")
       return
     end
   end

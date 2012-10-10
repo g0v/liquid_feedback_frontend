@@ -9,15 +9,15 @@ end
 local issue = initiative:get_reference_selector("issue"):for_share():single_object_mode():exec()
 
 if issue.closed then
-  slot.put_into("error", _"This issue is already closed.")
+  slot.put_into("error", _"This issue is already closed!")
   return false
 elseif issue.half_frozen then 
-  slot.put_into("error", _"This issue is already frozen.")
+  slot.put_into("error", _"This issue is already frozen!")
   return false
 end
 
 if initiative.revoked then
-  slot.put_into("error", _"This initiative is already revoked")
+  slot.put_into("error", _"This initiative is already revoked!")
   return false
 end
 
@@ -29,7 +29,7 @@ if suggested_initiative_id ~= -1 then
     error("object not found")
   end
   if initiative.id == suggested_initiative.id then
-    slot.put_into("error", _"You can't suggest the initiative you are revoking")
+    slot.put_into("error", _"You can't suggest the initiative you are revoking!")
     return false
   end
   initiative.suggested_initiative_id = suggested_initiative.id
@@ -44,5 +44,5 @@ initiative.revoked_by_member_id = app.session.member_id
 initiative.revoked = "now"
 initiative:save()
 
-slot.put_into("notice", _"Initiative is revoked now")
+slot.put_into("notice", _"Initiative is revoked now.")
 

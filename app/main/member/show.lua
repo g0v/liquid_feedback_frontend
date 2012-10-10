@@ -45,14 +45,14 @@ slot.select("head", function()
       slot.put(" &middot; ")
       ui.tag{
         attr = { class = "interest deactivated_member_info" },
-        content = _"This member is inactive"
+        content = _"This member is inactive."
       }
     end
     if member.locked then
       slot.put(" &middot; ")
       ui.tag{
         attr = { class = "interest deactivated_member_info" },
-        content = _"This member is locked"
+        content = _"This member is locked."
       }
     end
     if app.session.member_id and not (member.id == app.session.member.id) then
@@ -99,7 +99,7 @@ slot.select("head", function()
       if ignored_member then
         ui.tag{
           attr = { class = "interest" },
-          content = _"You have ignored this member"
+          content = _"You have ignored this member."
         }
         slot.put(" &middot; ")
         ui.link{

@@ -405,13 +405,13 @@ return {
 ["One issue"] = "Unu temo";
 ["One issue you are interested in"] = "Unu temo, kiu vin interesas";
 ["One more area in this unit"] = false;
-["One of them have an area delegation set"] = false;
+["One of them has an area delegation set"] = false;
 ["One step back"] = "Unu paŝo reen";
 ["Only for issues reaching the discussion phase"] = false;
 ["Only for issues reaching the frozen phase"] = false;
 ["Only for issues reaching the voting phase"] = false;
 ["Open"] = "Malferma";
-["Open initiatives you are supporting which has been updated their draft:"] = "Malfermitaj iniciatoj, kiujn vi subtenas kaj kiuj ĝisdatigis sian skizon:";
+["Open initiatives you are supporting which have been updated their draft:"] = "Malfermitaj iniciatoj, kiujn vi subtenas kaj kiuj ĝisdatigis sian skizon:";
 ["Open issues"] = false;
 ["Opinions"] = "Opinioj";
 ["Options"] = false;

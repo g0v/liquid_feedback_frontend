@@ -1,6 +1,9 @@
+-- this file is used for the drop-down member menu and for the member menu page 
+
 ui.tag{ tag = "ul", content = function()
 
   if app.session.member_id then
+    
     ui.tag{ tag = "li", content = function()
 
       ui.link{
@@ -56,21 +59,6 @@ ui.tag{ tag = "ul", content = function()
 
     end }
     
-    ui.tag{ tag = "li", content = function()
-
-      ui.link{
-        text   = _"Logout",
-        module = 'index',
-        action = 'logout',
-        routing = {
-          default = {
-            mode = "redirect",
-            module = "index",
-            view = "index"
-          }
-        }
-      }
-    end }
   end
   
   for i, lang in ipairs(config.enabled_languages) do
