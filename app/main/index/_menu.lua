@@ -7,38 +7,14 @@ ui.tag{ tag = "ul", content = function()
     ui.tag{ tag = "li", content = function()
 
       ui.link{
-        text = _"Show profile",
+        text = _"Profile",
         module = "member",
         view = "show",
         id = app.session.member_id
       }
       
     end }
-    
-    ui.tag{ tag = "li", content = function()
-
-      ui.link{
-        content = function()
-            slot.put(_"Edit profile")
-        end,
-        module = "member",
-        view = "edit"
-      }
-
-    end }
-    
-    ui.tag{ tag = "li", content = function()
-
-      ui.link{
-        content = function()
-            slot.put(_"Upload avatar/photo")
-        end,
-        module = "member",
-        view = "edit_images"
-      }
-
-    end }
-      
+          
     ui.tag{ tag = "li", content = function()
 
       ui.link{

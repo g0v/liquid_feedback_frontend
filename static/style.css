@@ -1274,8 +1274,10 @@ x.initiative_link.potentially_supported {
   margin-right: 0.5em;
 }
 
+/* member list */
 
-.member_list .member_thumb {
+.member_list .member_thumb,
+.member_list .contact_thumb {
   float: left;
   margin-right: 10px;
   margin-bottom: 10px;
@@ -1293,6 +1295,24 @@ x.initiative_link.potentially_supported {
   border-radius: 8px;
   padding: 2px;
   border: 1px solid #aaa;
+}
+
+.contact_thumb {
+  height: 70px;
+  padding: 0;
+  display: block;
+  float: left;
+  position: relative;
+}
+.contact_thumb .member_thumb {
+  margin: 0 0 2px 0;
+}
+.contact_action {
+  clear: left;
+  text-align: center;
+}
+.contact_thumb .action {
+  margin: 0 10px;
 }
 
 .member_thumb a:hover div {
@@ -1350,6 +1370,7 @@ x.initiative_link.potentially_supported {
 .member_thumb.in_delegation_chain {
   background-color: #fda;
 }
+
 
 #suggestion_description {
   height: 15ex;

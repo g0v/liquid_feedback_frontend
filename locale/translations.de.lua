@@ -245,6 +245,7 @@ return {
 ["Hello "] = "Hallo ";
 ["Help #{id}"] = "Hilfe #{id}";
 ["Help for: #{text}"] = "Hilfe zu: #{text}";
+["Hidden, click to publish"] = "Versteckt, klicken um zu veröffentlichen";
 ["Hide"] = "Verstecken";
 ["Hide filter details"] = "Filter-Details verstecken";
 ["Hide inactive units"] = "Inaktive Gliederungen ausblenden";
@@ -477,7 +478,7 @@ return {
 ["Profession"] = "Beruf";
 ["Profile"] = "Profil";
 ["Publish"] = "Veröffentlichen";
-["Published"] = "veröffentlicht";
+["Published, click to hide"] = "Veröffentlicht, klicken um zu verstecken";
 ["Quorum"] = "Quorum";
 ["Real name"] = "Realname";
 ["Refresh support to current draft"] = "Unterstützung auf aktuellen Entwurf aktualisieren";
@@ -710,8 +711,8 @@ return {
 ["Your email address has been changed, please check for confirmation email with activation link!"] = "Deine E-Mail-Adresse wurde geändert, du hast eine Bestätigungs-E-Mail mit Aktivierungslink erhalten.";
 ["Your login has been changed to '#{login}'."] = "Dein Anmeldename wurde auf '#{login}' geändert.";
 ["Your name has been changed."] = "Dein Name wurde geändert.";
-["Your page has been updated."] = "Deine Seite wurde aktualisiert.";
 ["Your password has been updated successfully."] = "Das Kennwort wurde erfolgreich geändert.";
+["Your profile has been updated."] = "Dein Profil wurde aktualisiert.";
 ["Your rating has been deleted."] = "Deine Bewertung wurde gelöscht.";
 ["Your rating has been updated."] = "Deine Bewertung wurde aktualisiert.";
 ["Your suggestion has been added."] = "Deine Anregung wurde hinzugefügt.";

@@ -24,6 +24,7 @@ ui.container{
   end
 }
 
+slot.put("<br/>")
 
 local file_list = extos.listdir(config.download_dir)
 
