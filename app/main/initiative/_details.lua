@@ -18,9 +18,15 @@ ui.container{ attr = { class = "initiative_head", style = "margin-left:51%" },
     ui.container{ attr = { class = "title" }, content = _"Initiative Details" }
     ui.container{ attr = { class = "content" }, content = function()
 
+      -- no float if the right column stays empty
+      local style = ""
+      if initiative.issue.closed then
+        style = ";float:left"
+      end
+
       ui.tag{
         tag = "dl",
-        attr = { style = "width:49%;float:left" },
+        attr = { style = "width:49%;" .. style },
         record = initiative,
         content = function()
           -- rest
@@ -33,14 +39,14 @@ ui.container{ attr = { class = "initiative_head", style = "margin-left:51%" },
           end
         end
       }
-        
-      ui.tag{
-        tag = "dl",
-        attr = { style = "margin-left:51%" },
-        content = function()      
-      
-          -- voting result
-          if initiative.issue.closed then
+
+      -- voting result
+      if initiative.issue.closed then        
+        ui.tag{
+          tag = "dl",
+          attr = { style = "margin-left:51%" },
+          content = function()      
+
             dtdd( _"Direct majority", bool2str(initiative.direct_majority) )
             dtdd( _"Indirect majority", bool2str(initiative.indirect_majority) )
             dtdd( _"Schulze rank", tostring(initiative.schulze_rank) .. " (" .. _("Status quo: #{rank}", { rank = initiative.issue.status_quo_schulze_rank }) .. ")" )
@@ -58,11 +64,11 @@ ui.container{ attr = { class = "initiative_head", style = "margin-left:51%" },
 
             dtdd( _"Other failures", table.concat(texts, ", ") )
             dtdd( _"Eligible as winner", bool2str(initiative.eligible) )
+
           end
-
-        end
-      }
-
+        }
+      end
+    
     end }
   end
 }
