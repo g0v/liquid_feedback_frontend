@@ -35,10 +35,6 @@ slot.select('navigation', function()
     
   end  
   
-end)
-
-slot.select('navigation_right', function()
-
   -- logout  
   if app.session.member ~= nil then
     ui.link{
@@ -54,7 +50,10 @@ slot.select('navigation_right', function()
       }
     }
   end
+  
+end)
 
+slot.select('navigation_right', function()
   ui.tag{ 
     tag = "ul",
     attr = { id = "member_menu" },
