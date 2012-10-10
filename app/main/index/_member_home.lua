@@ -80,13 +80,14 @@ for i, unit in ipairs(units) do
       :count()
     local more_area_count = max_area_count - area_count
     local delegated_count = Area:new_selector()
+      :reset_fields()
+      :add_field("area.id", nil, { "grouped" })
       :add_where{ "area.unit_id = ?", unit.id }
       :add_where{ "area.active" }
       :left_join("membership", nil, { "membership.area_id = area.id AND membership.member_id = ?", member.id } )
       :add_where{ "membership.member_id ISNULL" }
       :join("delegation", nil, { "delegation.area_id = area.id AND delegation.truster_id = ?", member.id } )
       :add_where{ "delegation.trustee_id NOTNULL" }
-      :add_group_by("area.id")
       :count()
 
     local more_area_text
