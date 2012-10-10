@@ -15,24 +15,6 @@ slot.select("head", function()
 
   ui.container{ attr = { class = "actions" }, content = function()
 
-    if member.id == app.session.member_id then
-      ui.link{
-        content = function()
-          slot.put(encode.html(_"Edit profile"))
-        end,
-        module  = "member",
-        view    = "edit"
-      }
-      slot.put(" &middot; ")
-      ui.link{
-        content = function()
-          slot.put(encode.html(_"Upload avatar/photo"))
-        end,
-        module  = "member",
-        view    = "edit_images"
-      }
-      slot.put(" &middot; ")
-    end
     ui.link{
       content = function()
         slot.put(encode.html(_"Show member history"))
@@ -147,4 +129,3 @@ execute.view{
   view = "_show",
   params = { member = member }
 }
-

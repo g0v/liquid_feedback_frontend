@@ -38,6 +38,26 @@ ui.form{
 
       end
     }
+       
+    -- edit links
+    if member.id == app.session.member_id then
+      ui.link{
+        content = function()
+          slot.put(encode.html(_"Edit profile"))
+        end,
+        module  = "member",
+        view    = "edit"
+      }
+      slot.put(" &middot; ")
+      ui.link{
+        content = function()
+          slot.put(encode.html(_"Upload avatar/photo"))
+        end,
+        module  = "member",
+        view    = "edit_images"
+      }
+      slot.put("<br/><br/>")
+    end
     
     if member.identification then
       ui.field.text{    label = _"Identification", name = "identification" }
@@ -127,3 +147,4 @@ ui.form{
 }
 
 slot.put("<br />")
+    
