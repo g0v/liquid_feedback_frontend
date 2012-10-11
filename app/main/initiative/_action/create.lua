@@ -19,7 +19,7 @@ if issue_id then
   if issue.closed then
     slot.put_into("error", _"This issue is already closed!")
     return false
-  elseif issue.fully_frozen then 
+  elseif issue.fully_frozen then
     slot.put_into("error", _"Voting for this issue has already begun!")
     return false
   end
@@ -90,7 +90,7 @@ if not issue then
 
   if config.etherpad then
     local result = net.curl(
-      config.etherpad.api_base 
+      config.etherpad.api_base
       .. "api/1/createGroupPad?apikey=" .. config.etherpad.api_key
       .. "&groupID=" .. config.etherpad.group_id
       .. "&padName=Issue" .. tostring(issue.id)

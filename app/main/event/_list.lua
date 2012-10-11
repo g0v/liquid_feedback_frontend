@@ -8,11 +8,11 @@ local event_selector = Event:new_selector()
   :limit(25)
   :join("issue", nil, "issue.id = event.issue_id")
   :add_field("now()::date - event.occurrence::date", "time_ago")
-  
+
 if event_max_id then
   event_selector:add_where{ "event.id < ?", event_max_id }
 end
-  
+
 if for_member then
   event_selector:add_where{ "event.member_id = ?", for_member.id }
 elseif for_unit then
@@ -23,7 +23,7 @@ elseif for_area then
 --elseif not global then
 --  event_selector:join("event_seen_by_member", nil, { "event_seen_by_member.id = event.id AND event_seen_by_member.seen_by_member_id = ?", app.session.member_id })
 end
-  
+
 if app.session.member_id then
   event_selector
     :left_join("interest", "_interest", { "_interest.issue_id = issue.id AND _interest.member_id = ?", app.session.member.id } )
@@ -98,7 +98,7 @@ filters.content = function()
           days_ago_text = _("#{date} at #{time}", { date = format.date(event.occurrence.date), time = format.time(event.occurrence) })
         end
         ui.tag{ attr = { class = "event_name" }, content = event_name }
-        slot.put("<br />") 
+        slot.put("<br />")
         ui.tag{ content = days_ago_text }
   --[[      if event.time_ago > 1 then
           slot.put("<br />(")
@@ -107,8 +107,8 @@ filters.content = function()
         end
         --]]
         if app.session:has_access("authors_pseudonymous") and event.member_id then
-          slot.put("<br />") 
-          slot.put("<br />") 
+          slot.put("<br />")
+          slot.put("<br />")
           if app.session.member_id then
             ui.link{
               content = function()
@@ -150,7 +150,7 @@ filters.content = function()
             attr = { class = "area_link" }, text = event.issue.area.name
           }
         end }
-        
+
         ui.container{ attr = { class = "title" }, content = function()
           ui.link{
             attr = { class = "issue_id" },
@@ -166,7 +166,7 @@ filters.content = function()
             local initiatives_selector = Initiative:new_selector()
               :add_where{ "initiative.issue_id = ?", event.issue_id }
               :add_order_by("initiative.rank, initiative.supporter_count DESC")
-            execute.view{ module = "initiative", view = "_list", params = { 
+            execute.view{ module = "initiative", view = "_list", params = {
               issue = event.issue,
               initiatives_selector = initiatives_selector,
               no_sort = true,
@@ -176,7 +176,7 @@ filters.content = function()
           else
             local initiatives_selector = Initiative:new_selector()
               :add_where{ "initiative.id = ?", event.initiative_id }
-            execute.view{ module = "initiative", view = "_list", params = { 
+            execute.view{ module = "initiative", view = "_list", params = {
               initiatives_selector = initiatives_selector,
               no_sort = true,
               hide_more_initiatives = true,

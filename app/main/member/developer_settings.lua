@@ -20,7 +20,7 @@ if setting then
       local setting_key = "liquidfeedback_frontend_stylesheet_url"
       local setting = Setting:by_pk(app.session.member.id, setting_key)
       local value = setting and setting.value
-      ui.field.text{ 
+      ui.field.text{
         label = _"Stylesheet URL",
         name = "stylesheet_url",
         value = value
@@ -36,7 +36,7 @@ local member_applications = MemberApplication:new_selector()
   :add_where{ "member_id = ?", app.session.member.id }
   :add_order_by("name, id")
   :exec()
-  
+
 if #member_applications > 0 then
 
   ui.list{
@@ -78,7 +78,7 @@ if #member_applications > 0 then
   }
 
 else
-  
+
   slot.put(_"Currently no API key is set.")
   slot.put(" ")
   ui.link{

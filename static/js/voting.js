@@ -349,5 +349,5 @@ if (!jsFail) {
     return voting_move(element, false);
   }
 
-  
+
 }

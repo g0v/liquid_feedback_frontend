@@ -5,8 +5,8 @@ ui.form{
   record = suggestion,
   readonly = true,
   content = function()
-    if suggestion.author then 
-      suggestion.author:ui_field_text{label=_"Author"} 
+    if suggestion.author then
+      suggestion.author:ui_field_text{label=_"Author"}
     end
     ui.field.text{ label = _"Title",        name = "name" }
     ui.container{

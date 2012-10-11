@@ -4,7 +4,7 @@ local api_key
 if param.get_id() and param.get("delete", atom.boolean) then
 
   local member_application = MemberApplication:by_id(param.get_id())
-  
+
   if member_application then
     member_application:destroy()
   end

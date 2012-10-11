@@ -6,7 +6,7 @@ local login = param.get("login")
 
 login = util.trim(login)
 
-if #login < 3 then 
+if #login < 3 then
   slot.put_into(_error, _"This login is too short!")
 end
 

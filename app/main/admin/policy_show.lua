@@ -21,7 +21,7 @@ ui.form{
 
     ui.field.text{ label = _"Name",        name = "name" }
     ui.field.text{ label = _"Description", name = "description", multiline = true }
-    ui.field.text{ label = _"Hint",        readonly = true, 
+    ui.field.text{ label = _"Hint",        readonly = true,
                     value = _"Interval format:" .. " 3 mons 2 weeks 1 day 10:30:15" }
 
     ui.field.text{ label = _"Admission time",     name = "admission_time" }

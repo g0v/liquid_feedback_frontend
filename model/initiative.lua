@@ -142,7 +142,7 @@ Initiative:add_reference{
     selector:join("issue", nil, "issue.id = initiative.issue_id")
     selector:join(sub_selector, "delegation_info", "delegation_info.issue_id = issue.id")
     selector:add_field("delegation_info.*")
-    
+
     selector:left_join("supporter", nil, "supporter.initiative_id = initiative.id AND supporter.member_id = delegation_info.participating_member_id")
 
     selector:left_join("delegating_interest_snapshot", "delegating_interest_s", { "delegating_interest_s.event = issue.latest_snapshot_event AND delegating_interest_s.issue_id = issue.id AND delegating_interest_s.member_id = ?", options.member_id })
@@ -151,14 +151,14 @@ Initiative:add_reference{
 
     selector:add_field("CASE WHEN issue.fully_frozen ISNULL AND issue.closed ISNULL THEN supporter.member_id NOTNULL ELSE supporter_s.member_id NOTNULL END", "supported")
     selector:add_field({ "CASE WHEN issue.fully_frozen ISNULL AND issue.closed ISNULL THEN delegation_info.own_participation AND supporter.member_id NOTNULL ELSE supporter_s.member_id = ? END", options.member_id }, "directly_supported")
-    
+
     selector:add_field("CASE WHEN issue.fully_frozen ISNULL AND issue.closed ISNULL THEN supporter.member_id NOTNULL AND NOT EXISTS(SELECT 1 FROM critical_opinion WHERE critical_opinion.initiative_id = initiative.id AND critical_opinion.member_id = delegation_info.participating_member_id) ELSE supporter_s.satisfied NOTNULL END", "satisfied")
 
-    
+
     --selector:add_field("", "informed")
     selector:left_join("initiator", nil, { "initiator.initiative_id = initiative.id AND initiator.member_id = ? AND initiator.accepted", options.member_id })
     selector:add_field("initiator.member_id NOTNULL", "initiated")
-    
+
     return selector
   end
 }

@@ -86,7 +86,7 @@ ui.form{
           tag = "p",
           content = _"This invite key is connected with the following information:"
         }
-        
+
         execute.view{ module = "member", view = "_profile", params = { member = member, include_private_data = true } }
 
         if not config.locked_profile_fields.notify_email then
@@ -140,7 +140,7 @@ ui.form{
               code = code,
               notify_email = notify_email,
               name = name,
-              login = login, 
+              login = login,
               step = 1
             }
           }
@@ -167,11 +167,11 @@ ui.form{
         member.notify_email = notify_email or member.notify_email
         member.name = name or member.name
         member.login = login or member.login
-        
+
         execute.view{ module = "member", view = "_profile", params = {
           member = member, include_private_data = true
         } }
-        
+
         for i, checkbox in ipairs(config.use_terms_checkboxes) do
           slot.put("<br />")
           ui.tag{

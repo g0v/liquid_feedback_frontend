@@ -13,7 +13,7 @@ ui.container{ attr = { class = class }, content = function()
   ui.container{ attr = { class = "rank" }, content = function()
     if initiative.issue.accepted and initiative.issue.closed
       and initiative.issue.ranks_available or initiative.admitted == false
-    then 
+    then
       ui.field.rank{ attr = { class = "rank" }, value = initiative.rank, eligible = initiative.eligible }
     elseif not initiative.issue.closed then
       ui.image{ static = "icons/16/script.png" }
@@ -24,7 +24,7 @@ ui.container{ attr = { class = class }, content = function()
 
   ui.container{ attr = { class = "bar" }, content = function()
     if initiative.issue.fully_frozen and initiative.issue.closed then
-      if initiative.issue.ranks_available then 
+      if initiative.issue.ranks_available then
         if initiative.negative_votes and initiative.positive_votes then
           local max_value = initiative.issue.voter_count
           ui.bargraph{
@@ -67,7 +67,7 @@ ui.container{ attr = { class = class }, content = function()
   if app.session.member_id then
     ui.container{ attr = { class = "interest" }, content = function()
       if initiative.member_info.initiated then
-        local label 
+        local label
         if for_member and for_member.id ~= app.session.member_id then
           label = _"This member is initiator of this initiative."
         else
@@ -124,7 +124,7 @@ ui.container{ attr = { class = class }, content = function()
       end
     end }
   end
-    
+
   ui.container{ attr = { class = "name" }, content = function()
     local link_class = "initiative_link"
     if initiative.revoked then
@@ -146,7 +146,7 @@ ui.container{ attr = { class = class }, content = function()
       view    = "show",
       id      = initiative.id
     }
-        
+
   end }
 
 end }

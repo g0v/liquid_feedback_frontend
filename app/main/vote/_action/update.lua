@@ -24,7 +24,7 @@ if param.get("discard", atom.boolean) then
   return
 end
 
-local move_up 
+local move_up
 local move_down
 
 local tempvoting_string = param.get("scoring")

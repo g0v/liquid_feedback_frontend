@@ -41,11 +41,11 @@ ui.container{ attr = { class = "initiative_head", style = "margin-left:51%" },
       }
 
       -- voting result
-      if initiative.issue.closed then        
+      if initiative.issue.closed then
         ui.tag{
           tag = "dl",
           attr = { style = "margin-left:51%" },
-          content = function()      
+          content = function()
 
             dtdd( _"Direct majority", bool2str(initiative.direct_majority) )
             dtdd( _"Indirect majority", bool2str(initiative.indirect_majority) )
@@ -68,7 +68,7 @@ ui.container{ attr = { class = "initiative_head", style = "margin-left:51%" },
           end
         }
       end
-    
+
     end }
   end
 }

@@ -12,7 +12,7 @@ local members_selector = Member:new_selector()
 execute.view{
   module = "member",
   view = "_list",
-  params = { 
+  params = {
     members_selector = members_selector,
     issue = issue,
     trustee = member

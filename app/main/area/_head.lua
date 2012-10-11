@@ -23,12 +23,12 @@ ui.container{ attr = { class = "area_head" }, content = function()
   ui.container{ attr = { class = "title" }, content = function()
     ui.link{
       module = "area", view = "show", id = area.id,
-      attr = { class = "area_name" }, content = area.name 
+      attr = { class = "area_name" }, content = area.name
     }
   end }
-  
+
   if show_content then
-    
+
     ui.container{ attr = { class = "content" }, content = function()
 
       -- actions (members with appropriate voting right only)
@@ -79,7 +79,7 @@ ui.container{ attr = { class = "area_head" }, content = function()
             }
           }
         end
-        
+
         -- create new issue
         if app.session.member_id == member.id and app.session.member:has_voting_right_for_unit_id(area.unit_id) then
           slot.put(" &middot; ")

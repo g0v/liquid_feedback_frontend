@@ -26,7 +26,7 @@ ui.actions(function()
     }
   end
 end)
- 
+
 ui.list{
   records = units,
   columns = {
@@ -49,7 +49,7 @@ ui.list{
           text = _"Edit areas",
           module = "admin", view = "area_list", params = { unit_id = unit.id }
         }
-      end 
+      end
     }
   }
 }

@@ -68,7 +68,7 @@ ui_filters{
       anchor = paginator_name,
       selector = members_selector,
       per_page = 50,
-      content = function() 
+      content = function()
         ui.container{
           attr = { class = "member_list" },
           content = function()

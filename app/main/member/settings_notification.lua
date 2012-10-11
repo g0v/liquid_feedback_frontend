@@ -15,10 +15,10 @@ ui.form{
   },
   content = function()
     ui.tag{ tag = "p", content = _"I like to receive notifications by email about events in my areas and issues:" }
-  
+
     ui.container{ content = function()
       ui.tag{
-        tag = "input", 
+        tag = "input",
         attr = {
           id = "notify_level_none",
           type = "radio", name = "notify_level", value = "none",
@@ -30,12 +30,12 @@ ui.form{
         content = _"No notifications at all"
       }
     end }
-     
+
     slot.put("<br />")
-  
+
     ui.container{ content = function()
       ui.tag{
-        tag = "input", 
+        tag = "input",
         attr = {
           id = "notify_level_all",
           type = "radio", name = "notify_level", value = "all",
@@ -47,12 +47,12 @@ ui.form{
         content = _"All of them"
       }
     end }
-    
+
     slot.put("<br />")
 
     ui.container{ content = function()
       ui.tag{
-        tag = "input", 
+        tag = "input",
         attr = {
           id = "notify_level_discussion",
           type = "radio", name = "notify_level", value = "discussion",
@@ -69,7 +69,7 @@ ui.form{
 
     ui.container{ content = function()
       ui.tag{
-        tag = "input", 
+        tag = "input",
         attr = {
           id = "notify_level_verification",
           type = "radio", name = "notify_level", value = "verification",
@@ -81,12 +81,12 @@ ui.form{
         content = _"Only for issues reaching the frozen phase"
       }
     end }
-    
+
     slot.put("<br />")
 
     ui.container{ content = function()
       ui.tag{
-        tag = "input", 
+        tag = "input",
         attr = {
           id = "notify_level_voting",
           type = "radio", name = "notify_level", value = "voting",
@@ -104,4 +104,4 @@ ui.form{
     ui.submit{ value = _"Change notification settings" }
   end
 }
- 
+

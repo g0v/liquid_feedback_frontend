@@ -1,6 +1,6 @@
 Opinion = mondelefant.new_class()
 Opinion.table = 'opinion'
-Opinion.primary_key = { "member_id", "suggestion_id" } 
+Opinion.primary_key = { "member_id", "suggestion_id" }
 
 Opinion:add_reference{
   mode          = 'm1',

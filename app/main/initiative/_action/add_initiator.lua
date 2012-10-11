@@ -17,7 +17,7 @@ local issue = initiative:get_reference_selector("issue"):for_share():single_obje
 if issue.closed then
   slot.put_into("error", _"This issue is already closed!")
   return false
-elseif issue.half_frozen then 
+elseif issue.half_frozen then
   slot.put_into("error", _"This issue is already frozen!")
   return false
 end

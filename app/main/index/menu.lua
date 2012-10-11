@@ -7,5 +7,5 @@ ui.container{
       module = "index",
       view = "_menu"
     }
-  end 
+  end
 }

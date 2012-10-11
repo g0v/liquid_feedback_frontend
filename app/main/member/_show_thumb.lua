@@ -23,7 +23,7 @@ if member.is_informed == false then
   container_class = container_class .. " not_informed"
 end
 
-local in_delegation_chain = false 
+local in_delegation_chain = false
 if member.delegate_member_ids then
   for member_id in member.delegate_member_ids:gmatch("(%w+)") do
     if tonumber(member_id) == member.id then
@@ -63,7 +63,7 @@ ui.container{
             content = function()
               if member.grade > 0 then
                 ui.image{
-                  attr = { 
+                  attr = {
                     alt   = _"Voted yes",
                     title = _"Voted yes"
                   },
@@ -71,7 +71,7 @@ ui.container{
                 }
               elseif member.grade < 0 then
                 ui.image{
-                  attr = { 
+                  attr = {
                     alt   = _"Voted no",
                     title = _"Voted no"
                   },
@@ -79,7 +79,7 @@ ui.container{
                 }
               else
                 ui.image{
-                  attr = { 
+                  attr = {
                     alt   = _"Abstention",
                     title = _"Abstention"
                   },
@@ -109,15 +109,15 @@ ui.container{
             end
           end
           ui.link{
-            attr = { 
+            attr = {
               class = in_delegation_chain and "in_delegation_chain" or nil,
               title = _"Number of incoming delegations, follow link to see more details"
             },
             content = _("+ #{weight}", { weight = weight - 1 }),
             module = module,
             view = "show_incoming",
-            params = { 
-              member_id = member.id, 
+            params = {
+              member_id = member.id,
               initiative_id = initiative and initiative.id or nil,
               issue_id = issue and issue.id or nil
             }

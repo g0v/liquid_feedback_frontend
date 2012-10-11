@@ -9,7 +9,7 @@ else
 end
 
 local units_selector = Unit:new_selector()
-  
+
 if member then
   units_selector
     :left_join("privilege", nil, { "privilege.member_id = ? AND privilege.unit_id = unit.id", member.id })
@@ -17,7 +17,7 @@ if member then
 end
 
 local units = units_selector:exec()
-  
+
 ui.form{
   attr = { class = "vertical" },
   module = "admin",
@@ -42,7 +42,7 @@ ui.form{
     ui.field.boolean{  label = _"Admin?",       name = "admin" }
 
     slot.put("<br />")
-    
+
     for i, unit in ipairs(units) do
       ui.field.boolean{
         name = "unit_" .. unit.id,
@@ -55,16 +55,16 @@ ui.form{
     if not member or not member.activated then
       ui.field.boolean{  label = _"Send invite?",       name = "invite_member" }
     end
-    
+
     if member and member.activated then
       ui.field.boolean{  label = _"Lock member?",       name = "locked" }
     end
-    
-    ui.field.boolean{ 
+
+    ui.field.boolean{
       label = _"Member inactive?", name = "deactivate",
       readonly = member and member.active, value = member and member.active == false
     }
-    
+
     slot.put("<br />")
     ui.submit{         text  = _"Save" }
   end

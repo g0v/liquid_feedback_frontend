@@ -15,11 +15,11 @@ end)
 ui.form{
   module = "admin", view = "member_list",
   content = function()
-  
+
     ui.field.text{ label = _"Search for members", name = "search" }
-    
+
     ui.submit{ value = _"Start search" }
-  
+
   end
 }
 
@@ -36,7 +36,7 @@ local members_selector = Member:build_selector{
 ui.paginate{
   selector = members_selector,
   per_page = 30,
-  content = function() 
+  content = function()
     ui.list{
       records = members_selector:exec(),
       columns = {

@@ -48,40 +48,40 @@ ui.link{
 
     -- configure how many delegates should be displayed
     local show_max_delegates = 15
-   
+
     local delegation_chain = Member:new_selector()
       :add_field("delegation_chain.*")
       :join({ "delegation_chain(?,?,?,?,FALSE)", app.session.member.id, unit_id, area_id, issue_id }, "delegation_chain", "member.id = delegation_chain.member_id")
       :add_order_by("index")
       :limit(show_max_delegates + 2)
       :exec()
-    
+
     for i, record in ipairs(delegation_chain) do
-      
+
       if i == show_max_delegates + 2 then
         slot.put("...")
         break
       end
-      
-      if i == 2 then      
+
+      if i == 2 then
         ui.image{
           attr = { class = "delegation_arrow", alt = _"delegates to" },
           static = "delegation_arrow_24_horizontal.png"
         }
       end
-      
+
       -- name of member
       local member = Member:by_id(record.member_id)
-      local popup_text = link_title .. ": " .. member.name 
-        
-      -- highlight if participating 
+      local popup_text = link_title .. ": " .. member.name
+
+      -- highlight if participating
       local overridden = (not issue or issue.state ~= 'voting') and record.overridden
       local class = "micro_avatar"
       if not overridden and record.participation then
         class = class .. " highlighted"
         popup_text = popup_text .. " - " .. _"This member is participating."
-      end        
-        
+      end
+
       execute.view{
         module = "member_image",
         view = "_show",
@@ -93,7 +93,7 @@ ui.link{
           show_dummy = true
         }
       }
-   
+
     end
 
   end

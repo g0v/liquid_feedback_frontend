@@ -42,7 +42,7 @@ ui.container{ attr = { class = class }, content = function()
   end
 
   ui.container{ attr = { class = "title" }, content = function()
-    
+
     ui.link{
       attr = { class = "issue_id" },
       text = _("#{policy_name} ##{issue_id}", {
@@ -54,17 +54,17 @@ ui.container{ attr = { class = class }, content = function()
       id = issue.id
     }
   end }
-  
+
   ui.tag{
     attr = { class = "content issue_policy_info" },
     tag = "div",
     content = function()
-    
+
       ui.tag{ attr = { class = "event_name" }, content = issue.state_name }
 
       if issue.closed then
         slot.put(" &middot; ")
-        ui.tag{ content = _("#{closed_ago} ago", { closed_ago = issue.closed_ago:gsub("%..*", ""):gsub("days", _"days"):gsub("day", _"day") }) }        
+        ui.tag{ content = _("#{closed_ago} ago", { closed_ago = issue.closed_ago:gsub("%..*", ""):gsub("days", _"days"):gsub("day", _"day") }) }
       elseif issue.state_time_left then
         slot.put(" &middot; ")
         if issue.state_time_left:sub(1,1) == "-" then
@@ -86,7 +86,7 @@ ui.container{ attr = { class = class }, content = function()
   }
 
   local links = {}
-  
+
   if voteable then
     links[#links+1] ={
       content = vote_link_text,
@@ -97,7 +97,7 @@ ui.container{ attr = { class = class }, content = function()
   end
 
   if not for_member or for_member.id == app.session.member_id then
-    
+
     if app.session.member_id then
 
       if issue.member_info.own_participation then
@@ -107,7 +107,7 @@ ui.container{ attr = { class = class }, content = function()
           links[#links+1] = { content = _"You are interested." }
         end
       end
-      
+
       if not issue.closed and not issue.fully_frozen then
         if issue.member_info.own_participation then
           links[#links+1] = {
@@ -178,7 +178,7 @@ ui.container{ attr = { class = class }, content = function()
     end
 
   end
-    
+
   ui.container{ attr = { class = "content actions" }, content = function()
     for i, link in ipairs(links) do
       if link.in_brackets then

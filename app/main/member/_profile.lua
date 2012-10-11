@@ -38,7 +38,7 @@ ui.form{
 
       end
     }
-       
+
     -- edit links
     if member.id == app.session.member_id then
       ui.link{
@@ -58,7 +58,7 @@ ui.form{
       }
       slot.put("<br/><br/>")
     end
-    
+
     if member.identification then
       ui.field.text{    label = _"Identification", name = "identification" }
     end
@@ -69,7 +69,7 @@ ui.form{
       ui.field.text{    label = _"Login name", name = "login" }
       ui.field.text{    label = _"Notification email", name = "notify_email" }
     end
-    
+
     if member.realname and #member.realname > 0 then
       ui.field.text{ label = _"Real name", name = "realname" }
     end
@@ -122,7 +122,7 @@ ui.form{
     end
     if member.external_posts and #member.external_posts > 0 then
       ui.field.text{ label = _"Posts", name = "external_posts", multiline = true }
-    end    
+    end
     if member.admin then
       ui.field.boolean{ label = _"Admin?",       name = "admin" }
     end
@@ -147,4 +147,3 @@ ui.form{
 }
 
 slot.put("<br />")
-    

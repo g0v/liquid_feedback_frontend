@@ -23,7 +23,7 @@ local function delegation_scope(delegation)
           id = delegation.area_id,
           attr = { class = "area_link" },
           text = _"Area '#{name}'":gsub("#{name}", delegation.area_name)
-        }        
+        }
       end
       if delegation.issue_id then
         ui.link{
@@ -47,45 +47,45 @@ end
 ui.paginate{
   selector = delegations_selector,
   content = function()
-  
+
     local delegation_last_unit_id
     local delegation_last_area_id
     local delegation_last_issue_id
-        
+
     for i, delegation in ipairs(delegations_selector:exec()) do
-      
+
       -- scope
       if (incoming or outgoing) and (
-        delegation.unit_id  ~= delegation_last_unit_id or 
-        delegation.area_id  ~= delegation_last_area_id or 
+        delegation.unit_id  ~= delegation_last_unit_id or
+        delegation.area_id  ~= delegation_last_area_id or
         delegation.issue_id ~= delegation_last_issue_id
-      ) then        
+      ) then
         delegation_scope(delegation)
         delegation_last_unit_id  = delegation.unit_id
         delegation_last_area_id  = delegation.area_id
-        delegation_last_issue_id = delegation.issue_id       
+        delegation_last_issue_id = delegation.issue_id
       end
-      
+
       ui.container{
         attr = { class = "delegations_list_row" },
         content = function()
-      
+
           local delegation_chain = Member:new_selector()
             :add_field("delegation_chain.*")
             :join({ "delegation_chain(?,?,?,?,FALSE)", delegation.member_id, delegation.unit_id, delegation.area_id, delegation.issue_id }, "delegation_chain", "member.id = delegation_chain.member_id")
             :add_order_by("index")
             :limit(6) -- 1 = truster, 2-5 = displayed trustees, 6 = to see there are more
             :exec()
-          
+
           for i, record in ipairs(delegation_chain) do
             local style
             local overridden = (not issue or issue.state ~= 'voting') and record.overridden
-          
+
             -- display dots instead of the sixth trustee
             if i == 6 then
               break
             end
-          
+
             -- arrow
             if i == 2 then
               ui.image{
@@ -97,8 +97,8 @@ ui.paginate{
                 static = "delegation_arrow_24_horizontal.png"
               }
             end
-               
-            -- delegation 
+
+            -- delegation
             local class
             if overridden then
               class = "overridden"
@@ -115,9 +115,9 @@ ui.paginate{
                 }
               end
             }
-          
+
           end
-          
+
           -- link to delegation page
           ui.link{
             attr = { title = _"Show more information" },
@@ -142,8 +142,8 @@ ui.paginate{
                 static = "icons/16/magnifier.png"
               }
             end
-          }             
-    
+          }
+
           -- dots if not all trustees could be displayed
           if #delegation_chain > 5 then
             ui.container{
@@ -153,8 +153,8 @@ ui.paginate{
               end
             }
           end
-      
-        end        
+
+        end
       }
 
     end

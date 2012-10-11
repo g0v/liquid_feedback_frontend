@@ -12,7 +12,7 @@ if not for_member then
         text = _"My areas",
         module = "index", view = "index", params = { filter_unit = "my_areas" }
       }
-      
+
       slot.put(" ")
 
       ui.link{
@@ -20,7 +20,7 @@ if not for_member then
         text = _"All areas in my units",
         module = "index", view = "index", params = { filter_unit = "my_units" }
       }
-      
+
       slot.put(" ")
 
       ui.link{
@@ -48,7 +48,7 @@ end
 
 for i, unit in ipairs(units) do
   if member:has_voting_right_for_unit_id(unit.id) then
-   
+
     local areas_selector = Area:new_selector()
       :reset_fields()
       :add_field("area.id", nil, { "grouped" })
@@ -71,9 +71,9 @@ for i, unit in ipairs(units) do
     else
       areas_selector:join("privilege", nil, { "privilege.unit_id = area.unit_id AND privilege.member_id = ? AND privilege.voting_right", member.id })
     end
-    
+
     local area_count = areas_selector:count()
-    
+
     local max_area_count = Area:new_selector()
       :add_where{ "area.unit_id = ?", unit.id }
       :add_where{ "area.active" }
@@ -120,9 +120,9 @@ for i, unit in ipairs(units) do
 
       if area_count > 0 then
         local areas = areas_selector:exec()
-        
+
         areas:load_delegation_info_once_for_member_id(member.id)
-        
+
         for i, area in ipairs(areas) do
           execute.view{
             module = "area", view = "_list_entry", params = {
@@ -130,14 +130,14 @@ for i, unit in ipairs(units) do
             }
           }
         end
-      end 
+      end
 
       if area_count == 0 and member:has_voting_right_for_unit_id(unit.id) or
          more_area_count > 0 then
-        
+
       end
     end }
-    
+
     ui.container{ attr = { class = "area", style="margin-top: 1ex; margin-left: 10px;" }, content = function()
       ui.container{ attr = { class = "title" }, content = function()
         if more_area_text then

@@ -23,20 +23,20 @@ ui.form{
     }
     ui.field.text{
       label = _"Direct majority",
-      value = 
+      value =
         (policy.direct_majority_strict and ">" or "≥" ) .. " "
         .. tostring(policy.direct_majority_num) .. "/"
-        .. tostring(policy.direct_majority_den) 
+        .. tostring(policy.direct_majority_den)
         .. (policy.direct_majority_positive > 1 and ", " .. _("at least #{count} approvals", { count = policy.direct_majority_positive }) or "")
         .. (policy.direct_majority_non_negative > 1 and ", " .. _("at least #{count} approvals or abstentions", { count = policy.direct_majority_non_negative }) or "")
     }
 
     ui.field.text{
       label = _"Indirect majority",
-      value = 
+      value =
         (policy.indirect_majority_strict and ">" or "≥" ) .. " "
         .. tostring(policy.indirect_majority_num) .. "/"
-        .. tostring(policy.indirect_majority_den) 
+        .. tostring(policy.indirect_majority_den)
         .. (policy.indirect_majority_positive > 1 and ", " .. _("at least #{count} approvals", { count = policy.indirect_majority_positive }) or "")
         .. (policy.indirect_majority_non_negative > 1 and ", " .. _("at least #{count} approvals or abstentions", { count = policy.indirect_majority_non_negative }) or "")
     }

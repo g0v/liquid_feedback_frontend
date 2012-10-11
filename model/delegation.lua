@@ -95,4 +95,3 @@ function Delegation:selector_for_broken(member_id)
     :add_where{"delegation.truster_id = ?", member_id}
     :add_where{"member.active = 'f' OR (member.last_activity IS NULL OR age(member.last_activity) > ?::interval)", config.delegation_warning_time }
 end
-  

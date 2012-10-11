@@ -18,12 +18,12 @@ ui.container{ attr = { class = "unit_head" }, content = function()
   -- unit title
   ui.container{ attr = { class = "title" }, content = function()
     if not config.single_unit_id then
-      ui.link{ 
+      ui.link{
         module = "unit", view = "show", id = unit.id,
         attr = { class = "unit_name" }, content = unit.name
       }
     else
-      ui.link{ 
+      ui.link{
         module = "unit", view = "show", id = unit.id,
         attr = { class = "unit_name" }, content = _"DiscreteFeedback" .. " &middot; " .. config.instance_name
       }
@@ -44,5 +44,5 @@ ui.container{ attr = { class = "unit_head" }, content = function()
   else
     slot.put("<br />")
   end
-    
+
 end }

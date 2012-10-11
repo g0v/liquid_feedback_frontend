@@ -25,7 +25,7 @@ slot.select("head", function()
     params = { issue = issue, initiative = initiative }
   }
 end)
-  
+
 local initiators_members_selector = initiative:get_reference_selector("initiating_members")
   :add_field("initiator.accepted", "accepted")
   :add_order_by("member.name")
@@ -55,7 +55,7 @@ util.help("initiative.show")
 
 ui.container{ attr = { class = "initiative_head" }, content = function()
 
-  local text = _("Initiative i#{id}: #{name}", { id = initiative.id, name = initiative.name }) 
+  local text = _("Initiative i#{id}: #{name}", { id = initiative.id, name = initiative.name })
   if show_as_head then
     ui.link{
       attr = { class = "title" }, text = text,
@@ -185,7 +185,7 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
     end }
   end
 
-  
+
   -- voting results
   if initiative.issue.ranks_available and initiative.admitted then
     local class = initiative.winner and "admitted_info" or "not_admitted_info"
@@ -227,7 +227,7 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
       params = { initiative = initiative }
     }
   end }
-    
+
   -- initiative not admitted info
   if initiative.admitted == false then
     local policy = initiative.issue.policy
@@ -361,7 +361,7 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
     local drafts_count = initiative:get_reference_selector("drafts"):count()
 
     ui.container{ attr = { class = "content" }, content = function()
-    
+
       if initiator and initiator.accepted and not initiative.issue.half_frozen and not initiative.issue.closed and not initiative.revoked then
         ui.link{
           content = function()
@@ -429,9 +429,9 @@ if not show_as_head then
             :add_field("coalesce(vote.grade, 0) as grade")
             :left_join("initiative", nil, "initiative.id = vote.initiative_id")
             :left_join("issue", nil, "issue.id = initiative.issue_id")
-      
+
       ui.anchor{ name = "voter", attr = { class = "heading" }, content = _"Member voter" }
-      
+
       execute.view{
         module = "member",
         view = "_list",
@@ -443,7 +443,7 @@ if not show_as_head then
         }
       }
     end
-    
+
     local members_selector = initiative:get_reference_selector("supporting_members_snapshot")
               :join("issue", nil, "issue.id = direct_supporter_snapshot.issue_id")
               :join("direct_interest_snapshot", nil, "direct_interest_snapshot.event = issue.latest_snapshot_event AND direct_interest_snapshot.issue_id = issue.id AND direct_interest_snapshot.member_id = member.id")
@@ -457,8 +457,8 @@ if not show_as_head then
         ui.anchor{ name = "supporters", attr = { class = "heading" }, content = _"Supporters (before begin of voting)" }
       else
         ui.anchor{ name = "supporters", attr = { class = "heading" }, content = _"Supporters" }
-      end      
-      
+      end
+
       execute.view{
         module = "member",
         view = "_list",
@@ -491,7 +491,7 @@ if not show_as_head then
       else
         ui.anchor{ name = "potential_supporters", attr = { class = "heading" }, content = _"Potential supporters" }
       end
-                
+
       execute.view{
         module = "member",
         view = "_list",
@@ -509,7 +509,7 @@ if not show_as_head then
       end
       slot.put("<br />")
     end
-    
+
     -- issue details
     execute.view{
       module = "issue",
@@ -518,7 +518,7 @@ if not show_as_head then
         issue = initiative.issue
       }
     }
-    
+
     -- initiative details
     execute.view {
       module = "initiative",

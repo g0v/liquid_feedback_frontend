@@ -71,7 +71,7 @@ ui.form{
         end
       }
     end
-    
+
     if param.get("preview") then
       ui.heading{ level = 1, content = encode.html(param.get("name")) }
       local discussion_url = param.get("discussion_url")
@@ -166,7 +166,7 @@ ui.form{
     ui.field.text{
       label = _"Draft",
       name = "draft",
-      multiline = true, 
+      multiline = true,
       attr = { style = "height: 50ex;" },
       value = param.get("draft")
     }

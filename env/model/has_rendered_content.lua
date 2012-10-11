@@ -1,7 +1,7 @@
 function model.has_rendered_content(class, rendered_class, content_field_name)
 
   local content_field_name = content_field_name or 'content'
-  
+
   -- render content to html, save it as rendered_class and return it
   function class.object:render_content(force_rendering)
     -- local draft for update

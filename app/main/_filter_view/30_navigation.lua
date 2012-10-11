@@ -9,16 +9,16 @@ slot.select('navigation', function()
     module = 'index',
     view   = 'index'
   }
-  
+
   if app.session:has_access("anonymous") then
-    
+
     -- search
     ui.link{
       content = _"Search",
       module = 'index',
       view   = 'search'
     }
-  
+
     -- login
     if app.session.member == nil then
       ui.link{
@@ -32,10 +32,10 @@ slot.select('navigation', function()
         }
       }
     end
-    
-  end  
-  
-  -- logout  
+
+  end
+
+  -- logout
   if app.session.member ~= nil then
     ui.link{
       text   = _"Logout",
@@ -50,15 +50,15 @@ slot.select('navigation', function()
       }
     }
   end
-  
+
 end)
 
 slot.select('navigation_right', function()
-  ui.tag{ 
+  ui.tag{
     tag = "ul",
     attr = { id = "member_menu" },
     content = function()
-      ui.tag{ 
+      ui.tag{
         tag = "li",
         content = function()
           ui.link{

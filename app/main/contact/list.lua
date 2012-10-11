@@ -45,7 +45,7 @@ ui_filters{
       anchor = paginator_name,
       selector = contacts_selector,
       per_page = 50,
-      content = function() 
+      content = function()
         ui.container{
           attr = { class = "member_list" },
           content = function()
@@ -55,11 +55,11 @@ ui_filters{
             else
 
               for i, contact in ipairs(contacts) do
-              
+
                 ui.container{
                   attr = { class = "contact_thumb" },
                   content = function()
-              
+
                     execute.view{
                       module = "member",
                       view = "_show_thumb",
@@ -67,11 +67,11 @@ ui_filters{
                         member = contact
                       }
                     }
-    
+
                     ui.container{
                       attr = { class = "contact_action" },
-                      content = function()              
-                            
+                      content = function()
+
                         if contact.public then
                           ui.link{
                             attr = { class = "action" },
@@ -90,7 +90,7 @@ ui_filters{
                             },
                             content = function()
                               ui.image{
-                                attr = {                    
+                                attr = {
                                   alt   = _"Published, click to hide",
                                   title = _"Published, click to hide"
                                 },
@@ -116,7 +116,7 @@ ui_filters{
                             },
                             content = function()
                               ui.image{
-                                attr = {                    
+                                attr = {
                                   alt   = _"Hidden, click to publish",
                                   title = _"Hidden, click to publish"
                                 },
@@ -138,22 +138,22 @@ ui_filters{
                               id = param.get_id_cgi(),
                               params = param.get_all_cgi()
                             }
-                          },    
+                          },
                           content = function()
                           ui.image{
-                            attr = {                    
+                            attr = {
                               alt   = _"Remove",
                               title = _"Remove"
                             },
                             static = "icons/16/delete.png"
-                          }  
-                          end 
-                          
-                        }                    
-                      end 
-                    }                
+                          }
+                          end
+
+                        }
+                      end
+                    }
                   end
-                }              
+                }
               end
             end
           end

@@ -219,7 +219,7 @@ ui.form{
       attr = { id = "voting" },
       content = function()
         local approval_index, disapproval_index = 0, 0
-        for grade = max_grade, min_grade, -1 do 
+        for grade = max_grade, min_grade, -1 do
           local entries = sections[grade]
           local class
           if grade > 0 then

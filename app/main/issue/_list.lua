@@ -17,7 +17,7 @@ ui.add_partial_param_names{
   "filter_open",
   "filter_voting",
   "filter_interest",
-  "issue_list" 
+  "issue_list"
 }
 
 local filters = execute.load_chunk{module="issue", chunk="_filters.lua", params = {
@@ -40,7 +40,7 @@ filters.content = function()
           execute.view{ module = "issue", view = "_show", params = {
             issue = issue, for_listing = true, for_member = for_member
           } }
-          
+
         end
       end }
     end

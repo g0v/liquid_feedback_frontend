@@ -28,6 +28,6 @@ ui.title(function()
     slot.put(" &middot; ")
     ui.tag{
       content = title
-    }    
+    }
   end
 end)

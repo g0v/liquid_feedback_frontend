@@ -68,7 +68,7 @@ ui.list{
   columns = {
     {
       label = _"Software",
-      content = function(record) 
+      content = function(record)
         ui.link{
           content = record.name,
           external = record.url
@@ -81,7 +81,7 @@ ui.list{
     },
     {
       label = _"License",
-      content = function(record) 
+      content = function(record)
         ui.link{
           content = record.license,
           external = record.license_url

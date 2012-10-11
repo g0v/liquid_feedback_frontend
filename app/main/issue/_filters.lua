@@ -9,7 +9,7 @@ local for_events = param.get("for_events", atom.boolean)
 local filters = {}
 
 local filter = { name = "filter" }
-  
+
 if state ~= "closed" then
   filter[#filter+1] = {
     name = "any",
@@ -96,7 +96,7 @@ if not state then
     name = "cancelled",
     label = _"Cancelled",
     selector_modifier = function(selector)
-        
+
       if for_events then
         selector:add_where("event.state IN ('canceled_revoked_before_accepted', 'canceled_issue_not_accepted', 'canceled_after_revocation_during_discussion', 'canceled_after_revocation_during_verification')")
       else
@@ -244,18 +244,18 @@ end
 if app.session.member then
 
   local filter_interest = param.get_all_cgi()["filter_interest"]
-    
+
   if filter_interest ~= "any" and filter_interest ~= nil and (
-    filter_interest == "issue" or filter_interest == "supported" or filter_interest == "potentially_supported" or 
+    filter_interest == "issue" or filter_interest == "supported" or filter_interest == "potentially_supported" or
     (filter_interest == 'voted' and state ~= 'open')
   ) then
-    
+
     local function add_default_joins(selector)
       selector:left_join("interest", "filter_interest", { "filter_interest.issue_id = issue.id AND filter_interest.member_id = ? ", member.id })
       selector:left_join("direct_interest_snapshot", "filter_interest_s", { "filter_interest_s.issue_id = issue.id AND filter_interest_s.member_id = ? AND filter_interest_s.event = issue.latest_snapshot_event", member.id })
-      selector:left_join("delegating_interest_snapshot", "filter_d_interest_s", { "filter_d_interest_s.issue_id = issue.id AND filter_d_interest_s.member_id = ? AND filter_d_interest_s.event = issue.latest_snapshot_event", member.id })        
+      selector:left_join("delegating_interest_snapshot", "filter_d_interest_s", { "filter_d_interest_s.issue_id = issue.id AND filter_d_interest_s.member_id = ? AND filter_d_interest_s.event = issue.latest_snapshot_event", member.id })
     end
-    
+
     filters[#filters+1] = {
       name = "filter_delegation",
       {
@@ -265,7 +265,7 @@ if app.session.member then
           add_default_joins(selector)
           selector:add_where("CASE WHEN issue.fully_frozen ISNULL AND issue.closed ISNULL THEN filter_interest.member_id NOTNULL ELSE filter_interest_s.member_id NOTNULL END OR filter_d_interest_s.member_id NOTNULL")
           if filter_interest == "supported" then
-            selector:add_where({ 
+            selector:add_where({
               "CASE WHEN issue.fully_frozen ISNULL AND issue.closed ISNULL THEN " ..
                 "EXISTS(SELECT 1 FROM initiative JOIN supporter ON supporter.initiative_id = initiative.id AND supporter.member_id = ? LEFT JOIN critical_opinion ON critical_opinion.initiative_id = initiative.id AND critical_opinion.member_id = supporter.member_id WHERE initiative.issue_id = issue.id AND critical_opinion.member_id ISNULL) " ..
               "ELSE " ..
@@ -295,7 +295,7 @@ if app.session.member then
           selector:add_where("CASE WHEN issue.fully_frozen ISNULL AND issue.closed ISNULL THEN filter_interest.member_id NOTNULL ELSE filter_interest_s.member_id NOTNULL END")
 
           if filter_interest == "supported" then
-            selector:add_where({ 
+            selector:add_where({
               "CASE WHEN issue.fully_frozen ISNULL AND issue.closed ISNULL THEN " ..
                 "EXISTS(SELECT 1 FROM initiative JOIN supporter ON supporter.initiative_id = initiative.id AND supporter.member_id = ? LEFT JOIN critical_opinion ON critical_opinion.initiative_id = initiative.id AND critical_opinion.member_id = supporter.member_id WHERE initiative.issue_id = issue.id AND critical_opinion.member_id ISNULL) " ..
               "ELSE " ..
@@ -323,11 +323,11 @@ if app.session.member then
           selector:add_where("filter_d_interest_s.member_id NOTNULL AND filter_interest.member_id ISNULL")
 
           if filter_interest == "supported" then
-            selector:add_where({ 
+            selector:add_where({
               "EXISTS(SELECT 1 FROM direct_supporter_snapshot WHERE direct_supporter_snapshot.event = issue.latest_snapshot_event AND direct_supporter_snapshot.issue_id = issue.id AND direct_supporter_snapshot.member_id = filter_d_interest_s.delegate_member_id AND direct_supporter_snapshot.satisfied)", member.id })
 
           elseif filter_interest == "potentially_supported" then
-            selector:add_where({ 
+            selector:add_where({
               "EXISTS(SELECT 1 FROM direct_supporter_snapshot WHERE direct_supporter_snapshot.event = issue.latest_snapshot_event AND direct_supporter_snapshot.issue_id = issue.id AND direct_supporter_snapshot.member_id = filter_d_interest_s.delegate_member_id AND NOT direct_supporter_snapshot.satisfied)", member.id })
           elseif filter_interest == "voted" then
             selector:add_where({ "issue.closed NOTNULL AND EXISTS(SELECT 1 FROM delegating_voter WHERE delegating_voter.issue_id = issue.id AND delegating_voter.member_id = ?) ", member.id })

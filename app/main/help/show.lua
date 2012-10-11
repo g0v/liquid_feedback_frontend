@@ -11,7 +11,7 @@ if not app.html_title.title then
   app.html_title.title = _("Help #{id}", { id = id })
 end
 
-local basepath = request.get_app_basepath() 
+local basepath = request.get_app_basepath()
 local found_help = false
 -- we try to load any help file that fits best
 for x,lang in ipairs{locale.get("lang"), "en"} do

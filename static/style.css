@@ -49,7 +49,7 @@ a:focus {
 }
 
 /*************************************************************************
- * Some global definitions 
+ * Some global definitions
  */
 
 body {
@@ -98,7 +98,7 @@ th {
 }
 
 a.active {
-  color: #fff; 
+  color: #fff;
 }
 
 .revoked {
@@ -206,7 +206,7 @@ div.notifications,
 }
 
 /*************************************************************************
- * Navigation, search and language chooser bar 
+ * Navigation, search and language chooser bar
  */
 
 .topbar {
@@ -240,9 +240,9 @@ div.notifications,
   color: #f7f7f7;
 }
 
-.topbar a:hover, 
+.topbar a:hover,
 .topbar a:hover .logo_liquidfeedback,
-.topbar a:focus, 
+.topbar a:focus,
 .topbar a:focus .logo_liquidfeedback {
   color: #f90;
 }
@@ -304,7 +304,7 @@ form.unit_selector {
 #member_menu li a {
   float: right;
 }
-  
+
 #member_menu ul {
   margin: 0;
   padding: 0;
@@ -507,7 +507,7 @@ form.unit_selector {
 .unit_link, .area_link, .issue_link {
   float: left;
   margin-top: 5px;
-  margin-right: 8px;  
+  margin-right: 8px;
   padding: 5px 5px 3px 5px;
   border-radius: 5px;
   text-decoration: none;
@@ -573,7 +573,7 @@ a.delegation_info:focus {
   vertical-align: middle;
 }
 
-.logo { 
+.logo {
   float: right;
   margin-right: 1%;
 }
@@ -595,7 +595,7 @@ a.delegation_info:focus {
 /*************************************************************************
  * ui.tab
  */
- 
+
 .ui_tabs_links {
   margin: 20px 0px 15px -2px;
   line-height: 260%;
@@ -747,7 +747,7 @@ div.notifications {
   padding: 0;
   margin-left: 2em;
 }
-  
+
 .notifications li {
   margin: 0;
   padding: 0;
@@ -887,16 +887,16 @@ div.notifications {
   float: left;
   clear: left;
 }
- 
+
 .delegation_list_entry .delegation_arrow {
   float: left;
 }
- 
+
 .delegation_list_entry .delegation_scope {
   float: left;
   width: 25em;
 }
- 
+
 .delegation_list_entry .delegation_scope a {
   display: block;
 }
@@ -927,7 +927,7 @@ form.delegation_delete {
 }
 
 form.delegation_add {
-  margin-top: 15px;  
+  margin-top: 15px;
 }
 form.delegation_add select {
   width: 90%;
@@ -1049,7 +1049,7 @@ div.delegations_participation {
 /*************************************************************************
  * Area list
  */
- 
+
 .area_list {
   border: 1px solid #444;
   border-radius: 10px;
@@ -1163,7 +1163,7 @@ div.delegations_participation {
     border-radius: 8px 8px 0 0;
   }
   .events .issue {
-    clear: left;    
+    clear: left;
   }
   .more_events_links {
     margin-left: 0px;
@@ -1205,7 +1205,7 @@ div.delegations_participation {
 .initiative .rank,
 .initiative .bar,
 .initiative .interest {
-  float: left; 
+  float: left;
   margin-right: 0.3em;
 }
 

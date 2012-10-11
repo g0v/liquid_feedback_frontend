@@ -34,6 +34,6 @@ end
 ui.container{ attr = { class = "area_list" }, content = function()
   for i, area in ipairs(areas_selector:exec()) do
     execute.view { module = "area", view = "_list_entry", params = { area = area, member = member } }
-  end 
+  end
 end }
 

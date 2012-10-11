@@ -20,11 +20,11 @@ ui.container{
   content = function()
     ui.container{ attr = { class = "title" }, content = _"Issue Details" }
     ui.container{ attr = { class = "content" }, content = function()
-       
+
       ui.tag{
         tag = "dl",
         attr = { style = "width:59%;float:left" },
-        content = function() 
+        content = function()
           -- new
           dtdd( _"Created", format.timestamp(issue.created) )
           dtdd( _"Admission time", issue.admission_time, "duration" )

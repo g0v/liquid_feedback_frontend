@@ -14,7 +14,7 @@ ui.form{
   } },
   attr = { class = "vertical" },
   content = function()
-    
+
     if app.session:has_access("everything") then
       ui.field.select{
         label = _"Search context",
@@ -48,7 +48,7 @@ if search_string then
       }
     end
   end
-    
+
   if search_for == "global" or search_for == "issue" then
     local issues_selector = Issue:get_search_selector(search_string)
     execute.view{
@@ -61,5 +61,5 @@ if search_string then
       },
     }
   end
-  
+
 end

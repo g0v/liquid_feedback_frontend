@@ -21,7 +21,7 @@ if broken_delegations_count > 0 then
     module = "index", view = "broken_delegations",
     text = _("#{count} of your outgoing delegation(s) are broken.", { count = broken_delegations_count })
   }
-  
+
 end
 
 local selector = Issue:new_selector()
@@ -34,7 +34,7 @@ local selector = Issue:new_selector()
   :add_where{ "issue.fully_frozen NOTNULL" }
   :add_where{ "issue.closed ISNULL" }
   :add_order_by{ "issue.fully_frozen + issue.voting_time ASC" }
-  
+
 local issues_to_vote_count = selector:count()
 if issues_to_vote_count > 0 then
     notification_links[#notification_links+1] = {
@@ -47,7 +47,7 @@ if issues_to_vote_count > 0 then
 end
 
 local initiator_invites_count = Initiator:selector_for_invites(app.session.member_id):count()
-  
+
 if initiator_invites_count > 0 then
   notification_links[#notification_links+1] = {
     module = "index", view = "initiator_invites",

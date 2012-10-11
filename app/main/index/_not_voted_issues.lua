@@ -5,7 +5,7 @@ if #areas > 0 then
     attr = { style = "font-weight: bold;" },
     content = _"Current votings in areas you are member of and issues you are interested in:"
   }
-  
+
   ui.list{
     records = areas,
     columns = {
@@ -26,7 +26,7 @@ if #areas > 0 then
               module = "area",
               view = "show",
               id = record.id,
-              params = { 
+              params = {
                 tab = "open",
                 filter = "frozen",
                 filter_interest = "any",
@@ -52,7 +52,7 @@ if #areas > 0 then
               module = "area",
               view = "show",
               id = record.id,
-              params = { 
+              params = {
                 tab = "open",
                 filter = "frozen",
                 filter_interest = "issue",

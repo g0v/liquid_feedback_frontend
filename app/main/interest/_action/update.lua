@@ -7,7 +7,7 @@ local issue = Issue:new_selector():add_where{ "id = ?", issue_id }:for_share():s
 if issue.closed then
   slot.put_into("error", _"This issue is already closed!")
   return false
-elseif issue.fully_frozen then 
+elseif issue.fully_frozen then
   slot.put_into("error", _"Voting for this issue has already begun!")
   return false
 end

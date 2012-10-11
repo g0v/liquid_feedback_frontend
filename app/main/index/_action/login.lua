@@ -6,23 +6,23 @@ function do_etherpad_auth(member)
     .. "api/1/createAuthorIfNotExistsFor?apikey=" .. config.etherpad.api_key
     .. "&name=" .. encode.url_part(member.name) .. "&authorMapper=" .. tostring(member.id)
   )
-  
+
   if not result then
     slot.put_into("error", _"Etherpad authentication failed" .. " 1")
     return false
   end
-  
+
   local etherpad_author_id = string.match(result, '"authorID"%s*:%s*"([^"]+)"')
-  
+
   if not etherpad_author_id then
     slot.put_into("error", _"Etherpad authentication failed" .. " 2")
     return false
   end
-  
+
   local time_in_24h = os.time() + 24 * 60 * 60
-  
+
   local result = net.curl(
-    config.etherpad.api_base 
+    config.etherpad.api_base
     .. "api/1/createSession?apikey=" .. config.etherpad.api_key
     .. "&groupID=" .. config.etherpad.group_id
     .. "&authorID=" .. etherpad_author_id
@@ -33,7 +33,7 @@ function do_etherpad_auth(member)
     slot.put_into("error", _"Etherpad authentication failed" .. " 3")
     return false
   end
-  
+
   local etherpad_sesion_id = string.match(result, '"sessionID"%s*:%s*"([^"]+)"')
 
   if not etherpad_sesion_id then

@@ -92,12 +92,12 @@ ui.form{
     ui.field.text{
       label = _"Description",
       name = "content",
-      multiline = true, 
+      multiline = true,
       attr = { style = "height: 50ex;" },
       value = param.get("content")
     }
 
-    
+
     ui.submit{ text = _"Commit suggestion" }
   end
 }

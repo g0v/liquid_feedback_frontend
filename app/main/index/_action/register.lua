@@ -2,11 +2,11 @@ local code = util.trim(param.get("code"))
 
 -- optionally allow registration without invite code
 if config.register_without_invite_code and code == '' then
-  -- create new member 
-  code = multirand.string( 24, "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz" )  
+  -- create new member
+  code = multirand.string( 24, "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz" )
   local member = Member:new()
   member.invite_code = code
-  member:save()  
+  member:save()
   -- grant voting right in all existing units
   local units = Unit:new_selector()
     :add_field("privilege.member_id NOTNULL", "privilege_exists")
@@ -21,7 +21,7 @@ if config.register_without_invite_code and code == '' then
       privilege.voting_right = true
       privilege:save()
     end
-  end    
+  end
 end
 
 local member = Member:new_selector()
@@ -31,7 +31,7 @@ local member = Member:new_selector()
   :optional_object_mode()
   :for_update()
   :exec()
-  
+
 if not member then
   slot.put_into("error", _"The code you've entered is invalid")
   request.redirect{
@@ -128,13 +128,13 @@ end
 local login = util.trim(param.get("login"))
 
 if not config.locked_profile_fields.login and login then
-  if #login < 3 then 
+  if #login < 3 then
     slot.put_into("error", _"This login is too short!")
     request.redirect{
       mode   = "redirect",
       module = "index",
       view   = "register",
-      params = { 
+      params = {
         code = member.invite_code,
         notify_email = member.notify_email,
         name = member.name,
@@ -145,13 +145,13 @@ if not config.locked_profile_fields.login and login then
   end
 
   local check_member = Member:by_login(login)
-  if check_member and check_member.id ~= member.id then 
+  if check_member and check_member.id ~= member.id then
     slot.put_into("error", _"This login is already taken, please choose another one!")
     request.redirect{
       mode   = "redirect",
       module = "index",
       view   = "register",
-      params = { 
+      params = {
         code = member.invite_code,
         notify_email = member.notify_email,
         name = member.name,
@@ -168,7 +168,7 @@ if member.name and not member.login then
     mode   = "redirect",
     module = "index",
     view   = "register",
-    params = { 
+    params = {
       code = member.invite_code,
       notify_email = member.notify_email,
       name = member.name,
@@ -188,7 +188,7 @@ if step > 2 then
       slot.put_into("error", checkbox.not_accepted_error)
       return false
     end
-  end  
+  end
 
   local password1 = param.get("password1")
   local password2 = param.get("password2")
@@ -198,7 +198,7 @@ if step > 2 then
       mode   = "redirect",
       module = "index",
       view   = "register",
-      params = { 
+      params = {
         code = member.invite_code,
         notify_email = member.notify_email,
         name = member.name,
@@ -229,7 +229,7 @@ if step > 2 then
       return
     end
   end
-  
+
   member:set_password(password1)
 
   local now = db:query("SELECT now() AS now", "object").now
@@ -252,4 +252,3 @@ if step > 2 then
     view   = "login",
   }
 end
-  

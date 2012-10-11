@@ -149,19 +149,19 @@ ui.heading{ level = 2, content = _"List of trustees" }
 slot.put("<br />")
 
 for i, delegation in ipairs(delegations) do
-      
+
   ui.container{
     attr = { class = "delegation_form_row" },
-    content = function()  
-      
+    content = function()
+
       execute.view{
         module = "member",
         view = "_show_thumb",
         params = { member = Member:by_id(delegation.trustee_id) }
       }
-      
+
       if member.id == app.session.member.id then
-      
+
         if i ~= 1 then
           ui.form{
             attr = { class = "delegation_up" },
@@ -184,7 +184,7 @@ for i, delegation in ipairs(delegations) do
                 params = param.get_all_cgi()
               }
             },
-            content = function()            
+            content = function()
               ui.tag{
                 tag = "input",
                 attr = {
@@ -196,10 +196,10 @@ for i, delegation in ipairs(delegations) do
                 }
               }
             end
-          }          
+          }
         end
-            
-        if i ~= #delegations then                
+
+        if i ~= #delegations then
           ui.form{
             attr = { class = "delegation_down" },
             module = "delegation",
@@ -231,10 +231,10 @@ for i, delegation in ipairs(delegations) do
                   name = _"down",
                   alt = _"down"
                 }
-              } 
+              }
             end
-          }          
-        end         
+          }
+        end
 
         ui.form{
           attr = { class = "delegation_delete" },
@@ -261,13 +261,13 @@ for i, delegation in ipairs(delegations) do
             ui.submit{ text = _"delete" }
           end
         }
-        
+
       end
-      
+
     end
   }
-                           
-end    
+
+end
 
 
 if #delegations == 0 then
@@ -302,10 +302,10 @@ if member.id == app.session.member.id then
       }
     },
     content = function()
-     
+
       local records
       records = {}
-    
+
       -- add initiative authors
       if initiative then
         records[#records+1] = {id="_", name= "--- " .. _"Initiators" .. " ---"}
@@ -320,7 +320,7 @@ if member.id == app.session.member.id then
           records[#records+1] = record
         end
       end
-      
+
       disabled_records = {}
       disabled_records["_"] = true
       disabled_records[app.session.member.id] = true
@@ -328,7 +328,7 @@ if member.id == app.session.member.id then
       for i, delegation in ipairs(delegations) do
         disabled_records[delegation.trustee_id] = true
       end
-      
+
       ui.field.select{
         name = "trustee_id",
         foreign_records = records,
@@ -337,9 +337,9 @@ if member.id == app.session.member.id then
         disabled_records = disabled_records
       }
       ui.submit{ text = _"Add to list" }
-  
+
       ui.field.hidden{ name = "preview" }
-      
+
     end
   }
 end
@@ -361,7 +361,7 @@ local delegation_chain = Member:new_selector()
 for i, record in ipairs(delegation_chain) do
   local style
   local overridden = (not issue or issue.state ~= 'voting') and record.overridden
-  
+
   -- arrow
   if i == 2 then
     ui.image{
@@ -389,14 +389,14 @@ for i, record in ipairs(delegation_chain) do
       end
     }
   end
-  
+
   -- delegation
   local class = "delegation_list_row"
   if overridden then
     class = class .. " overridden"
   elseif record.participation then
     class = class .. " delegation_highlighted"
-  end  
+  end
   ui.container{
     attr = { class = class },
     content = function()
@@ -412,10 +412,10 @@ for i, record in ipairs(delegation_chain) do
             slot.put(_"This member is participating, the rest of delegation list is suspended while discussing.")
           end
         }
-      end      
+      end
     end
   }
-  
+
 end
 
 slot.put("</td></tr></table>")

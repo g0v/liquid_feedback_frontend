@@ -32,7 +32,7 @@ config.use_terms_checkboxes = {
 --  }
 }
 
-  
+
 -- Absolute base url of application
 -- ------------------------------------------------------------------------
 config.absolute_base_url = "http://example.com/"
@@ -54,15 +54,15 @@ config.formatting_engine_executeables = {
 -- Public access level
 -- ------------------------------------------------------------------------
 -- Available options:
--- "none" 
+-- "none"
 --     -> Closed user group, no public access at all
 --        (except login/registration/password reset)
 -- "anonymous"
 --     -> Shows only initiative/suggestions texts and aggregated
 --        supporter/voter counts
--- "authors_pseudonymous" 
+-- "authors_pseudonymous"
 --     -> Like anonymous, but shows screen names of authors
--- "all_pseudonymous" 
+-- "all_pseudonymous"
 --     -> Show everything a member can see, except profile pages
 -- "everything"
 --     -> Show everything a member can see, including profile pages
@@ -152,7 +152,7 @@ config.public_access = "none"
 -- config.enable_debug_trace = true
 
 -- Registration without invite code (for demonstration purposes)
--- uncomment the following line to allow registration without an invite code 
+-- uncomment the following line to allow registration without an invite code
 -- config.register_without_invite_code = true
 
 -- ========================================================================

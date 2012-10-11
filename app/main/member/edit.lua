@@ -77,12 +77,12 @@ ui.form{
     ui.field.text{
       label = _"Statement",
       name = "statement",
-      multiline = true, 
+      multiline = true,
       attr = { style = "height: 50ex;" },
       value = param.get("statement")
     }
 
-    
+
     ui.submit{ value = _"Save" }
   end
 }

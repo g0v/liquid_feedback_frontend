@@ -26,7 +26,7 @@ tabs[#tabs+1] = {
   view = "_member_home",
   params = { areas_selector = areas_selector, member = member, for_member = true }
 }
-  
+
 tabs[#tabs+1] = {
   name = "timeline",
   label = _"Latest events",
@@ -40,7 +40,7 @@ tabs[#tabs+1] = {
   label = _"Open issues",
   module = "issue",
   view = "_list",
-  link_params = { 
+  link_params = {
     filter_interest = "issue",
   },
   params = {
@@ -57,7 +57,7 @@ tabs[#tabs+1] = {
   label = _"Closed issues",
   module = "issue",
   view = "_list",
-  link_params = { 
+  link_params = {
     filter_interest = "issue",
   },
   params = {
@@ -86,7 +86,7 @@ local outgoing_delegations_selector = Member:new_selector()
 :add_where("_member_showtab_issue.closed ISNULL")
 :add_where{ "member.id = ?", member.id }
 :add_order_by("unit.name, area.name, delegation.issue_id")
-:add_group_by("member.id, delegation.unit_id, unit.name, delegation.area_id, area.name, delegation.issue_id")  
+:add_group_by("member.id, delegation.unit_id, unit.name, delegation.area_id, area.name, delegation.issue_id")
 tabs[#tabs+1] = {
   name = "outgoing_delegations",
   label = _"Outgoing delegations" .. " (" .. tostring(outgoing_delegations_selector:count()) .. ")",
@@ -112,7 +112,7 @@ local incoming_delegations_selector = Member:new_selector()
 :add_where("_member_showtab_issue.closed ISNULL")
 :add_where{ "trustee.id = ?", member.id }
 :add_order_by("unit.name, area.name, delegation.issue_id")
-:add_group_by("member.id, delegation.unit_id, unit.name, delegation.area_id, area.name, delegation.issue_id")  
+:add_group_by("member.id, delegation.unit_id, unit.name, delegation.area_id, area.name, delegation.issue_id")
 tabs[#tabs+1] = {
   name = "incoming_delegations",
   label = _"Incoming delegations" .. " (" .. tostring(incoming_delegations_selector:count()) .. ")",

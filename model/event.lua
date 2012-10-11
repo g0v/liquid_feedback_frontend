@@ -43,7 +43,7 @@ function Event.object_get:event_name()
     suggestion_created = _"New suggestion"
   })[self.event]
 end
-  
+
 function Event.object_get:state_name()
   return ({
     admission = _"New",
@@ -60,9 +60,9 @@ function Event.object_get:state_name()
     finished_with_winner = _"Finished (with winner)"
   })[self.state]
 end
-  
+
 function Event.object:send_notification()
-  
+
   local members_to_notify = Member:new_selector()
     :join("event_seen_by_member", nil, { "event_seen_by_member.seen_by_member_id = member.id AND event_seen_by_member.notify_level <= member.notify_level AND event_seen_by_member.id = ?", self.id } )
     :add_where("member.activated NOTNULL AND member.notify_email NOTNULL")
@@ -71,7 +71,7 @@ function Event.object:send_notification()
     -- do not notify a member about the events caused by the member
     :add_where("event_seen_by_member.member_id ISNULL OR event_seen_by_member.member_id != member.id")
     :exec()
-    
+
   print (_("Event #{id} -> #{num} members", { id = self.id, num = #members_to_notify }))
 
 
@@ -80,7 +80,7 @@ function Event.object:send_notification()
   for i, member in ipairs(members_to_notify) do
     local subject
     local body = ""
-    
+
     locale.do_with(
       { lang = member.lang or config.default_lang or 'en' },
       function()
@@ -99,9 +99,9 @@ function Event.object:send_notification()
         else
           url = request.get_absolute_baseurl() .. "issue/show/" .. self.issue_id .. ".html"
         end
-        
+
         body = body .. _("[event mail]       URL: #{url}", { url = url }) .. "\n\n"
-        
+
         if self.initiative_id then
           local initiative = Initiative:by_id(self.initiative_id)
           body = body .. _("i#{id}: #{name}", { id = initiative.id, name = initiative.name }) .. "\n\n"
@@ -122,12 +122,12 @@ function Event.object:send_notification()
           end
           body = body .. "\n"
         end
-        
+
         if self.suggestion_id then
           local suggestion = Suggestion:by_id(self.suggestion_id)
           body = body .. _("#{name}\n\n", { name = suggestion.name })
         end
-  
+
         local success = net.send_mail{
           envelope_from = config.mail_envelope_from,
           from          = config.mail_from,
@@ -137,25 +137,25 @@ function Event.object:send_notification()
           content_type  = "text/plain; charset=UTF-8",
           content       = body
         }
-    
+
       end
     )
   end
-  
+
 end
 
 function Event:send_next_notification()
-  
+
   local notification_sent = NotificationSent:new_selector()
     :optional_object_mode()
     :for_update()
     :exec()
-    
+
   local last_event_id = 0
   if notification_sent then
     last_event_id = notification_sent.event_id
   end
-  
+
   local event = Event:new_selector()
     :add_where{ "event.id > ?", last_event_id }
     :add_order_by("event.id")
@@ -169,9 +169,9 @@ function Event:send_next_notification()
     else
       db:query{ "UPDATE notification_sent SET event_id = ?", event.id }
     end
-    
+
     event:send_notification()
-    
+
     return true
 
   end
@@ -187,5 +187,5 @@ function Event:send_notifications_loop()
       os.execute("sleep 1")
     end
   end
-  
+
 end

@@ -15,7 +15,7 @@ elseif app.session:has_access("anonymous") then
       end
     }
   end
-  
+
   local open_issues_selector = Issue:new_selector()
     :add_where("issue.closed ISNULL")
     :add_order_by("coalesce(issue.fully_frozen + issue.voting_time, issue.half_frozen + issue.verification_time, issue.accepted + issue.discussion_time, issue.created + issue.admission_time) - now()")
@@ -24,7 +24,7 @@ elseif app.session:has_access("anonymous") then
     :add_where("issue.closed NOTNULL")
     :add_order_by("issue.closed DESC")
 
-  
+
   local tabs = {
     module = "index",
     view = "index"
@@ -77,7 +77,7 @@ elseif app.session:has_access("anonymous") then
   end
 
   ui.tabs(tabs)
-  
+
 else
 
   if config.motd_public then

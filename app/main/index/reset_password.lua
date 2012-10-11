@@ -33,7 +33,7 @@ if not secret then
       }
     },
     content = function()
-      ui.field.text{ 
+      ui.field.text{
         label = "Login",
         name = "login"
       }

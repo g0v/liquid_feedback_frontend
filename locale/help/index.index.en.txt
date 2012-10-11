@@ -1,7 +1,7 @@
 = Welcome to DiscreteFeedback and your homepage =
 All over the system, you'll find these boxes with help texts. You can switch off each help text, by clicking on "hide this help message" in the upper right corner of the yellow box, and switch it on again, by clicking on the small blue question mark in the menu bar above.
 
-Below you find: 
+Below you find:
 - **Home:**
 -- **My areas:** subject areas you want to participate in
 -- **All areas in my units:** All subject areas of those organizational units you're eligible voter in

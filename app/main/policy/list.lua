@@ -44,19 +44,19 @@ ui.list{
       label = _"Quorum",
       content = function(policy)
         ui.field.text{
-          label = _"Issue quorum" .. ":", 
+          label = _"Issue quorum" .. ":",
           value = "≥ " .. tostring(policy.issue_quorum_num) .. "/" .. tostring(policy.issue_quorum_den)
         }
         ui.field.text{
-          label = _"Initiative quorum" .. ":", 
+          label = _"Initiative quorum" .. ":",
           value = "≥ " .. tostring(policy.initiative_quorum_num) .. "/" .. tostring(policy.initiative_quorum_den)
         }
         ui.field.text{
-          label = _"Direct majority" .. ":", 
+          label = _"Direct majority" .. ":",
           value = (policy.direct_majority_strict and ">" or "≥" ) .. " " .. tostring(policy.direct_majority_num) .. "/" .. tostring(policy.direct_majority_den)
         }
         ui.field.text{
-          label = _"Indirect majority" .. ":", 
+          label = _"Indirect majority" .. ":",
           value = (policy.indirect_majority_strict and ">" or "≥" ) .. " " .. tostring(policy.indirect_majority_num) .. "/" .. tostring(policy.indirect_majority_den)
         }
       end

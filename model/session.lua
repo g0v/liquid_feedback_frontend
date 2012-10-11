@@ -1,6 +1,6 @@
 Session = mondelefant.new_class()
 Session.table = 'session'
-Session.primary_key = { 'ident' } 
+Session.primary_key = { 'ident' }
 
 Session:add_reference{
   mode          = 'm1',
@@ -21,7 +21,7 @@ function Session:new()
   local session = self.prototype.new(self)  -- super call
   session.ident             = random_string()
   session.additional_secret = random_string()
-  session:save() 
+  session:save()
   return session
 end
 
@@ -39,7 +39,7 @@ function Session.object:has_access(level)
     else
       return false
     end
-  
+
   elseif level == "everything" then
     if self:has_access("member") or config.public_access == "everything" then
       return true
@@ -67,8 +67,8 @@ function Session.object:has_access(level)
     else
       return false
     end
-    
+
   end
-  
+
   error("invalid access level")
 end

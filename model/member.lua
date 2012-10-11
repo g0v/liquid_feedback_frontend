@@ -336,10 +336,10 @@ function Member.object:send_invitation(template_file, subject)
   trace.disable()
   self.invite_code = multirand.string( 24, "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz" )
   self:save()
-  
+
   local subject = subject
   local content
-  
+
   if template_file then
     local fh = io.open(template_file, "r")
     content = fh:read("*a")

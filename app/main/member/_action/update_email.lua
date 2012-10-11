@@ -22,7 +22,7 @@ end
 
 email = util.trim(email)
 
-if #email < 3 then 
+if #email < 3 then
   slot.put_into("error", _"This email address is too short!")
   return false
 end

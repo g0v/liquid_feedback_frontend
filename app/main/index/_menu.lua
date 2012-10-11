@@ -1,9 +1,9 @@
--- this file is used for the drop-down member menu and for the member menu page 
+-- this file is used for the drop-down member menu and for the member menu page
 
 ui.tag{ tag = "ul", content = function()
 
   if app.session.member_id then
-    
+
     ui.tag{ tag = "li", content = function()
 
       ui.link{
@@ -12,9 +12,9 @@ ui.tag{ tag = "ul", content = function()
         view = "show",
         id = app.session.member_id
       }
-      
+
     end }
-          
+
     ui.tag{ tag = "li", content = function()
 
       ui.link{
@@ -24,7 +24,7 @@ ui.tag{ tag = "ul", content = function()
       }
 
     end }
-    
+
     ui.tag{ tag = "li", content = function()
 
       ui.link{
@@ -34,11 +34,11 @@ ui.tag{ tag = "ul", content = function()
       }
 
     end }
-    
+
     if app.session.member.admin then
-      
-      ui.tag{ tag = "li", content = function()      
-      
+
+      ui.tag{ tag = "li", content = function()
+
         ui.link{
           text   = _"Admin",
           module = 'admin',
@@ -48,17 +48,17 @@ ui.tag{ tag = "ul", content = function()
       end }
 
     end
-    
+
   end
-  
+
   for i, lang in ipairs(config.enabled_languages) do
-    
+
     local langcode
-    
+
     locale.do_with({ lang = lang }, function()
       langcode = _("[Name of Language]")
     end)
-    
+
     ui.tag{ tag = "li", content = function()
       ui.link{
         content = _('Select language "#{langcode}"', { langcode = langcode }),

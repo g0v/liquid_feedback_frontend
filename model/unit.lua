@@ -84,7 +84,7 @@ function recursive_add_child_units(units, parent_unit)
       recursive_add_child_units(units, unit)
     end
   end
-end  
+end
 
 function recursive_get_child_units(units, parent_unit, depth)
   for i, unit in ipairs(parent_unit.childs) do
