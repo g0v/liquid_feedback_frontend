@@ -51,8 +51,9 @@ ui.form{
                       connecting_records = area.allowed_policies or {},
                       foreign_reference  = "id",
     }
-    slot.put("<br /><br />")
+    slot.put("<br />")
     ui.field.boolean{ label = _"Active?",     name = "active" }
+    slot.put("<br clear='all'/>")
     ui.submit{ text = _"Save" }
   end
 }

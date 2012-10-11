@@ -14,6 +14,7 @@ end)
 
 ui.form{
   module = "admin", view = "member_list",
+  attr = { class = "member_list_form" },
   content = function()
 
     ui.field.text{ label = _"Search for members", name = "search" }

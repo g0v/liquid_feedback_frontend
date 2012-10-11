@@ -811,6 +811,17 @@ div.notifications {
   clear: left;
 }
 
+/* fix for ui.multiselect */
+div.ui_checkbox_div {
+  clear: right;
+  margin-left: 29%
+}
+div.ui_checkbox_div .ui_field_label {
+  clear: none;
+  float: none;
+  display: inline;
+}
+
 .vertical span {
   line-height: 180%;
   display: block;
@@ -1664,4 +1675,15 @@ dt.duration, dd.duration {
 }
 dt.quorum, dd.quorum {
   margin-left: 160px;
+}
+
+/*************************************************************************
+ * admin
+ */
+
+form.member_list_form div {
+  display: inline;
+}
+form.member_list_form input[type=submit] {
+  margin-left: 0.5em;
 }
