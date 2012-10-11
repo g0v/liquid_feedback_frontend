@@ -90,14 +90,6 @@ slot.select('navigation_right', function()
 end)
 
 slot.select("footer", function()
-  if app.session.member_id and app.session.member.admin then
-    ui.link{
-      text   = _"Admin",
-      module = 'admin',
-      view   = 'index'
-    }
-    slot.put(" &middot; ")
-  end
   ui.link{
     text   = _"About site",
     module = 'index',

@@ -35,6 +35,20 @@ ui.tag{ tag = "ul", content = function()
 
     end }
     
+    if app.session.member.admin then
+      
+      ui.tag{ tag = "li", content = function()      
+      
+        ui.link{
+          text   = _"Admin",
+          module = 'admin',
+          view   = 'index'
+        }
+
+      end }
+
+    end
+    
   end
   
   for i, lang in ipairs(config.enabled_languages) do
