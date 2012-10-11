@@ -19,6 +19,14 @@ Event:add_reference{
 
 Event:add_reference{
   mode          = 'm1',
+  to            = "Draft",
+  this_key      = 'draft_id',
+  that_key      = 'id',
+  ref           = 'draft',
+}
+
+Event:add_reference{
+  mode          = 'm1',
   to            = "Suggestion",
   this_key      = 'suggestion_id',
   that_key      = 'id',
@@ -84,14 +92,8 @@ function Event.object:send_notification()
     locale.do_with(
       { lang = member.lang or config.default_lang or 'en' },
       function()
-        subject = config.mail_subject_prefix .. " " .. self.event_name
-        body = body .. _("[event mail]      Unit: #{name}", { name = self.issue.area.unit.name }) .. "\n"
-        body = body .. _("[event mail]      Area: #{name}", { name = self.issue.area.name }) .. "\n"
-        body = body .. _("[event mail]     Issue: ##{id}", { id = self.issue_id }) .. "\n\n"
-        body = body .. _("[event mail]    Policy: #{policy}", { policy = self.issue.policy.name }) .. "\n\n"
-        body = body .. _("[event mail]     Event: #{event}", { event = self.event_name }) .. "\n\n"
-        body = body .. _("[event mail]     Phase: #{phase}", { phase = self.state_name }) .. "\n\n"
 
+        -- url
         if self.suggestion_id then
           url = request.get_absolute_baseurl() .. "suggestion/show/" .. self.suggestion_id .. ".html"
         elseif self.initiative_id then
@@ -99,13 +101,22 @@ function Event.object:send_notification()
         else
           url = request.get_absolute_baseurl() .. "issue/show/" .. self.issue_id .. ".html"
         end
+        body = body .. url .. "\n\n"
 
-        body = body .. _("[event mail]       URL: #{url}", { url = url }) .. "\n\n"
+        -- head
+        body = body .. _("[event mail]      Unit: #{name}", { name = self.issue.area.unit.name }) .. "\n"
+        body = body .. _("[event mail]      Area: #{name}", { name = self.issue.area.name }) .. "\n"
+        body = body .. _("[event mail]     Issue: #{policy} ##{id}", { policy = self.issue.policy.name, id = self.issue_id }) .. "\n\n"
+        body = body .. _("[event mail]     Event: #{event}", { event = self.event_name }) .. "\n"
+        body = body .. _("[event mail]     Phase: #{phase}", { phase = self.state_name }) .. "\n\n"
 
+        local initiative
         if self.initiative_id then
-          local initiative = Initiative:by_id(self.initiative_id)
+          -- initiative
+          initiative = Initiative:by_id(self.initiative_id)
           body = body .. _("i#{id}: #{name}", { id = initiative.id, name = initiative.name }) .. "\n\n"
         else
+          -- initiatives of an issue
           local initiative_count = Initiative:new_selector()
             :add_where{ "initiative.issue_id = ?", self.issue_id }
             :count()
@@ -123,11 +134,60 @@ function Event.object:send_notification()
           body = body .. "\n"
         end
 
-        if self.suggestion_id then
-          local suggestion = Suggestion:by_id(self.suggestion_id)
-          body = body .. _("#{name}\n\n", { name = suggestion.name })
+        -- draft
+        local draft
+        if self.draft_id then
+          draft = Draft:by_id(self.draft_id)
+          body = body .. draft.content .. "\n"
         end
 
+        -- suggestion
+        local suggestion
+        if self.suggestion_id then
+          suggestion = Suggestion:by_id(self.suggestion_id)
+          body = body .. _("Suggestion") .. ": " .. suggestion.name .. "\n\n"
+          body = body .. suggestion.content .. "\n"
+        end
+
+        -- subject
+        subject = config.mail_subject_prefix .. " "
+        if self.event == "issue_state_changed" then
+          if     self.state == "discussion" then
+            subject = subject .. _("Issue ##{id} reached discussion", { id = self.issue_id })
+          elseif self.state == "verification" then
+            subject = subject .. _("Issue ##{id} was frozen", { id = self.issue_id })
+          elseif self.state == "voting" then
+            subject = subject .. _("Voting for issue ##{id} started", { id = self.issue_id })
+          elseif self.state == "canceled_revoked_before_accepted" then
+            subject = subject .. _("Issue ##{id} was cancelled due to revocation", { id = self.issue_id })
+          elseif self.state == "canceled_issue_not_accepted" then
+            subject = subject .. _("Issue ##{id} was not accepted", { id = self.issue_id })
+          elseif self.state == "canceled_after_revocation_during_discussion" then
+            subject = subject .. _("Issue ##{id} was cancelled due to revocation", { id = self.issue_id })
+          elseif self.state == "canceled_after_revocation_during_verification" then
+            subject = subject .. _("Issue ##{id} was cancelled due to revocation", { id = self.issue_id })
+          elseif self.state == "canceled_no_initiative_admitted" then
+            subject = subject .. _("Issue ##{id} was cancelled because no initiative was admitted", { id = self.issue_id })
+          elseif self.state == "finished_without_winner" then
+            subject = subject .. _("Issue ##{id} was finished (without winner)", { id = self.issue_id })
+          elseif self.state == "finished_with_winner" then
+            subject = subject .. _("Issue ##{id} was finished (with winner)", { id = self.issue_id })
+          end
+        else
+          if     self.event == "initiative_created_in_new_issue" then
+            subject = subject .. _("New issue ##{id} and initiative - i#{ini_id}: #{ini_name}", { id = self.issue_id, ini_id = initiative.id, ini_name = initiative.name })
+          elseif self.event == "initiative_created_in_existing_issue" then
+            subject = subject .. _("New initiative in issue ##{id} - i#{ini_id}: #{ini_name}", { id = self.issue_id, ini_id = initiative.id, ini_name = initiative.name })
+          elseif self.event == "initiative_revoked" then
+            subject = subject .. _("Initiative revoked - i#{id}: #{name}", { id = initiative.id, name = initiative.name })
+          elseif self.event == "new_draft_created" then
+            subject = subject .. _("New draft for initiative i#{id} - #{name}", { id = initiative.id, name = initiative.name })
+          elseif self.event == "suggestion_created" then
+            subject = subject .. _("New suggestion for initiative i#{id} - #{suggestion}", { id = initiative.id, suggestion = suggestion.name })
+          end
+        end
+
+        -- send mail
         local success = net.send_mail{
           envelope_from = config.mail_envelope_from,
           from          = config.mail_from,
