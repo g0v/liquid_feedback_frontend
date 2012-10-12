@@ -224,7 +224,6 @@ return {
 ["Error while converting image. Please note, that only JPG files are supported!"] = "Fehler beim Konvertieren des Bilds. Bitte beachte, dass nur JPG-Dateien unterstützt werden.";
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Fehler beim aktualisieren des Mitglieds, die Datenbank berichtet folgenden Fehler:<br /><br /> (#{errormessage})";
 ["Etherpad authentication failed"] = "Etherpad-Anmeldung fehlgeschlagen";
-["Event #{id} -> #{num} members"] = false;
 ["Everything"] = "Alles";
 ["External memberships"] = "Externe Mitgliedschaften";
 ["External posts"] = "Externe Ämter";
@@ -363,7 +362,7 @@ return {
 ["Member of area"] = "Mitglied des Themenbereichs";
 ["Member page"] = "Mitgliederseite";
 ["Member successfully registered"] = "Mitglied erfolgreich registriert";
-["Member successfully updated"] = "Mitglied erfolgreich aktualisert";
+["Member successfully updated"] = "Mitglied erfolgreich aktualisiert";
 ["Member voter"] = "Mitglieder, die abgestimmt haben";
 ["Member: '#{identification}' (#{name})"] = "Mitglied: '#{identification}' (#{name})";
 ["Members"] = "Mitglieder";
@@ -710,7 +709,7 @@ return {
 ["You didn't confirm your email address '#{email}' within 7 days."] = "Du hast die E-Mail-Adresse '#{email}' nicht innerhalb von 7 Tagen bestätigt.";
 ["You didn't confirm your email address '#{email}'. You have received an email with an activation link."] = "Du hast die E-Mail-Adresse '#{email}' nicht bestätigt. Du hast hierzu eine E-Mail mit einem Aktivierungslink erhalten.";
 ["You didn't save any member as contact yet."] = "Du hast noch kein Mitglied als Kontakt gespeichert!";
-["You didn't set the level of notifications you like to receive."] = "Du hast noch nicht ausgewählt, ob und welche Benachrichtigungen du erhalten möchtest.";
+["You didn't set the level of notifications you like to receive."] = "Du hast noch nicht ausgewählt, ob und welche Benachrichtigungen Du erhalten möchtest.";
 ["You have ignored this initiative."] = "Du ignorierst diese Initiative.";
 ["You have ignored this member."] = "Du ignorierst dieses Mitglied.";
 ["You have not voted #{count} issue(s) you were interested in."] = "Du hast für #{count} Themen, die dich interessieren, noch nicht abgestimmt.";
@@ -721,7 +720,7 @@ return {
 ["You were potential supporter."] = "Du bist potentieller Unterstützer.";
 ["You were supporter."] = "Du bist Unterstützer.";
 ["You've successfully registered and you can login now with your login and password!"] = "Du hast Dich erfolgreich registriert und kannst Dich jetzt mit Deinen Anmeldenamen und Kennwort anmelden!";
-["Your email address has been changed, please check for confirmation email with activation link!"] = "Deine E-Mail-Adresse wurde geändert, du hast eine Bestätigungs-E-Mail mit Aktivierungslink erhalten.";
+["Your email address has been changed, please check for confirmation email with activation link!"] = "Deine E-Mail-Adresse wurde geändert, Du hast eine Bestätigungs-E-Mail mit Aktivierungslink erhalten.";
 ["Your login has been changed to '#{login}'."] = "Dein Anmeldename wurde auf '#{login}' geändert.";
 ["Your name has been changed."] = "Dein Name wurde geändert.";
 ["Your password has been updated successfully."] = "Das Kennwort wurde erfolgreich geändert.";

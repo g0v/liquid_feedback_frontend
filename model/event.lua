@@ -80,7 +80,7 @@ function Event.object:send_notification()
     :add_where("event_seen_by_member.member_id ISNULL OR event_seen_by_member.member_id != member.id")
     :exec()
 
-  print (_("Event #{id} -> #{num} members", { id = self.id, num = #members_to_notify }))
+  print ( "Event " .. self.id .. " -> " .. #members_to_notify .. " members" )
 
 
   local url
