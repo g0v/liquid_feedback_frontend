@@ -238,13 +238,12 @@ function Event:send_next_notification()
 
 end
 
-function Event:send_notifications_loop()
+function Event:send_notifications()
 
   while true do
     local did_work = Event:send_next_notification()
     if not did_work then
-      print "Sleeping 1 second"
-      os.execute("sleep 1")
+      break
     end
   end
 
