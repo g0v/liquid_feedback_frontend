@@ -2,7 +2,7 @@ slot.select('navigation', function()
 
   ui.link{
     content = function()
-      ui.tag{ attr = { class = "logo_liquidfeedback" }, content = _"DiscreteFeedback" }
+      ui.tag{ attr = { class = "logo_discretefeedback" }, content = _"DiscreteFeedback" }
       slot.put(" &middot; ")
       ui.tag{ content = config.instance_name }
     end,

@@ -191,7 +191,6 @@ return {
 ["Disapproval [single entry]"] = "Ablehnung";
 ["Discard voting"] = "Abstimmung zurückziehen";
 ["DiscreteFeedback"] = "DiscreteFeedback";
-["DiscreteFeedback is a specially customized version of the software LiquidFeedback. In particular, the concept of chain delegation has been replaced by the concept of <a href='https://andipopp.wordpress.com/2012/04/02/discrete-democracy-ein-vorschlag-zur-weiterentwicklung-von-liquid-democracy/'>preference delegation</a>. To avoid confusion and thus corresponding to a concern of the authors of LiquidFeedback, this project has received its own name."] = "DiscreteFeedback ist eine speziell angepasste Version der Software LiquidFeedback. Insbesondere wurde das Konzept der Kettendelegation durch das Konzept der <a href='https://andipopp.wordpress.com/2012/04/02/discrete-democracy-ein-vorschlag-zur-weiterentwicklung-von-liquid-democracy/'>Präferenzdelegation</a> ersetzt. Um Verwechslungen und zu vermeiden und damit einem Anliegen der Autoren von LiquidFeedback zu entsprechen, hat dieses Projekt einen eigenen Namen erhalten.";
 ["Discuss with initiators"] = "Diskussion mit den Initiatoren";
 ["Discussion"] = "Diskussion";
 ["Discussion URL"] = "Diskussions-URL";

@@ -226,7 +226,7 @@ div.notifications,
   font-size: 115%;
 }
 
-.logo_liquidfeedback {
+.logo_discretefeedback {
   font-weight: bold;
 }
 .slot_navigation {
@@ -241,9 +241,9 @@ div.notifications,
 }
 
 .topbar a:hover,
-.topbar a:hover .logo_liquidfeedback,
+.topbar a:hover .logo_discretefeedback,
 .topbar a:focus,
-.topbar a:focus .logo_liquidfeedback {
+.topbar a:focus .logo_discretefeedback {
   color: #f90;
 }
 
