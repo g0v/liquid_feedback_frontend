@@ -58,7 +58,7 @@ function Delegation:by_pk(truster_id, unit_id, area_id, issue_id)
   if issue_id then
     selector:add_where{ "issue_id = ? ",  issue_id }
   else
-    selector:add_where("issue_id ISNULL ")
+    selector:add_where("issue_id ISNULL")
   end
   selector:add_order_by("preference")
   return selector:exec()
@@ -85,6 +85,28 @@ function Delegation:by_trustee(truster_id, trustee_id, unit_id, area_id, issue_i
     selector:add_where("issue_id ISNULL ")
   end
   return selector:exec()
+end
+
+-- number of delegations in one preference list
+function Delegation:count(truster_id, unit_id, area_id, issue_id)
+  local selector = self:new_selector()
+  selector:add_where{ "truster_id = ?", truster_id }
+  if unit_id then
+    selector:add_where{ "unit_id = ?",    unit_id }
+  else
+    selector:add_where("unit_id ISNULL")
+  end
+  if area_id then
+    selector:add_where{ "area_id = ?",    area_id }
+  else
+    selector:add_where("area_id ISNULL")
+  end
+  if issue_id then
+    selector:add_where{ "issue_id = ? ",  issue_id }
+  else
+    selector:add_where("issue_id ISNULL")
+  end
+  return selector:count()
 end
 
 function Delegation:selector_for_broken(member_id)

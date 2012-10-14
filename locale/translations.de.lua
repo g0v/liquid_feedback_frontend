@@ -594,6 +594,7 @@ return {
 ["The draft of this initiative has been updated!"] = "Der Entwurfstext der Initiative wurde aktualisiert!";
 ["The drafts do not differ"] = "Die Entwürfe unterscheiden sich nicht";
 ["The initiators suggest to support the following initiative:"] = "Die Initiatoren empfehlen folgende Initiative zu unterstützen:";
+["The maximum number of delegations for one preference list is reached!"] = "Die maximale Anzahl von Delegationen in einer Präferenzliste ist erreicht!";
 ["There are no trustees selected."] = "Es sind keine Bevollmächtigten ausgewählt.";
 ["This email address is too short!"] = "Diese E-Mail-Adresse ist zu kurz!";
 ["This initiative"] = "Diese Initiative";
