@@ -1683,7 +1683,11 @@ dt.quorum, dd.quorum {
 
 form.member_list_form div {
   display: inline;
+  margin-right: 10px;
 }
 form.member_list_form input[type=submit] {
   margin-left: 0.5em;
+}
+form.member_list_form input[type=checkbox] {
+  margin-left: 0;
 }

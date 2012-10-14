@@ -29,7 +29,14 @@ ui.form{
     default = {
       mode = "redirect",
       modules = "admin",
-      view = "member_list"
+      view = "member_list",
+      params = {
+        search               = param.get("search"),
+        search_admin         = param.get("search_admin",         atom.boolean),
+        search_locked        = param.get("search_locked",        atom.boolean),
+        search_not_activated = param.get("search_not_activated", atom.boolean),
+        search_inactive      = param.get("search_inactive",      atom.boolean)
+      }
     }
   },
   content = function()
@@ -39,7 +46,7 @@ ui.form{
       ui.field.text{     label = _"Screen name",        name = "name" }
       ui.field.text{     label = _"Login name",        name = "login" }
     end
-    ui.field.boolean{  label = _"Admin?",       name = "admin" }
+    ui.field.boolean{  label = _"Admin",       name = "admin" }
 
     slot.put("<br />")
 
@@ -56,16 +63,35 @@ ui.form{
       ui.field.boolean{  label = _"Send invite?",       name = "invite_member" }
     end
 
-    if member and member.activated then
-      ui.field.boolean{  label = _"Lock member?",       name = "locked" }
+    if member then
+      -- show status
+      local status = ""
+      if member.locked then
+        status = status .. _"Locked" .. ", "
+      end
+      if not member.activated then
+        status = status .. _"Not activated"
+      elseif not member.active then
+        status = status .. _"Inactive"
+      else
+        status = status .. _"Active"
+      end
+      ui.field.text{ label = _"Status", value = status }
+      -- operations
+      if member.locked then
+        ui.field.boolean{
+          label = _"Unlock Member?",
+          name = "unlock"
+        }
+      else
+        ui.field.boolean{
+          label = _"Lock and deactivate Member?",
+          name = "lock_and_deactivate"
+        }
+      end
     end
 
-    ui.field.boolean{
-      label = _"Member inactive?", name = "deactivate",
-      readonly = member and member.active, value = member and member.active == false
-    }
-
     slot.put("<br />")
-    ui.submit{         text  = _"Save" }
+    ui.submit{ text = _"Save" }
   end
 }

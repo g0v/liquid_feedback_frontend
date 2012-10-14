@@ -41,6 +41,7 @@ return {
 ["Accepted at"] = "Angenommen am/um";
 ["Access level"] = "Berechtigung";
 ["Activate account"] = "Account aktivieren";
+["Active"] = "Aktiv";
 ["Active?"] = "Aktiv?";
 ["Add alternative initiative to issue"] = "Alternative Initiative zum Thema hinzufügen";
 ["Add my interest"] = "Mein Interesse anmelden";
@@ -261,6 +262,7 @@ return {
 ["Ignore member"] = "Mitglied ignorieren";
 ["Images"] = "Bilder";
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = "In dieser Installation ist eine Registrierung auch ohne Einladungscode möglich. Dafür das Feld bitte einfach leer lassen.";
+["Inactive"] = "Inaktiv";
 ["Incoming delegations"] = "Eingehende Delegationen";
 ["Index"] = "Positionsnummer";
 ["Indirect majority"] = "Indirekte Mehrheit";
@@ -334,7 +336,9 @@ return {
 ["License"] = "Lizenz";
 ["List all revisions (#{count})"] = "Zeige alle Versionen (#{count})";
 ["List of trustees"] = "Liste der Bevollmächtigten";
+["Lock and deactivate Member?"] = "Mitglied sperren und deaktivieren?";
 ["Lock member?"] = "Mitglied sperren?";
+["Locked"] = "Gesperrt";
 ["Locked?"] = "Gesperrt?";
 ["Login"] = "Anmeldung";
 ["Login name"] = "Anmeldename";
@@ -413,6 +417,7 @@ return {
 ["No supporters (before begin of voting)"] = "Keine Unterstützer (zum Abstimmungsbeginn)";
 ["Not a member"] = "Kein Mitglied";
 ["Not accepted yet"] = "Bisher nicht angenommen";
+["Not activated"] = "Nicht aktiviert";
 ["Not approved"] = "Nicht angenommen";
 ["Not approved (rank #{rank})"] = "Nicht angenommen (Rang #{rank})";
 ["Not voted"] = "Nicht abgestimmt";
@@ -649,6 +654,7 @@ return {
 ["Units"] = "Gliederungen";
 ["Units and areas"] = "Gliederungen und Themenbereiche";
 ["Unknown author"] = "Unbekannter Autor";
+["Unlock Member?"] = "Mitglied entsperren?";
 ["Updated drafts"] = "Neue Entwürfe";
 ["Upload avatar/photo"] = "Avatar/Foto hochladen";
 ["Upload images"] = "Bilder hochladen";

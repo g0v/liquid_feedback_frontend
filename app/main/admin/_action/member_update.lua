@@ -4,14 +4,17 @@ local member = Member:by_id(id) or Member:new()
 
 param.update(member, "identification", "notify_email", "admin")
 
-local locked = param.get("locked", atom.boolean)
-if locked ~= nil then
-  member.locked = locked
-end
-local deactivate = param.get("deactivate", atom.boolean)
-if deactivate then
+-- status operations
+if param.get("lock_and_deactivate", atom.boolean) ~= nil then
+  -- It does not make sense to lock a member, but let its delegations stay active, so we lock and deactivate as one operation.
+  member.locked = true
   member.active = false
 end
+if param.get("unlock", atom.boolean) ~= nil then
+  -- When we unlock a member, it is not necessary to set it also active, because this will be set automatically on login.
+  member.locked = false
+end
+
 local login = param.get("login")
 if login then
   member.login = login

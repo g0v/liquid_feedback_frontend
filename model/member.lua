@@ -251,10 +251,24 @@ function Member:build_selector(args)
   if args.voting_right_for_unit_id then
     selector:join("privilege", "__model_member__privilege", { "member.id = __model_member__privilege.member_id AND __model_member__privilege.voting_right AND __model_member__privilege.unit_id = ?", args.voting_right_for_unit_id })
   end
+  -- admin search
   if args.admin_search then
     local search_string = "%" .. args.admin_search .. "%"
     selector:add_where{ "member.identification ILIKE ? OR member.name ILIKE ?", search_string, search_string }
   end
+  if args.admin_search_admin then
+    selector:add_where{ "member.admin = TRUE" }
+  end
+  if args.admin_search_locked then
+    selector:add_where{ "member.locked = TRUE" }
+  end
+  if args.admin_search_not_activated then
+    selector:add_where{ "member.activated ISNULL" }
+  end
+  if args.admin_search_inactive then
+    selector:add_where{ "member.active = FALSE" }
+  end
+  -- order
   if args.order then
     if args.order == "id" then
       selector:add_order_by("id")
