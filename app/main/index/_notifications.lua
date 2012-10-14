@@ -15,13 +15,11 @@ if app.session.member.notify_level == nil then
 end
 
 local broken_delegations_count = Delegation:selector_for_broken(app.session.member_id):count()
-
 if broken_delegations_count > 0 then
   notification_links[#notification_links+1] = {
     module = "index", view = "broken_delegations",
     text = _("#{count} of your outgoing delegation(s) are broken.", { count = broken_delegations_count })
   }
-
 end
 
 local selector = Issue:new_selector()

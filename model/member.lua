@@ -511,3 +511,23 @@ function Member.object:get_delegatee_member(unit_id, area_id, issue_id)
   selector:optional_object_mode()
   return selector:exec()
 end
+
+-- selector template for list of delegations, used for incoming, outgoing and broken delegations
+function Member:selector_delegations()
+  return Member:new_selector()
+    :reset_fields()
+    :add_field("member.id", "member_id")
+    :add_field("delegation.unit_id")
+    :add_field("delegation.area_id")
+    :add_field("delegation.issue_id")
+    :add_field("unit.name", "unit_name")
+    :add_field("area.name", "area_name")
+    :join("delegation", "delegation", "member.id = delegation.truster_id")
+    :join("member", "trustee", "trustee.id = delegation.trustee_id")
+    :left_join("issue", "_member_showtab_issue", "_member_showtab_issue.id = delegation.issue_id")
+    :left_join("area", "area", "area.id = delegation.area_id")
+    :left_join("unit", "unit", "unit.id = delegation.unit_id")
+    :add_where("_member_showtab_issue.closed ISNULL")
+    :add_order_by("unit.name, area.name, delegation.issue_id")
+    :add_group_by("member.id, delegation.unit_id, unit.name, delegation.area_id, area.name, delegation.issue_id")
+end
