@@ -10,7 +10,7 @@ return {
 ["#{count} more areas in this unit"] = "#{count} weitere Themenbereiche in dieser Gliederung";
 ["#{count} new"] = "#{count} neue";
 ["#{count} of them have an area delegation set."] = "bei #{count} davon ist eine Delegation für den Themenbereichs gesetzt.";
-["#{count} of your outgoing delegation(s) are broken."] = "#{count} deiner ausgehenden Delegationen sind kaputt.";
+["#{count} of your outgoing delegation(s) are broken."] = "#{count} Deiner ausgehenden Delegationen sind kaputt.";
 ["#{date} at #{time}"] = "am #{date} um #{time}";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} Themen";
@@ -125,7 +125,7 @@ return {
 ["Choose member"] = "Mitglied auswählen";
 ["Closed"] = "Geschlossen";
 ["Closed issues"] = "Geschlossene Themen";
-["Closed user group, please login to participate."] = "Geschlossene Benutzergruppe: Bitte melde dich an um teilzunehmen.";
+["Closed user group, please login to participate."] = "Geschlossene Benutzergruppe: Bitte melde Dich an um teilzunehmen.";
 ["Collective opinion of supporters"] = "Meinungsbild der Unterstützer";
 ["Commit suggestion"] = "Anregung speichern";
 ["Compare"] = "Vergleichen";
@@ -218,7 +218,7 @@ return {
 ["Email address confirmation"] = "Bestätigung der E-Mail-Adresse";
 ["Email address is confirmed now."] = "E-Mail-Adresse ist jetzt bestätigt.";
 ["Email address too short!"] = "E-Mail-Adresse ist zu kurz!";
-["Email confirmation request"] = "Bestätigung deiner E-Mail-Adresse";
+["Email confirmation request"] = "Bestätigung Deiner E-Mail-Adresse";
 ["Empty help text: #{id}.#{lang}.txt"] = "Leerer Hilfe-Text: #{id}.#{lang}.txt";
 ["Error while converting image. Please note, that only JPG files are supported!"] = "Fehler beim Konvertieren des Bilds. Bitte beachte, dass nur JPG-Dateien unterstützt werden.";
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Fehler beim aktualisieren des Mitglieds, die Datenbank berichtet folgenden Fehler:<br /><br /> (#{errormessage})";
@@ -689,7 +689,7 @@ return {
 ["You are interested in this issue."] = "Du bist an diesem Thema interessiert.";
 ["You are interested."] = "Du bist interessiert.";
 ["You are invited to #{count} initiative(s)."] = "Du bist zu #{count} Initiativen als Initiator eingeladen.";
-["You are invited to DiscreteFeedback. To register please click the following link:\n\n"] = "Du bist zu DiscreteFeedback eingeladen. Bitte klicke auf den folgenden Link, um dich zu registrieren:\n\n";
+["You are invited to DiscreteFeedback. To register please click the following link:\n\n"] = "Du bist zu DiscreteFeedback eingeladen. Bitte klicke auf den folgenden Link, um Dich zu registrieren:\n\n";
 ["You are invited to become initiator of this initiative."] = "Du bist eingeladen Initiator dieser Initiative zu werden.";
 ["You are member."] = "Du bist Mitglied.";
 ["You are not participating in any of the #{count} areas in this unit."] = "Du nimmst an keinem der #{count} Themenbereiche dieser Gliederung teil.";
@@ -711,7 +711,7 @@ return {
 ["You didn't set the level of notifications you like to receive."] = "Du hast noch nicht ausgewählt, ob und welche Benachrichtigungen Du erhalten möchtest.";
 ["You have ignored this initiative."] = "Du ignorierst diese Initiative.";
 ["You have ignored this member."] = "Du ignorierst dieses Mitglied.";
-["You have not voted #{count} issue(s) you were interested in."] = "Du hast für #{count} Themen, die dich interessieren, noch nicht abgestimmt.";
+["You have not voted #{count} issue(s) you were interested in."] = "Du hast für #{count} Themen, die Dich interessieren, noch nicht abgestimmt.";
 ["You have to mark 'Are you sure' to revoke!"] = "Zum Zurückziehen musst Du 'Sicher?' auswählen!";
 ["You have voting privileges for this unit."] = "Du hast Stimmrecht in dieser Gliederung.";
 ["You need to be logged in, to use all features of this system."] = "Du musst eingeloggt sein, um alle Funktionen dieses Systems nutzen zu können.";
