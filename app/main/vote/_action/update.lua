@@ -67,7 +67,7 @@ if not move_down and not move_up then
     end
     
     local formatting_engine = param.get("formatting_engine")
-    local comment = util.trim(param.get("comment"))
+    local comment = param.get("comment")
 
     if comment ~= direct_voter.comment then
       if #comment > 0 then
