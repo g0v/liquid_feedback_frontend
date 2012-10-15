@@ -110,10 +110,6 @@ a.active {
   color: #000;
 }
 
-.admin_only {
-  font-style: italic;
-}
-
 h1 {
   font-size: 150%;
 }

@@ -5,12 +5,21 @@ local units = Unit:get_flattened_tree{ include_inactive = inactive }
 ui.title(_"Unit list")
 
 ui.actions(function()
+
+  ui.link{
+    text = _"Admin menu",
+    module = "admin",
+    view = "index"
+  }
+  slot.put(" &middot; ")
+
   ui.link{
     text = _"Create new unit",
     module = "admin",
     view = "unit_edit"
   }
   slot.put(" &middot; ")
+
   if inactive then
     ui.link{
       text = _"Hide inactive units",
@@ -25,6 +34,7 @@ ui.actions(function()
       params = { inactive = true }
     }
   end
+
 end)
 
 ui.list{

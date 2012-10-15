@@ -11,6 +11,13 @@ ui.title(_("Area list of '#{unit_name}'", { unit_name = unit.name }))
 
 ui.actions(function()
 
+  ui.link{
+    text = _"Admin menu",
+    module = "admin",
+    view = "index"
+  }
+  slot.put(" &middot; ")
+
   if show_not_in_use then
     ui.link{
       text = _"Show areas in use",
@@ -18,7 +25,6 @@ ui.actions(function()
       view = "area_list",
       params = { unit_id = unit_id }
     }
-
   else
     ui.link{
       text = _"Create new area",
@@ -26,9 +32,7 @@ ui.actions(function()
       view = "area_show",
       params = { unit_id = unit_id }
     }
-
     slot.put(" &middot; ")
-
     ui.link{
       text = _"Show areas not in use",
       module = "admin",
@@ -49,7 +53,7 @@ ui.list{
     { content = function(record)
         if app.session.member.admin then
           ui.link{
-            attr = { class = { "action admin_only" } },
+            attr = { class = { "action" } },
             text = _"Edit",
             module = "admin",
             view = "area_show",

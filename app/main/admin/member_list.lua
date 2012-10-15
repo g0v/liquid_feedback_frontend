@@ -7,12 +7,20 @@ local search_inactive      = param.get("search_inactive",      atom.boolean)
 ui.title(_"Member list")
 
 ui.actions(function()
+
   ui.link{
-    attr = { class = { "admin_only" } },
+    text = _"Admin menu",
+    module = "admin",
+    view = "index"
+  }
+  slot.put(" &middot; ")
+
+  ui.link{
     text = _"Register new member",
     module = "admin",
     view = "member_edit"
   }
+
 end)
 
 
@@ -96,7 +104,7 @@ ui.paginate{
         {
           content = function(record)
             ui.link{
-              attr = { class = "action admin_only" },
+              attr = { class = "action" },
               text = _"Edit",
               module = "admin",
               view = "member_edit",

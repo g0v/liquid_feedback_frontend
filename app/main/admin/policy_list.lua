@@ -8,13 +8,19 @@ ui.title(_"Policy list")
 
 ui.actions(function()
 
+  ui.link{
+    text = _"Admin menu",
+    module = "admin",
+    view = "index"
+  }
+  slot.put(" &middot; ")
+
   if show_not_in_use then
     ui.link{
       text = _"Show policies in use",
       module = "admin",
       view = "policy_list"
     }
-
   else
     ui.link{
       text = _"Create new policy",
@@ -28,7 +34,6 @@ ui.actions(function()
       view = "policy_list",
       params = { show_not_in_use = true }
     }
-
   end
 
 end)
