@@ -2,7 +2,7 @@
 Import members from CSV file
 
 - Not yet existing members will be created.
-- Existing member will get their privileges updated.
+- Existing members will get their privileges updated.
 - Remaining imported members will be locked and deactivated.
 - Privileges for not existing units will be ignored.
 
@@ -131,7 +131,7 @@ function util.import_members(file)
 
   end
 
-  -- deactivate all remaining members
+  -- deactivate remaining imported members
   for id in pairs(member_remains) do
     if member_remains[id] then
       local member = Member:by_id(id)
