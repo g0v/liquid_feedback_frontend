@@ -1,5 +1,3 @@
-execute.view{ module = "index", view = "_lang_chooser" }
-
 ui.title(_"Reset password")
 
 ui.actions(function()

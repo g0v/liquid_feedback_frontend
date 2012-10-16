@@ -175,12 +175,12 @@ div.notifications,
 
 .layout_notice, .layout_error, .layout_warning {
   font-weight: bold;
-  line-height: 1.7em;
+  line-height: 1.1em;
   -moz-opacity:0.7;
 }
 
 .slot_notice, .slot_warning, .slot_error {
-  padding-left: 1em;
+  padding: 0.3em 1em;
   margin: 2ex 1% 2ex 1%;
   border: 1px solid #777777;
   border-radius: 8px;
@@ -763,16 +763,11 @@ div.notifications {
   margin-top: 2ex;
 }
 
-.login input[type=text],
 .vertical input[type=text],
-.login input[type=password],
-.vertical input[type=password],
 .vertical textarea,
 .vertical select {
   width: 68%;
 }
-
-.login input[type=password],
 .vertical input[type=password] {
   width: 16em;
 }
@@ -1281,11 +1276,6 @@ x.initiative_link.potentially_supported {
   border-radius: 5px;
 }
 
-.lang_chooser {
-  float: right;
-  margin-right: 0.5em;
-}
-
 /* member list */
 
 .member_list .member_thumb,
@@ -1344,7 +1334,7 @@ x.initiative_link.potentially_supported {
   left: 56px;
   top: 2ex;
   font-size: 100%;
-  width: 14em;
+  width: 150px; 205px - 56px = 149px
 }
 
 .member_thumb .flags {

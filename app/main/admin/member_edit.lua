@@ -4,6 +4,16 @@ local member = Member:by_id(id)
 
 if member then
   ui.title(_("Member: '#{identification}' (#{name})", { identification = member.identification, name = member.name }))
+  ui.actions(function()
+    if member.activated then
+      ui.link{
+        text = _("Profile"),
+        module = "member",
+        view = "show",
+        id = member.id
+      }
+    end
+  end)
 else
   ui.title(_"Register new member")
 end
@@ -35,18 +45,24 @@ ui.form{
         search_admin         = param.get("search_admin",         atom.boolean),
         search_locked        = param.get("search_locked",        atom.boolean),
         search_not_activated = param.get("search_not_activated", atom.boolean),
-        search_inactive      = param.get("search_inactive",      atom.boolean)
+        search_inactive      = param.get("search_inactive",      atom.boolean),
+        page = param.get("page")
       }
     }
   },
   content = function()
-    ui.field.text{     label = _"Identification", name = "identification" }
-    ui.field.text{     label = _"Notification email", name = "notify_email" }
-    if member and member.activated then
-      ui.field.text{     label = _"Screen name",        name = "name" }
-      ui.field.text{     label = _"Login name",        name = "login" }
+
+    if member then
+      ui.field.text{ label = _"Id", value = member.id }
     end
-    ui.field.boolean{  label = _"Admin",       name = "admin" }
+
+    ui.field.text{ label = _"Identification", name = "identification" }
+    ui.field.text{ label = _"Notification email", name = "notify_email" }
+    if member and member.activated then
+      ui.field.text{ label = _"Screen name", name = "name" }
+      ui.field.text{ label = _"Login name", name = "login" }
+    end
+    ui.field.boolean{ label = _"Admin", name = "admin" }
 
     slot.put("<br />")
 
@@ -58,10 +74,6 @@ ui.form{
       }
     end
     slot.put("<br /><br />")
-
-    if not member or not member.activated then
-      ui.field.boolean{  label = _"Send invite?",       name = "invite_member" }
-    end
 
     if member then
       -- show status
@@ -89,6 +101,14 @@ ui.form{
           name = "lock_and_deactivate"
         }
       end
+      ui.field.boolean{
+        label = _"Delete personal data and deactivate?",
+        name = "delete_member"
+      }
+    end
+
+    if not member or not member.activated then
+      ui.field.boolean{ label = _"Send invite?", name = "invite_member" }
     end
 
     slot.put("<br />")

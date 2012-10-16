@@ -5,8 +5,6 @@ ui.tag{
   end
 }
 
-execute.view{ module = "index", view = "_lang_chooser" }
-
 app.html_title.title = _"Login"
 ui.title(_"Login")
 

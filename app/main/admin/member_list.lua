@@ -74,7 +74,16 @@ ui.paginate{
         },
         {
           label = _"Screen name",
-          name = "name"
+          content = function(record)
+            if (record.name) then
+              ui.link{
+                text = record.name,
+                module = "member",
+                view = "show",
+                id = record.id
+              }
+            end
+          end
         },
         {
           content = function(record)
@@ -115,6 +124,7 @@ ui.paginate{
                 search_locked        = search_locked,
                 search_not_activated = search_not_activated,
                 search_inactive      = search_inactive,
+                page = param.get("page")
               }
             }
           end
