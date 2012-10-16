@@ -16,7 +16,7 @@ ui.form{
     }
   },
   content = function()
-    ui.field.text{ label = _"Identification", name = "identification", readonly = true }
+  
     ui.field.text{ label = _"Organizational unit", name = "organizational_unit", readonly = config.locked_profile_fields.organizational_unit }
     ui.field.text{ label = _"Internal posts", name = "internal_posts", readonly = config.locked_profile_fields.internal_posts }
     ui.field.text{ label = _"Real name", name = "realname", readonly = config.locked_profile_fields.realname }
@@ -45,6 +45,7 @@ ui.form{
       foreign_name = "name",
       value = param.get("formatting_engine")
     }
+
     ui.tag{
       tag = "div",
       content = function()
@@ -74,6 +75,7 @@ ui.form{
         }
       end
     }
+
     ui.field.text{
       label = _"Statement",
       name = "statement",
@@ -82,7 +84,7 @@ ui.form{
       value = param.get("statement")
     }
 
-
     ui.submit{ value = _"Save" }
+
   end
 }

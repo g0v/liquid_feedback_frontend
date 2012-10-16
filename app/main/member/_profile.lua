@@ -59,9 +59,6 @@ ui.form{
       slot.put("<br/><br/>")
     end
 
-    if member.identification then
-      ui.field.text{    label = _"Identification", name = "identification" }
-    end
     if member.name then
       ui.field.text{ label = _"Screen name", name = "name" }
     end
@@ -124,10 +121,7 @@ ui.form{
       ui.field.text{ label = _"Posts", name = "external_posts", multiline = true }
     end
     if member.admin then
-      ui.field.boolean{ label = _"Admin?",       name = "admin" }
-    end
-    if member.locked then
-      ui.field.boolean{ label = _"Locked?",      name = "locked" }
+      ui.field.text{ label = _"Admin?", value = _"Yes" }
     end
     if member.last_activity then
       ui.field.text{ label = _"Last activity (updated daily)", value = format.date(member.last_activity) or _"not yet" }
