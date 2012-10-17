@@ -103,7 +103,7 @@ ui.container{
             module = "interest"
           elseif initiative then
             if member.voter_weight then
-               module = "vote"
+              module = "vote"
             else
               module = "supporter"
             end

@@ -1276,6 +1276,14 @@ x.initiative_link.potentially_supported {
   border-radius: 5px;
 }
 
+td.opinion {
+  vertical-align: middle;
+  padding-left: 20px;
+}
+th.opinion {
+  padding-left: 20px;
+}
+
 /* member list */
 
 .member_list .member_thumb,
