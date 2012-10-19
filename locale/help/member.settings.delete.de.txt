@@ -13,7 +13,7 @@ Es werden so weit wie möglich alle persönlichen Daten gelöscht. Dazu gehören
 - welche Initiativen ignoriert werden
 - alle Mitgliedschaften in Themenbereichen
 - alle Delegationen
-- welche Themen sich selbst abgestimmt werden sollen
+- welche Themen selbst abgestimmt werden sollen
 - alle Stimmabgaben in noch nicht abgeschlossenen Themen
 
 Nicht gelöscht werden dagegen:
