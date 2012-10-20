@@ -11,7 +11,6 @@ function model.has_rendered_content(class, rendered_class, content_field_name)
     if type(class.primary_key) == "table" then
       for i, key in ipairs(class.primary_key) do
         selector:add_where{ "$ = ?", { key }, self[key] }
-        trace.debug(key, self[key], self.id)
       end
     else
       selector:add_where{ "id = ?", self.id }

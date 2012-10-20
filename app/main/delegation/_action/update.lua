@@ -23,7 +23,6 @@ if preview == "1" then
   return
 end
 
-
 local delegation = Delegation:by_pk(truster_id, unit_id, area_id, issue_id)
 
 

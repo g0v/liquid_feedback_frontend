@@ -269,6 +269,10 @@ function Member:build_selector(args)
   return selector
 end
 
+function Member:lockForReference()
+  self.get_db_conn().query("LOCK TABLE " .. self:get_qualified_table() .. " IN ROW SHARE MODE")
+end
+
 function Member.object:set_password(password)
   trace.disable()
   
@@ -593,3 +597,4 @@ function Member.object:get_delegatee_member(unit_id, area_id, issue_id)
   selector:optional_object_mode()
   return selector:exec()
 end
+
