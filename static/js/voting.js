@@ -291,7 +291,7 @@ if (!jsFail) {
           element.className == "voting_done2" ||
           element.name == "preview") {
         element.addEventListener("click", function(event) {
-          if (event.srcElement.name == "preview") {
+          if (event.target.name == "preview") {
             document.getElementById("preview2").value = "1";
           }
           var scoringString = "";
