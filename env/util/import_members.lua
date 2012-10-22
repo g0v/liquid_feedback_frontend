@@ -46,19 +46,25 @@ function util.import_members(file)
   -- needed for deactivation of remaining imported members
   local identification_prefix = "import-"
 
-  -- get all imported members
+  -- get all imported not deactivated members
   local member_remains = {}
   local imported_members = Member:new_selector()
     :add_where{ "member.identification LIKE ?", identification_prefix .. "%" }
     :add_where{ "member.locked = FALSE" }
     :exec()
+  local imported_before = 0
   for i, member in ipairs(imported_members) do
     member_remains[member.id] = true
+    imported_before = imported_before + 1
   end
-  --print("Existing not locked imported members: " .. #member_remains)
+
+  local inserted = 0
+  local lines = 0
 
   local fp = assert(io.open(file))
   for line in fp:lines() do
+
+    lines = lines + 1
 
     -- extract invite code
     local invite_code = line:match('^"([^"]+)";')
@@ -97,6 +103,7 @@ function util.import_members(file)
           print("Database error: " .. tostring(err.message))
           db_error:escalate()
         end
+        inserted = inserted + 1
       end
 
       -- member does not remain anymore
@@ -132,6 +139,7 @@ function util.import_members(file)
   end
 
   -- deactivate remaining imported members
+  local deactivated = 0
   for id in pairs(member_remains) do
     if member_remains[id] then
       local member = Member:by_id(id)
@@ -139,7 +147,34 @@ function util.import_members(file)
       member.locked = true
       member.active = false
       member:save()
+      deactivated = deactivated + 1
     end
+  end
+
+  -- number of imported not deactivated members
+  local imported_after = Member:new_selector()
+    :add_where{ "member.identification LIKE ?", identification_prefix .. "%" }
+    :add_where{ "member.locked = FALSE" }
+    :count()
+
+  -- report
+  print()
+  print("Imported not deactivated members before: " .. imported_before)
+  print()
+  print("Changes:")
+  print("    Inserted members:    " .. inserted)
+  print("    Deactivated members: " .. deactivated)
+  print()
+  print("Lines in CSV file:                " .. lines)
+  print("Imported not deactivated members: " .. imported_after)
+  print()
+  if imported_after ~= lines then
+    print("WARNING: The number of imported not deactivated members is not equal to the number of lines in the CSV file!")
+    print()
+  end
+  if imported_after ~= (imported_before + inserted - deactivated) then
+    print("WARNING: The number of imported not deactivated members is not equal to the number before plus the inserted minus the deactivated members!")
+    print()
   end
 
 end
