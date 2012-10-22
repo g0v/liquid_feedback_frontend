@@ -58,6 +58,11 @@ function util.import_members(file)
     imported_before = imported_before + 1
   end
 
+  local invite_code_expiry
+  if config.invite_code_expiry then
+    invite_code_expiry = db:query("SELECT now() + '" .. config.invite_code_expiry .. "'::interval as expiry", "object").expiry
+  end
+
   local inserted = 0
   local lines = 0
 
@@ -98,6 +103,9 @@ function util.import_members(file)
         member = Member:new()
         member.identification = identification
         member.invite_code    = invite_code
+        if config.invite_code_expiry then
+          member.invite_code_expiry = invite_code_expiry
+        end
         local err = member:try_save()
         if err then
           print("Database error: " .. tostring(err.message))

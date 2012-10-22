@@ -349,6 +349,9 @@ end
 function Member.object:send_invitation(template_file, subject)
   trace.disable()
   self.invite_code = multirand.string( 24, "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz" )
+  if config.invite_code_expiry then
+    self.invite_code_expiry = db:query("SELECT now() + '" .. config.invite_code_expiry .. "'::interval as expiry", "object").expiry
+  end
   self:save()
 
   local subject = subject

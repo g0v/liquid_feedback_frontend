@@ -525,6 +525,7 @@ return {
 ["Supporters (before begin of voting)"] = "Unterstützer (zum Abstimmungesbeginn)";
 ["Syntax help"] = "Syntax-Hilfe";
 ["Terms of use"] = "Nutzungsbedingungen";
+["The code you've entered is expired! Please contact #{support} to get a new one!"] = "Der Code, den Du eingegeben hast, ist abgelaufen! Bitte wende Dich an #{support}, um einen Neuen zu erhalten!";
 ["The code you've entered is invalid!"] = "Der Code, den Du eingeben hast, ist nicht gültig!";
 ["The draft of this initiative has been updated!"] = "Der Entwurfstext der Initiative wurde aktualisiert!";
 ["The drafts do not differ"] = "Die Entwürfe unterscheiden sich nicht";

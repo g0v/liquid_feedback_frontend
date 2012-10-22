@@ -149,11 +149,24 @@ config.public_access = "none"
 
 -- Trace debug
 -- uncomment the following line to enable debug trace
+-- ------------------------------------------------------------------------
 -- config.enable_debug_trace = true
 
 -- Registration without invite code (for demonstration purposes)
 -- uncomment the following line to allow registration without an invite code
+-- ------------------------------------------------------------------------
 -- config.register_without_invite_code = true
+
+-- Invite code expiry
+-- after how long is an invite code can't be used anymore
+-- notation is according to postgresql intervals, default: no expiry
+-- ------------------------------------------------------------------------
+-- config.invite_code_expiry = '1 month'
+
+-- Email for support
+-- is displayed if an invite code is expired
+-- ------------------------------------------------------------------------
+-- config.support = "support@example.com"
 
 -- ========================================================================
 -- Do main initialisation (DO NOT REMOVE FOLLOWING SECTION)

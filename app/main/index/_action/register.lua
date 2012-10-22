@@ -32,6 +32,7 @@ if config.register_without_invite_code and code == '' then
 end
 
 local member = Member:new_selector()
+  :add_field( "now() > invite_code_expiry", "invite_code_expired" )
   :add_where{ "invite_code = ?", code }
   :add_where{ "activated ISNULL" }
   :add_where{ "NOT locked" }
@@ -41,6 +42,18 @@ local member = Member:new_selector()
 
 if not member then
   slot.put_into("error", _"The code you've entered is invalid!")
+  -- jump to step 1
+  request.redirect{
+    mode   = "forward",
+    module = "index",
+    view   = "register",
+    params = { code = code }
+  }
+  return false
+end
+
+if config.invite_code_expiry and member.invite_code_expired then
+  slot.put_into("error", _("The code you've entered is expired! Please contact #{support} to get a new one!", { support = '<a href="mailto:' .. config.support .. '">' .. config.support .. '</a>' }))
   -- jump to step 1
   request.redirect{
     mode   = "forward",
