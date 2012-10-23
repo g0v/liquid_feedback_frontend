@@ -283,7 +283,7 @@ return {
 ["Invalid login name or password!"] = false;
 ["Invalid query"] = false;
 ["Invitation has been refused"] = false;
-["Invitation to DiscreteFeedback"] = false;
+["Invitation to Pirate Feedback"] = false;
 ["Invite an initiator to initiative"] = false;
 ["Invite code"] = false;
 ["Invite initiator"] = false;
@@ -309,7 +309,6 @@ return {
 ["Latest draft created at #{date} #{time}"] = false;
 ["Latest events"] = false;
 ["License"] = false;
-["DiscreteFeedback"] = false;
 ["List all revisions (#{count})"] = false;
 ["Lock member?"] = false;
 ["Locked?"] = false;
@@ -431,6 +430,7 @@ return {
 ["Phases"] = false;
 ["Phone"] = false;
 ["Photo"] = false;
+["Pirate Feedback"] = false;
 ["Please choose a login name. This name will not be shown to others and is used only by you to login into the system. The login name is case sensitive."] = false;
 ["Please choose a member"] = false;
 ["Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you."] = false;
@@ -651,7 +651,7 @@ return {
 ["You are interested"] = false;
 ["You are interested in this issue"] = false;
 ["You are invited to #{count} initiative(s)"] = false;
-["You are invited to DiscreteFeedback. To register please click the following link:\n\n"] = false;
+["You are invited to Pirate Feedback. To register please click the following link:\n\n"] = false;
 ["You are invited to become initiator of this initiative."] = false;
 ["You are member"] = false;
 ["You are not participating in any of the #{count} areas in this unit"] = false;

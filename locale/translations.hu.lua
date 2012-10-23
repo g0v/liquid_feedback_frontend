@@ -283,7 +283,7 @@ return {
 ["Invalid login name or password!"] = false;
 ["Invalid query"] = "Érvénytelen kérdés";
 ["Invitation has been refused"] = "Elutasították a meghívást";
-["Invitation to DiscreteFeedback"] = "Meghívás a DiscreteFeedbackhez";
+["Invitation to Pirate Feedback"] = "Meghívás a Pirate Feedbackhez";
 ["Invite an initiator to initiative"] = "Kezdeményezõ meghívása a kezdeményezéshez";
 ["Invite code"] = "Meghívókód";
 ["Invite initiator"] = "Kezdeményezõ meghívása";
@@ -309,7 +309,6 @@ return {
 ["Latest draft created at #{date} #{time}"] = false;
 ["Latest events"] = false;
 ["License"] = "Licensz";
-["DiscreteFeedback"] = false;
 ["List all revisions (#{count})"] = false;
 ["Lock member?"] = false;
 ["Locked?"] = "Zárva?";
@@ -431,6 +430,7 @@ return {
 ["Phases"] = "Fázisok";
 ["Phone"] = "Telefon";
 ["Photo"] = "Fénykép";
+["Pirate Feedback"] = false;
 ["Please choose a login name. This name will not be shown to others and is used only by you to login into the system. The login name is case sensitive."] = "Válassz magadnak egy bejelentkezési nevet. Ezt mások nem fogják látni, csak te fogod használni a bejelentkezéshez. A bejelentkezési név kisbetû-nagybetû-érzékeny.";
 ["Please choose a member"] = "Válassz egy tagot";
 ["Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you."] = "Válassz magadnak egy nevet, amit mások is láthatnak. Ez lehet kitalált, becenév vagy a valós neved is.";
@@ -651,7 +651,7 @@ return {
 ["You are interested"] = false;
 ["You are interested in this issue"] = "Érdekel ez a téma";
 ["You are invited to #{count} initiative(s)"] = false;
-["You are invited to DiscreteFeedback. To register please click the following link:\n\n"] = "Meghívtak a DiscreteFeedbackhez. Regisztráláshoz kattints a következõ linkre:";
+["You are invited to Pirate Feedback. To register please click the following link:\n\n"] = "Meghívtak a Pirate Feedbackhez. Regisztráláshoz kattints a következõ linkre:";
 ["You are invited to become initiator of this initiative."] = "Meghívtak kezdeményezõnek ehhez a kezdeményezéshez.";
 ["You are member"] = "Tag vagy";
 ["You are not participating in any of the #{count} areas in this unit"] = false;

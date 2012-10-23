@@ -30,6 +30,6 @@ slot.put_into("html_title",
   ..
   ( app.html_title.subtitle or "" )
   ..
-  _"DiscreteFeedback" .. " - " .. config.instance_name
+  _"Pirate Feedback" .. " - " .. config.instance_name
 )
 

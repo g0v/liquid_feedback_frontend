@@ -283,7 +283,7 @@ return {
 ["Invalid login name or password!"] = "Μη έγκυρο όνομα σύνδεσης ή κωδικός πρόσβασης";
 ["Invalid query"] = "Μη έγκυρο αίτημα";
 ["Invitation has been refused"] = "Η πρόσκληση απορρίφθηκε";
-["Invitation to DiscreteFeedback"] = "Πρόσκληση στο Discrete Feedback";
+["Invitation to Pirate Feedback"] = "Πρόσκληση στο Pirate Feedback";
 ["Invite an initiator to initiative"] = "Πρόσκληση εισηγητή στην πρωτοβουλία";
 ["Invite code"] = "Κωδικός πρόσκλησης";
 ["Invite initiator"] = "Πρόσκληση εισηγητή";
@@ -309,7 +309,6 @@ return {
 ["Latest draft created at #{date} #{time}"] = "Το τελευταίο προσχέδιο δημιουργήθηκε στις #{date} #{time}";
 ["Latest events"] = "Πρόσφατα συμβάντα";
 ["License"] = "Άδεια";
-["DiscreteFeedback"] = false;
 ["List all revisions (#{count})"] = "Λίστα όλων των αναθεωρήσεων (#{count})";
 ["Lock member?"] = "Κλείδωμα μέλους;";
 ["Locked?"] = "Κλειστό;";
@@ -431,6 +430,7 @@ return {
 ["Phases"] = "Στάδια";
 ["Phone"] = "Τηλέφωνο";
 ["Photo"] = "Φωτογραφία";
+["Pirate Feedback"] = false;
 ["Please choose a login name. This name will not be shown to others and is used only by you to login into the system. The login name is case sensitive."] = "Παρακαλώ επιλέξτε ένα όνομα σύνδεσης. Αυτό το όνομα δεν θα εμφανίζεται σε άλλους και χρησιμοποιείται μόνο για την σύνδεσή σας στο σύστημα. Προσοχή στα κεφαλαία/πεζά γράμματα, έχουν σημασία.";
 ["Please choose a member"] = "Παρακαλώ επιλέξτε ένα μέλος";
 ["Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you."] = "Παρακαλώ επιλέξτε ένα όνομα, π.χ. το πραγματικό σας ή κάποιο ψευδόνυμο. Το όνομα αυτό θα εμφανίζεται στους άλλους για να σας αναγνωρίζουν.";
@@ -651,7 +651,7 @@ return {
 ["You are interested"] = "Σας ενδιαφέρει";
 ["You are interested in this issue"] = "Το θέμα σας ενδιαφέρει";
 ["You are invited to #{count} initiative(s)"] = "Είστε προσκεκλημένος σε #{count} πρωτοβουλία/ες";
-["You are invited to DiscreteFeedback. To register please click the following link:\n\n"] = "Σας προσκάλεσαν στο Discrete Feedback. Κάντε κλικ στον παρακάτω σύνδεσμο για να εγγραφείτε:";
+["You are invited to Pirate Feedback. To register please click the following link:\n\n"] = "Σας προσκάλεσαν στο Pirate Feedback. Κάντε κλικ στον παρακάτω σύνδεσμο για να εγγραφείτε:";
 ["You are invited to become initiator of this initiative."] = "Είστε προσκεκλημένος να γίνεται εισηγητής αυτής της πρωτοβουλίας.";
 ["You are member"] = "Είστε μέλος";
 ["You are not participating in any of the #{count} areas in this unit"] = "Δεν συμμετέχετε σε κανέναν από τους #{count} τομείς αυτής της ενότητας";

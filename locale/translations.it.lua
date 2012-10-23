@@ -281,7 +281,7 @@ return {
 ["Invalid login name or password!"] = "Il nome utente o la password non sono validi!";
 ["Invalid query"] = "Query non valida";
 ["Invitation has been refused"] = "L'invito e' stato rifiutato";
-["Invitation to DiscreteFeedback"] = "Invito per DiscreteFeedback";
+["Invitation to Pirate Feedback"] = "Invito per Pirate Feedback";
 ["Invite an initiator to initiative"] = "Invita un promotore all'iniziativa";
 ["Invite code"] = "Codice di invito";
 ["Invite initiator"] = "Promotore dell'invito";
@@ -307,7 +307,6 @@ return {
 ["Latest draft created at #{date} #{time}"] = "Ultima bozza creata il #{date} alle #{time}";
 ["Latest events"] = "Ultimi eventi";
 ["License"] = "Licensa";
-["DiscreteFeedback"] = "DiscreteFeedback";
 ["List all revisions (#{count})"] = "Elenca tutte le revisioni (#{count})";
 ["Lock member?"] = "Blocca membro?";
 ["Locked?"] = "Bloccato?";
@@ -428,6 +427,7 @@ return {
 ["Phases"] = "Fasi";
 ["Phone"] = "Telefono";
 ["Photo"] = "Foto";
+["Pirate Feedback"] = "Pirate Feedback";
 ["Please choose a login name. This name will not be shown to others and is used only by you to login into the system. The login name is case sensitive."] = "Scegli un nome utente. Questo nome non sara' visibile agli altri e ti servira' solo per effettuare il login. Maiuscole e minuscole sono considerate lettere diverse.";
 ["Please choose a member"] = "Scegli un utente";
 ["Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you."] = "Scegli un nome, per esempio il tuo nome vero o un soprannome. Gli altri utenti ti riconosceranno in base a questa scelta.";
@@ -645,7 +645,7 @@ return {
 ["You are interested"] = "Sei interessato";
 ["You are interested in this issue"] = "Sei interessato in questa iniziativa";
 ["You are invited to #{count} initiative(s)"] = "Sei invitato a partecipare a #{count} iniziative";
-["You are invited to DiscreteFeedback. To register please click the following link:\n\n"] = "Hai ricevuto un invito per DiscreteFeedback. Per registrarti clicca sul link sottostante:\n\n";
+["You are invited to Pirate Feedback. To register please click the following link:\n\n"] = "Hai ricevuto un invito per Pirate Feedback. Per registrarti clicca sul link sottostante:\n\n";
 ["You are invited to become initiator of this initiative."] = "Hai un invito a diventare promotore di questa iniziativa";
 ["You are member"] = "Sei un membro";
 ["You are not participating in any of the #{count} areas in this unit"] = "Non stai partecipando a nessuna delle #{count} aree in questa sezione";

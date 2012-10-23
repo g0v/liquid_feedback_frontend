@@ -283,7 +283,7 @@ return {
 ["Invalid login name or password!"] = "Ongeldige loginnaam en wachtwoord";
 ["Invalid query"] = "Invalid query";
 ["Invitation has been refused"] = "De uitnodiging is geweigerd";
-["Invitation to DiscreteFeedback"] = "Uitnodiging voor Discrete Feedback";
+["Invitation to Pirate Feedback"] = "Uitnodiging voor Pirate Feedback";
 ["Invite an initiator to initiative"] = "Nodig een initiatiefnemer bij een initiatief uit";
 ["Invite code"] = "Invite-Code";
 ["Invite initiator"] = "Nodig een initiatiefnemer uit";
@@ -309,7 +309,6 @@ return {
 ["Latest draft created at #{date} #{time}"] = "Het laatste ontwerp is gecreerd op #{date} #{time}";
 ["Latest events"] = "Laatste evenementen";
 ["License"] = "License";
-["DiscreteFeedback"] = "DiscreteFeedback";
 ["List all revisions (#{count})"] = "Lijst van alle revisies (#{count})";
 ["Lock member?"] = "Vergrendel deelnemer?";
 ["Locked?"] = "Gesloten?";
@@ -431,6 +430,7 @@ return {
 ["Phases"] = "Fases";
 ["Phone"] = "Telefoonnummer";
 ["Photo"] = "Foto";
+["Pirate Feedback"] = "Pirate Feedback";
 ["Please choose a login name. This name will not be shown to others and is used only by you to login into the system. The login name is case sensitive."] = "Kies een loginnaam. Deze wordt niet aan anderen getoond en alleen gebruikt wanneer u zich aanmeldt. De loginnaam is case sensitive.";
 ["Please choose a member"] = "Kies een deelnemer";
 ["Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you."] = "Kiest een gebruikersnaam, of uw eigen naam of nickname. Deze wordt getoond aan anderen om u te identifieceren.";
@@ -651,7 +651,7 @@ return {
 ["You are interested"] = "U bent geïnteresseerd";
 ["You are interested in this issue"] = "U bent in dit onderwerp geinteresseerd";
 ["You are invited to #{count} initiative(s)"] = false;
-["You are invited to DiscreteFeedback. To register please click the following link:\n\n"] = "U wordt uitgenodigd voor DiscreteFeedback. Klik alstublieft op de volgende link om u te registreren:";
+["You are invited to Pirate Feedback. To register please click the following link:\n\n"] = "U wordt uitgenodigd voor Pirate Feedback. Klik alstublieft op de volgende link om u te registreren:";
 ["You are invited to become initiator of this initiative."] = "U wordt uitgenodigd om dit initiatief te initieeren.";
 ["You are member"] = "U bent deelnemer";
 ["You are not participating in any of the #{count} areas in this unit"] = "U neemt niet deel aan enige van de #{count} themagebieden in dit dossier";

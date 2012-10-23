@@ -222,7 +222,7 @@ div.notifications,
   font-size: 115%;
 }
 
-.logo_discretefeedback {
+.logo_pirate_feedback {
   font-weight: bold;
 }
 .slot_navigation {
@@ -237,9 +237,9 @@ div.notifications,
 }
 
 .topbar a:hover,
-.topbar a:hover .logo_discretefeedback,
+.topbar a:hover .logo_pirate_feedback,
 .topbar a:focus,
-.topbar a:focus .logo_discretefeedback {
+.topbar a:focus .logo_pirate_feedback {
   color: #f90;
 }
 

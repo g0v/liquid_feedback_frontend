@@ -283,7 +283,7 @@ return {
 ["Invalid login name or password!"] = false;
 ["Invalid query"] = "Malvalida demando";
 ["Invitation has been refused"] = "Invito estas rifuzita";
-["Invitation to DiscreteFeedback"] = false;
+["Invitation to Pirate Feedback"] = false;
 ["Invite an initiator to initiative"] = "Inviti inicionton al la iniciato";
 ["Invite code"] = "Invitokodo";
 ["Invite initiator"] = "Inviti inicionton";
@@ -309,7 +309,6 @@ return {
 ["Latest draft created at #{date} #{time}"] = false;
 ["Latest events"] = false;
 ["License"] = "Licenco";
-["DiscreteFeedback"] = false;
 ["List all revisions (#{count})"] = false;
 ["Lock member?"] = false;
 ["Locked?"] = "Ĉu blokita?";
@@ -431,6 +430,7 @@ return {
 ["Phases"] = "Fazoj";
 ["Phone"] = "Telefono";
 ["Photo"] = "Foto";
+["Pirate Feedback"] = false;
 ["Please choose a login name. This name will not be shown to others and is used only by you to login into the system. The login name is case sensitive."] = "Bonvolu elekti salutonomon! Tiu nomo ne estas montrita al aliaj kaj nur vi uzas tiun nomon por la saluto. La uskleco (majuskle/minuskle) gravas";
 ["Please choose a member"] = "Bonvolu elekti membron";
 ["Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you."] = "Bonvolu elekti nomon, ekzemple vian veran nomon aŭ kromnomon. Tiu nomo estas montrita al aliaj por vin identecigi.";
@@ -651,7 +651,7 @@ return {
 ["You are interested"] = false;
 ["You are interested in this issue"] = "Vin interesas tiu temo";
 ["You are invited to #{count} initiative(s)"] = false;
-["You are invited to DiscreteFeedback. To register please click the following link:\n\n"] = false;
+["You are invited to Pirate Feedback. To register please click the following link:\n\n"] = false;
 ["You are invited to become initiator of this initiative."] = "Vi estas invitita por esti inicionto de tiu iniciato.";
 ["You are member"] = "Vi estas membro";
 ["You are not participating in any of the #{count} areas in this unit"] = false;

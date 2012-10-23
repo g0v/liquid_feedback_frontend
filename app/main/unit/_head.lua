@@ -25,7 +25,7 @@ ui.container{ attr = { class = "unit_head" }, content = function()
     else
       ui.link{
         module = "unit", view = "show", id = unit.id,
-        attr = { class = "unit_name" }, content = _"DiscreteFeedback" .. " &middot; " .. config.instance_name
+        attr = { class = "unit_name" }, content = _"Pirate Feedback" .. " &middot; " .. config.instance_name
       }
     end
   end }

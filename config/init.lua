@@ -14,7 +14,7 @@ if config.default_lang == nil then
 end
 
 if config.mail_subject_prefix == nil then
-  config.mail_subject_prefix = "[DiscreteFeedback] "
+  config.mail_subject_prefix = "[Pirate Feedback] "
 end
 
 if config.member_image_content_type == nil then
@@ -33,7 +33,7 @@ if config.locked_profile_fields == nil then
 end
 
 if not config.database then
-  config.database = { engine='postgresql', dbname='liquid_feedback' }
+  config.database = { engine='postgresql', dbname='pirate_feedback' }
 end
 
 if not config.enable_debug_trace then

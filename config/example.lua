@@ -38,9 +38,9 @@ config.use_terms_checkboxes = {
 config.absolute_base_url = "http://example.com/"
 
 
--- Connection information for the LiquidFeedback database
+-- Connection information for the Pirate Feedback database
 -- ------------------------------------------------------------------------
-config.database = { engine='postgresql', dbname='liquid_feedback' }
+config.database = { engine='postgresql', dbname='pirate_feedback' }
 
 
 -- Location of the rocketwiki binaries
@@ -89,14 +89,14 @@ config.public_access = "none"
 -- ------------------------------------------------------------------------
 -- config.delegation_warning_time = '6 months'
 
--- Prefix of all automatic mails, defaults to "[DiscreteFeedback] "
+-- Prefix of all automatic mails, defaults to "[Pirate Feedback] "
 -- ------------------------------------------------------------------------
--- config.mail_subject_prefix = "[DiscreteFeedback] "
+-- config.mail_subject_prefix = "[Pirate Feedback] "
 
 -- Sender of all automatic mails, defaults to system defaults
 -- ------------------------------------------------------------------------
--- config.mail_envelope_from = "discretefeedback@example.com"
--- config.mail_from = { name = "DiscreteFeedback", address = "discretefeedback@example.com" }
+-- config.mail_envelope_from = "pirate_feedback@example.com"
+-- config.mail_from = { name = "Pirate Feedback", address = "pirate_feedback@example.com" }
 -- config.mail_reply_to = { name = "Support", address = "support@example.com" }
 
 -- Supply custom url for avatar/photo delivery

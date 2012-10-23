@@ -283,7 +283,7 @@ return {
 ["Invalid login name or password!"] = "帳號或是密碼無效！";
 ["Invalid query"] = "查詢無效";
 ["Invitation has been refused"] = "邀請已被婉拒";
-["Invitation to DiscreteFeedback"] = "邀請至 DiscreteFeedback";
+["Invitation to Pirate Feedback"] = "邀請至 Pirate Feedback";
 ["Invite an initiator to initiative"] = "邀請發起者來提案";
 ["Invite code"] = "邀請碼";
 ["Invite initiator"] = "邀請發起者";
@@ -309,7 +309,6 @@ return {
 ["Latest draft created at #{date} #{time}"] = "最新的草案設置於 #{date}  #{time}";
 ["Latest events"] = "最新動態";
 ["License"] = "許可證";
-["DiscreteFeedback"] = "DiscreteFeedback";
 ["List all revisions (#{count})"] = "列出所有修正 (#{count})";
 ["Lock member?"] = "封鎖成員？";
 ["Locked?"] = "被封鎖？";
@@ -431,6 +430,7 @@ return {
 ["Phases"] = "階段";
 ["Phone"] = "電話";
 ["Photo"] = "照片";
+["Pirate Feedback"] = "Pirate Feedback";
 ["Please choose a login name. This name will not be shown to others and is used only by you to login into the system. The login name is case sensitive."] = "請選擇一個帳號。此帳號將不會顯示給其他使用者，而只由您在登入時使用。帳號的大小寫是有區別的。";
 ["Please choose a member"] = "請選擇一個成員";
 ["Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you."] = "請選擇一個使用者代號，例如您的真名或綽號。此使用者代號將會顯示給其他使用者，以便辨認您。";
@@ -651,7 +651,7 @@ return {
 ["You are interested"] = "您對此關心";
 ["You are interested in this issue"] = "您關心此議題";
 ["You are invited to #{count} initiative(s)"] = "您被邀請參與 #{count} 個提案";
-["You are invited to DiscreteFeedback. To register please click the following link:\n\n"] = "您被邀請參與 DiscreteFeedback。請點擊下列連結以註冊：\n\n";
+["You are invited to Pirate Feedback. To register please click the following link:\n\n"] = "您被邀請參與 Pirate Feedback。請點擊下列連結以註冊：\n\n";
 ["You are invited to become initiator of this initiative."] = "您被邀請成為此議題之發起者。";
 ["You are member"] = "您是成員";
 ["You are not participating in any of the #{count} areas in this unit"] = "您並未參與此單位中 #{count} 個領域的任何一個";
