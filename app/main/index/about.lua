@@ -19,6 +19,7 @@ slot.put(config.app_service_provider)
 
 slot.put("<br />")
 slot.put("<br />")
+slot.put("<br />")
 
 ui.field.text{ attr = { style = "font-weight: bold;" }, value = "3rd party license information:" }
 slot.put("<br />")
