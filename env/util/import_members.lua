@@ -126,12 +126,18 @@ function util.import_members(file)
       for i, unit in ipairs(units) do
         if unit_assigned[unit.id] then
           if not unit.privilege_exists then
+            -- dirty hack to avoid deadlock
+            os.execute("sleep 0.01")
             -- add privilege
             local privilege = Privilege:new()
             privilege.unit_id = unit.id
             privilege.member_id = member.id
             privilege.voting_right = true
-            privilege:save()
+            local err = privilege:try_save()
+            if err then
+              print("Database error: " .. tostring(err.message))
+              db_error:escalate()
+            end
           end
         else
           if unit.privilege_exists then
