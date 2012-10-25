@@ -17,6 +17,7 @@ local auth_needed = not (
     or action == "confirm_notify_email"
     or view   == "menu"
     or action == "set_lang"
+    or view   == "404"
   )
 )
 
