@@ -380,8 +380,8 @@ return {
 ["Old password"] = "Altes Kennwort";
 ["Old password is wrong"] = "Das alte Kennwort ist falsch";
 ["Oldest"] = "Älteste";
-["On that page please enter the confirmation code:\n\n"] = "Auf dieser Seite gib bitten den folgenden Code ein:\n\n";
-["On that page please enter the invite key:\n\n"] = "Auf dieser Seite gib den folgenden Code ein:\n\n";
+["On that page please enter the confirmation code:\n\n"] = "Auf dieser Seite gib bitte den folgenden Bestätigungscode ein:\n\n";
+["On that page please enter the invite key:\n\n"] = "Auf dieser Seite gib bitte den folgenden Einladungscode ein:\n\n";
 ["On that page please enter the reset code:\n\n"] = "Auf dieser Seite gib bitte den folgenden Rücksetzcode ein:\n\n";
 ["One issue"] = "Ein Thema";
 ["One issue you are interested in"] = "Ein Thema, das Dich interessiert";
