@@ -256,16 +256,29 @@ function Member:build_selector(args)
     local search_string = "%" .. args.admin_search .. "%"
     selector:add_where{ "member.identification ILIKE ? OR member.name ILIKE ?", search_string, search_string }
   end
-  if args.admin_search_admin then
+  if     args.admin_search_admin == 1 then
     selector:add_where{ "member.admin = TRUE" }
+  elseif args.admin_search_admin == 2 then
+    selector:add_where{ "member.admin = FALSE" }
   end
-  if args.admin_search_locked then
+  if     args.admin_search_imported == 1 then
+    selector:add_where{ "member.identification LIKE 'import-%'" }
+  elseif args.admin_search_imported == 2 then
+    selector:add_where{ "member.identification NOT LIKE 'import-%'" }
+  end
+  if     args.admin_search_activated == 1 then
+    selector:add_where{ "member.activated IS NOT NULL" }
+  elseif args.admin_search_activated == 2 then
+    selector:add_where{ "member.activated IS NULL" }
+  end
+  if     args.admin_search_locked == 1 then
     selector:add_where{ "member.locked = TRUE" }
+  elseif args.admin_search_locked == 2 then
+    selector:add_where{ "member.locked = FALSE" }
   end
-  if args.admin_search_not_activated then
-    selector:add_where{ "member.activated ISNULL" }
-  end
-  if args.admin_search_inactive then
+  if     args.admin_search_active == 1 then
+    selector:add_where{ "member.active = TRUE" }
+  elseif args.admin_search_active == 2 then
     selector:add_where{ "member.active = FALSE" }
   end
   -- order

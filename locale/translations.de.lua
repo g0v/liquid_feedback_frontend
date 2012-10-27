@@ -35,6 +35,7 @@ return {
 ["Accepted"] = "Angenommen";
 ["Access level"] = "Berechtigung";
 ["Activate account"] = "Account aktivieren";
+["Activated"] = "Aktiviert";
 ["Active"] = "Aktiv";
 ["Active?"] = "Aktiv?";
 ["Add alternative initiative to issue"] = "Alternative Initiative zum Thema hinzufügen";
@@ -231,6 +232,7 @@ return {
 ["Ignore initiative"] = "Initiative ignorieren";
 ["Ignore member"] = "Mitglied ignorieren";
 ["Images"] = "Bilder";
+["Imported"] = "Importiert";
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = "In dieser Installation ist eine Registrierung auch ohne Einladungscode möglich. Dafür das Feld bitte einfach leer lassen.";
 ["Inactive"] = "Inaktiv";
 ["Incoming delegations"] = "Eingehende Delegationen";
@@ -368,8 +370,12 @@ return {
 ["Not a member"] = "Kein Mitglied";
 ["Not accepted yet"] = "Bisher nicht angenommen";
 ["Not activated"] = "Nicht aktiviert";
+["Not active"] = "Nicht aktiv";
+["Not admin"] = "Nicht Admin";
 ["Not approved"] = "Nicht angenommen";
 ["Not approved (rank #{rank})"] = "Nicht angenommen (Rang #{rank})";
+["Not imported"] = "Nicht importiert";
+["Not locked"] = "Nicht gesperrt";
 ["Not voted"] = "Nicht abgestimmt";
 ["Not voted issues"] = "Nicht abgestimmt";
 ["Notification address unconfirmed"] = "E-Mail-Adresse für Benachrichtigungen unbestätigt";

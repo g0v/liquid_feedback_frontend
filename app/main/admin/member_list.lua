@@ -1,8 +1,9 @@
-local search               = param.get("search")
-local search_admin         = param.get("search_admin",         atom.boolean)
-local search_locked        = param.get("search_locked",        atom.boolean)
-local search_not_activated = param.get("search_not_activated", atom.boolean)
-local search_inactive      = param.get("search_inactive",      atom.boolean)
+local search           = param.get("search")
+local search_imported  = param.get("search_imported",  atom.integer)
+local search_admin     = param.get("search_admin",     atom.integer)
+local search_activated = param.get("search_activated", atom.integer)
+local search_locked    = param.get("search_locked",    atom.integer)
+local search_active    = param.get("search_active",    atom.integer)
 
 ui.title(_"Member list")
 
@@ -31,10 +32,65 @@ ui.form{
 
     ui.field.text{ label = _"Search for members", name = "search", value = search }
 
-    ui.field.boolean{ label = _"Admin",         name = "search_admin",         value = search_admin }
-    ui.field.boolean{ label = _"Locked",        name = "search_locked",        value = search_locked }
-    ui.field.boolean{ label = _"Not activated", name = "search_not_activated", value = search_not_activated }
-    ui.field.boolean{ label = _"Inactive",      name = "search_inactive",      value = search_inactive }
+    ui.field.select{
+      name = "search_imported",
+      foreign_records  = {
+        {id = 0, name = "---" .. _"Imported" .. "?---"},
+        {id = 1, name = _"Imported"},
+        {id = 2, name = _"Not imported"}
+      },
+      foreign_id = "id",
+      foreign_name = "name",
+      selected_record  = search_imported
+    }
+
+    ui.field.select{
+      name = "search_admin",
+      foreign_records  = {
+        {id = 0, name = "---" .. _"Admin" .. "?---"},
+        {id = 1, name = _"Admin"},
+        {id = 2, name = _"Not admin"}
+      },
+      foreign_id = "id",
+      foreign_name = "name",
+      selected_record  = search_admin
+    }
+
+    ui.field.select{
+      name = "search_activated",
+      foreign_records  = {
+        {id = 0, name = "---" .. _"Activated" .. "?---"},
+        {id = 1, name = _"Activated"},
+        {id = 2, name = _"Not activated"}
+      },
+      foreign_id = "id",
+      foreign_name = "name",
+      selected_record  = search_activated
+    }
+
+    ui.field.select{
+      name = "search_locked",
+      foreign_records  = {
+        {id = 0, name = "---" .. _"Locked" .. "?---"},
+        {id = 1, name = _"Locked"},
+        {id = 2, name = _"Not locked"}
+      },
+      foreign_id = "id",
+      foreign_name = "name",
+      selected_record  = search_locked
+    }
+
+    ui.field.select{
+      name = "search_active",
+      foreign_records  = {
+        {id = 0, name = "---" .. _"Active" .. "?---"},
+        {id = 1, name = _"Active"},
+        {id = 2, name = _"Not active"}
+      },
+      foreign_id = "id",
+      foreign_name = "name",
+      selected_record  = search_active
+    }
 
     ui.submit{ value = _"Start search" }
 
@@ -46,11 +102,12 @@ if not search then
 end
 
 local members_selector = Member:build_selector{
-  admin_search               = search,
-  admin_search_admin         = search_admin,
-  admin_search_locked        = search_locked,
-  admin_search_not_activated = search_not_activated,
-  admin_search_inactive      = search_inactive,
+  admin_search           = search,
+  admin_search_imported  = search_imported,
+  admin_search_admin     = search_admin,
+  admin_search_activated = search_activated,
+  admin_search_locked    = search_locked,
+  admin_search_active    = search_active,
   order = "identification"
 }
 members_selector:add_order_by("id")
@@ -119,12 +176,13 @@ ui.paginate{
               view = "member_edit",
               id = record.id,
               params = {
-                search               = search,
-                search_admin         = search_admin,
-                search_locked        = search_locked,
-                search_not_activated = search_not_activated,
-                search_inactive      = search_inactive,
-                page = param.get("page")
+                search           = search,
+                search_imported  = search_imported,
+                search_admin     = search_admin,
+                search_activated = search_activated,
+                search_locked    = search_locked,
+                search_active    = search_active,
+                page             = param.get("page")
               }
             }
           end

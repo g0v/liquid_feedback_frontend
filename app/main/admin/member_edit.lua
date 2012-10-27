@@ -41,12 +41,13 @@ ui.form{
       modules = "admin",
       view = "member_list",
       params = {
-        search               = param.get("search"),
-        search_admin         = param.get("search_admin",         atom.boolean),
-        search_locked        = param.get("search_locked",        atom.boolean),
-        search_not_activated = param.get("search_not_activated", atom.boolean),
-        search_inactive      = param.get("search_inactive",      atom.boolean),
-        page = param.get("page")
+        search           = param.get("search"),
+        search_imported  = param.get("search_imported",  atom.integer),
+        search_admin     = param.get("search_admin",     atom.integer),
+        search_activated = param.get("search_activated", atom.integer),
+        search_locked    = param.get("search_locked",    atom.integer),
+        search_active    = param.get("search_active",    atom.integer),
+        page             = param.get("page")
       }
     }
   },
