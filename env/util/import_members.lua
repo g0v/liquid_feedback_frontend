@@ -8,6 +8,7 @@ Import members from CSV file
 
 Format of the CSV file:
 Line: "<invite_code>";"<unit_name>";"<unit_name>";"<unit_name>" ...
+Last line: EOF;<number_of_lines_without_the_eof_line>
 Charset: UTF-8
 
 Usage:
@@ -65,16 +66,25 @@ function util.import_members(file)
 
   local inserted = 0
   local lines = 0
+  local eof = false
+  local eof_lines
 
   local fp = assert(io.open(file))
   for line in fp:lines() do
+
+    -- detect EOF-line
+    eof_lines = line:match('^EOF;(.*)$')
+    if eof_lines then
+      eof = true
+      break
+    end
 
     lines = lines + 1
 
     -- extract invite code
     local invite_code = line:match('^"([^"]+)";')
     if not invite_code then
-      print("No invite code could be extracted from this line: " .. line)
+      print("WARNING: No invite code could be extracted from this line: " .. line)
     else
 
       -- extract units
@@ -88,7 +98,7 @@ function util.import_members(file)
         end
       end
       if #unit_names == 0 then
-        print("No units could be extracted from this line: " .. line)
+        print("WARNING: No units could be extracted from this line: " .. line)
       end
 
       local identification = identification_prefix .. invite_code
@@ -152,17 +162,43 @@ function util.import_members(file)
 
   end
 
-  -- deactivate remaining imported members
   local deactivated = 0
-  for id in pairs(member_remains) do
-    if member_remains[id] then
-      local member = Member:by_id(id)
-      --print("Deactivate member " .. member.identification)
-      member.locked = true
-      member.active = false
-      member:save()
-      deactivated = deactivated + 1
+
+  -- check for EOF-line
+  if not eof then
+    print("WARNING: No EOF-line was found at the end of the file! Deactivation of members is skipped!")
+  else
+
+    -- check number of lines
+    if tonumber(eof_lines) ~= lines then
+      print("WARNING: The number of lines in the CSV file (" .. lines .. ") is not equal to the number of lines stated in the last line (" .. eof_lines .. ")! Deactivation of members is skipped!")
+    else
+
+      -- limit number of members to deactivate in one run
+      local members_deactivate = {}
+      for id in pairs(member_remains) do
+        if member_remains[id] then
+          members_deactivate[#members_deactivate + 1] = id
+        end
+      end
+      if config.deactivate_max_members and #members_deactivate > config.deactivate_max_members then
+        print("WARNING: More members (" .. #members_deactivate .. ") than allowed (" .. config.deactivate_max_members .. ") would be deactivated in one run! Deactivation of members is skipped!")
+      else
+
+        -- deactivate remaining imported members
+        for i, id in ipairs(members_deactivate) do
+          local member = Member:by_id(id)
+          --print("Deactivate member " .. member.identification)
+          member.locked = true
+          member.active = false
+          member:save()
+          deactivated = deactivated + 1
+        end
+
+      end
+
     end
+
   end
 
   -- number of imported not deactivated members
@@ -170,6 +206,14 @@ function util.import_members(file)
     :add_where{ "member.identification LIKE ?", identification_prefix .. "%" }
     :add_where{ "member.locked = FALSE" }
     :count()
+
+  -- additional warnings
+  if imported_after ~= lines then
+    print("WARNING: The number of imported not deactivated members (" .. imported_after .. ") is not equal to the number of lines in the CSV file (" .. lines .. ")!")
+  end
+  if imported_after ~= (imported_before + inserted - deactivated) then
+    print("WARNING: The number of imported not deactivated members (" .. imported_after .. ") is not equal to the number before (" .. imported_before .. ") plus the inserted (" .. inserted .. ") minus the deactivated (" .. deactivated .. ") members!")
+  end
 
   -- report
   print()
@@ -182,13 +226,5 @@ function util.import_members(file)
   print("Lines in CSV file:                " .. lines)
   print("Imported not deactivated members: " .. imported_after)
   print()
-  if imported_after ~= lines then
-    print("WARNING: The number of imported not deactivated members is not equal to the number of lines in the CSV file!")
-    print()
-  end
-  if imported_after ~= (imported_before + inserted - deactivated) then
-    print("WARNING: The number of imported not deactivated members is not equal to the number before plus the inserted minus the deactivated members!")
-    print()
-  end
 
 end

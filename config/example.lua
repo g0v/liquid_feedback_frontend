@@ -159,7 +159,8 @@ config.public_access = "none"
 
 -- Invite code expiry
 -- after how long is an invite code can't be used anymore
--- notation is according to postgresql intervals, default: no expiry
+-- notation is according to postgresql intervals
+-- Default: no expiry
 -- ------------------------------------------------------------------------
 -- config.invite_code_expiry = '1 month'
 
@@ -167,6 +168,13 @@ config.public_access = "none"
 -- is displayed if an invite code is expired
 -- ------------------------------------------------------------------------
 -- config.support = "support@example.com"
+
+-- Member import:
+-- Maximum number of members which should be deactivated in one run
+-- helps to avoid deactivating members by accident
+-- Default: no limit
+-- ------------------------------------------------------------------------
+-- config.deactivate_max_members = 50
 
 -- ========================================================================
 -- Do main initialisation (DO NOT REMOVE FOLLOWING SECTION)
