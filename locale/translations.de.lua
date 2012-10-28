@@ -55,6 +55,7 @@ return {
 ["All issues"] = "Alle Themen";
 ["All of them"] = "Alle Benachrichtigungen";
 ["All units"] = "Alle Gliederungen";
+["All your contacts are on this list of trustees. To add more members, you have to add them to your contacts first."] = "Alle Deine Kontakte sind in dieser Liste von Bevollmächtigten. Um weitere Mitglieder hinzuzufügen, musst Du sie erst in Deine Kontakte aufnehmen.";
 ["Any"] = "Alle";
 ["Any phase"] = "Alle Phasen";
 ["Any state"] = "Alle Zustände";
@@ -653,6 +654,7 @@ return {
 ["You were potential supporter."] = "Du bist potentieller Unterstützer.";
 ["You were supporter."] = "Du bist Unterstützer.";
 ["You've successfully registered and you can login now with your login and password!"] = "Du hast Dich erfolgreich registriert und kannst Dich jetzt mit Deinen Anmeldenamen und Kennwort anmelden!";
+["Your contact list is empty. To add members to this list of trustees, you have to add them to your contacts first."] = "Deine Kontakte-Liste ist leer. Um Mitglieder zu dieser Liste von Bevollmächtigten hinzuzufügen, musst Du sie erst in Deine Kontakte aufnehmen.";
 ["Your email address has been changed, please check for confirmation email with activation link!"] = "Deine E-Mail-Adresse wurde geändert, Du hast eine Bestätigungs-E-Mail mit Aktivierungslink erhalten.";
 ["Your login has been changed to '#{login}'."] = "Dein Anmeldename wurde auf '#{login}' geändert.";
 ["Your name has been changed."] = "Dein Name wurde geändert.";

@@ -324,19 +324,56 @@ if member.id == app.session.member.id then
       disabled_records = {}
       disabled_records["_"] = true
       disabled_records[app.session.member.id] = true
-      -- disable members which are already in the list of trustees
-      for i, delegation in ipairs(delegations) do
-        disabled_records[delegation.trustee_id] = true
-      end
 
-      ui.field.select{
-        name = "trustee_id",
-        foreign_records = records,
-        foreign_id = "id",
-        foreign_name = "name",
-        disabled_records = disabled_records
-      }
-      ui.submit{ text = _"Add to list" }
+      -- check if there are members available to select
+      local empty = true
+      for i, value in ipairs(records) do
+        if not disabled_records[value.id] then
+          empty = false
+          break
+        end
+      end
+      if empty then
+        ui.tag{
+          tag = "p",
+          attr = { style = "font-style:italic" },
+          content = _"Your contact list is empty. To add members to this list of trustees, you have to add them to your contacts first."
+        }
+      else
+
+        -- disable members which are already in the list of trustees
+        for i, delegation in ipairs(delegations) do
+          disabled_records[delegation.trustee_id] = true
+        end
+
+        -- check if there are members available to select
+        local already_selected = true
+        for i, value in ipairs(records) do
+          if not disabled_records[value.id] then
+            already_selected = false
+            break
+          end
+        end
+        if already_selected then
+          ui.tag{
+            tag = "p",
+            attr = { style = "font-style:italic" },
+            content = _"All your contacts are on this list of trustees. To add more members, you have to add them to your contacts first."
+          }
+        else
+
+          ui.field.select{
+            name = "trustee_id",
+            foreign_records = records,
+            foreign_id = "id",
+            foreign_name = "name",
+            disabled_records = disabled_records
+          }
+          ui.submit{ text = _"Add to list" }
+
+        end
+
+      end
 
       ui.field.hidden{ name = "preview" }
 
