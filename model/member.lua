@@ -264,7 +264,7 @@ function Member:build_selector(args)
   if     args.admin_search_imported == 1 then
     selector:add_where{ "member.identification LIKE 'import-%'" }
   elseif args.admin_search_imported == 2 then
-    selector:add_where{ "member.identification NOT LIKE 'import-%'" }
+    selector:add_where{ "member.identification IS NULL OR member.identification NOT LIKE 'import-%'" }
   end
   if     args.admin_search_activated == 1 then
     selector:add_where{ "member.activated IS NOT NULL" }
