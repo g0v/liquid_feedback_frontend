@@ -7,6 +7,7 @@ return {
 ["#{count} in discussion"] = "#{count} in Diskussion";
 ["#{count} in verification"] = "#{count} eingefroren";
 ["#{count} in voting"] = "#{count} in Abstimmung";
+["#{count} members found:"] = "#{count} Mitglieder gefunden:";
 ["#{count} more areas in this unit"] = "#{count} weitere Themenbereiche in dieser Gliederung";
 ["#{count} new"] = "#{count} neue";
 ["#{count} of them have an area delegation set."] = "bei #{count} davon ist eine Delegation für den Themenbereichs gesetzt.";
@@ -474,6 +475,7 @@ return {
 ["Schulze rank"] = "Schulze-Rang";
 ["Screen name"] = "Screen-Name";
 ["Search"] = "Suchen";
+["Search / Filter"] = "Suchen / Filtern";
 ["Search context"] = "Suchkontext";
 ["Search for issues"] = "Nach Themen suchen";
 ["Search for members"] = "Nach Mitgliedern suchen";
@@ -482,6 +484,7 @@ return {
 ["Search members"] = "Suche Mitglieder";
 ["Search results for: '#{search}'"] = "Suchergebnisse für: '#{search}'";
 ["Search term (only complete words)"] = "Suchbegriff(e) (nur ganze Wörter)";
+["Search:"] = "Suche:";
 ["Select language"] = "Sprache wählen";
 ["Select language \"#{langcode}\""] = "Sprache \"#{langcode}\" wählen";
 ["Send invite?"] = "Einladung schicken?";

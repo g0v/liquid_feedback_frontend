@@ -47,7 +47,9 @@ ui.form{
         search_activated = param.get("search_activated", atom.integer),
         search_locked    = param.get("search_locked",    atom.integer),
         search_active    = param.get("search_active",    atom.integer),
-        page             = param.get("page")
+        order            = param.get("order"),
+        desc             = param.get("desc", atom.integer),
+        page             = param.get("page", atom.integer)
       }
     }
   },

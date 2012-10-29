@@ -5,6 +5,12 @@ local search_activated = param.get("search_activated", atom.integer)
 local search_locked    = param.get("search_locked",    atom.integer)
 local search_active    = param.get("search_active",    atom.integer)
 
+local order = param.get("order")
+local desc  = param.get("desc", atom.integer)
+if not order then
+  order = "id"
+end
+
 ui.title(_"Member list")
 
 ui.actions(function()
@@ -24,13 +30,18 @@ ui.actions(function()
 
 end)
 
-
 ui.form{
-  module = "admin", view = "member_list",
+  module = "admin",
+  view = "member_list",
+  -- Form method should be GET, but WebMCP adds some unwanted parameters, so we use POST.
   attr = { class = "member_list_form" },
   content = function()
 
-    ui.field.text{ label = _"Search for members", name = "search", value = search }
+    ui.field.text{
+      label = _"Search:",
+      name = "search",
+      value = search
+    }
 
     ui.field.select{
       name = "search_imported",
@@ -92,14 +103,13 @@ ui.form{
       selected_record  = search_active
     }
 
-    ui.submit{ value = _"Start search" }
+    ui.submit{ value = _"Search / Filter" }
+
+    ui.field.hidden{ name = "order", value = order }
+    ui.field.hidden{ name = "desc",  value = desc }
 
   end
 }
-
-if not search then
-  return
-end
 
 local members_selector = Member:build_selector{
   admin_search           = search,
@@ -107,11 +117,27 @@ local members_selector = Member:build_selector{
   admin_search_admin     = search_admin,
   admin_search_activated = search_activated,
   admin_search_locked    = search_locked,
-  admin_search_active    = search_active,
-  order = "identification"
+  admin_search_active    = search_active
 }
-members_selector:add_order_by("id")
+if desc then
+  members_selector:add_order_by(order .. " DESC")
+else
+  members_selector:add_order_by(order)
+end
 
+ui.tag{
+  tag = "p",
+  content = _("#{count} members found:", { count = members_selector:count() })
+}
+
+local params_tpl = {
+  search           = search,
+  search_imported  = search_imported,
+  search_admin     = search_admin,
+  search_activated = search_activated,
+  search_locked    = search_locked,
+  search_active    = search_active
+}
 
 ui.paginate{
   selector = members_selector,
@@ -122,15 +148,72 @@ ui.paginate{
       columns = {
         {
           field_attr = { style = "text-align: right;" },
-          label = _"Id",
-          name = "id"
+          name = "id",
+          label = function()
+            local params = params_tpl
+            params['order'] = "id"
+            if not desc then
+              params['desc'] = 1
+            end
+            ui.link{
+              text = _"Id",
+              module = "admin",
+              view = "member_list",
+              params = params
+            }
+            if order == "id" then
+              if desc then
+                slot.put("&uarr;")
+              else
+                slot.put("&darr;")
+              end
+            end
+          end
         },
         {
-          label = _"Identification",
-          name = "identification"
+          name = "identification",
+          label = function()
+            local params = params_tpl
+            params['order'] = "identification"
+            if not desc then
+              params['desc'] = 1
+            end
+            ui.link{
+              text = _"Identification",
+              module = "admin",
+              view = "member_list",
+              params = params
+            }
+            if order == "identification" then
+              if desc then
+                slot.put("&uarr;")
+              else
+                slot.put("&darr;")
+              end
+            end
+          end
         },
         {
-          label = _"Screen name",
+          label = function()
+            local params = params_tpl
+            params['order'] = "name"
+            if not desc then
+              params['desc'] = 1
+            end
+            ui.link{
+              text = _"Screen name",
+              module = "admin",
+              view = "member_list",
+              params = params
+            }
+            if order == "name" then
+              if desc then
+                slot.put("&uarr;")
+              else
+                slot.put("&darr;")
+              end
+            end
+          end,
           content = function(record)
             if (record.name) then
               ui.link{
@@ -182,7 +265,9 @@ ui.paginate{
                 search_activated = search_activated,
                 search_locked    = search_locked,
                 search_active    = search_active,
-                page             = param.get("page")
+                order            = order,
+                desc             = desc,
+                page             = param.get("page", atom.integer)
               }
             }
           end
