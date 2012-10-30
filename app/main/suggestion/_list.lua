@@ -12,10 +12,12 @@ end
 
 ui.container{ attr = { class = "initiative_head" },
   content = function()
-    ui.container{ attr = { class = "title" }, content = _"Suggestions" }
+    ui.anchor{ name = "suggestions", attr = { class = "title" }, content = _"Suggestions" }
     ui.container{ attr = { class = "content" }, content = function()
       ui.paginate{
         selector = suggestions_selector,
+        anchor = "suggestions",
+        per_page = 20, -- number of suggestions per page
         content = function()
           local suggestions = suggestions_selector:exec()
           if #suggestions < 1 then

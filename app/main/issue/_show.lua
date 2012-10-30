@@ -223,7 +223,7 @@ ui.container{ attr = { class = class }, content = function()
         highlight_initiative = for_initiative,
         highlight_string = highlight_string,
         no_sort = true,
-        limit = (for_listing or for_initiative) and 5 or nil,
+        limit = (for_listing or for_initiative) and 10 or nil, -- number of initiatives to display
         for_member = for_member
       }
     }
