@@ -420,18 +420,18 @@ if not show_as_head then
     }
   }
 
-
   if app.session:has_access("all_pseudonymous") then
+
+    -- voters
     if initiative.issue.ranks_available then
       local members_selector = initiative.issue:get_reference_selector("direct_voters")
             :left_join("vote", nil, { "vote.initiative_id = ? AND vote.member_id = member.id", initiative.id })
-            :add_field("direct_voter.weight as voter_weight")
+            :add_field("direct_voter.weight AS voter_weight")
+            :add_field("direct_voter.weight AS weight")
             :add_field("coalesce(vote.grade, 0) as grade")
             :left_join("initiative", nil, "initiative.id = vote.initiative_id")
             :left_join("issue", nil, "issue.id = initiative.issue_id")
-
-      ui.anchor{ name = "voter", attr = { class = "heading" }, content = _"Member voter" }
-
+      ui.anchor{ name = "voter", attr = { class = "heading" }, content = _"Voters" .. Member:count_string(members_selector) }
       execute.view{
         module = "member",
         view = "_list",
@@ -444,6 +444,7 @@ if not show_as_head then
       }
     end
 
+    -- supporters
     local members_selector = initiative:get_reference_selector("supporting_members_snapshot")
               :join("issue", nil, "issue.id = direct_supporter_snapshot.issue_id")
               :join("direct_interest_snapshot", nil, "direct_interest_snapshot.event = issue.latest_snapshot_event AND direct_interest_snapshot.issue_id = issue.id AND direct_interest_snapshot.member_id = member.id")
@@ -451,14 +452,12 @@ if not show_as_head then
               :add_where("direct_supporter_snapshot.event = issue.latest_snapshot_event")
               :add_where("direct_supporter_snapshot.satisfied")
               :add_field("direct_supporter_snapshot.informed", "is_informed")
-
     if members_selector:count() > 0 then
       if issue.fully_frozen then
-        ui.anchor{ name = "supporters", attr = { class = "heading" }, content = _"Supporters (before begin of voting)" }
+        ui.anchor{ name = "supporters", attr = { class = "heading" }, content = _"Supporters (before begin of voting)" .. Member:count_string(members_selector) }
       else
-        ui.anchor{ name = "supporters", attr = { class = "heading" }, content = _"Supporters" }
+        ui.anchor{ name = "supporters", attr = { class = "heading" }, content = _"Supporters" .. Member:count_string(members_selector) }
       end
-
       execute.view{
         module = "member",
         view = "_list",
@@ -467,7 +466,7 @@ if not show_as_head then
           members_selector = members_selector,
           paginator_name = "supporters"
         }
-    }
+      }
     else
       if issue.fully_frozen then
         ui.anchor{ name = "supporters", attr = { class = "heading" }, content = _"No supporters (before begin of voting)" }
@@ -477,6 +476,7 @@ if not show_as_head then
       slot.put("<br />")
     end
 
+    -- potential supporters
     local members_selector = initiative:get_reference_selector("supporting_members_snapshot")
               :join("issue", nil, "issue.id = direct_supporter_snapshot.issue_id")
               :join("direct_interest_snapshot", nil, "direct_interest_snapshot.event = issue.latest_snapshot_event AND direct_interest_snapshot.issue_id = issue.id AND direct_interest_snapshot.member_id = member.id")
@@ -484,14 +484,12 @@ if not show_as_head then
               :add_where("direct_supporter_snapshot.event = issue.latest_snapshot_event")
               :add_where("NOT direct_supporter_snapshot.satisfied")
               :add_field("direct_supporter_snapshot.informed", "is_informed")
-
     if members_selector:count() > 0 then
       if issue.fully_frozen then
-        ui.anchor{ name = "potential_supporters", attr = { class = "heading" }, content = _"Potential supporters (before begin of voting)" }
+        ui.anchor{ name = "potential_supporters", attr = { class = "heading" }, content = _"Potential supporters (before begin of voting)" .. Member:count_string(members_selector) }
       else
-        ui.anchor{ name = "potential_supporters", attr = { class = "heading" }, content = _"Potential supporters" }
+        ui.anchor{ name = "potential_supporters", attr = { class = "heading" }, content = _"Potential supporters" .. Member:count_string(members_selector) }
       end
-
       execute.view{
         module = "member",
         view = "_list",

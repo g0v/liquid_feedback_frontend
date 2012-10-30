@@ -532,7 +532,7 @@ return {
 ["Support this initiative"] = "Diese Initiative unterstützen";
 ["Supported"] = "Unterstützt";
 ["Supporters"] = "Unterstützer";
-["Supporters (before begin of voting)"] = "Unterstützer (zum Abstimmungesbeginn)";
+["Supporters (before begin of voting)"] = "Unterstützer (zum Abstimmungsbeginn)";
 ["Syntax help"] = "Syntax-Hilfe";
 ["Terms of use"] = "Nutzungsbedingungen";
 ["The code you've entered is expired! Please contact #{support} to get a new one!"] = "Der Code, den Du eingegeben hast, ist abgelaufen! Bitte wende Dich an #{support}, um einen Neuen zu erhalten!";
@@ -604,6 +604,7 @@ return {
 ["Voted"] = "Abgestimmt";
 ["Voted no"] = "Mit Nein gestimmt";
 ["Voted yes"] = "Mit Ja gestimmt";
+["Voters"] = "Mitglieder, die abgestimmt haben";
 ["Voting"] = "Abstimmung";
 ["Voting for issue ##{id} started"] = "Abstimmung für Thema ##{id} hat begonnen";
 ["Voting for this issue has already begun!"] = "Die Abstimmung für dieses Thema hat schon begonnen!";

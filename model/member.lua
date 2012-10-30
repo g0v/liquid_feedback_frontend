@@ -560,3 +560,14 @@ function Member:selector_delegations()
     :add_order_by("unit.name, area.name, delegation.issue_id")
     :add_group_by("member.id, delegation.unit_id, unit.name, delegation.area_id, area.name, delegation.issue_id")
 end
+
+-- count direct and indirect weight
+function Member:count_string(members_selector)
+  local tmp = db:query("SELECT count(1) AS count, sum(weight) AS weight FROM (" .. tostring(members_selector) .. ") as subquery", "object")
+  local direct_count = tmp.count
+  local indirect_count = (tmp.weight or 0) - tmp.count
+  if indirect_count > 0 then
+    return " (" .. tostring(direct_count) .. "+" .. tostring(indirect_count) .. ")"
+  end
+  return " (" .. tostring(direct_count) .. ")"
+end

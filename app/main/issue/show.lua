@@ -19,13 +19,11 @@ end )
 
 if app.session:has_access("all_pseudonymous") then
 
-  ui.container{ attr = { class = "heading" }, content = _"Interested members" }
-
   local interested_members_selector = issue:get_reference_selector("interested_members_snapshot")
     :join("issue", nil, "issue.id = direct_interest_snapshot.issue_id")
     :add_field("direct_interest_snapshot.weight")
     :add_where("direct_interest_snapshot.event = issue.latest_snapshot_event")
-
+  ui.container{ attr = { class = "heading" }, content = _"Interested members" .. Member:count_string(interested_members_selector) }
   execute.view{
     module = "member",
     view = "_list",
