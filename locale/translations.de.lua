@@ -285,6 +285,7 @@ return {
 ["Issue ##{id} was finished (without winner)"] = "Thema ##{id} wurde abgeschlossen (ohne Gewinner)";
 ["Issue ##{id} was frozen"] = "Thema ##{id} wurde eingefroren";
 ["Issue ##{id} was not accepted"] = "Thema ##{id} wurde nicht akzeptiert";
+["Issue ##{issue} - i#{initiative_id}: #{initiative_name}"] = "Thema ##{issue} - i#{initiative_id}: #{initiative_name}";
 ["Issue Details"] = "Details des Themas";
 ["Issue delegation"] = "Delegation für Thema";
 ["Issue pad"] = "Pad zum Thema";

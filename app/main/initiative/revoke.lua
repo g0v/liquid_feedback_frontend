@@ -36,10 +36,10 @@ ui.form{
     local initiatives = app.session.member
       :get_reference_selector("supported_initiatives")
       :join("issue", nil, "issue.id = initiative.issue_id")
-      :add_field("'Issue #' || issue.id || ': ' || initiative.name", "myname")
       :exec()
     local tmp = { { id = -1, myname = _"Suggest no initiative" }}
     for i, initiative in ipairs(initiatives) do
+      initiative.myname = _("Issue ##{issue} - i#{initiative_id}: #{initiative_name}", { issue = initiative.issue_id, initiative_id = initiative.id, initiative_name = initiative.name })
       tmp[#tmp+1] = initiative
     end
     ui.field.select{
