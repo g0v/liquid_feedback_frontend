@@ -100,13 +100,14 @@ ui.form{
           end
         end
       }
-      ui.container{
-        attr = { class = "draft_content wiki" },
-        content = function()
-          slot.put(format.wiki_text(param.get("draft"), param.get("formatting_engine")))
-        end
-      }
-      slot.put("<br />")
+      ui.container{ attr = { class = "initiative_head" }, content = function()
+        ui.container{
+          attr = { class = "draft_content wiki" },
+          content = function()
+            slot.put(format.wiki_text(param.get("draft"), param.get("formatting_engine")))
+          end
+        }
+      end }
       ui.submit{ text = _"Save" }
       slot.put("<br />")
       slot.put("<br />")
