@@ -26,30 +26,39 @@ execute.view{
   params = { draft = new_draft, title = _"Diff" }
 }
 
-if app.session.member_id and not new_draft.initiative.revoked then
-  local supporter = Supporter:new_selector():add_where{"member_id = ?", app.session.member_id}:count()
+-- message about new draft
+local initiative = new_draft.initiative
+if app.session.member_id and not initiative.revoked and not initiative.issue.closed then
+  local supporter = app.session.member:get_reference_selector("supporters")
+    :add_where{ "initiative_id = ?", initiative.id }
+    :optional_object_mode()
+    :exec()
   if supporter then
-    ui.container{
-      attr = { class = "draft_updated_info" },
-      content = function()
-        slot.put(_"The draft of this initiative has been updated!")
-        slot.put(" ")
-        ui.link{
-          text   = _"Refresh support to current draft",
-          module = "initiative",
-          action = "add_support",
-          id     = new_draft.initiative.id,
-          routing = {
-            default = {
-              mode = "redirect",
-              module = "initiative",
-              view = "show",
-              id = new_draft.initiative.id
+    local old_draft_id = supporter.draft_id
+    local new_draft_id = initiative.current_draft.id
+    if old_draft_id ~= new_draft_id then
+      ui.container{
+        attr = { class = "draft_updated_info" },
+        content = function()
+          slot.put(_"The draft of this initiative has been updated!")
+          slot.put(" ")
+          ui.link{
+            text   = _"Refresh support to current draft",
+            module = "initiative",
+            action = "add_support",
+            id     = initiative.id,
+            routing = {
+              default = {
+                mode = "redirect",
+                module = "initiative",
+                view = "show",
+                id = initiative.id
+              }
             }
           }
-        }
-      end
-    }
+        end
+      }
+    end
   end
 end
 

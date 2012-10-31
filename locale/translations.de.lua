@@ -185,6 +185,7 @@ return {
 ["Download database export"] = "Datenbankexport herunterladen";
 ["Download documents"] = "Dokumente herunterladen";
 ["Draft"] = "Entwurf";
+["Draft created at #{date} #{time}"] = "Entwurf vom #{date} um #{time}";
 ["Edit"] = "Bearbeiten";
 ["Edit areas"] = "Themenbereiche bearbeiten";
 ["Edit draft"] = "Entwurf bearbeiten";

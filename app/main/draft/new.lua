@@ -51,7 +51,6 @@ ui.form{
     end
     slot.put("<br />")
 
-
     ui.field.select{
       label = _"Wiki engine",
       name = "formatting_engine",
@@ -92,15 +91,18 @@ ui.form{
         }
       end
     }
+    
     ui.field.text{
       label = _"Content",
       name = "content",
       multiline = true,
       attr = { style = "height: 50ex;" },
       value = param.get("content")
-   }
+    }
 
     ui.submit{ name = "preview", text = _"Preview" }
-    ui.submit{ text = _"Save" }
+    -- hack for the additional submit button, because ui.submit does not allow to set the class attribute
+    ui.tag{ tag = "input", attr = { type = "submit", class = "additional", value = _"Save" } }
+
   end
 }

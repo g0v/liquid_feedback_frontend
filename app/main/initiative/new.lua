@@ -5,7 +5,6 @@ local issue_id = param.get("issue_id", atom.integer)
 if issue_id then
   issue = Issue:new_selector():add_where{"id=?",issue_id}:single_object_mode():exec()
   area = issue.area
-
 else
   local area_id = param.get("area_id", atom.integer)
   area = Area:new_selector():add_where{"id=?",area_id}:single_object_mode():exec()
@@ -26,9 +25,11 @@ ui.form{
   },
   attr = { class = "vertical" },
   content = function()
+
     ui.field.text{ label = _"Unit",  value = area.unit.name }
     ui.field.text{ label = _"Area",  value = area.name }
     slot.put("<br />")
+
     if issue_id then
       ui.field.text{ label = _"Issue",  value = issue_id }
     else
@@ -122,6 +123,7 @@ ui.form{
       name = "discussion_url",
       value = param.get("discussion_url")
     }
+
     ui.field.select{
       label = _"Wiki engine",
       name = "formatting_engine",
@@ -135,43 +137,46 @@ ui.form{
       value = param.get("formatting_engine")
     }
     ui.tag{
-        tag = "div",
-        content = function()
-          ui.tag{
-            tag = "label",
-            attr = { class = "ui_field_label" },
-            content = function() slot.put("&nbsp;") end,
-          }
-          ui.tag{
-            content = function()
-              ui.link{
-                text = _"Syntax help",
-                module = "help",
-                view = "show",
-                id = "wikisyntax",
-                attr = {onClick="this.href=this.href.replace(/wikisyntax[^.]*/g, 'wikisyntax_'+getElementById('formatting_engine').value)"}
-              }
-              slot.put(" ")
-              ui.link{
-                text = _"(new window)",
-                module = "help",
-                view = "show",
-                id = "wikisyntax",
-                attr = {target = "_blank", onClick="this.href=this.href.replace(/wikisyntax[^.]*/g, 'wikisyntax_'+getElementById('formatting_engine').value)"}
-              }
-            end
-          }
-        end
-      }
+      tag = "div",
+      content = function()
+        ui.tag{
+          tag = "label",
+          attr = { class = "ui_field_label" },
+          content = function() slot.put("&nbsp;") end,
+        }
+        ui.tag{
+          content = function()
+            ui.link{
+              text = _"Syntax help",
+              module = "help",
+              view = "show",
+              id = "wikisyntax",
+              attr = {onClick="this.href=this.href.replace(/wikisyntax[^.]*/g, 'wikisyntax_'+getElementById('formatting_engine').value)"}
+            }
+            slot.put(" ")
+            ui.link{
+              text = _"(new window)",
+              module = "help",
+              view = "show",
+              id = "wikisyntax",
+              attr = {target = "_blank", onClick="this.href=this.href.replace(/wikisyntax[^.]*/g, 'wikisyntax_'+getElementById('formatting_engine').value)"}
+            }
+          end
+        }
+      end
+    }
+
     ui.field.text{
-      label = _"Draft",
+      label = _"Content",
       name = "draft",
       multiline = true,
       attr = { style = "height: 50ex;" },
       value = param.get("draft")
     }
+
     ui.submit{ name = "preview", text = _"Preview" }
     -- hack for the additional submit button, because ui.submit does not allow to set the class attribute
     ui.tag{ tag = "input", attr = { type = "submit", class = "additional", value = _"Save" } }
+
   end
 }

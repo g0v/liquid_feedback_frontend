@@ -307,53 +307,50 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
     }
   end
 
-  -- draft updated
-  local supporter
-
+  -- message about new draft
   if app.session.member_id then
-    supporter = app.session.member:get_reference_selector("supporters")
+    local supporter = app.session.member:get_reference_selector("supporters")
       :add_where{ "initiative_id = ?", initiative.id }
       :optional_object_mode()
       :exec()
-  end
-
-  if supporter and not initiative.issue.closed then
-    local old_draft_id = supporter.draft_id
-    local new_draft_id = initiative.current_draft.id
-    if old_draft_id ~= new_draft_id then
-      ui.container{
-        attr = { class = "draft_updated_info" },
-        content = function()
-          slot.put(_"The draft of this initiative has been updated!")
-          slot.put(" ")
-          ui.link{
-            content = _"Show diff",
-            module = "draft",
-            view = "diff",
-            params = {
-              old_draft_id = old_draft_id,
-              new_draft_id = new_draft_id
-            }
-          }
-          if not initiative.revoked then
+    if supporter and not initiative.revoked and not initiative.issue.closed then
+      local old_draft_id = supporter.draft_id
+      local new_draft_id = initiative.current_draft.id
+      if old_draft_id ~= new_draft_id then
+        ui.container{
+          attr = { class = "draft_updated_info" },
+          content = function()
+            slot.put(_"The draft of this initiative has been updated!")
             slot.put(" ")
             ui.link{
-              text   = _"Refresh support to current draft",
-              module = "initiative",
-              action = "add_support",
-              id     = initiative.id,
-              routing = {
-                default = {
-                  mode = "redirect",
-                  module = "initiative",
-                  view = "show",
-                  id = initiative.id
-                }
+              content = _"Show diff",
+              module = "draft",
+              view = "diff",
+              params = {
+                old_draft_id = old_draft_id,
+                new_draft_id = new_draft_id
               }
             }
+            if not initiative.revoked then
+              slot.put(" ")
+              ui.link{
+                text   = _"Refresh support to current draft",
+                module = "initiative",
+                action = "add_support",
+                id     = initiative.id,
+                routing = {
+                  default = {
+                    mode = "redirect",
+                    module = "initiative",
+                    view = "show",
+                    id = initiative.id
+                  }
+                }
+              }
+            end
           end
-        end
-      }
+        }
+      end
     end
   end
 
@@ -390,22 +387,35 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
           time = format.time(initiative.current_draft.created)
         })
       }
+      slot.put(" &middot; ")
+      ui.link{
+        module = "draft",
+        view = "show",
+        id = initiative.current_draft.id,
+        params = { source = 1 },
+        content = _("Source")
+      }
+
       if drafts_count > 1 then
         slot.put(" &middot; ")
         ui.link{
-          module = "draft", view = "list", params = { initiative_id = initiative.id },
+          module = "draft",
+          view = "list",
+          params = { initiative_id = initiative.id },
           text = _("List all revisions (#{count})", { count = drafts_count })
         }
       end
+
     end }
 
-    execute.view{
-      module = "draft",
-      view = "_show",
-      params = {
-        draft = initiative.current_draft
-      }
+    -- draft content
+    ui.container{
+      attr = { class = "draft_content wiki" },
+      content = function()
+        slot.put(initiative.current_draft:get_content("html"))
+      end
     }
+
   end
 end }
 
