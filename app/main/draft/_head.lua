@@ -18,7 +18,7 @@ ui.title(function()
   }
   slot.put(" &middot; ")
   ui.link{
-    content = _("Initiative: ") .. initiative.name,
+    content = _("Initiative i#{id}: #{name}", { id = initiative.id, name = initiative.name }),
     module = "initiative",
     view = "show",
     id = initiative.id
