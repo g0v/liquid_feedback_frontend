@@ -8,6 +8,9 @@ local for_events = param.get("for_events", atom.boolean)
 
 local filters = {}
 
+
+-- filter by phase
+
 local filter = { name = "filter" }
 
 if state ~= "closed" then
@@ -112,7 +115,6 @@ if state == "closed" then
     label = _"Any state",
     selector_modifier = function(selector) end
   }
-
   filter[#filter+1] = {
     name = "finished",
     label = _"Finished",
@@ -162,9 +164,42 @@ end
 filters[#filters+1] = filter
 
 
+-- subfilter voted
+
+if state == 'open' and app.session.member and member.id == app.session.member_id and (param.get_all_cgi()["filter"] == "frozen") then
+  filters[#filters+1] = {
+    name = "filter_voting",
+    class = "ui_filter_head_indent",
+    {
+      name = "any",
+      label = _"Any",
+      selector_modifier = function()  end
+    },
+    {
+      name = "not_voted",
+      label = _"Not voted",
+      selector_modifier = function(selector)
+        selector:left_join("direct_voter", nil, { "direct_voter.issue_id = issue.id AND direct_voter.member_id = ?", member.id })
+        selector:add_where("direct_voter.member_id ISNULL")
+      end
+    },
+    {
+      name = "voted",
+      label = _"Voted",
+      selector_modifier = function(selector)
+        selector:join("direct_voter", nil, { "direct_voter.issue_id = issue.id AND direct_voter.member_id = ?", member.id })
+      end
+    },
+  }
+end
+
+
+-- filter areas/interest
+
 if member then
   local filter = {
     name = "filter_interest",
+    class = "ui_filter_head_next"
   }
   if not for_member then
     if not for_unit and not for_area then
@@ -240,6 +275,7 @@ if member then
 end
 
 
+-- subfilter direct/delegation
 
 if app.session.member then
 
@@ -258,6 +294,7 @@ if app.session.member then
 
     filters[#filters+1] = {
       name = "filter_delegation",
+      class = "ui_filter_head_indent",
       {
         name = "any",
         label = _"Direct and by delegation",
@@ -339,34 +376,6 @@ if app.session.member then
   end
 
 end
-
-if state == 'open' and app.session.member and member.id == app.session.member_id and (param.get_all_cgi()["filter"] == "frozen") then
-  filters[#filters+1] = {
-    name = "filter_voting",
-    {
-      name = "any",
-      label = _"Any",
-      selector_modifier = function()  end
-    },
-    {
-      name = "not_voted",
-      label = _"Not voted",
-      selector_modifier = function(selector)
-        selector:left_join("direct_voter", nil, { "direct_voter.issue_id = issue.id AND direct_voter.member_id = ?", member.id })
-        selector:add_where("direct_voter.member_id ISNULL")
-      end
-    },
-    {
-      name = "voted",
-      label = _"Voted",
-      selector_modifier = function(selector)
-        selector:join("direct_voter", nil, { "direct_voter.issue_id = issue.id AND direct_voter.member_id = ?", member.id })
-      end
-    },
-  }
-end
-
-
 
 
 function filters:get_filter(group, name)

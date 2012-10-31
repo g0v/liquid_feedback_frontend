@@ -643,14 +643,17 @@ a.delegation_info:focus {
 
 .ui_filter_head {
   color: #777;
-  line-height: 200%;
-  padding-bottom: 2px;
-  margin-bottom: 2px;
-  border-bottom: 1px solid #ccc;
+  line-height: 190%;
 }
 
-.ui_filter_head:last-child {
-  border-bottom: none;
+.ui_filter_head_next {
+  padding-top: 3px;
+  margin-top: 2px;
+  border-top: 1px solid #ccc;
+}
+
+.ui_filter_head_indent {
+  padding-left: 30px;
 }
 
 .ui_filter a {

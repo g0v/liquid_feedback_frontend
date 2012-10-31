@@ -7,7 +7,6 @@ local tabs = {
 tabs[#tabs+1] = {
   name = "areas",
   label = _"Home",
-  icon = { static = "icons/16/package.png" },
   module = "index",
   view = "_member_home",
   params = { member = app.session.member }
@@ -17,10 +16,8 @@ tabs[#tabs+1] = {
   name = "timeline",
   label = _"Latest events",
   module = "event",
-  view = "_list",
-  params = { }
+  view = "_list"
 }
-
 
 tabs[#tabs+1] = {
   name = "open",

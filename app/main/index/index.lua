@@ -55,6 +55,7 @@ elseif app.session:has_access("anonymous") then
       issues_selector = open_issues_selector
     }
   }
+  
   tabs[#tabs+1] = {
     name = "closed",
     label = _"Closed issues",

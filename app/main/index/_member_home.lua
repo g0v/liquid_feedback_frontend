@@ -2,27 +2,22 @@ local member = param.get("member", "table")
 local for_member = param.get("for_member", atom.boolean)
 local filter_unit = param.get_all_cgi()["filter_unit"] or "my_areas"
 
+-- filter
 if not for_member then
-
   ui.container{ attr = { class = "ui_filter" }, content = function()
     ui.container{ attr = { class = "ui_filter_head" }, content = function()
-
       ui.link{
         attr = { class = filter_unit == "my_areas" and "ui_tabs_link active" or nil },
         text = _"My areas",
         module = "index", view = "index", params = { filter_unit = "my_areas" }
       }
-
       slot.put(" ")
-
       ui.link{
         attr = { class = filter_unit == "my_units" and "ui_tabs_link active" or nil },
         text = _"All areas in my units",
         module = "index", view = "index", params = { filter_unit = "my_units" }
       }
-
       slot.put(" ")
-
       ui.link{
         attr = { class = filter_unit == "global" and "active" or nil },
         text = _"All units",
@@ -32,13 +27,15 @@ if not for_member then
   end }
 end
 
+-- display units only
 if not for_member then
   if filter_unit == "global" then
     execute.view{ module = "unit", view = "_list" }
     return
   end
-
 end
+
+-- display units and areas
 
 local units = Unit:new_selector():add_where("active"):add_order_by("name"):exec()
 
