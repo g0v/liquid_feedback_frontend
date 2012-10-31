@@ -38,13 +38,14 @@ ui.form{
     ui.field.text{ label = _"Initiative", value = initiative.name, readonly = true }
 
     if param.get("preview") then
-      ui.container{
-        attr = { class = "draft_content wiki" },
-        content = function()
-          slot.put(format.wiki_text(param.get("content"), param.get("formatting_engine")))
-        end
-      }
-      slot.put("<br />")
+      ui.container{ attr = { class = "initiative_head" }, content = function()
+        ui.container{
+          attr = { class = "draft_content wiki" },
+          content = function()
+            slot.put(format.wiki_text(param.get("content"), param.get("formatting_engine")))
+          end
+        }
+      end }
       ui.submit{ text = _"Save" }
       slot.put("<br />")
       slot.put("<br />")
@@ -91,7 +92,7 @@ ui.form{
         }
       end
     }
-    
+
     ui.field.text{
       label = _"Content",
       name = "content",
