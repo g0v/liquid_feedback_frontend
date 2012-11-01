@@ -18,7 +18,7 @@ if #areas > 0 then
             ui.link{
               content = function()
                 if record.issues_to_vote_count > 1 then
-                  slot.put(_("#{issues_to_vote_count} issue(s)", { issues_to_vote_count = record.issues_to_vote_count }))
+                  slot.put(_("#{issues_to_vote_count} issues", { issues_to_vote_count = record.issues_to_vote_count }))
                 else
                   slot.put(_("One issue"))
                 end
