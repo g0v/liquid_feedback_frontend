@@ -44,7 +44,7 @@ if #areas > 0 then
             ui.link{
               content = function()
                 if record.interested_issues_to_vote_count > 1 then
-                  slot.put(_("#{interested_issues_to_vote_count} issue(s) you are interested in", { interested_issues_to_vote_count = record.interested_issues_to_vote_count }))
+                  slot.put(_("#{interested_issues_to_vote_count} issues you are interested in", { interested_issues_to_vote_count = record.interested_issues_to_vote_count }))
                 else
                   slot.put(_"One issue you are interested in")
                 end

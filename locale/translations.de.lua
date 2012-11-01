@@ -13,7 +13,7 @@ return {
 ["#{count} of them have an area delegation set."] = "bei #{count} davon ist eine Delegation für den Themenbereichs gesetzt.";
 ["#{count} of your outgoing delegation(s) are broken."] = "#{count} Deiner ausgehenden Delegationen sind kaputt.";
 ["#{date} at #{time}"] = "am #{date} um #{time}";
-["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
+["#{interested_issues_to_vote_count} issues you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} Themen";
 ["#{number} Image(s) have been deleted."] = "Es wurde(n) #{number} Bild(er) gelöscht.";
 ["#{number} Image(s) have been updated."] = "Es wurde(n) #{number} Bild(er) aktualisiert.";
@@ -401,7 +401,7 @@ return {
 ["Only for issues reaching the frozen phase"] = "Nur für Themen, die die Phase Eingefroren erreichen.";
 ["Only for issues reaching the voting phase"] = "Nur für Themen, die die Abstimmung erreichen.";
 ["Open"] = "Offen";
-["Open initiatives you are supporting which have been updated their draft:"] = "Offene, von dir unterstützte Initiativen, deren Antragstext aktualisiert wurde:";
+["Open initiatives you are supporting which have been updated their draft:"] = "Offene, von Dir unterstützte Initiativen, deren Antragstext aktualisiert wurde:";
 ["Open issues"] = "Offene Themen";
 ["Opinions"] = "Meinungen";
 ["Options"] = "Optionen";
