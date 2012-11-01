@@ -122,6 +122,13 @@ h2 {
   display: inline;
 }
 
+hr {
+  border-top: 1px solid #ccc;
+  border-bottom: none;
+  margin-top: 2ex;
+  margin-bottom: 2ex;
+}
+
 /* forms */
 
 input[type=text],
@@ -135,12 +142,23 @@ select {
   margin-bottom: 1ex;
 }
 
-input[type=submit] {
+input[type=submit],
+div.syserr a {
   font-size: 100%;
   background-color: #444444;
   color: #fff;
   border: none;
   padding: 0.75ex;
+}
+
+/* system error */
+
+div.syserr {
+  font-size: 110%;
+}
+div.syserr a {
+  margin: 1ex;
+  line-height: 120%;
 }
 
 /* common shadow */
