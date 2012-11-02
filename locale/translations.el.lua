@@ -873,6 +873,14 @@ return {
 ["[event mail]     Phase: #{phase}"] = "      Στάδιο: #{phase}";
 ["[event mail]    Policy: #{policy}"] = "  Κανονισμός: #{policy}";
 ["[not displayed public]"] = "[δεν εμφανίζεται δημόσια]";
+["[wikitoolbar] Heading 1"] = false;
+["[wikitoolbar] Heading 2"] = false;
+["[wikitoolbar] Heading 3"] = false;
+["[wikitoolbar] Italic"] = false;
+["[wikitoolbar] Link"] = false;
+["[wikitoolbar] Ordered list"] = false;
+["[wikitoolbar] Strong"] = false;
+["[wikitoolbar] Unordered list"] = false;
 ["a bit unsatisfied"] = "λίγο ανικανοποίητος/η";
 ["abandoned"] = "ακυρωμένο";
 ["activated"] = "ενεργοποιημένο";

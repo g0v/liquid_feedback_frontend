@@ -1711,3 +1711,85 @@ form.member_list_form input[type=submit] {
 form.member_list_form input[type=checkbox] {
   margin-left: 0;
 }
+
+/*************************************************************************
+ * wiki toolbar
+ */
+
+/* remove "clear:left" from .vertical */
+div.jstElements,
+div.jstEditor,
+div.jstHandle {
+  clear: none;
+}
+
+.jstEditor {
+  padding-left: 0px;
+}
+.jstEditor textarea, .jstEditor iframe {
+  margin: 0;
+}
+
+.jstHandle {
+  height: 10px;
+  font-size: 0.1em;
+  cursor: s-resize;
+}
+
+.jstElements {
+  padding: 3px 3px 3px 0;
+}
+
+.jstElements button {
+  margin-right: 4px;
+  width : 24px;
+  height: 24px;
+  padding: 4px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #888;
+  background-color: #eeeeee;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+.jstElements button:hover {
+  background-color: #ffffff;
+}
+.jstElements button span {
+  display: none;
+}
+.jstElements span {
+  display: inline;
+}
+
+.jstSpacer {
+  width : 0px;
+  font-size: 1px;
+  margin-right: 6px;
+}
+
+/* Buttons */
+.jstb_strong {
+  background-image: url(wikitoolbar/bt_strong.png);
+}
+.jstb_em {
+  background-image: url(wikitoolbar/bt_em.png);
+}
+.jstb_h1 {
+  background-image: url(wikitoolbar/bt_h1.png);
+}
+.jstb_h2 {
+  background-image: url(wikitoolbar/bt_h2.png);
+}
+.jstb_h3 {
+  background-image: url(wikitoolbar/bt_h3.png);
+}
+.jstb_ul {
+  background-image: url(wikitoolbar/bt_ul.png);
+}
+.jstb_ol {
+  background-image: url(wikitoolbar/bt_ol.png);
+}
+.jstb_link {
+  background-image: url(wikitoolbar/bt_link.png);
+}

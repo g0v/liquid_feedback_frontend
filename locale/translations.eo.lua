@@ -723,7 +723,6 @@ return {
 ["Website"] = "Retpaĝaro";
 ["Wednesday"] = "Merkredo";
 ["Wiki engine"] = "Viki-modulo";
-["Wiki engine for statement"] = false;
 ["Withdraw"] = false;
 ["Withdraw membership"] = false;
 ["Yes"] = "Jes";
@@ -810,6 +809,14 @@ return {
 ["[event mail]     Issue: #{policy} ##{id}"] = false;
 ["[event mail]     Phase: #{phase}"] = false;
 ["[not displayed public]"] = false;
+["[wikitoolbar] Heading 1"] = false;
+["[wikitoolbar] Heading 2"] = false;
+["[wikitoolbar] Heading 3"] = false;
+["[wikitoolbar] Italic"] = false;
+["[wikitoolbar] Link"] = false;
+["[wikitoolbar] Ordered list"] = false;
+["[wikitoolbar] Strong"] = false;
+["[wikitoolbar] Unordered list"] = false;
 ["a bit unsatisfied"] = "iomete malkontenta";
 ["abandoned"] = "malaplikita";
 ["activated"] = "aktivigita";

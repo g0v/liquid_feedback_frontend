@@ -11,8 +11,7 @@ return {
 ["#{count} more areas in this unit"] = "#{count} weitere Themenbereiche in dieser Gliederung";
 ["#{count} new"] = "#{count} neue";
 ["#{count} of them have an area delegation set."] = "bei #{count} davon ist eine Delegation für den Themenbereichs gesetzt.";
-["#{count} of your outgoing delegation(s) are broken."] = "#{count} Deiner ausgehenden Delegationen sind kaputt.";
-["#{count} of your outgoing delegations are broken."] = false;
+["#{count} of your outgoing delegations are broken."] = "#{count} Deiner ausgehenden Delegationen sind kaputt.";
 ["#{date} at #{time}"] = "am #{date} um #{time}";
 ["#{interested_issues_to_vote_count} issues you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
 ["#{issues_to_vote_count} issues"] = "#{issues_to_vote_count} Themen";
@@ -692,6 +691,14 @@ return {
 ["[event mail]     Issue: #{policy} ##{id}"] = "        Thema: #{policy} ##{id}";
 ["[event mail]     Phase: #{phase}"] = "        Phase: #{phase}";
 ["[not displayed public]"] = "[nicht öffentlich]";
+["[wikitoolbar] Heading 1"] = "Überschrift 1. Ordnung";
+["[wikitoolbar] Heading 2"] = "Überschrift 2. Ordnung";
+["[wikitoolbar] Heading 3"] = "Überschrift 3. Ordnung";
+["[wikitoolbar] Italic"] = "Kursiv";
+["[wikitoolbar] Link"] = "Link";
+["[wikitoolbar] Ordered list"] = "Nummerierte Liste";
+["[wikitoolbar] Strong"] = "Fett";
+["[wikitoolbar] Unordered list"] = "Aufzählungsliste";
 ["a bit unsatisfied"] = "etwas unzufrieden";
 ["activated"] = "aktiviert";
 ["and #{count} more initiatives"] = "und #{count} weitere Initiativen";

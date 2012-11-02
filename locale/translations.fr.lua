@@ -617,7 +617,6 @@ return {
 ["We have sent an email with activation link already in the last hour. Please try again later."] = false;
 ["Website"] = false;
 ["Wiki engine"] = false;
-["Wiki engine for statement"] = false;
 ["Withdraw"] = false;
 ["Withdraw membership"] = false;
 ["Yes"] = false;
@@ -686,6 +685,14 @@ return {
 ["[event mail]     Issue: #{policy} ##{id}"] = false;
 ["[event mail]     Phase: #{phase}"] = false;
 ["[not displayed public]"] = false;
+["[wikitoolbar] Heading 1"] = false;
+["[wikitoolbar] Heading 2"] = false;
+["[wikitoolbar] Heading 3"] = false;
+["[wikitoolbar] Italic"] = false;
+["[wikitoolbar] Link"] = false;
+["[wikitoolbar] Ordered list"] = false;
+["[wikitoolbar] Strong"] = false;
+["[wikitoolbar] Unordered list"] = false;
 ["a bit unsatisfied"] = false;
 ["activated"] = false;
 ["and #{count} more initiatives"] = false;

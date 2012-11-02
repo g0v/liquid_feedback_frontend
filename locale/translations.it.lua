@@ -869,6 +869,14 @@ return {
 ["[event mail]     Phase: #{phase}"] = "[event mail]      Fase: #{phase}";
 ["[event mail]    Policy: #{policy}"] = "[event mail]    Policy: #{policy}";
 ["[not displayed public]"] = "[non visibile pubblicamente]";
+["[wikitoolbar] Heading 1"] = false;
+["[wikitoolbar] Heading 2"] = false;
+["[wikitoolbar] Heading 3"] = false;
+["[wikitoolbar] Italic"] = false;
+["[wikitoolbar] Link"] = false;
+["[wikitoolbar] Ordered list"] = false;
+["[wikitoolbar] Strong"] = false;
+["[wikitoolbar] Unordered list"] = false;
 ["a bit unsatisfied"] = "non molto soddisfatto";
 ["abandoned"] = "abbandonato";
 ["activated"] = "attivato";

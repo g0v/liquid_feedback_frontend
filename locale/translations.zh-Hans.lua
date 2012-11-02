@@ -873,6 +873,14 @@ return {
 ["[event mail]     Phase: #{phase}"] = "        阶段: #{phase}";
 ["[event mail]    Policy: #{policy}"] = "        规则: #{policy}";
 ["[not displayed public]"] = "[不公开显示]";
+["[wikitoolbar] Heading 1"] = false;
+["[wikitoolbar] Heading 2"] = false;
+["[wikitoolbar] Heading 3"] = false;
+["[wikitoolbar] Italic"] = false;
+["[wikitoolbar] Link"] = false;
+["[wikitoolbar] Ordered list"] = false;
+["[wikitoolbar] Strong"] = false;
+["[wikitoolbar] Unordered list"] = false;
 ["a bit unsatisfied"] = "略不满意";
 ["abandoned"] = "被停用";
 ["activated"] = "被启用";

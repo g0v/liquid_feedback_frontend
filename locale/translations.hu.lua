@@ -834,6 +834,14 @@ return {
 ["[event mail]     Issue: #{policy} ##{id}"] = false;
 ["[event mail]     Phase: #{phase}"] = false;
 ["[not displayed public]"] = "[nem nyilvános]";
+["[wikitoolbar] Heading 1"] = false;
+["[wikitoolbar] Heading 2"] = false;
+["[wikitoolbar] Heading 3"] = false;
+["[wikitoolbar] Italic"] = false;
+["[wikitoolbar] Link"] = false;
+["[wikitoolbar] Ordered list"] = false;
+["[wikitoolbar] Strong"] = false;
+["[wikitoolbar] Unordered list"] = false;
 ["a bit unsatisfied"] = "kissé elégedetlen";
 ["abandoned"] = "mellõzve";
 ["activated"] = "aktiválva";
