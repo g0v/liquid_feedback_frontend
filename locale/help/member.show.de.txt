@@ -1,9 +1,37 @@
 =Profilseite=
+
 Hier kann man erfahren,
 - was dieses Mitglied über sich selbst mitteilt,
 - in welchen Themenbereichen es Mitglied ist,
 - an welchen Themen und Initiativen es sich beteiligt
 - welche Delegationen das Mitglied erhalten und erteilt und
 - welche Kontakte das Mitglied veröffentlicht hat.
+
 =zu den Kontakten hinzufügen=
 Hier kann man das Mitglied außerdem zur eigenen Kontaktliste hinzufügen (und es natürlich auch wieder von dieser entfernen). Bitte beachte, dass man nur an Mitglieder delegieren kann, die man auf die eigene Kontaktliste gesetzt hat.
+
+=Gliederungen und Themenbereiche=
+Hier kann man sehen, in welchen Gliederungen das Mitglied stimmberechtigt ist und an welchen Themenbereichen in diesen Gliederungen es teilnimmt.
+
+=Letzte Ereignisse=
+Zeigt, was das Mitglied in letzter Zeit gemacht hat.
+
+=Offene Themen=
+Zeigt offene Themen, an denen das Mitglied in irgendeiner Form beteiligt ist.
+
+=Geschlossene Themen=
+Zeigt geschlossene Themen, an denen das Mitglied in irgendeiner Form beteiligt ist.
+
+=Delegationen=
+In jeder Zeile wird eine Delegationsliste dargestellt. Das delegierende Mitglied ist ganz links. Falls die Liste länger als vier Mitglieder ist, werden nur die ersten vier angezeigt. Über die Lupe gelangt man zur Delegationsseite des delegierenden Mitglieds, wo man den Rest der Delegationsliste ansehen kann. Dort sind dann auch die anderen Delegationsebenen dargestellt, hier wird dagegen in jeder Zeile immer nur eine Delegationsebene (Gliederungs-, Themenbereichs- oder Themendelegation) angezeigt.
+
+An einem orangen Rahmen ist das Mitglied zu erkennen, welches aktuell über die jeweilige Stimme verfügt. Alle Mitglieder rechts von diesem Mitglied sind grau, da sie damit keine Rolle mehr spielen.
+
+=Ausgehende Delegationen=
+Ausgehende Delegationen sind Delegationen, bei denen das aktuelle Mitglied sein Stimmgewicht an andere Mitglieder delegiert. Das aktuelle Mitglied steht in jeder Zeile ganz links.
+
+=Eingehende Delegationen=
+Eingehende Delegationen sind Delegationen, die das aktuelle Mitglied von anderen Mitgliedern bekommen hat. Ganz links ist das Mitglied zu sehen, welches seine Stimme delegiert hat. Das aktuelle Mitglied steht irgendwo rechts davon. Falls es später als auf dem vierten Platz der Delegationsliste kommt, ist es auf dieser Seite nicht mehr zu sehen, sondern nur auf der Delegationsseite des delegierenden Mitglieds, die über die Lupe erreicht werden kann.
+
+=Kontakte=
+Zeigt die Kontakte des Mitglieds. Es werden allerdings nur die Kontakte angezeigt, die das Mitglied auf öffentlich gesetzt hat.

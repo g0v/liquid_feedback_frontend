@@ -5,5 +5,32 @@ Here you can learn,
 - in which issues and initiatives he or she participates
 - which delegations the member has received and given, and
 - which contacts the member has published.
+
 =add to contacts=
 You can add this member to your list of contacts (and also remove him or her from it, again, of course). Please note that you can only delegate to members, who are on your list of contacts.
+
+=Units and areas=
+Here you can see, in which units the member has voting right and to which areas in these units the member is subscribed.
+
+=Last events=
+Shows what the member has done in the last time.
+
+=Open issues=
+Shows open issues, on which the member participates in any way.
+
+=Closed issues=
+Shows closed issues, on which the member participated in any way.
+
+=Delegations=
+Every line shows one delegation list. The delegating member is on the left. If the list is longer than four members, only the first four will be shown. By the magnifying glas you can get to the delegation page of the delegating member, where you can see the rest of the delegation list. There you can see then also the other scopes, while here only one scope (unit, area or issue delegation) is displayed in one line.
+
+An orange border marks the member, which currently uses the voting weight. All members right from this member are grey, because they don't play any more role.
+
+=Outgoing delegations=
+Outgoing delegations are delegations, where the current member delegates his voting right to other members. The current member is on the left of each line.
+
+=Incoming delegations=
+Incoming delegations are delegations, which the current member gets from other members. On the left is the member, which delegated his voting weight. The current member is somewhere on the right. If it is later than on the fourth rank of the delegation list, it won't be shown on this page, but only on the delegation page of the delegating member, which can be reached by the magnifying glas.
+
+=Contacts=
+Shows the contacts of the member. However only those contacts will be displayed, which the member has set to public.
