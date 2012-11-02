@@ -20,7 +20,7 @@ ui.form{
   action = "add",
   params = { initiative_id = initiative_id },
   routing = {
-    default = {
+    ok = {
       mode = "redirect",
       module = "initiative",
       view = "show",
@@ -30,6 +30,7 @@ ui.form{
   },
   attr = { class = "vertical" },
   content = function()
+
     local supported = Supporter:by_pk(initiative_id, app.session.member.id) and true or false
     if not supported then
       ui.field.text{
@@ -37,6 +38,7 @@ ui.form{
         value = _"You are currently not supporting this initiative directly. By adding suggestions to this initiative you will automatically become a potential supporter."
       }
     end
+
     ui.field.select{
       label = _"Degree",
       name = "degree",
@@ -47,7 +49,9 @@ ui.form{
       foreign_id = "id",
       foreign_name = "name"
     }
+
     ui.field.text{ label = _"Title (80 chars max)", name = "name" }
+
     ui.field.select{
       label = _"Wiki engine",
       name = "formatting_engine",
@@ -60,6 +64,7 @@ ui.form{
       foreign_name = "name",
       value = param.get("formatting_engine")
     }
+
     ui.tag{
       tag = "div",
       content = function()
@@ -89,6 +94,7 @@ ui.form{
         }
       end
     }
+
     ui.field.text{
       label = _"Description",
       name = "content",
@@ -97,7 +103,7 @@ ui.form{
       value = param.get("content")
     }
 
-
     ui.submit{ text = _"Commit suggestion" }
+
   end
 }
