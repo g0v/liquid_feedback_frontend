@@ -218,7 +218,7 @@ if member then
       }
     end
     if for_unit and not for_area then
-    filter[#filter+1] = {
+      filter[#filter+1] = {
         name = "any",
         label = _"All areas",
         selector_modifier = function()  end
@@ -234,7 +234,7 @@ if member then
       }
     end
     if for_area then
-    filter[#filter+1] = {
+      filter[#filter+1] = {
         name = "any",
         label = _"All issues",
         selector_modifier = function()  end
