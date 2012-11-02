@@ -114,7 +114,8 @@ if not initiative.issue.closed then
           id = param.get_id_cgi(),
           params = param.get_all_cgi()
         }
-      }
+      },
+      attr = { title = _"Ignoring an initiative means, that you don't get anymore email notifications about it." }
     }
   end
 end
