@@ -25,7 +25,18 @@ ui.actions(function()
   ui.link{
     text = _"Register new member",
     module = "admin",
-    view = "member_edit"
+    view = "member_edit",
+    params = {
+      search           = search,
+      search_imported  = search_imported,
+      search_admin     = search_admin,
+      search_activated = search_activated,
+      search_locked    = search_locked,
+      search_active    = search_active,
+      order            = order,
+      desc             = desc,
+      page             = param.get("page", atom.integer)
+    }
   }
 
 end)
