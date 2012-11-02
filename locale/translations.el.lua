@@ -23,7 +23,7 @@ return {
 ["#{number} Image(s) has been deleted"] = "Διαγράφηκαν #{number} εικόνες";
 ["#{number} Image(s) has been updated"] = "Ενημερώθηκαν #{number} εικόνες";
 ["#{number} Images have been deleted."] = false;
-["#{number} Images have been updated."] = false;
+["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = false;
 ["#{policy_name} ##{issue_id}"] = false;
 ["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = "απομένουν #{time_left}";
@@ -476,7 +476,7 @@ return {
 ["On that page please enter the invite key:\n\n"] = "Σε εκείνη την σελίδα εισάγετε τον κωδικό πρόσκλησης:\n\n";
 ["On that page please enter the reset code:\n\n"] = "Σε εκείνη την σελίδα εισάγετε τον κωδικό επαναφοράς:\n\n";
 ["One Image has been deleted."] = false;
-["One Image has been updated."] = false;
+["One Image has been updated. If it is not yet displayed, you can try to reload the page."] = false;
 ["One issue"] = "Ένα θέμα";
 ["One issue you are interested in"] = "Ένα θέμα που σας ενδιαφέρει";
 ["One more area in this unit"] = "Ένας ακόμη τομέας σε αυτή την ενότητα";

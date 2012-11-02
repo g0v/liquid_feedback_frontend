@@ -21,7 +21,7 @@ return {
 ["#{number} Image(s) has been deleted"] = "#{number} kép törölve";
 ["#{number} Image(s) has been updated"] = "#{number} kép aktualizálva";
 ["#{number} Images have been deleted."] = false;
-["#{number} Images have been updated."] = false;
+["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = false;
 ["#{policy_name} ##{issue_id}"] = false;
 ["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = "#{time_left} idõ van hátra";
@@ -463,7 +463,7 @@ return {
 ["On that page please enter the invite key:\n\n"] = "Ezen az oldalon add meg a következõ meghívókulcsot:\n\n";
 ["On that page please enter the reset code:\n\n"] = "Ezen az oldalon add meg a következõ visszaállítási kódot :\n\n";
 ["One Image has been deleted."] = false;
-["One Image has been updated."] = false;
+["One Image has been updated. If it is not yet displayed, you can try to reload the page."] = false;
 ["One issue"] = "Egy téma";
 ["One issue you are interested in"] = "Egy téged érdeklõ téma";
 ["One more area in this unit"] = false;

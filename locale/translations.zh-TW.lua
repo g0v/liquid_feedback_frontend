@@ -23,7 +23,7 @@ return {
 ["#{number} Image(s) has been deleted"] = "#{number} 張圖片已被刪除";
 ["#{number} Image(s) has been updated"] = "#{number} 張圖片已被更新";
 ["#{number} Images have been deleted."] = false;
-["#{number} Images have been updated."] = false;
+["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = false;
 ["#{policy_name} ##{issue_id}"] = false;
 ["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = "剩下 #{time_left}";
@@ -476,7 +476,7 @@ return {
 ["On that page please enter the invite key:\n\n"] = "請在此頁面輸入邀請碼：\n\n";
 ["On that page please enter the reset code:\n\n"] = "請在此頁面輸入重設碼：\n\n";
 ["One Image has been deleted."] = false;
-["One Image has been updated."] = false;
+["One Image has been updated. If it is not yet displayed, you can try to reload the page."] = false;
 ["One issue"] = "一個議題";
 ["One issue you are interested in"] = "一個您所關心的議題";
 ["One more area in this unit"] = "此單位的另一個領域";

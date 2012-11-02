@@ -20,7 +20,7 @@ return {
 ["#{number} Image(s) has been deleted"] = "#{number} bildo(j) estas viŝita(j)";
 ["#{number} Image(s) has been updated"] = "#{number} bildo(j) estas ĝisdatigita(j)";
 ["#{number} Images have been deleted."] = false;
-["#{number} Images have been updated."] = false;
+["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = false;
 ["#{policy_name} ##{issue_id}"] = false;
 ["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = false;
@@ -450,7 +450,7 @@ return {
 ["On that page please enter the invite key:\n\n"] = false;
 ["On that page please enter the reset code:\n\n"] = "Bonvolu enigu sur tiu paĝo la remetokodon:\n\n";
 ["One Image has been deleted."] = false;
-["One Image has been updated."] = false;
+["One Image has been updated. If it is not yet displayed, you can try to reload the page."] = false;
 ["One issue"] = "Unu temo";
 ["One issue you are interested in"] = "Unu temo, kiu vin interesas";
 ["One more area in this unit"] = false;

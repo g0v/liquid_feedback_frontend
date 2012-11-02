@@ -16,7 +16,7 @@ return {
 ["#{interested_issues_to_vote_count} issues you are interested in"] = false;
 ["#{issues_to_vote_count} issues"] = false;
 ["#{number} Images have been deleted."] = false;
-["#{number} Images have been updated."] = false;
+["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = false;
 ["#{policy_name} ##{issue_id}"] = false;
 ["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = false;
@@ -390,7 +390,7 @@ return {
 ["On that page please enter the invite key:\n\n"] = false;
 ["On that page please enter the reset code:\n\n"] = false;
 ["One Image has been deleted."] = false;
-["One Image has been updated."] = false;
+["One Image has been updated. If it is not yet displayed, you can try to reload the page."] = false;
 ["One issue"] = false;
 ["One issue you are interested in"] = false;
 ["One more area in this unit"] = false;

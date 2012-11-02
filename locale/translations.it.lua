@@ -23,7 +23,7 @@ return {
 ["#{number} Image(s) has been deleted"] = "#{number} immagini sono state rimosse";
 ["#{number} Image(s) has been updated"] = "#{number} immagini sono state aggiornate";
 ["#{number} Images have been deleted."] = false;
-["#{number} Images have been updated."] = false;
+["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = false;
 ["#{policy_name} ##{issue_id}"] = "#{policy_name} ##{issue_id}";
 ["#{policy} ##{id}"] = "#{policy} ##{id}";
 ["#{time_left} left"] = "tempo rimanente #{time_left}";
@@ -475,7 +475,7 @@ return {
 ["On that page please enter the invite key:\n\n"] = "Su quella pagina inserisci il codice di invito:\n\n";
 ["On that page please enter the reset code:\n\n"] = "Su quella pagina inserisci il codice di reset:\n\n";
 ["One Image has been deleted."] = false;
-["One Image has been updated."] = false;
+["One Image has been updated. If it is not yet displayed, you can try to reload the page."] = false;
 ["One issue"] = "Una tematica";
 ["One issue you are interested in"] = "Una tematica che ti interessa";
 ["One more area in this unit"] = "Una o piu' aree in questa sezione";

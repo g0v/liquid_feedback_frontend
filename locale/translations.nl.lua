@@ -24,7 +24,7 @@ return {
 ["#{number} Image(s) has been deleted"] = "Er zijn #{number} plaatje (s) verwijderd";
 ["#{number} Image(s) has been updated"] = "Er zijn #{number} plaatje(s) geaktualiseerd";
 ["#{number} Images have been deleted."] = false;
-["#{number} Images have been updated."] = false;
+["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = false;
 ["#{policy_name} ##{issue_id}"] = false;
 ["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = "nog #{time_left}";
@@ -478,7 +478,7 @@ return {
 ["On that page please enter the invite key:\n\n"] = "Vul op deze pagina de uitnodigingscode in:\n\n";
 ["On that page please enter the reset code:\n\n"] = "Vul op deze pagina de reset code in:\n\n";
 ["One Image has been deleted."] = false;
-["One Image has been updated."] = false;
+["One Image has been updated. If it is not yet displayed, you can try to reload the page."] = false;
 ["One issue"] = "Eén onderwerp";
 ["One issue you are interested in"] = "Eén onderwerp dat u interesseert";
 ["One more area in this unit"] = "Nog één themagebied in dit dossier";

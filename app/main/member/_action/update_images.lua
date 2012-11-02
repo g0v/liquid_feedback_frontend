@@ -62,9 +62,9 @@ end
 
 if updated > 0 then
   if updated == 1 then
-    slot.put_into("notice", _"One Image has been updated.")
+    slot.put_into("notice", _"One Image has been updated. If it is not yet displayed, you can try to reload the page.")
   else
-    slot.put_into("notice", _("#{number} Images have been updated.", { number = updated }))
+    slot.put_into("notice", _("#{number} Images have been updated. If they're not yet displayed, you can try to reload the page.", { number = updated }))
   end
 end
 if updated > 0 and deleted > 0 then

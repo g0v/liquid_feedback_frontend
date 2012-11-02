@@ -16,7 +16,7 @@ return {
 ["#{interested_issues_to_vote_count} issues you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
 ["#{issues_to_vote_count} issues"] = "#{issues_to_vote_count} Themen";
 ["#{number} Images have been deleted."] = "Es wurden #{number} Bilder gelöscht.";
-["#{number} Images have been updated."] = "Es wurden #{number} Bilder aktualisiert.";
+["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = "Es wurden #{number} Bilder aktualisiert. Falls sie noch nicht angezeigt werden, kannst Du versuchen, die Seite neu zu laden.";
 ["#{policy_name} ##{issue_id}"] = false;
 ["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = "noch #{time_left}";
@@ -395,7 +395,7 @@ return {
 ["On that page please enter the invite key:\n\n"] = "Auf dieser Seite gib bitte den folgenden Einladungscode ein:\n\n";
 ["On that page please enter the reset code:\n\n"] = "Auf dieser Seite gib bitte den folgenden Rücksetzcode ein:\n\n";
 ["One Image has been deleted."] = "Ein Bild wurde gelöscht.";
-["One Image has been updated."] = "Ein Bild wurde aktualisiert.";
+["One Image has been updated. If it is not yet displayed, you can try to reload the page."] = "Ein Bild wurde aktualisiert. Falls es noch nicht angezeigt wird, kannst Du versuchen, die Seite neu zu laden.";
 ["One issue"] = "Ein Thema";
 ["One issue you are interested in"] = "Ein Thema, das Dich interessiert";
 ["One more area in this unit"] = "Ein weiterer Themenbereich in dieser Gliederung";
