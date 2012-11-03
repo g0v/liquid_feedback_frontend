@@ -1,11 +1,9 @@
 -- displays the small delegation chain in the right top corner
 
-
 -- show delegation information only for logged in members
 if not app.session.member_id then
   return
 end
-
 
 local member = param.get("member", "table") or app.session.member
 
@@ -16,6 +14,19 @@ local issue = param.get("issue", "table")
 local unit_id  = unit  and unit.id  or nil
 local area_id  = area  and area.id  or nil
 local issue_id = issue and issue.id or nil
+
+-- user without voting right also have no delegations
+local voting_right_unit_id
+if unit then
+  voting_right_unit_id = unit.id
+elseif area then
+  voting_right_unit_id = area.unit_id
+elseif issue then
+  voting_right_unit_id = issue.area.unit_id
+end
+if not member:has_voting_right_for_unit_id(voting_right_unit_id) then
+  return
+end
 
 -- title of the link to the delegation page
 if issue then
@@ -51,7 +62,7 @@ ui.link{
 
     local delegation_chain = Member:new_selector()
       :add_field("delegation_chain.*")
-      :join({ "delegation_chain(?,?,?,?,FALSE)", app.session.member.id, unit_id, area_id, issue_id }, "delegation_chain", "member.id = delegation_chain.member_id")
+      :join({ "delegation_chain(?,?,?,?,FALSE)", member.id, unit_id, area_id, issue_id }, "delegation_chain", "member.id = delegation_chain.member_id")
       :add_order_by("index")
       :limit(show_max_delegates + 2)
       :exec()

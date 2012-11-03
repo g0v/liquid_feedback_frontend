@@ -58,6 +58,17 @@ if issue then
 end
 
 
+-- check voting right of the trustee
+if not member:has_voting_right_for_unit_id(voting_right_unit_id) then
+  if member.id == app.session.member.id then
+    slot.put_into("error", _"You have no voting right in this unit!")
+  else
+    slot.put_into("error", _"This member has no voting right in this unit!")
+  end
+  return
+end
+
+
 local delegation
 local unit_id
 local area_id
@@ -154,10 +165,15 @@ for i, delegation in ipairs(delegations) do
     attr = { class = "delegation_form_row" },
     content = function()
 
+      -- member thumb
+      local trustee = Member:by_id(delegation.trustee_id)
+      if not trustee:has_voting_right_for_unit_id(voting_right_unit_id) then
+        trustee.member_valid = false
+      end
       execute.view{
         module = "member",
         view = "_show_thumb",
-        params = { member = Member:by_id(delegation.trustee_id) }
+        params = { member = trustee }
       }
 
       if member.id == app.session.member.id then

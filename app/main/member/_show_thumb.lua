@@ -50,6 +50,9 @@ ui.container{
             attr = { alt = text, title = text },
             static = "icons/16/cross.png"
           }
+        elseif member.member_valid == false then
+          local text = _"no voting right"
+          ui.tag{ content = text }
         end
 
         if member.grade then

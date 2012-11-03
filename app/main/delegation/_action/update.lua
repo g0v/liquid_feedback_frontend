@@ -61,7 +61,7 @@ else
 
   -- check if delegating member has voting right
   if not app.session.member:has_voting_right_for_unit_id(check_unit_id) then
-    error("access denied")
+    slot.put_into("error", _"You habe no voting right in this unit!")
   end
 
   -- check if trustee has voting right

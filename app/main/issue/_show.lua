@@ -25,6 +25,7 @@ end
 
 ui.container{ attr = { class = class }, content = function()
 
+  -- show issue delegation
   execute.view{ module = "delegation", view = "_info", params = { issue = issue, member = for_member } }
 
   if for_listing then
