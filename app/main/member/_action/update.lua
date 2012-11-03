@@ -23,6 +23,7 @@ for i, field in ipairs(fields) do
 end
 
 if not config.locked_profile_fields.statement then
+  app.session.member.formatting_engine = param.get("formatting_engine")
   local statement = param.get("statement")
   if statement ~= app.session.member.statement then
     app.session.member.statement = statement
