@@ -4,9 +4,12 @@ local source = param.get("source", atom.boolean)
 if source then
 
   ui.tag{
-    tag = "pre",
+    tag = "div",
     attr = { class = "diff" },
-    content = draft.content
+    content = function()
+      local output = draft.content:gsub("\n", "\n<br />")
+      slot.put(output)
+    end
   }
 
 else

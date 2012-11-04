@@ -86,8 +86,10 @@ os.remove(old_draft_filename)
 os.remove(new_draft_filename)
 
 local last_state = "first_run"
+local first_in_line = true
 
 local function process_line(line)
+
   local state_char = string.sub(line, 1, 1)
   local state
   if state_char == "+" then
@@ -97,6 +99,7 @@ local function process_line(line)
   elseif state_char == " " then
     state = "unchanged"
   end
+
   local state_changed = false
   if state ~= last_state then
     if last_state ~= "first_run" then
@@ -109,13 +112,16 @@ local function process_line(line)
 
   line = string.sub(line, 2, #line)
   if line ~= "###ENTER###" then
-    if not state_changed then
+    if not state_changed and not first_in_line then
       slot.put(" ")
     end
     slot.put(line)
+    first_in_line = false
   else
-    slot.put("<br />")
+    slot.put("\n<br />")
+    first_in_line = true
   end
+
 end
 
 if not status then
