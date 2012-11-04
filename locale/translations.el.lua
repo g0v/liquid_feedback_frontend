@@ -281,6 +281,7 @@ return {
 ["Ignore Areas"] = "Αγνοήση τομέων";
 ["Ignore initiative"] = "Αγνόηση πρωτοβουλίας";
 ["Ignore member"] = "Αγνόηση μέλους";
+["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "Εικόνες";
 ["Imported"] = false;
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
@@ -683,6 +684,7 @@ return {
 ["This login is too short!"] = "Αυτό το όνομα σύνδεσης είναι πολύ μικρό!";
 ["This member account has been created at #{created}"] = "Ο λογαριασμός αυτού του μέλους δημιουργήθηκε στις #{created}.";
 ["This member account has been created at #{created}."] = false;
+["This member has no voting right in this unit!"] = false;
 ["This member has rejected to become initiator of this initiative"] = "Το μέλος απέρριψε την πρόσκληση να γίνει εισηγητής αυτής της πρωτοβουλίας";
 ["This member has rejected to become initiator of this initiative!"] = false;
 ["This member is already initiator of this initiative"] = "Αυτό το μέλος είναι ήδη εισηγητής αυτής της πρωτοβουλίας";
@@ -821,6 +823,7 @@ return {
 ["You have ignored this initiative."] = false;
 ["You have ignored this member"] = "Έχετε αγνοήσει αυτό το μέλος";
 ["You have ignored this member."] = false;
+["You have no voting right in this unit!"] = false;
 ["You have not voted #{count} issue(s) you were interested in"] = "Δεν έχετε ψηφίσει σε #{count} θέμα(τα) που σας ενδιέφεραν";
 ["You have not voted #{count} issues you were interested in."] = false;
 ["You have not voted one issue you were interested in."] = false;
@@ -911,6 +914,7 @@ return {
 ["must not"] = "με τίποτα";
 ["neutral"] = "ουδέτερη";
 ["no reverse beat path to status quo (including ties)"] = "Χωρίς reverse beat path προς την παρούσα κατάσταση (συμπεριλαμβάνοντας ισοπαλίες)";
+["no voting right"] = false;
 ["none"] = "κανένα";
 ["not implemented"] = "δεν έχει υλοποιηθεί";
 ["not yet"] = "όχι ακόμη";

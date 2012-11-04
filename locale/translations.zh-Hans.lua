@@ -281,6 +281,7 @@ return {
 ["Ignore Areas"] = "忽略领域";
 ["Ignore initiative"] = "忽略提案";
 ["Ignore member"] = "忽略成员";
+["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "图片";
 ["Imported"] = false;
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
@@ -683,6 +684,7 @@ return {
 ["This login is too short!"] = "此帐号太短！";
 ["This member account has been created at #{created}"] = "该成员帐号于 #{created} 被新增。";
 ["This member account has been created at #{created}."] = false;
+["This member has no voting right in this unit!"] = false;
 ["This member has rejected to become initiator of this initiative"] = "该成员婉拒成为此提案的发起者。";
 ["This member has rejected to become initiator of this initiative!"] = false;
 ["This member is already initiator of this initiative"] = "该成员已是此提案的发起者。";
@@ -821,6 +823,7 @@ return {
 ["You have ignored this initiative."] = false;
 ["You have ignored this member"] = "您忽略了该成员";
 ["You have ignored this member."] = false;
+["You have no voting right in this unit!"] = false;
 ["You have not voted #{count} issue(s) you were interested in"] = "您对 #{count} 个您所关心的议题尚未进行表决。";
 ["You have not voted #{count} issues you were interested in."] = false;
 ["You have not voted one issue you were interested in."] = false;
@@ -911,6 +914,7 @@ return {
 ["must not"] = "不可";
 ["neutral"] = "中立";
 ["no reverse beat path to status quo (including ties)"] = "无循环性优先顺序导至现状 (包括平手)";
+["no voting right"] = false;
 ["none"] = "无";
 ["not implemented"] = "未被采纳";
 ["not yet"] = "尚未";

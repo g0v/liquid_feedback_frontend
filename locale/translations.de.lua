@@ -234,6 +234,7 @@ return {
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Sollte der Link nicht funktionieren, öffne bitte die folgenden URL in Deinem Web-Browser:\n\n";
 ["Ignore initiative"] = "Initiative ignorieren";
 ["Ignore member"] = "Mitglied ignorieren";
+["Ignoring an initiative means, that you don't get anymore email notifications about it."] = "Eine Initiative zu ignorieren bedeutet, dass Du zu ihr keine E-Mail-Benachrichtigungen mehr bekommst.";
 ["Images"] = "Bilder";
 ["Imported"] = "Importiert";
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = "In dieser Installation ist eine Registrierung auch ohne Einladungscode möglich. Dafür das Feld bitte einfach leer lassen.";
@@ -564,6 +565,7 @@ return {
 ["This login is already taken, please choose another one!"] = "Dieser Anmeldename ist bereits vergeben, bitte wähle einen anderen!";
 ["This login is too short!"] = "Dieser Anmeldename ist zu kurz!";
 ["This member account has been created at #{created}."] = "Dieser Mitgliedszugang wurde am/um #{created} angelegt.";
+["This member has no voting right in this unit!"] = "Dieses Mitglied hat kein Stimmrecht in dieser Gliederung!";
 ["This member has rejected to become initiator of this initiative!"] = "Dieses Mitglied hat die Einladung, Initiator zu werden, abgelehnt!";
 ["This member is already initiator of this initiative!"] = "Dieses Mitglied ist bereits Initiator dieser Initiative!";
 ["This member is already invited to become initiator of this initiative!"] = "Dieses Mitglied ist bereits eingeladen Initiator dieser Initiative zu werden!";
@@ -657,6 +659,7 @@ return {
 ["You didn't save any member as contact yet."] = "Du hast noch kein Mitglied als Kontakt gespeichert!";
 ["You have ignored this initiative."] = "Du ignorierst diese Initiative.";
 ["You have ignored this member."] = "Du ignorierst dieses Mitglied.";
+["You have no voting right in this unit!"] = "Du hast kein Stimmrecht in dieser Gliederung!";
 ["You have not voted #{count} issues you were interested in."] = "Du hast für #{count} Themen, die Dich interessieren, noch nicht abgestimmt.";
 ["You have not voted one issue you were interested in."] = "Du hast für ein Thema, das Dich interessiert, noch nicht abgestimmt.";
 ["You have to mark 'Are you sure' to revoke!"] = "Zum Zurückziehen musst Du 'Sicher?' auswählen!";
@@ -724,6 +727,7 @@ return {
 ["must not"] = "darf nicht";
 ["neutral"] = "neutral";
 ["no reverse beat path to status quo (including ties)"] = "Kein rückwärtsgerichteter Schlagpfad zum Status Quo (Gleichstände eingeschlossen)";
+["no voting right"] = "kein Stimmrecht";
 ["none"] = "kein";
 ["not implemented"] = "nicht umgesetzt";
 ["not yet"] = "bis jetzt nicht";

@@ -276,6 +276,7 @@ return {
 ["Ignore Areas"] = "Területek ignorálása";
 ["Ignore initiative"] = "Kezdeményezés ignorálása";
 ["Ignore member"] = "Tag ignorálása";
+["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "Képek";
 ["Imported"] = false;
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
@@ -663,6 +664,7 @@ return {
 ["This login is too short!"] = "Ez a bejelentkezési név túl rövid!";
 ["This member account has been created at #{created}"] = "Felhasználói fiók létrehozásának idõpontja: #{created}";
 ["This member account has been created at #{created}."] = false;
+["This member has no voting right in this unit!"] = false;
 ["This member has rejected to become initiator of this initiative"] = "Ez a tag elutasította a kezdeményezõi meghívást ehhez a kezdeményezéshez";
 ["This member has rejected to become initiator of this initiative!"] = false;
 ["This member is already initiator of this initiative"] = "Ez a tag már kezdeményezõje ennek a kezdeményezésnek";
@@ -790,6 +792,7 @@ return {
 ["You have ignored this initiative."] = false;
 ["You have ignored this member"] = "Ignorálod ezt a tagot";
 ["You have ignored this member."] = false;
+["You have no voting right in this unit!"] = false;
 ["You have not voted #{count} issues you were interested in."] = false;
 ["You have not voted one issue you were interested in."] = false;
 ["You have to mark 'Are you sure' to revoke!"] = "Visszavonáshoz be kell jelölnöd a 'Biztos?'-t is!";
@@ -872,6 +875,7 @@ return {
 ["must not"] = "tilos";
 ["neutral"] = "semleges";
 ["no reverse beat path to status quo (including ties)"] = "nincs visszaút a status quo-hoz (döntetlenekkel sem)";
+["no voting right"] = false;
 ["none"] = "nincs";
 ["not implemented"] = "nincs beépítve";
 ["not yet"] = "még nem";

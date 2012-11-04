@@ -264,6 +264,7 @@ return {
 ["Ignore Areas"] = "Malatenti temarojn";
 ["Ignore initiative"] = false;
 ["Ignore member"] = false;
+["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "Bildoj";
 ["Imported"] = false;
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
@@ -649,6 +650,7 @@ return {
 ["This login is too short!"] = "Tiu salutnomo estas tro mallonga!";
 ["This member account has been created at #{created}"] = "Tiu membrokonto estis kreita je #{created}.";
 ["This member account has been created at #{created}."] = false;
+["This member has no voting right in this unit!"] = false;
 ["This member has rejected to become initiator of this initiative"] = "Tiu membro rifuzis inviton por esti inicionto";
 ["This member has rejected to become initiator of this initiative!"] = false;
 ["This member is already initiator of this initiative"] = "Tiu membro estas jam iniciinto de tiu iniciato";
@@ -765,6 +767,7 @@ return {
 ["You didn't save any member as contact yet."] = "Vi ankoraŭ ne konservis membron kiel kontakton!";
 ["You have ignored this initiative."] = false;
 ["You have ignored this member."] = false;
+["You have no voting right in this unit!"] = false;
 ["You have not voted #{count} issues you were interested in."] = false;
 ["You have not voted one issue you were interested in."] = false;
 ["You have to mark 'Are you sure' to revoke!"] = "Por nuligi vi devas elekti 'Ĉu certa?'";
@@ -846,6 +849,7 @@ return {
 ["must not"] = "ne rajtas";
 ["neutral"] = "neŭtrala";
 ["no reverse beat path to status quo (including ties)"] = false;
+["no voting right"] = false;
 ["none"] = false;
 ["not implemented"] = "nerealigita";
 ["not yet"] = false;

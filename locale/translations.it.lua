@@ -280,6 +280,7 @@ return {
 ["Ignore Areas"] = "Ignora le aree";
 ["Ignore initiative"] = "Ignora l'iniziativa";
 ["Ignore member"] = "Ignora l'utente";
+["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "Immagini";
 ["Imported"] = false;
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
@@ -682,6 +683,7 @@ return {
 ["This login is too short!"] = "Questo nome utente e' troppo breve";
 ["This member account has been created at #{created}"] = "Questo account e' stato creato il #{created}";
 ["This member account has been created at #{created}."] = false;
+["This member has no voting right in this unit!"] = false;
 ["This member has rejected to become initiator of this initiative"] = "L'utente ha rifiutato di divenire promotore di questa iniziativa";
 ["This member has rejected to become initiator of this initiative!"] = false;
 ["This member is already initiator of this initiative"] = "L'utente e' gia' promotore di questa iniziativa";
@@ -817,6 +819,7 @@ return {
 ["You have ignored this initiative."] = false;
 ["You have ignored this member"] = "Stai ignorando questo utente";
 ["You have ignored this member."] = false;
+["You have no voting right in this unit!"] = false;
 ["You have not voted #{count} issue(s) you were interested in"] = "Non hai votato #{count} tematiche a cui sei interessato";
 ["You have not voted #{count} issues you were interested in."] = false;
 ["You have not voted one issue you were interested in."] = false;
@@ -907,6 +910,7 @@ return {
 ["must not"] = "non deve";
 ["neutral"] = "neutrale";
 ["no reverse beat path to status quo (including ties)"] = "nessun 'reverse beat path' rispetto allo status quo (incluso parimerito)";
+["no voting right"] = false;
 ["none"] = "nessuno";
 ["not implemented"] = "non implementato";
 ["not yet"] = "non ancora";

@@ -283,6 +283,7 @@ return {
 ["Ignore Areas"] = "Negeer themagebieden";
 ["Ignore initiative"] = "Negeer initiatieven";
 ["Ignore member"] = "Negeer deelnemer";
+["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "Plaatjes";
 ["Imported"] = false;
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
@@ -686,6 +687,7 @@ return {
 ["This login is too short!"] = "Deze loginnaam is te kort!";
 ["This member account has been created at #{created}"] = "Dit lidmaatschap is gecreerd bij  #{created}.";
 ["This member account has been created at #{created}."] = false;
+["This member has no voting right in this unit!"] = false;
 ["This member has rejected to become initiator of this initiative"] = "Deze deelnemer wil geen initiator van dit intiatief worden";
 ["This member has rejected to become initiator of this initiative!"] = false;
 ["This member is already initiator of this initiative"] = "Deze deelnemer is al initiator van dit initiatief";
@@ -823,6 +825,7 @@ return {
 ["You have ignored this initiative."] = false;
 ["You have ignored this member"] = "U heeft deze deelnemer genegeerd";
 ["You have ignored this member."] = false;
+["You have no voting right in this unit!"] = false;
 ["You have not voted #{count} issue(s) you were interested in"] = "U hebt niet gestemd over #{count} onderwerp(en) waar u geïnteresseerd in was";
 ["You have not voted #{count} issues you were interested in."] = false;
 ["You have not voted one issue you were interested in."] = false;
@@ -913,6 +916,7 @@ return {
 ["must not"] = "mag niet";
 ["neutral"] = "neutraal";
 ["no reverse beat path to status quo (including ties)"] = "geen achteruitweg naar de status quo (inclusief allianties)";
+["no voting right"] = false;
 ["none"] = "geen";
 ["not implemented"] = "niet geïmplementeerd";
 ["not yet"] = "nog niet";
