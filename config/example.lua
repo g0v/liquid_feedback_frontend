@@ -101,7 +101,10 @@ config.public_access = "none"
 
 -- Supply custom url for avatar/photo delivery
 -- ------------------------------------------------------------------------
--- config.fastpath_url_func = nil
+-- Use the following option to enable fast image loading: 
+-- config.fastpath_url_func = function(member_id, image_type)
+--   return request.get_absolute_baseurl() .. "fastpath/getpic?" .. tostring(member_id) .. "+" .. tostring(image_type)
+-- end
 
 -- Local directory for database dumps offered for download
 -- ------------------------------------------------------------------------
