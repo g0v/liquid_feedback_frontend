@@ -418,7 +418,6 @@ return {
 ["No default"] = "Neniu aprioraĵo";
 ["No delegation"] = "Neniu delegacio";
 ["No events selected to list"] = "Neniuj eventoj elektitaj";
-["No more events available"] = false;
 ["No multistage majority"] = false;
 ["No notifications at all"] = false;
 ["No potential supporters"] = false;
@@ -581,6 +580,7 @@ return {
 ["Show member"] = "Montri membron";
 ["Show member history"] = false;
 ["Show more information"] = false;
+["Show newest events"] = false;
 ["Show older events"] = false;
 ["Show only events which match... (or associtated)"] = "Montri nur eventojn, kiuj kongruas... (aŭ kunligitaj)";
 ["Show policies in use"] = "Montri uzatajn regularojn";

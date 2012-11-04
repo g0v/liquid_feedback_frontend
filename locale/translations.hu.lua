@@ -430,7 +430,6 @@ return {
 ["No default"] = "Nincs alapértelmezés";
 ["No delegation"] = "Nincs delegáció";
 ["No events selected to list"] = "Nem lettek kiválasztva kilistázandó események";
-["No more events available"] = false;
 ["No multistage majority"] = "Nincs többszintû többség";
 ["No notifications at all"] = "Egyáltalán nincsenek értesítések";
 ["No potential supporters"] = false;
@@ -595,6 +594,7 @@ return {
 ["Show member"] = "Tag mutatása";
 ["Show member history"] = "Tag történetének mutatása";
 ["Show more information"] = false;
+["Show newest events"] = false;
 ["Show older events"] = "Régebbi események mutatása";
 ["Show only events which match... (or associtated)"] = "Csak ennek megfelelõ vagy ehhez kapcsolódó események mutatása:";
 ["Show policies in use"] = "Aktív irányelvek mutatása";

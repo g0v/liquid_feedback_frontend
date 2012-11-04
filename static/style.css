@@ -1169,7 +1169,7 @@ div.delegations_participation {
 }
 
 .more_events_links {
-  margin-left: 255px;
+  margin-left: 256px;
   padding: 1ex;
   background: -webkit-linear-gradient(top, #888, #222);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #888), color-stop(100%,#222));

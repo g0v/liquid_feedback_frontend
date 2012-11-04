@@ -614,6 +614,7 @@ return {
 ["Show member"] = "Προβολή μέλους";
 ["Show member history"] = "Προβολή ιστορικού μέλους";
 ["Show more information"] = false;
+["Show newest events"] = false;
 ["Show older events"] = "Προβολή παλαιοτέρων συμβάντων";
 ["Show only events which match... (or associtated)"] = "Προβολή μόνο των συμβάντων που πληρούν τα ακόλουθα... (ή σχετίζονται)";
 ["Show policies in use"] = "Προβολή κανονισμών σε χρήση";

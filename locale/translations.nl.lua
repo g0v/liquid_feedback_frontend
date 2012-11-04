@@ -617,6 +617,7 @@ return {
 ["Show member"] = "Toon deelnemer";
 ["Show member history"] = "Toon historie van deelnemer";
 ["Show more information"] = false;
+["Show newest events"] = false;
 ["Show older events"] = "Toon oudere evenementen";
 ["Show only events which match... (or associtated)"] = "Toon alleen evenementen die passend zijn... (of geassocieerd)";
 ["Show policies in use"] = "Laat geactiveerde procedures zien";

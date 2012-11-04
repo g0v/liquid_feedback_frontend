@@ -613,6 +613,7 @@ return {
 ["Show member"] = "Mostra l'utente";
 ["Show member history"] = "Mostra la storia dell'utente";
 ["Show more information"] = false;
+["Show newest events"] = false;
 ["Show older events"] = "Mostra gli eventi piu' vecchi";
 ["Show only events which match... (or associtated)"] = "Mostra solo gli eventi relativi a...";
 ["Show policies in use"] = "Mostra le policy in uso";

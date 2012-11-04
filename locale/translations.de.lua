@@ -507,6 +507,7 @@ return {
 ["Show member"] = "Mitglied anzeigen";
 ["Show member history"] = "Historie des Mitglieds anzeigen";
 ["Show more information"] = "Zeige mehr Informationen";
+["Show newest events"] = "Zeige die neusten Ereignisse";
 ["Show older events"] = "Zeige ältere Ereignisse";
 ["Show policies in use"] = "Zeige Regelwerke in Verwendung";
 ["Show policies not in use"] = "Zeige deaktivierte Regelwerke";

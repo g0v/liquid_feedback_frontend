@@ -358,7 +358,6 @@ return {
 ["No"] = false;
 ["No changes to your images were made"] = false;
 ["No default"] = false;
-["No more events available"] = false;
 ["No multistage majority"] = false;
 ["No notifications at all"] = false;
 ["No potential supporters"] = false;
@@ -502,6 +501,7 @@ return {
 ["Show member"] = false;
 ["Show member history"] = false;
 ["Show more information"] = false;
+["Show newest events"] = false;
 ["Show older events"] = false;
 ["Show policies in use"] = false;
 ["Show policies not in use"] = false;

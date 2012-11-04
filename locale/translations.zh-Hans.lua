@@ -614,6 +614,7 @@ return {
 ["Show member"] = "显示成员";
 ["Show member history"] = "显示该成员紀录";
 ["Show more information"] = false;
+["Show newest events"] = false;
 ["Show older events"] = "显示较早动态";
 ["Show only events which match... (or associtated)"] = "只显示符合... (或相关) 的动态";
 ["Show policies in use"] = "显示所使用的规则";
