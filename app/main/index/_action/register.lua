@@ -195,8 +195,13 @@ if step > 2 then
     return false
   end
 
-  member.login = login
-  member.name = name
+  if not config.locked_profile_fields.login
+    member.login = login
+  end
+
+  if not config.locked_profile_fields.name
+    member.name = name
+  end
 
   if notify_email ~= old_notify_email then
     local success = member:set_notify_email(notify_email)
