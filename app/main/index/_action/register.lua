@@ -195,11 +195,11 @@ if step > 2 then
     return false
   end
 
-  if not config.locked_profile_fields.login
+  if not config.locked_profile_fields.login then
     member.login = login
   end
 
-  if not config.locked_profile_fields.name
+  if not config.locked_profile_fields.name then
     member.name = name
   end
 
