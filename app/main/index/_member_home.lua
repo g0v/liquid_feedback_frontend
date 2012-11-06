@@ -7,9 +7,9 @@ if not for_member then
   ui.container{ attr = { class = "ui_filter" }, content = function()
     ui.container{ attr = { class = "ui_filter_head" }, content = function()
       ui.link{
-        attr = { class = filter_unit == "my_areas" and "ui_tabs_link active" or nil },
-        text = _"My areas",
-        module = "index", view = "index", params = { filter_unit = "my_areas" }
+        attr = { class = filter_unit == "global" and "active" or nil },
+        text = _"All units",
+        module = "index", view = "index", params = { filter_unit = "global" }
       }
       slot.put(" ")
       ui.link{
@@ -19,9 +19,9 @@ if not for_member then
       }
       slot.put(" ")
       ui.link{
-        attr = { class = filter_unit == "global" and "active" or nil },
-        text = _"All units",
-        module = "index", view = "index", params = { filter_unit = "global" }
+        attr = { class = filter_unit == "my_areas" and "ui_tabs_link active" or nil },
+        text = _"My areas",
+        module = "index", view = "index", params = { filter_unit = "my_areas" }
       }
     end }
   end }

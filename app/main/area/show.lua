@@ -50,14 +50,6 @@ local tabs = {
 }
 
 tabs[#tabs+1] = {
-  name = "timeline",
-  label = _"Latest events",
-  module = "event",
-  view = "_list",
-  params = { for_area = area }
-}
-
-tabs[#tabs+1] = {
   name = "open",
   label = _"Open issues",
   module = "issue",
@@ -67,6 +59,7 @@ tabs[#tabs+1] = {
     issues_selector = open_issues_selector, for_area = true
   }
 }
+
 tabs[#tabs+1] = {
   name = "closed",
   label = _"Closed issues",
@@ -78,26 +71,31 @@ tabs[#tabs+1] = {
   }
 }
 
-if app.session:has_access("all_pseudonymous") then
-  tabs[#tabs+1] =
-    {
-      name = "members",
-      label = _"Participants" .. " (" .. tostring(members_selector:count()) .. ")",
-      icon = { static = "icons/16/group.png" },
-      module = "member",
-      view = "_list",
-      params = { members_selector = members_selector }
-    }
+tabs[#tabs+1] = {
+  name = "timeline",
+  label = _"Latest events",
+  module = "event",
+  view = "_list",
+  params = { for_area = area }
+}
 
-  tabs[#tabs+1] =
-    {
-      name = "delegations",
-      label = _"Delegations" .. " (" .. tostring(delegations_selector:count()) .. ")",
-      icon = { static = "icons/16/table_go.png" },
-      module = "delegation",
-      view = "_list",
-      params = { delegations_selector = delegations_selector }
-    }
+if app.session:has_access("all_pseudonymous") then
+  tabs[#tabs+1] = {
+    name = "members",
+    label = _"Participants" .. " (" .. tostring(members_selector:count()) .. ")",
+    icon = { static = "icons/16/group.png" },
+    module = "member",
+    view = "_list",
+    params = { members_selector = members_selector }
+  }
+  tabs[#tabs+1] = {
+    name = "delegations",
+    label = _"Delegations" .. " (" .. tostring(delegations_selector:count()) .. ")",
+    icon = { static = "icons/16/table_go.png" },
+    module = "delegation",
+    view = "_list",
+    params = { delegations_selector = delegations_selector }
+  }
 end
 
 ui.tabs(tabs)

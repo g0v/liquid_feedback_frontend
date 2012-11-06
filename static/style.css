@@ -1075,6 +1075,10 @@ div.delegations_participation {
  * Unit list
  */
 
+.unit_list_box {
+  margin-top: 2ex;
+}
+
 .unit_list a {
   font-weight: bold;
 }

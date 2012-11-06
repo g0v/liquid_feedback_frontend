@@ -170,6 +170,7 @@ if state == 'open' and app.session.member and member.id == app.session.member_id
   filters[#filters+1] = {
     name = "filter_voting",
     class = "ui_filter_head_indent",
+    default = "not_voted",
     {
       name = "any",
       label = _"Any",
@@ -199,7 +200,8 @@ end
 if member then
   local filter = {
     name = "filter_interest",
-    class = "ui_filter_head_next"
+    class = "ui_filter_head_next",
+    default = "area"
   }
   if not for_member then
     if not for_unit and not for_area then
@@ -232,13 +234,13 @@ if member then
           selector:join("membership", nil, { "membership.area_id = issue.area_id AND membership.member_id = ?", member.id })
         end
       }
-    end
-    if for_area then
+    else
       filter[#filter+1] = {
         name = "any",
         label = _"All issues",
         selector_modifier = function()  end
       }
+      filter.default = "any"
     end
   end
   filter[#filter+1] = {

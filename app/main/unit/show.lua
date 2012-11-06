@@ -69,14 +69,6 @@ tabs[#tabs+1] = {
 }
 
 tabs[#tabs+1] = {
-  name = "timeline",
-  label = _"Latest events",
-  module = "event",
-  view = "_list",
-  params = { for_unit = unit }
-}
-
-tabs[#tabs+1] = {
   name = "open",
   label = _"Open issues",
   module = "issue",
@@ -86,6 +78,7 @@ tabs[#tabs+1] = {
     issues_selector = open_issues_selector, for_unit = true
   }
 }
+
 tabs[#tabs+1] = {
   name = "closed",
   label = _"Closed issues",
@@ -97,6 +90,14 @@ tabs[#tabs+1] = {
   }
 }
 
+tabs[#tabs+1] = {
+  name = "timeline",
+  label = _"Latest events",
+  module = "event",
+  view = "_list",
+  params = { for_unit = unit }
+}
+
 if app.session:has_access("all_pseudonymous") then
   tabs[#tabs+1] = {
     name = "eligible_voters",
@@ -105,7 +106,6 @@ if app.session:has_access("all_pseudonymous") then
     view = "_list",
     params = { members_selector = members_selector }
   }
-
   tabs[#tabs+1] = {
     name = "delegations",
     label = _"Delegations",

@@ -13,13 +13,6 @@ tabs[#tabs+1] = {
 }
 
 tabs[#tabs+1] = {
-  name = "timeline",
-  label = _"Latest events",
-  module = "event",
-  view = "_list"
-}
-
-tabs[#tabs+1] = {
   name = "open",
   label = _"Open issues",
   module = "issue",
@@ -44,6 +37,13 @@ tabs[#tabs+1] = {
       :add_order_by("issue.closed DESC")
 
   }
+}
+
+tabs[#tabs+1] = {
+  name = "timeline",
+  label = _"Latest events",
+  module = "event",
+  view = "_list"
 }
 
 tabs[#tabs+1] = {
