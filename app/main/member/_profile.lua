@@ -21,21 +21,15 @@ ui.form{
       attr = { class = "right" },
       content = function()
 
-      execute.view{
-        module = "member_image",
-        view = "_show",
-        params = {
-          member = member,
-          image_type = "photo"
+        execute.view{
+          module = "member_image",
+          view = "_show",
+          params = {
+            member = member,
+            image_type = "photo"
+          }
         }
-      }
-
-      ui.container{
-        attr = { class = "contact_data" },
-        content = function()
-        end
-      }
-
+  
       end
     }
 

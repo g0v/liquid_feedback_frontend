@@ -575,12 +575,17 @@ a.delegation_info:focus {
   border: 2px solid #f90;
 }
 
-
 .member_list .member_image_avatar {
   float: left;
   margin-right: 0.5em;
 }
 
+.member_image_photo {
+  border-radius: 8px;
+}
+.member_image_avatar {
+  border-radius: 7px;
+}
 .micro_avatar {
   height: 24px;
   border-radius: 4px;
@@ -590,11 +595,6 @@ a.delegation_info:focus {
 .logo {
   float: right;
   margin-right: 1%;
-}
-
-
-.member_image_photo {
-  border-radius: 8px;
 }
 
 /*************************************************************************
