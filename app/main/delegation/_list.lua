@@ -118,41 +118,44 @@ ui.paginate{
 
           end
 
-          -- link to delegation page
-          ui.link{
-            attr = { title = _"Show more information" },
-            module = "delegation",
-            view = "show",
-            params = {
-              unit_id   = delegation.unit_id,
-              area_id   = delegation.area_id,
-              issue_id  = delegation.issue_id,
-              member_id = delegation.member_id,
-              back_module = request.get_module(),
-              back_view = request.get_view(),
-              back_id = param.get_id_cgi(),
-              back_params = params
-            },
+          ui.container{
+            attr = { class = "more" },
             content = function()
-              ui.image{
-                attr = {
-                   class = "more",
-                   alt = _"Show more information"
+              -- link to delegation page
+              ui.link{
+                attr = { title = _"Show more information" },
+                module = "delegation",
+                view = "show",
+                params = {
+                  unit_id   = delegation.unit_id,
+                  area_id   = delegation.area_id,
+                  issue_id  = delegation.issue_id,
+                  member_id = delegation.member_id,
+                  back_module = request.get_module(),
+                  back_view = request.get_view(),
+                  back_id = param.get_id_cgi(),
+                  back_params = params
                 },
-                static = "icons/16/magnifier.png"
+                content = function()
+                  ui.image{
+                    attr = {
+                       alt = _"Show more information"
+                    },
+                    static = "icons/16/magnifier.png"
+                  }
+                end
               }
+              -- dots if not all trustees could be displayed
+              if #delegation_chain > 5 then
+                ui.container{
+                  attr = { class = "dots" },
+                  content = function()
+                    slot.put("<br />...")
+                  end
+                }
+              end
             end
           }
-
-          -- dots if not all trustees could be displayed
-          if #delegation_chain > 5 then
-            ui.container{
-              attr = { class = "dots" },
-              content = function()
-                slot.put("<br />&nbsp;...")
-              end
-            }
-          end
 
         end
       }

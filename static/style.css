@@ -982,17 +982,21 @@ div.delegation_participation {
 /* List of delegations for a unit, an area or a member (incoming and outgoing) */
 
 .delegations_scope {
-  margin-top: 2ex;
-  margin-bottom: 1ex;
+  clear: both;
 }
 .delegations_scope .unit_link,
 .delegations_scope .area_link,
 .delegations_scope .issue_link {
-  float: none;
+  margin-bottom: 5px;
+  margin-top: 7px;
 }
 
 .delegations_list_row {
-  height: 58px;
+  clear: both;
+}
+
+.delegations_list_row .member_thumb {
+  margin-bottom: 5px;
 }
 
 .delegation_highlighted .member_thumb,
@@ -1013,9 +1017,10 @@ div.delegations_participation {
   margin-top: 14px;
 }
 
-.delegations_list_row img.more {
-  margin-left: 5px;
-  margin-top: 8px;
+.delegations_list_row div.more {
+  float: left;
+  padding-left: 5px;
+  padding-top: 8px;
 }
 
 .delegations_list_row div.dots {
