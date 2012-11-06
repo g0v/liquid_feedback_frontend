@@ -209,11 +209,11 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
         slot.put(" &middot; ")
         slot.put("<b>")
         if initiative.winner then
-          slot.put(_"Approved")
+          slot.put( _"Approved" .. " " .. _("(rank #{rank})", { rank = initiative.rank }) )
         elseif initiative.rank then
-          slot.put(_("Not approved (rank #{rank})", { rank = initiative.rank }))
+          slot.put( _"Not approved" .. " " .. _("(rank #{rank})", { rank = initiative.rank }) )
         else
-          slot.put(_"Not approved")
+          slot.put( _"Not approved" )
         end
         slot.put("</b>")
       end

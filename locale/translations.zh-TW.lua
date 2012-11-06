@@ -29,6 +29,7 @@ return {
 ["#{time_left} left"] = "剩下 #{time_left}";
 ["(#{more_count} duplicates removed)"] = "(移除了 #{more_count} 個重複項目)";
 ["(new window)"] = "(新視窗)";
+["(rank #{rank})"] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = false;
 ["A-Z"] = "A-Z";
@@ -300,6 +301,7 @@ return {
 ["Initiative Details"] = false;
 ["Initiative events"] = "提案動態";
 ["Initiative i#{id}: #{name}"] = "提案 i#{id}: #{name}";
+["Initiative in open issue"] = false;
 ["Initiative is revoked now"] = "提案目前被撤銷";
 ["Initiative is revoked now."] = false;
 ["Initiative quorum"] = "提案法定門檻";

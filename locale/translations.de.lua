@@ -21,6 +21,7 @@ return {
 ["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = "noch #{time_left}";
 ["(new window)"] = "(neues Fenster)";
+["(rank #{rank})"] = "(Rang #{rank})";
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = false;
 ["A-Z"] = "A-Z";
@@ -252,6 +253,7 @@ return {
 ["Initiative ##{id}"] = "Initiative ##{id}";
 ["Initiative Details"] = "Details der Initiative";
 ["Initiative i#{id}: #{name}"] = "Initiative i#{id}: #{name}";
+["Initiative in open issue"] = "Inititative in offenem Thema";
 ["Initiative is revoked now."] = "Initiative wurde zurückgezogen.";
 ["Initiative quorum"] = "Quorum Initiative";
 ["Initiative quorum denumerator"] = "Initiativ-Quorum Nenner";

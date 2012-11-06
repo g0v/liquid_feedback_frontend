@@ -26,6 +26,7 @@ return {
 ["#{time_left} left"] = false;
 ["(#{more_count} duplicates removed)"] = "(#{more_count} duoblaĵoj forigitaj)";
 ["(new window)"] = "(nova fenestro)";
+["(rank #{rank})"] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = false;
 ["A-Z"] = "A-Z";
@@ -283,6 +284,7 @@ return {
 ["Initiative Details"] = false;
 ["Initiative events"] = "Iniciato-eventoj";
 ["Initiative i#{id}: #{name}"] = false;
+["Initiative in open issue"] = false;
 ["Initiative is revoked now"] = "Iniciato nun estas retirita";
 ["Initiative is revoked now."] = false;
 ["Initiative quorum"] = "Kvorumo de la iniciato";

@@ -11,14 +11,55 @@ end
 ui.container{ attr = { class = class }, content = function()
 
   ui.container{ attr = { class = "rank" }, content = function()
-    if initiative.issue.accepted and initiative.issue.closed
-      and initiative.issue.ranks_available or initiative.admitted == false
-    then
-      ui.field.rank{ attr = { class = "rank" }, value = initiative.rank, eligible = initiative.eligible }
+    if (initiative.issue.accepted and initiative.issue.closed and initiative.issue.ranks_available) or initiative.admitted == false then
+      ui.form_element(args, {fetch_value = true}, function(args)
+        ui.tag{
+          attr = { class = "rank" },
+          content = function()
+            local label_rank = ""
+            if initiative.rank then
+              label_rank = " " .. _("(rank #{rank})", { rank = initiative.rank })
+            end
+            if initiative.eligible and initiative.rank == 1 then
+              local label = _"Approved" .. label_rank
+              ui.image{
+                attr = { alt = label, title = label },
+                static = "icons/16/award_star_gold_2.png"
+              }
+            elseif initiative.eligible and initiative.rank then
+              local label = _"Not approved" .. label_rank
+              ui.image{
+                attr = { alt = label, title = label },
+                static = "icons/16/award_star_silver_2.png"
+              }
+            else
+              local label = _"Not approved" .. label_rank
+              ui.image{
+                attr = { alt = label, title = label },
+                static = "icons/16/cross.png"
+              }
+            end
+            if initiative.rank then
+              ui.tag{
+                attr = { class = "value" },
+                content = tostring(initiative.rank)
+              }
+            end
+          end
+        }
+      end)
     elseif not initiative.issue.closed then
-      ui.image{ static = "icons/16/script.png" }
+      local label = _"Initiative in open issue"
+      ui.image{
+        attr = { alt = label, title = label },
+        static = "icons/16/script.png"
+      }
     else
-      ui.image{ static = "icons/16/cross.png" }
+      local label = _"Not approved"
+      ui.image{
+        attr = { alt = label, title = label },
+        static = "icons/16/cross.png"
+      }
     end
   end }
 
@@ -79,20 +120,22 @@ ui.container{ attr = { class = class }, content = function()
         }
       elseif initiative.member_info.directly_supported then
         if initiative.member_info.satisfied then
+          local label
           if for_member and for_member.id ~= app.session.member_id then
             label = _"This member is supporter of this initiative."
           else
-            local label = _"You are supporter of this initiative."
+            label = _"You are supporter of this initiative."
           end
           ui.image{
             attr = { alt = label, title = label },
             static = "icons/16/thumb_up_green.png"
           }
         else
+          local label
           if for_member and for_member.id ~= app.session.member_id then
             label = _"This member is potential supporter of this initiative."
           else
-            local label = _"You are potential supporter of this initiative."
+            label = _"You are potential supporter of this initiative."
           end
           ui.image{
             attr = { alt = label, title = label },
@@ -101,20 +144,22 @@ ui.container{ attr = { class = class }, content = function()
         end
       elseif initiative.member_info.supported then
         if initiative.member_info.satisfied then
+          local label
           if for_member and for_member.id ~= app.session.member_id then
             label = _"This member is supporter of this initiative via delegation."
           else
-            local label = _"You are supporter of this initiative via delegation."
+            label = _"You are supporter of this initiative via delegation."
           end
           ui.image{
             attr = { alt = label, title = label },
             static = "icons/16/thumb_up_green_arrow.png"
           }
         else
+          local label
           if for_member and for_member.id ~= app.session.member_id then
             label = _"This member is potential supporter of this initiative via delegation."
           else
-            local label = _"You are potential supporter of this initiative via delegation."
+            label = _"You are potential supporter of this initiative via delegation."
           end
           ui.image{
             attr = { alt = label, title = label },

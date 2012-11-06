@@ -29,6 +29,7 @@ return {
 ["#{time_left} left"] = "tempo rimanente #{time_left}";
 ["(#{more_count} duplicates removed)"] = "(#{more_count} duplicati eliminati)";
 ["(new window)"] = "(nuova finestra)";
+["(rank #{rank})"] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = "+getElementById(";
 ["A-Z"] = "A-Z";
@@ -299,6 +300,7 @@ return {
 ["Initiative Details"] = false;
 ["Initiative events"] = "Eventi dell'iniziativa";
 ["Initiative i#{id}: #{name}"] = "Iniziativa i#{id}: #{name}";
+["Initiative in open issue"] = false;
 ["Initiative is revoked now"] = "L'iniziativa e' revocata";
 ["Initiative is revoked now."] = false;
 ["Initiative quorum"] = "Quorum dell'iniziativa";

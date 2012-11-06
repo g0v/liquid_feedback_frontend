@@ -29,6 +29,7 @@ return {
 ["#{time_left} left"] = "απομένουν #{time_left}";
 ["(#{more_count} duplicates removed)"] = "(Αφαιρέθηκαν #{more_count} αντίγραφα)";
 ["(new window)"] = "(νέο παράθυρο)";
+["(rank #{rank})"] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = false;
 ["A-Z"] = "Α-Ω";
@@ -300,6 +301,7 @@ return {
 ["Initiative Details"] = false;
 ["Initiative events"] = "Συμβάντα πρωτοβουλίας";
 ["Initiative i#{id}: #{name}"] = "Πρωτοβουλία i#{id}: #{name}";
+["Initiative in open issue"] = false;
 ["Initiative is revoked now"] = "Η πρωτοβουλία έχει πλέον ανακληθεί";
 ["Initiative is revoked now."] = false;
 ["Initiative quorum"] = "Απαρτία πρωτοβουλίας";

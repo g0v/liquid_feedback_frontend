@@ -27,6 +27,7 @@ return {
 ["#{time_left} left"] = "#{time_left} idõ van hátra";
 ["(#{more_count} duplicates removed)"] = "(#{more_count} másolat eltávolítva)";
 ["(new window)"] = "(új ablak)";
+["(rank #{rank})"] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = "+getElementById(";
 ["A-Z"] = "A-Z";
@@ -295,6 +296,7 @@ return {
 ["Initiative Details"] = false;
 ["Initiative events"] = "Kezdeményezés eseményei";
 ["Initiative i#{id}: #{name}"] = "i#{id}. kezdeményezés: #{name}";
+["Initiative in open issue"] = false;
 ["Initiative is revoked now"] = "Kezdeményezés visszavonás alatt";
 ["Initiative is revoked now."] = false;
 ["Initiative quorum"] = "Kezdeményezés-határozatképesség";

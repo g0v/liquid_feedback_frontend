@@ -21,6 +21,7 @@ return {
 ["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = false;
 ["(new window)"] = false;
+["(rank #{rank})"] = false;
 ["+ #{weight}"] = false;
 ["+getElementById("] = false;
 ["A-Z"] = false;
@@ -250,6 +251,7 @@ return {
 ["Initiative ##{id}"] = false;
 ["Initiative Details"] = false;
 ["Initiative i#{id}: #{name}"] = false;
+["Initiative in open issue"] = false;
 ["Initiative is revoked now."] = false;
 ["Initiative quorum"] = false;
 ["Initiative quorum denumerator"] = false;
@@ -373,7 +375,6 @@ return {
 ["Not active"] = false;
 ["Not admin"] = false;
 ["Not approved"] = false;
-["Not approved (rank #{rank})"] = false;
 ["Not imported"] = false;
 ["Not locked"] = false;
 ["Not voted"] = false;

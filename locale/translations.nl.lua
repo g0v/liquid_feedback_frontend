@@ -30,6 +30,7 @@ return {
 ["#{time_left} left"] = "nog #{time_left}";
 ["(#{more_count} duplicates removed)"] = "(#{more_count} dubbelingen verwijderd)";
 ["(new window)"] = "(nieuw venster)";
+["(rank #{rank})"] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = false;
 ["A-Z"] = "A-Z";
@@ -302,6 +303,7 @@ return {
 ["Initiative Details"] = false;
 ["Initiative events"] = "Initiatief evenementen";
 ["Initiative i#{id}: #{name}"] = "Initiatief i#{id}: #{name}";
+["Initiative in open issue"] = false;
 ["Initiative is revoked now"] = "Initiatief is nu teruggetrokken";
 ["Initiative is revoked now."] = false;
 ["Initiative quorum"] = "Initiatief quorum";
