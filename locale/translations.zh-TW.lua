@@ -358,6 +358,7 @@ return {
 ["Issue reached next phase"] = "議題進入下個階段";
 ["Issues:"] = "議題:";
 ["JavaScript is disabled or not available."] = "JavaScript 被停用或尚未安裝.";
+["Language"] = false;
 ["Last activity (updated daily)"] = "最新動態 (每日更新)";
 ["Last snapshot"] = false;
 ["Last snapshot:"] = "最後票數統計:";

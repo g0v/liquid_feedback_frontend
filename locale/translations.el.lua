@@ -358,6 +358,7 @@ return {
 ["Issue reached next phase"] = "Το θέμα έφτασε το επόμενο στάδιο";
 ["Issues:"] = "Θέματα:";
 ["JavaScript is disabled or not available."] = "Η JavaScript είναι απενεργοποιημένη ή μη διαθέσιμη.";
+["Language"] = false;
 ["Last activity (updated daily)"] = "Τελευταία δραστηριότητα (ενημερώνεται καθημερινά)";
 ["Last snapshot"] = false;
 ["Last snapshot:"] = "Τελευταίο στιγμιότυπο";

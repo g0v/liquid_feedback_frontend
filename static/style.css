@@ -291,35 +291,30 @@ form.unit_selector {
 }
 
 
-#member_menu {
+#language_menu {
  z-index: 2;
 }
 
-#member_menu li {
+#language_menu li {
  float: left;
 }
 
-#member_menu li:hover {
+#language_menu li:hover {
  position: relative;
  z-index: 4;
  cursor: default;
 }
 
-#member_menu {
+#language_menu {
   margin: 0;
   padding: 0;
-  width: 200px;
 }
 
-#member_menu > li {
-  width: 200px;
-}
-
-#member_menu li a {
+#language_menu li a {
   float: right;
 }
 
-#member_menu ul {
+#language_menu ul {
   margin: 0;
   padding: 0;
   list-style-type: none;
@@ -328,37 +323,36 @@ form.unit_selector {
   top: 100%;
   left: 0;
   z-index: 3;
-  width: 200px;
   border-radius: 0 0 8px 8px;
   background: #000;
 }
 
-#member_menu ul li {
+#language_menu ul li {
   float: none;
 }
 
-#member_menu ul li a {
+#language_menu ul li a {
   float: none;
   background: #000;
   font-size: 80%;
 }
 
-#member_menu ul ul {
+#language_menu ul ul {
   top: 1px;
   right: 1px;
 }
 
-#member_menu li:hover ul {
+#language_menu li:hover ul {
   display: block;
 }
 
-#member_menu li li a {
+#language_menu li li a {
   background: #000;
   border-radius: 5px;
   color: #fff;
 }
 
-#member_menu ul li:hover a {
+#language_menu ul li:hover a {
   background: #000;
   color: #f90;
 }

@@ -357,6 +357,7 @@ return {
 ["Issue reached next phase"] = "La tematica e' passata alla fase successiva";
 ["Issues:"] = "Tematiche:";
 ["JavaScript is disabled or not available."] = "JavaScript disabilitato o non disponibile.";
+["Language"] = false;
 ["Last activity (updated daily)"] = "Ultima attivita' (aggiornato giornalmente)";
 ["Last snapshot"] = false;
 ["Last snapshot:"] = "Ultimo snapshot:";

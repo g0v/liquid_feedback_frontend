@@ -341,6 +341,7 @@ return {
 ["Issue reached next phase"] = false;
 ["Issues:"] = false;
 ["JavaScript is disabled or not available."] = "JavaScript ne estas ŝaltita aŭ disponebla.";
+["Language"] = false;
 ["Last activity (updated daily)"] = false;
 ["Last snapshot"] = false;
 ["Last snapshot:"] = "Lasta fulmrigardo:";
@@ -374,7 +375,6 @@ return {
 ["Member is now invited to be initiator."] = false;
 ["Member is participating in this area."] = false;
 ["Member list"] = "Membrolisto";
-["Member menu"] = false;
 ["Member name"] = "Membronomo";
 ["Member name history for '#{name}'"] = "Nomohistorio por '#{name}'";
 ["Member of area"] = "Membro de temaro";

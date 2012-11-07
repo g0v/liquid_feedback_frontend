@@ -353,6 +353,7 @@ return {
 ["Issue reached next phase"] = "A téma eljutott a következõ fázisba";
 ["Issues:"] = false;
 ["JavaScript is disabled or not available."] = "JavaScript deaktiválva vagy nem elérhetõ.";
+["Language"] = false;
 ["Last activity (updated daily)"] = "Legutóbbi aktivitás (naponta frissítve)";
 ["Last snapshot"] = false;
 ["Last snapshot:"] = "Legfrissebb állás:";
@@ -386,7 +387,6 @@ return {
 ["Member is now invited to be initiator."] = false;
 ["Member is participating in this area."] = false;
 ["Member list"] = "Taglista";
-["Member menu"] = false;
 ["Member name"] = "Tagnév";
 ["Member name history for '#{name}'"] = "'#{name}' tagnév-története";
 ["Member of area"] = "Témakör tagja";

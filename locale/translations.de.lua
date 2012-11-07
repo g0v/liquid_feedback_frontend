@@ -299,6 +299,7 @@ return {
 ["Issue reached next phase"] = "Thema hat die nächste Phase erreicht";
 ["Issues:"] = "Themen:";
 ["JavaScript is disabled or not available."] = "JavaScript ist abgeschaltet oder nicht verfügbar.";
+["Language"] = "Sprache";
 ["Last activity (updated daily)"] = "Letzte Aktivität (täglich aktualisiert)";
 ["Last snapshot"] = "Letzte Auszählung";
 ["Latest draft created at #{date} #{time}"] = "Letzter Entwurf vom #{date} um #{time}";

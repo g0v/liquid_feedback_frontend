@@ -360,6 +360,7 @@ return {
 ["Issue reached next phase"] = "Onderwerp heeft de volgende fase bereikt";
 ["Issues:"] = "Onderwerpen:";
 ["JavaScript is disabled or not available."] = "JavaScript is disabled of niet beschikbaar.";
+["Language"] = false;
 ["Last activity (updated daily)"] = "Laatste activiteit (dagelijks geactualiseerd)";
 ["Last snapshot"] = false;
 ["Last snapshot:"] = "Laatste snapshot:";

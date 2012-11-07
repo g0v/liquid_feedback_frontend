@@ -296,6 +296,7 @@ return {
 ["Issue reached next phase"] = false;
 ["Issues:"] = false;
 ["JavaScript is disabled or not available."] = false;
+["Language"] = false;
 ["Last activity (updated daily)"] = false;
 ["Last snapshot"] = false;
 ["Latest draft created at #{date} #{time}"] = false;
@@ -320,7 +321,6 @@ return {
 ["Member is now invited to be initiator."] = false;
 ["Member is participating in this area."] = false;
 ["Member list"] = false;
-["Member menu"] = false;
 ["Member name history for '#{name}'"] = false;
 ["Member page"] = false;
 ["Member successfully registered"] = false;
@@ -488,7 +488,6 @@ return {
 ["Search term (only complete words)"] = false;
 ["Search:"] = false;
 ["Select language"] = false;
-["Select language \"#{langcode}\""] = false;
 ["Send invite?"] = false;
 ["Set URL"] = false;
 ["Set new password"] = false;

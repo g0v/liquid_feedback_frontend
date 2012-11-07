@@ -10,33 +10,20 @@ slot.select('navigation', function()
     view   = 'index'
   }
 
+  -- search
   if app.session:has_access("anonymous") then
-
-    -- search
     ui.link{
       content = _"Search",
       module = 'index',
       view   = 'search'
     }
-
-    -- login
-    if app.session.member == nil then
-      ui.link{
-        text   = _"Login",
-        module = 'index',
-        view   = 'login',
-        params = {
-          redirect_module = request.get_module(),
-          redirect_view = request.get_view(),
-          redirect_id = param.get_id()
-        }
-      }
-    end
-
   end
 
-  -- logout
-  if app.session.member ~= nil then
+end)
+
+slot.select('navigation_right', function()
+
+  if app.session.member_id then
     ui.link{
       text   = _"Logout",
       module = 'index',
@@ -49,14 +36,25 @@ slot.select('navigation', function()
         }
       }
     }
+  else
+    if app.session:has_access("anonymous") then
+      ui.link{
+        text   = _"Login",
+        module = 'index',
+        view   = 'login',
+        params = {
+          redirect_module = request.get_module(),
+          redirect_view = request.get_view(),
+          redirect_id = param.get_id()
+        }
+      }
+    end
   end
 
-end)
-
-slot.select('navigation_right', function()
+  -- language
   ui.tag{
     tag = "ul",
-    attr = { id = "member_menu" },
+    attr = { id = "language_menu" },
     content = function()
       ui.tag{
         tag = "li",
@@ -65,21 +63,7 @@ slot.select('navigation_right', function()
             module = "index",
             view = "menu",
             content = function()
-              if app.session.member_id then
-                execute.view{
-                  module = "member_image",
-                  view = "_show",
-                  params = {
-                    member = app.session.member,
-                    image_type = "avatar",
-                    show_dummy = true,
-                    class = "micro_avatar",
-                  }
-                }
-                ui.tag{ content = app.session.member.name }
-              else
-                ui.tag{ content = _"Select language" }
-              end
+              ui.tag{ content = _"Language" }
             end
           }
           execute.view{ module = "index", view = "_menu" }
@@ -87,6 +71,52 @@ slot.select('navigation_right', function()
       }
     end
   }
+
+  if app.session.member_id then
+
+    if app.session.member.admin then
+      ui.link{
+        text   = _"Admin",
+        module = 'admin',
+        view   = 'index'
+      }
+    end
+
+    ui.link{
+      text   = _"Settings",
+      module = "member",
+      view = "settings"
+    }
+
+    ui.link{
+      content = _"Contacts",
+      module = 'contact',
+      view   = 'list'
+    }
+
+    ui.link{
+      text = _"Profile",
+      module = "member",
+      view = "show",
+      id = app.session.member_id,
+      attr = { title = _"Profile" },
+      content = function()
+        execute.view{
+          module = "member_image",
+          view = "_show",
+          params = {
+            member = app.session.member,
+            image_type = "avatar",
+            show_dummy = true,
+            class = "micro_avatar"
+          }
+        }
+        ui.tag{ content = app.session.member.name }
+      end
+    }
+
+  end
+
 end)
 
 slot.select("footer", function()
