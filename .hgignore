@@ -1,9 +1,9 @@
-tmp
-.+~
-.AppleDouble
-:2eDS_Store
-
-syntax: regexp
+^tmp
+~$
+\.AppleDouble
+:2e
+\.backup$
+\.orig$
 ^locale/help/.*\.html
 ^config/myconfig\.lua
 ^fastpath/getpic
