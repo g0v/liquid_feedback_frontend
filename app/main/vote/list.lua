@@ -4,7 +4,7 @@ local member_id = param.get("member_id", atom.integer)
 local member
 local readonly = false
 
-local preview = param.get("preview") or param.get("preview2") == "1" and true or false
+local preview = param.get("preview") and true or false
 
 if member_id then
   if not issue.closed then
@@ -475,7 +475,6 @@ ui.form{
           value = param.get("comment") or direct_voter and direct_voter.comment,
           attr = { style = "height: 20ex;" },
         }
-        ui.field.hidden{ name = "preview2", attr = { id = "preview2" }, value = "0" }
         ui.submit{
           name = "preview",
           value = _"Preview voting comment",
