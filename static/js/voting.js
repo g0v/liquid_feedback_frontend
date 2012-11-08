@@ -352,10 +352,10 @@ jsProtect(function() {
       }
     });
   }, false);
-  function voting_moveUp(element) {
+  window.voting_moveUp = function(element) {
     return voting_move(element, true);
   }
-  function voting_moveDown(element) {
+  window.voting_moveDown = function(element) {
     return voting_move(element, false);
   }
 });
