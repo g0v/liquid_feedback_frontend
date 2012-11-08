@@ -332,7 +332,7 @@ jsProtect(function() {
       voting_calculateScoring();
     });
   }
-  function elementDropped(element, dropX, dropY) {
+  window.elementDropped = function(element, dropX, dropY) {
     voting_move(element, null, dropX, dropY);
   }
   window.addEventListener("load", function(event) {
