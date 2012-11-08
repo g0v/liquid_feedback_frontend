@@ -12,6 +12,18 @@ end
 
 if issue_id then
   ui.title(_"Add alternative initiative to issue")
+  ui.actions(function()
+    ui.link{
+      content = function()
+        ui.image{ static = "icons/16/cancel.png" }
+        slot.put(_"Cancel")
+      end,
+      module = "issue",
+      view = "show",
+      id = issue.id,
+      params = { tab = "suggestions" }
+    }
+  end)
 else
   ui.title(_"Create new issue")
 end
@@ -28,11 +40,41 @@ ui.form{
 
     ui.field.text{ label = _"Unit",  value = area.unit.name }
     ui.field.text{ label = _"Area",  value = area.name }
+    if issue_id then
+      ui.field.text{
+        label = _"Issue",
+        value = _("#{policy_name} ##{issue_id}", { policy_name = issue.policy.name, issue_id = issue.id }),
+        readonly = true
+      }
+    end
     slot.put("<br />")
 
-    if issue_id then
-      ui.field.text{ label = _"Issue",  value = issue_id }
-    else
+    if param.get("preview") then
+
+      ui.container{ attr = { class = "initiative_head" }, content = function()
+
+        -- title
+        ui.container{
+          attr = { class = "title" },
+          content = _"Initiative" .. ": " .. encode.html(param.get("name"))
+        }
+
+        -- draft content
+        ui.container{
+          attr = { class = "draft_content wiki" },
+          content = function()
+            slot.put(format.wiki_text(param.get("draft"), param.get("formatting_engine")))
+          end
+        }
+
+      end }
+
+      ui.submit{ text = _"Save" }
+      slot.put("<br /><br /><br />")
+
+    end
+
+    if not issue_id then
       tmp = { { id = -1, name = _"Please choose a policy!" } }
       for i, allowed_policy in ipairs(area.allowed_policies) do
         tmp[#tmp+1] = allowed_policy
@@ -72,47 +114,6 @@ ui.form{
         end
       }
     end
-
-    if param.get("preview") then
-      ui.heading{ level = 1, content = encode.html(param.get("name")) }
-      local discussion_url = param.get("discussion_url")
-      ui.container{
-        attr = { class = "ui_field_label" },
-        content = _"Discussion with initiators"
-      }
-      ui.tag{
-        tag = "span",
-        content = function()
-          if discussion_url:find("^https?://") then
-            if discussion_url and #discussion_url > 0 then
-              ui.link{
-                attr = {
-                  class = "actions",
-                  target = "_blank",
-                  title = discussion_url
-                },
-                content = discussion_url,
-                external = discussion_url
-              }
-            end
-          else
-            slot.put(encode.html(discussion_url))
-          end
-        end
-      }
-      ui.container{ attr = { class = "initiative_head" }, content = function()
-        ui.container{
-          attr = { class = "draft_content wiki" },
-          content = function()
-            slot.put(format.wiki_text(param.get("draft"), param.get("formatting_engine")))
-          end
-        }
-      end }
-      ui.submit{ text = _"Save" }
-      slot.put("<br />")
-      slot.put("<br />")
-    end
-    slot.put("<br />")
 
     ui.field.text{
       label = _"Title of initiative",

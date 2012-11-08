@@ -5,8 +5,8 @@ ui.title(_"Add new suggestion")
 ui.actions(function()
   ui.link{
     content = function()
-        ui.image{ static = "icons/16/cancel.png" }
-        slot.put(_"Cancel")
+      ui.image{ static = "icons/16/cancel.png" }
+      slot.put(_"Cancel")
     end,
     module = "initiative",
     view = "show",
@@ -31,6 +31,22 @@ ui.form{
   attr = { class = "vertical" },
   content = function()
 
+    if param.get("preview") then
+
+      ui.field.text{ label = _"Title", value = param.get("name"), readonly = true }
+
+      ui.container{
+        attr = { class = "suggestion_content wiki initiative_head" },
+        content = function()
+          slot.put( format.wiki_text(param.get("content"), param.get("formatting_engine")) )
+        end
+      }
+
+      ui.submit{ text = _"Commit suggestion" }
+      slot.put("<br /><br /><br />")
+
+    end
+
     local supported = Supporter:by_pk(initiative_id, app.session.member.id) and true or false
     if not supported then
       ui.field.text{
@@ -50,11 +66,17 @@ ui.form{
       foreign_name = "name"
     }
 
-    ui.field.text{ label = _"Title (80 chars max)", name = "name" }
+    ui.field.text{
+      label = _"Title (80 chars max)",
+      name = "name",
+      value = param.get("name")
+    }
 
     ui.wikitextarea("content", _"Description")
 
-    ui.submit{ text = _"Commit suggestion" }
+    ui.submit{ name = "preview", text = _"Preview" }
+    -- hack for the additional submit button, because ui.submit does not allow to set the class attribute
+    ui.tag{ tag = "input", attr = { type = "submit", class = "additional", value = _"Commit suggestion" } }
 
   end
 }

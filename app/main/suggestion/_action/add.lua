@@ -31,7 +31,7 @@ if not formatting_engine_valid then
 end
 
 if param.get("preview") then
-  return
+  return false
 end
 
 local suggestion = Suggestion:new()

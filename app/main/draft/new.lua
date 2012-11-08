@@ -32,25 +32,37 @@ ui.form{
 
     ui.field.text{ label = _"Unit", value = initiative.issue.area.unit.name, readonly = true }
     ui.field.text{ label = _"Area", value = initiative.issue.area.name, readonly = true }
-    ui.field.text{ label = _"Policy", value = initiative.issue.policy.name, readonly = true }
-    ui.field.text{ label = _"Issue", value = _("Issue ##{id}", { id = initiative.issue.id } ), readonly = true }
+    ui.field.text{
+      label = _"Issue",
+      value = _("#{policy_name} ##{issue_id}", { policy_name = initiative.issue.policy.name, issue_id = initiative.issue.id }),
+      readonly = true
+    }
     slot.put("<br />")
-    ui.field.text{ label = _"Initiative", value = initiative.name, readonly = true }
 
     if param.get("preview") then
+
       ui.container{ attr = { class = "initiative_head" }, content = function()
+
+        -- title
+        ui.container{
+          attr = { class = "title" },
+          content = _("Initiative i#{id}: #{name}", { id = initiative.id, name = initiative.name })
+        }
+
+        -- draft content
         ui.container{
           attr = { class = "draft_content wiki" },
           content = function()
             slot.put(format.wiki_text(param.get("content"), param.get("formatting_engine")))
           end
         }
+
       end }
+
       ui.submit{ text = _"Save" }
-      slot.put("<br />")
-      slot.put("<br />")
+      slot.put("<br /><br /><br />")
+
     end
-    slot.put("<br />")
 
     ui.wikitextarea("content", _"Content")
 

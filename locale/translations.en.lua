@@ -181,7 +181,6 @@ return {
 ["Discussion started"] = false;
 ["Discussion starts soon."] = false;
 ["Discussion time"] = false;
-["Discussion with initiators"] = false;
 ["Download"] = false;
 ["Download database export"] = false;
 ["Download documents"] = false;

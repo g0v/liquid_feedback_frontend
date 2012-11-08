@@ -141,14 +141,14 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
                 }
               }
           end
-          if (initiative.discussion_url and #initiative.discussion_url > 0) then
+          if initiative.discussion_url and #initiative.discussion_url > 0 then
             slot.put(" &middot; ")
             if initiative.discussion_url:find("^https?://") then
               if initiative.discussion_url and #initiative.discussion_url > 0 then
                 ui.link{
                   attr = {
                     target = "_blank",
-                    title = _"Discussion with initiators"
+                    title = initiative.discussion_url
                   },
                   text = _"Discuss with initiators",
                   external = initiative.discussion_url
