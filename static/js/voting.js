@@ -338,18 +338,7 @@ jsProtect(function() {
   window.addEventListener("load", function(event) {
     jsProtect(function() {
       voting_setCategoryHeadings();
-      // TODO: replace the following code by non-JavaScript HTML attributes
-      var elements = document.getElementsByTagName("input");
-      for (var i=0; i<elements.length; i++) {
-        var element = elements[i];
-        if (element.name == "preview") {
-          element.addEventListener("click", function(event) {
-            jsProtect(function() {
-              document.getElementById("preview2").value = "1";
-            });
-          }, false);
-        }
-      }
+      voting_calculateScoring();  // checks if script works fine
     });
   }, false);
   window.voting_moveUp = function(element) {
