@@ -10,47 +10,6 @@ slot.select('navigation', function()
     view   = 'index'
   }
 
-  -- search
-  if app.session:has_access("anonymous") then
-    ui.link{
-      content = _"Search",
-      module = 'index',
-      view   = 'search'
-    }
-  end
-
-end)
-
-slot.select('navigation_right', function()
-
-  if app.session.member_id then
-    ui.link{
-      text   = _"Logout",
-      module = 'index',
-      action = 'logout',
-      routing = {
-        default = {
-          mode = "redirect",
-          module = "index",
-          view = "index"
-        }
-      }
-    }
-  else
-    if app.session:has_access("anonymous") then
-      ui.link{
-        text   = _"Login",
-        module = 'index',
-        view   = 'login',
-        params = {
-          redirect_module = request.get_module(),
-          redirect_view = request.get_view(),
-          redirect_id = param.get_id()
-        }
-      }
-    end
-  end
-
   -- language
   ui.tag{
     tag = "ul",
@@ -72,7 +31,33 @@ slot.select('navigation_right', function()
     end
   }
 
+  -- search
+  if app.session:has_access("anonymous") then
+    ui.link{
+      content = _"Search",
+      module = 'index',
+      view   = 'search'
+    }
+  end
+
+end)
+
+slot.select('navigation_right', function()
+
   if app.session.member_id then
+    
+    ui.link{
+      text   = _"Logout",
+      module = 'index',
+      action = 'logout',
+      routing = {
+        default = {
+          mode = "redirect",
+          module = "index",
+          view = "index"
+        }
+      }
+    }
 
     if app.session.member.admin then
       ui.link{
@@ -114,6 +99,21 @@ slot.select('navigation_right', function()
         ui.tag{ content = app.session.member.name }
       end
     }
+
+  else
+
+    if app.session:has_access("anonymous") then
+      ui.link{
+        text   = _"Login",
+        module = 'index',
+        view   = 'login',
+        params = {
+          redirect_module = request.get_module(),
+          redirect_view = request.get_view(),
+          redirect_id = param.get_id()
+        }
+      }
+    end
 
   end
 
