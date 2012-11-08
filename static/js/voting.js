@@ -98,6 +98,58 @@ jsProtect(function() {
       }
     }
   }
+  function voting_calculateScoring() {
+    var mainDiv = document.getElementById("voting");
+    var form = document.getElementById("voting_form");
+    var scoringString = "";
+    var approvalCount = 0;
+    var disapprovalCount = 0;
+    var sections = mainDiv.childNodes;
+    for (var j=0; j<sections.length; j++) {
+      var section = sections[j];
+      if (section.className == "approval")       approvalCount++;
+      if (section.className == "disapproval") disapprovalCount++;
+    }
+    var approvalIndex = 0;
+    var disapprovalIndex = 0;
+    for (var j=0; j<sections.length; j++) {
+      var section = sections[j];
+      if (
+        section.className == "approval"    ||
+        section.className == "abstention"  ||
+        section.className == "disapproval"
+      ) {
+        var score;
+        if (section.className == "approval") {
+          score = approvalCount - approvalIndex;
+          approvalIndex++;
+        } else if (section.className == "abstention") {
+          score = 0;
+        } else if (section.className == "disapproval") {
+          score = -1 - disapprovalIndex;
+          disapprovalIndex++;
+        }
+        var entries = section.childNodes;
+        for (var k=0; k<entries.length; k++) {
+          var entry = entries[k];
+          if (entry.className == "movable") {
+            var id = entry.id.match(/[0-9]+/);
+            var field = document.createElement("input");
+            scoringString += id + ":" + score + ";";
+          }
+        }
+      }
+    }
+    var fields = form.childNodes;
+    for (var j=0; j<fields.length; j++) {
+      var field = fields[j];
+      if (field.name == "scoring") {
+        field.setAttribute("value", scoringString);
+        return;
+      }
+    }
+    throw('Hidden input field named "scoring" not found.');
+  }
   function voting_move(element, up, dropX, dropY) {
     jsProtect(function() {
       if (typeof(element) == "string") element = document.getElementById(element);
@@ -277,6 +329,7 @@ jsProtect(function() {
         }
       }
       voting_setCategoryHeadings();
+      voting_calculateScoring();
     });
   }
   function elementDropped(element, dropX, dropY) {
@@ -284,89 +337,19 @@ jsProtect(function() {
   }
   window.addEventListener("load", function(event) {
     jsProtect(function() {
-      var jsTest = true;
-      var jsTestSuccess = false;
       voting_setCategoryHeadings();
-      var mainDiv = document.getElementById("voting");
-      var form = document.getElementById("voting_form");
+      // TODO: replace the following code by non-JavaScript HTML attributes
       var elements = document.getElementsByTagName("input");
       for (var i=0; i<elements.length; i++) {
         var element = elements[i];
-        if (element.className == "voting_done1" ||
-            element.className == "voting_done2" ||
-            element.name == "preview") {
+        if (element.name == "preview") {
           element.addEventListener("click", function(event) {
             jsProtect(function() {
-              event.preventDefault();
-              if (event.target.name == "preview") {
-                document.getElementById("preview2").value = "1";
-              }
-              var scoringString = "";
-              var approvalCount = 0;
-              var disapprovalCount = 0;
-              var sections = mainDiv.childNodes;
-              for (var j=0; j<sections.length; j++) {
-                var section = sections[j];
-                if (section.className == "approval")       approvalCount++;
-                if (section.className == "disapproval") disapprovalCount++;
-              }
-              var approvalIndex = 0;
-              var disapprovalIndex = 0;
-              for (var j=0; j<sections.length; j++) {
-                var section = sections[j];
-                if (
-                  section.className == "approval"    ||
-                  section.className == "abstention"  ||
-                  section.className == "disapproval"
-                ) {
-                  var score;
-                  if (section.className == "approval") {
-                    score = approvalCount - approvalIndex;
-                    approvalIndex++;
-                  } else if (section.className == "abstention") {
-                    score = 0;
-                  } else if (section.className == "disapproval") {
-                    score = -1 - disapprovalIndex;
-                    disapprovalIndex++;
-                  }
-                  var entries = section.childNodes;
-                  for (var k=0; k<entries.length; k++) {
-                    var entry = entries[k];
-                    if (entry.className == "movable") {
-                      var id = entry.id.match(/[0-9]+/);
-                      var field = document.createElement("input");
-                      scoringString += id + ":" + score + ";";
-                    }
-                  }
-                }
-              }
-              var fields = form.childNodes;
-              for (var j=0; j<fields.length; j++) {
-                var field = fields[j];
-                if (field.name == "scoring") {
-                  field.setAttribute("value", scoringString);
-                  if (jsTest) {
-                    jsTestSuccess = success;
-                    return;
-                  } else {
-                    form.submit();
-                    return;
-                  }
-                }
-              }
-              alert('Hidden input field named "scoring" not found.');
+              document.getElementById("preview2").value = "1";
             });
           }, false);
         }
       }
-      for (var i=0; i<elements.length; i++) {
-        var element = elements[i];
-        if (element.className == "voting_done1") {
-          element.click();
-        }
-      }
-      jsTest = false;
-      if (!jsTestSuccess) jsFail = true;
     });
   }, false);
   function voting_moveUp(element) {
