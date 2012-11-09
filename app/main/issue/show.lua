@@ -33,6 +33,33 @@ if app.session:has_access("all_pseudonymous") then
     }
   }
 
+  -- issue delegations
+  local delegations_selector = Member:new_selector()
+    :reset_fields()
+    :add_field("member.id", "member_id")
+    :add_field("delegation.unit_id")
+    :add_field("delegation.area_id")
+    :add_field("delegation.issue_id")
+    :join("delegation", "delegation", "member.id = delegation.truster_id")
+    :join("member", "trustee", "trustee.id = delegation.trustee_id")
+    :add_where{ "member.active" }
+    :add_where{ "trustee.active" }
+    :add_where{ "delegation.unit_id ISNULL" }
+    :add_where{ "delegation.area_id ISNULL" }
+    :add_where{ "delegation.issue_id= ?", issue.id }
+    :add_order_by("member.name")
+    :add_group_by("member.name, member.id, delegation.unit_id, delegation.area_id, delegation.issue_id")
+  ui.anchor{
+    name = "delegations",
+    attr = { class = "heading" },
+    content = _"Issue delegations" .. " (" .. tostring(delegations_selector:count()) .. ")"
+  }
+  execute.view{
+    module = "delegation",
+    view = "_list",
+    params = { delegations_selector = delegations_selector }
+  }
+
   -- issue details
   execute.view{
     module = "issue",

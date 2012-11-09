@@ -349,6 +349,7 @@ return {
 ["Issue accepted"] = "Onderwerp geaccpeteerd";
 ["Issue canceled"] = "Onderwerp afgebroken";
 ["Issue delegation"] = "Onderwerp-delegatie";
+["Issue delegations"] = false;
 ["Issue events"] = "Onderwerp evenementen";
 ["Issue finished"] = "Onderwerp afgesloten";
 ["Issue finished without voting"] = "Onderwerp zonder stemming afgesloten";

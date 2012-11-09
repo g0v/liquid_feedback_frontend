@@ -342,6 +342,7 @@ return {
 ["Issue accepted"] = "Téma elfogadva";
 ["Issue canceled"] = "Téma megszakítva";
 ["Issue delegation"] = "Témadelegáció";
+["Issue delegations"] = false;
 ["Issue events"] = "Téma eseményei";
 ["Issue finished"] = "Téma lezárva";
 ["Issue finished without voting"] = "Téma szavazás nélkül lezárva";

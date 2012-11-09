@@ -292,6 +292,7 @@ return {
 ["Issue ##{issue} - i#{initiative_id}: #{initiative_name}"] = "Thema ##{issue} - i#{initiative_id}: #{initiative_name}";
 ["Issue Details"] = "Details des Themas";
 ["Issue delegation"] = "Delegation für Thema";
+["Issue delegations"] = "Themendelegationen";
 ["Issue pad"] = "Pad zum Thema";
 ["Issue quorum"] = "Quorum Thema";
 ["Issue quorum denumerator"] = "Themen-Quorum Nenner";

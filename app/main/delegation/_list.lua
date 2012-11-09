@@ -45,6 +45,8 @@ for key, value in pairs(param.get_all_cgi()) do
 end
 
 ui.paginate{
+  name = "delegations_page",
+  anchor = "delegations",
   selector = delegations_selector,
   content = function()
 

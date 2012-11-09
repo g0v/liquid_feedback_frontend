@@ -346,6 +346,7 @@ return {
 ["Issue accepted"] = "Tematica accettata";
 ["Issue canceled"] = "Tematica cancellata";
 ["Issue delegation"] = "Delega della tematica";
+["Issue delegations"] = false;
 ["Issue events"] = "Eventi della tematica";
 ["Issue finished"] = "Tematica chiusa";
 ["Issue finished without voting"] = "Tematica chiusa senza voto";
