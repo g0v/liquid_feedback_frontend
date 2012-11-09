@@ -252,7 +252,7 @@ function Member:build_selector(args)
     selector:join("privilege", "__model_member__privilege", { "member.id = __model_member__privilege.member_id AND __model_member__privilege.voting_right AND __model_member__privilege.unit_id = ?", args.voting_right_for_unit_id })
   end
   -- admin search
-  if args.admin_search then
+  if args.admin_search and args.admin_search ~= "" then
     local search_string = "%" .. args.admin_search .. "%"
     selector:add_where{ "member.identification ILIKE ? OR member.name ILIKE ?", search_string, search_string }
   end
