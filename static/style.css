@@ -122,6 +122,13 @@ h2 {
   display: inline;
 }
 
+.clearfix {
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
 hr {
   border-top: 1px solid #ccc;
   border-bottom: none;
@@ -1199,7 +1206,6 @@ div.delegations_participation {
   .more_events_links {
     margin-left: 0px;
   }
-
 }
 
 @media screen and (max-width: 480px) {
@@ -1686,18 +1692,72 @@ div.notifications {
  * Details
  */
 
+.details_issue {
+  width: 49%;
+  float: left;
+  overflow: hidden;
+}
+.details_initiative {
+  margin-left: 51%;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 720px) {
+  .details_issue {
+    width: auto;
+    float: none;
+  }
+  .details_initiative {
+    margin-left: 0;
+  }
+}
+
+dl.details_left {
+  width: 59%;
+  float: left;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+dl.details_right {
+  margin-left: 61%;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 480px) {
+  dl.details_left {
+    width: auto;
+    float: none;
+  }
+  dl.details_right {
+    margin-left: 0;
+  }
+}
+
 dt {
   font-weight: bold;
   color: #777;
 }
 dd {
-  margin-left: 10px;
+  margin-left: 5%;
 }
 dt.duration, dd.duration {
-  margin-left: 100px;
+  margin-left: 35%;
 }
 dt.quorum, dd.quorum {
-  margin-left: 160px;
+  margin-left: 55%;
+}
+
+@media screen and (max-width: 280px) {
+  dd {
+    margin-left: 0;
+  }
+  dt.duration, dd.duration {
+    margin-left: 10%;
+  }
+  dt.quorum, dd.quorum {
+    margin-left: 20%;
+  }
 }
 
 /*************************************************************************

@@ -16,14 +16,14 @@ end
 local policy = issue.policy
 
 ui.container{
-  attr = { class = "initiative_head", style = "width:49%;float:left" },
+  attr = { class = "initiative_head details_issue" },
   content = function()
     ui.container{ attr = { class = "title" }, content = _"Issue Details" }
     ui.container{ attr = { class = "content" }, content = function()
 
       ui.tag{
         tag = "dl",
-        attr = { style = "width:59%;float:left" },
+        attr = { class = "details_left" },
         content = function()
           -- new
           dtdd( _"Created", format.timestamp(issue.created) )
@@ -60,7 +60,7 @@ ui.container{
 
       ui.tag{
         tag = "dl",
-        attr = { style = "margin-left:61%" },
+        attr = { class = "details_right" },
         content = function()
           dtdd( _"Population", issue.population )
           dtdd( _"State", issue.state_name )
@@ -69,6 +69,8 @@ ui.container{
           end
         end
       }
+
+      slot.put("<div class='clearfix'></div>")
 
     end }
   end

@@ -13,20 +13,15 @@ function dtdd(label, value)
   ui.tag{ tag = "dd", content = value }
 end
 
-ui.container{ attr = { class = "initiative_head", style = "margin-left:51%" },
+ui.container{
+  attr = { class = "initiative_head details_initiative" },
   content = function()
     ui.container{ attr = { class = "title" }, content = _"Initiative Details" }
     ui.container{ attr = { class = "content" }, content = function()
 
-      -- no float if the right column stays empty
-      local style = ""
-      if initiative.issue.closed then
-        style = ";float:left"
-      end
-
       ui.tag{
         tag = "dl",
-        attr = { style = "width:49%;" .. style },
+        attr = { class = "details_left" },
         record = initiative,
         content = function()
           -- rest
@@ -44,7 +39,7 @@ ui.container{ attr = { class = "initiative_head", style = "margin-left:51%" },
       if initiative.issue.closed then
         ui.tag{
           tag = "dl",
-          attr = { style = "margin-left:51%" },
+          attr = { class = "details_right" },
           content = function()
 
             dtdd( _"Direct majority", bool2str(initiative.direct_majority) )
@@ -68,6 +63,8 @@ ui.container{ attr = { class = "initiative_head", style = "margin-left:51%" },
           end
         }
       end
+
+      slot.put("<div class='clearfix'></div>")
 
     end }
   end
