@@ -40,6 +40,9 @@ ui_filters{
   selector = contacts_selector,
   filter,
   content = function()
+
+    slot.put("<br />")
+
     ui.paginate{
       name = paginator_name,
       anchor = paginator_name,

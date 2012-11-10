@@ -41,7 +41,7 @@ if area then
     current_trustee_id = area.delegation_info.first_trustee_id
     current_trustee_name = area.delegation_info.first_trustee_name
   end
-  ui.title(ui_title .. (_"Delegation for Area '#{name}'":gsub("#{name}", area.name)))
+  ui.title(ui_title .. _("Delegation for Area '#{name}' in Unit '#{unit_name}'", { name = area.name, unit_name = area.unit.name }))
   util.help("delegation.new.area")
 end
 
@@ -53,7 +53,7 @@ if issue then
     current_trustee_id = issue.member_info.first_trustee_id
     current_trustee_name = issue.member_info.first_trustee_name
   end
-  ui.title(ui_title .. (_"Delegation for Issue ##{number} in Area '#{area_name}'":gsub("#{number}", issue.id):gsub("#{area_name}", issue.area.name)))
+  ui.title(ui_title .. _("Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'", { number = issue.id, area_name = issue.area.name, unit_name = issue.area.unit.name }))
   util.help("delegation.new.issue")
 end
 

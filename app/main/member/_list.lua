@@ -23,9 +23,6 @@ ui.add_partial_param_names{ "member_list" }
 
 local filter = { name = "member_list" }
 
-if issue or initiative then
-end
-
 filter[#filter+1] = {
   name = "newest",
   label = _"Newest",
@@ -63,6 +60,9 @@ ui_filters{
   selector = members_selector,
   filter,
   content = function()
+
+    slot.put("<br />")
+
     ui.paginate{
       name = paginator_name,
       anchor = paginator_name,
@@ -72,22 +72,88 @@ ui_filters{
         ui.container{
           attr = { class = "member_list" },
           content = function()
+
             local members = members_selector:exec()
 
-            for i, member in ipairs(members) do
-              execute.view{
-                module = "member",
-                view = "_show_thumb",
-                params = {
-                  member = member,
-                  initiative = initiative,
-                  issue = issue,
-                  trustee = trustee,
-                  initiator = initiator
-                }
-              }
-            end
+            -- delegation page is not prepared for closed issues
+            if issue and not issue.closed then
 
+              -- serialize get-parameters
+              local params = ''
+              for key, value in pairs(param.get_all_cgi()) do
+                params = params .. key .. "=" .. value .. "&"
+              end
+
+              for i, member in ipairs(members) do
+
+                ui.container{
+                  attr = { class = "contact_thumb" },
+                  content = function()
+
+                    execute.view{
+                      module = "member",
+                      view = "_show_thumb",
+                      params = {
+                        member = member,
+                        initiative = initiative,
+                        issue = issue,
+                        trustee = trustee,
+                        initiator = initiator
+                      }
+                    }
+
+                    ui.container{
+                      attr = { class = "contact_action" },
+                      content = function()
+
+                        -- link to delegation page
+                        ui.link{
+                          attr = { title = _"Show delegation list" },
+                          module = "delegation",
+                          view = "show",
+                          params = {
+                            issue_id  = issue.id,
+                            member_id = member.id,
+                            back_module = request.get_module(),
+                            back_view = request.get_view(),
+                            back_id = param.get_id_cgi(),
+                            back_params = params
+                          },
+                          content = function()
+                            ui.image{
+                              attr = {
+                                 alt = _"Show delegation list"
+                              },
+                              static = "icons/16/magnifier.png"
+                            }
+                          end
+                        }
+
+                      end
+                    }
+
+                  end
+                }
+
+              end -- for
+
+            else -- if issue
+
+              for i, member in ipairs(members) do
+                execute.view{
+                  module = "member",
+                  view = "_show_thumb",
+                  params = {
+                    member = member,
+                    initiative = initiative,
+                    issue = issue,
+                    trustee = trustee,
+                    initiator = initiator
+                  }
+                }
+              end
+
+            end -- if issue
 
           end
         }
