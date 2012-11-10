@@ -17,7 +17,8 @@ if config.single_unit_id and not app.session.member_id and config.motd_public th
 end
 
 local areas_selector = Area:build_selector{ active = true, unit_id = unit_id }
-  :add_order_by("direct_member_count DESC")
+  :add_order_by("area.direct_member_count DESC")
+  :add_order_by("area.name")
 
 local members_selector = Member:build_selector{
   active = true,

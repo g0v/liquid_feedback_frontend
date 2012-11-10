@@ -60,6 +60,7 @@ for i, unit in ipairs(units) do
       :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.fully_frozen ISNULL AND issue.closed NOTNULL)", "issues_cancelled_count")
       :add_where{ "area.unit_id = ?", unit.id }
       :add_where{ "area.active" }
+      :add_order_by("area.direct_member_count DESC")
       :add_order_by("area.name")
 
     if filter_unit == "my_areas" then
