@@ -141,6 +141,7 @@ return {
 ["Confirmation code invalid!"] = "La konfirmokodo estas malvalida!";
 ["Confirmed address"] = "Konfirmita adreso";
 ["Contacts"] = "Kontaktoj";
+["Contacts participating in this area"] = false;
 ["Content"] = "Enhavo";
 ["Counting of votes"] = "Nombrado de voĉoj";
 ["Counting starts soon."] = false;
@@ -165,8 +166,8 @@ return {
 ["Default Policy"] = "Apriora regularo";
 ["Degree"] = "Grado";
 ["Delegation abandoned"] = "Delegacio malaplikita";
-["Delegation for Area '#{name}'"] = false;
-["Delegation for Issue ##{number} in Area '#{area_name}'"] = false;
+["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = false;
+["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
 ["Delegation turned off for area"] = "Temara delegacio malŝaltita";
 ["Delegation turned off for issue"] = "Tema delegacio malŝaltita";
 ["Delegations"] = "Delegacioj";
@@ -271,6 +272,7 @@ return {
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
 ["Inactive"] = false;
 ["Incoming delegations"] = "Alvenantaj delegacioj";
+["Incoming delegations for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
 ["Index"] = "indico";
 ["Indirect majority"] = false;
 ["Indirect majority denumerator"] = false;
@@ -530,6 +532,7 @@ return {
 ["Register new member"] = "Registri novan membron";
 ["Registration"] = "Registrado";
 ["Rejected"] = "Rifuzita";
+["Remaining contacts"] = false;
 ["Remove"] = "Forigi";
 ["Remove from contacts"] = "Forigi el la kontaktojn";
 ["Remove initiator"] = "Forigi iniciinton";
@@ -576,6 +579,7 @@ return {
 ["Show"] = "Montri";
 ["Show areas in use"] = "Montri uzatajn temarojn";
 ["Show areas not in use"] = "Montri ne uzatajn temarojn";
+["Show delegation list"] = false;
 ["Show diff"] = "Montri diferencojn";
 ["Show filter details"] = "Montri filtrilodetalojn";
 ["Show help text"] = "Montri helpotekston";

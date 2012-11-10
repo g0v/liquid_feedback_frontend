@@ -151,6 +151,7 @@ return {
 ["Confirmation code invalid!"] = "確認碼無效！";
 ["Confirmed address"] = "已確認電郵地址";
 ["Contacts"] = "通訊錄";
+["Contacts participating in this area"] = false;
 ["Content"] = "內容";
 ["Counting of votes"] = "統計票數";
 ["Counting starts soon"] = "計票即將開始";
@@ -180,8 +181,8 @@ return {
 ["Delegate issue"] = "議題委任";
 ["Delegate unit"] = "單位委任";
 ["Delegation abandoned"] = "委任已被停止";
-["Delegation for Area '#{name}'"] = false;
-["Delegation for Issue ##{number} in Area '#{area_name}'"] = false;
+["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = false;
+["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
 ["Delegation turned off for area"] = "對領域的委任被停用";
 ["Delegation turned off for issue"] = "對議題的委任被停用";
 ["Delegations"] = "委任清單";
@@ -288,6 +289,7 @@ return {
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
 ["Inactive"] = false;
 ["Incoming delegations"] = "受委任的表決";
+["Incoming delegations for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
 ["Index"] = "索引";
 ["Indirect majority"] = "間接多數";
 ["Indirect majority denumerator"] = "間接多數分母";
@@ -564,6 +566,7 @@ return {
 ["Registration (step 2 of 3: Personal information)"] = "註冊 (三步驟之二：個人資料)";
 ["Registration (step 3 of 3: Terms of use and password)"] = "註冊 (三步驟之三：使用條款及密碼)";
 ["Rejected"] = "被婉拒";
+["Remaining contacts"] = false;
 ["Remove"] = "移除";
 ["Remove from contacts"] = "自通訊錄移除";
 ["Remove initiator"] = "移除發起者";
@@ -611,6 +614,7 @@ return {
 ["Show"] = "顯示";
 ["Show areas in use"] = "顯示所使用的領域";
 ["Show areas not in use"] = "顯示未使用的領域";
+["Show delegation list"] = false;
 ["Show diff"] = "顯示更改";
 ["Show filter details"] = "顯示篩選條件細節";
 ["Show help text"] = "顯示說明文件";

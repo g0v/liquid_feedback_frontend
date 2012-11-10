@@ -126,6 +126,7 @@ return {
 ["Confirmation code invalid!"] = "Bestätigungscode ist ungültig!";
 ["Confirmed address"] = "Bestätigte E-Mail";
 ["Contacts"] = "Kontakte";
+["Contacts participating in this area"] = "am Themenbereich teilnehmende Kontakte";
 ["Content"] = "Inhalt";
 ["Counting of votes"] = "Auszählung";
 ["Counting starts soon."] = "Auszählung beginnt in Kürze.";
@@ -149,7 +150,9 @@ return {
 ["Default Policy"] = "Standard-Regelwerk";
 ["Degree"] = "Grad";
 ["Delegation for Area '#{name}'"] = "Delegation für Themenbereich '#{name}'";
+["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = "Delegation für Themenbereich '#{name}' in Gliederung '#{unit_name}'";
 ["Delegation for Issue ##{number} in Area '#{area_name}'"] = "Delegation für Thema ##{number} in Themenbereich '#{area_name}'";
+["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = "Delegation für Thema ##{number} in Themenbereich '#{area_name}'in Gliederung '#{unit_name}'";
 ["Delegations"] = "Delegationen";
 ["Delete"] = "Löschen";
 ["Delete personal data and deactivate account"] = "Persönliche Daten löschen und Account deaktivieren";
@@ -241,6 +244,7 @@ return {
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = "In dieser Installation ist eine Registrierung auch ohne Einladungscode möglich. Dafür das Feld bitte einfach leer lassen.";
 ["Inactive"] = "Inaktiv";
 ["Incoming delegations"] = "Eingehende Delegationen";
+["Incoming delegations for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = "Eingehende Delegationen für Thema ##{number} im Themenbereich '#{area_name}' in Gliederung '#{unit_name}'";
 ["Index"] = "Positionsnummer";
 ["Indirect majority"] = "Indirekte Mehrheit";
 ["Indirect majority denumerator"] = "Indirekte Mehrheit Denumerator";
@@ -467,6 +471,7 @@ return {
 ["Register new member"] = "Neues Mitglied registrieren";
 ["Registration"] = "Registrierung";
 ["Rejected"] = "Abgelehnt";
+["Remaining contacts"] = "restliche Kontakte";
 ["Remove"] = "Entfernen";
 ["Remove from contacts"] = "Aus den Kontakten entfernen";
 ["Remove initiator"] = "Initiator entfernen";
@@ -505,6 +510,7 @@ return {
 ["Show"] = "Zeige";
 ["Show areas in use"] = "Zeige verwendete Themenbereiche";
 ["Show areas not in use"] = "Zeige nicht verwendete Themenbereiche";
+["Show delegation list"] = "Zeige Delegationsliste";
 ["Show diff"] = "Änderungen anzeigen";
 ["Show help text"] = "Zeige Hilfe-Text";
 ["Show inactive units"] = "Inaktive Gliederungen anzeigen";

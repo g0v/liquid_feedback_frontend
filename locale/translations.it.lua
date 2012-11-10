@@ -151,6 +151,7 @@ return {
 ["Confirmation code invalid!"] = "Il codice di conferma non e' valido";
 ["Confirmed address"] = "Indirizzo confermato";
 ["Contacts"] = "Contatti";
+["Contacts participating in this area"] = false;
 ["Content"] = "Contenuto";
 ["Counting of votes"] = "Spoglio dei voti";
 ["Counting starts soon"] = "Lo spoglio iniziera' presto";
@@ -179,8 +180,8 @@ return {
 ["Delegate issue"] = "Delega questa tematica";
 ["Delegate unit"] = "Delega questa sezione";
 ["Delegation abandoned"] = "Delega abbandonata";
-["Delegation for Area '#{name}'"] = false;
-["Delegation for Issue ##{number} in Area '#{area_name}'"] = false;
+["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = false;
+["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
 ["Delegation turned off for area"] = "Delega disattivata per quest'area";
 ["Delegation turned off for issue"] = "Delega disattivata per questa tematica";
 ["Delegations"] = "Deleghe";
@@ -287,6 +288,7 @@ return {
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
 ["Inactive"] = false;
 ["Incoming delegations"] = "Deleghe ricevute";
+["Incoming delegations for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
 ["Index"] = "Indice";
 ["Indirect majority"] = "Maggioranza indiretta";
 ["Indirect majority denumerator"] = "Denominatore per la maggioranza indiretta";
@@ -563,6 +565,7 @@ return {
 ["Registration (step 2 of 3: Personal information)"] = "Registrazione (passo 2 di 3: Informazioni personali)";
 ["Registration (step 3 of 3: Terms of use and password)"] = "Registrazione (passo 3 di 3: Condizioni d'uso e password)";
 ["Rejected"] = "Rifiutato";
+["Remaining contacts"] = false;
 ["Remove"] = "Rimuovi";
 ["Remove from contacts"] = "Rimuovi dai contatti";
 ["Remove initiator"] = "Rimuovi il promotore";
@@ -610,6 +613,7 @@ return {
 ["Show"] = "Mostra";
 ["Show areas in use"] = "Mostra le aree in uso";
 ["Show areas not in use"] = "Mostra le aree non in uso";
+["Show delegation list"] = false;
 ["Show diff"] = "Mostra le differenze";
 ["Show filter details"] = "Mostra i dettagli del filtro";
 ["Show help text"] = "Mostra l'aiuto";

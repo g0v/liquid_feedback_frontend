@@ -149,6 +149,7 @@ return {
 ["Confirmation code invalid!"] = "Érvénytelen megerõsítõ kód!";
 ["Confirmed address"] = "Megerõsített cím";
 ["Contacts"] = "Kapcsolatok";
+["Contacts participating in this area"] = false;
 ["Content"] = "Tartalom";
 ["Counting of votes"] = "Szavazatszámlálás";
 ["Counting starts soon"] = "Rövidesen indul a szavazatszámlálás";
@@ -174,8 +175,8 @@ return {
 ["Default Policy"] = "Alapértelmezett irányelv";
 ["Degree"] = "Fok";
 ["Delegation abandoned"] = "Delegáció mellõzve";
-["Delegation for Area '#{name}'"] = false;
-["Delegation for Issue ##{number} in Area '#{area_name}'"] = false;
+["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = false;
+["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
 ["Delegation turned off for area"] = "Témakör delegációja leállítva";
 ["Delegation turned off for issue"] = "Téma delegációja leállítva";
 ["Delegations"] = "Delegációk";
@@ -283,6 +284,7 @@ return {
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
 ["Inactive"] = false;
 ["Incoming delegations"] = "Bejövõ delegációk";
+["Incoming delegations for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
 ["Index"] = "Index";
 ["Indirect majority"] = "Közvetett többség";
 ["Indirect majority denumerator"] = "Közvetett többség nevezõje";
@@ -543,6 +545,7 @@ return {
 ["Register new member"] = "Új tag regisztrálása";
 ["Registration"] = "Regisztrálás";
 ["Rejected"] = "Elutasítva";
+["Remaining contacts"] = false;
 ["Remove"] = "Eltávolítás";
 ["Remove from contacts"] = "Eltávolítás a kapcsolatok közül";
 ["Remove initiator"] = "Kezdeményezõ eltávolítása";
@@ -590,6 +593,7 @@ return {
 ["Show"] = "Mutasd";
 ["Show areas in use"] = "Használt témakörök mutatása";
 ["Show areas not in use"] = "Nem használt témakörök mutatása";
+["Show delegation list"] = false;
 ["Show diff"] = "Változtatások mutatása";
 ["Show filter details"] = "Szûrõ-részletek mutatása";
 ["Show help text"] = "Súgószöveg mutatása";

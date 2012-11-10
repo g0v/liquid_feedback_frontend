@@ -152,6 +152,7 @@ return {
 ["Confirmation code invalid!"] = "De bevestigingscode is niet juist!";
 ["Confirmed address"] = "Bevestigings emiladres";
 ["Contacts"] = "Contacten";
+["Contacts participating in this area"] = false;
 ["Content"] = "Inhoud";
 ["Counting of votes"] = "Tellen stemmen";
 ["Counting starts soon"] = "Het tellen van de stemmen begint spoedig";
@@ -181,8 +182,8 @@ return {
 ["Delegate issue"] = "Delegeer onderwerp";
 ["Delegate unit"] = "Delegeer dossier";
 ["Delegation abandoned"] = "Delegatie uitgezet";
-["Delegation for Area '#{name}'"] = false;
-["Delegation for Issue ##{number} in Area '#{area_name}'"] = false;
+["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = false;
+["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
 ["Delegation turned off for area"] = "Delegatie uitgezet voor dit themagebied";
 ["Delegation turned off for issue"] = "Delegatie uitgezet voor dit onderwerp";
 ["Delegations"] = "Delegaties";
@@ -290,6 +291,7 @@ return {
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
 ["Inactive"] = false;
 ["Incoming delegations"] = "Binnenkomende delegaties";
+["Incoming delegations for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
 ["Index"] = "Index";
 ["Indirect majority"] = "Indirecte meerderheid";
 ["Indirect majority denumerator"] = "Indirecte meederheid noemer";
@@ -567,6 +569,7 @@ return {
 ["Registration (step 2 of 3: Personal information)"] = "Registratie (stap 1 van 3: persoonlijke informatie)";
 ["Registration (step 3 of 3: Terms of use and password)"] = "Registratie (stap 1 van 3: gebruikershandleiding en wachtwoord)";
 ["Rejected"] = "Verworpen";
+["Remaining contacts"] = false;
 ["Remove"] = "Verwijderen";
 ["Remove from contacts"] = "Uit contacten verwijderen";
 ["Remove initiator"] = "Verwijder initiatiefnemer";
@@ -614,6 +617,7 @@ return {
 ["Show"] = "Toon";
 ["Show areas in use"] = "Toon actieve themagebieden";
 ["Show areas not in use"] = "Toon niet-actieve themagebieden";
+["Show delegation list"] = false;
 ["Show diff"] = "Toon veranderingen";
 ["Show filter details"] = "Toon filter details";
 ["Show help text"] = "Toon help tekst";

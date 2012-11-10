@@ -151,6 +151,7 @@ return {
 ["Confirmation code invalid!"] = "Άκυρος κωδικός επιβεβαίωσης!";
 ["Confirmed address"] = "Επιβεβαιωμένη διεύθυνση email";
 ["Contacts"] = "Επαφές";
+["Contacts participating in this area"] = false;
 ["Content"] = "Περιεχόμενο";
 ["Counting of votes"] = "Καταμέτρηση";
 ["Counting starts soon"] = "Η καταμέτρηση ξεκινά σύντομα";
@@ -180,8 +181,8 @@ return {
 ["Delegate issue"] = "Ανάθεση θέματος";
 ["Delegate unit"] = "Ανάθεση ενότητας";
 ["Delegation abandoned"] = "Ακύρωση ανάθεσης";
-["Delegation for Area '#{name}'"] = false;
-["Delegation for Issue ##{number} in Area '#{area_name}'"] = false;
+["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = false;
+["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
 ["Delegation turned off for area"] = "Η ανάθεση απενεργοποιήθηκε για τον τομέα";
 ["Delegation turned off for issue"] = "Η ανάθεση απενεργοποιήθηκε για το θέμα";
 ["Delegations"] = "Αναθέσεις";
@@ -288,6 +289,7 @@ return {
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
 ["Inactive"] = false;
 ["Incoming delegations"] = "Εισερχόμενες αναθέσεις";
+["Incoming delegations for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
 ["Index"] = "Δείκτης";
 ["Indirect majority"] = "Έμμεση πλειοψηφία";
 ["Indirect majority denumerator"] = "Παρονομαστής έμμεσης πλειοψηφίας";
@@ -564,6 +566,7 @@ return {
 ["Registration (step 2 of 3: Personal information)"] = "Εγγραφή (βήμα 2 από 3: Προσωπικά στοιχεία)";
 ["Registration (step 3 of 3: Terms of use and password)"] = "Εγγραφή (βήμα 3 από 3: Όροι χρήσης και κωδικός πρόσβασης)";
 ["Rejected"] = "Απορρίφθηκε";
+["Remaining contacts"] = false;
 ["Remove"] = "Αφαίρεση";
 ["Remove from contacts"] = "Αφαίρεση από τις επαφές";
 ["Remove initiator"] = "Αφαίρεση εισηγητή";
@@ -611,6 +614,7 @@ return {
 ["Show"] = "Προβολή";
 ["Show areas in use"] = "Προβολή τομέων σε χρήση";
 ["Show areas not in use"] = "Προβολή τομέων που δεν χρησιμοποιούνται";
+["Show delegation list"] = false;
 ["Show diff"] = "Προβολή διαφορών";
 ["Show filter details"] = "Προβολή λεπτομερειών φίλτρου";
 ["Show help text"] = "Προβολή κειμένου βοήθειας";

@@ -151,6 +151,7 @@ return {
 ["Confirmation code invalid!"] = "确认码无效！";
 ["Confirmed address"] = "已确认电邮地址";
 ["Contacts"] = "通讯录";
+["Contacts participating in this area"] = false;
 ["Content"] = "內容";
 ["Counting of votes"] = "统计票数";
 ["Counting starts soon"] = "计票即将开始";
@@ -180,8 +181,8 @@ return {
 ["Delegate issue"] = "议题委任";
 ["Delegate unit"] = "单位委任";
 ["Delegation abandoned"] = "委任已被停止";
-["Delegation for Area '#{name}'"] = false;
-["Delegation for Issue ##{number} in Area '#{area_name}'"] = false;
+["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = false;
+["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
 ["Delegation turned off for area"] = "对领域的委任被停用";
 ["Delegation turned off for issue"] = "对议题的委任被停用";
 ["Delegations"] = "委任清单";
@@ -288,6 +289,7 @@ return {
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
 ["Inactive"] = false;
 ["Incoming delegations"] = "受委任的表决";
+["Incoming delegations for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
 ["Index"] = "索引";
 ["Indirect majority"] = "间接多数";
 ["Indirect majority denumerator"] = "间接多数分母";
@@ -564,6 +566,7 @@ return {
 ["Registration (step 2 of 3: Personal information)"] = "注册 (三步骤之二：个人资料)";
 ["Registration (step 3 of 3: Terms of use and password)"] = "注册 (三步骤之三：使用条款及密码)";
 ["Rejected"] = "被婉拒";
+["Remaining contacts"] = false;
 ["Remove"] = "移除";
 ["Remove from contacts"] = "自通讯录移除";
 ["Remove initiator"] = "移除发起者";
@@ -611,6 +614,7 @@ return {
 ["Show"] = "显示";
 ["Show areas in use"] = "显示所使用的领域";
 ["Show areas not in use"] = "显示未使用的领域";
+["Show delegation list"] = false;
 ["Show diff"] = "显示更改";
 ["Show filter details"] = "显示筛选条件细节";
 ["Show help text"] = "显示说明文件";

@@ -126,6 +126,7 @@ return {
 ["Confirmation code invalid!"] = false;
 ["Confirmed address"] = false;
 ["Contacts"] = false;
+["Contacts participating in this area"] = false;
 ["Content"] = false;
 ["Counting of votes"] = false;
 ["Counting starts soon."] = false;
@@ -148,8 +149,8 @@ return {
 ["Date format is not valid. Please use following format: YYYY-MM-DD"] = false;
 ["Default Policy"] = false;
 ["Degree"] = false;
-["Delegation for Area '#{name}'"] = false;
-["Delegation for Issue ##{number} in Area '#{area_name}'"] = false;
+["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = false;
+["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
 ["Delegations"] = false;
 ["Delete"] = false;
 ["Delete personal data and deactivate account"] = false;
@@ -238,6 +239,7 @@ return {
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
 ["Inactive"] = false;
 ["Incoming delegations"] = false;
+["Incoming delegations for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
 ["Index"] = false;
 ["Indirect majority"] = false;
 ["Indirect majority denumerator"] = false;
@@ -458,6 +460,7 @@ return {
 ["Register new member"] = false;
 ["Registration"] = false;
 ["Rejected"] = false;
+["Remaining contacts"] = false;
 ["Remove"] = false;
 ["Remove from contacts"] = false;
 ["Remove initiator"] = false;
@@ -473,7 +476,6 @@ return {
 ["Revoke initiative"] = false;
 ["Revoked"] = false;
 ["Save"] = false;
-["Saved contacts"] = false;
 ["Schulze rank"] = false;
 ["Screen name"] = false;
 ["Search"] = false;
@@ -495,6 +497,7 @@ return {
 ["Show"] = false;
 ["Show areas in use"] = false;
 ["Show areas not in use"] = false;
+["Show delegation list"] = false;
 ["Show diff"] = false;
 ["Show help text"] = false;
 ["Show inactive units"] = false;
