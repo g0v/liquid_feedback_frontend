@@ -317,6 +317,9 @@ if member.id == app.session.member.id then
       local records_area       = {}
       local records_contacts   = {}
       local contact_selector = Member:new_selector()
+      contact_selector:reset_fields()
+      contact_selector:add_field("member.id")
+      contact_selector:add_field("member.name")
       contact_selector:add_where("member.active = TRUE")
       contact_selector:join("privilege", nil, { "member.id = privilege.member_id AND privilege.voting_right AND privilege.unit_id = ?", voting_right_unit_id })
       contact_selector:left_join("contact", nil, "member.id = contact.other_member_id")
@@ -327,7 +330,7 @@ if member.id == app.session.member.id then
         contact_selector:left_join("initiative", nil, { "initiative.id = initiator.initiative_id AND initiative.issue_id = ?", issue_id })
         contact_selector:add_field("initiative.id NOTNULL", "is_initiator")
         contact_selector:add_where{ "contact.member_id = ? OR initiative.id NOTNULL", member.id }
-        contact_selector:add_group_by("member.id, membership.member_id, initiative.id")
+        contact_selector:add_group_by("member.id, member.name, membership.member_id, initiative.id, member.created")
       elseif area then
         contact_selector:left_join("membership", nil, { "member.id = membership.member_id AND membership.area_id = ?", area_id })
         contact_selector:add_field("membership.member_id NOTNULL", "is_area_member")
