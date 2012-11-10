@@ -143,6 +143,7 @@ ui.container{ attr = { class = class }, content = function()
           }
         end
       elseif initiative.member_info.supported then
+        -- satisfied means, that a member has no critical opinion to any suggestion of this initiative  
         if initiative.member_info.satisfied then
           local label
           if for_member and for_member.id ~= app.session.member_id then
