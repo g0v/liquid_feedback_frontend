@@ -142,13 +142,6 @@ if not delegations then
   delegations = Delegation:by_pk(member.id, unit_id)
 end
 
-local contact_members = Member:build_selector{
-  is_contact_of_member_id = member.id,
-  voting_right_for_unit_id = voting_right_unit_id,
-  active = true,
-  order = "name"
-}:exec()
-
 local preview_trustee_id = param.get("preview_trustee_id", atom.integer)
 
 
@@ -319,25 +312,67 @@ if member.id == app.session.member.id then
     },
     content = function()
 
-      local records
-      records = {}
-
-      -- add initiative authors
-      if initiative then
-        records[#records+1] = {id="_", name= "--- " .. _"Initiators" .. " ---"}
-        for i,record in ipairs(initiative.initiators) do
-          records[#records+1] = record.member
+      -- collect contacts and initiators
+      local records_initiators = {}
+      local records_area       = {}
+      local records_contacts   = {}
+      local contact_selector = Member:new_selector()
+      contact_selector:add_where("member.active = TRUE")
+      contact_selector:join("privilege", nil, { "member.id = privilege.member_id AND privilege.voting_right AND privilege.unit_id = ?", voting_right_unit_id })
+      contact_selector:left_join("contact", nil, "member.id = contact.other_member_id")
+      if issue then
+        contact_selector:left_join("membership", nil, { "member.id = membership.member_id AND membership.area_id = ?", issue.area_id })
+        contact_selector:add_field("membership.member_id NOTNULL", "is_area_member")
+        contact_selector:left_join("initiator", nil, "initiator.member_id = member.id")
+        contact_selector:left_join("initiative", nil, { "initiative.id = initiator.initiative_id AND initiative.issue_id = ?", issue_id })
+        contact_selector:add_field("initiative.id NOTNULL", "is_initiator")
+        contact_selector:add_where{ "contact.member_id = ? OR initiative.id NOTNULL", member.id }
+        contact_selector:add_group_by("member.id, membership.member_id, initiative.id")
+      elseif area then
+        contact_selector:left_join("membership", nil, { "member.id = membership.member_id AND membership.area_id = ?", area_id })
+        contact_selector:add_field("membership.member_id NOTNULL", "is_area_member")
+        contact_selector:add_where{ "contact.member_id = ?", member.id }
+      else
+        contact_selector:add_where{ "contact.member_id = ?", member.id }
+      end
+      contact_selector:add_order_by("member.name")
+      local contact_members = contact_selector:exec()
+      for i, record in ipairs(contact_members) do
+        if issue and record.is_initiator then
+          records_initiators[#records_initiators+1] = record
+        elseif record.is_area_member then
+          records_area[#records_area+1] = record
+        else
+          records_contacts[#records_contacts+1] = record
         end
       end
-      -- add saved members
-      if #contact_members > 0 then
-        records[#records+1] = {id="_", name= "--- " .. _"Saved contacts" .. " ---"}
-        for i, record in ipairs(contact_members) do
+
+      -- join sections
+      local records = {}
+      if #records_initiators > 0 then
+        records[#records+1] = {id="_", name= "--- " .. _"Initiators" .. " ---"}
+        for i, record in ipairs(records_initiators) do
+          records[#records+1] = record
+        end
+      end
+      if #records_area > 0 then
+        records[#records+1] = {id="_", name= "--- " .. _"Contacts participating in this area" .. " ---"}
+        for i, record in ipairs(records_area) do
+          records[#records+1] = record
+        end
+      end
+      if #records_contacts > 0 then
+        if #records_area > 0 then
+          records[#records+1] = {id="_", name= "--- " .. _"Remaining contacts" .. " ---"}
+        else
+          records[#records+1] = {id="_", name= "--- " .. _"Contacts" .. " ---"}
+        end
+        for i, record in ipairs(records_contacts) do
           records[#records+1] = record
         end
       end
 
-      disabled_records = {}
+      local disabled_records = {}
       disabled_records["_"] = true
       disabled_records[app.session.member.id] = true
 
