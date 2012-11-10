@@ -7,7 +7,6 @@ areas_selector
   :add_field("area.id", nil, { "grouped" })
   :add_field("area.unit_id", nil, { "grouped" })
   :add_field("area.name", nil, { "grouped" })
-  :add_field("member_weight", nil, { "grouped" })
   :add_field("direct_member_count", nil, { "grouped" })
   :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.accepted ISNULL AND issue.closed ISNULL)", "issues_new_count")
   :add_field("(SELECT COUNT(*) FROM issue WHERE issue.area_id = area.id AND issue.accepted NOTNULL AND issue.half_frozen ISNULL AND issue.closed ISNULL)", "issues_discussion_count")
