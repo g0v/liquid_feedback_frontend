@@ -556,6 +556,7 @@ return {
 ["Published"] = "Pubblicato";
 ["Published, click to hide"] = false;
 ["Quorum"] = "Quorum";
+["Rate neutral and delete the suggestion"] = false;
 ["Real name"] = "Nome reale";
 ["Refresh support to current draft"] = "Aggiorna il supporto per questa bozza";
 ["Refuse invitation"] = "Rifiuta l'invito";
@@ -653,6 +654,7 @@ return {
 ["Suggestion currently implemented"] = "Suggerimento integrato";
 ["Suggestion currently not implemented"] = "Suggerimento non integrato";
 ["Suggestion does not exist anymore"] = "Il suggerimento non esiste piu'";
+["Suggestion does not exist anymore!"] = false;
 ["Suggestion for initiative: '#{name}'"] = "Suggerimento per l'iniziativa: '#{name}'";
 ["Suggestions"] = "Suggerimenti";
 ["Sunday"] = "Domenica";
@@ -669,7 +671,11 @@ return {
 ["The drafts do not differ"] = "Le bozze non differiscono";
 ["The initiators suggest to support the following initiative:"] = "I promotori suggeriscono di sostenere questa iniziativa:";
 ["The maximum number of delegations for one preference list is reached!"] = false;
+["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
+["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
 ["There are no trustees selected."] = false;
+["There is one suggestion, for which only you entered an opinion. If you withdraw your interest, this suggestion will be deleted!"] = false;
+["There is one suggestion, for which only you entered an opinion. If you withdraw your support, this suggestion will be deleted!"] = false;
 ["This email address is not valid!"] = false;
 ["This email address is too short!"] = "L'indirizzo email e' troppo corto!";
 ["This initiative"] = "Questa iniziativa";
@@ -773,11 +779,16 @@ return {
 ["Wiki engine"] = "Tipo di wiki";
 ["Wiki engine for statement"] = "Tipo di wiki per il testo";
 ["Withdraw"] = "Ritirati";
+["Withdraw interest and delete the suggestion"] = false;
+["Withdraw interest and delete the suggestions"] = false;
 ["Withdraw membership"] = "Ritira l'iscrizione";
+["Withdraw support and delete the suggestion"] = false;
+["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = "Si";
 ["Yesterday at #{time}"] = "Ieri alle #{time}";
 ["You are already initiator"] = "Sei gia' un promotore";
 ["You are already initiator!"] = false;
+["You are already not interested in this issue."] = false;
 ["You are already not supporting this initiative"] = "Non stai sostenendo questa iniziativa";
 ["You are already not supporting this initiative."] = false;
 ["You are already supporting the latest draft"] = "Stai gia' sostenendo l'ultima bozza";
@@ -816,6 +827,7 @@ return {
 ["You are supporter of this initiative via delegation."] = false;
 ["You are supporter of this initiative."] = false;
 ["You are supporter."] = false;
+["You are the only one who rated this suggestion. If you rate it neutral now, it will be deleted!"] = false;
 ["You can change your email address only once per hour. Please try again later."] = "Puoi cambiare la tua email solo una volta all'ora. Riprova piu' tardi.";
 ["You can't suggest the initiative you are revoking"] = "Non puoi suggerire l'iniziativa che stai revocando.";
 ["You can't suggest the initiative you are revoking!"] = false;
@@ -845,6 +857,7 @@ return {
 ["You've successfully registered and you can login now with your login and password!"] = "La registrazione e' terminata correttamente, adesso puoi entrare con nome utente e password!";
 ["Your contact list is empty. To add members to this list of trustees, you have to add them to your contacts first."] = false;
 ["Your email address has been changed, please check for confirmation email with activation link!"] = "La tua email e' cambiata, riceverai sul nuovo indirizzo un messaggio con il link di conferma!";
+["Your interest has been removed from this issue."] = false;
 ["Your login has been changed to '#{login}'"] = "Il tuo nome utente e' stato cambiato in '#{login}'";
 ["Your login has been changed to '#{login}'."] = false;
 ["Your name has been changed"] = "Il tuo nome e' stato modificato";

@@ -557,6 +557,7 @@ return {
 ["Published"] = "已公開";
 ["Published, click to hide"] = false;
 ["Quorum"] = "法定門檻";
+["Rate neutral and delete the suggestion"] = false;
 ["Real name"] = "真名";
 ["Refresh support to current draft"] = "更新對目前草案的支持";
 ["Refuse invitation"] = "婉拒邀請";
@@ -654,6 +655,7 @@ return {
 ["Suggestion currently implemented"] = "建議目前被採納";
 ["Suggestion currently not implemented"] = "建議目前未被採納";
 ["Suggestion does not exist anymore"] = "建議不再存在";
+["Suggestion does not exist anymore!"] = false;
 ["Suggestion for initiative: '#{name}'"] = "對提案 '#{name}' 的建議";
 ["Suggestions"] = "建議";
 ["Sunday"] = "週日";
@@ -670,7 +672,11 @@ return {
 ["The drafts do not differ"] = "這些草案並無差異";
 ["The initiators suggest to support the following initiative:"] = "提案人建議支持下列提案：";
 ["The maximum number of delegations for one preference list is reached!"] = false;
+["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
+["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
 ["There are no trustees selected."] = false;
+["There is one suggestion, for which only you entered an opinion. If you withdraw your interest, this suggestion will be deleted!"] = false;
+["There is one suggestion, for which only you entered an opinion. If you withdraw your support, this suggestion will be deleted!"] = false;
 ["This email address is not valid!"] = false;
 ["This email address is too short!"] = "此電郵地址太短！";
 ["This initiative"] = "提案";
@@ -777,11 +783,16 @@ return {
 ["Wiki engine"] = "Wiki 軟體";
 ["Wiki engine for statement"] = "編輯自述的 Wiki 軟體";
 ["Withdraw"] = "退出";
+["Withdraw interest and delete the suggestion"] = false;
+["Withdraw interest and delete the suggestions"] = false;
 ["Withdraw membership"] = "退出成員身分";
+["Withdraw support and delete the suggestion"] = false;
+["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = "肯定";
 ["Yesterday at #{time}"] = "昨日於 #{time}";
 ["You are already initiator"] = "您已是發起者";
 ["You are already initiator!"] = false;
+["You are already not interested in this issue."] = false;
 ["You are already not supporting this initiative"] = "您已不再支持此提案";
 ["You are already not supporting this initiative."] = false;
 ["You are already supporting the latest draft"] = "您已支持最新的草案";
@@ -820,6 +831,7 @@ return {
 ["You are supporter of this initiative via delegation."] = false;
 ["You are supporter of this initiative."] = false;
 ["You are supporter."] = false;
+["You are the only one who rated this suggestion. If you rate it neutral now, it will be deleted!"] = false;
 ["You can change your email address only once per hour. Please try again later."] = "您只能在一小時內更改電郵地址一次，請稍後重試。";
 ["You can't suggest the initiative you are revoking"] = "您無法對您所撤銷的提案提出建議。";
 ["You can't suggest the initiative you are revoking!"] = false;
@@ -849,6 +861,7 @@ return {
 ["You've successfully registered and you can login now with your login and password!"] = "您已成功註冊並可使用帳號及密碼登入！";
 ["Your contact list is empty. To add members to this list of trustees, you have to add them to your contacts first."] = false;
 ["Your email address has been changed, please check for confirmation email with activation link!"] = "您的電郵地址已被更改，請在確認電郵中找尋啟用連結！";
+["Your interest has been removed from this issue."] = false;
 ["Your login has been changed to '#{login}'"] = "您的帳號已更改為 '#{login}'";
 ["Your login has been changed to '#{login}'."] = false;
 ["Your name has been changed"] = "您的代號已被更改";

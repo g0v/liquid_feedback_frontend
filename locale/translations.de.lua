@@ -465,6 +465,7 @@ return {
 ["Profile"] = "Profil";
 ["Published, click to hide"] = "Veröffentlicht, klicken um zu verstecken";
 ["Quorum"] = "Quorum";
+["Rate neutral and delete the suggestion"] = "Neutral bewerten und die Anregung löschen";
 ["Real name"] = "Realname";
 ["Refresh support to current draft"] = "Unterstützung auf aktuellen Entwurf aktualisieren";
 ["Refuse invitation"] = "Einladung ablehnen";
@@ -544,7 +545,7 @@ return {
 ["Suggestion ##{id}"] = "Anregung ##{id}";
 ["Suggestion currently implemented"] = "Anregung zur Zeit umgesetzt";
 ["Suggestion currently not implemented"] = "Anregung zur Zeit nicht umgesetzt";
-["Suggestion does not exist anymore"] = "Anregung existiert nicht mehr";
+["Suggestion does not exist anymore!"] = "Diese Anregung existiert nicht mehr!";
 ["Suggestion for initiative: '#{name}'"] = "Anregung für Initiative '#{name}'";
 ["Suggestions"] = "Anregungen";
 ["Support this initiative"] = "Diese Initiative unterstützen";
@@ -559,7 +560,11 @@ return {
 ["The drafts do not differ"] = "Die Entwürfe unterscheiden sich nicht";
 ["The initiators suggest to support the following initiative:"] = "Die Initiatoren empfehlen folgende Initiative zu unterstützen:";
 ["The maximum number of delegations for one preference list is reached!"] = "Die maximale Anzahl von Delegationen in einer Präferenzliste ist erreicht!";
+["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = "Es gibt #{count} Anregungen, zu denen bisher nur Du eine Meinung angegeben hast. Wenn Du Dein Interesse zurückziehst, werden diese Anregungen gelöscht!";
+["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = "Es gibt #{count} Anregungen, zu denen bisher nur Du eine Meinung angegeben hast. Wenn Du Deine Unterstützung zurückziehst, werden diese Anregungen gelöscht!";
 ["There are no trustees selected."] = "Es sind keine Bevollmächtigten ausgewählt.";
+["There is one suggestion, for which only you entered an opinion. If you withdraw your interest, this suggestion will be deleted!"] = "Es gibt eine Anregungen, zu der bisher nur Du eine Meinung angegeben hast. Wenn Du Dein Interesse zurückziehst, wird diese Anregung gelöscht!";
+["There is one suggestion, for which only you entered an opinion. If you withdraw your support, this suggestion will be deleted!"] = "Es gibt eine Anregungen, zu der bisher nur Du eine Meinung angegeben hast. Wenn Du Deine Unterstützung zurückziehst, wird diese Anregung gelöscht!";
 ["This email address is not valid!"] = "Diese E-Mail-Adresse ist nicht gültig!";
 ["This initiative"] = "Diese Initiative";
 ["This initiative has been revoked at #{revoked}"] = "Diese Initiative wurde am/um #{revoked} zurückgezogen";
@@ -637,10 +642,15 @@ return {
 ["Wiki engine"] = "Wiki engine";
 ["Wiki engine for statement"] = "Wiki engine für das Statement";
 ["Withdraw"] = "Zurückziehen";
+["Withdraw interest and delete the suggestion"] = "Interesse zurückziehen und die Anregung löschen";
+["Withdraw interest and delete the suggestions"] = "Interesse zurückziehen und die Anregungen löschen";
 ["Withdraw membership"] = "Mitgliedschaft aufgeben";
+["Withdraw support and delete the suggestion"] = "Unterstützung zurückziehen und die Anregung löschen";
+["Withdraw support and delete the suggestions"] = "Unterstützung zurückziehen und die Anregungen löschen";
 ["Yes"] = "Ja";
 ["Yesterday at #{time}"] = "Gestern um #{time}";
 ["You are already initiator!"] = "Du bist bereits Initiator!";
+["You are already not interested in this issue."] = "Du bist an diesem Thema bereits nicht interessiert.";
 ["You are already not supporting this initiative."] = "Diese Initiative hat bereits keine Unterstützung von Dir.";
 ["You are already supporting the latest draft."] = "Du unterstützt bereits den neuesten Entwurf.";
 ["You are currently not invited to any initiative."] = "Du bist zur Zeit von keiner Initiative eingeladen.";
@@ -662,6 +672,7 @@ return {
 ["You are supporter of this initiative via delegation."] = "Du bist durch Delegation Unterstützer dieser Initiative.";
 ["You are supporter of this initiative."] = "Du bist Unterstützer dieser Initiative.";
 ["You are supporter."] = "Du bist Unterstützer.";
+["You are the only one who rated this suggestion. If you rate it neutral now, it will be deleted!"] = "Du bist der einzige, der diese Anregung bewertet hat. Wenn Du sie nun neutral bewertest, wird sie gelöscht!";
 ["You can change your email address only once per hour. Please try again later."] = "Du kannst die E-Mail-Adresse nur einmal in der Stunde ändern, bitte versuche es später erneut.";
 ["You can't suggest the initiative you are revoking!"] = "Du kannst nicht die Initiative empfehlen, die Du löschen möchtest!";
 ["You did not select an initiator to remove!"] = "Du hast keinen Inititator zum Löschen ausgewählt!";
@@ -682,6 +693,7 @@ return {
 ["You've successfully registered and you can login now with your login and password!"] = "Du hast Dich erfolgreich registriert und kannst Dich jetzt mit Deinen Anmeldenamen und Kennwort anmelden!";
 ["Your contact list is empty. To add members to this list of trustees, you have to add them to your contacts first."] = "Deine Kontakte-Liste ist leer. Um Mitglieder zu dieser Liste von Bevollmächtigten hinzuzufügen, musst Du sie erst in Deine Kontakte aufnehmen.";
 ["Your email address has been changed, please check for confirmation email with activation link!"] = "Deine E-Mail-Adresse wurde geändert, Du hast eine Bestätigungs-E-Mail mit Aktivierungslink erhalten.";
+["Your interest has been removed from this issue."] = "Dein Interesse wurde dem Thema entzogen.";
 ["Your login has been changed to '#{login}'."] = "Dein Anmeldename wurde auf '#{login}' geändert.";
 ["Your name has been changed."] = "Dein Name wurde geändert.";
 ["Your password has been updated successfully."] = "Das Kennwort wurde erfolgreich geändert.";

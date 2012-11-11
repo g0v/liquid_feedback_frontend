@@ -264,8 +264,6 @@ return {
 ["Initiatives that invited you to become initiator:"] = false;
 ["Initiator invites"] = false;
 ["Initiators"] = false;
-["Interest not existent"] = false;
-["Interest removed"] = false;
 ["Interest updated"] = false;
 ["Interested"] = false;
 ["Interested members"] = false;
@@ -454,6 +452,7 @@ return {
 ["Profile"] = false;
 ["Published, click to hide"] = false;
 ["Quorum"] = false;
+["Rate neutral and delete the suggestion"] = false;
 ["Real name"] = false;
 ["Refresh support to current draft"] = false;
 ["Refuse invitation"] = false;
@@ -531,7 +530,7 @@ return {
 ["Suggestion ##{id}"] = false;
 ["Suggestion currently implemented"] = false;
 ["Suggestion currently not implemented"] = false;
-["Suggestion does not exist anymore"] = false;
+["Suggestion does not exist anymore!"] = false;
 ["Suggestion for initiative: '#{name}'"] = false;
 ["Suggestions"] = false;
 ["Support this initiative"] = false;
@@ -546,7 +545,11 @@ return {
 ["The drafts do not differ"] = false;
 ["The initiators suggest to support the following initiative:"] = false;
 ["The maximum number of delegations for one preference list is reached!"] = false;
+["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
+["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
 ["There are no trustees selected."] = false;
+["There is one suggestion, for which only you entered an opinion. If you withdraw your interest, this suggestion will be deleted!"] = false;
+["There is one suggestion, for which only you entered an opinion. If you withdraw your support, this suggestion will be deleted!"] = false;
 ["This email address is not valid!"] = false;
 ["This initiative"] = false;
 ["This initiative has been revoked at #{revoked}"] = false;
@@ -623,10 +626,15 @@ return {
 ["Website"] = false;
 ["Wiki engine"] = false;
 ["Withdraw"] = false;
+["Withdraw interest and delete the suggestion"] = false;
+["Withdraw interest and delete the suggestions"] = false;
 ["Withdraw membership"] = false;
+["Withdraw support and delete the suggestion"] = false;
+["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = false;
 ["Yesterday at #{time}"] = false;
 ["You are already initiator!"] = false;
+["You are already not interested in this issue."] = false;
 ["You are already not supporting this initiative."] = false;
 ["You are already supporting the latest draft."] = false;
 ["You are currently not invited to any initiative."] = false;
@@ -648,6 +656,7 @@ return {
 ["You are supporter of this initiative via delegation."] = false;
 ["You are supporter of this initiative."] = false;
 ["You are supporter."] = false;
+["You are the only one who rated this suggestion. If you rate it neutral now, it will be deleted!"] = false;
 ["You can change your email address only once per hour. Please try again later."] = false;
 ["You can't suggest the initiative you are revoking!"] = false;
 ["You did not select an initiator to remove!"] = false;
@@ -668,6 +677,7 @@ return {
 ["You've successfully registered and you can login now with your login and password!"] = false;
 ["Your contact list is empty. To add members to this list of trustees, you have to add them to your contacts first."] = false;
 ["Your email address has been changed, please check for confirmation email with activation link!"] = false;
+["Your interest has been removed from this issue."] = false;
 ["Your login has been changed to '#{login}'."] = false;
 ["Your name has been changed."] = false;
 ["Your password has been updated successfully."] = false;

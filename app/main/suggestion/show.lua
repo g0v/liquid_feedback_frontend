@@ -12,7 +12,7 @@ if not suggestion then
       params = { tab = "suggestions" }
     }
   else
-    slot.put_into('error', _"Suggestion does not exist anymore")
+    slot.put_into('error', _"Suggestion does not exist anymore!")
   end
   return
 end

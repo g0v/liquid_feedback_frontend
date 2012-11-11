@@ -557,6 +557,7 @@ return {
 ["Published"] = "Δημοσιευμένο";
 ["Published, click to hide"] = false;
 ["Quorum"] = "Απαρτία";
+["Rate neutral and delete the suggestion"] = false;
 ["Real name"] = "Πραγματικό όνομα";
 ["Refresh support to current draft"] = "Ανανέωση υποστήριξής στο τρέχον προσχέδιο";
 ["Refuse invitation"] = "Απόρριψη πρόσκλησης";
@@ -654,6 +655,7 @@ return {
 ["Suggestion currently implemented"] = "Η πρόταση υλοποιείται αυτή τη στιγμή";
 ["Suggestion currently not implemented"] = "Η πρόταση δεν υλοποιείται αυτή τη στιγμή";
 ["Suggestion does not exist anymore"] = "Η πρόταση δεν υπάρχει πια";
+["Suggestion does not exist anymore!"] = false;
 ["Suggestion for initiative: '#{name}'"] = "Πρόταση για την πρωτοβουλία '#{name}'";
 ["Suggestions"] = "Προτάσεις";
 ["Sunday"] = "Κυριακή";
@@ -670,7 +672,11 @@ return {
 ["The drafts do not differ"] = "Τα προσχέδια δεν διαφέρουν";
 ["The initiators suggest to support the following initiative:"] = "Οι εισηγητές προτείνουν να υποστηρίξετε την ακόλουθη πρωτοβουλία:";
 ["The maximum number of delegations for one preference list is reached!"] = false;
+["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
+["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
 ["There are no trustees selected."] = false;
+["There is one suggestion, for which only you entered an opinion. If you withdraw your interest, this suggestion will be deleted!"] = false;
+["There is one suggestion, for which only you entered an opinion. If you withdraw your support, this suggestion will be deleted!"] = false;
 ["This email address is not valid!"] = false;
 ["This email address is too short!"] = "Η διεύθυνση email είναι πολύ μικρή!";
 ["This initiative"] = "Αυτή η πρωτοβουλία";
@@ -777,11 +783,16 @@ return {
 ["Wiki engine"] = "Μηχανισμός wiki";
 ["Wiki engine for statement"] = "Μηχανισμός wiki για την δήλωση";
 ["Withdraw"] = "Απόσυρση";
+["Withdraw interest and delete the suggestion"] = false;
+["Withdraw interest and delete the suggestions"] = false;
 ["Withdraw membership"] = "Απόσυρση συμμετοχής";
+["Withdraw support and delete the suggestion"] = false;
+["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = "Ναι";
 ["Yesterday at #{time}"] = "Χτες στις #{time}";
 ["You are already initiator"] = "Είστε ήδη εισηγητής";
 ["You are already initiator!"] = false;
+["You are already not interested in this issue."] = false;
 ["You are already not supporting this initiative"] = "Ήδη δεν υποστηρίζετε αυτή την πρωτοβουλία";
 ["You are already not supporting this initiative."] = false;
 ["You are already supporting the latest draft"] = "Ήδη υποστηρίζετε το τελευταίο προσχέδιο";
@@ -820,6 +831,7 @@ return {
 ["You are supporter of this initiative via delegation."] = false;
 ["You are supporter of this initiative."] = false;
 ["You are supporter."] = false;
+["You are the only one who rated this suggestion. If you rate it neutral now, it will be deleted!"] = false;
 ["You can change your email address only once per hour. Please try again later."] = "Μπορείτε να αλλάξετε την διεύθυνση email σας μόνο μια φορά ανά ώρα. Παρακαλώ προσπαθήστε ξανά αργότερα.";
 ["You can't suggest the initiative you are revoking"] = "Δεν μπορείτε να προτείνετε την πρωτοβουλία που ανακαλείτε";
 ["You can't suggest the initiative you are revoking!"] = false;
@@ -849,6 +861,7 @@ return {
 ["You've successfully registered and you can login now with your login and password!"] = "Η εγγραφή σας ήταν επιτυχής. Μπορείτε πλέον να συνδεθείτε με το όνομα σύνδεσης και τον κωδικό πρόσβασής σας!";
 ["Your contact list is empty. To add members to this list of trustees, you have to add them to your contacts first."] = false;
 ["Your email address has been changed, please check for confirmation email with activation link!"] = "Η διεύθυνση email σας άλλαξε, παρακαλώ ελέγξτε τα εισερχόμενά σας για το email επιβεβαίωσης και ενεργοποίησης!";
+["Your interest has been removed from this issue."] = false;
 ["Your login has been changed to '#{login}'"] = "Το όνομα σύνδεσής σας άλλαξε σε: '#{login}'";
 ["Your login has been changed to '#{login}'."] = false;
 ["Your name has been changed"] = "Το όνομά σας άλλαξε";

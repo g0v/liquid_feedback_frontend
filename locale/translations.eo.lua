@@ -526,6 +526,7 @@ return {
 ["Published"] = "Publikigita";
 ["Published, click to hide"] = false;
 ["Quorum"] = "Kvorumo";
+["Rate neutral and delete the suggestion"] = false;
 ["Real name"] = "Vera nomo";
 ["Refresh support to current draft"] = "Refreŝigi subtenon por la aktuala skizo";
 ["Refuse invitation"] = "Rifuzi inviton";
@@ -618,6 +619,7 @@ return {
 ["Suggestion currently implemented"] = "Sugesto aktuale realigita";
 ["Suggestion currently not implemented"] = "Sugesto aktuale ne realigita";
 ["Suggestion does not exist anymore"] = "Sugesto ne plu ekzistas";
+["Suggestion does not exist anymore!"] = false;
 ["Suggestion for initiative: '#{name}'"] = "Sugesto por iniciato '#{name}'";
 ["Suggestions"] = "Sugestoj";
 ["Sunday"] = "Dimanĉo";
@@ -634,7 +636,11 @@ return {
 ["The drafts do not differ"] = "La skizoj ne estas malsamaj";
 ["The initiators suggest to support the following initiative:"] = "La iniciintoj rekomendas subteni sekvan iniciaton:";
 ["The maximum number of delegations for one preference list is reached!"] = false;
+["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
+["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
 ["There are no trustees selected."] = false;
+["There is one suggestion, for which only you entered an opinion. If you withdraw your interest, this suggestion will be deleted!"] = false;
+["There is one suggestion, for which only you entered an opinion. If you withdraw your support, this suggestion will be deleted!"] = false;
 ["This email address is not valid!"] = false;
 ["This email address is too short!"] = "Tiu retpoŝtadreso esta tro mallonga!";
 ["This initiative"] = "Tiu iniciato";
@@ -733,11 +739,16 @@ return {
 ["Wednesday"] = "Merkredo";
 ["Wiki engine"] = "Viki-modulo";
 ["Withdraw"] = false;
+["Withdraw interest and delete the suggestion"] = false;
+["Withdraw interest and delete the suggestions"] = false;
 ["Withdraw membership"] = false;
+["Withdraw support and delete the suggestion"] = false;
+["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = "Jes";
 ["Yesterday at #{time}"] = false;
 ["You are already initiator"] = "Vi estas jam iniciinto";
 ["You are already initiator!"] = false;
+["You are already not interested in this issue."] = false;
 ["You are already not supporting this initiative"] = "Vi jam malsubtenas tiun iniciaton";
 ["You are already not supporting this initiative."] = false;
 ["You are already supporting the latest draft"] = "Vi jam subtenas la plej novan skizon";
@@ -765,6 +776,7 @@ return {
 ["You are supporter of this initiative via delegation."] = false;
 ["You are supporter of this initiative."] = false;
 ["You are supporter."] = false;
+["You are the only one who rated this suggestion. If you rate it neutral now, it will be deleted!"] = false;
 ["You can change your email address only once per hour. Please try again later."] = "Vi povas ŝanĝi vian retpoŝtadreson nur unufoje hore. Bonvole provu denove pli malfrue.";
 ["You can't suggest the initiative you are revoking"] = "Vi ne povas rekomendi la iniciaton, kiun vi nuligas";
 ["You can't suggest the initiative you are revoking!"] = false;
@@ -786,6 +798,7 @@ return {
 ["You've successfully registered and you can login now with your login and password!"] = "Vi sukcese registriĝis kaj povas nun ensaluti per via salutnomo kaj pasvorto!";
 ["Your contact list is empty. To add members to this list of trustees, you have to add them to your contacts first."] = false;
 ["Your email address has been changed, please check for confirmation email with activation link!"] = "Via retpoŝtadreso ŝanĝiĝis, bonvole rigardu la konfirman retpoŝton kun aktiviga ligilo!";
+["Your interest has been removed from this issue."] = false;
 ["Your login has been changed to '#{login}'"] = "Via salutnomo estas ĝisdatigita al '#{login}'";
 ["Your login has been changed to '#{login}'."] = false;
 ["Your name has been changed"] = "Via nomo estas ĝisdatigita";

@@ -116,7 +116,7 @@ ui.container{ attr = { class = class }, content = function()
             text    = _"Withdraw",
             module  = "interest",
             action  = "update",
-            params  = { issue_id = issue.id, delete = true },
+            params  = { issue_id = issue.id, delete = true, module = request.get_module(), id = param.get_id_cgi() },
             routing = {
               default = {
                 mode = "redirect",
