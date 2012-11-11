@@ -482,18 +482,9 @@ form.unit_selector {
   background: -ms-linear-gradient(#67d, #23a);
   background: -o-linear-gradient(#67d, #23a);
   background: linear-gradient(#67d, #23a);
-  background-color: #44a;
+  background-color: #23a;
   color: #f0f0f0;
 }
-
-.unit_head:last-child {
-  border-radius: 0 0 8px 8px;
-}
-
-.area_head:last-child {
-  border-radius: 0 0 8px 8px;
-}
-
 .unit_head .content, .unit_head a {
   color: #f7f7f7;
 }
@@ -505,9 +496,8 @@ form.unit_selector {
   background: -ms-linear-gradient(#cdf, #abe);
   background: -o-linear-gradient(#cdf, #abe);
   background: linear-gradient(#cdf, #abe);
-  background-color: #abf;
+  background-color: #abe;
 }
-
 .area_list .area > .content,
 .issue {
   background: -webkit-linear-gradient(top, #f7faff, #e0e9ff);
@@ -517,6 +507,13 @@ form.unit_selector {
   background: -o-linear-gradient(#f7faff, #e0e9ff);
   background: linear-gradient(#f7faff, #e0e9ff);
   background-color: #e0e9ff;
+}
+
+.unit_head:last-child {
+  border-radius: 0 0 8px 8px;
+}
+.area_head:last-child {
+  border-radius: 0 0 8px 8px;
 }
 
 .unit_link, .area_link, .issue_link {
@@ -532,7 +529,7 @@ form.unit_selector {
   color: #fff;
 }
 .area_link {
-  background-color: #abf;
+  background-color: #abe;
   color: #000;
 }
 .issue_link {
@@ -545,7 +542,7 @@ form.unit_selector {
 .delegation_info {
   float: right;
   text-decoration: none;
-  padding: 5px;
+  padding: 0px;
   border-radius: 0px 5px 0px 5px;
 }
 
@@ -561,6 +558,30 @@ form.unit_selector {
 a.delegation_info:hover,
 a.delegation_info:focus {
   background-color: #ddd;
+}
+
+.delegation_info_none {
+  float: left;
+  padding: 5px;
+  height: 28px;
+  line-height: 26px;
+}
+.delegation_info_area {
+  float: left;
+  padding: 5px;
+  height: 28px;
+  line-height: 26px;
+  background-color: #abe;
+  border-radius: 7px;
+}
+.delegation_info_unit {
+  float: left;
+  padding: 5px;
+  height: 28px;
+  line-height: 26px;
+  background-color: #23a;
+  color: #f7f7f7;
+  border-radius: 7px;
 }
 
 .delegation_info .micro_avatar {
