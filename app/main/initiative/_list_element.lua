@@ -65,6 +65,7 @@ ui.container{ attr = { class = class }, content = function()
 
   ui.container{ attr = { class = "bar" }, content = function()
     if initiative.issue.fully_frozen and initiative.issue.closed then
+      -- bar shows voting result
       if initiative.issue.ranks_available then
         if initiative.negative_votes and initiative.positive_votes then
           local max_value = initiative.issue.voter_count
@@ -84,6 +85,7 @@ ui.container{ attr = { class = class }, content = function()
         slot.put(_"Counting of votes")
       end
     else
+      -- bar shows supporters
       local max_value = initiative.issue.population or 0
       local quorum
       if initiative.issue.accepted then
@@ -143,7 +145,7 @@ ui.container{ attr = { class = class }, content = function()
           }
         end
       elseif initiative.member_info.supported then
-        -- satisfied means, that a member has no critical opinion to any suggestion of this initiative  
+        -- satisfied means, that a member has no critical opinion to any suggestion of this initiative
         if initiative.member_info.satisfied then
           local label
           if for_member and for_member.id ~= app.session.member_id then
