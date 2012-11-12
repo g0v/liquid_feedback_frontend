@@ -44,7 +44,14 @@ ui.container{
 
             dtdd( _"Direct majority", bool2str(initiative.direct_majority) )
             dtdd( _"Indirect majority", bool2str(initiative.indirect_majority) )
-            dtdd( _"Schulze rank", tostring(initiative.schulze_rank) .. " (" .. _("Status quo: #{rank}", { rank = initiative.issue.status_quo_schulze_rank }) .. ")" )
+
+            local schulze
+            if initiative.schulze_rank then
+              schulze = tostring(initiative.schulze_rank) .. " (" .. _("Status quo: #{rank}", { rank = initiative.issue.status_quo_schulze_rank }) .. ")"
+            else
+              schulze = "-"
+            end
+            dtdd( _"Schulze rank", schulze )
 
             local texts = {}
             if initiative.reverse_beat_path then
@@ -54,10 +61,10 @@ ui.container{
               texts[#texts+1] = _"possibly instable result caused by multistage majority"
             end
             if #texts == 0 then
-            texts[#texts+1] = _"none"
+              texts[#texts+1] = "-"
             end
-
             dtdd( _"Other failures", table.concat(texts, ", ") )
+            
             dtdd( _"Eligible as winner", bool2str(initiative.eligible) )
 
           end

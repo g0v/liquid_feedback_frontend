@@ -755,7 +755,6 @@ return {
 ["neutral"] = "neutral";
 ["no reverse beat path to status quo (including ties)"] = "Kein rückwärtsgerichteter Schlagpfad zum Status Quo (Gleichstände eingeschlossen)";
 ["no voting right"] = "kein Stimmrecht";
-["none"] = "kein";
 ["not implemented"] = "nicht umgesetzt";
 ["not yet"] = "bis jetzt nicht";
 ["possibly instable result caused by multistage majority"] = "Möglicherweise instabiles Ergebnis aufgrund mehrstufiger Mehrheiten";

@@ -738,7 +738,6 @@ return {
 ["neutral"] = false;
 ["no reverse beat path to status quo (including ties)"] = false;
 ["no voting right"] = false;
-["none"] = false;
 ["not implemented"] = false;
 ["not yet"] = false;
 ["possibly instable result caused by multistage majority"] = false;
