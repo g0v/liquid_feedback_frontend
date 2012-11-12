@@ -234,6 +234,8 @@ return {
 ["Edit my profile"] = "Επεξεργασία του προφίλ μου";
 ["Edit profile"] = "Επεξεργασία προφίλ";
 ["Edit unit"] = "Επεξεργασία ενότητας";
+["Effective delegation in voting"] = false;
+["Effective delegations in voting"] = false;
 ["Eligible as winner"] = "Επιλέξιμο ως νικητής";
 ["Eligible voters"] = "Ψηφοφόροι";
 ["Email address"] = "Διεύθυνση email";
@@ -694,6 +696,7 @@ return {
 ["This issue is already closed."] = "Αυτό το θέμα έχει ήδη κλείσει.";
 ["This issue is already frozen!"] = false;
 ["This issue is already frozen."] = "Αυτό το θέμα έχει ήδη παγώσει.";
+["This issue is closed."] = false;
 ["This login is already taken, please choose another one!"] = "Αυτό το όνομα σύνδεσης υπάρχει ήδη, παρακαλώ επιλέξτε κάποιο άλλο!";
 ["This login is too short!"] = "Αυτό το όνομα σύνδεσης είναι πολύ μικρό!";
 ["This member account has been created at #{created}"] = "Ο λογαριασμός αυτού του μέλους δημιουργήθηκε στις #{created}.";
@@ -717,6 +720,7 @@ return {
 ["This member is potential supporter of this initiative."] = false;
 ["This member is supporter of this initiative via delegation."] = false;
 ["This member is supporter of this initiative."] = false;
+["This member voted."] = false;
 ["This name is already taken, please choose another one!"] = "Αυτό το όνομα υπάρχει ήδη, παρακαλώ επιλέξτε κάποιο άλλο!";
 ["This name is really too short!"] = "Αυτό το όνομα είναι πραγματικά πολύ μικρό!";
 ["This name is too short!"] = "Αυτό το όνομα είναι πολύ μικρό!";

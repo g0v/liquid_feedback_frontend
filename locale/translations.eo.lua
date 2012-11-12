@@ -217,6 +217,8 @@ return {
 ["Edit my page"] = "Redakti mian paĝon";
 ["Edit my profile"] = "Redakti mian profilon";
 ["Edit profile"] = false;
+["Effective delegation in voting"] = false;
+["Effective delegations in voting"] = false;
 ["Eligible as winner"] = false;
 ["Eligible voters"] = false;
 ["Email address"] = "Retpoŝtadreso";
@@ -658,6 +660,7 @@ return {
 ["This issue is already closed."] = "La temo estas jam fermita.";
 ["This issue is already frozen!"] = false;
 ["This issue is already frozen."] = "La temo estas jam ĝelita";
+["This issue is closed."] = false;
 ["This login is already taken, please choose another one!"] = "Tiu salutnomo estas jam prenita, bonvolu elekti alian!";
 ["This login is too short!"] = "Tiu salutnomo estas tro mallonga!";
 ["This member account has been created at #{created}"] = "Tiu membrokonto estis kreita je #{created}.";
@@ -679,6 +682,7 @@ return {
 ["This member is potential supporter of this initiative."] = false;
 ["This member is supporter of this initiative via delegation."] = false;
 ["This member is supporter of this initiative."] = false;
+["This member voted."] = false;
 ["This name is already taken, please choose another one!"] = "Tiu nomo estas jam prenita, bonvolu elekti alian!";
 ["This name is really too short!"] = "Tiu nomo estas vere tro mallonga!";
 ["This name is too short!"] = "Tiu nomo estas tro mallonga!";

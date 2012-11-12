@@ -193,6 +193,8 @@ return {
 ["Edit my page"] = false;
 ["Edit my profile"] = false;
 ["Edit profile"] = false;
+["Effective delegation in voting"] = false;
+["Effective delegations in voting"] = false;
 ["Eligible as winner"] = false;
 ["Eligible voters"] = false;
 ["Email address"] = false;
@@ -562,6 +564,7 @@ return {
 ["This issue has been cancelled. It failed the quorum of #{quorum}."] = false;
 ["This issue is already closed!"] = false;
 ["This issue is already frozen!"] = false;
+["This issue is closed."] = false;
 ["This login is already taken, please choose another one!"] = false;
 ["This login is too short!"] = false;
 ["This member account has been created at #{created}."] = false;
@@ -578,6 +581,7 @@ return {
 ["This member is potential supporter of this initiative."] = false;
 ["This member is supporter of this initiative via delegation."] = false;
 ["This member is supporter of this initiative."] = false;
+["This member voted."] = false;
 ["This name is already taken, please choose another one!"] = false;
 ["This name is really too short!"] = false;
 ["This name is too short!"] = false;

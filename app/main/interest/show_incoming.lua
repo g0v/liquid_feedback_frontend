@@ -23,6 +23,7 @@ execute.view{
   params = {
     members_selector = members_selector,
     issue = issue,
-    trustee = member
+    trustee = member,
+    show_delegation_link = true
   }
 }

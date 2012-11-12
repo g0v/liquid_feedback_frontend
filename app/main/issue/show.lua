@@ -58,24 +58,38 @@ if app.session:has_access("all_pseudonymous") then
   }
 
   -- issue delegations
-  local delegations_selector = Member:new_selector()
-    :reset_fields()
-    :add_field("member.id", "member_id")
-    :add_field("delegation.unit_id")
-    :add_field("delegation.area_id")
-    :add_field("delegation.issue_id")
-    :join("delegation", "delegation", "member.id = delegation.truster_id")
-    :join("member", "trustee", "trustee.id = delegation.trustee_id")
-    :add_where{ "member.active" }
-    :add_where{ "trustee.active" }
-    :add_where{ "delegation.unit_id ISNULL" }
-    :add_where{ "delegation.area_id ISNULL" }
-    :add_where{ "delegation.issue_id= ?", issue.id }
-    :add_order_by("member.name")
-    :add_group_by("member.name, member.id, delegation.unit_id, delegation.area_id, delegation.issue_id")
+  local delegations_selector
+  local tab_title
+  if issue.closed then
+    tab_title = _"Effective delegations in voting"
+    delegations_selector = Member:new_selector()
+      :reset_fields()
+      :add_field("member_id")
+      :add_field("issue_id")
+      :join("delegating_voter", nil, "member.id = delegating_voter.member_id")
+      :add_where{ "delegating_voter.issue_id= ?", issue.id }
+      :add_order_by("member.name")
+  else
+    tab_title = _"Delegations"
+    delegations_selector = Member:new_selector()
+      :reset_fields()
+      :add_field("member.id", "member_id")
+      :add_field("delegation.unit_id")
+      :add_field("delegation.area_id")
+      :add_field("delegation.issue_id")
+      :join("delegation", "delegation", "member.id = delegation.truster_id")
+      :join("member", "trustee", "trustee.id = delegation.trustee_id")
+      :add_where{ "member.active" }
+      :add_where{ "trustee.active" }
+      :add_where{ "delegation.unit_id ISNULL" }
+      :add_where{ "delegation.area_id ISNULL" }
+      :add_where{ "delegation.issue_id= ?", issue.id }
+      :add_order_by("member.name")
+      :add_group_by("member.name, member.id, delegation.unit_id, delegation.area_id, delegation.issue_id")
+  end
   tabs[#tabs+1] = {
     name = "delegations",
-    label = _"Delegations" .. " (" .. tostring(delegations_selector:count()) .. ")",
+    label = tab_title .. " (" .. tostring(delegations_selector:count()) .. ")",
     module = "delegation",
     view = "_list",
     params = {

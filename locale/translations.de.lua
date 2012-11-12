@@ -197,6 +197,8 @@ return {
 ["Edit my page"] = "Meine Seite bearbeiten";
 ["Edit my profile"] = "Mein Profil bearbeiten";
 ["Edit profile"] = "Profil bearbeiten";
+["Effective delegation in voting"] = "Wirksame Delegation in der Abstimmung";
+["Effective delegations in voting"] = "Wirksame Delegationen in der Abstimmung";
 ["Eligible as winner"] = "Als Gewinner qualifiziert";
 ["Eligible voters"] = "Stimmberechtigte";
 ["Email address"] = "E-Mail-Adresse";
@@ -578,6 +580,7 @@ return {
 ["This issue has been cancelled. It failed the quorum of #{quorum}."] = "Dieses Thema wurde abgebrochen. Es hat das Quorum von #{quorum} nicht erfüllt.";
 ["This issue is already closed!"] = "Das Thema ist schon geschlossen!";
 ["This issue is already frozen!"] = "Das Thema ist schon eingefroren!";
+["This issue is closed."] = "Dieses Thema ist geschlossen.";
 ["This login is already taken, please choose another one!"] = "Dieser Anmeldename ist bereits vergeben, bitte wähle einen anderen!";
 ["This login is too short!"] = "Dieser Anmeldename ist zu kurz!";
 ["This member account has been created at #{created}."] = "Dieser Mitgliedszugang wurde am/um #{created} angelegt.";
@@ -594,6 +597,7 @@ return {
 ["This member is potential supporter of this initiative."] = "Dieses Mitglied ist potenzieller Unterstützer dieser Initiative.";
 ["This member is supporter of this initiative via delegation."] = "Dieses Mitglied ist durch Delegation Unterstützer dieser Initiative.";
 ["This member is supporter of this initiative."] = "Dieses Mitglied ist Unterstützer dieser Initiative.";
+["This member voted."] = "Dieses Mitglied hat abgestimmt.";
 ["This name is already taken, please choose another one!"] = "Dieser Name ist bereits vergeben, bitte wähle einen anderen!";
 ["This name is really too short!"] = "Dieser Name ist wirklich zu kurz!";
 ["This name is too short!"] = "Dieser Name ist zu kurz!";

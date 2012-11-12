@@ -228,6 +228,8 @@ return {
 ["Edit my profile"] = "Saját profilom szerkesztése";
 ["Edit profile"] = false;
 ["Edit unit"] = "Egység szerkesztése";
+["Effective delegation in voting"] = false;
+["Effective delegations in voting"] = false;
 ["Eligible as winner"] = "Gyõztesként választható";
 ["Eligible voters"] = false;
 ["Email address"] = "Email-cím";
@@ -672,6 +674,7 @@ return {
 ["This issue is already closed."] = "Téma már lezárva.";
 ["This issue is already frozen!"] = false;
 ["This issue is already frozen."] = "Téma már befagyasztva.";
+["This issue is closed."] = false;
 ["This login is already taken, please choose another one!"] = "Ez a bejelentkezési név más foglalt, válassz másikat!";
 ["This login is too short!"] = "Ez a bejelentkezési név túl rövid!";
 ["This member account has been created at #{created}"] = "Felhasználói fiók létrehozásának idõpontja: #{created}";
@@ -693,6 +696,7 @@ return {
 ["This member is potential supporter of this initiative."] = false;
 ["This member is supporter of this initiative via delegation."] = false;
 ["This member is supporter of this initiative."] = false;
+["This member voted."] = false;
 ["This name is already taken, please choose another one!"] = "Ez a név már foglalt, kérlek, válassz másikat";
 ["This name is really too short!"] = "Ez a név tényleg túl rövid!";
 ["This name is too short!"] = "Ez a név túl rövid!";

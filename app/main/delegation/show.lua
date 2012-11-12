@@ -152,7 +152,7 @@ for i, delegation in ipairs(delegations) do
         params = { member = trustee }
       }
 
-      if member.id == app.session.member.id then
+      if member.id == app.session.member.id and not (issue and issue.closed) then
 
         if i ~= 1 then
           ui.form{
@@ -274,148 +274,160 @@ end
 -- add trustee
 
 if member.id == app.session.member.id then
-  ui.form{
-    attr = { class = "delegation_add" },
-    module = "delegation",
-    action = "update",
-    params = {
-      unit_id = unit and unit.id or nil,
-      area_id = area and area.id or nil,
-      issue_id = issue and issue.id or nil,
-      initiative_id = initiative_id
-    },
-    routing = {
-      default = {
-        mode = "redirect",
-        module = request.get_module(),
-        view = request.get_view(),
-        id = param.get_id_cgi(),
-        params = param.get_all_cgi()
-      }
-    },
-    content = function()
 
-      -- collect contacts and initiators
-      local records_initiators = {}
-      local records_area       = {}
-      local records_contacts   = {}
-      local contact_selector = Member:new_selector()
-      contact_selector:reset_fields()
-      contact_selector:add_field("member.id")
-      contact_selector:add_field("member.name")
-      contact_selector:add_where("member.active = TRUE")
-      contact_selector:join("privilege", nil, { "member.id = privilege.member_id AND privilege.voting_right AND privilege.unit_id = ?", voting_right_unit_id })
-      contact_selector:left_join("contact", nil, "member.id = contact.other_member_id")
-      if issue then
-        contact_selector:left_join("membership", nil, { "member.id = membership.member_id AND membership.area_id = ?", issue.area_id })
-        contact_selector:add_field("membership.member_id NOTNULL", "is_area_member")
-        contact_selector:left_join("initiator", nil, "initiator.member_id = member.id")
-        contact_selector:left_join("initiative", nil, { "initiative.id = initiator.initiative_id AND initiative.issue_id = ?", issue_id })
-        contact_selector:add_field("initiative.id NOTNULL", "is_initiator")
-        contact_selector:add_where{ "contact.member_id = ? OR initiative.id NOTNULL", member.id }
-        contact_selector:add_group_by("member.id, member.name, membership.member_id, initiative.id, member.created")
-      elseif area then
-        contact_selector:left_join("membership", nil, { "member.id = membership.member_id AND membership.area_id = ?", area_id })
-        contact_selector:add_field("membership.member_id NOTNULL", "is_area_member")
-        contact_selector:add_where{ "contact.member_id = ?", member.id }
-      else
-        contact_selector:add_where{ "contact.member_id = ?", member.id }
-      end
-      contact_selector:add_order_by("member.name")
-      local contact_members = contact_selector:exec()
-      for i, record in ipairs(contact_members) do
-        if issue and record.is_initiator then
-          records_initiators[#records_initiators+1] = record
-        elseif record.is_area_member then
-          records_area[#records_area+1] = record
-        else
-          records_contacts[#records_contacts+1] = record
-        end
-      end
+  if issue and issue.closed then
+    ui.tag{
+      tag = "p",
+      attr = { style = "font-style:italic" },
+      content = _"This issue is closed."
+    }
+  else
 
-      -- join sections
-      local records = {}
-      if #records_initiators > 0 then
-        records[#records+1] = {id="_", name= "--- " .. _"Initiators" .. " ---"}
-        for i, record in ipairs(records_initiators) do
-          records[#records+1] = record
-        end
-      end
-      if #records_area > 0 then
-        records[#records+1] = {id="_", name= "--- " .. _"Contacts participating in this area" .. " ---"}
-        for i, record in ipairs(records_area) do
-          records[#records+1] = record
-        end
-      end
-      if #records_contacts > 0 then
-        if #records_area > 0 then
-          records[#records+1] = {id="_", name= "--- " .. _"Remaining contacts" .. " ---"}
-        else
-          records[#records+1] = {id="_", name= "--- " .. _"Contacts" .. " ---"}
-        end
-        for i, record in ipairs(records_contacts) do
-          records[#records+1] = record
-        end
-      end
-
-      local disabled_records = {}
-      disabled_records["_"] = true
-      disabled_records[app.session.member.id] = true
-
-      -- check if there are members available to select
-      local empty = true
-      for i, value in ipairs(records) do
-        if not disabled_records[value.id] then
-          empty = false
-          break
-        end
-      end
-      if empty then
-        ui.tag{
-          tag = "p",
-          attr = { style = "font-style:italic" },
-          content = _"Your contact list is empty. To add members to this list of trustees, you have to add them to your contacts first."
+    ui.form{
+      attr = { class = "delegation_add" },
+      module = "delegation",
+      action = "update",
+      params = {
+        unit_id = unit and unit.id or nil,
+        area_id = area and area.id or nil,
+        issue_id = issue and issue.id or nil,
+        initiative_id = initiative_id
+      },
+      routing = {
+        default = {
+          mode = "redirect",
+          module = request.get_module(),
+          view = request.get_view(),
+          id = param.get_id_cgi(),
+          params = param.get_all_cgi()
         }
-      else
+      },
+      content = function()
 
-        -- disable members which are already in the list of trustees
-        for i, delegation in ipairs(delegations) do
-          disabled_records[delegation.trustee_id] = true
+        -- collect contacts and initiators
+        local records_initiators = {}
+        local records_area       = {}
+        local records_contacts   = {}
+        local contact_selector = Member:new_selector()
+        contact_selector:reset_fields()
+        contact_selector:add_field("member.id")
+        contact_selector:add_field("member.name")
+        contact_selector:add_where("member.active = TRUE")
+        contact_selector:join("privilege", nil, { "member.id = privilege.member_id AND privilege.voting_right AND privilege.unit_id = ?", voting_right_unit_id })
+        contact_selector:left_join("contact", nil, "member.id = contact.other_member_id")
+        if issue then
+          contact_selector:left_join("membership", nil, { "member.id = membership.member_id AND membership.area_id = ?", issue.area_id })
+          contact_selector:add_field("membership.member_id NOTNULL", "is_area_member")
+          contact_selector:left_join("initiator", nil, "initiator.member_id = member.id")
+          contact_selector:left_join("initiative", nil, { "initiative.id = initiator.initiative_id AND initiative.issue_id = ?", issue_id })
+          contact_selector:add_field("initiative.id NOTNULL", "is_initiator")
+          contact_selector:add_where{ "contact.member_id = ? OR initiative.id NOTNULL", member.id }
+          contact_selector:add_group_by("member.id, member.name, membership.member_id, initiative.id, member.created")
+        elseif area then
+          contact_selector:left_join("membership", nil, { "member.id = membership.member_id AND membership.area_id = ?", area_id })
+          contact_selector:add_field("membership.member_id NOTNULL", "is_area_member")
+          contact_selector:add_where{ "contact.member_id = ?", member.id }
+        else
+          contact_selector:add_where{ "contact.member_id = ?", member.id }
         end
+        contact_selector:add_order_by("member.name")
+        local contact_members = contact_selector:exec()
+        for i, record in ipairs(contact_members) do
+          if issue and record.is_initiator then
+            records_initiators[#records_initiators+1] = record
+          elseif record.is_area_member then
+            records_area[#records_area+1] = record
+          else
+            records_contacts[#records_contacts+1] = record
+          end
+        end
+
+        -- join sections
+        local records = {}
+        if #records_initiators > 0 then
+          records[#records+1] = {id="_", name= "--- " .. _"Initiators" .. " ---"}
+          for i, record in ipairs(records_initiators) do
+            records[#records+1] = record
+          end
+        end
+        if #records_area > 0 then
+          records[#records+1] = {id="_", name= "--- " .. _"Contacts participating in this area" .. " ---"}
+          for i, record in ipairs(records_area) do
+            records[#records+1] = record
+          end
+        end
+        if #records_contacts > 0 then
+          if #records_area > 0 then
+            records[#records+1] = {id="_", name= "--- " .. _"Remaining contacts" .. " ---"}
+          else
+            records[#records+1] = {id="_", name= "--- " .. _"Contacts" .. " ---"}
+          end
+          for i, record in ipairs(records_contacts) do
+            records[#records+1] = record
+          end
+        end
+
+        local disabled_records = {}
+        disabled_records["_"] = true
+        disabled_records[app.session.member.id] = true
 
         -- check if there are members available to select
-        local already_selected = true
+        local empty = true
         for i, value in ipairs(records) do
           if not disabled_records[value.id] then
-            already_selected = false
+            empty = false
             break
           end
         end
-        if already_selected then
+        if empty then
           ui.tag{
             tag = "p",
             attr = { style = "font-style:italic" },
-            content = _"All your contacts are on this list of trustees. To add more members, you have to add them to your contacts first."
+            content = _"Your contact list is empty. To add members to this list of trustees, you have to add them to your contacts first."
           }
         else
 
-          ui.field.select{
-            name = "trustee_id",
-            foreign_records = records,
-            foreign_id = "id",
-            foreign_name = "name",
-            disabled_records = disabled_records
-          }
-          ui.submit{ text = _"Add to list" }
+          -- disable members which are already in the list of trustees
+          for i, delegation in ipairs(delegations) do
+            disabled_records[delegation.trustee_id] = true
+          end
+
+          -- check if there are members available to select
+          local already_selected = true
+          for i, value in ipairs(records) do
+            if not disabled_records[value.id] then
+              already_selected = false
+              break
+            end
+          end
+          if already_selected then
+            ui.tag{
+              tag = "p",
+              attr = { style = "font-style:italic" },
+              content = _"All your contacts are on this list of trustees. To add more members, you have to add them to your contacts first."
+            }
+          else
+
+            ui.field.select{
+              name = "trustee_id",
+              foreign_records = records,
+              foreign_id = "id",
+              foreign_name = "name",
+              disabled_records = disabled_records
+            }
+            ui.submit{ text = _"Add to list" }
+
+          end
 
         end
 
+        ui.field.hidden{ name = "preview" }
+
       end
+    }
 
-      ui.field.hidden{ name = "preview" }
+  end
 
-    end
-  }
 end
 
 
@@ -423,7 +435,11 @@ slot.put("</td><td width='50%' valign='top'>")
 
 -- ------------------------
 
-ui.heading{ level = 2, content = _"Complete preference list over all scopes" }
+if scope == "issue" and issue.closed then
+  ui.heading{ level = 2, content = _"Effective delegation in voting" }
+else
+  ui.heading{ level = 2, content = _"Complete preference list over all scopes" }
+end
 slot.put("<br />")
 
 local delegation_chain = Member:new_selector()
@@ -483,7 +499,11 @@ for i, record in ipairs(delegation_chain) do
         ui.container{
           attr = { class = "delegation_participation" },
           content = function()
-            slot.put(_"This member is participating, the rest of delegation list is suspended while discussing.")
+            if scope == "issue" and issue.closed then
+              slot.put(_"This member voted.")
+            else
+              slot.put(_"This member is participating, the rest of delegation list is suspended while discussing.")
+            end
           end
         }
       end

@@ -140,7 +140,11 @@ ui.link{
         local class = "micro_avatar"
         if not overridden and record.participation then
           class = class .. " highlighted"
-          popup_text = popup_text .. " - " .. _"This member is participating."
+          if scope == "issue" and issue.closed then
+            popup_text = popup_text .. " - " .. _"This member voted."
+          else
+            popup_text = popup_text .. " - " .. _"This member is participating."
+          end
         end
 
         execute.view{

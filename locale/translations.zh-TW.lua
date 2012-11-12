@@ -234,6 +234,8 @@ return {
 ["Edit my profile"] = "編輯我的個人簡介";
 ["Edit profile"] = "編輯個人簡介";
 ["Edit unit"] = "編輯單位";
+["Effective delegation in voting"] = false;
+["Effective delegations in voting"] = false;
 ["Eligible as winner"] = "有獲選者資格";
 ["Eligible voters"] = "合格投票人";
 ["Email address"] = "電郵地址";
@@ -694,6 +696,7 @@ return {
 ["This issue is already closed."] = "此議題已結案。";
 ["This issue is already frozen!"] = false;
 ["This issue is already frozen."] = "此議題已底定。";
+["This issue is closed."] = false;
 ["This login is already taken, please choose another one!"] = "此帳號已被使用，請另擇一！";
 ["This login is too short!"] = "此帳號太短！";
 ["This member account has been created at #{created}"] = "該成員帳號於 #{created} 被新增。";
@@ -717,6 +720,7 @@ return {
 ["This member is potential supporter of this initiative."] = false;
 ["This member is supporter of this initiative via delegation."] = false;
 ["This member is supporter of this initiative."] = false;
+["This member voted."] = false;
 ["This name is already taken, please choose another one!"] = "此使用者代號已被使用，請另擇一！";
 ["This name is really too short!"] = "此使用者代號真的太短了！";
 ["This name is too short!"] = "此使用者代號太短！";

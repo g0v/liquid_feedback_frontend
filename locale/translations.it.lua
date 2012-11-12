@@ -232,6 +232,8 @@ return {
 ["Edit my profile"] = "Modifica il mio profilo";
 ["Edit profile"] = "Modifica il profilo";
 ["Edit unit"] = "Modifica la sezione";
+["Effective delegation in voting"] = false;
+["Effective delegations in voting"] = false;
 ["Eligible as winner"] = "Candidato all'approvazione";
 ["Eligible voters"] = "Aventi diritto al voto";
 ["Email address"] = "Indirizzo email";
@@ -693,6 +695,7 @@ return {
 ["This issue is already closed."] = "Questa tematica e' stata chiusa.";
 ["This issue is already frozen!"] = false;
 ["This issue is already frozen."] = "Questa tematica e' stata sospesa.";
+["This issue is closed."] = false;
 ["This login is already taken, please choose another one!"] = "Questo nome utente e' stato gia' scelto, prova a sceglierne un altro!";
 ["This login is too short!"] = "Questo nome utente e' troppo breve";
 ["This member account has been created at #{created}"] = "Questo account e' stato creato il #{created}";
@@ -716,6 +719,7 @@ return {
 ["This member is potential supporter of this initiative."] = false;
 ["This member is supporter of this initiative via delegation."] = false;
 ["This member is supporter of this initiative."] = false;
+["This member voted."] = false;
 ["This name is already taken, please choose another one!"] = "Questo nome e' stato gia' scelto , prova a sceglierne un altro!";
 ["This name is really too short!"] = "Questo nome e' davvero troppo breve!";
 ["This name is too short!"] = "Questo nome e' troppo breve!";

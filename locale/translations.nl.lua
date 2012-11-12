@@ -235,6 +235,8 @@ return {
 ["Edit my profile"] = "Edit mijn profiel";
 ["Edit profile"] = "Edit profiel";
 ["Edit unit"] = "Edit dossier";
+["Effective delegation in voting"] = false;
+["Effective delegations in voting"] = false;
 ["Eligible as winner"] = "Als winnaar aangewezen";
 ["Eligible voters"] = "Geschikte kiezers";
 ["Email address"] = "Emailadres";
@@ -697,6 +699,7 @@ return {
 ["This issue is already closed."] = "Dit onderwerp is al afgesloten.";
 ["This issue is already frozen!"] = false;
 ["This issue is already frozen."] = "Dit onderwerp is al bevroren";
+["This issue is closed."] = false;
 ["This login is already taken, please choose another one!"] = "Deze loginnaam is al bezet, kiest u alstublieft een andere!";
 ["This login is too short!"] = "Deze loginnaam is te kort!";
 ["This member account has been created at #{created}"] = "Dit lidmaatschap is gecreerd bij  #{created}.";
@@ -720,6 +723,7 @@ return {
 ["This member is potential supporter of this initiative."] = false;
 ["This member is supporter of this initiative via delegation."] = false;
 ["This member is supporter of this initiative."] = false;
+["This member voted."] = false;
 ["This name is already taken, please choose another one!"] = "Deze naam is al in gebruik, kiest u alstublieft een andere!";
 ["This name is really too short!"] = "Deze naam is echt te kort!";
 ["This name is too short!"] = "Deze naam is te kort!";
