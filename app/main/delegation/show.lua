@@ -2,8 +2,6 @@
 
 
 local voting_right_unit_id
-local current_trustee_id
-local current_trustee_name
 
 
 local member_id = param.get("member_id", atom.integer)
@@ -23,36 +21,21 @@ end
 
 local unit = Unit:by_id(param.get("unit_id", atom.integer))
 if unit then
-  unit:load_delegation_info_once_for_member_id(member.id)
   voting_right_unit_id = unit.id
-  if unit.delegation_info.own_delegation_scope == 'unit' then
-    current_trustee_id = unit.delegation_info.first_trustee_id
-    current_trustee_name = unit.delegation_info.first_trustee_name
-  end
   ui.title(ui_title .. (config.single_unit_id and _"Global delegation" or _"Unit delegation"))
   util.help("delegation.new.unit")
 end
 
 local area = Area:by_id(param.get("area_id", atom.integer))
 if area then
-  area:load_delegation_info_once_for_member_id(member.id)
   voting_right_unit_id = area.unit_id
-  if area.delegation_info.own_delegation_scope == 'area' then
-    current_trustee_id = area.delegation_info.first_trustee_id
-    current_trustee_name = area.delegation_info.first_trustee_name
-  end
   ui.title(ui_title .. _("Delegation for Area '#{name}' in Unit '#{unit_name}'", { name = area.name, unit_name = area.unit.name }))
   util.help("delegation.new.area")
 end
 
 local issue = Issue:by_id(param.get("issue_id", atom.integer))
 if issue then
-  issue:load("member_info", { member_id = member.id })
   voting_right_unit_id = issue.area.unit_id
-  if issue.member_info.own_delegation_scope == 'issue' then
-    current_trustee_id = issue.member_info.first_trustee_id
-    current_trustee_name = issue.member_info.first_trustee_name
-  end
   ui.title(ui_title .. _("Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'", { number = issue.id, area_name = issue.area.name, unit_name = issue.area.unit.name }))
   util.help("delegation.new.issue")
 end

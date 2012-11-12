@@ -64,26 +64,44 @@ ui.link{
     -- configure how many members should be displayed
     local show_max = 16
 
-    local delegation_chain = Member:new_selector()
-      :add_field("delegation_chain.*")
-      :join(
-        { "delegation_chain(?,?,?,?,TRUE)", member.id, unit_id, area_id, issue_id },
-        "delegation_chain",
-        "member.id = delegation_chain.member_id"
-      )
-      :add_order_by("index")
-      :exec()
+    local no_participation = true
+    local delegation_chain
+
+    if scope == "issue" then
+
+      delegation_chain = Member:new_selector()
+        :add_field("delegation_chain.*")
+        :join(
+          { "delegation_chain(?,?,?,?,TRUE)", member.id, unit_id, area_id, issue_id },
+          "delegation_chain",
+          "member.id = delegation_chain.member_id"
+        )
+        :add_order_by("index")
+        :exec()
+
+      for i, record in ipairs(delegation_chain) do
+        if record.participation then
+          no_participation = false
+          break
+        end
+      end
+
+    else
+
+      delegation_chain = Member:new_selector()
+        :add_field("delegation_chain.*")
+        :join(
+          { "delegation_chain(?,?,?,?,FALSE)", member.id, unit_id, area_id, issue_id },
+          "delegation_chain",
+          "member.id = delegation_chain.member_id"
+        )
+        :add_order_by("index")
+        :exec()
+
+    end
 
     slot.put('<div class="delegation_info_none">')
     local dots_displayed = false
-
-    local no_participation = true
-    for i, record in ipairs(delegation_chain) do
-      if record.participation then
-        no_participation = false
-        break
-      end
-    end
 
     for i, record in ipairs(delegation_chain) do
 

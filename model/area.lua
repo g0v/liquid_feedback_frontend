@@ -85,11 +85,7 @@ Area:add_reference{
 
     local selector = Area:get_db_conn():new_selector()
     selector:add_from(sub_selector, "delegation_info")
-    selector:left_join("member", "first_trustee", "first_trustee.id = delegation_info.first_trustee_id")
-    selector:left_join("member", "other_trustee", "other_trustee.id = delegation_info.other_trustee_id")
     selector:add_field("delegation_info.*")
-    selector:add_field("first_trustee.name", "first_trustee_name")
-    selector:add_field("other_trustee.name", "other_trustee_name")
     return selector
   end
 }

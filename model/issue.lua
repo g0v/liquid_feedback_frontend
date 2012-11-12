@@ -157,11 +157,7 @@ Issue:add_reference{
     local selector = Issue:get_db_conn():new_selector()
     selector:add_from("issue")
     selector:join(sub_selector, "delegation_info", "delegation_info.issue_id = issue.id")
-    selector:left_join("member", "first_trustee", "first_trustee.id = delegation_info.first_trustee_id")
-    selector:left_join("member", "other_trustee", "other_trustee.id = delegation_info.other_trustee_id")
     selector:add_field("delegation_info.*")
-    selector:add_field("first_trustee.name", "first_trustee_name")
-    selector:add_field("other_trustee.name", "other_trustee_name")
     selector:left_join("direct_voter", nil, { "direct_voter.issue_id = issue.id AND direct_voter.member_id = ?", options.member_id })
     selector:add_field("direct_voter.member_id NOTNULL", "direct_voted")
     return selector
