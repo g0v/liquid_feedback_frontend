@@ -5,6 +5,8 @@ local issue = param.get("issue", "table")
 local initiative = param.get("initiative", "table")
 local trustee = param.get("trustee", "table")
 
+local population = param.get("population", atom.boolean)
+
 local highlight = param.get("highlight", atom.boolean)
 
 local name_html
@@ -102,7 +104,9 @@ ui.container{
         end
         if (issue or initiative) and weight > 1 then
           local module
-          if issue then
+          if population then
+            module = "population"
+          elseif issue then
             module = "interest"
           elseif initiative then
             if member.voter_weight then

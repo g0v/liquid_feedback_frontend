@@ -349,7 +349,6 @@ return {
 ["Issue accepted"] = "Το θέμα έγινε αποδεκτό";
 ["Issue canceled"] = "Το θέμα ακυρώθηκε";
 ["Issue delegation"] = "Ανάθεση θέματος";
-["Issue delegations"] = false;
 ["Issue events"] = "Συμβάντα θέματος";
 ["Issue finished"] = "Το θέμα ολοκληρώθηκε";
 ["Issue finished without voting"] = "Το θέμα ολοκληρώθηκε δίχως ψηφοφορία";

@@ -288,7 +288,6 @@ return {
 ["Issue ##{issue} - i#{initiative_id}: #{initiative_name}"] = false;
 ["Issue Details"] = false;
 ["Issue delegation"] = false;
-["Issue delegations"] = false;
 ["Issue pad"] = false;
 ["Issue quorum"] = false;
 ["Issue quorum denumerator"] = false;

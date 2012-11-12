@@ -112,6 +112,17 @@ Issue:add_reference{
   to                    = "Member",
   this_key              = 'id',
   that_key              = 'id',
+  connected_by_table    = 'direct_population_snapshot',
+  connected_by_this_key = 'issue_id',
+  connected_by_that_key = 'member_id',
+  ref                   = 'populating_members_snapshot'
+}
+
+Issue:add_reference{
+  mode                  = 'mm',
+  to                    = "Member",
+  this_key              = 'id',
+  that_key              = 'id',
   connected_by_table    = 'direct_voter',
   connected_by_this_key = 'issue_id',
   connected_by_that_key = 'member_id',

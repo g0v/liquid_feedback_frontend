@@ -9,6 +9,11 @@ local for_votes = param.get("for_votes", atom.boolean)
 
 local paginator_name = param.get("paginator_name")
 
+-- show the magnifier symbol under the member icon linking to the issue delegation page of the member
+local show_delegation_link = param.get("show_delegation_link", atom.boolean)
+-- use the population snapshot instead of the interest or voter snapshots
+local population = param.get("population", atom.boolean)
+
 if initiative or issue then
   if for_votes then
     members_selector:left_join("delegating_voter", "_member_list__delegating_voter", { "_member_list__delegating_voter.issue_id = issue.id AND _member_list__delegating_voter.member_id = ?", app.session.member_id })
@@ -46,8 +51,11 @@ filter[#filter+1] = {
 }
 
 local ui_filters = ui.filters
+local filter_enabled = true
 if (issue or initiative) and not trustee then
+  -- disable filter
   ui_filters = function(args) args.content() end
+  filter_enabled = false
   if for_votes then
       members_selector:add_order_by("voter_weight DESC, name, id")
   else
@@ -61,7 +69,10 @@ ui_filters{
   filter,
   content = function()
 
-    slot.put("<br />")
+    -- space between filter and content
+    if filter_enabled then
+      slot.put("<br />")
+    end
 
     ui.paginate{
       name = paginator_name,
@@ -76,7 +87,7 @@ ui_filters{
             local members = members_selector:exec()
 
             -- delegation page is not prepared for closed issues
-            if issue and not issue.closed then
+            if show_delegation_link and issue and not issue.closed then
 
               -- serialize get-parameters
               local params = ''
@@ -148,7 +159,8 @@ ui_filters{
                     initiative = initiative,
                     issue = issue,
                     trustee = trustee,
-                    initiator = initiator
+                    initiator = initiator,
+                    population = population
                   }
                 }
               end

@@ -19,17 +19,41 @@ end )
 
 if app.session:has_access("all_pseudonymous") then
 
+  local tabs = {
+    module = "issue",
+    view = "_list"
+  }
+
+  -- interested members
   local interested_members_selector = issue:get_reference_selector("interested_members_snapshot")
     :join("issue", nil, "issue.id = direct_interest_snapshot.issue_id")
     :add_field("direct_interest_snapshot.weight")
     :add_where("direct_interest_snapshot.event = issue.latest_snapshot_event")
-  ui.container{ attr = { class = "heading" }, content = _"Interested members" .. Member:count_string(interested_members_selector) }
-  execute.view{
+  tabs[#tabs+1] = {
+    name = "members",
+    label = _"Interested members" .. Member:count_string(interested_members_selector),
     module = "member",
     view = "_list",
     params = {
       issue = issue,
       members_selector = interested_members_selector
+    }
+  }
+
+  -- population
+  local populating_members_selector = issue:get_reference_selector("populating_members_snapshot")
+    :join("issue", nil, "issue.id = direct_population_snapshot.issue_id")
+    :add_field("direct_population_snapshot.weight")
+    :add_where("direct_population_snapshot.event = issue.latest_snapshot_event")
+  tabs[#tabs+1] = {
+    name = "population",
+    label = _"Population" .. Member:count_string(populating_members_selector),
+    module = "member",
+    view = "_list",
+    params = {
+      issue = issue,
+      members_selector = populating_members_selector,
+      population = true
     }
   }
 
@@ -49,16 +73,17 @@ if app.session:has_access("all_pseudonymous") then
     :add_where{ "delegation.issue_id= ?", issue.id }
     :add_order_by("member.name")
     :add_group_by("member.name, member.id, delegation.unit_id, delegation.area_id, delegation.issue_id")
-  ui.anchor{
+  tabs[#tabs+1] = {
     name = "delegations",
-    attr = { class = "heading" },
-    content = _"Issue delegations" .. " (" .. tostring(delegations_selector:count()) .. ")"
-  }
-  execute.view{
+    label = _"Delegations" .. " (" .. tostring(delegations_selector:count()) .. ")",
     module = "delegation",
     view = "_list",
-    params = { delegations_selector = delegations_selector }
+    params = {
+      delegations_selector = delegations_selector
+    }
   }
+
+  ui.tabs(tabs)
 
   -- issue details
   execute.view{

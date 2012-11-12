@@ -332,7 +332,6 @@ return {
 ["Issue accepted"] = "Temo akceptita";
 ["Issue canceled"] = "Temo nuligita";
 ["Issue delegation"] = "Temodelegacio";
-["Issue delegations"] = false;
 ["Issue events"] = "Temoeventoj";
 ["Issue finished"] = "Temo finita";
 ["Issue finished without voting"] = "Temo finita sen voĉdono";

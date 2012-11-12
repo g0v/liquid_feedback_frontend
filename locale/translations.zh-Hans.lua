@@ -349,7 +349,6 @@ return {
 ["Issue accepted"] = "议题被接受";
 ["Issue canceled"] = "议题被取消";
 ["Issue delegation"] = "议题委任";
-["Issue delegations"] = false;
 ["Issue events"] = "议题动态";
 ["Issue finished"] = "议题已结束";
 ["Issue finished without voting"] = "议题未经表决而结束";
