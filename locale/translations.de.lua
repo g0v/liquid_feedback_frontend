@@ -247,6 +247,7 @@ return {
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Sollte der Link nicht funktionieren, öffne bitte die folgenden URL in Deinem Web-Browser:\n\n";
 ["Ignore initiative"] = "Initiative ignorieren";
 ["Ignore member"] = "Mitglied ignorieren";
+["Ignoring a member means, that you don't get anymore email notifications about the actions of this user."] = "Ein Mitglied zu ignorieren bedeutet, dass Du keine E-Mail-Benachrichtigungen über seine Aktionen mehr bekommst.";
 ["Ignoring an initiative means, that you don't get anymore email notifications about it."] = "Eine Initiative zu ignorieren bedeutet, dass Du zu ihr keine E-Mail-Benachrichtigungen mehr bekommst.";
 ["Images"] = "Bilder";
 ["Imported"] = "Importiert";

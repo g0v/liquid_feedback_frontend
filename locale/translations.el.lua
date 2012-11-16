@@ -292,6 +292,7 @@ return {
 ["Ignore Areas"] = "Αγνοήση τομέων";
 ["Ignore initiative"] = "Αγνόηση πρωτοβουλίας";
 ["Ignore member"] = "Αγνόηση μέλους";
+["Ignoring a member means, that you don't get anymore email notifications about the actions of this user."] = false;
 ["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "Εικόνες";
 ["Imported"] = false;

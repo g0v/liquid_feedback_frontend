@@ -240,6 +240,7 @@ return {
 ["If this link is not working, please open following url in your web browser:\n\n"] = false;
 ["Ignore initiative"] = false;
 ["Ignore member"] = false;
+["Ignoring a member means, that you don't get anymore email notifications about the actions of this user."] = false;
 ["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = false;
 ["Imported"] = false;

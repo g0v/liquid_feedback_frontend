@@ -292,6 +292,7 @@ return {
 ["Ignore Areas"] = "忽略領域";
 ["Ignore initiative"] = "忽略提案";
 ["Ignore member"] = "忽略成員";
+["Ignoring a member means, that you don't get anymore email notifications about the actions of this user."] = false;
 ["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "圖片";
 ["Imported"] = false;

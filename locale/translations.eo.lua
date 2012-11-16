@@ -273,6 +273,7 @@ return {
 ["Ignore Areas"] = "Malatenti temarojn";
 ["Ignore initiative"] = false;
 ["Ignore member"] = false;
+["Ignoring a member means, that you don't get anymore email notifications about the actions of this user."] = false;
 ["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "Bildoj";
 ["Imported"] = false;

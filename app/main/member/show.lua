@@ -23,6 +23,7 @@ slot.select("head", function()
       view    = "history",
       id      = member.id
     }
+
     if not member.active then
       slot.put(" &middot; ")
       ui.tag{
@@ -30,6 +31,7 @@ slot.select("head", function()
         content = _"This member is inactive."
       }
     end
+
     if member.locked then
       slot.put(" &middot; ")
       ui.tag{
@@ -37,7 +39,9 @@ slot.select("head", function()
         content = _"This member is locked."
       }
     end
+
     if app.session.member_id and not (member.id == app.session.member.id) then
+
       slot.put(" &middot; ")
       --TODO performance
       local contact = Contact:by_pk(app.session.member.id, member.id)
@@ -74,8 +78,7 @@ slot.select("head", function()
           }
         }
       end
-    end
-    if app.session.member_id then
+
       local ignored_member = IgnoredMember:by_pk(app.session.member.id, member.id)
       slot.put(" &middot; ")
       if ignored_member then
@@ -102,7 +105,10 @@ slot.select("head", function()
         }
       elseif member.activated then
         ui.link{
-          attr = { class = "interest" },
+          attr = {
+            class = "interest",
+            title = _"Ignoring a member means, that you don't get anymore email notifications about the actions of this user."
+          },
           text    = _"Ignore member",
           module  = "member",
           action  = "update_ignore_member",
@@ -118,7 +124,9 @@ slot.select("head", function()
           }
         }
       end
+
     end
+
   end }
 end)
 

@@ -291,6 +291,7 @@ return {
 ["Ignore Areas"] = "Ignora le aree";
 ["Ignore initiative"] = "Ignora l'iniziativa";
 ["Ignore member"] = "Ignora l'utente";
+["Ignoring a member means, that you don't get anymore email notifications about the actions of this user."] = false;
 ["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "Immagini";
 ["Imported"] = false;

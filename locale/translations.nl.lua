@@ -294,6 +294,7 @@ return {
 ["Ignore Areas"] = "Negeer themagebieden";
 ["Ignore initiative"] = "Negeer initiatieven";
 ["Ignore member"] = "Negeer deelnemer";
+["Ignoring a member means, that you don't get anymore email notifications about the actions of this user."] = false;
 ["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "Plaatjes";
 ["Imported"] = false;

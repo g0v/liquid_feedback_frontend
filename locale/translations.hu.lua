@@ -286,6 +286,7 @@ return {
 ["Ignore Areas"] = "Területek ignorálása";
 ["Ignore initiative"] = "Kezdeményezés ignorálása";
 ["Ignore member"] = "Tag ignorálása";
+["Ignoring a member means, that you don't get anymore email notifications about the actions of this user."] = false;
 ["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "Képek";
 ["Imported"] = false;
