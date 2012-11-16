@@ -249,11 +249,9 @@ if member then
     selector_modifier = function() end
   }
   filter[#filter+1] = {
-    name = "initiated",
-    label = _"Initiated",
-    selector_modifier = function(selector)
-      selector:add_where({ "EXISTS (SELECT 1 FROM initiative JOIN initiator ON initiator.initiative_id = initiative.id AND initiator.member_id = ? AND initiator.accepted WHERE initiative.issue_id = issue.id)", member.id })
-    end
+    name = "potentially_supported",
+    label = _"Potentially supported",
+    selector_modifier = function() end
   }
   filter[#filter+1] = {
     name = "supported",
@@ -261,9 +259,11 @@ if member then
     selector_modifier = function() end
   }
   filter[#filter+1] = {
-    name = "potentially_supported",
-    label = _"Potentially supported",
-    selector_modifier = function() end
+    name = "initiated",
+    label = _"Initiated",
+    selector_modifier = function(selector)
+      selector:add_where({ "EXISTS (SELECT 1 FROM initiative JOIN initiator ON initiator.initiative_id = initiative.id AND initiator.member_id = ? AND initiator.accepted WHERE initiative.issue_id = issue.id)", member.id })
+    end
   }
   if state == 'closed' or (for_events) then
     filter[#filter+1] = {

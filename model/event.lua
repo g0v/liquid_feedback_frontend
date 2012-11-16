@@ -72,7 +72,7 @@ end
 function Event.object:send_notification()
 
   local members_to_notify = Member:new_selector()
-    :join("event_seen_by_member", nil, { "event_seen_by_member.seen_by_member_id = member.id AND event_seen_by_member.notify_level <= member.notify_level AND event_seen_by_member.id = ?", self.id } )
+    :join("event_seen_by_member", nil, { "event_seen_by_member.seen_by_member_id = member.id AND event_seen_by_member.id = ?", self.id } )
     :add_where("member.activated NOTNULL AND member.notify_email NOTNULL")
     -- SAFETY FIRST, NEVER send notifications for events more then 3 days in past or future
     :add_where("now() - event_seen_by_member.occurrence BETWEEN '-3 days'::interval AND '3 days'::interval")
@@ -173,18 +173,16 @@ function Event.object:send_notification()
           elseif self.state == "finished_with_winner" then
             subject = subject .. _("Issue ##{id} was finished (with winner)", { id = self.issue_id })
           end
-        else
-          if     self.event == "initiative_created_in_new_issue" then
-            subject = subject .. _("New issue ##{id} and initiative - i#{ini_id}: #{ini_name}", { id = self.issue_id, ini_id = initiative.id, ini_name = initiative.name })
-          elseif self.event == "initiative_created_in_existing_issue" then
-            subject = subject .. _("New initiative in issue ##{id} - i#{ini_id}: #{ini_name}", { id = self.issue_id, ini_id = initiative.id, ini_name = initiative.name })
-          elseif self.event == "initiative_revoked" then
-            subject = subject .. _("Initiative revoked - i#{id}: #{name}", { id = initiative.id, name = initiative.name })
-          elseif self.event == "new_draft_created" then
-            subject = subject .. _("New draft for initiative i#{id} - #{name}", { id = initiative.id, name = initiative.name })
-          elseif self.event == "suggestion_created" then
-            subject = subject .. _("New suggestion for initiative i#{id} - #{suggestion}", { id = initiative.id, suggestion = suggestion.name })
-          end
+        elseif self.event == "initiative_created_in_new_issue" then
+          subject = subject .. _("New issue ##{id} and initiative - i#{ini_id}: #{ini_name}", { id = self.issue_id, ini_id = initiative.id, ini_name = initiative.name })
+        elseif self.event == "initiative_created_in_existing_issue" then
+          subject = subject .. _("New initiative in issue ##{id} - i#{ini_id}: #{ini_name}", { id = self.issue_id, ini_id = initiative.id, ini_name = initiative.name })
+        elseif self.event == "initiative_revoked" then
+          subject = subject .. _("Initiative revoked - i#{id}: #{name}", { id = initiative.id, name = initiative.name })
+        elseif self.event == "new_draft_created" then
+          subject = subject .. _("New draft for initiative i#{id} - #{name}", { id = initiative.id, name = initiative.name })
+        elseif self.event == "suggestion_created" then
+          subject = subject .. _("New suggestion for initiative i#{id} - #{suggestion}", { id = initiative.id, suggestion = suggestion.name })
         end
 
         -- send mail

@@ -66,8 +66,12 @@ return {
 ["Admin?"] = "管理员？";
 ["Admission time"] = "递交期";
 ["Admitted"] = "已递交";
+["All"] = false;
 ["All areas"] = "所有的领域";
 ["All areas in my units"] = "我单位中所有领域";
+["All in my areas"] = false;
+["All in my areas and issues"] = false;
+["All in my units"] = false;
 ["All issues"] = "所有议题";
 ["All of them"] = "全部";
 ["All units"] = "所有单位";
@@ -192,6 +196,7 @@ return {
 ["Delete personal data and deactivate?"] = false;
 ["Delete your personal data and deactivate your account"] = false;
 ["Description"] = "描述";
+["Detailed selection:"] = false;
 ["Details"] = "详细资料";
 ["Developer settings"] = "开发者设定";
 ["Diff"] = "差异";
@@ -249,6 +254,7 @@ return {
 ["Error while inserting new member, database reported:<br /><br /> (#{errormessage})"] = false;
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "更新成员错误，系统通报错误讯息：<br /><br /> (#{errormessage})";
 ["Etherpad authentication failed"] = "Etherpad 认证失败";
+["Event"] = false;
 ["Everything"] = "全部";
 ["External memberships"] = "外部成员";
 ["External posts"] = "外部职位";
@@ -279,6 +285,7 @@ return {
 ["Home"] = "首页";
 ["I consider suggestion as"] = "我认为该建议";
 ["I like to receive notifications by email about events in my areas and issues:"] = "我愿意接收关于我的领域及议题的相关动态的电邮通知";
+["I like to receive notifications by email about events:"] = false;
 ["Id"] = "身分";
 ["Identification"] = "身分";
 ["If this link is not working, please open following url in your web browser:\n\n"] = "若此连结失效，请于您的浏览器开启下列网址：\n\n";
@@ -359,7 +366,16 @@ return {
 ["Issue quorum"] = "议题法定门槛";
 ["Issue quorum denumerator"] = "议题法定门槛分母";
 ["Issue quorum numerator"] = "议题法定门槛分子";
+["Issue reached discussion"] = false;
 ["Issue reached next phase"] = "议题进入下个阶段";
+["Issue was cancelled because no initiative was admitted"] = false;
+["Issue was cancelled due to revocation"] = false;
+["Issue was cancelled due to revocation (during discussion)"] = false;
+["Issue was cancelled due to revocation (during verification)"] = false;
+["Issue was finished (with winner)"] = false;
+["Issue was finished (without winner)"] = false;
+["Issue was frozen"] = false;
+["Issue was not accepted"] = false;
 ["Issues:"] = "议题:";
 ["JavaScript is disabled or not available."] = "JavaScript 被停用或尚未安装.";
 ["Language"] = false;
@@ -429,6 +445,7 @@ return {
 ["New"] = "递交期";
 ["New address"] = "新电邮地址";
 ["New draft"] = "新草案";
+["New draft for initiative"] = false;
 ["New draft for initiative i#{id} - #{name}"] = false;
 ["New draft for one initiative you are supporting"] = false;
 ["New draft has been added to initiative"] = "新草案已加入提案";
@@ -436,13 +453,16 @@ return {
 ["New drafts for #{count} initiatives you are supporting"] = false;
 ["New initiative"] = "新提案";
 ["New initiative draft"] = "新提案之草案";
+["New initiative in issue"] = false;
 ["New initiative in issue ##{id} - i#{ini_id}: #{ini_name}"] = false;
 ["New issue"] = "新议题";
 ["New issue ##{id} and initiative - i#{ini_id}: #{ini_name}"] = false;
+["New issue and initiative"] = false;
 ["New password"] = "新密码";
 ["New passwords does not match."] = "重复输入的新设密码並不吻合";
 ["New passwords is too short."] = "新设密码太短";
 ["New suggestion"] = "新增建议";
+["New suggestion for initiative"] = false;
 ["New suggestion for initiative i#{id} - #{suggestion}"] = false;
 ["Newest"] = "由新至旧";
 ["No"] = "否定";
@@ -513,6 +533,7 @@ return {
 ["Passwords don't match!"] = "所输入的密码並不吻合";
 ["Passwords must consist of at least 8 characters!"] = "密码必须至少由 8 个符号组成";
 ["Personal data deleted and account deactivated"] = false;
+["Phase"] = false;
 ["Phases"] = "阶段";
 ["Phone"] = "电话";
 ["Photo"] = "照片";
@@ -770,6 +791,7 @@ return {
 ["Voting"] = "表决中";
 ["Voting details"] = "表决详细资料";
 ["Voting for issue ##{id} started"] = false;
+["Voting for issue started"] = false;
 ["Voting for this issue has already begun!"] = false;
 ["Voting for this issue has already begun."] = "对此议题的表决已开始。";
 ["Voting has not started yet!"] = false;

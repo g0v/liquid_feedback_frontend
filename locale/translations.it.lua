@@ -66,8 +66,12 @@ return {
 ["Admin?"] = "Amministratore?";
 ["Admission time"] = "Ora di ammissione";
 ["Admitted"] = "Ammesso";
+["All"] = false;
 ["All areas"] = "Tutte le aree";
 ["All areas in my units"] = "Tutte le aree nelle mie sezioni";
+["All in my areas"] = false;
+["All in my areas and issues"] = false;
+["All in my units"] = false;
 ["All issues"] = "Tutte le tematiche";
 ["All of them"] = "Tutto";
 ["All units"] = "Tutte le sezioni";
@@ -191,6 +195,7 @@ return {
 ["Delete personal data and deactivate?"] = false;
 ["Delete your personal data and deactivate your account"] = false;
 ["Description"] = "Descrizione";
+["Detailed selection:"] = false;
 ["Details"] = "Dettagli";
 ["Developer settings"] = "Impostazioni per sviluppatori";
 ["Diff"] = "Diff";
@@ -247,6 +252,7 @@ return {
 ["Error while inserting new member, database reported:<br /><br /> (#{errormessage})"] = false;
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Errore nell'aggiornamento utente, messaggio dal database:<br /><br /> (#{errormessage})";
 ["Etherpad authentication failed"] = "Autenticazione etherpad fallita";
+["Event"] = false;
 ["Event #{id} -> #{num} members"] = "Evento #{id} -> #{num} utenti";
 ["Everything"] = "Tutto";
 ["External memberships"] = "Utenti esterni";
@@ -278,6 +284,7 @@ return {
 ["Home"] = "Home";
 ["I consider suggestion as"] = "Considero il suggerimento come";
 ["I like to receive notifications by email about events in my areas and issues:"] = "Vorrei ricevere notifiche via email sugli eventi delle mie aree o delle mie tematiche:";
+["I like to receive notifications by email about events:"] = false;
 ["Id"] = "Id";
 ["Identification"] = "Identificativo";
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Se questo link non funziona, puoi aprire l'indirizzo seguente nel tuo browser:\n\n";
@@ -358,7 +365,16 @@ return {
 ["Issue quorum"] = "Quorum della tematica";
 ["Issue quorum denumerator"] = "Denominatore quorum tematica";
 ["Issue quorum numerator"] = "Numeratore quorum tematica";
+["Issue reached discussion"] = false;
 ["Issue reached next phase"] = "La tematica e' passata alla fase successiva";
+["Issue was cancelled because no initiative was admitted"] = false;
+["Issue was cancelled due to revocation"] = false;
+["Issue was cancelled due to revocation (during discussion)"] = false;
+["Issue was cancelled due to revocation (during verification)"] = false;
+["Issue was finished (with winner)"] = false;
+["Issue was finished (without winner)"] = false;
+["Issue was frozen"] = false;
+["Issue was not accepted"] = false;
 ["Issues:"] = "Tematiche:";
 ["JavaScript is disabled or not available."] = "JavaScript disabilitato o non disponibile.";
 ["Language"] = false;
@@ -428,6 +444,7 @@ return {
 ["New"] = "Nuovo";
 ["New address"] = "Nuovo indirizzo";
 ["New draft"] = "Nuova bozza";
+["New draft for initiative"] = false;
 ["New draft for initiative i#{id} - #{name}"] = false;
 ["New draft for one initiative you are supporting"] = false;
 ["New draft has been added to initiative"] = "Nuova bozza aggiunta all'iniziativa";
@@ -435,13 +452,16 @@ return {
 ["New drafts for #{count} initiatives you are supporting"] = false;
 ["New initiative"] = "Nuova iniziativa";
 ["New initiative draft"] = "Nuova bozza iniziativa";
+["New initiative in issue"] = false;
 ["New initiative in issue ##{id} - i#{ini_id}: #{ini_name}"] = false;
 ["New issue"] = "Nuova tematica";
 ["New issue ##{id} and initiative - i#{ini_id}: #{ini_name}"] = false;
+["New issue and initiative"] = false;
 ["New password"] = "Nuova password";
 ["New passwords does not match."] = "Le nuove password non corrispondono.";
 ["New passwords is too short."] = "La password e' troppo corta.";
 ["New suggestion"] = "Nuovo suggerimento";
+["New suggestion for initiative"] = false;
 ["New suggestion for initiative i#{id} - #{suggestion}"] = false;
 ["Newest"] = "Piu' recenti";
 ["No"] = "No";
@@ -512,6 +532,7 @@ return {
 ["Passwords don't match!"] = "Le password non corrispondono";
 ["Passwords must consist of at least 8 characters!"] = "Le password devono essere di almeno 8 caratteri!";
 ["Personal data deleted and account deactivated"] = false;
+["Phase"] = false;
 ["Phases"] = "Fasi";
 ["Phone"] = "Telefono";
 ["Photo"] = "Foto";
@@ -767,6 +788,7 @@ return {
 ["Voters"] = false;
 ["Voting"] = "Votazione";
 ["Voting for issue ##{id} started"] = false;
+["Voting for issue started"] = false;
 ["Voting for this issue has already begun!"] = false;
 ["Voting for this issue has already begun."] = "La votazione per questa tematica e' gia' cominciata.";
 ["Voting has not started yet!"] = false;

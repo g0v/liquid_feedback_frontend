@@ -1,4 +1,10 @@
 =Notification settings=
 Please choose which notifications you like to receive from the system by email.
 
-If you don't want to get notifications for a single initiative, you can select //Ignore initiative// on the initiative page.
+You have the choice to choose either one of the preset levels, or in the table below to make a very detailed selection. The predefined levels differ in from which phase on of an issue notifications will be sent. If you choose one of these steps and save it, in the table below will be shown, which detailed settings this selected level equals. If you want, you can change this selection according to your ideas. If you select one of the preset levels again, the detailed selection will be overwritten.
+
+In the table below each row represents the notification of a certain type of event in a particular phase of an issue. Some events can occur in several phases, these are also listed separately in each of the phases. So you can, for example, get notified about suggestions during the discussion without getting also the suggestions in the phase //New//.
+
+The columns represent different forms of participation in an issue. Essentially, the investment gets more and more to the right. If multiple columns are selected in a row, a notification will be sent, if at least one of the forms of participation apply. Some columns include others: //Interested// includes //Supported// and //Potentially supported//, //All in my units// includes //All in my areas//, and //All// includes all other columns.
+
+If you don't want to get notifications for a single initiative, you can select //Ignore initiative// on the initiative page. If you don't want to get notified about the actions of an individual member, you can click on //Ignore member// in the member's profile page.

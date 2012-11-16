@@ -1,4 +1,10 @@
 =Benachrichtigungseinstellungen=
-Hier kannst du einstellen, ob du überhaupt und wenn ja welche Benachrichtigungen du vom System per E-Mail erhalten möchtest.
+Hier kannst Du einstellen, ob Du überhaupt und wenn ja welche Benachrichtigungen Du vom System per E-Mail erhalten möchtest.
 
-Falls Du für eine einzelne Initiative keine Benachrichtigungen bekommen möchtest, kannst Du in der Initiative auf //Initiative ignorieren// klicken.
+Du hast die Wahl, entweder eine der vorgegebenen Stufen zu wählen, oder in der Tabelle unten eine ganz detaillierte Auswahl zu treffen. Die vorgegebenen Stufen unterscheiden sich darin, ab welcher Phase eines Themas Benachrichtigungen verschickt werden. Wenn Du eine dieser Stufen auswählst und speicherst, wird danach unten in der Tabelle angezeigt, welchen detaillierten Einstellungen diese vorgegebene Stufe entspricht. Wenn Du möchtest, kannst Du diese Vorauswahl nach Deinen Vorstellungen verändern. Solltest Du wieder eine der vorgegebenen Stufen auswählen, wird die detaillierte Auswahl überschrieben.
+
+In der Tabelle unten steht jede Tabellenzeile für die Benachrichtigung über eine bestimmte Art von Ereignis in einer bestimmten Phase des Themas. Einige Ereignisse können in mehreren Phasen vorkommen, diese sind auch in jeder der Phasen separat aufgeführt. So kann man sich beispielsweise über Anregungen während der Diskussion benachrichtigen lassen ohne auch schon die Anregungen in der Phase //Neu// zu bekommen.
+
+Die Spalten der Tabelle stehen für verschiedene Formen der Beteiligung an einem Thema. Im wesentlichen wird die Beteiligung nach rechts immer stärker. Wenn mehrere Spalten in einer Zeile ausgewählt werden, erfolgt eine Benachrichtigung, wenn mindestens eine der Beteiligungsformen zutrifft. Einige Spalten schließen dabei andere ein: //Interessiert// schließt //Unterstützt// und //Potentiell unterstützt// ein, //Alle in meinen Gliederungen// schließt //Alle in meinen Themengebieten// ein und //Alle// schließt alle anderen Spalten ein.
+
+Falls Du für eine einzelne Initiative keine Benachrichtigungen bekommen möchtest, kannst Du in der Initiative auf //Initiative ignorieren// klicken. Falls Du für die Aktionen eines einzelnen Mitglieds keine Benachrichtigungen bekommen möchtest, kannst Du in der Profilseite des Mitglieds auf //Mitglied ignorieren// klicken.

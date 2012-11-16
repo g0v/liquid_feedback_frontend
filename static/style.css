@@ -1878,3 +1878,24 @@ div.jstHandle {
 .jstb_link {
   background-image: url(wikitoolbar/bt_link.png);
 }
+
+/*************************************************************************
+* notification settings
+*/
+
+table.notify th.ui_list_notify {
+  width: 9%;
+  vertical-align: top;
+}
+table.notify th.ui_list_notify_phase {
+  width: 8%;
+}
+table.notify th.ui_list_notify_event {
+  width: 20%;
+}
+table.notify .ui_list_notify_phase {
+  padding-left: 1ex;
+}
+table.notify .ui_list_odd {
+  background-color: #ffffff;
+}

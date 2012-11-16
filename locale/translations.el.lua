@@ -66,8 +66,12 @@ return {
 ["Admin?"] = "Διαχειριστής;";
 ["Admission time"] = "Διάρκεια πρόκρισης";
 ["Admitted"] = "Προκρίθηκε";
+["All"] = false;
 ["All areas"] = "Όλοι οι τομείς";
 ["All areas in my units"] = "Όλοι οι τομείς στις ενότητές μου";
+["All in my areas"] = false;
+["All in my areas and issues"] = false;
+["All in my units"] = false;
 ["All issues"] = "Όλα τα θέματα";
 ["All of them"] = "Όλα";
 ["All units"] = "Όλες οι ενότητες";
@@ -192,6 +196,7 @@ return {
 ["Delete personal data and deactivate?"] = false;
 ["Delete your personal data and deactivate your account"] = false;
 ["Description"] = "Περιγραφή";
+["Detailed selection:"] = false;
 ["Details"] = "Λεπτομέρειες";
 ["Developer settings"] = "Ρυθμίσεις για προγραμματιστές";
 ["Diff"] = "Διαφορές";
@@ -249,6 +254,7 @@ return {
 ["Error while inserting new member, database reported:<br /><br /> (#{errormessage})"] = false;
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Σφάλμα κατά την ενημέρωση του μέλους. Αναφορά βάσης δεδομένων:<br /><br /> (#{errormessage})";
 ["Etherpad authentication failed"] = "Η πιστοποίηση μέσω Etherpad απέτυχε";
+["Event"] = false;
 ["Everything"] = "Όλα";
 ["External memberships"] = "Εξωτερικές συμμετοχές";
 ["External posts"] = "Εξωτερικές θέσεις";
@@ -279,6 +285,7 @@ return {
 ["Home"] = "Κεντρική Σελίδα";
 ["I consider suggestion as"] = "Θεωρώ την πρόταση";
 ["I like to receive notifications by email about events in my areas and issues:"] = "Θέλω να λαμβάνω ειδοποιήσεις με email σχετικά με τα γεγονότα στους τομείς και τα θέματά μου:";
+["I like to receive notifications by email about events:"] = false;
 ["Id"] = "Id";
 ["Identification"] = "Αναγνωριστικό";
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Εάν δεν λειτουργεί αυτός ο σύνδεσμος, παρακαλώ ανοίξτε την παρακάτω διεύθυνση με το πρόγραμμα περιήγησης στον ιστό:\n\n";
@@ -359,7 +366,16 @@ return {
 ["Issue quorum"] = "Απαρτία θέματος";
 ["Issue quorum denumerator"] = "Παρονομαστής απαρτίας θέματος";
 ["Issue quorum numerator"] = "Αριθμητής απαρτίας θέματος";
+["Issue reached discussion"] = false;
 ["Issue reached next phase"] = "Το θέμα έφτασε το επόμενο στάδιο";
+["Issue was cancelled because no initiative was admitted"] = false;
+["Issue was cancelled due to revocation"] = false;
+["Issue was cancelled due to revocation (during discussion)"] = false;
+["Issue was cancelled due to revocation (during verification)"] = false;
+["Issue was finished (with winner)"] = false;
+["Issue was finished (without winner)"] = false;
+["Issue was frozen"] = false;
+["Issue was not accepted"] = false;
 ["Issues:"] = "Θέματα:";
 ["JavaScript is disabled or not available."] = "Η JavaScript είναι απενεργοποιημένη ή μη διαθέσιμη.";
 ["Language"] = false;
@@ -429,6 +445,7 @@ return {
 ["New"] = "Νέο";
 ["New address"] = "Νέα διεύθυνση email";
 ["New draft"] = "Νέο προσχέδιο";
+["New draft for initiative"] = false;
 ["New draft for initiative i#{id} - #{name}"] = false;
 ["New draft for one initiative you are supporting"] = false;
 ["New draft has been added to initiative"] = "Το νέο προσχέδιο προστέθηκε στην πρωτοβουλία";
@@ -436,13 +453,16 @@ return {
 ["New drafts for #{count} initiatives you are supporting"] = false;
 ["New initiative"] = "Νέα πρωτοβουλία";
 ["New initiative draft"] = "Νέο προσχέδιο της πρωτοβουλίας";
+["New initiative in issue"] = false;
 ["New initiative in issue ##{id} - i#{ini_id}: #{ini_name}"] = false;
 ["New issue"] = "Νέο θέμα";
 ["New issue ##{id} and initiative - i#{ini_id}: #{ini_name}"] = false;
+["New issue and initiative"] = false;
 ["New password"] = "Νέος κωδικός";
 ["New passwords does not match."] = "Έχετε εισάγει δύο διαφορετικούς κωδικούς.";
 ["New passwords is too short."] = "Ο νέος κωδικός είναι πολύ μικρός.";
 ["New suggestion"] = "Νέα πρόταση";
+["New suggestion for initiative"] = false;
 ["New suggestion for initiative i#{id} - #{suggestion}"] = false;
 ["Newest"] = "Νεότερο";
 ["No"] = "Όχι";
@@ -513,6 +533,7 @@ return {
 ["Passwords don't match!"] = "Οι κωδικοί είναι διαφορετικοί!";
 ["Passwords must consist of at least 8 characters!"] = "Οι κωδικοί πρόσβασης πρέπει να έχουν τουλάχιστον 8 χαρακτήρες!";
 ["Personal data deleted and account deactivated"] = false;
+["Phase"] = false;
 ["Phases"] = "Στάδια";
 ["Phone"] = "Τηλέφωνο";
 ["Photo"] = "Φωτογραφία";
@@ -770,6 +791,7 @@ return {
 ["Voting"] = "Ψηφοφορία";
 ["Voting details"] = "Λεπτομέρειες ψηφοφορίας";
 ["Voting for issue ##{id} started"] = false;
+["Voting for issue started"] = false;
 ["Voting for this issue has already begun!"] = false;
 ["Voting for this issue has already begun."] = "Η ψηφοφορία για αυτό το θέμα έχει ξεκινήσει ήδη.";
 ["Voting has not started yet!"] = false;

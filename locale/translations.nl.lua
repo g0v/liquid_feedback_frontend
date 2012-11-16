@@ -67,8 +67,12 @@ return {
 ["Admin?"] = "Admin?";
 ["Admission time"] = "Tijd voor toegang";
 ["Admitted"] = "Toegelaten";
+["All"] = false;
 ["All areas"] = "Alle themagebieden";
 ["All areas in my units"] = "Alle themagebieden in mijn dossiers";
+["All in my areas"] = false;
+["All in my areas and issues"] = false;
+["All in my units"] = false;
 ["All issues"] = "Alle onderwerpen";
 ["All of them"] = "Allemaal";
 ["All units"] = "Alle dossiers";
@@ -193,6 +197,7 @@ return {
 ["Delete personal data and deactivate?"] = false;
 ["Delete your personal data and deactivate your account"] = false;
 ["Description"] = "Beschrijving";
+["Detailed selection:"] = false;
 ["Details"] = "Details";
 ["Developer settings"] = "Ontwikkelaars instellingen";
 ["Diff"] = "Verschil";
@@ -250,6 +255,7 @@ return {
 ["Error while inserting new member, database reported:<br /><br /> (#{errormessage})"] = false;
 ["Error while updating member, database reported:<br /><br /> (#{errormessage})"] = "Fout bij het actualiseren van de leden, de database heeft het volgende gerapporteerd:<br /><br /> (#{errormessage})";
 ["Etherpad authentication failed"] = "Etherpad-authenticatie mislukt";
+["Event"] = false;
 ["Event #{id} -> #{num} members"] = "Event #{id} -> #{num} deelnemers";
 ["Everything"] = "Alles";
 ["External memberships"] = "Externe lidmaatschappen";
@@ -281,6 +287,7 @@ return {
 ["Home"] = "Home";
 ["I consider suggestion as"] = "Ik overweeg suggesties als";
 ["I like to receive notifications by email about events in my areas and issues:"] = "Ik wil graag mededelingen over gebeurtenissen in mijn themagebieden en onderwerpen ontvangen per email:";
+["I like to receive notifications by email about events:"] = false;
 ["Id"] = "Id";
 ["Identification"] = "Identificatie";
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Wanneer deze link niet werkt, open dan de volgende link in uw webbrowser:\n\n";
@@ -361,7 +368,16 @@ return {
 ["Issue quorum"] = "Quorum onderwerp";
 ["Issue quorum denumerator"] = "Onderwerp quorum noemer";
 ["Issue quorum numerator"] = "Onderwerp quorum teller";
+["Issue reached discussion"] = false;
 ["Issue reached next phase"] = "Onderwerp heeft de volgende fase bereikt";
+["Issue was cancelled because no initiative was admitted"] = false;
+["Issue was cancelled due to revocation"] = false;
+["Issue was cancelled due to revocation (during discussion)"] = false;
+["Issue was cancelled due to revocation (during verification)"] = false;
+["Issue was finished (with winner)"] = false;
+["Issue was finished (without winner)"] = false;
+["Issue was frozen"] = false;
+["Issue was not accepted"] = false;
 ["Issues:"] = "Onderwerpen:";
 ["JavaScript is disabled or not available."] = "JavaScript is disabled of niet beschikbaar.";
 ["Language"] = false;
@@ -431,6 +447,7 @@ return {
 ["New"] = "Nieuw";
 ["New address"] = "Nieuw emailadres";
 ["New draft"] = "Nieuw ontwerp";
+["New draft for initiative"] = false;
 ["New draft for initiative i#{id} - #{name}"] = false;
 ["New draft for one initiative you are supporting"] = false;
 ["New draft has been added to initiative"] = "Nieuw ontwerp is aan het initiatief toegevoegd";
@@ -438,13 +455,16 @@ return {
 ["New drafts for #{count} initiatives you are supporting"] = false;
 ["New initiative"] = "Nieuw initiatief";
 ["New initiative draft"] = "Nieuw initiatief ontwerp";
+["New initiative in issue"] = false;
 ["New initiative in issue ##{id} - i#{ini_id}: #{ini_name}"] = false;
 ["New issue"] = "Nieuw onderwerp";
 ["New issue ##{id} and initiative - i#{ini_id}: #{ini_name}"] = false;
+["New issue and initiative"] = false;
 ["New password"] = "Nieuw wachtwoord";
 ["New passwords does not match."] = "U hebt niet twee keer hetzelfde wachtwoord gebruikt";
 ["New passwords is too short."] = "Het nieuwe wachtwoord is te kort";
 ["New suggestion"] = "Nieuwe suggestie";
+["New suggestion for initiative"] = false;
 ["New suggestion for initiative i#{id} - #{suggestion}"] = false;
 ["Newest"] = "Nieuwste";
 ["No"] = "Nee";
@@ -516,6 +536,7 @@ return {
 ["Passwords don't match!"] = "Wachtwoorden stemmen niet overeen!";
 ["Passwords must consist of at least 8 characters!"] = "Het wachtwoord moet minstens 8 karakters lang zijn!";
 ["Personal data deleted and account deactivated"] = false;
+["Phase"] = false;
 ["Phases"] = "Fases";
 ["Phone"] = "Telefoonnummer";
 ["Photo"] = "Foto";
@@ -773,6 +794,7 @@ return {
 ["Voting"] = "De stemming";
 ["Voting details"] = "Stemmings details";
 ["Voting for issue ##{id} started"] = false;
+["Voting for issue started"] = false;
 ["Voting for this issue has already begun!"] = false;
 ["Voting for this issue has already begun."] = "De stemming over dit onderwerp is al begonnen.";
 ["Voting has not started yet!"] = false;
