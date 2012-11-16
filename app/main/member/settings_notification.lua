@@ -168,7 +168,15 @@ ui.form{
     function checkbox(record, interest)
       -- exclude some combinations which do not make sense
       if (record.name == "initiative_created_in_new_issue" and interest ~= "all" and interest ~= "my_units" and interest ~= "my_areas")
-      or (interest == "voted" and record.name ~= "finished_with_winner" and record.name ~= "finished_without_winner") then
+      or (interest == "voted" and record.name ~= "finished_with_winner" and record.name ~= "finished_without_winner")
+      or ((interest == "potentially" or interest == "supported" or interest == "initiated")
+        and record.name ~= 'admission__new_draft_created'
+        and record.name ~= 'admission__suggestion_created'
+        and record.name ~= 'admission__initiative_revoked'
+        and record.name ~= 'discussion__new_draft_created'
+        and record.name ~= 'discussion__suggestion_created'
+        and record.name ~= 'discussion__initiative_revoked'
+        and record.name ~= 'verification__initiative_revoked' ) then
         return
       end
       ui.tag{
