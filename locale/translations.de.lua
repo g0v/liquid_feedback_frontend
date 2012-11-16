@@ -584,6 +584,10 @@ return {
 ["The drafts do not differ"] = "Die Entwürfe unterscheiden sich nicht";
 ["The initiators suggest to support the following initiative:"] = "Die Initiatoren empfehlen folgende Initiative zu unterstützen:";
 ["The maximum number of delegations for one preference list is reached!"] = "Die maximale Anzahl von Delegationen in einer Präferenzliste ist erreicht!";
+["The requested area does not exist!"] = "Der angeforderte Themenbereich existiert nicht!";
+["The requested initiative does not exist!"] = "Die angeforderte Initiative existiert nicht!";
+["The requested issue does not exist!"] = "Das angeforderte Thema existiert nicht!";
+["The requested unit does not exist!"] = "Die angeforderte Gliederung existiert nicht!";
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = "Es gibt #{count} Anregungen, zu denen bisher nur Du eine Meinung angegeben hast. Wenn Du Dein Interesse zurückziehst, werden diese Anregungen gelöscht!";
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = "Es gibt #{count} Anregungen, zu denen bisher nur Du eine Meinung angegeben hast. Wenn Du Deine Unterstützung zurückziehst, werden diese Anregungen gelöscht!";
 ["There are no trustees selected."] = "Es sind keine Bevollmächtigten ausgewählt.";

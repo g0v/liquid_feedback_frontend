@@ -698,6 +698,10 @@ return {
 ["The drafts do not differ"] = "de ontwerpen verschillen niet van elkaar";
 ["The initiators suggest to support the following initiative:"] = "De initiatoren raden aan het volgende initiatief te ondersteunen:";
 ["The maximum number of delegations for one preference list is reached!"] = false;
+["The requested area does not exist!"] = false;
+["The requested initiative does not exist!"] = false;
+["The requested issue does not exist!"] = false;
+["The requested unit does not exist!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
 ["There are no trustees selected."] = false;

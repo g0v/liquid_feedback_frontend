@@ -1,4 +1,10 @@
 local issue = Issue:by_id(param.get_id())
+
+if not issue then
+  slot.put_into("error", _"The requested issue does not exist!")
+  return
+end
+
 if app.session.member_id then
   issue:load_everything_for_member_id(app.session.member_id)
 end
