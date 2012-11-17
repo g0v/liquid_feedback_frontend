@@ -12,11 +12,10 @@ slot.select("head", function()
 end)
 
 if config.single_unit_id and not app.session.member_id and config.motd_public then
-  local help_text = config.motd_public
   ui.container{
     attr = { class = "wiki motd" },
     content = function()
-      slot.put(format.wiki_text(help_text))
+      slot.put(format.wiki_text(config.motd_public))
     end
   }
 end

@@ -101,7 +101,7 @@ config.public_access = "none"
 
 -- Supply custom url for avatar/photo delivery
 -- ------------------------------------------------------------------------
--- Use the following option to enable fast image loading: 
+-- Use the following option to enable fast image loading:
 -- config.fastpath_url_func = function(member_id, image_type)
 --   return request.get_absolute_baseurl() .. "fastpath/getpic?" .. tostring(member_id) .. "+" .. tostring(image_type)
 -- end
@@ -124,7 +124,11 @@ config.public_access = "none"
 
 -- Display a public message of the day
 -- ------------------------------------------------------------------------
--- config.motd_public = "===Message of the day===\nThe MOTD is formatted with rocket wiki"
+-- config.motd_public = "===Message of the day===\nThe public MOTD is formatted with rocket wiki"
+
+-- Display a internal message of the day
+-- ------------------------------------------------------------------------
+-- config.motd_intern = "===Message of the day===\nThe internal MOTD is formatted with rocket wiki"
 
 -- Automatic issue related discussion URL
 -- ------------------------------------------------------------------------
