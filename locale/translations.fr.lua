@@ -613,7 +613,6 @@ return {
 ["This service is provided by:"] = false;
 ["This suggestion has been meanwhile deleted!"] = false;
 ["This title is really too short!"] = false;
-["Title"] = false;
 ["Title (80 chars max)"] = false;
 ["Title of initiative"] = false;
 ["Today at #{time}"] = false;
@@ -741,6 +740,7 @@ return {
 ["activated"] = false;
 ["and #{count} more initiatives"] = false;
 ["and one more initiative"] = false;
+["at #{date} #{time}"] = false;
 ["at least #{count} approvals"] = false;
 ["at least #{count} approvals or abstentions"] = false;
 ["change discussion URL"] = false;

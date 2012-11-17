@@ -1899,3 +1899,17 @@ table.notify .ui_list_notify_phase {
 table.notify .ui_list_odd {
   background-color: #ffffff;
 }
+
+/*************************************************************************
+* suggestions
+*/
+
+.suggestion_head {
+  margin-bottom: 0;
+}
+.suggestion_created {
+  margin-left: 1em;
+}
+.initiative_head .suggestion_title {
+  font-size: 105%;
+}

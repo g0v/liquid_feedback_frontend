@@ -33,14 +33,52 @@ ui.form{
 
     if param.get("preview") then
 
-      ui.field.text{ label = _"Title", value = param.get("name"), readonly = true }
-
-      ui.container{
-        attr = { class = "suggestion_content wiki initiative_head" },
-        content = function()
-          slot.put( format.wiki_text(param.get("content"), param.get("formatting_engine")) )
-        end
-      }
+      ui.container{ attr = { class = "initiative_head" }, content = function()
+      
+        ui.container{ attr = { class = "title suggestion_title" }, content = param.get("name") }
+      
+        ui.container{ attr = { class = "content" }, content = function()
+      
+          ui.container{
+            attr = { class = "initiator_names" },
+            content = function()
+      
+              if app.session:has_access("all_pseudonymous") then
+                ui.link{
+                  content = function()
+                    execute.view{
+                      module = "member_image",
+                      view = "_show",
+                      params = {
+                        member = app.session.member,
+                        image_type = "avatar",
+                        show_dummy = true,
+                        class = "micro_avatar"
+                      }
+                    }
+                  end,
+                  module = "member", view = "show", id = app.session.member.id
+                }
+                slot.put(" ")
+              end
+              ui.link{
+                text = app.session.member.name,
+                module = "member", view = "show", id = app.session.member.id
+              }
+      
+            end
+          }
+      
+        end }
+      
+        ui.container{
+          attr = { class = "draft_content wiki" },
+          content = function()
+            slot.put( format.wiki_text(param.get("content"), param.get("formatting_engine")) )
+          end
+        }
+      
+      end }
 
       ui.submit{ text = _"Commit suggestion" }
       slot.put("<br /><br /><br />")

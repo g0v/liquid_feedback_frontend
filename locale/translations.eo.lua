@@ -874,6 +874,7 @@ return {
 ["and #{count} more initiatives"] = "kaj #{count} pliaj iniciatoj";
 ["and one more initiative"] = false;
 ["area"] = "temaro";
+["at #{date} #{time}"] = false;
 ["at least #{count} approvals"] = false;
 ["at least #{count} approvals or abstentions"] = false;
 ["change discussion URL"] = false;

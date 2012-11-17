@@ -760,6 +760,7 @@ return {
 ["activated"] = "aktiviert";
 ["and #{count} more initiatives"] = "und #{count} weitere Initiativen";
 ["and one more initiative"] = "und eine weitere Initiative";
+["at #{date} #{time}"] = "am #{date} um #{time}";
 ["at least #{count} approvals"] = "mindestens #{count} Zustimmungen";
 ["at least #{count} approvals or abstentions"] = "mindestens #{count} Zustimmungen oder Enthaltungen";
 ["change discussion URL"] = "Diskussions-URL ändern";

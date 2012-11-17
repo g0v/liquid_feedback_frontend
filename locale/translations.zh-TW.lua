@@ -942,6 +942,7 @@ return {
 ["and #{count} more initiatives"] = "之外 #{count} 個提案";
 ["and one more initiative"] = "之外一個提案";
 ["area"] = "領域";
+["at #{date} #{time}"] = false;
 ["at least #{count} approvals"] = "至少 #{count} 票肯定";
 ["at least #{count} approvals or abstentions"] = "至少 #{count} 票肯定或棄權";
 ["change discussion URL"] = "更改討論網址";

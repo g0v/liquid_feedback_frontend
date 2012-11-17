@@ -942,6 +942,7 @@ return {
 ["and #{count} more initiatives"] = "και #{count} ακόμη πρωτοβουλίες";
 ["and one more initiative"] = "και μία ακόμη πρωτοβουλία";
 ["area"] = "Τομέας";
+["at #{date} #{time}"] = false;
 ["at least #{count} approvals"] = "τουλάχιστον #{count} επιδοκιμασίες";
 ["at least #{count} approvals or abstentions"] = "τουλάχιστον #{count} επιδοκιμασίες ή αποχές";
 ["change discussion URL"] = "αλλαγή του URL της συζήτησης";

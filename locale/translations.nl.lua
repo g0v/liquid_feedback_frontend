@@ -944,6 +944,7 @@ return {
 ["and #{count} more initiatives"] = "en #{count} verdere initiatieven";
 ["and one more initiative"] = "en nog één ander initiatief";
 ["area"] = "themagebied";
+["at #{date} #{time}"] = false;
 ["at least #{count} approvals"] = "minsten #{count} goedkeuringen";
 ["at least #{count} approvals or abstentions"] = "minstens #{count} goedkeuringen of onthoudingen";
 ["change discussion URL"] = "discussie URL veranderd";

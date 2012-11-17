@@ -900,6 +900,7 @@ return {
 ["and #{count} more initiatives"] = "és még #{count} további kezdeményezés";
 ["and one more initiative"] = "és még egy további kezdeményezés";
 ["area"] = "témakör";
+["at #{date} #{time}"] = false;
 ["at least #{count} approvals"] = "legalább #{count} egyetértés";
 ["at least #{count} approvals or abstentions"] = "legalább #{count} egyetértés vagy tartózkodás";
 ["change discussion URL"] = "tárgyalás URL-jének megváltoztatása";

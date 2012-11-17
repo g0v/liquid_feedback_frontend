@@ -938,6 +938,7 @@ return {
 ["and #{count} more initiatives"] = "ed altre #{count} iniziative";
 ["and one more initiative"] = "ed un'altra iniziativa";
 ["area"] = "area";
+["at #{date} #{time}"] = false;
 ["at least #{count} approvals"] = "almeno #{count} approvazioni";
 ["at least #{count} approvals or abstentions"] = "almeno #{count} approvazioni o astensioni";
 ["change discussion URL"] = "cambia l'URL della discussione";
