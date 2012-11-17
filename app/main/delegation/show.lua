@@ -502,7 +502,7 @@ for i, record in ipairs(delegation_chain) do
             if scope == "issue" and issue.closed then
               slot.put(_"This member voted.")
             else
-              slot.put(_"This member is participating, the rest of delegation list is suspended while discussing.")
+              slot.put(_"This member is interested in the issue. The rest of the delegation list is suspended while discussing.")
             end
           end
         }

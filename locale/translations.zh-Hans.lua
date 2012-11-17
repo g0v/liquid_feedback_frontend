@@ -737,11 +737,11 @@ return {
 ["This member is inactive"] = "该成员怠惰";
 ["This member is inactive."] = false;
 ["This member is initiator of this initiative."] = false;
+["This member is interested in the issue. The rest of the delegation list is suspended while discussing."] = false;
+["This member is interested."] = false;
 ["This member is locked"] = "该成员被锁定";
 ["This member is locked."] = false;
 ["This member is participating, the rest of delegation chain is suspended while discussing"] = "该成员參与中，其余的委任设定在讨论期间停用。";
-["This member is participating, the rest of delegation list is suspended while discussing."] = false;
-["This member is participating."] = false;
 ["This member is potential supporter of this initiative via delegation."] = false;
 ["This member is potential supporter of this initiative."] = false;
 ["This member is supporter of this initiative via delegation."] = false;

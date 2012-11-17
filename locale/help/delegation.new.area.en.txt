@@ -8,6 +8,4 @@ The list on the right also shows the delegations on parent scopes. If in one sco
 
 At the top of the list you stand yourself. If you participate yourself, delegations have no effect. If no one from the whole list participates, then the vote is void.
 
-The first participating trustee, which thus gets the delegation, is marked with an orange border. The then following trustees don't play a role anymore and are displayed grey, even if they participate.
-
 **Notice:** You can only delegate to members, who you have added to your list of contacts. You can find other members under the tabulator ""Eligible voters"" in their corresponding unit. Click on the member to visit their member page, then click on ""Add to my contacts"" to add this member to your personal contact list.

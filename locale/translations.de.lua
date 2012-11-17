@@ -616,6 +616,8 @@ return {
 ["This member is already invited to become initiator of this initiative!"] = "Dieses Mitglied ist bereits eingeladen Initiator dieser Initiative zu werden!";
 ["This member is inactive."] = "Mitglied ist inaktiv.";
 ["This member is initiator of this initiative."] = "Dieses Mitglied ist Initiator dieser Initiative.";
+["This member is interested in the issue. The rest of the delegation list is suspended while discussing."] = "Dieses Mitglied ist am Thema interessiert. Der Rest der Delegationsliste wird während der Diskussion ausgesetzt.";
+["This member is interested."] = "Dieses Mitglied ist interessiert.";
 ["This member is locked."] = "Mitglied ist gesperrt.";
 ["This member is participating, the rest of delegation list is suspended while discussing."] = "Dieses Mitglied beteiligt sich, der Rest der Delegationsliste wird während der Diskussion ausgesetzt.";
 ["This member is participating."] = "Dieses Mitglied beteiligt sich.";

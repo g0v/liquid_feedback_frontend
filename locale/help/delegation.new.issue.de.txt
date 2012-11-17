@@ -8,9 +8,9 @@ Die Liste auf der rechten Seite zeigt zusätzlich auch die angelegten Delegation
 
 Ganz oben in der Liste steht man selbst. Wenn man sich selbst beteiligt, haben Delegationen keine Auswirkung. Wenn sich niemand aus der ganzen Liste beteiligt, verfällt die Stimme.
 
-Der erste sich beteiligende Bevollmächtigte, der somit über die eigene Stimme verfügt, ist an einem orangen Rahmen zu erkennen. Die danach folgenden Bevollmächtigten spielen keine Rolle mehr und werden grau dargestellt, auch falls sie sich selbst beteiligen.
-
 = Themen-Delegation =
+
+Der erste Bevollmächtigte in der Liste, der an dem Thema interessiert ist und somit über die eigene Stimme verfügt, ist an einem orangen Rahmen zu erkennen. Die danach folgenden Bevollmächtigten spielen keine Rolle mehr und werden grau dargestellt, auch falls sie sich selbst beteiligen.
 
 Bei angemeldetem Interesse für ein Thema werden Delegationen während der Phasen ,,Neu'', ,,Diskussion'' und ,,Eingefroren'' ausgesetzt, gelten aber in der Endabstimmung, sofern nicht selbst abgestimmt wird.
 

@@ -598,9 +598,9 @@ return {
 ["This member is already invited to become initiator of this initiative!"] = false;
 ["This member is inactive."] = false;
 ["This member is initiator of this initiative."] = false;
+["This member is interested in the issue. The rest of the delegation list is suspended while discussing."] = false;
+["This member is interested."] = false;
 ["This member is locked."] = false;
-["This member is participating, the rest of delegation list is suspended while discussing."] = false;
-["This member is participating."] = false;
 ["This member is potential supporter of this initiative via delegation."] = false;
 ["This member is potential supporter of this initiative."] = false;
 ["This member is supporter of this initiative via delegation."] = false;

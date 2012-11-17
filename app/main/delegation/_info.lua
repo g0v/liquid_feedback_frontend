@@ -143,7 +143,7 @@ ui.link{
           if scope == "issue" and issue.closed then
             popup_text = popup_text .. " - " .. _"This member voted."
           else
-            popup_text = popup_text .. " - " .. _"This member is participating."
+            popup_text = popup_text .. " - " .. _"This member is interested."
           end
         end
 
