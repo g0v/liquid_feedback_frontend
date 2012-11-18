@@ -255,6 +255,7 @@ return {
 ["Inactive"] = "Inaktiv";
 ["Incoming delegations"] = "Eingehende Delegationen";
 ["Incoming delegations for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = "Eingehende Delegationen für Thema ##{number} im Themenbereich '#{area_name}' in Gliederung '#{unit_name}'";
+["Incoming delegations of member '#{member}'"] = "Eingehende Delegationen des Mitglieds '#{member}'";
 ["Index"] = "Positionsnummer";
 ["Indirect majority"] = "Indirekte Mehrheit";
 ["Indirect majority denumerator"] = "Indirekte Mehrheit Denumerator";

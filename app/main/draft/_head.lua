@@ -4,6 +4,13 @@ local issue = initiative.issue
 
 ui.title(function()
   ui.link{
+    content = issue.area.unit.name,
+    module = "unit",
+    view = "show",
+    id = issue.area.unit.id
+  }
+  slot.put(" &middot; ")
+  ui.link{
     content = issue.area.name,
     module = "area",
     view = "show",

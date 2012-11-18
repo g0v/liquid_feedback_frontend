@@ -293,7 +293,7 @@ return {
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
 ["Inactive"] = false;
 ["Incoming delegations"] = "Bejövõ delegációk";
-["Incoming delegations for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
+["Incoming delegations of member '#{member}'"] = false;
 ["Index"] = "Index";
 ["Indirect majority"] = "Közvetett többség";
 ["Indirect majority denumerator"] = "Közvetett többség nevezõje";

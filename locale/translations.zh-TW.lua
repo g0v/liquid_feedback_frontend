@@ -299,7 +299,7 @@ return {
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
 ["Inactive"] = false;
 ["Incoming delegations"] = "受委任的表決";
-["Incoming delegations for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
+["Incoming delegations of member '#{member}'"] = false;
 ["Index"] = "索引";
 ["Indirect majority"] = "間接多數";
 ["Indirect majority denumerator"] = "間接多數分母";

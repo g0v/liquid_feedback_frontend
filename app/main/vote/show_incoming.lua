@@ -8,14 +8,36 @@ local members_selector = Member:new_selector()
   :add_where{ "delegating_voter.delegate_member_id = ?", member.id }
   :join("issue", nil, "issue.id = delegating_voter.issue_id")
 
-if member.id == app.session.member.id then
-  -- show own delegation
-  ui_title = ""
-else
-  -- show other member's delegation
-  ui_title = _("Member '#{member}'", { member =  member.name }) .. ": "
-end
-ui.title( ui_title .. _("Incoming delegations for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'", { number = issue.id, area_name = issue.area.name, unit_name = issue.area.unit.name } ) )
+ui.title(function()
+  ui.link{
+    content = issue.area.unit.name,
+    module = "unit",
+    view = "show",
+    id = issue.area.unit.id
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    content = issue.area.name,
+    module = "area",
+    view = "show",
+    id = issue.area.id
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    content = _("Issue ##{id}", { id = issue.id }),
+    module = "issue",
+    view = "show",
+    id = issue.id
+  }
+  slot.put(" &middot; ")
+  if member.id == app.session.member.id then
+    -- show own delegation
+    slot.put(_("Incoming delegations"))
+  else
+    -- show other member's delegation
+    slot.put(_("Incoming delegations of member '#{member}'", { member =  member.name }))
+  end
+end)
 
 execute.view{
   module = "member",
