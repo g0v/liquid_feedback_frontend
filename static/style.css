@@ -853,12 +853,16 @@ div.notifications {
 /* fix for ui.multiselect */
 div.ui_checkbox_div {
   clear: right;
-  margin-left: 29%
+  margin-left: 29%;
 }
 div.ui_checkbox_div .ui_field_label {
   clear: none;
   float: none;
   display: inline;
+}
+
+div.ui_field_multiline span {
+  margin-left: 29%;
 }
 
 .vertical span {

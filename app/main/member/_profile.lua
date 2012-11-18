@@ -29,7 +29,7 @@ ui.form{
             image_type = "photo"
           }
         }
-  
+
       end
     }
 
@@ -81,6 +81,7 @@ ui.form{
     end
     if member.address and #member.address > 0 then
       ui.container{
+        attr = { class = "ui_field_multiline" },
         content = function()
           ui.tag{
             tag = "label",
@@ -109,10 +110,40 @@ ui.form{
       ui.field.text{ label = _"Internal posts", name = "internal_posts" }
     end
     if member.external_memberships and #member.external_memberships > 0 then
-      ui.field.text{ label = _"Memberships", name = "external_memberships", multiline = true }
+      ui.container{
+        attr = { class = "ui_field_multiline" },
+        content = function()
+          ui.tag{
+            tag = "label",
+            attr = { class = "ui_field_label" },
+            content = _"Memberships"
+          }
+          ui.tag{
+            tag = "span",
+            content = function()
+              slot.put(encode.html_newlines(encode.html(member.external_memberships)))
+            end
+          }
+        end
+      }
     end
     if member.external_posts and #member.external_posts > 0 then
-      ui.field.text{ label = _"Posts", name = "external_posts", multiline = true }
+      ui.container{
+        attr = { class = "ui_field_multiline" },
+        content = function()
+          ui.tag{
+            tag = "label",
+            attr = { class = "ui_field_label" },
+            content = _"Posts"
+          }
+          ui.tag{
+            tag = "span",
+            content = function()
+              slot.put(encode.html_newlines(encode.html(member.external_posts)))
+            end
+          }
+        end
+      }
     end
     if member.admin then
       ui.field.text{ label = _"Admin?", value = _"Yes" }
