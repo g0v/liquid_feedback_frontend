@@ -435,9 +435,9 @@ return {
 ["One more area in this unit"] = "Ein weiterer Themenbereich in dieser Gliederung";
 ["One of them has an area delegation set."] = "Bei einem davon ist eine Delegation für den Themenbereich gesetzt.";
 ["One outgoing delegation is broken."] = "Eine ausgehende Delegation ist kaputt.";
-["Only for issues reaching the discussion phase"] = "Nur für Themen, die die Diskussion erreichen.";
-["Only for issues reaching the frozen phase"] = "Nur für Themen, die die Phase Eingefroren erreichen.";
-["Only for issues reaching the voting phase"] = "Nur für Themen, die die Abstimmung erreichen.";
+["Only for issues reaching the discussion phase"] = "Nur für Themen, die die Diskussion erreichen";
+["Only for issues reaching the frozen phase"] = "Nur für Themen, die die Phase Eingefroren erreichen";
+["Only for issues reaching the voting phase"] = "Nur für Themen, die die Abstimmung erreichen";
 ["Open"] = "Offen";
 ["Open initiatives you are supporting which have been updated their draft:"] = "Offene, von Dir unterstützte Initiativen, deren Antragstext aktualisiert wurde:";
 ["Open issues"] = "Offene Themen";
