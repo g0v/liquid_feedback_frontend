@@ -122,13 +122,13 @@ config.public_access = "none"
 --  photo =  function(data) return extos.pfilter(data, "convert", "jpeg:-", "-thumbnail", "240x240", "jpeg:-") end
 --}
 
--- Display a public message of the day
+-- Display a message of the day once for each session
 -- ------------------------------------------------------------------------
--- config.motd_public = "===Message of the day===\nThe public MOTD is formatted with rocket wiki"
+-- config.motd = "===Message of the day===\nThe MOTD is formatted with rocket wiki"
 
--- Display a internal message of the day
+-- Display the message of the day not only to logged in members
 -- ------------------------------------------------------------------------
--- config.motd_intern = "===Message of the day===\nThe internal MOTD is formatted with rocket wiki"
+-- config.motd_public = true
 
 -- Automatic issue related discussion URL
 -- ------------------------------------------------------------------------

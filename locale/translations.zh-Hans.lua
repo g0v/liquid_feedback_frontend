@@ -394,6 +394,7 @@ return {
 ["Locked?"] = "被封锁？";
 ["Login"] = "登入";
 ["Login name"] = "帐号";
+["Login successful"] = false;
 ["Logout"] = "登出";
 ["Logout successful"] = "成功登出";
 ["Manage filter"] = "管理筛选条件";

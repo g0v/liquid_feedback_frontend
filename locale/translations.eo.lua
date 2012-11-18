@@ -374,6 +374,7 @@ return {
 ["Locked?"] = "Ĉu blokita?";
 ["Login"] = "Ensaluti";
 ["Login name"] = "Salutnomo";
+["Login successful"] = false;
 ["Logout"] = "Adiaŭi";
 ["Logout successful"] = "Adiaŭo sukcesa";
 ["Manage filter"] = "Administri filtrilojn";

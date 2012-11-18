@@ -393,6 +393,7 @@ return {
 ["Locked?"] = "Bloccato?";
 ["Login"] = "Login";
 ["Login name"] = "Nome utente";
+["Login successful"] = false;
 ["Logout"] = "Logout";
 ["Logout successful"] = "Logout effettuato";
 ["Manage filter"] = "Modifica il filtro";

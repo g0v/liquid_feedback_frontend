@@ -51,6 +51,7 @@ end
 
 
 if member then
+
   member.last_login = "now"
   member.last_activity = "now"
   member.active = true
@@ -60,16 +61,20 @@ if member then
     app.session.lang = member.lang
   end
   member:save()
+
   app.session.member = member
   app.session:save()
+
+  slot.put_into("notice", _"Login successful")
+
   trace.debug('User authenticated')
+
   if config.etherpad then
     do_etherpad_auth(member)
   end
+
 else
-  slot.select("error", function()
-    ui.tag{ content = _'Invalid login name or password!' }
-  end)
+  slot.put_into("error", _"Invalid login name or password!")
   trace.debug('User NOT authenticated')
   return false
 end

@@ -323,6 +323,7 @@ return {
 ["Locked"] = false;
 ["Login"] = false;
 ["Login name"] = false;
+["Login successful"] = false;
 ["Logout"] = false;
 ["Logout successful"] = false;
 ["Member"] = false;

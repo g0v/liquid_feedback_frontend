@@ -334,6 +334,7 @@ return {
 ["Locked"] = "Gesperrt";
 ["Login"] = "Anmeldung";
 ["Login name"] = "Anmeldename";
+["Login successful"] = "Anmeldung erfolgreich";
 ["Logout"] = "Abmelden";
 ["Logout successful"] = "Abmeldung erfolgreich";
 ["Member"] = "Mitglied";

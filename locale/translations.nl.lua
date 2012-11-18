@@ -396,6 +396,7 @@ return {
 ["Locked?"] = "Gesloten?";
 ["Login"] = "Login";
 ["Login name"] = "Login naam";
+["Login successful"] = false;
 ["Logout"] = "Logout";
 ["Logout successful"] = "Succesvol afgemeld";
 ["Manage filter"] = "Beheer filter";

@@ -11,15 +11,6 @@ slot.select("head", function()
   execute.view{ module = "unit", view = "_head", params = { unit = unit, show_content = true, member = app.session.member } }
 end)
 
-if config.single_unit_id and not app.session.member_id and config.motd_public then
-  ui.container{
-    attr = { class = "wiki motd" },
-    content = function()
-      slot.put(format.wiki_text(config.motd_public))
-    end
-  }
-end
-
 local areas_selector = Area:build_selector{ active = true, unit_id = unit_id }
   :add_order_by("area.direct_member_count DESC")
   :add_order_by("area.name")

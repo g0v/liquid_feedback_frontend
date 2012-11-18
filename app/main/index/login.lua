@@ -24,15 +24,6 @@ ui.actions(function()
   end
 end)
 
-if config.motd_public then
-  ui.container{
-    attr = { class = "wiki motd" },
-    content = function()
-      slot.put(format.wiki_text(config.motd_public))
-    end
-  }
-end
-
 if app.session:has_access("anonymous") then
   ui.tag{
     tag = 'p',
@@ -42,6 +33,16 @@ else
   ui.tag{ tag = "p", content = _"Closed user group, please login to participate." }
 end
 
+-- redirect after successful login
+local redirect_module = param.get("redirect_module")
+local redirect_view   = param.get("redirect_view")
+local redirect_id     = param.get("redirect_id")
+if not redirect_module or not redirect_view or (redirect_module == "index" and redirect_view == "login") then
+  redirect_module = "index"
+  redirect_view   = "index"
+  redirect_id     = nil
+end
+
 ui.form{
   attr = { class = "login" },
   module = 'index',
@@ -49,14 +50,14 @@ ui.form{
   routing = {
     ok = {
       mode   = 'redirect',
-      module = param.get("redirect_module") or "index",
-      view = param.get("redirect_view") or "index",
-      id = param.get("redirect_id"),
+      module = redirect_module,
+      view   = redirect_view,
+      id     = redirect_id
     },
     error = {
       mode   = 'forward',
       module = 'index',
-      view   = 'login',
+      view   = 'login'
     }
   },
   content = function()

@@ -394,6 +394,7 @@ return {
 ["Locked?"] = "Κλειστό;";
 ["Login"] = "Σύνδεση";
 ["Login name"] = "Όνομα σύνδεσης";
+["Login successful"] = false;
 ["Logout"] = "Αποσύνδεση";
 ["Logout successful"] = "Επιτυχής αποσύνδεση";
 ["Manage filter"] = "Διαχείριση φίλτρου";

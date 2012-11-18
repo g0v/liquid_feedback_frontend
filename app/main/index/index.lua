@@ -2,29 +2,11 @@ if app.session.member_id then
 
   util.help("index.index", _"Home")
 
-  if config.motd_intern then
-    ui.container{
-      attr = { class = "wiki motd" },
-      content = function()
-        slot.put(format.wiki_text(config.motd_intern))
-      end
-    }
-  end
-
   execute.view{
     module = "index", view = "_index_member"
   }
 
 elseif app.session:has_access("anonymous") then
-
-  if config.motd_public then
-    ui.container{
-      attr = { class = "wiki motd" },
-      content = function()
-        slot.put(format.wiki_text(config.motd_public))
-      end
-    }
-  end
 
   local open_issues_selector = Issue:new_selector()
     :add_where("issue.closed ISNULL")
@@ -90,15 +72,6 @@ elseif app.session:has_access("anonymous") then
   ui.tabs(tabs)
 
 else
-
-  if config.motd_public then
-    ui.container{
-      attr = { class = "wiki motd" },
-      content = function()
-        slot.put(format.wiki_text(config.motd_public))
-      end
-    }
-  end
 
   ui.tag{ tag = "p", content = _"Closed user group, please login to participate." }
 

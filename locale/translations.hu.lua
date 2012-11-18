@@ -387,6 +387,7 @@ return {
 ["Locked?"] = "Zárva?";
 ["Login"] = "Bejelentkezés";
 ["Login name"] = "Bejelentkezési név";
+["Login successful"] = false;
 ["Logout"] = "Kijelentkezés";
 ["Logout successful"] = "Sikeres kijelentkezés";
 ["Manage filter"] = "Szûrõk módosítása";
