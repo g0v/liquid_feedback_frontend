@@ -156,7 +156,7 @@ return {
 ["Delegation for Area '#{name}'"] = "Delegation für Themenbereich '#{name}'";
 ["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = "Delegation für Themenbereich '#{name}' in Gliederung '#{unit_name}'";
 ["Delegation for Issue ##{number} in Area '#{area_name}'"] = "Delegation für Thema ##{number} in Themenbereich '#{area_name}'";
-["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = "Delegation für Thema ##{number} in Themenbereich '#{area_name}'in Gliederung '#{unit_name}'";
+["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = "Delegation für Thema ##{number} in Themenbereich '#{area_name}' in Gliederung '#{unit_name}'";
 ["Delegations"] = "Delegationen";
 ["Delete"] = "Löschen";
 ["Delete personal data and deactivate account"] = "Persönliche Daten löschen und Account deaktivieren";
