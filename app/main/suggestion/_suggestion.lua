@@ -27,11 +27,11 @@ ui.container{ attr = { class = "initiative_head suggestion_head" }, content = fu
             module = "member", view = "show", id = suggestion.author.id
           }
           slot.put(" ")
+          ui.link{
+            text = suggestion.author.name,
+            module = "member", view = "show", id = suggestion.author.id
+          }
         end
-        ui.link{
-          text = suggestion.author.name,
-          module = "member", view = "show", id = suggestion.author.id
-        }
 
         ui.tag{
           attr = { class = "draft_version suggestion_created" },
