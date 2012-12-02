@@ -63,6 +63,7 @@ return {
 ["Admin"] = "管理员";
 ["Admin menu"] = "管理员目录";
 ["Admin?"] = "管理员？";
+["Admission starts soon."] = false;
 ["Admission time"] = "递交期";
 ["Admitted"] = "已递交";
 ["All"] = false;

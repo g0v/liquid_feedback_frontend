@@ -57,6 +57,7 @@ return {
 ["Admin"] = "Administro";
 ["Admin menu"] = "Administra menuo";
 ["Admin?"] = "Ĉu administri?";
+["Admission starts soon."] = false;
 ["Admission time"] = "Aprobotempo";
 ["Admitted"] = "Aprobita";
 ["All"] = false;

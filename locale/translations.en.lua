@@ -48,6 +48,7 @@ return {
 ["Admin"] = false;
 ["Admin menu"] = false;
 ["Admin?"] = false;
+["Admission starts soon."] = false;
 ["Admission time"] = false;
 ["Admitted"] = false;
 ["All"] = false;

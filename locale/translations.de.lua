@@ -49,6 +49,7 @@ return {
 ["Admin"] = "Admin";
 ["Admin menu"] = "Admin Menü";
 ["Admin?"] = "Admin?";
+["Admission starts soon."] = "Zulassung beginnt in Kürze.";
 ["Admission time"] = "Zeit für die Zulassung";
 ["Admitted"] = "Zugelassen";
 ["All"] = "Alle";
@@ -186,7 +187,7 @@ return {
 ["Discussion URL"] = "Diskussions-URL";
 ["Discussion on issue"] = "Diskussion zum Thema";
 ["Discussion started"] = "Diskussion gestartet";
-["Discussion starts soon."] = "Diskussion startet in Kürze.";
+["Discussion starts soon."] = "Diskussion beginnt in Kürze.";
 ["Discussion time"] = "Zeit für die Diskussion";
 ["Discussion with initiators"] = "Diskussion mit den Initiatoren";
 ["Download"] = "Download";
@@ -657,7 +658,7 @@ return {
 ["Upload images"] = "Bilder hochladen";
 ["Use terms"] = "Nutzungsbedingungen";
 ["Verification started"] = "Phase Eingefroren gestartet";
-["Verification starts soon."] = "Phase Eingefroren startet in Kürze.";
+["Verification starts soon."] = "Phase Eingefroren beginnt in Kürze.";
 ["Verification time"] = "Zeit für Eingefroren";
 ["Vote now"] = "Jetzt abstimmen";
 ["Voted"] = "Abgestimmt";

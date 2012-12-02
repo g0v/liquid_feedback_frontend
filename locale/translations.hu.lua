@@ -61,6 +61,7 @@ return {
 ["Admin"] = "Admin";
 ["Admin menu"] = "Admin-menü";
 ["Admin?"] = "Admin?";
+["Admission starts soon."] = false;
 ["Admission time"] = "Felvétel idõpontja";
 ["Admitted"] = "Felvéve";
 ["All"] = false;

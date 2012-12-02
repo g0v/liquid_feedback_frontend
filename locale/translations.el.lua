@@ -63,6 +63,7 @@ return {
 ["Admin"] = "Διαχείριση";
 ["Admin menu"] = "Επιλογές διαχείρισης";
 ["Admin?"] = "Διαχειριστής;";
+["Admission starts soon."] = false;
 ["Admission time"] = "Διάρκεια πρόκρισης";
 ["Admitted"] = "Προκρίθηκε";
 ["All"] = false;

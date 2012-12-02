@@ -64,6 +64,7 @@ return {
 ["Admin"] = "Admin";
 ["Admin menu"] = "Admin menu";
 ["Admin?"] = "Admin?";
+["Admission starts soon."] = false;
 ["Admission time"] = "Tijd voor toegang";
 ["Admitted"] = "Toegelaten";
 ["All"] = false;
