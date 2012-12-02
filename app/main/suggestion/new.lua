@@ -34,15 +34,15 @@ ui.form{
     if param.get("preview") then
 
       ui.container{ attr = { class = "initiative_head" }, content = function()
-      
+
         ui.container{ attr = { class = "title suggestion_title" }, content = param.get("name") }
-      
+
         ui.container{ attr = { class = "content" }, content = function()
-      
+
           ui.container{
             attr = { class = "initiator_names" },
             content = function()
-      
+
               if app.session:has_access("all_pseudonymous") then
                 ui.link{
                   content = function()
@@ -65,19 +65,19 @@ ui.form{
                 text = app.session.member.name,
                 module = "member", view = "show", id = app.session.member.id
               }
-      
+
             end
           }
-      
+
         end }
-      
+
         ui.container{
           attr = { class = "draft_content wiki" },
           content = function()
             slot.put( format.wiki_text(param.get("content"), param.get("formatting_engine")) )
           end
         }
-      
+
       end }
 
       ui.submit{ text = _"Commit suggestion" }
@@ -101,7 +101,8 @@ ui.form{
         { id =  2, name = _"must"},
       },
       foreign_id = "id",
-      foreign_name = "name"
+      foreign_name = "name",
+      value = param.get("degree", atom.integer)
     }
 
     ui.field.text{
