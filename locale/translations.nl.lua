@@ -58,6 +58,7 @@ return {
 ["Add alternative initiative to issue"] = "Voeg een alternatief initiatief aan dit onderwerp toe";
 ["Add my interest"] = "Voeg mijn interesse toe";
 ["Add new suggestion"] = "Voeg een nieuwe suggestie toe";
+["Add new suggestion for"] = false;
 ["Add new unit"] = "Voeg een nieuw dossier toe";
 ["Add to list"] = false;
 ["Add to my contacts"] = "Voeg aan mijn contacten toe";
@@ -683,6 +684,7 @@ return {
 ["Suggestion currently not implemented"] = "De suggestie is nu niet geïmplementeerd";
 ["Suggestion does not exist anymore"] = "Suggestie bestaat niet meer";
 ["Suggestion does not exist anymore!"] = false;
+["Suggestion for"] = false;
 ["Suggestion for initiative: '#{name}'"] = "Suggestie voor initiatief '#{name}'";
 ["Suggestions"] = "Suggesties";
 ["Sunday"] = "Zondag";

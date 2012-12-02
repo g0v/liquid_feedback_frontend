@@ -21,7 +21,36 @@ end
 app.html_title.title = suggestion.name
 app.html_title.subtitle = _("Suggestion ##{id}", { id = suggestion.id })
 
-ui.title(_"Suggestion for initiative: '#{name}'":gsub("#{name}", suggestion.initiative.name))
+ui.title(function()
+  ui.link{
+    content = suggestion.initiative.issue.area.unit.name,
+    module = "unit",
+    view = "show",
+    id = suggestion.initiative.issue.area.unit.id
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    content = suggestion.initiative.issue.area.name,
+    module = "area",
+    view = "show",
+    id = suggestion.initiative.issue.area.id
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    content = _("Issue ##{id}", { id = suggestion.initiative.issue.id }),
+    module = "issue",
+    view = "show",
+    id = suggestion.initiative.issue.id
+  }
+  slot.put(" &middot; ")
+  slot.put(_"Suggestion for" .. " ")
+  ui.link{
+    content = _("Initiative i#{id}: #{name}", { id = suggestion.initiative.id, name = suggestion.initiative.name }),
+    module = "initiative",
+    view = "show",
+    id = suggestion.initiative.id
+  }
+end)
 
 ui.actions(function()
   ui.link{

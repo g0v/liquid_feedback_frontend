@@ -42,7 +42,7 @@ return {
 ["Active?"] = false;
 ["Add alternative initiative to issue"] = false;
 ["Add my interest"] = false;
-["Add new suggestion"] = false;
+["Add new suggestion for"] = false;
 ["Add new unit"] = false;
 ["Add to list"] = false;
 ["Add to my contacts"] = false;
@@ -553,7 +553,7 @@ return {
 ["Suggestion currently implemented"] = false;
 ["Suggestion currently not implemented"] = false;
 ["Suggestion does not exist anymore!"] = false;
-["Suggestion for initiative: '#{name}'"] = false;
+["Suggestion for"] = false;
 ["Suggestions"] = false;
 ["Support this initiative"] = false;
 ["Supported"] = false;

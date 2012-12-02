@@ -43,6 +43,7 @@ return {
 ["Add alternative initiative to issue"] = "Alternative Initiative zum Thema hinzufügen";
 ["Add my interest"] = "Mein Interesse anmelden";
 ["Add new suggestion"] = "Neue Anregung hinzufügen";
+["Add new suggestion for"] = "Neue Anregung für";
 ["Add new unit"] = "Neue Gliederung";
 ["Add to list"] = "Zur Liste hinzufügen";
 ["Add to my contacts"] = "Zu meinen Kontakten hinzufügen";
@@ -572,6 +573,7 @@ return {
 ["Suggestion currently implemented"] = "Anregung zur Zeit umgesetzt";
 ["Suggestion currently not implemented"] = "Anregung zur Zeit nicht umgesetzt";
 ["Suggestion does not exist anymore!"] = "Diese Anregung existiert nicht mehr!";
+["Suggestion for"] = "Anregung für";
 ["Suggestion for initiative: '#{name}'"] = "Anregung für Initiative '#{name}'";
 ["Suggestions"] = "Anregungen";
 ["Support this initiative"] = "Diese Initiative unterstützen";

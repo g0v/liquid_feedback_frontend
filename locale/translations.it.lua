@@ -57,6 +57,7 @@ return {
 ["Add alternative initiative to issue"] = "Aggiungi una iniziativa alternativa a questa tematica";
 ["Add my interest"] = "Segnala il mio interesse";
 ["Add new suggestion"] = "Aggiungi un suggerimento";
+["Add new suggestion for"] = false;
 ["Add new unit"] = "Crea una nuova sezione";
 ["Add to list"] = false;
 ["Add to my contacts"] = "Aggiungi ai miei contatti";
@@ -679,6 +680,7 @@ return {
 ["Suggestion currently not implemented"] = "Suggerimento non integrato";
 ["Suggestion does not exist anymore"] = "Il suggerimento non esiste piu'";
 ["Suggestion does not exist anymore!"] = false;
+["Suggestion for"] = false;
 ["Suggestion for initiative: '#{name}'"] = "Suggerimento per l'iniziativa: '#{name}'";
 ["Suggestions"] = "Suggerimenti";
 ["Sunday"] = "Domenica";

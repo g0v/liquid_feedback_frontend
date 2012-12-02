@@ -57,6 +57,7 @@ return {
 ["Add alternative initiative to issue"] = "Προσθήκη εναλλακτικής πρωτοβουλίας για το θέμα";
 ["Add my interest"] = "Εκδήλωση ενδιαφέροντος";
 ["Add new suggestion"] = "Νέα πρόταση";
+["Add new suggestion for"] = false;
 ["Add new unit"] = "Προσθήκη νέας ενότητας";
 ["Add to list"] = false;
 ["Add to my contacts"] = "Προσθήκη στις επαφές μου";
@@ -680,6 +681,7 @@ return {
 ["Suggestion currently not implemented"] = "Η πρόταση δεν υλοποιείται αυτή τη στιγμή";
 ["Suggestion does not exist anymore"] = "Η πρόταση δεν υπάρχει πια";
 ["Suggestion does not exist anymore!"] = false;
+["Suggestion for"] = false;
 ["Suggestion for initiative: '#{name}'"] = "Πρόταση για την πρωτοβουλία '#{name}'";
 ["Suggestions"] = "Προτάσεις";
 ["Sunday"] = "Κυριακή";

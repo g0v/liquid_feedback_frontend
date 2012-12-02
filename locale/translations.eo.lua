@@ -51,6 +51,7 @@ return {
 ["Add alternative initiative to issue"] = "Aldoni alternativan iniciaton al la temo";
 ["Add my interest"] = "Anonci mian intereson";
 ["Add new suggestion"] = "Aldoni novan sugeston";
+["Add new suggestion for"] = false;
 ["Add new unit"] = false;
 ["Add to list"] = false;
 ["Add to my contacts"] = "Aldoni al miaj kontaktoj";
@@ -642,6 +643,7 @@ return {
 ["Suggestion currently not implemented"] = "Sugesto aktuale ne realigita";
 ["Suggestion does not exist anymore"] = "Sugesto ne plu ekzistas";
 ["Suggestion does not exist anymore!"] = false;
+["Suggestion for"] = false;
 ["Suggestion for initiative: '#{name}'"] = "Sugesto por iniciato '#{name}'";
 ["Suggestions"] = "Sugestoj";
 ["Sunday"] = "Dimanĉo";

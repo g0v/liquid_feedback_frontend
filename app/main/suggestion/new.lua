@@ -1,6 +1,36 @@
 local initiative_id = param.get("initiative_id")
+local initiative = Initiative:by_id(initiative_id)
 
-ui.title(_"Add new suggestion")
+ui.title(function()
+  ui.link{
+    content = initiative.issue.area.unit.name,
+    module = "unit",
+    view = "show",
+    id = initiative.issue.area.unit.id
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    content = initiative.issue.area.name,
+    module = "area",
+    view = "show",
+    id = initiative.issue.area.id
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    content = _("Issue ##{id}", { id = initiative.issue.id }),
+    module = "issue",
+    view = "show",
+    id = initiative.issue.id
+  }
+  slot.put(" &middot; ")
+  slot.put(_"Add new suggestion for" .. " ")
+  ui.link{
+    content = _("Initiative i#{id}: #{name}", { id = initiative.id, name = initiative.name }),
+    module = "initiative",
+    view = "show",
+    id = initiative.id
+  }
+end)
 
 ui.actions(function()
   ui.link{

@@ -55,6 +55,7 @@ return {
 ["Add alternative initiative to issue"] = "Alternatív kezdeményezés hozzáadása a témához";
 ["Add my interest"] = "Érdekeltségem bejelentése";
 ["Add new suggestion"] = "Új javaslat hozzáadása";
+["Add new suggestion for"] = false;
 ["Add new unit"] = false;
 ["Add to list"] = false;
 ["Add to my contacts"] = "Hozzáadás a kapcsolataimhoz";
@@ -657,6 +658,7 @@ return {
 ["Suggestion currently not implemented"] = "A javaslat jelenleg nincs beépítve";
 ["Suggestion does not exist anymore"] = "A javaslat már nem létezik";
 ["Suggestion does not exist anymore!"] = false;
+["Suggestion for"] = false;
 ["Suggestion for initiative: '#{name}'"] = "Javaslatok '#{name}' kezdeményezéshez";
 ["Suggestions"] = "Javaslatok";
 ["Sunday"] = "Vasárnap";

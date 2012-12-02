@@ -57,6 +57,7 @@ return {
 ["Add alternative initiative to issue"] = "對此議題加上其他提案";
 ["Add my interest"] = "關心此議題";
 ["Add new suggestion"] = "新增建議";
+["Add new suggestion for"] = false;
 ["Add new unit"] = "新增單位";
 ["Add to list"] = false;
 ["Add to my contacts"] = "加入通訊錄";
@@ -680,6 +681,7 @@ return {
 ["Suggestion currently not implemented"] = "建議目前未被採納";
 ["Suggestion does not exist anymore"] = "建議不再存在";
 ["Suggestion does not exist anymore!"] = false;
+["Suggestion for"] = false;
 ["Suggestion for initiative: '#{name}'"] = "對提案 '#{name}' 的建議";
 ["Suggestions"] = "建議";
 ["Sunday"] = "週日";
