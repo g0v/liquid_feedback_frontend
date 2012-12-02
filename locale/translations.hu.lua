@@ -22,8 +22,6 @@ return {
 ["#{number} Image(s) has been updated"] = "#{number} kép aktualizálva";
 ["#{number} Images have been deleted."] = false;
 ["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = false;
-["#{policy_name} ##{issue_id}"] = false;
-["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = "#{time_left} idõ van hátra";
 ["(#{more_count} duplicates removed)"] = "(#{more_count} másolat eltávolítva)";
 ["(new window)"] = "(új ablak)";

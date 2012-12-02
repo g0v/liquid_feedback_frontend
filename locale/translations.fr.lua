@@ -17,8 +17,6 @@ return {
 ["#{issues_to_vote_count} issues"] = false;
 ["#{number} Images have been deleted."] = false;
 ["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = false;
-["#{policy_name} ##{issue_id}"] = false;
-["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = false;
 ["(new window)"] = false;
 ["(rank #{rank})"] = false;
@@ -284,7 +282,6 @@ return {
 ["Invite code"] = false;
 ["Invite initiator"] = false;
 ["Invited"] = false;
-["Issue"] = false;
 ["Issue ##{id}"] = false;
 ["Issue ##{id} reached discussion"] = false;
 ["Issue ##{id} was cancelled because no initiative was admitted"] = false;

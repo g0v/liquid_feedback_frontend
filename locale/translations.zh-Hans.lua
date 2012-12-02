@@ -24,8 +24,6 @@ return {
 ["#{number} Image(s) has been updated"] = "#{number} 张图片已被更新";
 ["#{number} Images have been deleted."] = false;
 ["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = false;
-["#{policy_name} ##{issue_id}"] = false;
-["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = "剩下 #{time_left}";
 ["(#{more_count} duplicates removed)"] = "(移除了 #{more_count} 个重复项目)";
 ["(new window)"] = "(新视窗)";

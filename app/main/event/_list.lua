@@ -195,7 +195,7 @@ filters.content = function()
         ui.container{ attr = { class = "title" }, content = function()
           ui.link{
             attr = { class = "issue_id" },
-            text = _("#{policy} ##{id}", { policy = event.issue.policy.name, id = event.issue_id }),
+            text = event.issue.policy.name .. " #" .. event.issue_id,
             module = "issue",
             view = "show",
             id = event.issue_id

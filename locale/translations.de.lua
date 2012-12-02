@@ -17,15 +17,13 @@ return {
 ["#{issues_to_vote_count} issues"] = "#{issues_to_vote_count} Themen";
 ["#{number} Images have been deleted."] = "Es wurden #{number} Bilder gelöscht.";
 ["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = "Es wurden #{number} Bilder aktualisiert. Falls sie noch nicht angezeigt werden, kannst Du versuchen, die Seite neu zu laden.";
-["#{policy_name} ##{issue_id}"] = false;
-["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = "noch #{time_left}";
 ["(new window)"] = "(neues Fenster)";
 ["(rank #{rank})"] = "(Rang #{rank})";
-["+ #{weight}"] = "+ #{weight}";
+["+ #{weight}"] = false;
 ["+getElementById("] = false;
 ["A-Z"] = "A-Z";
-["API Key"] = "API-Key";
+["API Key"] = "API-Schlüssel";
 ["API key has been created."] = "API-Schlüssel wurde erzeugt.";
 ["API key has been deleted."] = "API-Schlüssel wurde gelöscht.";
 ["API keys"] = "API-Schlüssel";
@@ -780,7 +778,7 @@ return {
 ["disabled"] = "ausgeschaltet";
 ["down"] = "runter";
 ["email"] = "E-Mail";
-["i#{id}: #{name}"] = false;
+["i#{id}: #{name}"] = "i#{id}: #{name}";
 ["implemented"] = "umgesetzt";
 ["inactive"] = "inaktiv";
 ["login name"] = "Anmeldename";

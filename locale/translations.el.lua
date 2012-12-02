@@ -24,8 +24,6 @@ return {
 ["#{number} Image(s) has been updated"] = "Ενημερώθηκαν #{number} εικόνες";
 ["#{number} Images have been deleted."] = false;
 ["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = false;
-["#{policy_name} ##{issue_id}"] = false;
-["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = "απομένουν #{time_left}";
 ["(#{more_count} duplicates removed)"] = "(Αφαιρέθηκαν #{more_count} αντίγραφα)";
 ["(new window)"] = "(νέο παράθυρο)";

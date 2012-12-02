@@ -3,15 +3,37 @@ local area
 
 local issue_id = param.get("issue_id", atom.integer)
 if issue_id then
+
   issue = Issue:new_selector():add_where{"id=?",issue_id}:single_object_mode():exec()
   area = issue.area
-else
-  local area_id = param.get("area_id", atom.integer)
-  area = Area:new_selector():add_where{"id=?",area_id}:single_object_mode():exec()
-end
 
-if issue_id then
-  ui.title(_"Add alternative initiative to issue")
+  ui.title(function()
+    ui.link{
+      content = issue.area.unit.name,
+      module = "unit",
+      view = "show",
+      id = issue.area.unit.id
+    }
+    slot.put(" &middot; ")
+    ui.link{
+      content = issue.area.name,
+      module = "area",
+      view = "show",
+      id = issue.area.id
+    }
+    slot.put(" &middot; ")
+    ui.link{
+      content = issue.policy.name .. " #" .. issue.id,
+      module = "issue",
+      view = "show",
+      id = issue.id
+    }
+    slot.put(" &middot; ")
+    ui.tag{
+      content = _"Add alternative initiative to issue"
+    }
+  end)
+
   ui.actions(function()
     ui.link{
       content = function()
@@ -24,8 +46,32 @@ if issue_id then
       params = { tab = "suggestions" }
     }
   end)
+
 else
-  ui.title(_"Create new issue")
+
+  local area_id = param.get("area_id", atom.integer)
+  area = Area:new_selector():add_where{"id=?",area_id}:single_object_mode():exec()
+
+  ui.title(function()
+    ui.link{
+      content = area.unit.name,
+      module = "unit",
+      view = "show",
+      id = area.unit.id
+    }
+    slot.put(" &middot; ")
+    ui.link{
+      content = area.name,
+      module = "area",
+      view = "show",
+      id = area.id
+    }
+    slot.put(" &middot; ")
+    ui.tag{
+      content = _"Create new issue"
+    }
+  end)
+
 end
 
 ui.form{
@@ -38,15 +84,6 @@ ui.form{
   attr = { class = "vertical" },
   content = function()
 
-    ui.field.text{ label = _"Unit",  value = area.unit.name }
-    ui.field.text{ label = _"Area",  value = area.name }
-    if issue_id then
-      ui.field.text{
-        label = _"Issue",
-        value = _("#{policy_name} ##{issue_id}", { policy_name = issue.policy.name, issue_id = issue.id }),
-        readonly = true
-      }
-    end
     slot.put("<br />")
 
     if param.get("preview") then

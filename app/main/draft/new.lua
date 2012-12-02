@@ -1,6 +1,41 @@
-ui.title(_"Edit draft")
-
 local initiative = Initiative:by_id(param.get("initiative_id"))
+
+app.html_title.title = _"Edit draft"
+app.html_title.subtitle = _("Initiative i#{id}", { id = initiative.id })
+
+ui.title(function()
+  ui.link{
+    content = initiative.issue.area.unit.name,
+    module = "unit",
+    view = "show",
+    id = initiative.issue.area.unit.id
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    content = initiative.issue.area.name,
+    module = "area",
+    view = "show",
+    id = initiative.issue.area.id
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    content = initiative.issue.policy.name .. " #" .. initiative.issue.id,
+    module = "issue",
+    view = "show",
+    id = initiative.issue.id
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    content = _("Initiative i#{id}: #{name}", { id = initiative.id, name = initiative.name }),
+    module = "initiative",
+    view = "show",
+    id = initiative.id
+  }
+  slot.put(" &middot; ")
+  ui.tag{
+    content = _"Edit draft"
+  }
+end)
 
 ui.actions(function()
   ui.link{
@@ -30,13 +65,6 @@ ui.form{
   },
   content = function()
 
-    ui.field.text{ label = _"Unit", value = initiative.issue.area.unit.name, readonly = true }
-    ui.field.text{ label = _"Area", value = initiative.issue.area.name, readonly = true }
-    ui.field.text{
-      label = _"Issue",
-      value = _("#{policy_name} ##{issue_id}", { policy_name = initiative.issue.policy.name, issue_id = initiative.issue.id }),
-      readonly = true
-    }
     slot.put("<br />")
 
     if param.get("preview") then

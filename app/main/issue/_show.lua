@@ -46,10 +46,7 @@ ui.container{ attr = { class = class }, content = function()
 
     ui.link{
       attr = { class = "issue_id" },
-      text = _("#{policy_name} ##{issue_id}", {
-        policy_name = issue.policy.name,
-        issue_id = issue.id
-      }),
+      text = issue.policy.name .. " #" .. issue.id,
       module = "issue",
       view = "show",
       id = issue.id

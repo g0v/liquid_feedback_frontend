@@ -25,8 +25,6 @@ return {
 ["#{number} Image(s) has been updated"] = "Er zijn #{number} plaatje(s) geaktualiseerd";
 ["#{number} Images have been deleted."] = false;
 ["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = false;
-["#{policy_name} ##{issue_id}"] = false;
-["#{policy} ##{id}"] = false;
 ["#{time_left} left"] = "nog #{time_left}";
 ["(#{more_count} duplicates removed)"] = "(#{more_count} dubbelingen verwijderd)";
 ["(new window)"] = "(nieuw venster)";
