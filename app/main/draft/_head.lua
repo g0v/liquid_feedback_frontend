@@ -2,6 +2,10 @@ local draft = param.get("draft", "table")
 local initiative = draft.initiative
 local issue = initiative.issue
 
+local title = param.get("title")
+app.html_title.title = title
+app.html_title.subtitle = _("Initiative i#{id}", { id = initiative.id })
+
 ui.title(function()
   ui.link{
     content = issue.area.unit.name,
@@ -30,7 +34,6 @@ ui.title(function()
     view = "show",
     id = initiative.id
   }
-  local title = param.get("title")
   if title then
     slot.put(" &middot; ")
     ui.tag{

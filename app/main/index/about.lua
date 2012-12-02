@@ -1,4 +1,5 @@
 ui.title(_"About site")
+app.html_title.title = _"About site"
 
 if app.session.member_id then
   ui.actions(function()

@@ -7,6 +7,9 @@ if not unit then
   return
 end
 
+app.html_title.title = unit.name
+app.html_title.subtitle = _("Unit")
+
 slot.select("head", function()
   execute.view{ module = "unit", view = "_head", params = { unit = unit, show_content = true, member = app.session.member } }
 end)

@@ -313,6 +313,7 @@ return {
 ["Initiative ##{id}"] = "Πρωτοβουλία ##{id}";
 ["Initiative Details"] = false;
 ["Initiative events"] = "Συμβάντα πρωτοβουλίας";
+["Initiative i#{id}"] = false;
 ["Initiative i#{id}: #{name}"] = "Πρωτοβουλία i#{id}: #{name}";
 ["Initiative in open issue"] = false;
 ["Initiative is revoked now"] = "Η πρωτοβουλία έχει πλέον ανακληθεί";

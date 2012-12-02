@@ -294,6 +294,7 @@ return {
 ["Initiative ##{id}"] = "Iniciato ##{id}";
 ["Initiative Details"] = false;
 ["Initiative events"] = "Iniciato-eventoj";
+["Initiative i#{id}"] = false;
 ["Initiative i#{id}: #{name}"] = false;
 ["Initiative in open issue"] = false;
 ["Initiative is revoked now"] = "Iniciato nun estas retirita";

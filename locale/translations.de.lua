@@ -268,6 +268,7 @@ return {
 ["Initiative"] = "Initiative";
 ["Initiative ##{id}"] = "Initiative ##{id}";
 ["Initiative Details"] = "Details der Initiative";
+["Initiative i#{id}"] = "Initiative i#{id}";
 ["Initiative i#{id}: #{name}"] = "Initiative i#{id}: #{name}";
 ["Initiative in open issue"] = "Inititative in offenem Thema";
 ["Initiative is revoked now."] = "Initiative wurde zurückgezogen.";

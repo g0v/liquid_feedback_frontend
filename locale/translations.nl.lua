@@ -315,6 +315,7 @@ return {
 ["Initiative ##{id}"] = "Initiatief ##{id}";
 ["Initiative Details"] = false;
 ["Initiative events"] = "Initiatief evenementen";
+["Initiative i#{id}"] = false;
 ["Initiative i#{id}: #{name}"] = "Initiatief i#{id}: #{name}";
 ["Initiative in open issue"] = false;
 ["Initiative is revoked now"] = "Initiatief is nu teruggetrokken";

@@ -312,6 +312,7 @@ return {
 ["Initiative ##{id}"] = "Iniziativa ##{id}";
 ["Initiative Details"] = false;
 ["Initiative events"] = "Eventi dell'iniziativa";
+["Initiative i#{id}"] = false;
 ["Initiative i#{id}: #{name}"] = "Iniziativa i#{id}: #{name}";
 ["Initiative in open issue"] = false;
 ["Initiative is revoked now"] = "L'iniziativa e' revocata";

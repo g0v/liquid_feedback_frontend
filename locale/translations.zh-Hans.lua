@@ -313,6 +313,7 @@ return {
 ["Initiative ##{id}"] = "提案 ##{id}";
 ["Initiative Details"] = false;
 ["Initiative events"] = "提案动态";
+["Initiative i#{id}"] = false;
 ["Initiative i#{id}: #{name}"] = "提案 i#{id}: #{name}";
 ["Initiative in open issue"] = false;
 ["Initiative is revoked now"] = "提案目前被撤销";

@@ -257,8 +257,8 @@ return {
 ["Information about the available policies"] = false;
 ["Initiated"] = false;
 ["Initiative"] = false;
-["Initiative ##{id}"] = false;
 ["Initiative Details"] = false;
+["Initiative i#{id}"] = false;
 ["Initiative i#{id}: #{name}"] = false;
 ["Initiative in open issue"] = false;
 ["Initiative is revoked now."] = false;

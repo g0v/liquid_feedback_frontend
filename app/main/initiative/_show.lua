@@ -17,7 +17,7 @@ if app.session.member_id then
 end
 
 app.html_title.title = initiative.name
-app.html_title.subtitle = _("Initiative ##{id}", { id = initiative.id })
+app.html_title.subtitle = _("Initiative i#{id}", { id = initiative.id })
 
 slot.select("head", function()
   execute.view{

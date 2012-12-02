@@ -307,6 +307,7 @@ return {
 ["Initiative ##{id}"] = "##{id}. kezdeményezés";
 ["Initiative Details"] = false;
 ["Initiative events"] = "Kezdeményezés eseményei";
+["Initiative i#{id}"] = false;
 ["Initiative i#{id}: #{name}"] = "i#{id}. kezdeményezés: #{name}";
 ["Initiative in open issue"] = false;
 ["Initiative is revoked now"] = "Kezdeményezés visszavonás alatt";
