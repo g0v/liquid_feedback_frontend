@@ -62,8 +62,14 @@ if app.session.member_id and not initiative.revoked and not initiative.issue.clo
   end
 end
 
-local old_draft_content = string.gsub(string.gsub(old_draft.content, "\n", " ###ENTER###\n"), " ", "\n")
-local new_draft_content = string.gsub(string.gsub(new_draft.content, "\n", " ###ENTER###\n"), " ", "\n")
+-- diff understands \r not as a line break but as a change within the line
+local old_draft_content = string.gsub(old_draft.content, "\r\n", "\n")
+old_draft_content = string.gsub(old_draft_content, "\n", " ###ENTER###\n")
+old_draft_content = string.gsub(old_draft_content, " ", "\n")
+
+local new_draft_content = string.gsub(new_draft.content, "\r\n", "\n")
+new_draft_content = string.gsub(new_draft_content, "\n", " ###ENTER###\n")
+new_draft_content = string.gsub(new_draft_content, " ", "\n")
 
 local key = multirand.string(26, "123456789bcdfghjklmnpqrstvwxyz");
 
