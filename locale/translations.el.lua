@@ -106,6 +106,7 @@ return {
 ["Back to initiative"] = "Πίσω στην πρωτοβουλία";
 ["Back to timeline"] = "Πίσω στο χρονολόγιο";
 ["Ballot of '#{member_name}' for issue ##{issue_id}"] = "Ψηφοδέλτιο του/της '#{member_name}' για το θέμα ##{issue_id}";
+["Ballot of member '#{member_name}'"] = false;
 ["Become a member"] = "Γίνε μέλος";
 ["Birthday"] = "Ημερομηνία γέννησης";
 ["Broken delegations"] = "Άκυρες αναθέσεις";

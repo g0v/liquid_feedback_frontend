@@ -97,6 +97,7 @@ return {
 ["Back to initiative"] = false;
 ["Back to timeline"] = "Reen al la tempolinio";
 ["Ballot of '#{member_name}' for issue ##{issue_id}"] = "Baloto de '#{member_name}' por temo ##{issue_id}";
+["Ballot of member '#{member_name}'"] = false;
 ["Become a member"] = "Iĝi membro";
 ["Birthday"] = "Naskiĝtago";
 ["Broken delegations"] = false;

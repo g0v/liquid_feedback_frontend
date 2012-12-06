@@ -35,7 +35,10 @@ ui.title(function()
     slot.put(_("Incoming delegations"))
   else
     -- show other member's delegation
-    slot.put(_("Incoming delegations of member '#{member}'", { member =  member.name }))
+    slot.put(_("Incoming delegations of member '#{member}'", { member = string.format('<a href="%s">%s</a>',
+      encode.url{ module = "member", view = "show", id = member.id },
+      encode.html(member.name)
+    )}))
   end
 end)
 

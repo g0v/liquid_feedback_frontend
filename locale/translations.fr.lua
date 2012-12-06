@@ -84,7 +84,7 @@ return {
 ["Avatar"] = false;
 ["Back"] = false;
 ["Back to initiative"] = false;
-["Ballot of '#{member_name}' for issue ##{issue_id}"] = false;
+["Ballot of member '#{member_name}'"] = false;
 ["Become a member"] = false;
 ["Birthday"] = false;
 ["Broken delegations"] = false;

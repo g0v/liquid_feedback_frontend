@@ -104,6 +104,7 @@ return {
 ["Back to initiative"] = false;
 ["Back to timeline"] = "Vissza az idõvonalhoz";
 ["Ballot of '#{member_name}' for issue ##{issue_id}"] = "'#{member_name}' szavazata ##{issue_id} témában";
+["Ballot of member '#{member_name}'"] = false;
 ["Become a member"] = "Csatlakozás";
 ["Birthday"] = "Születésnap";
 ["Broken delegations"] = false;

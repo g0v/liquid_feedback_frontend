@@ -108,6 +108,7 @@ return {
 ["Back to initiative"] = "Torna all'iniziativa";
 ["Back to timeline"] = "Torna al diario";
 ["Ballot of '#{member_name}' for issue ##{issue_id}"] = "Voto di '#{member_name}' per la tematica ##{issue_id}";
+["Ballot of member '#{member_name}'"] = false;
 ["Become a member"] = "Iscriviti";
 ["Birthday"] = "Compleanno";
 ["Broken delegations"] = "Deleghe con errori";

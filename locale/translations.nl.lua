@@ -107,6 +107,7 @@ return {
 ["Back to initiative"] = "Terug naar initiatief";
 ["Back to timeline"] = "Terug naar de tijdlijn";
 ["Ballot of '#{member_name}' for issue ##{issue_id}"] = "Stemming van '#{member_name}' voor onderwerp ##{issue_id}";
+["Ballot of member '#{member_name}'"] = false;
 ["Become a member"] = "Wordt deelnemer";
 ["Birthday"] = "Geboortedag";
 ["Broken delegations"] = "Afgebroken delegaties";

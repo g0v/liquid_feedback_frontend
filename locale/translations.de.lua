@@ -86,7 +86,7 @@ return {
 ["Avatar"] = "Avatar";
 ["Back"] = "Zurück";
 ["Back to initiative"] = "Zurück zur Initiative";
-["Ballot of '#{member_name}' for issue ##{issue_id}"] = "Stimmzettel von '#{member_name}' für Thema ##{issue_id}";
+["Ballot of member '#{member_name}'"] = "Stimmzettel des Mitglieds '#{member_name}'";
 ["Become a member"] = "Mitglied werden";
 ["Birthday"] = "Geburtstag";
 ["Broken delegations"] = "Kaputte Delegationen";

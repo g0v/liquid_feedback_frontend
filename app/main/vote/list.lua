@@ -23,29 +23,40 @@ if issue.closed then
   readonly = true
 end
 
-if member then
-  local str = _("Ballot of '#{member_name}' for issue ##{issue_id}",
-                  {member_name = string.format('<a href="%s">%s</a>',
-                                          encode.url{
-                                            module    = "member",
-                                            view      = "show",
-                                            id        = member.id,
-                                          },
-                                          encode.html(member.name)),
-                   issue_id = string.format('<a href="%s">%s</a>',
-                                          encode.url{
-                                            module    = "issue",
-                                            view      = "show",
-                                            id        = issue.id,
-                                          },
-                                          encode.html(tostring(issue.id)))
-                  }
-              )
-  ui.title(str)
-else
-  member = app.session.member
-  ui.title(_"Voting")
+ui.title(function()
+  ui.link{
+    content = issue.area.unit.name,
+    module = "unit",
+    view = "show",
+    id = issue.area.unit.id
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    content = issue.area.name,
+    module = "area",
+    view = "show",
+    id = issue.area.id
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    content = _("Issue ##{id}", { id = issue.id }),
+    module = "issue",
+    view = "show",
+    id = issue.id
+  }
+  slot.put(" &middot; ")
+  if member then
+    slot.put( _("Ballot of member '#{member_name}'", { member_name = string.format('<a href="%s">%s</a>',
+      encode.url{ module = "member", view = "show", id = member.id },
+      encode.html(member.name)
+    )}))
+  else
+    slot.put(_"Voting")
+  end
+end)
 
+if not member then
+  member = app.session.member
   ui.actions(function()
     ui.link{
       text = _"Cancel",

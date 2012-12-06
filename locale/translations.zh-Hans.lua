@@ -106,6 +106,7 @@ return {
 ["Back to initiative"] = "回到提案";
 ["Back to timeline"] = "回到时间轴";
 ["Ballot of '#{member_name}' for issue ##{issue_id}"] = "'#{member_name}' 对议题 ##{issue_id} 的表决";
+["Ballot of member '#{member_name}'"] = false;
 ["Become a member"] = "成为成员";
 ["Birthday"] = "生日";
 ["Broken delegations"] = "毁损的委任";
