@@ -10,6 +10,7 @@ return {
 ["#{count} members found:"] = false;
 ["#{count} more areas in this unit"] = "此单位的另外 #{count} 个领域";
 ["#{count} new"] = "#{count} 个新的";
+["#{count} not voted"] = false;
 ["#{count} of them have an area delegation set"] = "其中 #{count} 个已设有领域委任";
 ["#{count} of them have an area delegation set."] = false;
 ["#{count} of your outgoing delegation(s) are broken"] = "您所委任的表决中有 #{count} 个已经毁损";

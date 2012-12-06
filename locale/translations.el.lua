@@ -10,6 +10,7 @@ return {
 ["#{count} members found:"] = false;
 ["#{count} more areas in this unit"] = "#{count} επιπλέον τομείς σε αυτή την ενότητα";
 ["#{count} new"] = "#{count} νέα";
+["#{count} not voted"] = false;
 ["#{count} of them have an area delegation set"] = "#{count} από αυτές έχουν ανάθεση τομέα";
 ["#{count} of them have an area delegation set."] = false;
 ["#{count} of your outgoing delegation(s) are broken"] = "#{count} από τις αναθέσεις σας δεν ισχύουν πια";

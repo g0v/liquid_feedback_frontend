@@ -24,9 +24,17 @@ ui.container{ attr = { class = "area" }, content = function()
     }
     slot.put(" &middot; ")
     ui.link{
-      module = "area", view = "show", id = area.id, params = { tab = "open", filter = "frozen" },
+      module = "area", view = "show", id = area.id, params = { tab = "open", filter = "frozen", filter_voting = "any" },
       text = _("#{count} in voting", { count = area.issues_voting_count })
     }
+    if member then
+      slot.put(" (")
+      ui.link{
+        module = "area", view = "show", id = area.id, params = { tab = "open", filter = "frozen" },
+        text = _("#{count} not voted", { count = area.issues_to_vote_count })
+      }
+      slot.put(")")
+    end
     slot.put(" &middot; ")
     ui.link{
       module = "area", view = "show", id = area.id, params = { tab = "closed", filter = "finished" },

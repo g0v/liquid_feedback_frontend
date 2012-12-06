@@ -10,6 +10,7 @@ return {
 ["#{count} members found:"] = false;
 ["#{count} more areas in this unit"] = "#{count} meer themagebieden in dit dossier";
 ["#{count} new"] = "#{count} nieuwe";
+["#{count} not voted"] = false;
 ["#{count} of them have an area delegation set"] = "in #{count} hiervan is een delegatie voor het thema actief";
 ["#{count} of them have an area delegation set."] = false;
 ["#{count} of your outgoing delegation(s) are broken"] = "#{count} van uw uitgaande delegatie(s) zijn stuk";

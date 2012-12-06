@@ -10,6 +10,7 @@ return {
 ["#{count} members found:"] = "#{count} Mitglieder gefunden:";
 ["#{count} more areas in this unit"] = "#{count} weitere Themenbereiche in dieser Gliederung";
 ["#{count} new"] = "#{count} neue";
+["#{count} not voted"] = "#{count} nicht abgestimmt";
 ["#{count} of them have an area delegation set."] = "bei #{count} davon ist eine Delegation für den Themenbereichs gesetzt.";
 ["#{count} of your outgoing delegations are broken."] = "#{count} Deiner ausgehenden Delegationen sind kaputt.";
 ["#{date} at #{time}"] = "am #{date} um #{time}";

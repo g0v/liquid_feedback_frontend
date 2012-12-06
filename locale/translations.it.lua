@@ -10,6 +10,7 @@ return {
 ["#{count} members found:"] = false;
 ["#{count} more areas in this unit"] = "#{count} altre aree in questa sezione";
 ["#{count} new"] = "#{count} nuovi";
+["#{count} not voted"] = false;
 ["#{count} of them have an area delegation set"] = "#{count} di questi hanno la delega di area";
 ["#{count} of them have an area delegation set."] = false;
 ["#{count} of your outgoing delegation(s) are broken"] = "#{count} deleghe che hai dato hanno errori";

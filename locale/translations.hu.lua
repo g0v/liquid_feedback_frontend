@@ -10,6 +10,7 @@ return {
 ["#{count} members found:"] = false;
 ["#{count} more areas in this unit"] = false;
 ["#{count} new"] = false;
+["#{count} not voted"] = false;
 ["#{count} of them have an area delegation set."] = false;
 ["#{count} of your outgoing delegations are broken."] = false;
 ["#{date} at #{time}"] = false;
