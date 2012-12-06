@@ -85,17 +85,11 @@ end
 
 -- link back
 ui.actions(function()
-  -- unserialize get-parameters
-  local params = {}
-  local param_get = param.get("back_params") or ""
-  for key, value in string.gmatch(param_get, "([^=&]+)=([^=&]+)&") do
-    params[key] = value
-  end
   ui.link{
     module = param.get("back_module"),
     view = param.get("back_view"),
     id = param.get("back_id"),
-    params = params,
+    params = param.get_unserialize("back_params"),
     content = _"Back"
   }
 end)

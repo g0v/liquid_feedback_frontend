@@ -41,12 +41,6 @@ else
   scope = "unit"
 end
 
--- serialize get-parameters
-local params = ''
-for key, value in pairs(param.get_all_cgi()) do
-  params = params .. key .. "=" .. value .. "&"
-end
-
 ui.link{
   module = "delegation", view = "show", params = {
     unit_id = unit_id,
@@ -56,7 +50,7 @@ ui.link{
     back_module = request.get_module(),
     back_view = request.get_view(),
     back_id = param.get_id_cgi(),
-    back_params = params
+    back_params = param.get_all_cgi_serialize()
   },
   attr = { class = "delegation_info", title = link_title },
   content = function()

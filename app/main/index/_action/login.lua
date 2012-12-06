@@ -76,5 +76,4 @@ if member then
 else
   slot.put_into("error", _"Invalid login name or password!")
   trace.debug('User NOT authenticated')
-  return false
 end

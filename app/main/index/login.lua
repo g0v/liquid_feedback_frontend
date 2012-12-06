@@ -37,10 +37,13 @@ end
 local redirect_module = param.get("redirect_module")
 local redirect_view   = param.get("redirect_view")
 local redirect_id     = param.get("redirect_id")
+local redirect_params = param.get_unserialize("redirect_params")
+
 if not redirect_module or not redirect_view or (redirect_module == "index" and redirect_view == "login") then
   redirect_module = "index"
   redirect_view   = "index"
   redirect_id     = nil
+  redirect_params = nil
 end
 
 ui.form{
@@ -48,16 +51,12 @@ ui.form{
   module = 'index',
   action = 'login',
   routing = {
-    ok = {
+    default = {
       mode   = 'redirect',
       module = redirect_module,
       view   = redirect_view,
-      id     = redirect_id
-    },
-    error = {
-      mode   = 'forward',
-      module = 'index',
-      view   = 'login'
+      id     = redirect_id,
+      params = redirect_params
     }
   },
   content = function()
