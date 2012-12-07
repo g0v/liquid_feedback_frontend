@@ -434,24 +434,71 @@ if not show_as_head then
 
     -- voters
     if initiative.issue.ranks_available then
+
       local members_selector = initiative.issue:get_reference_selector("direct_voters")
-            :left_join("vote", nil, { "vote.initiative_id = ? AND vote.member_id = member.id", initiative.id })
-            :add_field("direct_voter.weight AS voter_weight")
-            :add_field("direct_voter.weight AS weight")
-            :add_field("coalesce(vote.grade, 0) as grade")
-            :left_join("initiative", nil, "initiative.id = vote.initiative_id")
-            :left_join("issue", nil, "issue.id = initiative.issue_id")
+        :left_join("vote", nil, { "vote.initiative_id = ? AND vote.member_id = member.id", initiative.id })
+        :add_field("direct_voter.weight AS voter_weight")
+        :add_field("direct_voter.weight AS weight")
+        :add_field("coalesce(vote.grade, 0) as grade")
+        :left_join("initiative", nil, "initiative.id = vote.initiative_id")
+        :left_join("issue", nil, "issue.id = initiative.issue_id")
+
       ui.anchor{ name = "voter", attr = { class = "heading" }, content = _"Voters" .. Member:count_string(members_selector) }
-      execute.view{
-        module = "member",
-        view = "_list",
-        params = {
-          initiative = initiative,
-          for_votes = true,
-          members_selector = members_selector,
-          paginator_name = "voter"
+
+      local filters = {
+        {
+          name = "filter",
+          anchor = "voter",
+          reset_params = { "voter" },
+          {
+            name = "any",
+            label = _"All",
+            selector_modifier = function(members_selector) end
+          },
+          {
+            name = "yes",
+            label = _"Yes",
+            selector_modifier = function(selector)
+              members_selector:add_where("vote.grade > 0")
+            end
+          },
+          {
+            name = "abstention",
+            label = _"Abstention",
+            selector_modifier = function(selector)
+              members_selector:add_where("vote.grade = 0")
+            end
+          },
+          {
+            name = "no",
+            label = _"No",
+            selector_modifier = function(selector)
+              members_selector:add_where("vote.grade < 0")
+            end
+          }
         }
       }
+
+      filters.content = function()
+        execute.view{
+          module = "member",
+          view = "_list",
+          params = {
+            initiative = initiative,
+            for_votes = true,
+            members_selector = members_selector,
+            paginator_name = "voter"
+          }
+        }
+      end
+
+      ui.container{
+        attr = { class = "voter" },
+        content = function()
+          ui.filters(filters)
+        end
+      }
+
     end
 
     -- supporters

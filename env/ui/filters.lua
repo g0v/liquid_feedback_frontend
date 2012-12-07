@@ -27,6 +27,15 @@ function ui.filters(args)
 
         local id     = param.get_id_cgi()
         local params = param.get_all_cgi()
+        -- reset parameters
+        if filter.reset_params then
+          for i, param in ipairs(filter.reset_params) do
+            if params[param] then
+              params[param] = nil
+            end
+          end
+        end
+
         local class = "ui_filter_head"
         if filter.class then
           class = class .. " " .. filter.class
@@ -61,7 +70,8 @@ function ui.filters(args)
                   params = {
                     [filter_name] = option.name
                   }
-                }
+                },
+                anchor  = filter.anchor or nil
               }
 
             end

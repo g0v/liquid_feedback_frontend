@@ -718,6 +718,11 @@ a.delegation_info:focus {
   color: #fff;
 }
 
+div.voter .ui_filter {
+  margin-top: 0px;
+  margin-bottom: 8px;
+}
+
 /*************************************************************************
  * ui.paginate
  */
