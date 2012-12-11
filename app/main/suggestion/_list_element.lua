@@ -2,8 +2,6 @@
 local initiative = param.get("initiative", "table")
 local suggestions_selector = param.get("suggestions_selector", "table")
 
-suggestions_selector:add_order_by("plus2_unfulfilled_count + plus1_unfulfilled_count DESC, id")
-
 local tab_id = param.get("tab_id")
 local show_name = param.get("show_name", atom.boolean)
 if show_name == nil then
@@ -97,37 +95,31 @@ ui.container{ attr = { class = "box" },
                         if degree == -2 then
                           ui.tag{
                             tag = "span",
-                            attr = {
-                              class = "action" .. (degree == -2 and " active_red2" or "")
-                            },
+                            attr = { class = "action active_red2" },
                             content = _"must not"
                           }
-                        end
-                        if degree == -1 then
+                        elseif degree == -1 then
                           ui.tag{
                             tag = "span",
-                            attr = { class = "action" .. (degree == -1 and " active_red1" or "") },
+                            attr = { class = "action active_red1" },
                             content = _"should not"
                           }
-                        end
-                        if degree == nil then
+                        elseif degree == nil then
                           ui.tag{
                             tag = "span",
-                            attr = { class = "action" .. (degree == nil and " active" or "") },
+                            attr = { class = "action active" },
                             content = _"neutral"
                           }
-                        end
-                        if degree == 1 then
+                        elseif degree == 1 then
                           ui.tag{
                             tag = "span",
-                            attr = { class = "action" .. (degree == 1 and " active_green1" or "") },
+                            attr = { class = "action active_green1" },
                             content = _"should"
                           }
-                        end
-                        if degree == 2 then
+                        elseif degree == 2 then
                           ui.tag{
                             tag = "span",
-                            attr = { class = "action" .. (degree == 2 and " active_green2" or "") },
+                            attr = { class = "action active_green2" },
                             content = _"must"
                           }
                         end

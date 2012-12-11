@@ -420,6 +420,7 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
 end }
 
 if not show_as_head then
+
   execute.view{
     module = "suggestion",
     view = "_list",
@@ -429,6 +430,30 @@ if not show_as_head then
       tab_id = param.get("tab_id")
     }
   }
+
+  execute.view{
+    module = "argument",
+    view = "_list",
+    params = {
+      initiative = initiative,
+      arguments_selector = initiative:get_reference_selector("arguments"),
+      side = "pro",
+      tab_id = param.get("tab_id")
+    }
+  }
+
+  execute.view{
+    module = "argument",
+    view = "_list",
+    params = {
+      initiative = initiative,
+      arguments_selector = initiative:get_reference_selector("arguments"),
+      side = "contra",
+      tab_id = param.get("tab_id")
+    }
+  }
+
+  slot.put("<div class='clearfix'></div>")
 
   if app.session:has_access("all_pseudonymous") then
 
@@ -501,6 +526,11 @@ if not show_as_head then
 
     end
 
+    local before_voting = ""
+    if issue.fully_frozen then
+      before_voting = " (" .. _"before begin of voting" .. ")"
+    end
+
     -- supporters
     local members_selector = initiative:get_reference_selector("supporting_members_snapshot")
               :join("issue", nil, "issue.id = direct_supporter_snapshot.issue_id")
@@ -510,11 +540,11 @@ if not show_as_head then
               :add_where("direct_supporter_snapshot.satisfied")
               :add_field("direct_supporter_snapshot.informed", "is_informed")
     if members_selector:count() > 0 then
-      if issue.fully_frozen then
-        ui.anchor{ name = "supporters", attr = { class = "heading" }, content = _"Supporters (before begin of voting)" .. Member:count_string(members_selector) }
-      else
-        ui.anchor{ name = "supporters", attr = { class = "heading" }, content = _"Supporters" .. Member:count_string(members_selector) }
-      end
+      ui.anchor{
+        name = "supporters",
+        attr = { class = "heading" },
+        content = _"Supporters" .. before_voting  .. Member:count_string(members_selector)
+      }
       execute.view{
         module = "member",
         view = "_list",
@@ -525,11 +555,11 @@ if not show_as_head then
         }
       }
     else
-      if issue.fully_frozen then
-        ui.anchor{ name = "supporters", attr = { class = "heading" }, content = _"No supporters (before begin of voting)" }
-      else
-        ui.anchor{ name = "supporters", attr = { class = "heading" }, content = _"No supporters" }
-      end
+      ui.anchor{
+        name = "supporters",
+        attr = { class = "heading" },
+        content = _"No supporters" .. before_voting
+      }
       slot.put("<br />")
     end
 
@@ -542,11 +572,11 @@ if not show_as_head then
               :add_where("NOT direct_supporter_snapshot.satisfied")
               :add_field("direct_supporter_snapshot.informed", "is_informed")
     if members_selector:count() > 0 then
-      if issue.fully_frozen then
-        ui.anchor{ name = "potential_supporters", attr = { class = "heading" }, content = _"Potential supporters (before begin of voting)" .. Member:count_string(members_selector) }
-      else
-        ui.anchor{ name = "potential_supporters", attr = { class = "heading" }, content = _"Potential supporters" .. Member:count_string(members_selector) }
-      end
+      ui.anchor{
+        name = "potential_supporters",
+        attr = { class = "heading" },
+        content = _"Potential supporters" .. before_voting  .. Member:count_string(members_selector)
+      }
       execute.view{
         module = "member",
         view = "_list",
@@ -557,11 +587,11 @@ if not show_as_head then
         }
       }
     else
-      if issue.fully_frozen then
-        ui.anchor{ name = "potential_supporters", attr = { class = "heading" }, content = _"No potential supporters (before begin of voting)" }
-      else
-        ui.anchor{ name = "potential_supporters", attr = { class = "heading" }, content = _"No potential supporters" }
-      end
+      ui.anchor{
+        name = "potential_supporters",
+        attr = { class = "heading" },
+        content = _"No potential supporters" .. before_voting
+      }
       slot.put("<br />")
     end
 

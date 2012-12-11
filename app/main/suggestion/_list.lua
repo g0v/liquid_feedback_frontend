@@ -12,7 +12,24 @@ end
 
 ui.container{ attr = { class = "initiative_head" },
   content = function()
-    ui.anchor{ name = "suggestions", attr = { class = "title" }, content = _"Suggestions" }
+
+    if app.session.member_id
+      and not initiative.issue.half_frozen
+      and not initiative.issue.closed
+      and not initiative.revoked
+      and app.session.member:has_voting_right_for_unit_id(initiative.issue.area.unit_id)
+    then
+      ui.link{
+        attr = { class = "add" },
+        module = "suggestion",
+        view = "new",
+        params = { initiative_id = initiative.id },
+        text = _"New suggestion"
+      }
+    end
+
+    ui.anchor{ name = "suggestions", attr = { class = "title anchor" }, content = _"Suggestions" }
+
     ui.container{ attr = { class = "content" }, content = function()
       ui.paginate{
         selector = suggestions_selector,
@@ -88,18 +105,5 @@ ui.container{ attr = { class = "initiative_head" },
         end
       }
     end }
-    if app.session.member_id
-      and not initiative.issue.half_frozen
-      and not initiative.issue.closed
-      and not initiative.revoked
-      and app.session.member:has_voting_right_for_unit_id(initiative.issue.area.unit_id)
-    then
-      ui.container{ attr = { class = "content" }, content = function()
-        ui.link{
-          module = "suggestion", view = "new", params = { initiative_id = initiative.id },
-          text = _"New suggestion"
-        }
-      end }
-    end
   end
 }

@@ -30,6 +30,15 @@ Initiative:add_reference{
 
 Initiative:add_reference{
   mode          = '1m',
+  to            = "Argument",
+  this_key      = 'id',
+  that_key      = 'initiative_id',
+  ref           = 'arguments',
+  back_ref      = 'initiative',
+}
+
+Initiative:add_reference{
+  mode          = '1m',
   to            = "Initiator",
   this_key      = 'id',
   that_key      = 'initiative_id',
@@ -170,7 +179,7 @@ Initiative:add_reference{
       },
       "directly_supported"
     )
-    
+
     -- satisfied means, that a member has no critical opinion to any suggestion of this initiative
     selector:add_field(
       "CASE WHEN issue.fully_frozen ISNULL AND issue.closed ISNULL THEN \

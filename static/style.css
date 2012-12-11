@@ -101,6 +101,10 @@ a.active {
   color: #fff;
 }
 
+a.anchor {
+  text-decoration: none;
+}
+
 .revoked {
   text-decoration: line-through;
 }
@@ -392,6 +396,11 @@ form.unit_selector {
 .issue .context,
 .initiative_head .title {
   padding: 8px 10px 2px 10px;
+}
+
+.initiative_head .add {
+  float: right;
+  padding: 10px 10px 2px 10px;
 }
 
 .initiative_head .draft_version {
@@ -738,7 +747,7 @@ div.voter .ui_filter {
 }
 
 .initiative_head .ui_paginate_foot {
-  margin-bottom: 1ex;
+  margin-bottom: 0;
 }
 
 .ui_paginate_select a {
@@ -1921,4 +1930,18 @@ table.notify .ui_list_odd {
 }
 .initiative_head .suggestion_title {
   font-size: 105%;
+}
+
+/*************************************************************************
+* arguments
+*/
+
+.positive {
+  color: #080;
+}
+.neutral {
+  color: #666;
+}
+.negative {
+  color: #a00;
 }
