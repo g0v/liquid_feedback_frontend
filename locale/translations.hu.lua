@@ -55,10 +55,9 @@ return {
 ["Active?"] = "Aktív?";
 ["Add alternative initiative to issue"] = "Alternatív kezdeményezés hozzáadása a témához";
 ["Add my interest"] = "Érdekeltségem bejelentése";
-["Add new argument contra for"] = false;
-["Add new argument pro for"] = false;
+["Add new argument contra"] = false;
+["Add new argument pro"] = false;
 ["Add new suggestion"] = "Új javaslat hozzáadása";
-["Add new suggestion for"] = false;
 ["Add new unit"] = false;
 ["Add to list"] = false;
 ["Add to my contacts"] = "Hozzáadás a kapcsolataimhoz";
@@ -139,6 +138,7 @@ return {
 ["Cancelled (issue not accepted)"] = "Megszakítva (el nem fogadott téma)";
 ["Cancelled (no initiative admitted)"] = "Megszakítva (nem engedélyezett kezdeményezés)";
 ["Change area delegation"] = "Témakör-delegáció módosítása";
+["Change discussion URL"] = false;
 ["Change email"] = "Email-cím módosítása";
 ["Change email address"] = "Email-cím módosítása";
 ["Change issue delegation"] = "Témadelegáció módosítása";
@@ -195,8 +195,8 @@ return {
 ["Default Policy"] = "Alapértelmezett irányelv";
 ["Degree"] = "Fok";
 ["Delegation abandoned"] = "Delegáció mellõzve";
-["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = false;
-["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
+["Delegation for Area"] = false;
+["Delegation for Issue"] = false;
 ["Delegation turned off for area"] = "Témakör delegációja leállítva";
 ["Delegation turned off for issue"] = "Téma delegációja leállítva";
 ["Delegations"] = "Delegációk";

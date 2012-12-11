@@ -7,32 +7,7 @@ if issue_id then
   issue = Issue:new_selector():add_where{"id=?",issue_id}:single_object_mode():exec()
   area = issue.area
 
-  ui.title(function()
-    ui.link{
-      content = issue.area.unit.name,
-      module = "unit",
-      view = "show",
-      id = issue.area.unit.id
-    }
-    slot.put(" &middot; ")
-    ui.link{
-      content = issue.area.name,
-      module = "area",
-      view = "show",
-      id = issue.area.id
-    }
-    slot.put(" &middot; ")
-    ui.link{
-      content = issue.policy.name .. " #" .. issue.id,
-      module = "issue",
-      view = "show",
-      id = issue.id
-    }
-    slot.put(" &middot; ")
-    ui.tag{
-      content = _"Add alternative initiative to issue"
-    }
-  end)
+  ui.title(_"Add alternative initiative to issue", issue.area.unit, issue.area, issue)
 
   ui.actions(function()
     ui.link{

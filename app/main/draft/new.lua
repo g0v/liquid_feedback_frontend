@@ -3,39 +3,7 @@ local initiative = Initiative:by_id(param.get("initiative_id"))
 app.html_title.title = _"Edit draft"
 app.html_title.subtitle = _("Initiative i#{id}", { id = initiative.id })
 
-ui.title(function()
-  ui.link{
-    content = initiative.issue.area.unit.name,
-    module = "unit",
-    view = "show",
-    id = initiative.issue.area.unit.id
-  }
-  slot.put(" &middot; ")
-  ui.link{
-    content = initiative.issue.area.name,
-    module = "area",
-    view = "show",
-    id = initiative.issue.area.id
-  }
-  slot.put(" &middot; ")
-  ui.link{
-    content = initiative.issue.policy.name .. " #" .. initiative.issue.id,
-    module = "issue",
-    view = "show",
-    id = initiative.issue.id
-  }
-  slot.put(" &middot; ")
-  ui.link{
-    content = _("Initiative i#{id}: #{name}", { id = initiative.id, name = initiative.name }),
-    module = "initiative",
-    view = "show",
-    id = initiative.id
-  }
-  slot.put(" &middot; ")
-  ui.tag{
-    content = _"Edit draft"
-  }
-end)
+ui.title(_"Edit draft", initiative.issue.area.unit, initiative.issue.area, initiative.issue, initiative)
 
 ui.actions(function()
   ui.link{

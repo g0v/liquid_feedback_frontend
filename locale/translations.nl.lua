@@ -58,10 +58,9 @@ return {
 ["Active?"] = "Geactiveerd?";
 ["Add alternative initiative to issue"] = "Voeg een alternatief initiatief aan dit onderwerp toe";
 ["Add my interest"] = "Voeg mijn interesse toe";
-["Add new argument contra for"] = false;
-["Add new argument pro for"] = false;
+["Add new argument contra"] = false;
+["Add new argument pro"] = false;
 ["Add new suggestion"] = "Voeg een nieuwe suggestie toe";
-["Add new suggestion for"] = false;
 ["Add new unit"] = "Voeg een nieuw dossier toe";
 ["Add to list"] = false;
 ["Add to my contacts"] = "Voeg aan mijn contacten toe";
@@ -142,6 +141,7 @@ return {
 ["Cancelled (issue not accepted)"] = "Afgebroken (onderwerp niet geaccepteerd)";
 ["Cancelled (no initiative admitted)"] = "Afgebroken (geen initiatiefvoorstel is toegelaten)";
 ["Change area delegation"] = "Verander delegatie themagebied";
+["Change discussion URL"] = false;
 ["Change email"] = "Verander het emailadres";
 ["Change email address"] = "Verander het emailadres";
 ["Change issue delegation"] = "Verander het delegatie onderwerp";
@@ -202,8 +202,8 @@ return {
 ["Delegate issue"] = "Delegeer onderwerp";
 ["Delegate unit"] = "Delegeer dossier";
 ["Delegation abandoned"] = "Delegatie uitgezet";
-["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = false;
-["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
+["Delegation for Area"] = false;
+["Delegation for Issue"] = false;
 ["Delegation turned off for area"] = "Delegatie uitgezet voor dit themagebied";
 ["Delegation turned off for issue"] = "Delegatie uitgezet voor dit onderwerp";
 ["Delegations"] = "Delegaties";

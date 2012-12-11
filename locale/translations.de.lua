@@ -43,8 +43,8 @@ return {
 ["Active?"] = "Aktiv?";
 ["Add alternative initiative to issue"] = "Alternative Initiative zum Thema hinzufügen";
 ["Add my interest"] = "Mein Interesse anmelden";
-["Add new argument contra for"] = "Neues Kontra-Argument für";
-["Add new argument pro for"] = "Neues Pro-Argument für";
+["Add new argument contra"] = "Neues Kontra-Argument";
+["Add new argument pro"] = "Neues Pro-Argument";
 ["Add new suggestion"] = "Neue Anregung hinzufügen";
 ["Add new suggestion for"] = "Neue Anregung für";
 ["Add new unit"] = "Neue Gliederung";
@@ -120,6 +120,7 @@ return {
 ["Cancelled (during verification due to revocation)"] = "Abgebrochen (während Eingefroren-Phase, wegen Rückzug)";
 ["Cancelled (issue not accepted)"] = "Abgebrochen (Thema nicht akzeptiert)";
 ["Cancelled (no initiative admitted)"] = "Abgebrochen (Keine Initiative zugelassen)";
+["Change discussion URL"] = "Diskussions-URL ändern";
 ["Change email"] = "E-Mail-Adresse ändern";
 ["Change email address"] = "E-Mail-Adresse ändern";
 ["Change login"] = "Login ändern";
@@ -170,10 +171,8 @@ return {
 ["Date format is not valid. Please use following format: YYYY-MM-DD"] = "Datumsformat nicht korrekt. Bitte verwende: JJJJ-MM-TT, also z.B. 1945-05-23";
 ["Default Policy"] = "Standard-Regelwerk";
 ["Degree"] = "Grad";
-["Delegation for Area '#{name}'"] = "Delegation für Themenbereich '#{name}'";
-["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = "Delegation für Themenbereich '#{name}' in Gliederung '#{unit_name}'";
-["Delegation for Issue ##{number} in Area '#{area_name}'"] = "Delegation für Thema ##{number} in Themenbereich '#{area_name}'";
-["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = "Delegation für Thema ##{number} in Themenbereich '#{area_name}' in Gliederung '#{unit_name}'";
+["Delegation for Area"] = "Delegation für Themenbereich";
+["Delegation for Issue"] = "Delegation für Thema";
 ["Delegations"] = "Delegationen";
 ["Delete"] = "Löschen";
 ["Delete personal data and deactivate account"] = "Persönliche Daten löschen und Account deaktivieren";

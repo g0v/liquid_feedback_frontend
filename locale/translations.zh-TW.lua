@@ -57,10 +57,9 @@ return {
 ["Active?"] = "確定啟用?";
 ["Add alternative initiative to issue"] = "對此議題加上其他提案";
 ["Add my interest"] = "關心此議題";
-["Add new argument contra for"] = false;
-["Add new argument pro for"] = false;
+["Add new argument contra"] = false;
+["Add new argument pro"] = false;
 ["Add new suggestion"] = "新增建議";
-["Add new suggestion for"] = false;
 ["Add new unit"] = "新增單位";
 ["Add to list"] = false;
 ["Add to my contacts"] = "加入通訊錄";
@@ -141,6 +140,7 @@ return {
 ["Cancelled (issue not accepted)"] = "已取消 (議題不被接受)";
 ["Cancelled (no initiative admitted)"] = "已取消 (無提案被遞交)";
 ["Change area delegation"] = "更改領域的委任";
+["Change discussion URL"] = false;
 ["Change email"] = "更改電郵地址";
 ["Change email address"] = "更改電郵地址";
 ["Change issue delegation"] = "更改議題委任";
@@ -201,8 +201,8 @@ return {
 ["Delegate issue"] = "議題委任";
 ["Delegate unit"] = "單位委任";
 ["Delegation abandoned"] = "委任已被停止";
-["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = false;
-["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
+["Delegation for Area"] = false;
+["Delegation for Issue"] = false;
 ["Delegation turned off for area"] = "對領域的委任被停用";
 ["Delegation turned off for issue"] = "對議題的委任被停用";
 ["Delegations"] = "委任清單";

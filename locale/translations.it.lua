@@ -59,10 +59,9 @@ return {
 ["Active?"] = "Attivo?";
 ["Add alternative initiative to issue"] = "Aggiungi una iniziativa alternativa a questa tematica";
 ["Add my interest"] = "Segnala il mio interesse";
-["Add new argument contra for"] = false;
-["Add new argument pro for"] = false;
+["Add new argument contra"] = false;
+["Add new argument pro"] = false;
 ["Add new suggestion"] = "Aggiungi un suggerimento";
-["Add new suggestion for"] = false;
 ["Add new unit"] = "Crea una nuova sezione";
 ["Add to list"] = false;
 ["Add to my contacts"] = "Aggiungi ai miei contatti";
@@ -143,6 +142,7 @@ return {
 ["Cancelled (issue not accepted)"] = "Annullato (tematica non approvata)";
 ["Cancelled (no initiative admitted)"] = "Annullato (nessuna iniziativa ammessa)";
 ["Change area delegation"] = "Cambia la delega per l'area";
+["Change discussion URL"] = false;
 ["Change email"] = "Cambia email";
 ["Change email address"] = "Cambia email";
 ["Change issue delegation"] = "Cambia la delega per la tematica";
@@ -202,8 +202,8 @@ return {
 ["Delegate issue"] = "Delega questa tematica";
 ["Delegate unit"] = "Delega questa sezione";
 ["Delegation abandoned"] = "Delega abbandonata";
-["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = false;
-["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
+["Delegation for Area"] = false;
+["Delegation for Issue"] = false;
 ["Delegation turned off for area"] = "Delega disattivata per quest'area";
 ["Delegation turned off for issue"] = "Delega disattivata per questa tematica";
 ["Delegations"] = "Deleghe";

@@ -10,27 +10,6 @@ app.html_title.title = argument.name
 app.html_title.subtitle = _("Argument ##{id}", { id = argument.id })
 
 ui.title(function()
-  ui.link{
-    content = argument.initiative.issue.area.unit.name,
-    module = "unit",
-    view = "show",
-    id = argument.initiative.issue.area.unit.id
-  }
-  slot.put(" &middot; ")
-  ui.link{
-    content = argument.initiative.issue.area.name,
-    module = "area",
-    view = "show",
-    id = argument.initiative.issue.area.id
-  }
-  slot.put(" &middot; ")
-  ui.link{
-    content = _("Issue ##{id}", { id = argument.initiative.issue.id }),
-    module = "issue",
-    view = "show",
-    id = argument.initiative.issue.id
-  }
-  slot.put(" &middot; ")
   if argument.side == "pro" then
     slot.put(_"Argument pro for")
   else
@@ -43,7 +22,7 @@ ui.title(function()
     view = "show",
     id = argument.initiative.id
   }
-end)
+end, argument.initiative.issue.area.unit, argument.initiative.issue.area, argument.initiative.issue)
 
 ui.actions(function()
   ui.link{

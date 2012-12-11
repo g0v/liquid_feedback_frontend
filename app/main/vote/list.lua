@@ -24,27 +24,6 @@ if issue.closed then
 end
 
 ui.title(function()
-  ui.link{
-    content = issue.area.unit.name,
-    module = "unit",
-    view = "show",
-    id = issue.area.unit.id
-  }
-  slot.put(" &middot; ")
-  ui.link{
-    content = issue.area.name,
-    module = "area",
-    view = "show",
-    id = issue.area.id
-  }
-  slot.put(" &middot; ")
-  ui.link{
-    content = _("Issue ##{id}", { id = issue.id }),
-    module = "issue",
-    view = "show",
-    id = issue.id
-  }
-  slot.put(" &middot; ")
   if member then
     slot.put( _("Ballot of member '#{member_name}'", { member_name = string.format('<a href="%s">%s</a>',
       encode.url{ module = "member", view = "show", id = member.id },
@@ -53,7 +32,7 @@ ui.title(function()
   else
     slot.put(_"Voting")
   end
-end)
+end, issue.area.unit, issue.area, issue)
 
 if not member then
   member = app.session.member

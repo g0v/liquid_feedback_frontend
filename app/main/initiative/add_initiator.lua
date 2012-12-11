@@ -1,6 +1,6 @@
 local initiative = Initiative:by_id(param.get("initiative_id"))
 
-ui.title(_"Invite an initiator to initiative")
+ui.title(_"Invite an initiator to initiative", initiative.issue.area.unit, initiative.issue.area, initiative.issue, initiative)
 
 ui.actions(function()
   ui.link{

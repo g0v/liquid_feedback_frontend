@@ -1,6 +1,6 @@
 local initiative = Initiative:by_id(param.get_id())
 
-ui.title(_"Edit initiative")
+ui.title(_"Change discussion URL", initiative.issue.area.unit, initiative.issue.area, initiative.issue, initiative)
 
 ui.actions(function()
   ui.link{

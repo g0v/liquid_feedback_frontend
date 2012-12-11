@@ -57,10 +57,9 @@ return {
 ["Active?"] = "Ενεργό;";
 ["Add alternative initiative to issue"] = "Προσθήκη εναλλακτικής πρωτοβουλίας για το θέμα";
 ["Add my interest"] = "Εκδήλωση ενδιαφέροντος";
-["Add new argument contra for"] = false;
-["Add new argument pro for"] = false;
+["Add new argument contra"] = false;
+["Add new argument pro"] = false;
 ["Add new suggestion"] = "Νέα πρόταση";
-["Add new suggestion for"] = false;
 ["Add new unit"] = "Προσθήκη νέας ενότητας";
 ["Add to list"] = false;
 ["Add to my contacts"] = "Προσθήκη στις επαφές μου";
@@ -141,6 +140,7 @@ return {
 ["Cancelled (issue not accepted)"] = "Ακυρώθηκε (Δεν έγινε δεκτό)";
 ["Cancelled (no initiative admitted)"] = "Ακυρώθηκε (Δεν προκρίθηκε καμία πρωτοβουλία)";
 ["Change area delegation"] = "Αλλαγή ανάθεσης για τον τομέα";
+["Change discussion URL"] = false;
 ["Change email"] = "Αλλαγή email";
 ["Change email address"] = "Αλλαγή διεύθυνσης email";
 ["Change issue delegation"] = "Αλλαγή ανάθεσης για το θέμα";
@@ -201,8 +201,8 @@ return {
 ["Delegate issue"] = "Ανάθεση θέματος";
 ["Delegate unit"] = "Ανάθεση ενότητας";
 ["Delegation abandoned"] = "Ακύρωση ανάθεσης";
-["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = false;
-["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
+["Delegation for Area"] = false;
+["Delegation for Issue"] = false;
 ["Delegation turned off for area"] = "Η ανάθεση απενεργοποιήθηκε για τον τομέα";
 ["Delegation turned off for issue"] = "Η ανάθεση απενεργοποιήθηκε για το θέμα";
 ["Delegations"] = "Αναθέσεις";

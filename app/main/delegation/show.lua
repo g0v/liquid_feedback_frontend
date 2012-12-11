@@ -22,21 +22,21 @@ end
 local unit = Unit:by_id(param.get("unit_id", atom.integer))
 if unit then
   voting_right_unit_id = unit.id
-  ui.title(ui_title .. (config.single_unit_id and _"Global delegation" or _"Unit delegation"))
+  ui.title(ui_title .. (config.single_unit_id and _"Global delegation" or _"Unit delegation"), unit)
   util.help("delegation.new.unit")
 end
 
 local area = Area:by_id(param.get("area_id", atom.integer))
 if area then
   voting_right_unit_id = area.unit_id
-  ui.title(ui_title .. _("Delegation for Area '#{name}' in Unit '#{unit_name}'", { name = area.name, unit_name = area.unit.name }))
+  ui.title(ui_title .. _"Delegation for Area", area.unit, area)
   util.help("delegation.new.area")
 end
 
 local issue = Issue:by_id(param.get("issue_id", atom.integer))
 if issue then
   voting_right_unit_id = issue.area.unit_id
-  ui.title(ui_title .. _("Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'", { number = issue.id, area_name = issue.area.name, unit_name = issue.area.unit.name }))
+  ui.title(ui_title .. _"Delegation for Issue", issue.area.unit, issue.area, issue)
   util.help("delegation.new.issue")
 end
 
@@ -86,11 +86,14 @@ end
 -- link back
 ui.actions(function()
   ui.link{
+    content = function()
+      ui.image{ static = "icons/16/resultset_previous.png" }
+      slot.put(_"Back")
+    end,
     module = param.get("back_module"),
-    view = param.get("back_view"),
-    id = param.get("back_id"),
-    params = param.get_unserialize("back_params"),
-    content = _"Back"
+    view   = param.get("back_view"),
+    id     = param.get("back_id"),
+    params = param.get_unserialize("back_params")
   }
 end)
 

@@ -525,7 +525,7 @@ form.unit_selector {
   border-radius: 0 0 8px 8px;
 }
 
-.unit_link, .area_link, .issue_link {
+.unit_link, .area_link, .issue_link, .ini_link {
   float: left;
   margin-top: 5px;
   margin-right: 8px;
@@ -544,6 +544,17 @@ form.unit_selector {
 .issue_link {
   background-color: #E0E9FF;
   color: #000;
+}
+.ini_link {
+  border: 1px solid #ccc;
+  padding: 4px 4px 2px 4px;
+}
+.path .unit_link, .path .area_link, .path .issue_link, .path .ini_link {
+  margin: 0 8px 0 0;
+}
+.path {
+  float: left;
+  padding: 3px 0 3px 10px;
 }
 
 /* delegation info */

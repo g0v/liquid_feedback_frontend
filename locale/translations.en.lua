@@ -43,9 +43,8 @@ return {
 ["Active?"] = false;
 ["Add alternative initiative to issue"] = false;
 ["Add my interest"] = false;
-["Add new argument contra for"] = false;
-["Add new argument pro for"] = false;
-["Add new suggestion for"] = false;
+["Add new argument contra"] = false;
+["Add new argument pro"] = false;
 ["Add new unit"] = false;
 ["Add to list"] = false;
 ["Add to my contacts"] = false;
@@ -116,6 +115,7 @@ return {
 ["Cancelled (during verification due to revocation)"] = false;
 ["Cancelled (issue not accepted)"] = false;
 ["Cancelled (no initiative admitted)"] = false;
+["Change discussion URL"] = false;
 ["Change email"] = false;
 ["Change email address"] = false;
 ["Change login"] = false;
@@ -166,8 +166,8 @@ return {
 ["Date format is not valid. Please use following format: YYYY-MM-DD"] = false;
 ["Default Policy"] = false;
 ["Degree"] = false;
-["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = false;
-["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
+["Delegation for Area"] = false;
+["Delegation for Issue"] = false;
 ["Delegations"] = false;
 ["Delete"] = false;
 ["Delete personal data and deactivate account"] = false;
@@ -207,7 +207,6 @@ return {
 ["Edit"] = false;
 ["Edit areas"] = false;
 ["Edit draft"] = false;
-["Edit initiative"] = false;
 ["Edit my page"] = false;
 ["Edit my profile"] = false;
 ["Edit profile"] = false;

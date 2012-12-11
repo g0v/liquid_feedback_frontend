@@ -51,10 +51,9 @@ return {
 ["Active?"] = "Ĉu aktiva?";
 ["Add alternative initiative to issue"] = "Aldoni alternativan iniciaton al la temo";
 ["Add my interest"] = "Anonci mian intereson";
-["Add new argument contra for"] = false;
-["Add new argument pro for"] = false;
+["Add new argument contra"] = false;
+["Add new argument pro"] = false;
 ["Add new suggestion"] = "Aldoni novan sugeston";
-["Add new suggestion for"] = false;
 ["Add new unit"] = false;
 ["Add to list"] = false;
 ["Add to my contacts"] = "Aldoni al miaj kontaktoj";
@@ -132,6 +131,7 @@ return {
 ["Cancelled (issue not accepted)"] = false;
 ["Cancelled (no initiative admitted)"] = false;
 ["Change area delegation"] = "Ŝanĝi delegacion por temaro";
+["Change discussion URL"] = false;
 ["Change email"] = "Ŝanĝi retpoŝton";
 ["Change email address"] = "Ŝanĝi retpoŝtadreson";
 ["Change issue delegation"] = "Ŝanĝi delegacion pri la temo";
@@ -185,8 +185,8 @@ return {
 ["Default Policy"] = "Apriora regularo";
 ["Degree"] = "Grado";
 ["Delegation abandoned"] = "Delegacio malaplikita";
-["Delegation for Area '#{name}' in Unit '#{unit_name}'"] = false;
-["Delegation for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = false;
+["Delegation for Area"] = false;
+["Delegation for Issue"] = false;
 ["Delegation turned off for area"] = "Temara delegacio malŝaltita";
 ["Delegation turned off for issue"] = "Tema delegacio malŝaltita";
 ["Delegations"] = "Delegacioj";

@@ -5,7 +5,7 @@ if not initiator or initiator.accepted ~= true then
   error("access denied")
 end
 
-ui.title(_"Remove initiator from initiative")
+ui.title(_"Remove initiator from initiative", initiative.issue.area.unit, initiative.issue.area, initiative.issue, initiative)
 
 ui.actions(function()
   ui.link{
