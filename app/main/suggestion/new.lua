@@ -107,8 +107,9 @@ ui.form{
     }
 
     ui.field.text{
-      label = _"Title (80 chars max)",
+      label = _"Title",
       name = "name",
+      attr = { maxlength = 128 },
       value = param.get("name")
     }
 

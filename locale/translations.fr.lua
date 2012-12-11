@@ -640,7 +640,7 @@ return {
 ["This service is provided by:"] = false;
 ["This suggestion has been meanwhile deleted!"] = false;
 ["This title is really too short!"] = false;
-["Title (80 chars max)"] = false;
+["Title"] = false;
 ["Title of initiative"] = false;
 ["Today at #{time}"] = false;
 ["Traditional wiki syntax"] = false;

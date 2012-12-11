@@ -27,25 +27,7 @@ else
   local area_id = param.get("area_id", atom.integer)
   area = Area:new_selector():add_where{"id=?",area_id}:single_object_mode():exec()
 
-  ui.title(function()
-    ui.link{
-      content = area.unit.name,
-      module = "unit",
-      view = "show",
-      id = area.unit.id
-    }
-    slot.put(" &middot; ")
-    ui.link{
-      content = area.name,
-      module = "area",
-      view = "show",
-      id = area.id
-    }
-    slot.put(" &middot; ")
-    ui.tag{
-      content = _"Create new issue"
-    }
-  end)
+  ui.title(_"Create new issue", area.unit, area)
 
 end
 
@@ -130,6 +112,7 @@ ui.form{
     ui.field.text{
       label = _"Title of initiative",
       name  = "name",
+      attr = { maxlength = 128 },
       value = param.get("name")
     }
     ui.field.text{
