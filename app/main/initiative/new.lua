@@ -112,7 +112,7 @@ ui.form{
     ui.field.text{
       label = _"Title of initiative",
       name  = "name",
-      attr = { maxlength = 128 },
+      attr = { maxlength = 256 },
       value = param.get("name")
     }
     ui.field.text{
