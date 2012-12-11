@@ -31,6 +31,7 @@ if app.session:has_access("anonymous") then
     or module == "issue" and view == "show"
     or module == "initiative" and view == "show"
     or module == "suggestion" and view == "show"
+    or module == "argument" and view == "show"
     or module == "draft" and view == "diff"
     or module == "draft" and view == "show"
     or module == "draft" and view == "list"
