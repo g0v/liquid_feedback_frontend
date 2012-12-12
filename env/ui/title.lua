@@ -27,12 +27,17 @@ function ui.title(content, unit, area, issue, initiative)
               text = issue.policy.name .. " #" .. issue.id
             }
             if initiative then
+              -- limit length of initiative name
+              local name = initiative.name
+              if #name > 50 then
+                name = name:sub(1,48) .. "..."
+              end
               ui.link{
                 module = "initiative",
                 view = "show",
                 id = initiative.id,
                 attr = { class = "ini_link" },
-                text = _("i#{id}: #{name}", { id = initiative.id, name = initiative.name })
+                text = _("i#{id}: #{name}", { id = initiative.id, name = name })
               }
             end
           end
