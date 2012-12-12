@@ -1471,6 +1471,7 @@ th.opinion {
   background-color: #f2f2f2;
   border: 1px solid #ccc;
   padding: 1ex;
+  line-height: 1.05;
 }
 
 .diff_added {

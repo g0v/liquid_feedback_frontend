@@ -124,8 +124,7 @@ ui.form{
     ui.wikitextarea("draft", _"Content")
 
     ui.submit{ name = "preview", text = _"Preview" }
-    -- hack for the additional submit button, because ui.submit does not allow to set the class attribute
-    ui.tag{ tag = "input", attr = { type = "submit", class = "additional", value = _"Save" } }
+    ui.submit{ attr = { class = "additional" }, text = _"Save" }
 
   end
 }

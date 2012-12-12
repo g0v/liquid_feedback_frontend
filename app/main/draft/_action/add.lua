@@ -34,7 +34,7 @@ if not formatting_engine_valid then
   error("invalid formatting engine!")
 end
 
-if param.get("preview") then
+if param.get("preview") or param.get("diff") then
   return false
 end
 

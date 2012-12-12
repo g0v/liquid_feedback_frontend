@@ -17,6 +17,34 @@ ui.actions(function()
   }
 end)
 
+slot.put("<br />")
+
+if param.get("preview") then
+
+  ui.container{ attr = { class = "initiative_head" }, content = function()
+
+    -- title
+    ui.container{
+      attr = { class = "title" },
+      content = _("Initiative i#{id}: #{name}", { id = initiative.id, name = initiative.name })
+    }
+
+    -- draft content
+    ui.container{
+      attr = { class = "draft_content wiki" },
+      content = function()
+        slot.put(format.wiki_text(param.get("content"), param.get("formatting_engine")))
+      end
+    }
+
+  end }
+
+elseif param.get("diff") then
+
+  util.diff(initiative.current_draft.content, param.get("content"))
+
+end
+
 ui.form{
   record = initiative.current_draft,
   attr = { class = "vertical" },
@@ -33,38 +61,21 @@ ui.form{
   },
   content = function()
 
-    slot.put("<br />")
-
     if param.get("preview") then
-
-      ui.container{ attr = { class = "initiative_head" }, content = function()
-
-        -- title
-        ui.container{
-          attr = { class = "title" },
-          content = _("Initiative i#{id}: #{name}", { id = initiative.id, name = initiative.name })
-        }
-
-        -- draft content
-        ui.container{
-          attr = { class = "draft_content wiki" },
-          content = function()
-            slot.put(format.wiki_text(param.get("content"), param.get("formatting_engine")))
-          end
-        }
-
-      end }
-
-      ui.submit{ text = _"Save" }
+      ui.submit{ name = "diff", text = _"Diff" }
+      ui.submit{ attr = { class = "additional" }, text = _"Save" }
       slot.put("<br /><br /><br />")
-
+    elseif param.get("diff") then
+      ui.submit{ name = "preview", text = _"Preview" }
+      ui.submit{ attr = { class = "additional" }, text = _"Save" }
+      slot.put("<br /><br /><br />")
     end
 
     ui.wikitextarea("content", _"Content")
 
     ui.submit{ name = "preview", text = _"Preview" }
-    -- hack for the additional submit button, because ui.submit does not allow to set the class attribute
-    ui.tag{ tag = "input", attr = { type = "submit", class = "additional", value = _"Save" } }
+    ui.submit{ attr = { class = "additional" }, name = "diff", text = _"Diff" }
+    ui.submit{ attr = { class = "additional" }, text = _"Save" }
 
   end
 }
