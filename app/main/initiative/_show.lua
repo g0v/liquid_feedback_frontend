@@ -431,29 +431,34 @@ if not show_as_head then
     }
   }
 
-  execute.view{
-    module = "argument",
-    view = "_list",
-    params = {
-      initiative = initiative,
-      arguments_selector = initiative:get_reference_selector("arguments"),
-      side = "pro",
-      tab_id = param.get("tab_id")
-    }
-  }
+  -- open arguments in discussion phase
+  if issue.accepted then
 
-  execute.view{
-    module = "argument",
-    view = "_list",
-    params = {
-      initiative = initiative,
-      arguments_selector = initiative:get_reference_selector("arguments"),
-      side = "contra",
-      tab_id = param.get("tab_id")
+    execute.view{
+      module = "argument",
+      view = "_list",
+      params = {
+        initiative = initiative,
+        arguments_selector = initiative:get_reference_selector("arguments"),
+        side = "pro",
+        tab_id = param.get("tab_id")
+      }
     }
-  }
 
-  slot.put("<div class='clearfix'></div>")
+    execute.view{
+      module = "argument",
+      view = "_list",
+      params = {
+        initiative = initiative,
+        arguments_selector = initiative:get_reference_selector("arguments"),
+        side = "contra",
+        tab_id = param.get("tab_id")
+      }
+    }
+
+    slot.put("<div class='clearfix'></div>")
+
+  end
 
   if app.session:has_access("all_pseudonymous") then
 
