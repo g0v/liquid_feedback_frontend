@@ -23,7 +23,13 @@ local new_draft = Draft:by_id(new_draft_id)
 execute.view{
   module = "draft",
   view = "_head",
-  params = { draft = new_draft, title = _"Diff" }
+  params = {
+    draft = new_draft,
+    title = _("Difference between the drafts from #{old} and #{new}", {
+      old = format.timestamp(old_draft.created),
+      new = format.timestamp(new_draft.created)
+    })
+  }
 }
 
 -- message about new draft

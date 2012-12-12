@@ -217,6 +217,7 @@ return {
 ["Details"] = "Dettagli";
 ["Developer settings"] = "Impostazioni per sviluppatori";
 ["Diff"] = "Diff";
+["Difference between the drafts from #{old} and #{new}"] = false;
 ["Direct"] = "Diretto";
 ["Direct and by delegation"] = "Diretto e delegato";
 ["Direct majority"] = "Maggioranza diretta";
@@ -728,6 +729,7 @@ return {
 ["The code you've entered is expired! Please contact #{support} to get a new one!"] = false;
 ["The code you've entered is invalid"] = "Il codice che hai inserito non e' valido";
 ["The code you've entered is invalid!"] = false;
+["The draft has not been changed!"] = false;
 ["The draft of this initiative has been updated!"] = "La bozza di questa iniziativa e' stata aggiornata";
 ["The drafts do not differ"] = "Le bozze non differiscono";
 ["The initiators suggest to support the following initiative:"] = "I promotori suggeriscono di sostenere questa iniziativa:";
@@ -736,6 +738,7 @@ return {
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
+["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
 ["There are no trustees selected."] = false;

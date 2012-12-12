@@ -216,6 +216,7 @@ return {
 ["Details"] = "详细资料";
 ["Developer settings"] = "开发者设定";
 ["Diff"] = "差异";
+["Difference between the drafts from #{old} and #{new}"] = false;
 ["Direct"] = "直接表决";
 ["Direct and by delegation"] = "直接表决及委任表决";
 ["Direct majority"] = "直接表决多数";
@@ -727,6 +728,7 @@ return {
 ["The code you've entered is expired! Please contact #{support} to get a new one!"] = false;
 ["The code you've entered is invalid"] = "您所输入的密码无效";
 ["The code you've entered is invalid!"] = false;
+["The draft has not been changed!"] = false;
 ["The draft of this initiative has been updated!"] = "此提案之草案已被更新！";
 ["The drafts do not differ"] = "这些草案並无差异";
 ["The initiators suggest to support the following initiative:"] = "提案人建议支持下列提案：";
@@ -735,6 +737,7 @@ return {
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
+["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
 ["There are no trustees selected."] = false;

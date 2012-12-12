@@ -200,6 +200,7 @@ return {
 ["Details"] = "Detaloj";
 ["Developer settings"] = "Porprogramistaj agordoj";
 ["Diff"] = "Diferenco";
+["Difference between the drafts from #{old} and #{new}"] = false;
 ["Direct"] = false;
 ["Direct and by delegation"] = false;
 ["Direct majority"] = false;
@@ -685,6 +686,7 @@ return {
 ["The code you've entered is expired! Please contact #{support} to get a new one!"] = false;
 ["The code you've entered is invalid"] = "La kodo, kiun vi enigis ne estas valida!";
 ["The code you've entered is invalid!"] = false;
+["The draft has not been changed!"] = false;
 ["The draft of this initiative has been updated!"] = "La skizo de tiu iniciato estas ĝisdatigita";
 ["The drafts do not differ"] = "La skizoj ne estas malsamaj";
 ["The initiators suggest to support the following initiative:"] = "La iniciintoj rekomendas subteni sekvan iniciaton:";
@@ -693,6 +695,7 @@ return {
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
+["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
 ["There are no trustees selected."] = false;

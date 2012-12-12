@@ -210,6 +210,7 @@ return {
 ["Details"] = "Részletek";
 ["Developer settings"] = "Fejlesztõi beállítások";
 ["Diff"] = "Különbség";
+["Difference between the drafts from #{old} and #{new}"] = false;
 ["Direct"] = "Közvetlen";
 ["Direct and by delegation"] = "Közvetlen és delegált";
 ["Direct majority"] = "Közvetlen többség";
@@ -700,6 +701,7 @@ return {
 ["The code you've entered is expired! Please contact #{support} to get a new one!"] = false;
 ["The code you've entered is invalid"] = "Az általad megadott kód érvénytelen!";
 ["The code you've entered is invalid!"] = false;
+["The draft has not been changed!"] = false;
 ["The draft of this initiative has been updated!"] = "Kezdeményezés vázlata frissítve!";
 ["The drafts do not differ"] = "Nincs különbség a vázlatok között";
 ["The initiators suggest to support the following initiative:"] = "A kezdeményezõk a következõ kezdeményezés támogatását javasolják:";
@@ -708,6 +710,7 @@ return {
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
+["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
 ["There are no trustees selected."] = false;

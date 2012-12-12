@@ -216,6 +216,7 @@ return {
 ["Details"] = "Λεπτομέρειες";
 ["Developer settings"] = "Ρυθμίσεις για προγραμματιστές";
 ["Diff"] = "Διαφορές";
+["Difference between the drafts from #{old} and #{new}"] = false;
 ["Direct"] = "Άμεσα";
 ["Direct and by delegation"] = "Άμεσα ή έμμεσα";
 ["Direct majority"] = "Άμεση πλειοψηφία";
@@ -727,6 +728,7 @@ return {
 ["The code you've entered is expired! Please contact #{support} to get a new one!"] = false;
 ["The code you've entered is invalid"] = "Ο κωδικός που δώσατε δεν είναι έγκυρος!";
 ["The code you've entered is invalid!"] = false;
+["The draft has not been changed!"] = false;
 ["The draft of this initiative has been updated!"] = "Το προσχέδιο της πρωτοβουλίας έχει ενημερωθεί!";
 ["The drafts do not differ"] = "Τα προσχέδια δεν διαφέρουν";
 ["The initiators suggest to support the following initiative:"] = "Οι εισηγητές προτείνουν να υποστηρίξετε την ακόλουθη πρωτοβουλία:";
@@ -735,6 +737,7 @@ return {
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
+["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
 ["There are no trustees selected."] = false;
