@@ -167,7 +167,7 @@ ui.container{ attr = { class = class }, content = function()
 
     if app.session.member_id and app.session.member:has_voting_right_for_unit_id(issue.area.unit_id) then
       if not issue.fully_frozen and not issue.closed then
-      links[#links+1] = {
+        links[#links+1] = {
           attr   = { class = "action" },
           text   = _"Create alternative initiative",
           module = "initiative",
@@ -179,23 +179,25 @@ ui.container{ attr = { class = class }, content = function()
 
   end
 
-  ui.container{ attr = { class = "content actions" }, content = function()
-    for i, link in ipairs(links) do
-      if link.in_brackets then
-        slot.put(" (")
-      elseif i > 1 then
-        slot.put(" &middot; ")
+  if #links > 0 then
+    ui.container{ attr = { class = "content actions" }, content = function()
+      for i, link in ipairs(links) do
+        if link.in_brackets then
+          slot.put(" (")
+        elseif i > 1 then
+          slot.put(" &middot; ")
+        end
+        if link.module or link.external then
+          ui.link(link)
+        else
+          ui.tag(link)
+        end
+        if link.in_brackets then
+          slot.put(")")
+        end
       end
-      if link.module or link.external then
-        ui.link(link)
-      else
-        ui.tag(link)
-      end
-      if link.in_brackets then
-        slot.put(")")
-      end
-    end
-  end }
+    end }
+  end
 
   if not for_listing then
     if issue.state == "cancelled" then
