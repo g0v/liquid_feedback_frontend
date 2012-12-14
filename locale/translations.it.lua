@@ -306,6 +306,7 @@ return {
 ["I like to receive notifications by email about events:"] = false;
 ["Id"] = "Id";
 ["Identification"] = "Identificativo";
+["If a member with this login exists, a reset link has been sent to the stored email address."] = false;
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Se questo link non funziona, puoi aprire l'indirizzo seguente nel tuo browser:\n\n";
 ["Ignore Areas"] = "Ignora le aree";
 ["Ignore initiative"] = "Ignora l'iniziativa";
@@ -563,6 +564,7 @@ return {
 ["Password"] = "Password";
 ["Password (repeat)"] = "Password (ripeti)";
 ["Password has been reset successfully"] = "Reset della password effettuato";
+["Password has been reset successfully."] = false;
 ["Password reset request"] = "Richiesta di reset della password";
 ["Passwords don't match!"] = "Le password non corrispondono";
 ["Passwords must consist of at least 8 characters!"] = "Le password devono essere di almeno 8 caratteri!";
@@ -590,6 +592,7 @@ return {
 ["Please enter the email reset code you have received:"] = "Inserisci il codice di reset che hai ricevuto:";
 ["Please enter the invite code you've received."] = "Inserisci il codice di invito che hai ricevuto.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Inserisci la tua email. Sara' usata per le notifiche (se le desideri) ed eventualmente per recuperare la password. L'indirizzo non sara' pubblico. Dopo la registrazione riceverai un messaggio con la richiesta di verifica.";
+["Please enter your login name! You will receive an email with a link to reset your password."] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Inserisci il tuo nome utente. Riceverai un messaggio email con il link per il reset della password.";
 ["Please enter your new password twice."] = "Inserisci la password nei due campi.";
 ["Please enter your new password twice:"] = false;
@@ -692,6 +695,7 @@ return {
 ["Show profile"] = "Mostra il profilo";
 ["So I'm"] = "Sono";
 ["Software"] = "Software";
+["Sorry, but there is no confirmed email address for this account. Please contact #{support}!"] = false;
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Purtroppo non c'e' un indirizzo email confermato per il tuo account. Si consiglia di contattare l'amministratore o il supporto.";
 ["Sorry, but you are currently not invited"] = "Purtroppo al momento non hai l'invito.";
 ["Sorry, but you are currently not invited!"] = false;
@@ -739,6 +743,7 @@ return {
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
+["The reset code is only valid for one day.\n\n"] = false;
 ["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;

@@ -17,19 +17,12 @@ local secret = param.get("secret")
 if not secret then
   ui.tag{
     tag = 'p',
-    content = _'Please enter your login name. You will receive an email with a link to reset your password.'
+    content = _'Please enter your login name! You will receive an email with a link to reset your password.'
   }
   ui.form{
     attr = { class = "vertical" },
     module = "index",
     action = "reset_password",
-    routing = {
-      ok = {
-        mode = "redirect",
-        module = "index",
-        view = "index"
-      }
-    },
     content = function()
       ui.field.text{
         label = "Login",
@@ -49,7 +42,7 @@ else
       ok = {
         mode = "redirect",
         module = "index",
-        view = "index"
+        view = "login"
       }
     },
     content = function()

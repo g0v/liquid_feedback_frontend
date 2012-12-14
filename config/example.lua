@@ -172,7 +172,7 @@ config.public_access = "none"
 -- config.invite_code_expiry = '1 month'
 
 -- Email for support
--- is displayed if an invite code is expired
+-- is displayed if an invite code is expired or if there is no confirmed email address to send a passwort reset link to
 -- ------------------------------------------------------------------------
 -- config.support = "support@example.com"
 

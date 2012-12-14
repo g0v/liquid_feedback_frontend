@@ -286,6 +286,7 @@ return {
 ["I like to receive notifications by email about events:"] = false;
 ["Id"] = "Identigilo";
 ["Identification"] = false;
+["If a member with this login exists, a reset link has been sent to the stored email address."] = false;
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Se tiu ligilo ne funkcias, bonvolu malfermi la sekvan URLon per via retumilo:\n\n";
 ["Ignore Areas"] = "Malatenti temarojn";
 ["Ignore initiative"] = false;
@@ -529,6 +530,7 @@ return {
 ["Password"] = "Pasvorto";
 ["Password (repeat)"] = "Pasvorto (ripetu)";
 ["Password has been reset successfully"] = "La pasvorto estas sukcese remetita";
+["Password has been reset successfully."] = false;
 ["Password reset request"] = "Demando de pasvortorimeto";
 ["Passwords don't match!"] = "La pasvortoj ne estas samaj!";
 ["Passwords must consist of at least 8 characters!"] = "La pasvorto devas havi almenaŭ 8 literojn!";
@@ -555,6 +557,7 @@ return {
 ["Please enter the email reset code you have received:"] = "Bonvolu enigi retpoŝtoremetokodon, kiun vi ricevis:";
 ["Please enter the invite code you've received."] = "Bonvolu enigi la invitokodon, kiun vi ricevis.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Bonvolu enigi vian retadreson. Tiu adreso estas uzita por aŭtomataj sciigoj (se vi petas tiajn) kaj por remeti la pasvorton. Tiu adreso ne estos publikigita. Post la fino de la registrado, vi ricevos retpoŝton kun ligilo al la konfirmo de la adreso.";
+["Please enter your login name! You will receive an email with a link to reset your password."] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Bonvolu enigi vian salutnomon. Vi ricevos retpoŝton kun ligilo al la remeto de la pasvorto.";
 ["Please enter your new password twice."] = "Bonvolu enigi dufoje vian novan pasvorton:";
 ["Please enter your new password twice:"] = false;
@@ -650,6 +653,7 @@ return {
 ["Show policies not in use"] = "Montri ne uzatajn regularojn";
 ["So I'm"] = "Do mi estas";
 ["Software"] = "Programaro";
+["Sorry, but there is no confirmed email address for this account. Please contact #{support}!"] = false;
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Pardonu, por tiu konto ne ekzistas konfirmita retadreson. Bonvolu vin turni al administranto aŭ al la helpantaro.";
 ["Sorry, but you are currently not invited"] = "Pardonu, sed aktuale vi ne estas invitita";
 ["Sorry, but you are currently not invited!"] = false;
@@ -696,6 +700,7 @@ return {
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
+["The reset code is only valid for one day.\n\n"] = false;
 ["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;

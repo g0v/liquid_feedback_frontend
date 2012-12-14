@@ -299,6 +299,7 @@ return {
 ["I like to receive notifications by email about events:"] = false;
 ["Id"] = "Azonosító";
 ["Identification"] = "Azonosítás";
+["If a member with this login exists, a reset link has been sent to the stored email address."] = false;
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Ha a link nem mûködik, úgy nyisd meg a következõ URL-t a böngészõdbõl:\n\n";
 ["Ignore Areas"] = "Területek ignorálása";
 ["Ignore initiative"] = "Kezdeményezés ignorálása";
@@ -543,6 +544,7 @@ return {
 ["Password"] = "Jelszó";
 ["Password (repeat)"] = "Jelszó (újra)";
 ["Password has been reset successfully"] = "Jelszó sikeresen visszaállítva";
+["Password has been reset successfully."] = false;
 ["Password reset request"] = "Jelszó-visszaállítás kérelmezése";
 ["Passwords don't match!"] = "A jelszavak nem egyeznek!";
 ["Passwords must consist of at least 8 characters!"] = "A jelszónak legalább 8 karakterbõl kell állnia!";
@@ -569,6 +571,7 @@ return {
 ["Please enter the email reset code you have received:"] = "Írd be a visszaállítási kódodat:";
 ["Please enter the invite code you've received."] = "Írd be a meghívókódodat.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Írd be az email-címedet. Ide kapod majd az automatikus értesítõket (ha kérsz ilyeneket), és a jelszavad esetleges elvesztése esetén is szükség lesz rá. Ez a címed nem lesz közzétéve. A regisztrációt követõen ide kapod majd a megerõsítõ linket tartalmazó mailt is.";
+["Please enter your login name! You will receive an email with a link to reset your password."] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Írd be a bejelentkezési nevedet - majd mailben kapni fogsz egy linket a jelszavad visszaáálításához.";
 ["Please enter your new password twice."] = "Írd be kétszer az új jelszavadat:";
 ["Please enter your new password twice:"] = false;
@@ -665,6 +668,7 @@ return {
 ["Show policies not in use"] = "Deaktivált irányelvek mutatása";
 ["So I'm"] = "Én tehát";
 ["Software"] = "Szoftver";
+["Sorry, but there is no confirmed email address for this account. Please contact #{support}!"] = false;
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "A fiókodhoz nem tartozik megerõsített email-cím. Lépj kapcsolatba az adminnal vagy a támogatókkal.";
 ["Sorry, but you are currently not invited"] = "Sajnos jelenleg nem vagy meghívva";
 ["Sorry, but you are currently not invited!"] = false;
@@ -711,6 +715,7 @@ return {
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
+["The reset code is only valid for one day.\n\n"] = false;
 ["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;

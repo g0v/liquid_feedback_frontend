@@ -307,6 +307,7 @@ return {
 ["I like to receive notifications by email about events:"] = false;
 ["Id"] = "Id";
 ["Identification"] = "Identificatie";
+["If a member with this login exists, a reset link has been sent to the stored email address."] = false;
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Wanneer deze link niet werkt, open dan de volgende link in uw webbrowser:\n\n";
 ["Ignore Areas"] = "Negeer themagebieden";
 ["Ignore initiative"] = "Negeer initiatieven";
@@ -565,6 +566,7 @@ return {
 ["Password"] = "Wachtwoord";
 ["Password (repeat)"] = "Wachtwoord (herhalen)";
 ["Password has been reset successfully"] = "Wachtwoord is succesvol reset";
+["Password has been reset successfully."] = false;
 ["Password reset request"] = "Verzoek om het wachtwoord te resetten";
 ["Passwords don't match!"] = "Wachtwoorden stemmen niet overeen!";
 ["Passwords must consist of at least 8 characters!"] = "Het wachtwoord moet minstens 8 karakters lang zijn!";
@@ -592,6 +594,7 @@ return {
 ["Please enter the email reset code you have received:"] = "Vul de emailreset code in die u heeft ontvangen:";
 ["Please enter the invite code you've received."] = "Vul de uitnodigingscode in die u heeft ontvangen.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Vult u alstublieft uw emailadres in. Dit adres zal gebruikt worden voor automatische notificaties (wanneer u deze wilt ontvangen) en wanneer u uw wachtwoord kwijt bent. Dit adres zal niet gepubliseerd worden. Na registratie ontvangt u een email met een bevestigingslink.";
+["Please enter your login name! You will receive an email with a link to reset your password."] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Vul aub uw login naam in. U ontvangt een e-mail met een link om uw wachtwoord opnieuw in te stellen";
 ["Please enter your new password twice."] = "Vult u alstublieft 2 maal uw nieuwe wachtwoord in.:";
 ["Please enter your new password twice:"] = false;
@@ -694,6 +697,7 @@ return {
 ["Show profile"] = "Toon profiel";
 ["So I'm"] = "Dus ben ik";
 ["Software"] = "Software";
+["Sorry, but there is no confirmed email address for this account. Please contact #{support}!"] = false;
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Sorry, maar we beschikken niet over een bevestigd emailadres van uw account. Neemt u alstublieft contact op met de administrator.";
 ["Sorry, but you are currently not invited"] = "Sorry, maar u bent op dit moment niet uitgenodigd";
 ["Sorry, but you are currently not invited!"] = false;
@@ -741,6 +745,7 @@ return {
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
+["The reset code is only valid for one day.\n\n"] = false;
 ["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;

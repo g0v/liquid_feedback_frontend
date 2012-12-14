@@ -262,6 +262,7 @@ return {
 ["I like to receive notifications by email about events:"] = "Ich möchte per E-Mail über die folgenden Ereignisse informiert werden:";
 ["Id"] = "Id";
 ["Identification"] = "Identifikation";
+["If a member with this login exists, a reset link has been sent to the stored email address."] = "Falls ein Mitglied mit diesem Anmeldenamen existiert, wurde ein Link zum Zurücksetzen des Kennworts an die hinterlegte E-Mail-Adresse geschickt.";
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Sollte der Link nicht funktionieren, öffne bitte die folgenden URL in Deinem Web-Browser:\n\n";
 ["Ignore initiative"] = "Initiative ignorieren";
 ["Ignore member"] = "Mitglied ignorieren";
@@ -481,8 +482,8 @@ return {
 ["Participate in this area"] = "An diesem Themenbereich teilnehmen";
 ["Password"] = "Kennwort";
 ["Password (repeat)"] = "Kennwort (wiederholen)";
-["Password has been reset successfully"] = "Kennwort wurde erfolgreich zurückgesetzt";
-["Password reset request"] = "Kennwort-Rücksetzung anfordern";
+["Password has been reset successfully."] = "Das Kennwort wurde erfolgreich zurückgesetzt.";
+["Password reset request"] = "Anfrage zum Zurücksetzen des Kennworts";
 ["Passwords don't match!"] = "Kennwörter stimmen nicht überein!";
 ["Passwords must consist of at least 8 characters!"] = "Das Kennwort muss zumindest 8 Zeichen lang sein!";
 ["Personal data deleted and account deactivated"] = "Persönliche Daten gelöscht und Account deaktiviert";
@@ -503,7 +504,7 @@ return {
 ["Please enter the email reset code you have received:"] = "Bitte gib den Rücksetzcode ein, den Du erhalten hast:";
 ["Please enter the invite code you've received."] = "Bitte gib den Einladungscode ein, den Du erhalten hast.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Bitte gib Deine E-Mail-Adresse ein. Diese Adresse wird für automatische Benachrichtigungen (wenn Du diese anforderst) sowie zum Zurücksetzen des Kennworts verwendet. Diese Adresse wird nicht veröffentlicht. Nach Abschluss der Registrierung wirst Du eine E-Mail mit einem Link zum Bestätigen der Adresse erhalten.";
-["Please enter your login name. You will receive an email with a link to reset your password."] = "Bitte gib Deinen Anmeldenamen ein. Du wirst eine E-Mail mit einem Link zum Zurücksetzen des Kennworts erhalten.";
+["Please enter your login name! You will receive an email with a link to reset your password."] = "Bitte gib Deinen Anmeldenamen ein! Du wirst eine E-Mail mit einem Link zum Zurücksetzen des Kennworts erhalten.";
 ["Please enter your new password twice:"] = "Bitte gib Dein neues Kennwort zweimal ein:";
 ["Please select your preferred notification level!"] = "Bitte wähle das gewünschte Benachrichtigungslevel!";
 ["Policies"] = "Regelwerke";
@@ -539,11 +540,10 @@ return {
 ["Remove initiator from initiative"] = "Initiator von der Initiative entfernen";
 ["Rendered"] = "Formatiert";
 ["Repeat new password"] = "Neues Kennwort wiederholen";
-["Request password reset link"] = "Link zum Rücksetzen des Kennworts anfordern";
+["Request password reset link"] = "Link zum Zurücksetzen des Kennworts anfordern";
 ["Resend activation email to '#{email}'"] = "E-Mail mit Aktivierungslink erneut an '#{email}' senden";
 ["Reset code"] = "Rücksetzcode";
 ["Reset code is invalid!"] = "Rücksetzcode ist ungültig";
-["Reset link has been send for this member"] = "Rücksetz-Link wurde versendet";
 ["Reset password"] = "Kennwort zurücksetzen";
 ["Revoke initiative"] = "Initiative zurückziehen";
 ["Revoked"] = "Zurückgezogen am/um";
@@ -583,7 +583,7 @@ return {
 ["Show policies in use"] = "Zeige Regelwerke in Verwendung";
 ["Show policies not in use"] = "Zeige deaktivierte Regelwerke";
 ["So I'm"] = "Also bin ich";
-["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Sorry, aber für diesen Account ist keine bestätigte E-Mail-Adresse hinterlegt. Bitte wende Dich an den Administrator oder den Support.";
+["Sorry, but there is no confirmed email address for this account. Please contact #{support}!"] = "Sorry, aber für diesen Account ist keine bestätigte E-Mail-Adresse hinterlegt. Bitte wende Dich an #{support}!";
 ["Sorry, but you are currently not invited!"] = "Sorry, aber Du bist zur Zeit nicht eingeladen!";
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Sorry, Du hast Dein persönliches Flood-Limit erreicht. Bitte sei langsamer...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Sorry, Dein Antragskontingent ist zur Zeit ausgeschöpft. Bitte versuche es später erneut!";
@@ -624,6 +624,7 @@ return {
 ["The requested initiative does not exist!"] = "Die angeforderte Initiative existiert nicht!";
 ["The requested issue does not exist!"] = "Das angeforderte Thema existiert nicht!";
 ["The requested unit does not exist!"] = "Die angeforderte Gliederung existiert nicht!";
+["The reset code is only valid for one day.\n\n"] = "Der Rücksetzcode ist nur einen Tag lang gültig.\n\n";
 ["The versions do not differ."] = "Die Versionen unterscheiden sich nicht.";
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = "Es gibt #{count} Anregungen, zu denen bisher nur Du eine Meinung angegeben hast. Wenn Du Dein Interesse zurückziehst, werden diese Anregungen gelöscht!";
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = "Es gibt #{count} Anregungen, zu denen bisher nur Du eine Meinung angegeben hast. Wenn Du Deine Unterstützung zurückziehst, werden diese Anregungen gelöscht!";

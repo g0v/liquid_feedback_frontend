@@ -305,6 +305,7 @@ return {
 ["I like to receive notifications by email about events:"] = false;
 ["Id"] = "Id";
 ["Identification"] = "Αναγνωριστικό";
+["If a member with this login exists, a reset link has been sent to the stored email address."] = false;
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Εάν δεν λειτουργεί αυτός ο σύνδεσμος, παρακαλώ ανοίξτε την παρακάτω διεύθυνση με το πρόγραμμα περιήγησης στον ιστό:\n\n";
 ["Ignore Areas"] = "Αγνοήση τομέων";
 ["Ignore initiative"] = "Αγνόηση πρωτοβουλίας";
@@ -562,6 +563,7 @@ return {
 ["Password"] = "Κωδικός πρόσβασης";
 ["Password (repeat)"] = "Κωδικός πρόσβασης (ξανά)";
 ["Password has been reset successfully"] = "Ο κωδικός πρόσβασης επαναφέρθηκε επιτυχώς";
+["Password has been reset successfully."] = false;
 ["Password reset request"] = "Αίτηση επαναφοράς κωδικού πρόσβασης";
 ["Passwords don't match!"] = "Οι κωδικοί είναι διαφορετικοί!";
 ["Passwords must consist of at least 8 characters!"] = "Οι κωδικοί πρόσβασης πρέπει να έχουν τουλάχιστον 8 χαρακτήρες!";
@@ -589,6 +591,7 @@ return {
 ["Please enter the email reset code you have received:"] = "Παρακαλώ εισάγετε τον κωδικό επαναφοράς που έχετε λάβει:";
 ["Please enter the invite code you've received."] = "Παρακαλώ εισάγετε τον κωδικό πρόσκλησης που έχετε λάβει.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Παρακαλώ εισάγετε τη διεύθυνση email σας. Αυτή η διεύθυνση θα χρησιμοποιηθεί για αυτόματες ειδοποιήσεις (αν το επιλέξετε) και σε περίπτωση που έχετε χάσει τον κωδικό πρόσβασής σας. Αυτή η διεύθυνση δεν θα δημοσιευθεί. Μετά την εγγραφή θα λάβετε ένα email με έναν σύνδεσμο επιβεβαίωσης.";
+["Please enter your login name! You will receive an email with a link to reset your password."] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Παρακαλώ εισάγετε το όνομα σύνδεσής σας. Θα λάβετε ένα email με ένα σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας. Προσοχή στα κεφαλαία/πεζά γράμματα, έχουν σημασία.";
 ["Please enter your new password twice."] = "Παρακαλώ εισάγετε τον νέο σας κωδικό πρόσβασης δύο φορες:";
 ["Please enter your new password twice:"] = false;
@@ -691,6 +694,7 @@ return {
 ["Show profile"] = "Προβολή προφίλ";
 ["So I'm"] = "Οπότε είμαι";
 ["Software"] = "Λογισμικό";
+["Sorry, but there is no confirmed email address for this account. Please contact #{support}!"] = false;
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Λυπούμαστε, αλλά δεν υπάρχει καμία επιβεβαιωμένη διεύθυνση email για το λογαριασμό σας. Παρακαλούμε επικοινωνήστε με τον διαχειριστή ή την υποστήριξη.";
 ["Sorry, but you are currently not invited"] = "Λυπούμαστε, αλλά δεν έχετε προσκληθεί αυτή τη στιγμή";
 ["Sorry, but you are currently not invited!"] = false;
@@ -738,6 +742,7 @@ return {
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
+["The reset code is only valid for one day.\n\n"] = false;
 ["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;

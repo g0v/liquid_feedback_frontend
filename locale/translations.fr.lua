@@ -251,6 +251,7 @@ return {
 ["I like to receive notifications by email about events:"] = false;
 ["Id"] = false;
 ["Identification"] = false;
+["If a member with this login exists, a reset link has been sent to the stored email address."] = false;
 ["If this link is not working, please open following url in your web browser:\n\n"] = false;
 ["Ignore initiative"] = false;
 ["Ignore member"] = false;
@@ -458,7 +459,7 @@ return {
 ["Participate in this area"] = false;
 ["Password"] = false;
 ["Password (repeat)"] = false;
-["Password has been reset successfully"] = false;
+["Password has been reset successfully."] = false;
 ["Password reset request"] = false;
 ["Passwords don't match!"] = false;
 ["Passwords must consist of at least 8 characters!"] = false;
@@ -480,7 +481,7 @@ return {
 ["Please enter the email reset code you have received:"] = false;
 ["Please enter the invite code you've received."] = false;
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = false;
-["Please enter your login name. You will receive an email with a link to reset your password."] = false;
+["Please enter your login name! You will receive an email with a link to reset your password."] = false;
 ["Please enter your new password twice:"] = false;
 ["Please select your preferred notification level!"] = false;
 ["Policies"] = false;
@@ -520,7 +521,6 @@ return {
 ["Resend activation email to '#{email}'"] = false;
 ["Reset code"] = false;
 ["Reset code is invalid!"] = false;
-["Reset link has been send for this member"] = false;
 ["Reset password"] = false;
 ["Revoke initiative"] = false;
 ["Revoked"] = false;
@@ -558,7 +558,7 @@ return {
 ["Show policies in use"] = false;
 ["Show policies not in use"] = false;
 ["So I'm"] = false;
-["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = false;
+["Sorry, but there is no confirmed email address for this account. Please contact #{support}!"] = false;
 ["Sorry, but you are currently not invited!"] = false;
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = false;
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = false;
@@ -598,6 +598,7 @@ return {
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
+["The reset code is only valid for one day.\n\n"] = false;
 ["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;

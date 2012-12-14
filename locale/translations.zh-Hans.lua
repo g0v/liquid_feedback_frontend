@@ -305,6 +305,7 @@ return {
 ["I like to receive notifications by email about events:"] = false;
 ["Id"] = "身分";
 ["Identification"] = "身分";
+["If a member with this login exists, a reset link has been sent to the stored email address."] = false;
 ["If this link is not working, please open following url in your web browser:\n\n"] = "若此连结失效，请于您的浏览器开启下列网址：\n\n";
 ["Ignore Areas"] = "忽略领域";
 ["Ignore initiative"] = "忽略提案";
@@ -562,6 +563,7 @@ return {
 ["Password"] = "密码";
 ["Password (repeat)"] = "密码 (重复)";
 ["Password has been reset successfully"] = "密码重设成功";
+["Password has been reset successfully."] = false;
 ["Password reset request"] = "申请密码重设";
 ["Passwords don't match!"] = "所输入的密码並不吻合";
 ["Passwords must consist of at least 8 characters!"] = "密码必须至少由 8 个符号组成";
@@ -589,6 +591,7 @@ return {
 ["Please enter the email reset code you have received:"] = "请输入您所收到的电邮重设码：";
 ["Please enter the invite code you've received."] = "请输入您所收到的邀请码";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "请输入您的电邮地址。此地址将为您申请密码重设时自动通知的收件信箱。此电邮地址将不被公开。在注册完成后您将收到一封电邮內含认证此信箱的连结。";
+["Please enter your login name! You will receive an email with a link to reset your password."] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "请输入您的帐号。您将收到一封附有重设密码连结的电子邮件。";
 ["Please enter your new password twice."] = "请输入您的新密码兩次：";
 ["Please enter your new password twice:"] = false;
@@ -691,6 +694,7 @@ return {
 ["Show profile"] = "显示个人简介";
 ["So I'm"] = "因此我感觉";
 ["Software"] = "软体";
+["Sorry, but there is no confirmed email address for this account. Please contact #{support}!"] = false;
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "抱歉，您的帐号並无经认证的电邮地址。请联络管理员或支援。";
 ["Sorry, but you are currently not invited"] = "抱歉，您目前未受邀请。";
 ["Sorry, but you are currently not invited!"] = false;
@@ -738,6 +742,7 @@ return {
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
+["The reset code is only valid for one day.\n\n"] = false;
 ["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
