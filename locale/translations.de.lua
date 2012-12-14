@@ -363,6 +363,7 @@ return {
 ["Member has been removed from your contacts."] = "Mitglied wurde aus Deinen Kontakten entfernt.";
 ["Member has not approved latest draft."] = "Mitglied hat den letzten Entwurf noch nicht angenommen.";
 ["Member has voting privileges for this unit."] = "Mitglied hat Stimmrecht in dieser Gliederung.";
+["Member is administrator."] = "Mitglied ist Administrator.";
 ["Member is already saved in your contacts!"] = "Mitglied ist schon in Deinen Kontakten!";
 ["Member is not participating in any of the #{count} areas in this unit."] = "Mitglied nimmt an keinem der #{count} Themenbereiche dieser Gliederung teil.";
 ["Member is not participating in the only area of the unit."] = "Mitglied nimmt am einzigen Themenbereich der Gliederung nicht teil.";
@@ -763,6 +764,7 @@ return {
 ["You have no voting right in this unit!"] = "Du hast kein Stimmrecht in dieser Gliederung!";
 ["You have not voted #{count} issues you were interested in."] = "Du hast für #{count} Themen, die Dich interessieren, noch nicht abgestimmt.";
 ["You have not voted one issue you were interested in."] = "Du hast für ein Thema, das Dich interessiert, noch nicht abgestimmt.";
+["You have saved this member as contact."] = "Du hast dieses Mitglied als Kontakt gespeichert.";
 ["You have to mark 'Are you sure' to revoke!"] = "Zum Zurückziehen musst Du 'Sicher?' auswählen!";
 ["You have voting privileges for this unit."] = "Du hast Stimmrecht in dieser Gliederung.";
 ["You need to be logged in, to use all features of this system."] = "Du musst eingeloggt sein, um alle Funktionen dieses Systems nutzen zu können.";

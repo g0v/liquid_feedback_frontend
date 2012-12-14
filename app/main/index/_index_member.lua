@@ -51,7 +51,12 @@ tabs[#tabs+1] = {
   label = _"Members",
   module = 'member',
   view   = '_list',
-  params = { members_selector = Member:new_selector():add_where("active") }
+  params = {
+    members_selector = Member:new_selector()
+      :add_where("active")
+      :left_join("contact", nil, { "contact.other_member_id = member.id AND contact.member_id = ?", app.session.member_id })
+      :add_field("contact.member_id NOTNULL", "saved")
+  }
 }
 
 if not param.get("tab") then

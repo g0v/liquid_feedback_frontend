@@ -430,6 +430,7 @@ return {
 ["Member has voting privileges for this unit"] = "Deelnemer heeft stemprivileges voor dit dossier";
 ["Member has voting privileges for this unit."] = false;
 ["Member inactive?"] = "Deelnemer niet actief?";
+["Member is administrator."] = false;
 ["Member is already saved in your contacts!"] = "Deelnemer is al in uw contacten opgeslagen!";
 ["Member is not participating in any of the #{count} areas in this unit"] = "Deelnemer participeerd niet in enige van de #{count} themagebieden in dit dossier";
 ["Member is not participating in any of the #{count} areas in this unit."] = false;
@@ -929,6 +930,7 @@ return {
 ["You have not voted #{count} issue(s) you were interested in"] = "U hebt niet gestemd over #{count} onderwerp(en) waar u geïnteresseerd in was";
 ["You have not voted #{count} issues you were interested in."] = false;
 ["You have not voted one issue you were interested in."] = false;
+["You have saved this member as contact."] = false;
 ["You have to mark 'Are you sure' to revoke!"] = "Om terug te trekken moet u 'Weet u zeker dat' bevestigen";
 ["You have voting privileges for this unit"] = "U heeft stemrecht voor dit dossier";
 ["You have voting privileges for this unit."] = false;

@@ -29,24 +29,6 @@ local closed_issues_selector = area:get_reference_selector("issues")
   :add_where("issue.closed NOTNULL")
   :add_order_by("issue.closed DESC")
 
-local members_selector = area:get_reference_selector("members"):add_where("member.active")
-
-local delegations_selector = Member:new_selector()
-:reset_fields()
-:add_field("member.id", "member_id")
-:add_field("delegation.unit_id")
-:add_field("delegation.area_id")
-:add_field("delegation.issue_id")
-:join("delegation", "delegation", "member.id = delegation.truster_id")
-:join("member", "trustee", "trustee.id = delegation.trustee_id")
-:add_where{ "member.active" }
-:add_where{ "trustee.active" }
-:add_where{ "delegation.unit_id ISNULL" }
-:add_where{ "delegation.area_id = ?", area.id }
-:add_where{ "delegation.issue_id ISNULL" }
-:add_order_by("member.name")
-:add_group_by("member.name, member.id, delegation.unit_id, delegation.area_id, delegation.issue_id")
-
 local tabs = {
   module = "area",
   view = "show_tab",
@@ -60,7 +42,8 @@ tabs[#tabs+1] = {
   view = "_list",
   params = {
     for_state = "open",
-    issues_selector = open_issues_selector, for_area = true
+    issues_selector = open_issues_selector,
+    for_area = true
   }
 }
 
@@ -71,7 +54,8 @@ tabs[#tabs+1] = {
   view = "_list",
   params = {
     for_state = "closed",
-    issues_selector = closed_issues_selector, for_area = true
+    issues_selector = closed_issues_selector,
+    for_area = true
   }
 }
 
@@ -80,10 +64,17 @@ tabs[#tabs+1] = {
   label = _"Latest events",
   module = "event",
   view = "_list",
-  params = { for_area = area }
+  params = {
+    for_area = area
+  }
 }
 
 if app.session:has_access("all_pseudonymous") then
+
+  local members_selector = area:get_reference_selector("members")
+    :add_where("member.active")
+    :left_join("contact", nil, { "contact.other_member_id = member.id AND contact.member_id = ?", app.session.member_id })
+    :add_field("contact.member_id NOTNULL", "saved")
   tabs[#tabs+1] = {
     name = "members",
     label = _"Participants" .. " (" .. tostring(members_selector:count()) .. ")",
@@ -92,6 +83,22 @@ if app.session:has_access("all_pseudonymous") then
     view = "_list",
     params = { members_selector = members_selector }
   }
+
+  local delegations_selector = Member:new_selector()
+    :reset_fields()
+    :add_field("member.id", "member_id")
+    :add_field("delegation.unit_id")
+    :add_field("delegation.area_id")
+    :add_field("delegation.issue_id")
+    :join("delegation", "delegation", "member.id = delegation.truster_id")
+    :join("member", "trustee", "trustee.id = delegation.trustee_id")
+    :add_where{ "member.active" }
+    :add_where{ "trustee.active" }
+    :add_where{ "delegation.unit_id ISNULL" }
+    :add_where{ "delegation.area_id = ?", area.id }
+    :add_where{ "delegation.issue_id ISNULL" }
+    :add_order_by("member.name")
+    :add_group_by("member.name, member.id, delegation.unit_id, delegation.area_id, delegation.issue_id")
   tabs[#tabs+1] = {
     name = "delegations",
     label = _"Delegations" .. " (" .. tostring(delegations_selector:count()) .. ")",
@@ -100,6 +107,7 @@ if app.session:has_access("all_pseudonymous") then
     view = "_list",
     params = { delegations_selector = delegations_selector }
   }
+
 end
 
 ui.tabs(tabs)

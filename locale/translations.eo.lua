@@ -406,6 +406,7 @@ return {
 ["Member has not approved latest draft"] = "La membro ne konsentis la plej novan skizon";
 ["Member has not approved latest draft."] = false;
 ["Member has voting privileges for this unit."] = false;
+["Member is administrator."] = false;
 ["Member is already saved in your contacts!"] = "La membro estas jam konservita en viaj kontaktoj!";
 ["Member is not participating in any of the #{count} areas in this unit."] = false;
 ["Member is not participating in the only area of the unit."] = false;
@@ -862,6 +863,7 @@ return {
 ["You have no voting right in this unit!"] = false;
 ["You have not voted #{count} issues you were interested in."] = false;
 ["You have not voted one issue you were interested in."] = false;
+["You have saved this member as contact."] = false;
 ["You have to mark 'Are you sure' to revoke!"] = "Por nuligi vi devas elekti 'Ĉu certa?'";
 ["You have voting privileges for this unit."] = false;
 ["You need to be logged in, to use all features of this system."] = "Vi devas esti ensalutinta por uzi ĉiujn funkciojn de tiu sistemo.";

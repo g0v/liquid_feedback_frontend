@@ -147,6 +147,22 @@ ui.container{
           }
         end
 
+        if member.admin then
+          local text = _"Member is administrator."
+          ui.image{
+            attr = { alt = text, title = text },
+            static = "icons/16/cog.png"
+          }
+        end
+
+        if member.saved then
+          local text = _"You have saved this member as contact."
+          ui.image{
+            attr = { alt = text, title = text },
+            static = "icons/16/bullet_disk.png"
+          }
+        end
+
       end
     }
 

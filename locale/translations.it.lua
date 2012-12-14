@@ -429,6 +429,7 @@ return {
 ["Member has voting privileges for this unit"] = "L'utente ha diritto al voto per questa sezione";
 ["Member has voting privileges for this unit."] = false;
 ["Member inactive?"] = "Utente inattivo?";
+["Member is administrator."] = false;
 ["Member is already saved in your contacts!"] = "L'utente e' gia' tra i tuoi contatti!";
 ["Member is not participating in any of the #{count} areas in this unit"] = "L'utente non partecipa ad alcuna delle #{count} aree della sezione";
 ["Member is not participating in any of the #{count} areas in this unit."] = false;
@@ -925,6 +926,7 @@ return {
 ["You have not voted #{count} issue(s) you were interested in"] = "Non hai votato #{count} tematiche a cui sei interessato";
 ["You have not voted #{count} issues you were interested in."] = false;
 ["You have not voted one issue you were interested in."] = false;
+["You have saved this member as contact."] = false;
 ["You have to mark 'Are you sure' to revoke!"] = "Devi scegliere che 'Confermi' per revocare!";
 ["You have voting privileges for this unit"] = "Hai il diritto di voto per questa sezione";
 ["You have voting privileges for this unit."] = false;

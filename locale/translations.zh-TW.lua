@@ -428,6 +428,7 @@ return {
 ["Member has voting privileges for this unit"] = "該成員對此單位有表決權";
 ["Member has voting privileges for this unit."] = false;
 ["Member inactive?"] = "該成員怠惰？";
+["Member is administrator."] = false;
 ["Member is already saved in your contacts!"] = "該成員已是您的聯絡人！";
 ["Member is not participating in any of the #{count} areas in this unit"] = "該成員不參與此單位中 #{count} 個領域的任何一個";
 ["Member is not participating in any of the #{count} areas in this unit."] = false;
@@ -927,6 +928,7 @@ return {
 ["You have not voted #{count} issue(s) you were interested in"] = "您對 #{count} 個您所關心的議題尚未進行表決。";
 ["You have not voted #{count} issues you were interested in."] = false;
 ["You have not voted one issue you were interested in."] = false;
+["You have saved this member as contact."] = false;
 ["You have to mark 'Are you sure' to revoke!"] = "請勾選 '確認' 以撤銷";
 ["You have voting privileges for this unit"] = "您在此單位有表決權";
 ["You have voting privileges for this unit."] = false;

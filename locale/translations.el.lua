@@ -428,6 +428,7 @@ return {
 ["Member has voting privileges for this unit"] = "Το μέλος έχει δικαίωμα ψήφου σε αυτή την ενότητα";
 ["Member has voting privileges for this unit."] = false;
 ["Member inactive?"] = "Απενεργοποιημένο μέλος;";
+["Member is administrator."] = false;
 ["Member is already saved in your contacts!"] = "Αυτό το μέλος είναι ήδη αποθηκευμένο στις επαφές σας!";
 ["Member is not participating in any of the #{count} areas in this unit"] = "Το μέλος δεν συμμετέχει σε κανέναν από τους #{count} τομείς σ' αυτή την ενότητα";
 ["Member is not participating in any of the #{count} areas in this unit."] = false;
@@ -927,6 +928,7 @@ return {
 ["You have not voted #{count} issue(s) you were interested in"] = "Δεν έχετε ψηφίσει σε #{count} θέμα(τα) που σας ενδιέφεραν";
 ["You have not voted #{count} issues you were interested in."] = false;
 ["You have not voted one issue you were interested in."] = false;
+["You have saved this member as contact."] = false;
 ["You have to mark 'Are you sure' to revoke!"] = "Πρέπει να μαρκάρετε το 'Είστε σίγουροι;' για να ανακαλέσετε";
 ["You have voting privileges for this unit"] = "Έχετε δικαίωμα ψήφου σε αυτήν την ενότητα";
 ["You have voting privileges for this unit."] = false;
