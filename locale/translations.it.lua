@@ -766,6 +766,8 @@ return {
 ["This issue is closed."] = false;
 ["This login is already taken, please choose another one!"] = "Questo nome utente e' stato gia' scelto, prova a sceglierne un altro!";
 ["This login is too short!"] = "Questo nome utente e' troppo breve";
+["This member abstained via delegation."] = false;
+["This member abstained."] = false;
 ["This member account has been created at #{created}"] = "Questo account e' stato creato il #{created}";
 ["This member account has been created at #{created}."] = false;
 ["This member has no voting right in this unit!"] = false;
@@ -787,6 +789,10 @@ return {
 ["This member is potential supporter of this initiative."] = false;
 ["This member is supporter of this initiative via delegation."] = false;
 ["This member is supporter of this initiative."] = false;
+["This member voted no via delegation."] = false;
+["This member voted no."] = false;
+["This member voted yes via delegation."] = false;
+["This member voted yes."] = false;
 ["This member voted."] = false;
 ["This name is already taken, please choose another one!"] = "Questo nome e' stato gia' scelto , prova a sceglierne un altro!";
 ["This name is really too short!"] = "Questo nome e' davvero troppo breve!";
@@ -833,6 +839,7 @@ return {
 ["Voted no"] = "Votato no";
 ["Voted yes"] = "Votato si";
 ["Voters"] = false;
+["Votes"] = false;
 ["Voting"] = "Votazione";
 ["Voting for issue ##{id} started"] = false;
 ["Voting for issue started"] = false;
@@ -858,6 +865,8 @@ return {
 ["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = "Si";
 ["Yesterday at #{time}"] = "Ieri alle #{time}";
+["You abstained via delegation."] = false;
+["You abstained."] = false;
 ["You are already initiator"] = "Sei gia' un promotore";
 ["You are already initiator!"] = false;
 ["You are already not interested in this issue."] = false;
@@ -920,6 +929,10 @@ return {
 ["You have voting privileges for this unit"] = "Hai il diritto di voto per questa sezione";
 ["You have voting privileges for this unit."] = false;
 ["You need to be logged in, to use all features of this system."] = "Devi registrarti per usare le funzionalita' di questo sistema.";
+["You voted no via delegation."] = false;
+["You voted no."] = false;
+["You voted yes via delegation."] = false;
+["You voted yes."] = false;
 ["You were interested"] = "Eri interessato";
 ["You were interested."] = false;
 ["You were potential supporter"] = "Eri un potenziale sostenitore";

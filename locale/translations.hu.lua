@@ -738,6 +738,8 @@ return {
 ["This issue is closed."] = false;
 ["This login is already taken, please choose another one!"] = "Ez a bejelentkezési név más foglalt, válassz másikat!";
 ["This login is too short!"] = "Ez a bejelentkezési név túl rövid!";
+["This member abstained via delegation."] = false;
+["This member abstained."] = false;
 ["This member account has been created at #{created}"] = "Felhasználói fiók létrehozásának idõpontja: #{created}";
 ["This member account has been created at #{created}."] = false;
 ["This member has no voting right in this unit!"] = false;
@@ -757,6 +759,10 @@ return {
 ["This member is potential supporter of this initiative."] = false;
 ["This member is supporter of this initiative via delegation."] = false;
 ["This member is supporter of this initiative."] = false;
+["This member voted no via delegation."] = false;
+["This member voted no."] = false;
+["This member voted yes via delegation."] = false;
+["This member voted yes."] = false;
 ["This member voted."] = false;
 ["This name is already taken, please choose another one!"] = "Ez a név már foglalt, kérlek, válassz másikat";
 ["This name is really too short!"] = "Ez a név tényleg túl rövid!";
@@ -804,6 +810,7 @@ return {
 ["Voted proposal"] = "Szavazott javaslat";
 ["Voted yes"] = "Igennel szavazott";
 ["Voters"] = false;
+["Votes"] = false;
 ["Voting"] = "Szavazás";
 ["Voting details"] = "Szavazás részletei";
 ["Voting for issue ##{id} started"] = false;
@@ -831,6 +838,8 @@ return {
 ["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = "Igen";
 ["Yesterday at #{time}"] = false;
+["You abstained via delegation."] = false;
+["You abstained."] = false;
 ["You are already initiator"] = "Már kezdeményezõ vagy";
 ["You are already initiator!"] = false;
 ["You are already not interested in this issue."] = false;
@@ -882,6 +891,10 @@ return {
 ["You have to mark 'Are you sure' to revoke!"] = "Visszavonáshoz be kell jelölnöd a 'Biztos?'-t is!";
 ["You have voting privileges for this unit."] = false;
 ["You need to be logged in, to use all features of this system."] = "A rendszer szolgáltatásainak teljeskörû használatához be kell jelentkezned";
+["You voted no via delegation."] = false;
+["You voted no."] = false;
+["You voted yes via delegation."] = false;
+["You voted yes."] = false;
 ["You were interested."] = false;
 ["You were potential supporter."] = false;
 ["You were supporter."] = false;

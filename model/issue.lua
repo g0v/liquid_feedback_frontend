@@ -160,6 +160,8 @@ Issue:add_reference{
     selector:add_field("delegation_info.*")
     selector:left_join("direct_voter", nil, { "direct_voter.issue_id = issue.id AND direct_voter.member_id = ?", options.member_id })
     selector:add_field("direct_voter.member_id NOTNULL", "direct_voted")
+    selector:left_join("delegating_voter", nil, { "delegating_voter.issue_id = issue.id AND delegating_voter.member_id = ?", options.member_id })
+    selector:add_field("delegating_voter.delegate_member_id", "voted_delegate_member_id")
     return selector
   end
 }

@@ -723,6 +723,8 @@ return {
 ["This issue is closed."] = false;
 ["This login is already taken, please choose another one!"] = "Tiu salutnomo estas jam prenita, bonvolu elekti alian!";
 ["This login is too short!"] = "Tiu salutnomo estas tro mallonga!";
+["This member abstained via delegation."] = false;
+["This member abstained."] = false;
 ["This member account has been created at #{created}"] = "Tiu membrokonto estis kreita je #{created}.";
 ["This member account has been created at #{created}."] = false;
 ["This member has no voting right in this unit!"] = false;
@@ -742,6 +744,10 @@ return {
 ["This member is potential supporter of this initiative."] = false;
 ["This member is supporter of this initiative via delegation."] = false;
 ["This member is supporter of this initiative."] = false;
+["This member voted no via delegation."] = false;
+["This member voted no."] = false;
+["This member voted yes via delegation."] = false;
+["This member voted yes."] = false;
 ["This member voted."] = false;
 ["This name is already taken, please choose another one!"] = "Tiu nomo estas jam prenita, bonvolu elekti alian!";
 ["This name is really too short!"] = "Tiu nomo estas vere tro mallonga!";
@@ -785,6 +791,7 @@ return {
 ["Voted proposal"] = "Propono balotita";
 ["Voted yes"] = "Balotita jese";
 ["Voters"] = false;
+["Votes"] = false;
 ["Voting"] = "Voĉdono";
 ["Voting details"] = "Voĉdonodetaloj";
 ["Voting for issue ##{id} started"] = false;
@@ -810,6 +817,8 @@ return {
 ["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = "Jes";
 ["Yesterday at #{time}"] = false;
+["You abstained via delegation."] = false;
+["You abstained."] = false;
 ["You are already initiator"] = "Vi estas jam iniciinto";
 ["You are already initiator!"] = false;
 ["You are already not interested in this issue."] = false;
@@ -856,6 +865,10 @@ return {
 ["You have to mark 'Are you sure' to revoke!"] = "Por nuligi vi devas elekti 'Ĉu certa?'";
 ["You have voting privileges for this unit."] = false;
 ["You need to be logged in, to use all features of this system."] = "Vi devas esti ensalutinta por uzi ĉiujn funkciojn de tiu sistemo.";
+["You voted no via delegation."] = false;
+["You voted no."] = false;
+["You voted yes via delegation."] = false;
+["You voted yes."] = false;
 ["You were interested."] = false;
 ["You were potential supporter."] = false;
 ["You were supporter."] = false;

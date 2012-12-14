@@ -765,6 +765,8 @@ return {
 ["This issue is closed."] = false;
 ["This login is already taken, please choose another one!"] = "Αυτό το όνομα σύνδεσης υπάρχει ήδη, παρακαλώ επιλέξτε κάποιο άλλο!";
 ["This login is too short!"] = "Αυτό το όνομα σύνδεσης είναι πολύ μικρό!";
+["This member abstained via delegation."] = false;
+["This member abstained."] = false;
 ["This member account has been created at #{created}"] = "Ο λογαριασμός αυτού του μέλους δημιουργήθηκε στις #{created}.";
 ["This member account has been created at #{created}."] = false;
 ["This member has no voting right in this unit!"] = false;
@@ -786,6 +788,10 @@ return {
 ["This member is potential supporter of this initiative."] = false;
 ["This member is supporter of this initiative via delegation."] = false;
 ["This member is supporter of this initiative."] = false;
+["This member voted no via delegation."] = false;
+["This member voted no."] = false;
+["This member voted yes via delegation."] = false;
+["This member voted yes."] = false;
 ["This member voted."] = false;
 ["This name is already taken, please choose another one!"] = "Αυτό το όνομα υπάρχει ήδη, παρακαλώ επιλέξτε κάποιο άλλο!";
 ["This name is really too short!"] = "Αυτό το όνομα είναι πραγματικά πολύ μικρό!";
@@ -833,6 +839,7 @@ return {
 ["Voted proposal"] = "Ψηφισμένη πρόταση";
 ["Voted yes"] = "Ψήφισε ναι";
 ["Voters"] = false;
+["Votes"] = false;
 ["Voting"] = "Ψηφοφορία";
 ["Voting details"] = "Λεπτομέρειες ψηφοφορίας";
 ["Voting for issue ##{id} started"] = false;
@@ -860,6 +867,8 @@ return {
 ["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = "Ναι";
 ["Yesterday at #{time}"] = "Χτες στις #{time}";
+["You abstained via delegation."] = false;
+["You abstained."] = false;
 ["You are already initiator"] = "Είστε ήδη εισηγητής";
 ["You are already initiator!"] = false;
 ["You are already not interested in this issue."] = false;
@@ -922,6 +931,10 @@ return {
 ["You have voting privileges for this unit"] = "Έχετε δικαίωμα ψήφου σε αυτήν την ενότητα";
 ["You have voting privileges for this unit."] = false;
 ["You need to be logged in, to use all features of this system."] = "Πρέπει να είσαστε συνδεδεμένοι, για να έχετε πρόσβαση σε όλες τις δυνατότητες αυτού του συστήματος.";
+["You voted no via delegation."] = false;
+["You voted no."] = false;
+["You voted yes via delegation."] = false;
+["You voted yes."] = false;
 ["You were interested"] = "Σας ενδιέφερε";
 ["You were interested."] = false;
 ["You were potential supporter"] = "Είσασταν δυνητικοί υποστηρικτές";

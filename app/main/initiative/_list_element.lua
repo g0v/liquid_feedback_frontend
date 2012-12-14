@@ -70,6 +70,7 @@ ui.container{ attr = { class = class }, content = function()
         if initiative.negative_votes and initiative.positive_votes then
           local max_value = initiative.issue.voter_count
           ui.bargraph{
+            title_prefix = _"Votes" .. ": ",
             max_value = max_value,
             width = 100,
             bars = {
@@ -94,6 +95,7 @@ ui.container{ attr = { class = class }, content = function()
         quorum = initiative.issue.policy.issue_quorum_num / initiative.issue.policy.issue_quorum_den
       end
       ui.bargraph{
+        title_prefix = _"Supporters" .. ": ",
         max_value = max_value,
         width = 100,
         quorum = max_value * quorum,
@@ -109,7 +111,155 @@ ui.container{ attr = { class = class }, content = function()
 
   if app.session.member_id then
     ui.container{ attr = { class = "interest" }, content = function()
-      if initiative.member_info.initiated then
+      if initiative.issue.fully_frozen and initiative.issue.closed then
+        if initiative.issue.member_info.direct_voted then
+          local vote = Vote:by_pk(initiative.issue.id, for_member.id)
+          ui.link{
+            module = "vote",
+            view = "list",
+            params = {
+              issue_id = initiative.issue.id,
+              member_id = for_member.id,
+            },
+            content = function()
+              if vote.grade > 0 then
+                local label
+                if for_member and for_member.id ~= app.session.member_id then
+                  label = _"This member voted yes."
+                else
+                  label = _"You voted yes."
+                end
+                ui.image{
+                  attr = { alt = label, title = label },
+                  static = "icons/16/thumb_up_green.png"
+                }
+              elseif vote.grade < 0 then
+                local label
+                if for_member and for_member.id ~= app.session.member_id then
+                  label = _"This member voted no."
+                else
+                  label = _"You voted no."
+                end
+                ui.image{
+                  attr = { alt = label, title = label },
+                  static = "icons/16/thumb_down_red.png"
+                }
+              else
+                local label
+                if for_member and for_member.id ~= app.session.member_id then
+                  label = _"This member abstained."
+                else
+                  label = _"You abstained."
+                end
+                ui.image{
+                  attr = { alt = label, title = label },
+                  static = "icons/16/bullet_yellow.png"
+                }
+              end
+            end
+          }
+        elseif initiative.issue.member_info.voted_delegate_member_id then
+          local vote = Vote:by_pk(initiative.issue.id, initiative.issue.member_info.voted_delegate_member_id)
+          ui.link{
+            module = "vote",
+            view = "list",
+            params = {
+              issue_id = initiative.issue.id,
+              member_id = initiative.issue.member_info.voted_delegate_member_id,
+            },
+            content = function()
+              local label
+              if vote.grade > 0 then
+                if for_member and for_member.id ~= app.session.member_id then
+                  label = _"This member voted yes via delegation."
+                else
+                  label = _"You voted yes via delegation."
+                end
+                ui.image{
+                  attr = { alt = label, title = label },
+                  static = "icons/16/thumb_up_green_arrow.png"
+                }
+              elseif vote.grade < 0 then
+                local label
+                if for_member and for_member.id ~= app.session.member_id then
+                  label = _"This member voted no via delegation."
+                else
+                  label = _"You voted no via delegation."
+                end
+                ui.image{
+                  attr = { alt = label, title = label },
+                  static = "icons/16/thumb_down_red_arrow.png"
+                }
+              else
+                local label
+                if for_member and for_member.id ~= app.session.member_id then
+                  label = _"This member abstained via delegation."
+                else
+                  label = _"You abstained via delegation."
+                end
+                ui.image{
+                  attr = { alt = label, title = label },
+                  static = "icons/16/bullet_yellow_arrow.png"
+                }
+              end
+            end
+          }
+        end
+      else
+        if initiative.member_info.directly_supported then
+          if initiative.member_info.satisfied then
+            local label
+            if for_member and for_member.id ~= app.session.member_id then
+              label = _"This member is supporter of this initiative."
+            else
+              label = _"You are supporter of this initiative."
+            end
+            ui.image{
+              attr = { alt = label, title = label },
+              static = "icons/16/thumb_up_light_green.png"
+            }
+          else
+            local label
+            if for_member and for_member.id ~= app.session.member_id then
+              label = _"This member is potential supporter of this initiative."
+            else
+              label = _"You are potential supporter of this initiative."
+            end
+            ui.image{
+              attr = { alt = label, title = label },
+              static = "icons/16/thumb_up.png"
+            }
+          end
+        elseif initiative.member_info.supported then
+          -- satisfied means, that a member has no critical opinion to any suggestion of this initiative
+          if initiative.member_info.satisfied then
+            local label
+            if for_member and for_member.id ~= app.session.member_id then
+              label = _"This member is supporter of this initiative via delegation."
+            else
+              label = _"You are supporter of this initiative via delegation."
+            end
+            ui.image{
+              attr = { alt = label, title = label },
+              static = "icons/16/thumb_up_light_green_arrow.png"
+            }
+          else
+            local label
+            if for_member and for_member.id ~= app.session.member_id then
+              label = _"This member is potential supporter of this initiative via delegation."
+            else
+              label = _"You are potential supporter of this initiative via delegation."
+            end
+            ui.image{
+              attr = { alt = label, title = label },
+              static = "icons/16/thumb_up_arrow.png"
+            }
+          end
+        end
+      end
+    end }
+    if initiative.member_info.initiated then
+      ui.container{ attr = { class = "interest" }, content = function()
         local label
         if for_member and for_member.id ~= app.session.member_id then
           label = _"This member is initiator of this initiative."
@@ -120,57 +270,8 @@ ui.container{ attr = { class = class }, content = function()
           attr = { alt = label, title = label },
           static = "icons/16/user_edit.png"
         }
-      elseif initiative.member_info.directly_supported then
-        if initiative.member_info.satisfied then
-          local label
-          if for_member and for_member.id ~= app.session.member_id then
-            label = _"This member is supporter of this initiative."
-          else
-            label = _"You are supporter of this initiative."
-          end
-          ui.image{
-            attr = { alt = label, title = label },
-            static = "icons/16/thumb_up_green.png"
-          }
-        else
-          local label
-          if for_member and for_member.id ~= app.session.member_id then
-            label = _"This member is potential supporter of this initiative."
-          else
-            label = _"You are potential supporter of this initiative."
-          end
-          ui.image{
-            attr = { alt = label, title = label },
-            static = "icons/16/thumb_up.png"
-          }
-        end
-      elseif initiative.member_info.supported then
-        -- satisfied means, that a member has no critical opinion to any suggestion of this initiative
-        if initiative.member_info.satisfied then
-          local label
-          if for_member and for_member.id ~= app.session.member_id then
-            label = _"This member is supporter of this initiative via delegation."
-          else
-            label = _"You are supporter of this initiative via delegation."
-          end
-          ui.image{
-            attr = { alt = label, title = label },
-            static = "icons/16/thumb_up_green_arrow.png"
-          }
-        else
-          local label
-          if for_member and for_member.id ~= app.session.member_id then
-            label = _"This member is potential supporter of this initiative via delegation."
-          else
-            label = _"You are potential supporter of this initiative via delegation."
-          end
-          ui.image{
-            attr = { alt = label, title = label },
-            static = "icons/16/thumb_up_arrow.png"
-          }
-        end
-      end
-    end }
+      end }
+    end
   end
 
   ui.container{ attr = { class = "name" }, content = function()

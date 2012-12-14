@@ -620,6 +620,8 @@ return {
 ["This issue is closed."] = false;
 ["This login is already taken, please choose another one!"] = false;
 ["This login is too short!"] = false;
+["This member abstained via delegation."] = false;
+["This member abstained."] = false;
 ["This member account has been created at #{created}."] = false;
 ["This member has no voting right in this unit!"] = false;
 ["This member has rejected to become initiator of this initiative!"] = false;
@@ -634,6 +636,10 @@ return {
 ["This member is potential supporter of this initiative."] = false;
 ["This member is supporter of this initiative via delegation."] = false;
 ["This member is supporter of this initiative."] = false;
+["This member voted no via delegation."] = false;
+["This member voted no."] = false;
+["This member voted yes via delegation."] = false;
+["This member voted yes."] = false;
 ["This member voted."] = false;
 ["This name is already taken, please choose another one!"] = false;
 ["This name is really too short!"] = false;
@@ -669,6 +675,7 @@ return {
 ["Voted no"] = false;
 ["Voted yes"] = false;
 ["Voters"] = false;
+["Votes"] = false;
 ["Voting"] = false;
 ["Voting for issue ##{id} started"] = false;
 ["Voting for issue started"] = false;
@@ -689,6 +696,8 @@ return {
 ["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = false;
 ["Yesterday at #{time}"] = false;
+["You abstained via delegation."] = false;
+["You abstained."] = false;
 ["You are already initiator!"] = false;
 ["You are already not interested in this issue."] = false;
 ["You are already not supporting this initiative."] = false;
@@ -727,6 +736,10 @@ return {
 ["You have to mark 'Are you sure' to revoke!"] = false;
 ["You have voting privileges for this unit."] = false;
 ["You need to be logged in, to use all features of this system."] = false;
+["You voted no via delegation."] = false;
+["You voted no."] = false;
+["You voted yes via delegation."] = false;
+["You voted yes."] = false;
 ["You were interested."] = false;
 ["You were potential supporter."] = false;
 ["You were supporter."] = false;

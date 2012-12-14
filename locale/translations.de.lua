@@ -34,6 +34,7 @@ return {
 ["Abstention"] = "Enthaltung";
 ["Abstention [many entries]"] = "Enthaltung";
 ["Abstention [single entry]"] = "Enthaltung";
+["Abstention via delegation"] = "Enthaltung durch Delegation";
 ["Accept invitation"] = "Einladung annehmen";
 ["Accepted"] = "Angenommen";
 ["Access level"] = "Berechtigung";
@@ -645,6 +646,8 @@ return {
 ["This issue is closed."] = "Dieses Thema ist geschlossen.";
 ["This login is already taken, please choose another one!"] = "Dieser Anmeldename ist bereits vergeben, bitte wähle einen anderen!";
 ["This login is too short!"] = "Dieser Anmeldename ist zu kurz!";
+["This member abstained via delegation."] = "Dieses Mitglied hat sich durch Delegation enthalten.";
+["This member abstained."] = "Dieses Mitglied hat sich enthalten.";
 ["This member account has been created at #{created}."] = "Dieser Mitgliedszugang wurde am/um #{created} angelegt.";
 ["This member has no voting right in this unit!"] = "Dieses Mitglied hat kein Stimmrecht in dieser Gliederung!";
 ["This member has rejected to become initiator of this initiative!"] = "Dieses Mitglied hat die Einladung, Initiator zu werden, abgelehnt!";
@@ -661,6 +664,10 @@ return {
 ["This member is potential supporter of this initiative."] = "Dieses Mitglied ist potenzieller Unterstützer dieser Initiative.";
 ["This member is supporter of this initiative via delegation."] = "Dieses Mitglied ist durch Delegation Unterstützer dieser Initiative.";
 ["This member is supporter of this initiative."] = "Dieses Mitglied ist Unterstützer dieser Initiative.";
+["This member voted no via delegation."] = "Dieses Mitglied hat durch Delegation mit Nein gestimmt.";
+["This member voted no."] = "Dieses Mitglied hat mit Nein gestimmt.";
+["This member voted yes via delegation."] = "Dieses Mitglied hat durch Delegation mit Ja gestimmt.";
+["This member voted yes."] = "Dieses Mitglied hat mit Ja gestimmt.";
 ["This member voted."] = "Dieses Mitglied hat abgestimmt.";
 ["This name is already taken, please choose another one!"] = "Dieser Name ist bereits vergeben, bitte wähle einen anderen!";
 ["This name is really too short!"] = "Dieser Name ist wirklich zu kurz!";
@@ -697,6 +704,7 @@ return {
 ["Voted no"] = "Mit Nein gestimmt";
 ["Voted yes"] = "Mit Ja gestimmt";
 ["Voters"] = "Mitglieder, die abgestimmt haben";
+["Votes"] = "Stimmen";
 ["Voting"] = "Abstimmung";
 ["Voting for issue ##{id} started"] = "Abstimmung für Thema ##{id} hat begonnen";
 ["Voting for issue started"] = "Abstimmung für Thema hat begonnen";
@@ -718,6 +726,8 @@ return {
 ["Withdraw support and delete the suggestions"] = "Unterstützung zurückziehen und die Anregungen löschen";
 ["Yes"] = "Ja";
 ["Yesterday at #{time}"] = "Gestern um #{time}";
+["You abstained via delegation."] = "Du hast Dich durch Delegation enthalten.";
+["You abstained."] = "Du hast Dich enthalten.";
 ["You are already initiator!"] = "Du bist bereits Initiator!";
 ["You are already not interested in this issue."] = "Du bist an diesem Thema bereits nicht interessiert.";
 ["You are already not supporting this initiative."] = "Diese Initiative hat bereits keine Unterstützung von Dir.";
@@ -756,6 +766,10 @@ return {
 ["You have to mark 'Are you sure' to revoke!"] = "Zum Zurückziehen musst Du 'Sicher?' auswählen!";
 ["You have voting privileges for this unit."] = "Du hast Stimmrecht in dieser Gliederung.";
 ["You need to be logged in, to use all features of this system."] = "Du musst eingeloggt sein, um alle Funktionen dieses Systems nutzen zu können.";
+["You voted no via delegation."] = "Du hast durch Delegation mit Nein gestimmt.";
+["You voted no."] = "Du hast mit Nein gestimmt.";
+["You voted yes via delegation."] = "Du hast durch Delegation mit Ja gestimmt.";
+["You voted yes."] = "Du hast mit Ja gestimmt.";
 ["You were interested."] = "Du warst interessiert.";
 ["You were potential supporter."] = "Du bist potentieller Unterstützer.";
 ["You were supporter."] = "Du bist Unterstützer.";

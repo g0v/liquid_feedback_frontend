@@ -765,6 +765,8 @@ return {
 ["This issue is closed."] = false;
 ["This login is already taken, please choose another one!"] = "此帐号已被使用，请另择一！";
 ["This login is too short!"] = "此帐号太短！";
+["This member abstained via delegation."] = false;
+["This member abstained."] = false;
 ["This member account has been created at #{created}"] = "该成员帐号于 #{created} 被新增。";
 ["This member account has been created at #{created}."] = false;
 ["This member has no voting right in this unit!"] = false;
@@ -786,6 +788,10 @@ return {
 ["This member is potential supporter of this initiative."] = false;
 ["This member is supporter of this initiative via delegation."] = false;
 ["This member is supporter of this initiative."] = false;
+["This member voted no via delegation."] = false;
+["This member voted no."] = false;
+["This member voted yes via delegation."] = false;
+["This member voted yes."] = false;
 ["This member voted."] = false;
 ["This name is already taken, please choose another one!"] = "此使用者代号已被使用，请另择一！";
 ["This name is really too short!"] = "此使用者代号真的太短了！";
@@ -833,6 +839,7 @@ return {
 ["Voted proposal"] = "已表决提案";
 ["Voted yes"] = "投肯定票";
 ["Voters"] = false;
+["Votes"] = false;
 ["Voting"] = "表决中";
 ["Voting details"] = "表决详细资料";
 ["Voting for issue ##{id} started"] = false;
@@ -860,6 +867,8 @@ return {
 ["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = "肯定";
 ["Yesterday at #{time}"] = "昨日于 #{time}";
+["You abstained via delegation."] = false;
+["You abstained."] = false;
 ["You are already initiator"] = "您已是发起者";
 ["You are already initiator!"] = false;
 ["You are already not interested in this issue."] = false;
@@ -922,6 +931,10 @@ return {
 ["You have voting privileges for this unit"] = "您在此单位有表决权";
 ["You have voting privileges for this unit."] = false;
 ["You need to be logged in, to use all features of this system."] = "您需要登入以使用此系统的全部功能。";
+["You voted no via delegation."] = false;
+["You voted no."] = false;
+["You voted yes via delegation."] = false;
+["You voted yes."] = false;
 ["You were interested"] = "您曾关心";
 ["You were interested."] = false;
 ["You were potential supporter"] = "您曾是可能支持者";

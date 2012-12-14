@@ -9,7 +9,7 @@ function ui.bargraph(args)
   ui.container{
     attr = {
       class = args.class or "bargraph",
-      title = tostring(text)
+      title = (args.title_prefix or "") .. text
     },
     content = function()
       local at_least_one_bar = false

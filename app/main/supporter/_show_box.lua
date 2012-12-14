@@ -30,7 +30,7 @@ if not initiative.issue.fully_frozen and not initiative.issue.closed then
     if not supporter:has_critical_opinion() then
       ui.tag{ content = function()
         ui.image{
-          static = "icons/16/thumb_up_green.png"
+          static = "icons/16/thumb_up_light_green.png"
         }
         if initiative.issue.closed then
           slot.put(_"You were supporter.")

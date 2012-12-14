@@ -768,6 +768,8 @@ return {
 ["This issue is closed."] = false;
 ["This login is already taken, please choose another one!"] = "Deze loginnaam is al bezet, kiest u alstublieft een andere!";
 ["This login is too short!"] = "Deze loginnaam is te kort!";
+["This member abstained via delegation."] = false;
+["This member abstained."] = false;
 ["This member account has been created at #{created}"] = "Dit lidmaatschap is gecreerd bij  #{created}.";
 ["This member account has been created at #{created}."] = false;
 ["This member has no voting right in this unit!"] = false;
@@ -789,6 +791,10 @@ return {
 ["This member is potential supporter of this initiative."] = false;
 ["This member is supporter of this initiative via delegation."] = false;
 ["This member is supporter of this initiative."] = false;
+["This member voted no via delegation."] = false;
+["This member voted no."] = false;
+["This member voted yes via delegation."] = false;
+["This member voted yes."] = false;
 ["This member voted."] = false;
 ["This name is already taken, please choose another one!"] = "Deze naam is al in gebruik, kiest u alstublieft een andere!";
 ["This name is really too short!"] = "Deze naam is echt te kort!";
@@ -836,6 +842,7 @@ return {
 ["Voted proposal"] = "Stemmingsvoorstel";
 ["Voted yes"] = "Ja gestemd";
 ["Voters"] = false;
+["Votes"] = false;
 ["Voting"] = "De stemming";
 ["Voting details"] = "Stemmings details";
 ["Voting for issue ##{id} started"] = false;
@@ -863,6 +870,8 @@ return {
 ["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = "Ja";
 ["Yesterday at #{time}"] = "Gisteren om #{time}";
+["You abstained via delegation."] = false;
+["You abstained."] = false;
 ["You are already initiator"] = "U bent al initiator";
 ["You are already initiator!"] = false;
 ["You are already not interested in this issue."] = false;
@@ -924,6 +933,10 @@ return {
 ["You have voting privileges for this unit"] = "U heeft stemrecht voor dit dossier";
 ["You have voting privileges for this unit."] = false;
 ["You need to be logged in, to use all features of this system."] = "U moet ingelogd zijn om alle functies van dit systeem te gebruiken.";
+["You voted no via delegation."] = false;
+["You voted no."] = false;
+["You voted yes via delegation."] = false;
+["You voted yes."] = false;
 ["You were interested"] = "U was geïnteresseerd";
 ["You were interested."] = false;
 ["You were potential supporter"] = "U was een potentiële ondersteuner";
