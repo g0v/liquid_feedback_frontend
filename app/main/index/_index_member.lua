@@ -1,3 +1,38 @@
+-- quick links
+ui.actions(function()
+  ui.link{
+    text = "Neuste Abstimmungsergebnisse",
+    module = "index",
+    view = "index",
+    params = {
+      tab = "closed",
+      filter = "finished",
+      filter_interest = "unit"
+    }
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    text = "Abgestimmt durch Delegationen",
+    module = "index",
+    view = "index",
+    params = {
+      tab = "closed",
+      filter_interest = "voted",
+      filter_delegation = "delegated"
+    }
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    text = "Noch nicht abgestimmt",
+    module = "index",
+    view = "index",
+    params = {
+      tab = "open",
+      filter = "frozen",
+      filter_interest = "unit"
+    }
+  }
+end)
 
 local tabs = {
   module = "index",

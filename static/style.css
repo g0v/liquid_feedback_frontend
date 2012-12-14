@@ -653,7 +653,7 @@ a.delegation_info:focus {
  */
 
 .ui_tabs_links {
-  margin: 20px 0px 15px -2px;
+  margin: 15px 0px 10px -2px;
   line-height: 260%;
 }
 
@@ -698,7 +698,7 @@ a.delegation_info:focus {
 
 .ui_filter {
   overflow: auto;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .ui_filter_head {
