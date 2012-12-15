@@ -36,6 +36,7 @@ ui.form{
     local initiatives = app.session.member
       :get_reference_selector("supported_initiatives")
       :join("issue", nil, "issue.id = initiative.issue_id")
+      :add_order_by("issue.id, initiative.id")
       :exec()
     local tmp = { { id = -1, myname = _"Suggest no initiative" }}
     for i, initiative in ipairs(initiatives) do
