@@ -303,17 +303,17 @@ form.unit_selector {
 
 
 #language_menu {
- z-index: 2;
+  z-index: 2;
 }
 
 #language_menu li {
- float: left;
+  float: left;
 }
 
 #language_menu li:hover {
- position: relative;
- z-index: 4;
- cursor: default;
+  position: relative;
+  z-index: 4;
+  cursor: default;
 }
 
 #language_menu {
@@ -430,7 +430,7 @@ form.unit_selector {
 .issue .content,
 .initiative_head .content,
 .area_list .unit_head .content,
-.area_list .area .content {
+.area_list .area_head .content {
   padding: 5px 10px 5px 10px;
   line-height: 120%;
 }
@@ -439,23 +439,22 @@ form.unit_selector {
   margin-bottom: 2ex;
 }
 
-.page_head .actions:last-child,
-.page_head .unit_head .content:last-child,
-.page_head .area_head .content:last-child,
-.issue .content:last-child,
-.initiative_head .content:last-child,
-.area_list .unit_head .content:last-child,
-.area_list .area .content:last-child {
-  padding: 5px 10px 7px 10px;
+.left {
+  float: left;
 }
-
-.page_head .initiative_list,
-.issue .initiative_list {
-  padding-left: 8px;
+.right {
+  float: right;
 }
-
-.issue .content.actions {
-  margin-bottom: 1ex;
+.clear_left {
+  clear: left;
+}
+.clear_right {
+  clear: right;
+}
+.clear_both,
+.issue_policy_info,
+.initiator_names {
+  clear: both;
 }
 
 .area_head {
@@ -478,8 +477,8 @@ form.unit_selector {
 .page_head .issue .content.actions a,
 .issues .issue .content.actions,
 .issues .issue .content.actions a,
-.area_list .area .content,
-.area_list .area .content a {
+.area_list .content,
+.area_list .content a {
   color: #000;
 }
 
@@ -527,8 +526,7 @@ form.unit_selector {
 
 .unit_link, .area_link, .issue_link, .ini_link {
   float: left;
-  margin-top: 5px;
-  margin-right: 8px;
+  margin: 7px 8px 0 0;
   padding: 5px 5px 3px 5px;
   border-radius: 5px;
   text-decoration: none;
@@ -549,12 +547,18 @@ form.unit_selector {
   border: 1px solid #ccc;
   padding: 4px 4px 2px 4px;
 }
-.path .unit_link, .path .area_link, .path .issue_link, .path .ini_link {
-  margin: 0 8px 0 0;
+.page_head .path .unit_link,
+.page_head .path .area_link,
+.page_head .path .issue_link,
+.page_head .path .ini_link {
+  margin-top: 0;
 }
-.path {
+.page_head .path {
   float: left;
   padding: 3px 0 3px 10px;
+}
+.issue .path {
+  padding-left: 10px;
 }
 
 /* delegation info */
@@ -563,7 +567,7 @@ form.unit_selector {
   float: right;
   text-decoration: none;
   padding: 0px;
-  border-radius: 0px 5px 0px 5px;
+  border-radius: 5px;
 }
 
 .delegation_arrow {
@@ -1039,7 +1043,6 @@ div.delegation_participation {
 .delegations_scope .area_link,
 .delegations_scope .issue_link {
   margin-bottom: 5px;
-  margin-top: 7px;
 }
 
 .delegations_list_row {
@@ -1144,11 +1147,11 @@ div.delegations_participation {
   margin-top: 2ex;
 }
 
-.area_list .area {
+.area_list .area_head {
   border-top: 1px solid #777;
 }
 
-.area_list .area:first-child {
+.area_list .area_head:first-child {
   border-top: none;
 }
 
@@ -1160,11 +1163,11 @@ div.delegations_participation {
   border-radius: 8px;
 }
 
-.area_list .area:last-child .content:last-child{
+.area_list .area_head:last-child .content:last-child{
   border-radius: 0 0 8px 8px;
 }
 
-.area_list .area:first-child .area_head {
+.area_list .area_head:first-child {
   border-radius: 8px 8px 0 0;
 }
 
@@ -1181,7 +1184,7 @@ div.delegations_participation {
   overflow: hidden;
   border: 1px solid #777;
   border-radius: 8px;
-  margin-bottom: 2ex;
+  margin-bottom: 1ex;
 }
 
 .issue.interested,
@@ -1281,7 +1284,7 @@ div.delegations_participation {
 
 .initiative {
   margin-left: 1ex;
-  margin-bottom: 1ex;
+  margin-bottom: 0.7ex;
   line-height: 50%;
 }
 

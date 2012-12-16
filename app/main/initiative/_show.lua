@@ -64,8 +64,22 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
   else
     ui.container{ attr = { class = "title" }, content = text }
   end
+
   if app.session:has_access("authors_pseudonymous") then
     ui.container{ attr = { class = "content" }, content = function()
+
+      if app.session.member_id then
+        ui.container{ attr = { class = "right" }, content = function()
+          execute.view{
+            module = "supporter",
+            view = "_show_box",
+            params = {
+              initiative = initiative
+            }
+          }
+        end }
+      end
+
       ui.tag{
         attr = { class = "initiator_names" },
         content = function()
@@ -170,21 +184,9 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
           end
         end
       }
+
     end }
   end
-
-  if app.session.member_id then
-    ui.container{ attr = { class = "content" }, content = function()
-      execute.view{
-        module = "supporter",
-        view = "_show_box",
-        params = {
-          initiative = initiative
-        }
-      }
-    end }
-  end
-
 
   -- voting results
   if initiative.issue.ranks_available and initiative.admitted then
@@ -220,13 +222,15 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
     }
   end
 
-  ui.container{ attr = { class = "content" }, content = function()
-    execute.view{
-      module = "initiative",
-      view = "_battles",
-      params = { initiative = initiative }
-    }
-  end }
+  if initiative.issue.closed then
+    ui.container{ attr = { class = "content" }, content = function()
+      execute.view{
+        module = "initiative",
+        view = "_battles",
+        params = { initiative = initiative }
+      }
+    end }
+  end
 
   -- initiative not admitted info
   if initiative.admitted == false then

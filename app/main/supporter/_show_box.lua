@@ -1,6 +1,3 @@
-local initiative = param.get("initiative", "table") or Initiative:by_id(param.get_id())
-
-
 local initiative = param.get("initiative", "table")
 local supporter = Supporter:by_pk(initiative.id, app.session.member.id)
 
@@ -25,60 +22,56 @@ local routing = {
   }
 }
 
-if not initiative.issue.fully_frozen and not initiative.issue.closed then
-  if supporter then
-    if not supporter:has_critical_opinion() then
-      ui.tag{ content = function()
-        ui.image{
-          static = "icons/16/thumb_up_light_green.png"
-        }
-        if initiative.issue.closed then
-          slot.put(_"You were supporter.")
-        else
-          slot.put(_"You are supporter.")
-        end
-      end }
-    else
-      ui.tag{ attr = { class = "potential_supporter" }, content = function()
-        ui.image{
-          static = "icons/16/thumb_up.png"
-        }
-        if initiative.issue.closed then
-          slot.put(_"You were potential supporter.")
-        else
-          slot.put(_"You are potential supporter.")
-        end
-      end }
-    end
-    slot.put(" (")
-    ui.link{
-      text    = _"Withdraw",
-      module  = "initiative",
-      action  = "remove_support",
-      id      = initiative.id,
-      routing = routing,
-      partial = partial
-    }
-    slot.put(") ")
-  elseif not initiative.revoked and app.session.member:has_voting_right_for_unit_id(initiative.issue.area.unit_id) then
-    local params = param.get_all_cgi()
-    params.dyn = nil
-    ui.link{
-      text    = _"Support this initiative",
-      module  = "initiative",
-      action  = "add_support",
-      id      = initiative.id,
-      routing = routing,
-      partial = partial
-    }
-    slot.put(" ")
-  end
-end
-
-
-
 if not initiative.issue.closed then
-  slot.put(" &middot; ")
+
+  if not initiative.issue.fully_frozen then
+    if supporter then
+      if not supporter:has_critical_opinion() then
+        ui.tag{ content = function()
+          ui.image{
+            static = "icons/16/thumb_up_light_green.png"
+          }
+          if initiative.issue.closed then
+            slot.put(_"You were supporter.")
+          else
+            slot.put(_"You are supporter.")
+          end
+        end }
+      else
+        ui.tag{ attr = { class = "potential_supporter" }, content = function()
+          ui.image{
+            static = "icons/16/thumb_up.png"
+          }
+          if initiative.issue.closed then
+            slot.put(_"You were potential supporter.")
+          else
+            slot.put(_"You are potential supporter.")
+          end
+        end }
+      end
+      slot.put(" (")
+      ui.link{
+        text    = _"Withdraw",
+        module  = "initiative",
+        action  = "remove_support",
+        id      = initiative.id,
+        routing = routing,
+        partial = partial
+      }
+      slot.put(") &middot; ")
+    elseif not initiative.revoked and app.session.member:has_voting_right_for_unit_id(initiative.issue.area.unit_id) then
+      ui.link{
+        text    = _"Support this initiative",
+        module  = "initiative",
+        action  = "add_support",
+        id      = initiative.id,
+        routing = routing,
+        partial = partial
+      }
+      slot.put(" &middot; ")
+    end
+  end
+
   local ignored_initiative = IgnoredInitiative:by_pk(app.session.member.id, initiative.id)
   if ignored_initiative then
     ui.tag{
@@ -118,4 +111,5 @@ if not initiative.issue.closed then
       attr = { title = _"Ignoring an initiative means, that you don't get anymore email notifications about it." }
     }
   end
+
 end

@@ -1,9 +1,5 @@
 local initiative = param.get("initiative", "table")
 
-if not initiative.issue.closed then
-  return
-end
-
 local battled_initiatives = Initiative:new_selector()
   :add_field("winning_battle.count", "winning_count")
   :add_field("losing_battle.count", "losing_count")

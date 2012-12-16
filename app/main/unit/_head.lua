@@ -12,11 +12,8 @@ end
 
 ui.container{ attr = { class = "unit_head" }, content = function()
 
-  -- show unit delegation
-  execute.view{ module = "delegation", view = "_info", params = { unit = unit, member = member } }
-
   -- unit title
-  ui.container{ attr = { class = "title" }, content = function()
+  ui.container{ attr = { class = "title left" }, content = function()
     if not config.single_unit_id then
       ui.link{
         module = "unit", view = "show", id = unit.id,
@@ -30,9 +27,12 @@ ui.container{ attr = { class = "unit_head" }, content = function()
     end
   end }
 
+  -- unit delegation
+  execute.view{ module = "delegation", view = "_info", params = { unit = unit, member = member } }
+
   -- voting rights
   if show_content then
-    ui.container{ attr = { class = "content" }, content = function()
+    ui.container{ attr = { class = "content left clear_left" }, content = function()
       if member and member:has_voting_right_for_unit_id(unit.id) then
         if app.session.member_id == member.id then
           ui.tag{ content = _"You have voting privileges for this unit." }
@@ -44,5 +44,7 @@ ui.container{ attr = { class = "unit_head" }, content = function()
   else
     slot.put("<br />")
   end
+
+  slot.put('<div class="clearfix"></div>')
 
 end }

@@ -114,26 +114,25 @@ for i, unit in ipairs(units) do
     end
 
     ui.container{ attr = { class = "area_list" }, content = function()
+
       execute.view{ module = "unit", view = "_head", params = { unit = unit, show_content = true, member = member } }
 
-      if area_count > 0 then
-        local areas = areas_selector:exec()
-
-        areas:load_delegation_info_once_for_member_id(member.id)
-
-        for i, area in ipairs(areas) do
-          execute.view{
-            module = "area", view = "_list_entry", params = {
-              area = area, member = member
-            }
+      local areas = areas_selector:exec()
+      areas:load_delegation_info_once_for_member_id(member.id)
+      for i, area in ipairs(areas) do
+        execute.view{
+          module = "area",
+          view = "_head",
+          params = {
+            area = area,
+            member = member,
+            hide_unit = true,
+            show_content = true,
+            for_listing = true
           }
-        end
+        }
       end
 
-      if area_count == 0 and member:has_voting_right_for_unit_id(unit.id) or
-         more_area_count > 0 then
-
-      end
     end }
 
     ui.container{ attr = { class = "area", style="margin-top: 1ex; margin-left: 10px;" }, content = function()

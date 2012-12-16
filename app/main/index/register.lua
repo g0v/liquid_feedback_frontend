@@ -179,7 +179,7 @@ ui.form{
                 id = "use_terms_checkbox_" .. checkbox.name,
                 name = "use_terms_checkbox_" .. checkbox.name,
                 value = "1",
-                style = "float: left;",
+                class = "left",
                 checked = param.get("use_terms_checkbox_" .. checkbox.name, atom.boolean) and "checked" or nil
               }
             }
