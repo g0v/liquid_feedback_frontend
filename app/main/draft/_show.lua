@@ -8,7 +8,7 @@ if source then
     attr = { class = "diff" },
     content = function()
       local output = draft.content:gsub("\n", "\n<br />")
-      slot.put(output)
+      slot.put(encode.html(output))
     end
   }
 

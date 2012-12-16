@@ -59,7 +59,7 @@ function util.diff(old_content, new_content)
       if not state_changed and not first_in_line then
         slot.put(" ")
       end
-      slot.put(line)
+      slot.put(encode.html(line))
       first_in_line = false
     else
       slot.put("\n<br />")
