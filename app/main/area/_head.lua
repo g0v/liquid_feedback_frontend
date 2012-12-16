@@ -25,7 +25,7 @@ ui.container{ attr = { class = "area_head" }, content = function()
         attr = { class = "area_name" }, content = area.name
       }
     end }
-    if show_content and not for_listing then
+    if show_content and not for_listing and area.description ~= "" then
       ui.container{ attr = { class = "content" }, content = area.description }
     end
   end }
