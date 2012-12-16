@@ -33,13 +33,6 @@ if resurrect then
   end
 
   -- copy privileges
-  if config.single_unit_id then
-    local privilege = Privilege:new()
-    privilege.member_id = member_new.id
-    privilege.unit_id = config.single_unit_id
-    privilege.voting_right = true
-    privilege:save()
-  end
   local units = Unit:new_selector()
     :add_field("privilege.member_id NOTNULL", "privilege_exists")
     :add_field("privilege.voting_right", "voting_right")

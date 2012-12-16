@@ -14,17 +14,10 @@ ui.container{ attr = { class = "unit_head" }, content = function()
 
   -- unit title
   ui.container{ attr = { class = "title left" }, content = function()
-    if not config.single_unit_id then
-      ui.link{
-        module = "unit", view = "show", id = unit.id,
-        attr = { class = "unit_name" }, content = unit.name
-      }
-    else
-      ui.link{
-        module = "unit", view = "show", id = unit.id,
-        attr = { class = "unit_name" }, content = _"Pirate Feedback" .. " &middot; " .. config.instance_name
-      }
-    end
+    ui.link{
+      module = "unit", view = "show", id = unit.id,
+      attr = { class = "unit_name" }, content = unit.name
+    }
   end }
 
   -- unit delegation

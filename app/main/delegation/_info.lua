@@ -37,7 +37,7 @@ elseif area then
   link_title = _"Area delegation"
   scope = "area"
 else
-  link_title = config.single_object_mode and _"Global delegation" or _"Unit delegation"
+  link_title = _"Unit delegation"
   scope = "unit"
 end
 

@@ -1,5 +1,4 @@
-local unit_id = config.single_unit_id or param.get_id()
-
+local unit_id = param.get_id()
 local unit = Unit:by_id(unit_id)
 
 if not unit then

@@ -22,7 +22,7 @@ end
 local unit = Unit:by_id(param.get("unit_id", atom.integer))
 if unit then
   voting_right_unit_id = unit.id
-  ui.title(ui_title .. (config.single_unit_id and _"Global delegation" or _"Unit delegation"), unit)
+  ui.title(ui_title .. _"Unit delegation", unit)
   util.help("delegation.new.unit")
 end
 
@@ -467,7 +467,7 @@ for i, record in ipairs(delegation_chain) do
       attr = { class = "delegation_scope" .. (overridden and " scope_overridden" or "") },
       content = function()
         if record.scope_out == "unit" then
-          slot.put(config.single_object_mode and _"Global delegation" or _"Unit delegation")
+          slot.put(_"Unit delegation")
         elseif record.scope_out == "area" then
           slot.put(_"Area delegation")
         elseif record.scope_out == "issue" then

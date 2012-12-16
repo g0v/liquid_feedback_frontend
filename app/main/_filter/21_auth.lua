@@ -63,11 +63,7 @@ if module == "sitemap" then
 end
 
 if app.session:has_access("anonymous") and not app.session.member_id and auth_needed and module == "index" and view == "index" then
-  if config.single_unit_id then
-    request.redirect{ module = "unit", view = "show", id = config.single_unit_id }
-  else
-    request.redirect{ module = "unit", view = "list" }
-  end
+  request.redirect{ module = "unit", view = "list" }
   return
 end
 
