@@ -35,10 +35,10 @@ ui.container{ attr = { class = "area_head" }, content = function()
 
   if show_content then
 
-    ui.container{ attr = { class = "content right clear_right" }, content = function()
+    -- actions (members with appropriate voting right only)
+    if member then
 
-      -- actions (members with appropriate voting right only)
-      if member then
+      ui.container{ attr = { class = "content right clear_right" }, content = function()
 
         -- membership
         local membership = Membership:by_pk(area.id, member.id)
@@ -99,9 +99,9 @@ ui.container{ attr = { class = "area_head" }, content = function()
           }
         end
 
-      end
+      end }
 
-    end }
+    end
 
     if for_listing then
 

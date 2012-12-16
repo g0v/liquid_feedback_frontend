@@ -517,6 +517,10 @@ form.unit_selector {
   background-color: #e0e9ff;
 }
 
+.unit_head, .area_head {
+  min-height: 2.2em;
+}
+
 .unit_head:last-child {
   border-radius: 0 0 8px 8px;
 }
@@ -1163,12 +1167,14 @@ div.delegations_participation {
   border-radius: 8px;
 }
 
-.area_list .area_head:last-child .content:last-child{
-  border-radius: 0 0 8px 8px;
+.area_list .area_head:last-child {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 .area_list .area_head:first-child {
-  border-radius: 8px 8px 0 0;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 /*************************************************************************
