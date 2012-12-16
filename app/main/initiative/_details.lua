@@ -64,14 +64,14 @@ ui.container{
               texts[#texts+1] = "-"
             end
             dtdd( _"Other failures", table.concat(texts, ", ") )
-            
+
             dtdd( _"Eligible as winner", bool2str(initiative.eligible) )
 
           end
         }
       end
 
-      slot.put("<div class='clearfix'></div>")
+      slot.put('<div class="clearfix"></div>')
 
     end }
   end

@@ -460,7 +460,7 @@ if not show_as_head then
       }
     }
 
-    slot.put("<div class='clearfix'></div>")
+    slot.put('<div class="clearfix"></div>')
 
   end
 

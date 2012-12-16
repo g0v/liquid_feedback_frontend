@@ -70,7 +70,7 @@ ui.container{
         end
       }
 
-      slot.put("<div class='clearfix'></div>")
+      slot.put('<div class="clearfix"></div>')
 
     end }
   end

@@ -43,12 +43,10 @@ function ui.title(content, unit, area, issue, initiative)
           end
         end
       end }
-    end
-
-    ui.container{ attr = { class = "title" }, content = content }
-
-    if unit then
-      slot.put("<div class='clearfix'></div>")
+      ui.container{ attr = { class = "title" }, content = content }
+      slot.put('<div class="clearfix"></div>')
+    else
+      ui.container{ attr = { class = "title" }, content = content }
     end
 
   end)

@@ -439,7 +439,8 @@ form.unit_selector {
   margin-bottom: 2ex;
 }
 
-.left {
+.left,
+.page_head .title {
   float: left;
 }
 .right {
