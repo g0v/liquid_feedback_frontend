@@ -7,8 +7,6 @@ contacts_selector:add_field("member.*")
 
 local paginator_name = param.get("paginator_name")
 
-ui.add_partial_param_names{ "member_list" }
-
 local filter = { name = "member_list" }
 
 filter[#filter+1] = {

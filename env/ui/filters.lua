@@ -66,11 +66,6 @@ function ui.filters(args)
                 id      = id,
                 params  = params,
                 text    = option.label,
-                partial = {
-                  params = {
-                    [filter_name] = option.name
-                  }
-                },
                 anchor  = filter.anchor or nil
               }
 

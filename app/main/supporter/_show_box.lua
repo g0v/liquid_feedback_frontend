@@ -1,17 +1,6 @@
 local initiative = param.get("initiative", "table")
 local supporter = Supporter:by_pk(initiative.id, app.session.member.id)
 
-local partial = {
-  routing = {
-    default = {
-      mode = "redirect",
-      module = "initiative",
-      view = "show_support",
-      id = initiative.id
-    }
-  }
-}
-
 local routing = {
   default = {
     mode = "redirect",
@@ -55,8 +44,7 @@ if not initiative.issue.closed then
         module  = "initiative",
         action  = "remove_support",
         id      = initiative.id,
-        routing = routing,
-        partial = partial
+        routing = routing
       }
       slot.put(") &middot; ")
     elseif not initiative.revoked and app.session.member:has_voting_right_for_unit_id(initiative.issue.area.unit_id) then
@@ -65,8 +53,7 @@ if not initiative.issue.closed then
         module  = "initiative",
         action  = "add_support",
         id      = initiative.id,
-        routing = routing,
-        partial = partial
+        routing = routing
       }
       slot.put(" &middot; ")
     end

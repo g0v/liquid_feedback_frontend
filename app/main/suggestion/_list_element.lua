@@ -12,21 +12,6 @@ if show_filter == nil then
   show_filter = true
 end
 
-local partial = {
-  routing = {
-    default = {
-      mode = "redirect",
-      module = "initiative",
-      view = "show_tab",
-      params = {
-        initiative_id = initiative.id,
-        tab = "suggestions",
-        tab_id = tab_id
-      },
-    }
-  }
-}
-
 local ui_filters = ui.filters
 if true or not show_filter then
   ui_filters = function(args) args.content() end
@@ -137,8 +122,7 @@ ui.container{ attr = { class = "box" },
                           params = {
                             suggestion_id = record.id,
                             degree = 2
-                          },
-                          partial = partial
+                          }
                         }
                         slot.put(" ")
                         ui.link{
@@ -150,8 +134,7 @@ ui.container{ attr = { class = "box" },
                           params = {
                             suggestion_id = record.id,
                             degree = 1
-                          },
-                          partial = partial
+                          }
                         }
                         slot.put(" ")
                         ui.link{
@@ -163,8 +146,7 @@ ui.container{ attr = { class = "box" },
                           params = {
                             suggestion_id = record.id,
                             delete = true
-                          },
-                          partial = partial
+                          }
                         }
                         slot.put(" ")
                         ui.link{
@@ -176,8 +158,7 @@ ui.container{ attr = { class = "box" },
                           params = {
                             suggestion_id = record.id,
                             degree = -1
-                          },
-                          partial = partial
+                          }
                         }
                         slot.put(" ")
                         ui.link{
@@ -189,8 +170,7 @@ ui.container{ attr = { class = "box" },
                           params = {
                             suggestion_id = record.id,
                             degree = -2
-                          },
-                          partial = partial
+                          }
                         }
                       end
                     elseif app.session.member_id then
@@ -265,8 +245,7 @@ ui.container{ attr = { class = "box" },
                     params = {
                       suggestion_id = record.id,
                       fulfilled = true
-                    },
-                    partial = partial
+                    }
                   }
                   slot.put("<br />")
                   ui.link{
@@ -278,8 +257,7 @@ ui.container{ attr = { class = "box" },
                     params = {
                       suggestion_id = record.id,
                       fulfilled = false
-                    },
-                    partial = partial
+                    }
                   }
 
                 end

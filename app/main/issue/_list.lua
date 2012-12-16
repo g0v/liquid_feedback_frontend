@@ -12,14 +12,6 @@ elseif for_state == "closed" then
   issues_selector:add_where("issue.closed NOTNULL")
 end
 
-ui.add_partial_param_names{
-  "filter",
-  "filter_open",
-  "filter_voting",
-  "filter_interest",
-  "issue_list"
-}
-
 local filters = execute.load_chunk{module="issue", chunk="_filters.lua", params = {
   member = member, for_member = for_member, state = for_state, for_unit = for_unit, for_area = for_area
 }}

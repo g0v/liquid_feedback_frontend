@@ -12,21 +12,6 @@ if show_filter == nil then
   show_filter = true
 end
 
-local partial = {
-  routing = {
-    default = {
-      mode = "redirect",
-      module = "initiative",
-      view = "show_tab",
-      params = {
-        initiative_id = initiative.id,
-        tab = "arguments",
-        tab_id = tab_id
-      },
-    }
-  }
-}
-
 local ui_filters = ui.filters
 if true or not show_filter then
   ui_filters = function(args) args.content() end
@@ -153,8 +138,7 @@ ui.container{ attr = { class = "box" },
                           params = {
                             argument_id = record.id,
                             negative = false
-                          },
-                          partial = partial
+                          }
                         }
                         slot.put(" ")
                         ui.link{
@@ -166,8 +150,7 @@ ui.container{ attr = { class = "box" },
                           params = {
                             argument_id = record.id,
                             delete = true
-                          },
-                          partial = partial
+                          }
                         }
                         slot.put(" ")
                         ui.link{
@@ -179,8 +162,7 @@ ui.container{ attr = { class = "box" },
                           params = {
                             argument_id = record.id,
                             negative = true
-                          },
-                          partial = partial
+                          }
                         }
                       end
 

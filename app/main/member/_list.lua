@@ -24,8 +24,6 @@ if initiative or issue then
   end
 end
 
-ui.add_partial_param_names{ "member_list" }
-
 local filter = { name = "member_list" }
 
 filter[#filter+1] = {

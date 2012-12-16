@@ -34,8 +34,6 @@ if issue then
   name = "issue_" .. tostring(issue.id) ..  "_initiative_list"
 end
 
-ui.add_partial_param_names{ name }
-
 if highlight_initiative then
   local highlight_initiative_found
   for i, initiative in ipairs(initiatives) do
