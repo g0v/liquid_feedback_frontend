@@ -16,7 +16,7 @@ locale.set{ lang = app.session.lang or config.default_lang or "en" }
 if locale.get("lang") == "de" then
   locale.set{
     date_format = 'DD.MM.YYYY',
-    time_format = 'HH:MM Uhr',
+    time_format = 'HH:MM{:SS} Uhr',
     decimal_point = ','
   }
 end

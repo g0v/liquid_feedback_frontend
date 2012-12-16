@@ -1,6 +1,5 @@
 #!/usr/bin/env lua
 return {
-["#{closed_ago} ago"] = false;
 ["#{count} cancelled"] = false;
 ["#{count} days ago"] = false;
 ["#{count} finished"] = false;
@@ -16,13 +15,15 @@ return {
 ["#{date} at #{time}"] = false;
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} temoj, kiuj interesas vin";
 ["#{interested_issues_to_vote_count} issues you are interested in"] = false;
+["#{interval_text} [interval]"] = false;
+["#{interval_text} ago"] = false;
+["#{interval_text} left"] = false;
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} temo(j)";
 ["#{issues_to_vote_count} issues"] = false;
 ["#{number} Image(s) has been deleted"] = "#{number} bildo(j) estas viŝita(j)";
 ["#{number} Image(s) has been updated"] = "#{number} bildo(j) estas ĝisdatigita(j)";
 ["#{number} Images have been deleted."] = false;
 ["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = false;
-["#{time_left} left"] = false;
 ["(#{more_count} duplicates removed)"] = "(#{more_count} duoblaĵoj forigitaj)";
 ["(Potential) supporters, who rated this argument negative"] = false;
 ["(Potential) supporters, who rated this argument positive"] = false;
@@ -791,6 +792,7 @@ return {
 ["Verification starts soon."] = false;
 ["Verification time"] = "Tempo por la kontrolo";
 ["Version"] = "Versio";
+["Versions"] = false;
 ["Vote now"] = false;
 ["Voted"] = "Balotita";
 ["Voted no"] = "Balotita nee";
@@ -939,8 +941,12 @@ return {
 ["at least #{count} approvals or abstentions"] = false;
 ["before begin of voting"] = false;
 ["change discussion URL"] = false;
-["day"] = false;
-["days"] = false;
+["day [interval ago]"] = false;
+["day [interval time left]"] = false;
+["day [interval]"] = false;
+["days [interval ago]"] = false;
+["days [interval time left]"] = false;
+["days [interval]"] = false;
 ["deactivated"] = "malaktivigita";
 ["delegates to"] = false;
 ["delete"] = false;
@@ -949,11 +955,25 @@ return {
 ["down"] = false;
 ["email"] = "retpoŝto";
 ["global"] = "ĝenerala";
+["hour [interval time ago]"] = false;
+["hour [interval time left]"] = false;
+["hours [interval time ago]"] = false;
+["hours [interval time left]"] = false;
 ["i#{id}: #{name}"] = false;
 ["implemented"] = "realigita";
 ["inactive"] = false;
 ["last 24 hours"] = "lastaj 24 horoj";
 ["login name"] = "Salutnomo";
+["minute [interval time ago]"] = false;
+["minute [interval time left]"] = false;
+["minutes [interval time ago]"] = false;
+["minutes [interval time left]"] = false;
+["month [interval ago]"] = false;
+["month [interval time left]"] = false;
+["month [interval]"] = false;
+["months [interval ago]"] = false;
+["months [interval time left]"] = false;
+["months [interval]"] = false;
 ["more unsatisfied"] = "pli malkonsenta";
 ["must"] = "devas";
 ["must not"] = "ne rajtas";
@@ -976,4 +996,10 @@ return {
 ["with winner"] = false;
 ["without winner"] = false;
 ["xmpp"] = "Jabber (XMPP)";
+["year [interval ago]"] = false;
+["year [interval time left]"] = false;
+["year [interval]"] = false;
+["years [interval ago]"] = false;
+["years [interval time left]"] = false;
+["years [interval]"] = false;
 }

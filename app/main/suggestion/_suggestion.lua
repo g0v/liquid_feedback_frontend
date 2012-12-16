@@ -37,7 +37,7 @@ ui.container{ attr = { class = "initiative_head suggestion_head" }, content = fu
           attr = { class = "draft_version suggestion_created" },
           content = _("at #{date} #{time}", {
             date = format.date(suggestion.created),
-            time = format.time(suggestion.created)
+            time = format.time(suggestion.created, { hide_seconds = true })
           })
         }
 

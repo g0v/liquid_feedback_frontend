@@ -1,6 +1,5 @@
 #!/usr/bin/env lua
 return {
-["#{closed_ago} ago"] = false;
 ["#{count} cancelled"] = "#{count} ακυρώθηκαν";
 ["#{count} days ago"] = "#{count} μέρες πριν";
 ["#{count} finished"] = "#{count} ολοκληρώθηκαν";
@@ -18,6 +17,9 @@ return {
 ["#{date} at #{time}"] = "#{date} στις #{time}";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} θέμα(τα) που σας ενδιαφέρουν";
 ["#{interested_issues_to_vote_count} issues you are interested in"] = false;
+["#{interval_text} [interval]"] = false;
+["#{interval_text} ago"] = false;
+["#{interval_text} left"] = false;
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} θέμα(τα)";
 ["#{issues_to_vote_count} issues"] = false;
 ["#{name}\n\n"] = "#{name}\n\n";
@@ -839,6 +841,7 @@ return {
 ["Verification starts soon."] = false;
 ["Verification time"] = "Διάρκεια επιβεβαίωσης";
 ["Version"] = "Έκδοση";
+["Versions"] = false;
 ["Vote now"] = "Ψηφίστε τώρα";
 ["Voted"] = "Έχω ψηφίσει";
 ["Voted no"] = "Ψήφισε όχι";
@@ -1011,8 +1014,12 @@ return {
 ["at least #{count} approvals or abstentions"] = "τουλάχιστον #{count} επιδοκιμασίες ή αποχές";
 ["before begin of voting"] = false;
 ["change discussion URL"] = "αλλαγή του URL της συζήτησης";
-["day"] = "ημέρα";
-["days"] = "ημέρες";
+["day [interval ago]"] = false;
+["day [interval time left]"] = false;
+["day [interval]"] = false;
+["days [interval ago]"] = false;
+["days [interval time left]"] = false;
+["days [interval]"] = false;
 ["deactivated"] = "απενεργοποιημένο";
 ["delegates to"] = "αναθέτει στον/στην";
 ["delete"] = false;
@@ -1021,12 +1028,26 @@ return {
 ["down"] = false;
 ["email"] = "Email";
 ["global"] = "Καθολικό";
+["hour [interval time ago]"] = false;
+["hour [interval time left]"] = false;
+["hours [interval time ago]"] = false;
+["hours [interval time left]"] = false;
 ["i#{id}: #{name}"] = false;
 ["implemented"] = "υλοποιημένη";
 ["inactive"] = "ανενεργός/ή";
 ["last 24 hours"] = "τις τελευταίες 24 ώρες";
 ["login name"] = "Όνομα σύνδεσης";
 ["majority"] = "πλειοψηφία";
+["minute [interval time ago]"] = false;
+["minute [interval time left]"] = false;
+["minutes [interval time ago]"] = false;
+["minutes [interval time left]"] = false;
+["month [interval ago]"] = false;
+["month [interval time left]"] = false;
+["month [interval]"] = false;
+["months [interval ago]"] = false;
+["months [interval time left]"] = false;
+["months [interval]"] = false;
 ["more unsatisfied"] = "περισσότερο ανικανοποίητος/η";
 ["must"] = "οπωσδήποτε";
 ["must not"] = "με τίποτα";
@@ -1051,4 +1072,10 @@ return {
 ["with winner"] = "Με νικητή";
 ["without winner"] = "Χωρίς νικητή";
 ["xmpp"] = "Jabber (XMPP)";
+["year [interval ago]"] = false;
+["year [interval time left]"] = false;
+["year [interval]"] = false;
+["years [interval ago]"] = false;
+["years [interval time left]"] = false;
+["years [interval]"] = false;
 }

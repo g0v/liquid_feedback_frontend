@@ -388,7 +388,7 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
         attr = { class = "draft_version" },
         content = _("Latest draft created at #{date} #{time}", {
           date = format.date(initiative.current_draft.created),
-          time = format.time(initiative.current_draft.created)
+          time = format.time(initiative.current_draft.created, { hide_seconds = true })
         })
       }
       slot.put(" &middot; ")

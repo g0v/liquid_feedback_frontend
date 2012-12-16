@@ -132,11 +132,11 @@ filters.content = function()
         end
         local days_ago_text
         if event.time_ago == 0 then
-          days_ago_text = _("Today at #{time}", { time = format.time(event.occurrence) })
+          days_ago_text = _("Today at #{time}", { time = format.time(event.occurrence, { hide_seconds = true }) })
         elseif event.time_ago == 1 then
-          days_ago_text = _("Yesterday at #{time}", { time = format.time(event.occurrence) })
+          days_ago_text = _("Yesterday at #{time}", { time = format.time(event.occurrence, { hide_seconds = true }) })
         else
-          days_ago_text = _("#{date} at #{time}", { date = format.date(event.occurrence.date), time = format.time(event.occurrence) })
+          days_ago_text = _("#{date} at #{time}", { date = format.date(event.occurrence.date), time = format.time(event.occurrence, { hide_seconds = true }) })
         end
         ui.tag{ attr = { class = "event_name" }, content = event_name }
         slot.put("<br />")

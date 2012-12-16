@@ -33,10 +33,10 @@ ui.list{
       label_attr = { width = "200" },
       label = _"Phases",
       content = function(policy)
-        ui.field.text{ label = _"New" .. ":", value = "≤ " .. policy.admission_time }
-        ui.field.text{ label = _"Discussion" .. ":", value = policy.discussion_time }
-        ui.field.text{ label = _"Frozen" .. ":", value = policy.verification_time }
-        ui.field.text{ label = _"Voting" .. ":", value = policy.voting_time }
+        ui.field.text{ label = _"New" .. ":", value = "≤ " .. format.interval_text(policy.admission_time_text) }
+        ui.field.text{ label = _"Discussion" .. ":",  value = format.interval_text(policy.discussion_time_text) }
+        ui.field.text{ label = _"Frozen" .. ":",      value = format.interval_text(policy.verification_time_text) }
+        ui.field.text{ label = _"Voting" .. ":",      value = format.interval_text(policy.voting_time_text) }
       end
     },
     {

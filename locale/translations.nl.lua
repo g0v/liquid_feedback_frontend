@@ -1,6 +1,5 @@
 #!/usr/bin/env lua
 return {
-["#{closed_ago} ago"] = false;
 ["#{count} cancelled"] = false;
 ["#{count} days ago"] = "#{count} dagen geleden";
 ["#{count} finished"] = "#{count} geëindigd";
@@ -19,6 +18,9 @@ return {
 ["#{date} at #{time}"] = "#{date} om #{time}";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} onderwerpen waarin u geïnteresseerd bent";
 ["#{interested_issues_to_vote_count} issues you are interested in"] = false;
+["#{interval_text} [interval]"] = false;
+["#{interval_text} ago"] = false;
+["#{interval_text} left"] = false;
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} onderwerp(en)";
 ["#{issues_to_vote_count} issues"] = false;
 ["#{name}\n\n"] = "#{name}\n\n";
@@ -842,6 +844,7 @@ return {
 ["Verification starts soon."] = false;
 ["Verification time"] = "Tijd voor verificatie";
 ["Version"] = "Versie";
+["Versions"] = false;
 ["Vote now"] = "Nu stemmen";
 ["Voted"] = "Gestemd";
 ["Voted no"] = "Nee gestemd";
@@ -1013,8 +1016,12 @@ return {
 ["at least #{count} approvals or abstentions"] = "minstens #{count} goedkeuringen of onthoudingen";
 ["before begin of voting"] = false;
 ["change discussion URL"] = "discussie URL veranderd";
-["day"] = "dag";
-["days"] = "dagen";
+["day [interval ago]"] = false;
+["day [interval time left]"] = false;
+["day [interval]"] = false;
+["days [interval ago]"] = false;
+["days [interval time left]"] = false;
+["days [interval]"] = false;
 ["deactivated"] = "gedeactiveerd";
 ["delegates to"] = "gelegeerd aan";
 ["delete"] = false;
@@ -1023,12 +1030,26 @@ return {
 ["down"] = false;
 ["email"] = "email";
 ["global"] = "wereldwijd";
+["hour [interval time ago]"] = false;
+["hour [interval time left]"] = false;
+["hours [interval time ago]"] = false;
+["hours [interval time left]"] = false;
 ["i#{id}: #{name}"] = false;
 ["implemented"] = "geïmplementeerd";
 ["inactive"] = false;
 ["last 24 hours"] = "laatste 24 uur";
 ["login name"] = "login naam";
 ["majority"] = "meerderheid";
+["minute [interval time ago]"] = false;
+["minute [interval time left]"] = false;
+["minutes [interval time ago]"] = false;
+["minutes [interval time left]"] = false;
+["month [interval ago]"] = false;
+["month [interval time left]"] = false;
+["month [interval]"] = false;
+["months [interval ago]"] = false;
+["months [interval time left]"] = false;
+["months [interval]"] = false;
 ["more unsatisfied"] = "meer ontevreden";
 ["must"] = "moet";
 ["must not"] = "mag niet";
@@ -1053,4 +1074,10 @@ return {
 ["with winner"] = "met winnaar";
 ["without winner"] = "zonder winnaar";
 ["xmpp"] = "Jabber (XMPP)";
+["year [interval ago]"] = false;
+["year [interval time left]"] = false;
+["year [interval]"] = false;
+["years [interval ago]"] = false;
+["years [interval time left]"] = false;
+["years [interval]"] = false;
 }

@@ -8,7 +8,7 @@ execute.view{
     draft = draft,
     title = _("Draft created at #{date} #{time}", {
       date = format.date(draft.created),
-      time = format.time(draft.created)
+      time = format.time(draft.created, { hide_seconds = true })
     })
   }
 }

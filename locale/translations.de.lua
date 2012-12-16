@@ -1,6 +1,5 @@
 #!/usr/bin/env lua
 return {
-["#{closed_ago} ago"] = "seit #{closed_ago}";
 ["#{count} cancelled"] = "#{count} abgebrochen";
 ["#{count} days ago"] = "vor #{count} Tagen";
 ["#{count} finished"] = "#{count} abgeschlossen";
@@ -15,6 +14,9 @@ return {
 ["#{count} of your outgoing delegations are broken."] = "#{count} Deiner ausgehenden Delegationen sind kaputt.";
 ["#{date} at #{time}"] = "am #{date} um #{time}";
 ["#{interested_issues_to_vote_count} issues you are interested in"] = "#{interested_issues_to_vote_count} Themen, die Dich interessieren";
+["#{interval_text} [interval]"] = "#{interval_text}";
+["#{interval_text} ago"] = "vor #{interval_text}";
+["#{interval_text} left"] = "noch #{interval_text}";
 ["#{issues_to_vote_count} issues"] = "#{issues_to_vote_count} Themen";
 ["#{number} Images have been deleted."] = "Es wurden #{number} Bilder gelöscht.";
 ["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = "Es wurden #{number} Bilder aktualisiert. Falls sie noch nicht angezeigt werden, kannst Du versuchen, die Seite neu zu laden.";
@@ -701,6 +703,7 @@ return {
 ["Verification started"] = "Phase Eingefroren gestartet";
 ["Verification starts soon."] = "Phase Eingefroren beginnt in Kürze.";
 ["Verification time"] = "Zeit für Eingefroren";
+["Versions"] = "Versionen";
 ["Vote now"] = "Jetzt abstimmen";
 ["Voted"] = "Abgestimmt";
 ["Voted no"] = "Mit Nein gestimmt";
@@ -824,8 +827,12 @@ return {
 ["at least #{count} approvals or abstentions"] = "mindestens #{count} Zustimmungen oder Enthaltungen";
 ["before begin of voting"] = "zum Abstimmungsbeginn";
 ["change discussion URL"] = "Diskussions-URL ändern";
-["day"] = "Tag";
-["days"] = "Tage";
+["day [interval ago]"] = "Tag";
+["day [interval time left]"] = "Tag";
+["day [interval]"] = "Tag";
+["days [interval ago]"] = "Tagen";
+["days [interval time left]"] = "Tage";
+["days [interval]"] = "Tage";
 ["deactivated"] = "deaktiviert";
 ["delegates to"] = "delegiert an";
 ["delete"] = "löschen";
@@ -833,10 +840,24 @@ return {
 ["disabled"] = "ausgeschaltet";
 ["down"] = "runter";
 ["email"] = "E-Mail";
+["hour [interval time ago]"] = "Stunde";
+["hour [interval time left]"] = "Stunde";
+["hours [interval time ago]"] = "Stunden";
+["hours [interval time left]"] = "Stunden";
 ["i#{id}: #{name}"] = "i#{id}: #{name}";
 ["implemented"] = "umgesetzt";
 ["inactive"] = "inaktiv";
 ["login name"] = "Anmeldename";
+["minute [interval time ago]"] = "Minute";
+["minute [interval time left]"] = "Minute";
+["minutes [interval time ago]"] = "Minuten";
+["minutes [interval time left]"] = "Minuten";
+["month [interval ago]"] = "Monat";
+["month [interval time left]"] = "Monat";
+["month [interval]"] = "Monat";
+["months [interval ago]"] = "Monaten";
+["months [interval time left]"] = "Monate";
+["months [interval]"] = "Monate";
 ["more unsatisfied"] = "sehr unzufrieden";
 ["must"] = "muss";
 ["must not"] = "darf nicht";
@@ -859,4 +880,10 @@ return {
 ["with winner"] = "mit Gewinner";
 ["without winner"] = "ohne Gewinner";
 ["xmpp"] = "Jabber (XMPP)";
+["year [interval ago]"] = "Jahr";
+["year [interval time left]"] = "Jahr";
+["year [interval]"] = "Jahr";
+["years [interval ago]"] = "Jahren";
+["years [interval time left]"] = "Jahre";
+["years [interval]"] = "Jahre";
 }
