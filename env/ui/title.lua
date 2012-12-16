@@ -43,7 +43,7 @@ function ui.title(content, unit, area, issue, initiative)
           end
         end
       end }
-      ui.container{ attr = { class = "title" }, content = content }
+      ui.container{ attr = { class = "title left" }, content = content }
       slot.put('<div class="clearfix"></div>')
     else
       ui.container{ attr = { class = "title" }, content = content }
