@@ -135,9 +135,17 @@ ui.link{
         if not overridden and record.participation then
           class = class .. " highlighted"
           if scope == "issue" and issue.closed then
-            popup_text = popup_text .. " - " .. _"This member voted."
+            if member.id == app.session.member_id then
+              popup_text = popup_text .. " - " .. _"You voted."
+            else
+              popup_text = popup_text .. " - " .. _"This member voted."
+            end
           else
-            popup_text = popup_text .. " - " .. _"This member is interested."
+            if member.id == app.session.member_id then
+              popup_text = popup_text .. " - " .. _"You are interested."
+            else
+              popup_text = popup_text .. " - " .. _"This member is interested."
+            end
           end
         end
 

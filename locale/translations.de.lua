@@ -773,6 +773,7 @@ return {
 ["You voted no."] = "Du hast mit Nein gestimmt.";
 ["You voted yes via delegation."] = "Du hast durch Delegation mit Ja gestimmt.";
 ["You voted yes."] = "Du hast mit Ja gestimmt.";
+["You voted."] = "Du hast abgestimmt.";
 ["You were interested."] = "Du warst interessiert.";
 ["You were potential supporter."] = "Du bist potentieller Unterstützer.";
 ["You were supporter."] = "Du bist Unterstützer.";

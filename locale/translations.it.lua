@@ -940,6 +940,7 @@ return {
 ["You voted no."] = false;
 ["You voted yes via delegation."] = false;
 ["You voted yes."] = false;
+["You voted."] = false;
 ["You were interested"] = "Eri interessato";
 ["You were interested."] = false;
 ["You were potential supporter"] = "Eri un potenziale sostenitore";

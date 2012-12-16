@@ -942,6 +942,7 @@ return {
 ["You voted no."] = false;
 ["You voted yes via delegation."] = false;
 ["You voted yes."] = false;
+["You voted."] = false;
 ["You were interested"] = "您曾关心";
 ["You were interested."] = false;
 ["You were potential supporter"] = "您曾是可能支持者";

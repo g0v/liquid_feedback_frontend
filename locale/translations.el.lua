@@ -942,6 +942,7 @@ return {
 ["You voted no."] = false;
 ["You voted yes via delegation."] = false;
 ["You voted yes."] = false;
+["You voted."] = false;
 ["You were interested"] = "Σας ενδιέφερε";
 ["You were interested."] = false;
 ["You were potential supporter"] = "Είσασταν δυνητικοί υποστηρικτές";

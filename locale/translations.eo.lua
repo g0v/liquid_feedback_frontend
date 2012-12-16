@@ -876,6 +876,7 @@ return {
 ["You voted no."] = false;
 ["You voted yes via delegation."] = false;
 ["You voted yes."] = false;
+["You voted."] = false;
 ["You were interested."] = false;
 ["You were potential supporter."] = false;
 ["You were supporter."] = false;
