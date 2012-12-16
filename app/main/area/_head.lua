@@ -105,7 +105,7 @@ ui.container{ attr = { class = "area_head" }, content = function()
 
     if for_listing then
 
-      ui.container{ attr = { class = "content left" }, content = function()
+      ui.container{ attr = { class = "content left clear_left" }, content = function()
         ui.tag{ content = _"Issues:" }
         slot.put(" ")
         ui.link{
