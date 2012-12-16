@@ -114,97 +114,101 @@ ui.container{ attr = { class = class }, content = function()
       if initiative.issue.fully_frozen and initiative.issue.closed then
         initiative.issue:load_everything_for_member_id(app.session.member_id)
         if initiative.issue.member_info.direct_voted then
-          local vote = Vote:by_pk(initiative.issue.id, for_member.id)
-          ui.link{
-            module = "vote",
-            view = "list",
-            params = {
-              issue_id = initiative.issue.id,
-              member_id = for_member.id,
-            },
-            content = function()
-              if vote.grade > 0 then
-                local label
-                if for_member and for_member.id ~= app.session.member_id then
-                  label = _"This member voted yes."
+          local vote = Vote:by_pk(initiative.id, for_member.id)
+          if vote then
+            ui.link{
+              module = "vote",
+              view = "list",
+              params = {
+                issue_id = initiative.issue.id,
+                member_id = for_member.id,
+              },
+              content = function()
+                if vote.grade > 0 then
+                  local label
+                  if for_member and for_member.id ~= app.session.member_id then
+                    label = _"This member voted yes."
+                  else
+                    label = _"You voted yes."
+                  end
+                  ui.image{
+                    attr = { alt = label, title = label },
+                    static = "icons/16/thumb_up_green.png"
+                  }
+                elseif vote.grade < 0 then
+                  local label
+                  if for_member and for_member.id ~= app.session.member_id then
+                    label = _"This member voted no."
+                  else
+                    label = _"You voted no."
+                  end
+                  ui.image{
+                    attr = { alt = label, title = label },
+                    static = "icons/16/thumb_down_red.png"
+                  }
                 else
-                  label = _"You voted yes."
+                  local label
+                  if for_member and for_member.id ~= app.session.member_id then
+                    label = _"This member abstained."
+                  else
+                    label = _"You abstained."
+                  end
+                  ui.image{
+                    attr = { alt = label, title = label },
+                    static = "icons/16/bullet_yellow.png"
+                  }
                 end
-                ui.image{
-                  attr = { alt = label, title = label },
-                  static = "icons/16/thumb_up_green.png"
-                }
-              elseif vote.grade < 0 then
-                local label
-                if for_member and for_member.id ~= app.session.member_id then
-                  label = _"This member voted no."
-                else
-                  label = _"You voted no."
-                end
-                ui.image{
-                  attr = { alt = label, title = label },
-                  static = "icons/16/thumb_down_red.png"
-                }
-              else
-                local label
-                if for_member and for_member.id ~= app.session.member_id then
-                  label = _"This member abstained."
-                else
-                  label = _"You abstained."
-                end
-                ui.image{
-                  attr = { alt = label, title = label },
-                  static = "icons/16/bullet_yellow.png"
-                }
               end
-            end
-          }
+            }
+          end
         elseif initiative.issue.member_info.voted_delegate_member_id then
-          local vote = Vote:by_pk(initiative.issue.id, initiative.issue.member_info.voted_delegate_member_id)
-          ui.link{
-            module = "vote",
-            view = "list",
-            params = {
-              issue_id = initiative.issue.id,
-              member_id = initiative.issue.member_info.voted_delegate_member_id,
-            },
-            content = function()
-              local label
-              if vote.grade > 0 then
-                if for_member and for_member.id ~= app.session.member_id then
-                  label = _"This member voted yes via delegation."
-                else
-                  label = _"You voted yes via delegation."
-                end
-                ui.image{
-                  attr = { alt = label, title = label },
-                  static = "icons/16/thumb_up_green_arrow.png"
-                }
-              elseif vote.grade < 0 then
+          local vote = Vote:by_pk(initiative.id, initiative.issue.member_info.voted_delegate_member_id)
+          if vote then
+            ui.link{
+              module = "vote",
+              view = "list",
+              params = {
+                issue_id = initiative.issue.id,
+                member_id = initiative.issue.member_info.voted_delegate_member_id,
+              },
+              content = function()
                 local label
-                if for_member and for_member.id ~= app.session.member_id then
-                  label = _"This member voted no via delegation."
+                if vote.grade > 0 then
+                  if for_member and for_member.id ~= app.session.member_id then
+                    label = _"This member voted yes via delegation."
+                  else
+                    label = _"You voted yes via delegation."
+                  end
+                  ui.image{
+                    attr = { alt = label, title = label },
+                    static = "icons/16/thumb_up_green_arrow.png"
+                  }
+                elseif vote.grade < 0 then
+                  local label
+                  if for_member and for_member.id ~= app.session.member_id then
+                    label = _"This member voted no via delegation."
+                  else
+                    label = _"You voted no via delegation."
+                  end
+                  ui.image{
+                    attr = { alt = label, title = label },
+                    static = "icons/16/thumb_down_red_arrow.png"
+                  }
                 else
-                  label = _"You voted no via delegation."
+                  local label
+                  if for_member and for_member.id ~= app.session.member_id then
+                    label = _"This member abstained via delegation."
+                  else
+                    label = _"You abstained via delegation."
+                  end
+                  ui.image{
+                    attr = { alt = label, title = label },
+                    static = "icons/16/bullet_yellow_arrow.png"
+                  }
                 end
-                ui.image{
-                  attr = { alt = label, title = label },
-                  static = "icons/16/thumb_down_red_arrow.png"
-                }
-              else
-                local label
-                if for_member and for_member.id ~= app.session.member_id then
-                  label = _"This member abstained via delegation."
-                else
-                  label = _"You abstained via delegation."
-                end
-                ui.image{
-                  attr = { alt = label, title = label },
-                  static = "icons/16/bullet_yellow_arrow.png"
-                }
               end
-            end
-          }
+            }
+          end
         end
       else
         if initiative.member_info.directly_supported then
