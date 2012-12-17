@@ -66,19 +66,8 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
   end
 
   if app.session:has_access("authors_pseudonymous") then
-    ui.container{ attr = { class = "content" }, content = function()
 
-      if app.session.member_id then
-        ui.container{ attr = { class = "right" }, content = function()
-          execute.view{
-            module = "supporter",
-            view = "_show_box",
-            params = {
-              initiative = initiative
-            }
-          }
-        end }
-      end
+    ui.container{ attr = { class = "content left" }, content = function()
 
       ui.tag{
         attr = { class = "initiator_names" },
@@ -186,6 +175,21 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
       }
 
     end }
+
+    if app.session.member_id then
+      ui.container{ attr = { class = "content right" }, content = function()
+        execute.view{
+          module = "supporter",
+          view = "_show_box",
+          params = {
+            initiative = initiative
+          }
+        }
+      end }
+    end
+
+    slot.put('<div class="clearfix"></div>')
+
   end
 
   -- voting results
