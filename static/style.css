@@ -1498,7 +1498,7 @@ th.opinion {
 .revoked_info,
 .draft_updated_info,
 .initiator_invite_info {
-  padding: 1ex;
+  padding: 1ex 10px;
 }
 
 .admitted_info {
