@@ -35,32 +35,9 @@ function jsToolBar(textarea) {
 
 	this.textarea = textarea;
 
-	this.editor = document.createElement('div');
-	this.editor.className = 'jstEditor';
-
-	this.textarea.parentNode.insertBefore(this.editor,this.textarea);
-	this.editor.appendChild(this.textarea);
-
 	this.toolbar = document.createElement("div");
 	this.toolbar.className = 'jstElements';
-	this.editor.parentNode.insertBefore(this.toolbar,this.editor);
-
-	// Dragable resizing (only for gecko)
-	if (this.editor.addEventListener)
-	{
-		this.handle = document.createElement('div');
-		this.handle.className = 'jstHandle';
-		var dragStart = this.resizeDragStart;
-		var This = this;
-		this.handle.addEventListener('mousedown',function(event) { dragStart.call(This,event); },false);
-		// fix memory leak in Firefox (bug #241518)
-		window.addEventListener('unload',function() {
-				var del = This.handle.parentNode.removeChild(This.handle);
-				delete(This.handle);
-		},false);
-
-		this.editor.parentNode.insertBefore(this.handle,this.editor.nextSibling);
-	}
+	this.textarea.parentNode.insertBefore(this.toolbar,this.textarea);
 
 	this.context = null;
 	this.toolNodes = {}; // lorsque la toolbar est dessinée , cet objet est garni
@@ -359,28 +336,4 @@ jsToolBar.prototype = {
 		return url;
 	}
 
-};
-
-
-/** Resizer -------------------------------------------------------- */
-
-jsToolBar.prototype.resizeSetStartH = function() {
-	this.dragStartH = this.textarea.offsetHeight + 0;
-};
-
-jsToolBar.prototype.resizeDragStart = function(event) {
-	var This = this;
-	this.dragStartY = event.clientY;
-	this.resizeSetStartH();
-	document.addEventListener('mousemove', this.dragMoveHdlr=function(event){This.resizeDragMove(event);}, false);
-	document.addEventListener('mouseup', this.dragStopHdlr=function(event){This.resizeDragStop(event);}, false);
-};
-
-jsToolBar.prototype.resizeDragMove = function(event) {
-	this.textarea.style.height = (this.dragStartH+event.clientY-this.dragStartY)+'px';
-};
-
-jsToolBar.prototype.resizeDragStop = function(event) {
-	document.removeEventListener('mousemove', this.dragMoveHdlr, false);
-	document.removeEventListener('mouseup', this.dragStopHdlr, false);
 };
