@@ -506,7 +506,7 @@ return {
 ["Please enter the email reset code you have received:"] = "Bitte gib den Rücksetzcode ein, den Du erhalten hast:";
 ["Please enter the invite code you've received."] = "Bitte gib den Einladungscode ein, den Du erhalten hast.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Bitte gib Deine E-Mail-Adresse ein. Diese Adresse wird für automatische Benachrichtigungen (wenn Du diese anforderst) sowie zum Zurücksetzen des Kennworts verwendet. Diese Adresse wird nicht veröffentlicht. Nach Abschluss der Registrierung wirst Du eine E-Mail mit einem Link zum Bestätigen der Adresse erhalten.";
-["Please enter your login name! You will receive an email with a link to reset your password."] = "Bitte gib Deinen Anmeldenamen ein! Du wirst eine E-Mail mit einem Link zum Zurücksetzen des Kennworts erhalten.";
+["Please enter your login name! You will receive an email with a link to reset your password. Note that your login name might be distinct from your screen name!"] = "Bitte gib Deinen Anmeldenamen ein! Du wirst eine E-Mail mit einem Link zum Zurücksetzen des Kennworts erhalten. Beachte, dass sich Dein Anmeldename möglicherweise von Deinem Screen-Namen unterscheidet!";
 ["Please enter your new password twice:"] = "Bitte gib Dein neues Kennwort zweimal ein:";
 ["Please select your preferred notification level!"] = "Bitte wähle das gewünschte Benachrichtigungslevel!";
 ["Policies"] = "Regelwerke";

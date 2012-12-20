@@ -480,7 +480,7 @@ return {
 ["Please enter the email reset code you have received:"] = false;
 ["Please enter the invite code you've received."] = false;
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = false;
-["Please enter your login name! You will receive an email with a link to reset your password."] = false;
+["Please enter your login name! You will receive an email with a link to reset your password. Note that your login name might be distinct from your screen name!"] = false;
 ["Please enter your new password twice:"] = false;
 ["Please select your preferred notification level!"] = false;
 ["Policies"] = false;

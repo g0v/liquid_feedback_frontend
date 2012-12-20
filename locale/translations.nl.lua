@@ -596,7 +596,7 @@ return {
 ["Please enter the email reset code you have received:"] = "Vul de emailreset code in die u heeft ontvangen:";
 ["Please enter the invite code you've received."] = "Vul de uitnodigingscode in die u heeft ontvangen.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Vult u alstublieft uw emailadres in. Dit adres zal gebruikt worden voor automatische notificaties (wanneer u deze wilt ontvangen) en wanneer u uw wachtwoord kwijt bent. Dit adres zal niet gepubliseerd worden. Na registratie ontvangt u een email met een bevestigingslink.";
-["Please enter your login name! You will receive an email with a link to reset your password."] = false;
+["Please enter your login name! You will receive an email with a link to reset your password. Note that your login name might be distinct from your screen name!"] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Vul aub uw login naam in. U ontvangt een e-mail met een link om uw wachtwoord opnieuw in te stellen";
 ["Please enter your new password twice."] = "Vult u alstublieft 2 maal uw nieuwe wachtwoord in.:";
 ["Please enter your new password twice:"] = false;

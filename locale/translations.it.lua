@@ -594,7 +594,7 @@ return {
 ["Please enter the email reset code you have received:"] = "Inserisci il codice di reset che hai ricevuto:";
 ["Please enter the invite code you've received."] = "Inserisci il codice di invito che hai ricevuto.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Inserisci la tua email. Sara' usata per le notifiche (se le desideri) ed eventualmente per recuperare la password. L'indirizzo non sara' pubblico. Dopo la registrazione riceverai un messaggio con la richiesta di verifica.";
-["Please enter your login name! You will receive an email with a link to reset your password."] = false;
+["Please enter your login name! You will receive an email with a link to reset your password. Note that your login name might be distinct from your screen name!"] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Inserisci il tuo nome utente. Riceverai un messaggio email con il link per il reset della password.";
 ["Please enter your new password twice."] = "Inserisci la password nei due campi.";
 ["Please enter your new password twice:"] = false;

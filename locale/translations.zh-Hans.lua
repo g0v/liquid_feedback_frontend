@@ -593,7 +593,7 @@ return {
 ["Please enter the email reset code you have received:"] = "请输入您所收到的电邮重设码：";
 ["Please enter the invite code you've received."] = "请输入您所收到的邀请码";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "请输入您的电邮地址。此地址将为您申请密码重设时自动通知的收件信箱。此电邮地址将不被公开。在注册完成后您将收到一封电邮內含认证此信箱的连结。";
-["Please enter your login name! You will receive an email with a link to reset your password."] = false;
+["Please enter your login name! You will receive an email with a link to reset your password. Note that your login name might be distinct from your screen name!"] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "请输入您的帐号。您将收到一封附有重设密码连结的电子邮件。";
 ["Please enter your new password twice."] = "请输入您的新密码兩次：";
 ["Please enter your new password twice:"] = false;

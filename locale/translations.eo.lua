@@ -558,7 +558,7 @@ return {
 ["Please enter the email reset code you have received:"] = "Bonvolu enigi retpoŝtoremetokodon, kiun vi ricevis:";
 ["Please enter the invite code you've received."] = "Bonvolu enigi la invitokodon, kiun vi ricevis.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Bonvolu enigi vian retadreson. Tiu adreso estas uzita por aŭtomataj sciigoj (se vi petas tiajn) kaj por remeti la pasvorton. Tiu adreso ne estos publikigita. Post la fino de la registrado, vi ricevos retpoŝton kun ligilo al la konfirmo de la adreso.";
-["Please enter your login name! You will receive an email with a link to reset your password."] = false;
+["Please enter your login name! You will receive an email with a link to reset your password. Note that your login name might be distinct from your screen name!"] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Bonvolu enigi vian salutnomon. Vi ricevos retpoŝton kun ligilo al la remeto de la pasvorto.";
 ["Please enter your new password twice."] = "Bonvolu enigi dufoje vian novan pasvorton:";
 ["Please enter your new password twice:"] = false;

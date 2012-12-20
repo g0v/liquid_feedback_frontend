@@ -593,7 +593,7 @@ return {
 ["Please enter the email reset code you have received:"] = "Παρακαλώ εισάγετε τον κωδικό επαναφοράς που έχετε λάβει:";
 ["Please enter the invite code you've received."] = "Παρακαλώ εισάγετε τον κωδικό πρόσκλησης που έχετε λάβει.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Παρακαλώ εισάγετε τη διεύθυνση email σας. Αυτή η διεύθυνση θα χρησιμοποιηθεί για αυτόματες ειδοποιήσεις (αν το επιλέξετε) και σε περίπτωση που έχετε χάσει τον κωδικό πρόσβασής σας. Αυτή η διεύθυνση δεν θα δημοσιευθεί. Μετά την εγγραφή θα λάβετε ένα email με έναν σύνδεσμο επιβεβαίωσης.";
-["Please enter your login name! You will receive an email with a link to reset your password."] = false;
+["Please enter your login name! You will receive an email with a link to reset your password. Note that your login name might be distinct from your screen name!"] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Παρακαλώ εισάγετε το όνομα σύνδεσής σας. Θα λάβετε ένα email με ένα σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας. Προσοχή στα κεφαλαία/πεζά γράμματα, έχουν σημασία.";
 ["Please enter your new password twice."] = "Παρακαλώ εισάγετε τον νέο σας κωδικό πρόσβασης δύο φορες:";
 ["Please enter your new password twice:"] = false;

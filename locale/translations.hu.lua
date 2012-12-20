@@ -573,7 +573,7 @@ return {
 ["Please enter the email reset code you have received:"] = "Írd be a visszaállítási kódodat:";
 ["Please enter the invite code you've received."] = "Írd be a meghívókódodat.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Írd be az email-címedet. Ide kapod majd az automatikus értesítõket (ha kérsz ilyeneket), és a jelszavad esetleges elvesztése esetén is szükség lesz rá. Ez a címed nem lesz közzétéve. A regisztrációt követõen ide kapod majd a megerõsítõ linket tartalmazó mailt is.";
-["Please enter your login name! You will receive an email with a link to reset your password."] = false;
+["Please enter your login name! You will receive an email with a link to reset your password. Note that your login name might be distinct from your screen name!"] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Írd be a bejelentkezési nevedet - majd mailben kapni fogsz egy linket a jelszavad visszaáálításához.";
 ["Please enter your new password twice."] = "Írd be kétszer az új jelszavadat:";
 ["Please enter your new password twice:"] = false;
