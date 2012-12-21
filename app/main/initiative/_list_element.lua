@@ -112,7 +112,7 @@ ui.container{ attr = { class = class }, content = function()
   if app.session.member_id then
     ui.container{ attr = { class = "interest" }, content = function()
       if initiative.issue.fully_frozen and initiative.issue.closed then
-        initiative.issue:load_everything_for_member_id(app.session.member_id)
+        initiative.issue:load_everything_for_member_id(for_member.id)
         if initiative.issue.member_info.direct_voted then
           local vote = Vote:by_pk(initiative.id, for_member.id)
           if vote then
