@@ -304,6 +304,8 @@ form.unit_selector {
 
 #language_menu {
   z-index: 2;
+  margin: 0;
+  padding: 0;
 }
 
 #language_menu li {
@@ -314,15 +316,6 @@ form.unit_selector {
   position: relative;
   z-index: 4;
   cursor: default;
-}
-
-#language_menu {
-  margin: 0;
-  padding: 0;
-}
-
-#language_menu li a {
-  float: right;
 }
 
 #language_menu ul {
@@ -1551,7 +1544,6 @@ th.opinion {
 
 .slot_help_hidden {
   float: left;
-  margin-top: 1ex;
 }
 
 .help_actions {
