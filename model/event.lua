@@ -124,7 +124,12 @@ function Event.object:send_notification()
                   else
                     body_initiative = body_initiative .. "x"
                   end
-                  body_initiative = body_initiative .. string.format("%1d", initiative.rank) .. " "
+                  if initiative.rank then
+                    body_initiative = body_initiative .. initiative.rank
+                  else
+                    body_initiative = body_initiative .. " "
+                  end
+                  body_initiative = body_initiative .. " "
                 end
                 body_initiative = body_initiative .. _("i#{id}: #{name}", { id = initiative.id, name = initiative.name }) .. "\n"
               end
