@@ -492,7 +492,7 @@ if not show_as_head then
   if app.session:has_access("all_pseudonymous") then
 
     -- voters
-    if initiative.issue.ranks_available then
+    if initiative.issue.closed and initiative.issue.ranks_available and initiative.admitted then
 
       local members_selector = initiative.issue:get_reference_selector("direct_voters")
         :left_join("vote", nil, { "vote.initiative_id = ? AND vote.member_id = member.id", initiative.id })
