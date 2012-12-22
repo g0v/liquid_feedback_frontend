@@ -1103,6 +1103,10 @@ div.delegations_participation {
   padding: 0.3ex 0.5em 0.3ex 0.5em;
 }
 
+.suggestion_my_opinion {
+  white-space: nowrap;
+}
+
 .suggestion_my_opinion a,
 .suggestion_my_opinion span {
   white-space: nowrap;
