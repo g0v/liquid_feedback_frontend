@@ -19,7 +19,6 @@ ui.container{
   content = function()
 
     if app.session.member_id
-      and not initiative.issue.half_frozen
       and not initiative.issue.closed
       and not initiative.revoked
       and app.session.member:has_voting_right_for_unit_id(initiative.issue.area.unit_id)
