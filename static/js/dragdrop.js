@@ -16,16 +16,18 @@ if (!jsFail) {
       originalElement.style.visibility = "hidden";
       draggedElement.style.margin = 0;
       draggedElement.style.position = "absolute";
-      draggedElement.style.left = elementOffsetX = originalElement.offsetLeft;
-      draggedElement.style.top  = elementOffsetY = originalElement.offsetTop;
-      draggedElement.style.width  = originalElement.clientWidth;
-      draggedElement.style.height = originalElement.clientHeight;
+      elementOffsetX = originalElement.offsetLeft;
+      elementOffsetY = originalElement.offsetTop;
+      draggedElement.style.left = elementOffsetX + "px";
+      draggedElement.style.top  = elementOffsetY + "px";
+      draggedElement.style.width  = originalElement.clientWidth + "px";
+      draggedElement.style.height = originalElement.clientHeight + "px";
       draggedElement.style.backgroundColor = "#eee";
       draggedElement.style.opacity = 0.8;
       originalElement.offsetParent.appendChild(draggedElement);
       // workaround for wrong clientWidth and clientHeight information:
-      draggedElement.style.width = 2*originalElement.clientWidth - draggedElement.clientWidth;
-      draggedElement.style.height = 2*originalElement.clientHeight - draggedElement.clientHeight;
+      draggedElement.style.width = 2*originalElement.clientWidth - draggedElement.clientWidth + "px";
+      draggedElement.style.height = 2*originalElement.clientHeight - draggedElement.clientHeight + "px";
       mouseOffsetX = mouseX;
       mouseOffsetY = mouseY;
       dropFunc = func;
@@ -34,8 +36,8 @@ if (!jsFail) {
       mouseX = event.pageX;
       mouseY = event.pageY;
       if (draggedElement) {
-        draggedElement.style.left = elementOffsetX + mouseX - mouseOffsetX;
-        draggedElement.style.top  = elementOffsetY + mouseY - mouseOffsetY;
+        draggedElement.style.left = elementOffsetX + mouseX - mouseOffsetX + "px";
+        draggedElement.style.top  = elementOffsetY + mouseY - mouseOffsetY + "px";
       }
     }, true);
     var mouseDrop = function(event) {
