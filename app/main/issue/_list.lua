@@ -12,9 +12,17 @@ elseif for_state == "closed" then
   issues_selector:add_where("issue.closed NOTNULL")
 end
 
-local filters = execute.load_chunk{module="issue", chunk="_filters.lua", params = {
-  member = member, for_member = for_member, state = for_state, for_unit = for_unit, for_area = for_area
-}}
+local filters = execute.load_chunk{
+  module = "issue",
+  chunk = "_filters.lua",
+  params = {
+    member = member,
+    for_member = for_member,
+    state = for_state,
+    for_unit = for_unit,
+    for_area = for_area
+  }
+}
 
 filters.content = function()
   ui.paginate{
@@ -29,9 +37,16 @@ filters.content = function()
 
         for i, issue in ipairs(issues) do
 
-          execute.view{ module = "issue", view = "_show", params = {
-            issue = issue, for_listing = true, for_member = for_member
-          } }
+          execute.view{
+            module = "issue",
+            view = "_show",
+            params = {
+              issue = issue,
+              for_listing = true,
+              for_member = for_member,
+              highlight_string = highlight_string
+            }
+          }
 
         end
       end }

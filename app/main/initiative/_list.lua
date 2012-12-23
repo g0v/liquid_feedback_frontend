@@ -2,7 +2,7 @@ local issue = param.get("issue", "table")
 local initiatives_selector = param.get("initiatives_selector", "table")
 
 local initiatives
-if issue then
+if issue and not initiatives_selector then
   initiatives = issue.initiatives
 else
   initiatives = initiatives_selector:exec()

@@ -210,9 +210,10 @@ ui.container{ attr = { class = class }, content = function()
   end
 
   ui.container{ attr = { class = "initiative_list content clear_both" }, content = function()
-    local initiatives_selector = issue:get_reference_selector("initiatives")
+    local initiatives_selector
     local highlight_string = param.get("highlight_string")
     if highlight_string then
+      initiatives_selector = issue:get_reference_selector("initiatives")
       initiatives_selector:add_field( {'"highlight"("initiative"."name", ?)', highlight_string }, "name_highlighted")
     end
     execute.view{
