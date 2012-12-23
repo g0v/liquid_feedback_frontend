@@ -48,6 +48,7 @@ ui.paginate{
   name = "delegations_page",
   anchor = "delegations",
   selector = delegations_selector,
+  per_page = 20,
   content = function()
 
     local delegation_last_unit_id
