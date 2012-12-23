@@ -376,6 +376,7 @@ ui.form{
                         }
                       end
                       ui.container{
+                        attr = { style = "margin-left: 72px" },
                         content = function()
                           ui.tag{ content = "i" .. initiative.id .. ": " }
                           ui.tag{ content = initiative.shortened_name }

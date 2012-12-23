@@ -114,6 +114,12 @@ a.anchor {
   color: #000;
 }
 
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 h1 {
   font-size: 150%;
 }
@@ -543,6 +549,10 @@ form.unit_selector {
 .ini_link {
   border: 1px solid #ccc;
   padding: 4px 4px 2px 4px;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .page_head .path .unit_link,
 .page_head .path .area_link,

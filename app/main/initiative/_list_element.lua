@@ -279,28 +279,30 @@ ui.container{ attr = { class = class }, content = function()
     end
   end
 
-  ui.container{ attr = { class = "name" }, content = function()
-    local link_class = "initiative_link"
-    if initiative.revoked then
-      link_class = "revoked"
+  ui.container{
+    attr = { class = "name" .. (initiative.name_highlighted and "" or " ellipsis") },
+    content = function()
+      local link_class = "initiative_link"
+      if initiative.revoked then
+        link_class = "revoked"
+      end
+      ui.link{
+        attr = { class = link_class },
+        content = function()
+          local name
+          if initiative.name_highlighted then
+            name = encode.highlight(initiative.name_highlighted)
+          else
+            name = encode.html(initiative.name)
+          end
+          ui.tag{ content = "i" .. initiative.id .. ": " }
+          slot.put(name)
+        end,
+        module  = "initiative",
+        view    = "show",
+        id      = initiative.id
+      }
     end
-    ui.link{
-      attr = { class = link_class },
-      content = function()
-        local name
-        if initiative.name_highlighted then
-          name = encode.highlight(initiative.name_highlighted)
-        else
-          name = encode.html(initiative.shortened_name)
-        end
-        ui.tag{ content = "i" .. initiative.id .. ": " }
-        slot.put(name)
-      end,
-      module  = "initiative",
-      view    = "show",
-      id      = initiative.id
-    }
-
-  end }
+  }
 
 end }
