@@ -69,16 +69,32 @@ ui.container{ attr = { class = class }, content = function()
       if initiative.issue.ranks_available then
         if initiative.negative_votes and initiative.positive_votes then
           local max_value = initiative.issue.voter_count
-          ui.bargraph{
-            title_prefix = _"Votes" .. ": ",
-            max_value = max_value,
-            width = 100,
-            bars = {
-              { color = "#0a5", value = initiative.positive_votes },
-              { color = "#aaa", value = max_value - initiative.negative_votes - initiative.positive_votes },
-              { color = "#a00", value = initiative.negative_votes },
+          if initiative.positive_direct_votes and initiative.negative_direct_votes then
+            ui.bargraph{
+              title_prefix = _"Votes" .. ": ",
+              max_value = max_value,
+              width = 100,
+              bars = {
+                { color = "#0a5", value = initiative.positive_direct_votes },
+                { color = "#0b6", value = initiative.positive_votes - initiative.positive_direct_votes },
+                { color = "#aaa", value = max_value - initiative.negative_votes - initiative.positive_votes },
+                { color = "#b00", value = initiative.negative_votes - initiative.negative_direct_votes },
+                { color = "#a00", value = initiative.negative_direct_votes }
+              }
             }
-          }
+          else
+            -- for old initiatives without calculated values for direct voters
+            ui.bargraph{
+              title_prefix = _"Votes" .. ": ",
+              max_value = max_value,
+              width = 100,
+              bars = {
+                { color = "#0a5", value = initiative.positive_votes },
+                { color = "#aaa", value = max_value - initiative.negative_votes - initiative.positive_votes },
+                { color = "#a00", value = initiative.negative_votes }
+              }
+            }
+          end
         else
           slot.put("&nbsp;")
         end
@@ -101,7 +117,7 @@ ui.container{ attr = { class = class }, content = function()
         quorum = max_value * quorum,
         quorum_color = "#00F",
         bars = {
-          { color = "#0a5", value = (initiative.satisfied_supporter_count or 0) },
+          { color = "#4c6", value = (initiative.satisfied_supporter_count or 0) },
           { color = "#aaa", value = (initiative.supporter_count or 0) - (initiative.satisfied_supporter_count or 0) },
           { color = "#fff", value = max_value - (initiative.supporter_count or 0) },
         }

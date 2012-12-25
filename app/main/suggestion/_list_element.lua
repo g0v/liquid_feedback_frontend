@@ -205,7 +205,7 @@ ui.container{ attr = { class = "box" },
                 bars = {
                   { color = "#0a0", value = record.plus2_fulfilled_count },
                   { color = "#8f8", value = record.plus1_fulfilled_count },
-                  { color= "#eee", value = max_value - record.minus2_fulfilled_count - record.minus1_fulfilled_count - record.plus1_fulfilled_count - record.plus2_fulfilled_count},
+                  { color = "#eee", value = max_value - record.minus2_fulfilled_count - record.minus1_fulfilled_count - record.plus1_fulfilled_count - record.plus2_fulfilled_count},
                   { color = "#f88",value = record.minus1_fulfilled_count },
                   { color = "#a00", value = record.minus2_fulfilled_count }
                 }
