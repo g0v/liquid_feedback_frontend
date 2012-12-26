@@ -6,7 +6,7 @@ function ui.title(content, unit, area, issue, initiative)
         ui.link{
           module = "unit",
           view = "show",
-          id = unit_id,
+          id = unit.id,
           attr = { class = "unit_link" },
           text = unit.name
         }
@@ -14,7 +14,7 @@ function ui.title(content, unit, area, issue, initiative)
           ui.link{
             module = "area",
             view = "show",
-            id = area_id,
+            id = area.id,
             attr = { class = "area_link" },
             text = area.name
           }
