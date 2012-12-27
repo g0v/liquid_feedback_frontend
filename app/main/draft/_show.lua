@@ -7,8 +7,9 @@ if source then
     tag = "div",
     attr = { class = "diff" },
     content = function()
-      local output = draft.content:gsub("\n", "\n<br />")
-      slot.put(encode.html(output))
+      local output = encode.html(draft.content)
+      output = output:gsub("\n", "\n<br />")
+      slot.put(output)
     end
   }
 
