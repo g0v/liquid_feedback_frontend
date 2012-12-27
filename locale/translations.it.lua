@@ -471,7 +471,10 @@ return {
 ["Negative"] = false;
 ["New"] = "Nuovo";
 ["New address"] = "Nuovo indirizzo";
+["New argument"] = false;
 ["New argument contra"] = false;
+["New argument for initiative"] = false;
+["New argument for initiative i#{id} - #{argument}"] = false;
 ["New argument pro"] = false;
 ["New draft"] = "Nuova bozza";
 ["New draft for initiative"] = false;
@@ -723,7 +726,6 @@ return {
 ["Suggestion currently not implemented"] = "Suggerimento non integrato";
 ["Suggestion does not exist anymore"] = "Il suggerimento non esiste piu'";
 ["Suggestion does not exist anymore!"] = false;
-["Suggestion for"] = false;
 ["Suggestion for initiative: '#{name}'"] = "Suggerimento per l'iniziativa: '#{name}'";
 ["Suggestions"] = "Suggerimenti";
 ["Sunday"] = "Domenica";

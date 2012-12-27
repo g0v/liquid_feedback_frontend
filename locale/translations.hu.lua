@@ -456,7 +456,10 @@ return {
 ["Negative"] = false;
 ["New"] = "Új";
 ["New address"] = "Új email-cím";
+["New argument"] = false;
 ["New argument contra"] = false;
+["New argument for initiative"] = false;
+["New argument for initiative i#{id} - #{argument}"] = false;
 ["New argument pro"] = false;
 ["New draft"] = "Új vázlat";
 ["New draft for initiative"] = false;
@@ -696,7 +699,6 @@ return {
 ["Suggestion currently not implemented"] = "A javaslat jelenleg nincs beépítve";
 ["Suggestion does not exist anymore"] = "A javaslat már nem létezik";
 ["Suggestion does not exist anymore!"] = false;
-["Suggestion for"] = false;
 ["Suggestion for initiative: '#{name}'"] = "Javaslatok '#{name}' kezdeményezéshez";
 ["Suggestions"] = "Javaslatok";
 ["Sunday"] = "Vasárnap";

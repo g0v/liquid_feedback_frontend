@@ -470,7 +470,10 @@ return {
 ["Negative"] = false;
 ["New"] = "Νέο";
 ["New address"] = "Νέα διεύθυνση email";
+["New argument"] = false;
 ["New argument contra"] = false;
+["New argument for initiative"] = false;
+["New argument for initiative i#{id} - #{argument}"] = false;
 ["New argument pro"] = false;
 ["New draft"] = "Νέο προσχέδιο";
 ["New draft for initiative"] = false;
@@ -722,7 +725,6 @@ return {
 ["Suggestion currently not implemented"] = "Η πρόταση δεν υλοποιείται αυτή τη στιγμή";
 ["Suggestion does not exist anymore"] = "Η πρόταση δεν υπάρχει πια";
 ["Suggestion does not exist anymore!"] = false;
-["Suggestion for"] = false;
 ["Suggestion for initiative: '#{name}'"] = "Πρόταση για την πρωτοβουλία '#{name}'";
 ["Suggestions"] = "Προτάσεις";
 ["Sunday"] = "Κυριακή";

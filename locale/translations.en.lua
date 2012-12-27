@@ -375,7 +375,10 @@ return {
 ["Negative"] = false;
 ["New"] = false;
 ["New address"] = false;
+["New argument"] = false;
 ["New argument contra"] = false;
+["New argument for initiative"] = false;
+["New argument for initiative i#{id} - #{argument}"] = false;
 ["New argument pro"] = false;
 ["New draft for initiative"] = false;
 ["New draft for initiative i#{id} - #{name}"] = false;
@@ -580,7 +583,6 @@ return {
 ["Suggestion currently implemented"] = false;
 ["Suggestion currently not implemented"] = false;
 ["Suggestion does not exist anymore!"] = false;
-["Suggestion for"] = false;
 ["Suggestions"] = false;
 ["Support this initiative"] = false;
 ["Supported"] = false;

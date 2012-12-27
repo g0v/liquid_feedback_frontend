@@ -9,20 +9,7 @@ end
 app.html_title.title = argument.name
 app.html_title.subtitle = _("Argument ##{id}", { id = argument.id })
 
-ui.title(function()
-  if argument.side == "pro" then
-    slot.put(_"Argument pro for")
-  else
-    slot.put(_"Argument contra for")
-  end
-  slot.put(" ")
-  ui.link{
-    content = _("Initiative i#{id}: #{name}", { id = argument.initiative.id, name = argument.initiative.name }),
-    module = "initiative",
-    view = "show",
-    id = argument.initiative.id
-  }
-end, argument.initiative.issue.area.unit, argument.initiative.issue.area, argument.initiative.issue)
+ui.title(argument.side == "pro" and _"Argument pro" or _"Argument contra", argument.initiative.issue.area.unit, argument.initiative.issue.area, argument.initiative.issue, argument.initiative)
 
 ui.actions(function()
   ui.link{

@@ -399,7 +399,10 @@ return {
 ["Negative"] = "Negativ";
 ["New"] = "Neu";
 ["New address"] = "Neue E-Mail-Adresse";
+["New argument"] = "Neues Argument";
 ["New argument contra"] = "Neues Kontra-Argument";
+["New argument for initiative"] = "Neues Argument für Initiative";
+["New argument for initiative i#{id} - #{argument}"] = "Neues Argument für Initiative i#{id} - #{argument}";
 ["New argument pro"] = "Neues Pro-Argument";
 ["New draft for initiative"] = "Neuer Entwurf für Initiative";
 ["New draft for initiative i#{id} - #{name}"] = "Neuer Entwurf für Initiative i#{id} - #{name}";

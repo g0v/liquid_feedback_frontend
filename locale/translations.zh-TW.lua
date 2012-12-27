@@ -470,7 +470,10 @@ return {
 ["Negative"] = false;
 ["New"] = "遞交期";
 ["New address"] = "新電郵地址";
+["New argument"] = false;
 ["New argument contra"] = false;
+["New argument for initiative"] = false;
+["New argument for initiative i#{id} - #{argument}"] = false;
 ["New argument pro"] = false;
 ["New draft"] = "新草案";
 ["New draft for initiative"] = false;
@@ -722,7 +725,6 @@ return {
 ["Suggestion currently not implemented"] = "建議目前未被採納";
 ["Suggestion does not exist anymore"] = "建議不再存在";
 ["Suggestion does not exist anymore!"] = false;
-["Suggestion for"] = false;
 ["Suggestion for initiative: '#{name}'"] = "對提案 '#{name}' 的建議";
 ["Suggestions"] = "建議";
 ["Sunday"] = "週日";

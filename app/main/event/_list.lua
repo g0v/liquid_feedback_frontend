@@ -235,6 +235,15 @@ filters.content = function()
           end }
         end
 
+        if event.argument_id then
+          ui.container{ attr = { class = "content suggestion" }, content = function()
+            ui.link{
+              text = event.argument.name,
+              module = "argument", view = "show", id = event.argument_id
+            }
+          end }
+        end
+
       end }
     end
 

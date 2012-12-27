@@ -35,6 +35,14 @@ Event:add_reference{
 
 Event:add_reference{
   mode          = 'm1',
+  to            = "Argument",
+  this_key      = 'argument_id',
+  that_key      = 'id',
+  ref           = 'argument',
+}
+
+Event:add_reference{
+  mode          = 'm1',
   to            = "Member",
   this_key      = 'member_id',
   that_key      = 'id',
@@ -48,7 +56,8 @@ function Event.object_get:event_name()
     initiative_created_in_existing_issue = _"New initiative",
     initiative_revoked = _"Initiative revoked",
     new_draft_created = _"New initiative draft",
-    suggestion_created = _"New suggestion"
+    suggestion_created = _"New suggestion",
+    argument_created = _"New argument"
   })[self.event]
 end
 
@@ -144,6 +153,8 @@ function Event.object:send_notification()
           local body = request.get_absolute_baseurl()
           if self.suggestion_id then
             body = body .. "suggestion/show/" .. self.suggestion_id .. ".html\n\n"
+          elseif self.argument_id then
+            body = body .. "argument/show/"   .. self.argument_id   .. ".html\n\n"
           elseif url_initiative_id then
             body = body .. "initiative/show/" .. url_initiative_id  .. ".html\n\n"
           else
@@ -174,6 +185,15 @@ function Event.object:send_notification()
             body = body
               .. _("Suggestion") .. ": " .. suggestion.name .. "\n\n"
               .. suggestion.content .. "\n"
+          end
+
+          -- argument
+          local argument
+          if self.argument_id then
+            argument = Argument:by_id(self.argument_id)
+            body = body
+              .. (argument.side == "pro" and _("Argument pro") or _("Argument contra")) .. ": " .. argument.name .. "\n\n"
+              .. argument.content .. "\n"
           end
 
           -- subject
@@ -210,6 +230,8 @@ function Event.object:send_notification()
             subject = subject .. _("New draft for initiative i#{id} - #{name}", { id = initiative.id, name = initiative.name })
           elseif self.event == "suggestion_created" then
             subject = subject .. _("New suggestion for initiative i#{id} - #{suggestion}", { id = initiative.id, suggestion = suggestion.name })
+          elseif self.event == "argument_created" then
+            subject = subject .. _("New argument for initiative i#{id} - #{argument}", { id = initiative.id, argument = argument.name })
           end
 
           body_cache[lang]    = body

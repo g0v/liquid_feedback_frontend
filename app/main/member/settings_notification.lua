@@ -175,8 +175,10 @@ ui.form{
         and record.name ~= 'admission__initiative_revoked'
         and record.name ~= 'discussion__new_draft_created'
         and record.name ~= 'discussion__suggestion_created'
+        and record.name ~= 'discussion__argument_created'
         and record.name ~= 'discussion__initiative_revoked'
-        and record.name ~= 'verification__initiative_revoked' ) then
+        and record.name ~= 'verification__initiative_revoked'
+        and record.name ~= 'verification__argument_created' ) then
         return
       end
       ui.tag{
