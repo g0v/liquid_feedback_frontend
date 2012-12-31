@@ -20,7 +20,6 @@ return {
 ["#{issues_to_vote_count} issues"] = "#{issues_to_vote_count} Themen";
 ["#{number} Images have been deleted."] = "Es wurden #{number} Bilder gelöscht.";
 ["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = "Es wurden #{number} Bilder aktualisiert. Falls sie noch nicht angezeigt werden, kannst du versuchen, die Seite neu zu laden.";
-["#{time_left} left"] = "noch #{time_left}";
 ["(Potential) supporters, who rated this argument negative"] = "(Potentielle) Unterstützer, die das Argument negativ bewertet haben";
 ["(Potential) supporters, who rated this argument positive"] = "(Potentielle) Unterstützer, die das Argument positiv bewertet haben";
 ["(new window)"] = "(neues Fenster)";
@@ -36,7 +35,6 @@ return {
 ["Abstention"] = "Enthaltung";
 ["Abstention [many entries]"] = "Enthaltung";
 ["Abstention [single entry]"] = "Enthaltung";
-["Abstention via delegation"] = "Enthaltung durch Delegation";
 ["Accept invitation"] = "Einladung annehmen";
 ["Accepted"] = "Angenommen";
 ["Access level"] = "Berechtigung";
@@ -48,8 +46,6 @@ return {
 ["Add my interest"] = "Mein Interesse anmelden";
 ["Add new argument contra"] = "Neues Kontra-Argument";
 ["Add new argument pro"] = "Neues Pro-Argument";
-["Add new suggestion"] = "Neue Anregung hinzufügen";
-["Add new suggestion for"] = "Neue Anregung für";
 ["Add new unit"] = "Neue Gliederung";
 ["Add to list"] = "Zur Liste hinzufügen";
 ["Add to my contacts"] = "Zu meinen Kontakten hinzufügen";
@@ -67,7 +63,6 @@ return {
 ["All in my areas and issues"] = "Alle in meinen Themenbereichen und Themen";
 ["All in my units"] = "Alle in meinen Gliederungen";
 ["All issues"] = "Alle Themen";
-["All of them"] = "Alle Benachrichtigungen";
 ["All units"] = "Alle Gliederungen";
 ["All your contacts are on this list of trustees. To add more members, you have to add them to your contacts first."] = "Alle deine Kontakte sind in dieser Liste von Bevollmächtigten. Um weitere Mitglieder hinzuzufügen, musst du sie erst in deine Kontakte aufnehmen.";
 ["Any"] = "Alle";
@@ -86,18 +81,14 @@ return {
 ["Approved"] = "Angenommen";
 ["Are you sure?"] = "Sicher?";
 ["Area"] = "Themenbereich";
-["Area '#{name}'"] = "Themenbereich '#{name}'";
 ["Area delegation"] = "Delegation für Themenbereich";
 ["Area list of '#{unit_name}'"] = "Themenbereiche in '#{unit_name}'";
 ["Areas"] = "Themenbereiche";
 ["Argument"] = "Argument";
 ["Argument ##{id}"] = "Argument ##{id}";
 ["Argument contra"] = "Kontra-Argument";
-["Argument contra for"] = "Kontra-Argument für";
 ["Argument does not exist!"] = "Dieses Argument existiert nicht!";
-["Argument for"] = "Argument für";
 ["Argument pro"] = "Pro-Argument";
-["Argument pro for"] = "Pro-Argument für";
 ["Arguments contra"] = "Kontra-Argumente";
 ["Arguments pro"] = "Pro-Argumente";
 ["Author"] = "Autor";
@@ -164,7 +155,6 @@ return {
 ["Create new policy"] = "Neues Regelwerk anlegen";
 ["Create new unit"] = "Neue Gliederung anlegen";
 ["Created"] = "Erzeugt";
-["Created at"] = "Erzeugt am/um";
 ["Current name"] = "Aktueller Name";
 ["Current status"] = "Aktueller Status";
 ["Current votings in areas you are member of and issues you are interested in:"] = "Jetzt laufende Abstimmungen zu Themen aus deinen Themenbereichen oder solchen an denen du interessiert bist:";
@@ -209,16 +199,13 @@ return {
 ["Discussion started"] = "Diskussion gestartet";
 ["Discussion starts soon."] = "Diskussion beginnt in Kürze.";
 ["Discussion time"] = "Zeit für die Diskussion";
-["Discussion with initiators"] = "Diskussion mit den Initiatoren";
 ["Download"] = "Download";
 ["Download database export"] = "Datenbankexport herunterladen";
 ["Download documents"] = "Dokumente herunterladen";
-["Draft"] = "Entwurf";
 ["Draft created at #{date} #{time}"] = "Entwurf vom #{date} um #{time}";
 ["Edit"] = "Bearbeiten";
 ["Edit areas"] = "Themenbereiche bearbeiten";
 ["Edit draft"] = "Entwurf bearbeiten";
-["Edit initiative"] = "Initiative bearbeiten";
 ["Edit my page"] = "Meine Seite bearbeiten";
 ["Edit my profile"] = "Mein Profil bearbeiten";
 ["Edit profile"] = "Profil bearbeiten";
@@ -246,7 +233,6 @@ return {
 ["Frozen"] = "Eingefroren";
 ["Fully frozen"] = "Ganz eingefroren";
 ["Generate API key"] = "API-Schlüssel erzeugen";
-["Global delegation"] = "Globale Delegation";
 ["Global search"] = "Globale Suche";
 ["Half frozen"] = "Halb eingefroren";
 ["Hello\n\n"] = "Hallo\n\n";
@@ -257,10 +243,8 @@ return {
 ["Hide inactive units"] = "Inaktive Gliederungen ausblenden";
 ["Hide this help message"] = "Diesen Hilfetext ausblenden";
 ["Hint"] = "Hinweis";
-["History"] = "Historie";
 ["Home"] = "Startseite";
 ["I consider suggestion as"] = "Ich halte die Anregung für";
-["I like to receive notifications by email about events in my areas and issues:"] = "Ich möchte per E-Mail über die folgenden Ereignisse in meinen Themenbereichen und Themen informiert werden:";
 ["I like to receive notifications by email about events:"] = "Ich möchte per E-Mail über die folgenden Ereignisse informiert werden:";
 ["Id"] = "Id";
 ["Identification"] = "Identifikation";
@@ -275,7 +259,6 @@ return {
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = "In dieser Installation ist eine Registrierung auch ohne Einladungscode möglich. Dafür das Feld bitte einfach leer lassen.";
 ["Inactive"] = "Inaktiv";
 ["Incoming delegations"] = "Eingehende Delegationen";
-["Incoming delegations for Issue ##{number} in Area '#{area_name}' in Unit '#{unit_name}'"] = "Eingehende Delegationen für Thema ##{number} im Themenbereich '#{area_name}' in Gliederung '#{unit_name}'";
 ["Incoming delegations of member '#{member}'"] = "Eingehende Delegationen des Mitglieds '#{member}'";
 ["Index"] = "Positionsnummer";
 ["Indirect majority"] = "Indirekte Mehrheit";
@@ -286,7 +269,6 @@ return {
 ["Information about the available policies"] = "Informationen zu den verfügbaren Regelwerken";
 ["Initiated"] = "Initiiert";
 ["Initiative"] = "Initiative";
-["Initiative ##{id}"] = "Initiative ##{id}";
 ["Initiative Details"] = "Details der Initiative";
 ["Initiative i#{id}"] = "Initiative i#{id}";
 ["Initiative i#{id}: #{name}"] = "Initiative i#{id}: #{name}";
@@ -299,12 +281,9 @@ return {
 ["Initiative revoked - i#{id}: #{name}"] = "Initiative zurückgezogen - i#{id}: #{name}'";
 ["Initiative successfully created."] = "Initiative erfolgreich erzeugt.";
 ["Initiative successfully updated."] = "Initiative erfolgreich aktualisiert.";
-["Initiative: "] = "Initiative: ";
 ["Initiatives that invited you to become initiator:"] = "Initiative, die dich eingeladen haben, Initiator zu werden:";
 ["Initiator invites"] = "Einladungen";
 ["Initiators"] = "Initiatoren";
-["Interest not existent"] = "Interesse existiert nicht";
-["Interest removed"] = "Interesse entfernt";
 ["Interest updated"] = "Interesse aktualisiert";
 ["Interested"] = "Interessiert";
 ["Interested members"] = "Interessierte Mitglieder";
@@ -317,7 +296,6 @@ return {
 ["Invite code"] = "Einladungscode";
 ["Invite initiator"] = "Initiator einladen";
 ["Invited"] = "Eingeladen";
-["Issue"] = "Thema";
 ["Issue ##{id}"] = "Thema ##{id}";
 ["Issue ##{id} reached discussion"] = "Thema ##{id} hat Diskussion erreicht";
 ["Issue ##{id} was cancelled because no initiative was admitted"] = "Thema ##{id} wurde abgebrochen, weil keine Initiative zugelassen wurde";
@@ -329,7 +307,6 @@ return {
 ["Issue ##{issue} - i#{initiative_id}: #{initiative_name}"] = "Thema ##{issue} - i#{initiative_id}: #{initiative_name}";
 ["Issue Details"] = "Details des Themas";
 ["Issue delegation"] = "Delegation für Thema";
-["Issue delegations"] = "Themendelegationen";
 ["Issue pad"] = "Pad zum Thema";
 ["Issue quorum"] = "Quorum Thema";
 ["Issue quorum denumerator"] = "Themen-Quorum Nenner";
@@ -374,13 +351,10 @@ return {
 ["Member is now invited to be initiator."] = "Mitglied ist jetzt als Initiator eingeladen.";
 ["Member is participating in this area."] = "Mitglied ist Teilnehmer im Themenbereich.";
 ["Member list"] = "Mitgliederliste";
-["Member menu"] = "Mitgliedsmenü";
-["Member name"] = "Mitgliedsname";
 ["Member name history for '#{name}'"] = "Namenshistorie für '#{name}'";
 ["Member page"] = "Mitgliederseite";
 ["Member successfully registered"] = "Mitglied erfolgreich registriert";
 ["Member successfully updated"] = "Mitglied erfolgreich aktualisiert";
-["Member voter"] = "Mitglieder, die abgestimmt haben";
 ["Member: '#{identification}' (#{name})"] = "Mitglied: '#{identification}' (#{name})";
 ["Members"] = "Mitglieder";
 ["Membership not existent"] = "Mitgliedschaft existiert nicht";
@@ -431,7 +405,6 @@ return {
 ["No arguments yet"] = "Noch keine Argumente";
 ["No changes to your images were made"] = "An deinen Bildern wurde nichts geändert";
 ["No default"] = "Kein Standard";
-["No more events available"] = "Keine weiteren Ereignisse verfügbar";
 ["No multistage majority"] = "Keine mehrstufigen Mehrheiten";
 ["No non-supporters rated this argument negative."] = "Kein Nicht-Unterstützer hat dieses Argument negativ bewertet.";
 ["No non-supporters rated this argument positive."] = "Kein Nicht-Unterstützer hat dieses Argument positiv bewertet.";
@@ -449,7 +422,6 @@ return {
 ["Not active"] = "Nicht aktiv";
 ["Not admin"] = "Nicht Admin";
 ["Not approved"] = "Nicht angenommen";
-["Not approved (rank #{rank})"] = "Nicht angenommen (Rang #{rank})";
 ["Not imported"] = "Nicht importiert";
 ["Not locked"] = "Nicht gesperrt";
 ["Not voted"] = "Nicht abgestimmt";
@@ -554,7 +526,6 @@ return {
 ["Revoke initiative"] = "Initiative zurückziehen";
 ["Revoked"] = "Zurückgezogen am/um";
 ["Save"] = "Speichern";
-["Saved contacts"] = "Gespeicherte Kontakte";
 ["Schulze rank"] = "Schulze-Rang";
 ["Screen name"] = "Screen-Name";
 ["Search"] = "Suchen";
@@ -569,7 +540,6 @@ return {
 ["Search term (only complete words)"] = "Suchbegriff(e) (nur ganze Wörter)";
 ["Search:"] = "Suche:";
 ["Select language"] = "Sprache wählen";
-["Select language \"#{langcode}\""] = "Sprache \"#{langcode}\" wählen";
 ["Send invite?"] = "Einladung schicken?";
 ["Set URL"] = "URL setzen";
 ["Set new password"] = "Neues Kennwort setzen";
@@ -582,7 +552,6 @@ return {
 ["Show help text"] = "Zeige Hilfe-Text";
 ["Show inactive units"] = "Inaktive Gliederungen anzeigen";
 ["Show member"] = "Mitglied anzeigen";
-["Show member history"] = "Historie des Mitglieds anzeigen";
 ["Show more information"] = "Zeige mehr Informationen";
 ["Show newest events"] = "Zeige die neusten Ereignisse";
 ["Show older events"] = "Zeige ältere Ereignisse";
@@ -612,8 +581,6 @@ return {
 ["Suggestion currently implemented"] = "Anregung zur Zeit umgesetzt";
 ["Suggestion currently not implemented"] = "Anregung zur Zeit nicht umgesetzt";
 ["Suggestion does not exist anymore!"] = "Diese Anregung existiert nicht mehr!";
-["Suggestion for"] = "Anregung für";
-["Suggestion for initiative: '#{name}'"] = "Anregung für Initiative '#{name}'";
 ["Suggestions"] = "Anregungen";
 ["Support this initiative"] = "Diese Initiative unterstützen";
 ["Supported"] = "Unterstützt";
@@ -666,8 +633,6 @@ return {
 ["This member is interested in the issue. The rest of the delegation list is suspended while discussing."] = "Dieses Mitglied ist am Thema interessiert. Der Rest der Delegationsliste wird während der Diskussion ausgesetzt.";
 ["This member is interested."] = "Dieses Mitglied ist interessiert.";
 ["This member is locked."] = "Mitglied ist gesperrt.";
-["This member is participating, the rest of delegation list is suspended while discussing."] = "Dieses Mitglied beteiligt sich, der Rest der Delegationsliste wird während der Diskussion ausgesetzt.";
-["This member is participating."] = "Dieses Mitglied beteiligt sich.";
 ["This member is potential supporter of this initiative via delegation."] = "Dieses Mitglied ist durch Delegation potenzieller Unterstützer dieser Initiative.";
 ["This member is potential supporter of this initiative."] = "Dieses Mitglied ist potenzieller Unterstützer dieser Initiative.";
 ["This member is supporter of this initiative via delegation."] = "Dieses Mitglied ist durch Delegation Unterstützer dieser Initiative.";
@@ -685,14 +650,12 @@ return {
 ["This suggestion has been meanwhile deleted!"] = "Diese Anregung wurde zwischenzeitlich gelöscht!";
 ["This title is really too short!"] = "Dieser Titel ist wirklich zu kurz!";
 ["Title"] = "Titel";
-["Title (80 chars max)"] = "Titel (max. 80 Zeichen)";
 ["Title of initiative"] = "Titel der Initiative";
 ["Today at #{time}"] = "Heute um #{time}";
 ["Traditional wiki syntax"] = "Traditionelle Wiki-Syntax";
 ["Trustee has no voting right in this unit!"] = "Bevollmächtigter hat kein Stimmrecht in dieser Gliederung!";
 ["Unconfirmed address"] = "Unbestätigte E-Mail";
 ["Unit"] = "Gliederung";
-["Unit '#{name}'"] = "Gliederung '#{name}'";
 ["Unit delegation"] = "Gliederungsdelegation";
 ["Unit list"] = "Liste der Gliederungen";
 ["Unit: '#{name}'"] = "Gliederung: '#{name}'";
@@ -726,7 +689,6 @@ return {
 ["We have sent an email with activation link already in the last hour. Please try again later."] = "Wir haben bereits innerhalb der letzten Stunde eine E-Mail mit Bestätigungslink gesendet. Bitte versuche es später erneut.";
 ["Website"] = "Webseite";
 ["Wiki engine"] = "Wiki engine";
-["Wiki engine for statement"] = "Wiki engine für das Statement";
 ["Withdraw"] = "Zurückziehen";
 ["Withdraw interest and delete the suggestion"] = "Interesse zurückziehen und die Anregung löschen";
 ["Withdraw interest and delete the suggestions"] = "Interesse zurückziehen und die Anregungen löschen";
