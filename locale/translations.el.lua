@@ -106,12 +106,11 @@ return {
 ["Area delegation"] = "Ανάθεση τομέα";
 ["Area list of '#{unit_name}'"] = "Τομείς ενότητας '#{unit_name}'";
 ["Areas"] = "Τομείς";
+["Argument"] = false;
 ["Argument ##{id}"] = false;
 ["Argument contra"] = false;
-["Argument contra for"] = false;
 ["Argument does not exist!"] = false;
 ["Argument pro"] = false;
-["Argument pro for"] = false;
 ["Arguments contra"] = false;
 ["Arguments pro"] = false;
 ["Author"] = "Συντάκτης";
@@ -430,6 +429,7 @@ return {
 ["Member has not approved latest draft."] = false;
 ["Member has voting privileges for this unit"] = "Το μέλος έχει δικαίωμα ψήφου σε αυτή την ενότητα";
 ["Member has voting privileges for this unit."] = false;
+["Member history"] = false;
 ["Member inactive?"] = "Απενεργοποιημένο μέλος;";
 ["Member is administrator."] = false;
 ["Member is already saved in your contacts!"] = "Αυτό το μέλος είναι ήδη αποθηκευμένο στις επαφές σας!";

@@ -104,12 +104,11 @@ return {
 ["Area delegation"] = "Témakör delegálása";
 ["Area list of '#{unit_name}'"] = "'#{unit_name}' témakörei";
 ["Areas"] = "Témakörök";
+["Argument"] = false;
 ["Argument ##{id}"] = false;
 ["Argument contra"] = false;
-["Argument contra for"] = false;
 ["Argument does not exist!"] = false;
 ["Argument pro"] = false;
-["Argument pro for"] = false;
 ["Arguments contra"] = false;
 ["Arguments pro"] = false;
 ["Author"] = "Szerzõ";
@@ -422,6 +421,7 @@ return {
 ["Member has not approved latest draft"] = "Ez a tag még nem fogadta el a legújabb vázlatot";
 ["Member has not approved latest draft."] = false;
 ["Member has voting privileges for this unit."] = false;
+["Member history"] = false;
 ["Member is administrator."] = false;
 ["Member is already saved in your contacts!"] = "Ez a tag már el van mentve a kapcsolataid közé!";
 ["Member is not participating in any of the #{count} areas in this unit."] = false;
@@ -797,7 +797,6 @@ return {
 ["Tuesday"] = "Kedd";
 ["Unconfirmed address"] = "Megerõsítetlen email-cím";
 ["Unit"] = "Egység";
-["Unit '#{name}'"] = false;
 ["Unit delegation"] = "Egységdelegáció";
 ["Unit list"] = "Egységek listája";
 ["Unit: '#{name}'"] = false;

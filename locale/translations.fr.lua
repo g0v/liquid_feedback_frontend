@@ -81,16 +81,14 @@ return {
 ["Approved"] = false;
 ["Are you sure?"] = false;
 ["Area"] = false;
-["Area '#{name}'"] = false;
 ["Area delegation"] = false;
 ["Area list of '#{unit_name}'"] = false;
 ["Areas"] = false;
+["Argument"] = false;
 ["Argument ##{id}"] = false;
 ["Argument contra"] = false;
-["Argument contra for"] = false;
 ["Argument does not exist!"] = false;
 ["Argument pro"] = false;
-["Argument pro for"] = false;
 ["Arguments contra"] = false;
 ["Arguments pro"] = false;
 ["Author"] = false;
@@ -345,6 +343,7 @@ return {
 ["Member has been removed from your contacts."] = false;
 ["Member has not approved latest draft."] = false;
 ["Member has voting privileges for this unit."] = false;
+["Member history"] = false;
 ["Member is administrator."] = false;
 ["Member is already saved in your contacts!"] = false;
 ["Member is not participating in any of the #{count} areas in this unit."] = false;
@@ -553,7 +552,6 @@ return {
 ["Show help text"] = false;
 ["Show inactive units"] = false;
 ["Show member"] = false;
-["Show member history"] = false;
 ["Show more information"] = false;
 ["Show newest events"] = false;
 ["Show older events"] = false;
@@ -658,7 +656,6 @@ return {
 ["Trustee has no voting right in this unit!"] = false;
 ["Unconfirmed address"] = false;
 ["Unit"] = false;
-["Unit '#{name}'"] = false;
 ["Unit delegation"] = false;
 ["Unit list"] = false;
 ["Unit: '#{name}'"] = false;

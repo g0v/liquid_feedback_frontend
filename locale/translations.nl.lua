@@ -107,12 +107,11 @@ return {
 ["Area delegation"] = "Delegatie voor themagebied";
 ["Area list of '#{unit_name}'"] = "Themagebieden in '#{unit_name}'";
 ["Areas"] = "Themagebieden";
+["Argument"] = false;
 ["Argument ##{id}"] = false;
 ["Argument contra"] = false;
-["Argument contra for"] = false;
 ["Argument does not exist!"] = false;
 ["Argument pro"] = false;
-["Argument pro for"] = false;
 ["Arguments contra"] = false;
 ["Arguments pro"] = false;
 ["Author"] = "Auteur";
@@ -432,6 +431,7 @@ return {
 ["Member has not approved latest draft."] = false;
 ["Member has voting privileges for this unit"] = "Deelnemer heeft stemprivileges voor dit dossier";
 ["Member has voting privileges for this unit."] = false;
+["Member history"] = false;
 ["Member inactive?"] = "Deelnemer niet actief?";
 ["Member is administrator."] = false;
 ["Member is already saved in your contacts!"] = "Deelnemer is al in uw contacten opgeslagen!";

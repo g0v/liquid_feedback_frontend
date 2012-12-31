@@ -96,12 +96,11 @@ return {
 ["Area delegation"] = "Temarodelegacio";
 ["Area list of '#{unit_name}'"] = false;
 ["Areas"] = "Temaroj";
+["Argument"] = false;
 ["Argument ##{id}"] = false;
 ["Argument contra"] = false;
-["Argument contra for"] = false;
 ["Argument does not exist!"] = false;
 ["Argument pro"] = false;
-["Argument pro for"] = false;
 ["Arguments contra"] = false;
 ["Arguments pro"] = false;
 ["Author"] = "Aŭtoro";
@@ -408,6 +407,7 @@ return {
 ["Member has not approved latest draft"] = "La membro ne konsentis la plej novan skizon";
 ["Member has not approved latest draft."] = false;
 ["Member has voting privileges for this unit."] = false;
+["Member history"] = false;
 ["Member is administrator."] = false;
 ["Member is already saved in your contacts!"] = "La membro estas jam konservita en viaj kontaktoj!";
 ["Member is not participating in any of the #{count} areas in this unit."] = false;
@@ -648,7 +648,6 @@ return {
 ["Show help text"] = "Montri helpotekston";
 ["Show inactive units"] = false;
 ["Show member"] = "Montri membron";
-["Show member history"] = false;
 ["Show more information"] = false;
 ["Show newest events"] = false;
 ["Show older events"] = false;
@@ -778,7 +777,6 @@ return {
 ["Tuesday"] = "Mardo";
 ["Unconfirmed address"] = "Nekonfirmita adreso";
 ["Unit"] = false;
-["Unit '#{name}'"] = false;
 ["Unit delegation"] = false;
 ["Unit list"] = false;
 ["Unit: '#{name}'"] = false;

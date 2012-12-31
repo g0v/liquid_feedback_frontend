@@ -108,12 +108,11 @@ return {
 ["Area delegation"] = "Delega di area";
 ["Area list of '#{unit_name}'"] = "Elenco delle aree di '#{unit_name}'";
 ["Areas"] = "Aree";
+["Argument"] = false;
 ["Argument ##{id}"] = false;
 ["Argument contra"] = false;
-["Argument contra for"] = false;
 ["Argument does not exist!"] = false;
 ["Argument pro"] = false;
-["Argument pro for"] = false;
 ["Arguments contra"] = false;
 ["Arguments pro"] = false;
 ["Author"] = "Autore";
@@ -431,6 +430,7 @@ return {
 ["Member has not approved latest draft."] = false;
 ["Member has voting privileges for this unit"] = "L'utente ha diritto al voto per questa sezione";
 ["Member has voting privileges for this unit."] = false;
+["Member history"] = false;
 ["Member inactive?"] = "Utente inattivo?";
 ["Member is administrator."] = false;
 ["Member is already saved in your contacts!"] = "L'utente e' gia' tra i tuoi contatti!";

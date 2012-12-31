@@ -366,6 +366,7 @@ return {
 ["Member has been removed from your contacts."] = "Mitglied wurde aus deinen Kontakten entfernt.";
 ["Member has not approved latest draft."] = "Mitglied hat den letzten Entwurf noch nicht angenommen.";
 ["Member has voting privileges for this unit."] = "Mitglied hat Stimmrecht in dieser Gliederung.";
+["Member history"] = "Historie des Mitglieds";
 ["Member is administrator."] = "Mitglied ist Administrator.";
 ["Member is already saved in your contacts!"] = "Mitglied ist schon in deinen Kontakten!";
 ["Member is not participating in any of the #{count} areas in this unit."] = "Mitglied nimmt an keinem der #{count} Themenbereiche dieser Gliederung teil.";
@@ -599,7 +600,7 @@ return {
 ["Status"] = "Status";
 ["Status quo: #{rank}"] = "Status quo: #{rank}";
 ["Stop ignoring initiative"] = "Initiative nicht mehr ignorieren";
-["Stop ignoring member"] = "nicht mehr ignorieren";
+["Stop ignoring member"] = "Mitglied nicht mehr ignorieren";
 ["Strict direct majority"] = "Strenge direkte Mehrheit";
 ["Strict indirect majority"] = "Strenge indirekte Mehrheit";
 ["Stylesheet URL"] = "Stylesheet URL";

@@ -106,12 +106,11 @@ return {
 ["Area delegation"] = "領域委任";
 ["Area list of '#{unit_name}'"] = "在'#{unit_name}' 之中的領域清單";
 ["Areas"] = "領域";
+["Argument"] = false;
 ["Argument ##{id}"] = false;
 ["Argument contra"] = false;
-["Argument contra for"] = false;
 ["Argument does not exist!"] = false;
 ["Argument pro"] = false;
-["Argument pro for"] = false;
 ["Arguments contra"] = false;
 ["Arguments pro"] = false;
 ["Author"] = "作者";
@@ -430,6 +429,7 @@ return {
 ["Member has not approved latest draft."] = false;
 ["Member has voting privileges for this unit"] = "該成員對此單位有表決權";
 ["Member has voting privileges for this unit."] = false;
+["Member history"] = false;
 ["Member inactive?"] = "該成員怠惰？";
 ["Member is administrator."] = false;
 ["Member is already saved in your contacts!"] = "該成員已是您的聯絡人！";
