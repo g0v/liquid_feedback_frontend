@@ -7,22 +7,22 @@ local function delegation_scope(delegation)
   ui.container{
     attr = { class = "delegations_scope" },
     content = function()
-      if delegation.unit_id then
+      if delegation.scope_unit_id then
         ui.link{
           module = "unit",
           view = "show",
-          id = delegation.unit_id,
+          id = delegation.scope_unit_id,
           attr = { class = "unit_link" },
-          text = _"Unit '#{name}'":gsub("#{name}", delegation.unit_name)
+          text = delegation.scope_unit_name
         }
       end
-      if delegation.area_id then
+      if delegation.scope_area_id then
         ui.link{
           module = "area",
           view = "show",
-          id = delegation.area_id,
+          id = delegation.scope_area_id,
           attr = { class = "area_link" },
-          text = _"Area '#{name}'":gsub("#{name}", delegation.area_name)
+          text = delegation.scope_area_name
         }
       end
       if delegation.issue_id then
@@ -31,7 +31,7 @@ local function delegation_scope(delegation)
           view = "show",
           id = delegation.issue_id,
           attr = { class = "issue_link" },
-          text = _"Issue ##{id}":gsub("#{id}", delegation.issue_id)
+          text = delegation.policy_name .. " #" .. delegation.issue_id
         }
       end
     end
