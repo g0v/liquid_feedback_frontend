@@ -11,7 +11,6 @@ local tabs = {
 tabs[#tabs+1] = {
   name = "profile",
   label = _"Profile",
-  icon = { static = "icons/16/application_form.png" },
   module = "member",
   view = "_profile",
   params = { member = member }
@@ -21,7 +20,6 @@ local areas_selector = member:get_reference_selector("areas")
 tabs[#tabs+1] = {
   name = "areas",
   label = _"Units and areas",
-  icon = { static = "icons/16/package.png" },
   module = "index",
   view = "_member_home",
   params = { areas_selector = areas_selector, member = member, for_member = true }
@@ -75,7 +73,6 @@ local outgoing_delegations_selector = Member:selector_delegations()
 tabs[#tabs+1] = {
   name = "outgoing_delegations",
   label = _"Outgoing delegations" .. " (" .. tostring(outgoing_delegations_selector:count()) .. ")",
-  icon = { static = "icons/16/table_go.png" },
   module = "delegation",
   view = "_list",
   params = { delegations_selector = outgoing_delegations_selector, outgoing = true }
@@ -86,7 +83,6 @@ local incoming_delegations_selector = Member:selector_delegations()
 tabs[#tabs+1] = {
   name = "incoming_delegations",
   label = _"Incoming delegations" .. " (" .. tostring(incoming_delegations_selector:count()) .. ")",
-  icon = { static = "icons/16/table_go.png" },
   module = "delegation",
   view = "_list",
   params = { delegations_selector = incoming_delegations_selector, incoming = true }
@@ -96,7 +92,6 @@ local contacts_selector = member:get_reference_selector("saved_members"):add_whe
 tabs[#tabs+1] = {
   name = "contacts",
   label = _"Contacts" .. " (" .. tostring(contacts_selector:count()) .. ")",
-  icon = { static = "icons/16/book_edit.png" },
   module = "member",
   view = "_list",
   params = { members_selector = contacts_selector }

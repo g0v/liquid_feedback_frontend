@@ -71,7 +71,6 @@ if app.session:has_access("all_pseudonymous") then
   tabs[#tabs+1] = {
     name = "members",
     label = _"Participants" .. " (" .. tostring(members_selector:count()) .. ")",
-    icon = { static = "icons/16/group.png" },
     module = "member",
     view = "_list",
     params = { members_selector = members_selector }
@@ -95,7 +94,6 @@ if app.session:has_access("all_pseudonymous") then
   tabs[#tabs+1] = {
     name = "delegations",
     label = _"Delegations" .. " (" .. tostring(delegations_selector:count()) .. ")",
-    icon = { static = "icons/16/table_go.png" },
     module = "delegation",
     view = "_list",
     params = { delegations_selector = delegations_selector }
