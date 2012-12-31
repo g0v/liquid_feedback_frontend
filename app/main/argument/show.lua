@@ -24,6 +24,8 @@ ui.actions(function()
   }
 end)
 
+util.help("argument.show", _"Argument")
+
 execute.view{
   module = "argument",
   view = "show_tab",
