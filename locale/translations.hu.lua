@@ -399,6 +399,7 @@ return {
 ["Last snapshot:"] = "Legfrissebb állás:";
 ["Latest draft created at #{date} #{time}"] = false;
 ["Latest events"] = false;
+["Latest vote results"] = false;
 ["License"] = "Licensz";
 ["List all revisions (#{count})"] = false;
 ["List of trustees"] = false;
@@ -512,6 +513,7 @@ return {
 ["Not locked"] = false;
 ["Not voted"] = "Nem szavazott";
 ["Not voted issues"] = "Nem szavazott témák";
+["Not yet voted"] = false;
 ["Notification address unconfirmed"] = "Az értesítési email-cím nincs megerõsítve";
 ["Notification email"] = "Értesítõ email";
 ["Notification level not set yet"] = "Még nem lett beállítva az értesítési szint";
@@ -816,6 +818,7 @@ return {
 ["Versions"] = false;
 ["Vote now"] = false;
 ["Voted"] = "Szavazott";
+["Voted by delegation"] = false;
 ["Voted no"] = "Nemmel szavazott";
 ["Voted proposal"] = "Szavazott javaslat";
 ["Voted yes"] = "Igennel szavazott";

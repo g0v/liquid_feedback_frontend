@@ -328,6 +328,7 @@ return {
 ["Last snapshot"] = false;
 ["Latest draft created at #{date} #{time}"] = false;
 ["Latest events"] = false;
+["Latest vote results"] = false;
 ["List all revisions (#{count})"] = false;
 ["List of trustees"] = false;
 ["Lock and deactivate Member?"] = false;
@@ -426,6 +427,7 @@ return {
 ["Not locked"] = false;
 ["Not voted"] = false;
 ["Not voted issues"] = false;
+["Not yet voted"] = false;
 ["Notification address unconfirmed"] = false;
 ["Notification email"] = false;
 ["Notification settings"] = false;
@@ -673,6 +675,7 @@ return {
 ["Versions"] = false;
 ["Vote now"] = false;
 ["Voted"] = false;
+["Voted by delegation"] = false;
 ["Voted no"] = false;
 ["Voted yes"] = false;
 ["Voters"] = false;

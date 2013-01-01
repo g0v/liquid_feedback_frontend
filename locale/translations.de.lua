@@ -328,6 +328,7 @@ return {
 ["Last snapshot"] = "Letzte Auszählung";
 ["Latest draft created at #{date} #{time}"] = "Letzter Entwurf vom #{date} um #{time}";
 ["Latest events"] = "Letzte Ereignisse";
+["Latest vote results"] = "Neuste Abstimmungsergebnisse";
 ["List all revisions (#{count})"] = "Zeige alle Versionen (#{count})";
 ["List of trustees"] = "Liste der Bevollmächtigten";
 ["Lock and deactivate Member?"] = "Mitglied sperren und deaktivieren?";
@@ -426,6 +427,7 @@ return {
 ["Not locked"] = "Nicht gesperrt";
 ["Not voted"] = "Nicht abgestimmt";
 ["Not voted issues"] = "Nicht abgestimmt";
+["Not yet voted"] = "Noch nicht abgestimmt";
 ["Notification address unconfirmed"] = "E-Mail-Adresse für Benachrichtigungen unbestätigt";
 ["Notification email"] = "E-Mail für Benachrichtigungen";
 ["Notification settings"] = "Benachrichtigungseinstellungen";
@@ -673,6 +675,7 @@ return {
 ["Versions"] = "Versionen";
 ["Vote now"] = "Jetzt abstimmen";
 ["Voted"] = "Abgestimmt";
+["Voted by delegation"] = "Abgestimmt durch Delegation";
 ["Voted no"] = "Mit Nein gestimmt";
 ["Voted yes"] = "Mit Ja gestimmt";
 ["Voters"] = "Mitglieder, die abgestimmt haben";

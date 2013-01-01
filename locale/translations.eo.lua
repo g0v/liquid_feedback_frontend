@@ -385,6 +385,7 @@ return {
 ["Last snapshot:"] = "Lasta fulmrigardo:";
 ["Latest draft created at #{date} #{time}"] = false;
 ["Latest events"] = false;
+["Latest vote results"] = false;
 ["License"] = "Licenco";
 ["List all revisions (#{count})"] = false;
 ["List of trustees"] = false;
@@ -498,6 +499,7 @@ return {
 ["Not locked"] = false;
 ["Not voted"] = "Ne balotita";
 ["Not voted issues"] = "Ne balotitaj temoj";
+["Not yet voted"] = false;
 ["Notification address unconfirmed"] = "Pornotifika adreso nekonfirmita";
 ["Notification email"] = false;
 ["Notification settings"] = false;
@@ -795,6 +797,7 @@ return {
 ["Versions"] = false;
 ["Vote now"] = false;
 ["Voted"] = "Balotita";
+["Voted by delegation"] = false;
 ["Voted no"] = "Balotita nee";
 ["Voted proposal"] = "Propono balotita";
 ["Voted yes"] = "Balotita jese";

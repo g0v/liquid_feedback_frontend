@@ -405,6 +405,7 @@ return {
 ["Last snapshot:"] = "Τελευταίο στιγμιότυπο";
 ["Latest draft created at #{date} #{time}"] = "Το τελευταίο προσχέδιο δημιουργήθηκε στις #{date} #{time}";
 ["Latest events"] = "Πρόσφατα συμβάντα";
+["Latest vote results"] = false;
 ["License"] = "Άδεια";
 ["List all revisions (#{count})"] = "Λίστα όλων των αναθεωρήσεων (#{count})";
 ["List of trustees"] = false;
@@ -530,6 +531,7 @@ return {
 ["Not locked"] = false;
 ["Not voted"] = "Δεν έχω ψηφίσει";
 ["Not voted issues"] = "Θέματα που δεν έχουν ψηφιστεί";
+["Not yet voted"] = false;
 ["Notification address unconfirmed"] = "Ανεπιβεβαίωτη διεύθυνση email για ειδοποιήσεις";
 ["Notification email"] = "Email για ειδοποιήσεις";
 ["Notification level not set yet"] = "To επίπεδο ειδοποιήσεων δεν έχει οριστεί ακόμα";
@@ -846,6 +848,7 @@ return {
 ["Versions"] = false;
 ["Vote now"] = "Ψηφίστε τώρα";
 ["Voted"] = "Έχω ψηφίσει";
+["Voted by delegation"] = false;
 ["Voted no"] = "Ψήφισε όχι";
 ["Voted proposal"] = "Ψηφισμένη πρόταση";
 ["Voted yes"] = "Ψήφισε ναι";

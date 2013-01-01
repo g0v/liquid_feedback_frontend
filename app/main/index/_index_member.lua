@@ -1,7 +1,7 @@
 -- quick links
 ui.actions(function()
   ui.link{
-    text = "Neuste Abstimmungsergebnisse",
+    text = _"Latest vote results",
     module = "index",
     view = "index",
     params = {
@@ -12,7 +12,7 @@ ui.actions(function()
   }
   slot.put(" &middot; ")
   ui.link{
-    text = "Abgestimmt durch Delegationen",
+    text = _"Voted by delegation",
     module = "index",
     view = "index",
     params = {
@@ -23,7 +23,7 @@ ui.actions(function()
   }
   slot.put(" &middot; ")
   ui.link{
-    text = "Noch nicht abgestimmt",
+    text = _"Not yet voted",
     module = "index",
     view = "index",
     params = {

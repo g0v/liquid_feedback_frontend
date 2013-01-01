@@ -406,6 +406,7 @@ return {
 ["Last snapshot:"] = "Ultimo snapshot:";
 ["Latest draft created at #{date} #{time}"] = "Ultima bozza creata il #{date} alle #{time}";
 ["Latest events"] = "Ultimi eventi";
+["Latest vote results"] = false;
 ["License"] = "Licensa";
 ["List all revisions (#{count})"] = "Elenca tutte le revisioni (#{count})";
 ["List of trustees"] = false;
@@ -531,6 +532,7 @@ return {
 ["Not locked"] = false;
 ["Not voted"] = "Non votato";
 ["Not voted issues"] = "Tematiche non votate";
+["Not yet voted"] = false;
 ["Notification address unconfirmed"] = "Indirizzo per le notifiche non confermato";
 ["Notification email"] = "Email notifiche";
 ["Notification level not set yet"] = "Livello di notifica non impostato";
@@ -847,6 +849,7 @@ return {
 ["Versions"] = false;
 ["Vote now"] = "Vota adesso";
 ["Voted"] = "Votato";
+["Voted by delegation"] = false;
 ["Voted no"] = "Votato no";
 ["Voted yes"] = "Votato si";
 ["Voters"] = false;

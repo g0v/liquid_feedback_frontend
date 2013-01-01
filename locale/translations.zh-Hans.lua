@@ -405,6 +405,7 @@ return {
 ["Last snapshot:"] = "最后票数统计:";
 ["Latest draft created at #{date} #{time}"] = "最新的草案设置于 #{date}  #{time}";
 ["Latest events"] = "最新动态";
+["Latest vote results"] = false;
 ["License"] = "许可证";
 ["List all revisions (#{count})"] = "列出所有修正 (#{count})";
 ["List of trustees"] = false;
@@ -530,6 +531,7 @@ return {
 ["Not locked"] = false;
 ["Not voted"] = "未表决";
 ["Not voted issues"] = "未表决议题";
+["Not yet voted"] = false;
 ["Notification address unconfirmed"] = "通知电邮地址尚未被确认";
 ["Notification email"] = "通知电邮";
 ["Notification level not set yet"] = "通知等级尚未被设定";
@@ -846,6 +848,7 @@ return {
 ["Versions"] = false;
 ["Vote now"] = "立即表决";
 ["Voted"] = "已表决";
+["Voted by delegation"] = false;
 ["Voted no"] = "投否定票";
 ["Voted proposal"] = "已表决提案";
 ["Voted yes"] = "投肯定票";

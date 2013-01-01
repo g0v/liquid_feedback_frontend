@@ -407,6 +407,7 @@ return {
 ["Last snapshot:"] = "Laatste snapshot:";
 ["Latest draft created at #{date} #{time}"] = "Het laatste ontwerp is gecreerd op #{date} #{time}";
 ["Latest events"] = "Laatste evenementen";
+["Latest vote results"] = false;
 ["License"] = "License";
 ["List all revisions (#{count})"] = "Lijst van alle revisies (#{count})";
 ["List of trustees"] = false;
@@ -532,6 +533,7 @@ return {
 ["Not locked"] = false;
 ["Not voted"] = "Niet gestemd";
 ["Not voted issues"] = "Onderwerpen waar niet over is gestemd";
+["Not yet voted"] = false;
 ["Notification address unconfirmed"] = "Het emailadres is onbevestigd";
 ["Notification email"] = "Email notificatie";
 ["Notification level not set yet"] = "Notificatie niveau nog niet geinstalleerd";
@@ -849,6 +851,7 @@ return {
 ["Versions"] = false;
 ["Vote now"] = "Nu stemmen";
 ["Voted"] = "Gestemd";
+["Voted by delegation"] = false;
 ["Voted no"] = "Nee gestemd";
 ["Voted proposal"] = "Stemmingsvoorstel";
 ["Voted yes"] = "Ja gestemd";
