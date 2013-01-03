@@ -52,6 +52,10 @@ a:focus {
  * Some global definitions
  */
 
+html {
+  overflow-y: scroll;
+}
+
 body {
   background: #f8f8f9;
   background-image: url("back.png");
