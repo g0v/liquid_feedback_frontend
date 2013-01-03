@@ -255,8 +255,8 @@ function Member:build_selector(args)
   if args.admin_search and args.admin_search ~= "" then
     local search_string = "%" .. args.admin_search .. "%"
     selector:add_where{
-      "member.identification ILIKE ? OR member.name ILIKE ? OR member.login ILIKE ?",
-      search_string, search_string, search_string
+      "member.identification ILIKE ? OR member.name ILIKE ? OR member.login ILIKE ? OR member.realname ILIKE ? OR member.notify_email ILIKE ? OR member.email ILIKE ?",
+      search_string, search_string, search_string, search_string, search_string, search_string
     }
   end
   if     args.admin_search_admin == 1 then
