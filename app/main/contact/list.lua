@@ -7,7 +7,7 @@ contacts_selector:add_field("member.*")
 
 local paginator_name = param.get("paginator_name")
 
-local filter = { name = "member_list" }
+local filter = { name = "order" }
 
 filter[#filter+1] = {
   name = "newest",

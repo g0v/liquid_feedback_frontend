@@ -24,7 +24,7 @@ if initiative or issue then
   end
 end
 
-local filter = { name = "member_list" }
+local filter = { name = "order_" .. paginator_name }
 
 filter[#filter+1] = {
   name = "newest",

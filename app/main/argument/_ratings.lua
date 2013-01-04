@@ -28,7 +28,7 @@ local function supporters()
       view = "_list",
       params = {
         members_selector = members_selector,
-        paginator_name = "positive"
+        paginator_name = "supporters_positive"
       }
     }
   else
@@ -58,7 +58,7 @@ local function supporters()
       view = "_list",
       params = {
         members_selector = members_selector,
-        paginator_name = "negative"
+        paginator_name = "supporters_negative"
       }
     }
   else
@@ -94,7 +94,7 @@ local function nonsupporters()
       view = "_list",
       params = {
         members_selector = members_selector,
-        paginator_name = "positive"
+        paginator_name = "nonsupporters_positive"
       }
     }
   else
@@ -125,7 +125,7 @@ local function nonsupporters()
       view = "_list",
       params = {
         members_selector = members_selector,
-        paginator_name = "negative"
+        paginator_name = "nonsupporters_negative"
       }
     }
   else
