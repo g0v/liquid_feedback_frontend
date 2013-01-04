@@ -2,7 +2,7 @@ slot.select('navigation', function()
 
   ui.link{
     content = function()
-      ui.tag{ attr = { class = "logo_pirate_feedback" }, content = _"Pirate Feedback" }
+      ui.tag{ attr = { class = "logo" }, content = _"Pirate Feedback" }
       slot.put(" &middot; ")
       ui.tag{ content = config.instance_name }
     end,
@@ -45,7 +45,7 @@ end)
 slot.select('navigation_right', function()
 
   if app.session.member_id then
-    
+
     ui.link{
       text   = _"Logout",
       module = 'index',
