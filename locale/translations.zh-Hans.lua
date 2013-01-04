@@ -682,6 +682,7 @@ return {
 ["Set new password"] = "设定新密码";
 ["Set unit delegation"] = "设定单位委任";
 ["Settings"] = "设定";
+["Short link"] = false;
 ["Show"] = "显示";
 ["Show areas in use"] = "显示所使用的领域";
 ["Show areas not in use"] = "显示未使用的领域";

@@ -685,6 +685,7 @@ return {
 ["Set new password"] = "Bepaal nieuw wachtwoord";
 ["Set unit delegation"] = "Bepaal dossier delegatie";
 ["Settings"] = "Instellingen";
+["Short link"] = false;
 ["Show"] = "Toon";
 ["Show areas in use"] = "Toon actieve themagebieden";
 ["Show areas not in use"] = "Toon niet-actieve themagebieden";

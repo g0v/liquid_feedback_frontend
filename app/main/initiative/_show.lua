@@ -648,5 +648,19 @@ if not show_as_head then
       }
     }
 
+    slot.put('<div class="clearfix"></div>')
+
   end
+
+  if config.absolute_base_short_url then
+    ui.container{
+      attr = { class = "shortlink" },
+      content = function()
+        slot.put(_"Short link" .. ": ")
+        local link = config.absolute_base_short_url .. "i" .. initiative.id
+        ui.link{ external = link, text = link }
+      end
+    }
+  end
+
 end

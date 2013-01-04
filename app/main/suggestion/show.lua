@@ -4,11 +4,11 @@ local suggestion = Suggestion:by_id(param.get_id())
 if not suggestion then
   local initiative_id = param.get('initiative_id', atom.integer)
   if initiative_id then
-    slot.reset_all{except={"notice", "error"}}
+    slot.reset_all{ except = { "notice", "error" } }
     request.redirect{
-      module='initiative',
-      view='show',
-      id=initiative_id,
+      module = "initiative",
+      view = "show",
+      id = initiative_id,
       params = { tab = "suggestions" }
     }
   else

@@ -657,6 +657,7 @@ return {
 ["Set new password"] = "Új jelszó beállítása";
 ["Set unit delegation"] = "Egységdelegáció beállítása";
 ["Settings"] = "Beállítások";
+["Short link"] = false;
 ["Show"] = "Mutasd";
 ["Show areas in use"] = "Használt témakörök mutatása";
 ["Show areas not in use"] = "Nem használt témakörök mutatása";

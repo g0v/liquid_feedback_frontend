@@ -150,6 +150,11 @@ config.public_access = "none"
 --   return "http://example.com/discussion/issue_" .. tostring(issue.id)
 -- end
 
+-- Absolute base of short url for short links
+-- Default: disabled
+-- ------------------------------------------------------------------------
+-- config.absolute_base_short_url = "http://example.com/"
+
 -- Local directory for database dumps offered for download
 -- ------------------------------------------------------------------------
 -- config.download_dir = nil

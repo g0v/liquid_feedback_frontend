@@ -641,6 +641,7 @@ return {
 ["Set global delegation"] = "Meti ĝeneralan delegacion";
 ["Set new password"] = "Meti novan pasvorton";
 ["Settings"] = "Agordoj";
+["Short link"] = false;
 ["Show"] = "Montri";
 ["Show areas in use"] = "Montri uzatajn temarojn";
 ["Show areas not in use"] = "Montri ne uzatajn temarojn";

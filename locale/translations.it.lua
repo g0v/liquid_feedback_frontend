@@ -683,6 +683,7 @@ return {
 ["Set new password"] = "Imposta la nuova password";
 ["Set unit delegation"] = "Imposta la delega di sezione";
 ["Settings"] = "Impostazioni";
+["Short link"] = false;
 ["Show"] = "Mostra";
 ["Show areas in use"] = "Mostra le aree in uso";
 ["Show areas not in use"] = "Mostra le aree non in uso";

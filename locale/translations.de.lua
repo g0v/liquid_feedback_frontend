@@ -546,6 +546,7 @@ return {
 ["Set URL"] = "URL setzen";
 ["Set new password"] = "Neues Kennwort setzen";
 ["Settings"] = "Einstellungen";
+["Short link"] = "Kurz-Link";
 ["Show"] = "Zeige";
 ["Show areas in use"] = "Zeige verwendete Themenbereiche";
 ["Show areas not in use"] = "Zeige nicht verwendete Themenbereiche";

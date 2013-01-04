@@ -400,7 +400,8 @@ div.notifications,
   padding: 5px 10px 5px 10px;
   line-height: 120%;
 }
-.initiative_head {
+.initiative_head,
+.suggestion_opinion {
   margin-bottom: 2ex;
 }
 .left {
@@ -1463,6 +1464,11 @@ a.not_voted {
 .menu_list li {
   padding-top: 1ex;
   padding-bottom: 1ex;
+}
+
+.shortlink {
+  text-align: right;
+  margin-top: 2ex;
 }
 
 /*************************************************************************

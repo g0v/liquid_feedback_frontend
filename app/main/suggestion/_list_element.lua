@@ -17,10 +17,10 @@ if true or not show_filter then
   ui_filters = function(args) args.content() end
 end
 
-ui.container{ attr = { class = "box" },
+ui.container{ attr = { class = "box suggestion_opinion" },
   content = function()
     ui.list{
-      attr = { style = "table-layout: fixed;", class = "suggestion_opinion" },
+      attr = { style = "table-layout: fixed" },
       records = suggestions_selector:exec(),
       columns = {
         {

@@ -112,4 +112,17 @@ if app.session:has_access("all_pseudonymous") then
     params = { issue = issue }
   }
 
+  slot.put('<div class="clearfix"></div>')
+
+end
+
+if config.absolute_base_short_url then
+  ui.container{
+    attr = { class = "shortlink" },
+    content = function()
+      slot.put(_"Short link" .. ": ")
+      local link = config.absolute_base_short_url .. "t" .. issue.id
+      ui.link{ external = link, text = link }
+    end
+  }
 end

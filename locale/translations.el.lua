@@ -682,6 +682,7 @@ return {
 ["Set new password"] = "Ορισμός νέου κωδικού";
 ["Set unit delegation"] = "Ανάθεση ενότητας";
 ["Settings"] = "Επιλογές";
+["Short link"] = false;
 ["Show"] = "Προβολή";
 ["Show areas in use"] = "Προβολή τομέων σε χρήση";
 ["Show areas not in use"] = "Προβολή τομέων που δεν χρησιμοποιούνται";

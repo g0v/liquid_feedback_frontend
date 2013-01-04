@@ -546,6 +546,7 @@ return {
 ["Set URL"] = false;
 ["Set new password"] = false;
 ["Settings"] = false;
+["Short link"] = false;
 ["Show"] = false;
 ["Show areas in use"] = false;
 ["Show areas not in use"] = false;

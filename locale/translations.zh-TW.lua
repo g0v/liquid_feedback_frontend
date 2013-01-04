@@ -682,6 +682,7 @@ return {
 ["Set new password"] = "設定新密碼";
 ["Set unit delegation"] = "設定單位委任";
 ["Settings"] = "設定";
+["Short link"] = false;
 ["Show"] = "顯示";
 ["Show areas in use"] = "顯示所使用的領域";
 ["Show areas not in use"] = "顯示未使用的領域";
