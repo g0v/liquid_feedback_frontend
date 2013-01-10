@@ -209,6 +209,7 @@ function Issue:get_search_selector(search_string)
     :join('"initiative"', nil, '"initiative"."issue_id" = "issue"."id"')
     :join('"draft"', nil, '"draft"."initiative_id" = "initiative"."id"')
     :add_where{ '"initiative"."text_search_data" @@ "text_search_query"(?) OR "draft"."text_search_data" @@ "text_search_query"(?)', search_string, search_string }
+    :add_order_by('"issue"."id" DESC')
     :add_group_by('"issue"."id"')
     :add_group_by('"issue"."state"')
     :add_group_by('"issue"."area_id"')

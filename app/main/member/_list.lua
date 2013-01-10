@@ -59,6 +59,9 @@ if (issue or initiative) and not trustee then
   else
       members_selector:add_order_by("weight DESC, name, id")
   end
+elseif param.get("no_filter", atom.boolean) then
+  ui_filters = function(args) args.content() end
+  filter_enabled = false
 end
 
 ui_filters{
