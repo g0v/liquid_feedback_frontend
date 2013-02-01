@@ -3136,7 +3136,6 @@ CREATE FUNCTION "set_harmonic_initiative_weights"
         EXIT WHEN "count_v" = 0;
         "i" := 1;
         LOOP
-          RAISE NOTICE 'DEBUG: id: %, weight: %', "id_ary"["i"], "weight_ary"["i"];
           "weight_ary"["i"] := "weight_ary"["i"]::NUMERIC(20,10)::NUMERIC(12,2);
           IF "min_weight_v" ISNULL OR "weight_ary"["i"] < "min_weight_v" THEN
             "min_weight_v" := "weight_ary"["i"];
