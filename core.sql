@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('2.1.0', 2, 1, 0))
+  SELECT * FROM (VALUES ('2.1.1', 2, 1, 1))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -612,7 +612,7 @@ CREATE TABLE "initiative" (
         "informed_supporter_count"           INT4,
         "satisfied_supporter_count"          INT4,
         "satisfied_informed_supporter_count" INT4,
-        "harmonic_weight"       NUMERIC(12, 2),
+        "harmonic_weight"       NUMERIC(12, 3),
         "positive_votes"        INT4,
         "negative_votes"        INT4,
         "direct_majority"       BOOLEAN,
@@ -772,7 +772,7 @@ CREATE TABLE "suggestion" (
         "plus1_fulfilled_count"    INT4,
         "plus2_unfulfilled_count"  INT4,
         "plus2_fulfilled_count"    INT4,
-        "harmonic_weight"       NUMERIC(12, 2) );
+        "harmonic_weight"       NUMERIC(12, 3) );
 CREATE INDEX "suggestion_created_idx" ON "suggestion" ("created");
 CREATE INDEX "suggestion_author_id_created_idx" ON "suggestion" ("author_id", "created");
 CREATE INDEX "suggestion_text_search_data_idx" ON "suggestion" USING gin ("text_search_data");
@@ -3141,7 +3141,7 @@ CREATE FUNCTION "set_harmonic_initiative_weights"
         EXIT WHEN "count_v" = 0;
         "i" := 1;
         LOOP
-          "weight_ary"["i"] := "weight_ary"["i"]::NUMERIC(20,10)::NUMERIC(12,2);
+          "weight_ary"["i"] := "weight_ary"["i"]::NUMERIC(18,9)::NUMERIC(12,3);
           IF "min_weight_v" ISNULL OR "weight_ary"["i"] < "min_weight_v" THEN
             "min_weight_v" := "weight_ary"["i"];
           END IF;
@@ -3251,7 +3251,7 @@ CREATE FUNCTION "set_harmonic_suggestion_weights"
         EXIT WHEN "count_v" = 0;
         "i" := 1;
         LOOP
-          "weight_ary"["i"] := "weight_ary"["i"]::NUMERIC(20,10)::NUMERIC(12,2);
+          "weight_ary"["i"] := "weight_ary"["i"]::NUMERIC(18,9)::NUMERIC(12,3);
           IF "min_weight_v" ISNULL OR "weight_ary"["i"] < "min_weight_v" THEN
             "min_weight_v" := "weight_ary"["i"];
           END IF;
