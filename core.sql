@@ -668,7 +668,7 @@ COMMENT ON COLUMN "initiative"."supporter_count"                    IS 'Calculat
 COMMENT ON COLUMN "initiative"."informed_supporter_count"           IS 'Calculated from table "direct_supporter_snapshot"';
 COMMENT ON COLUMN "initiative"."satisfied_supporter_count"          IS 'Calculated from table "direct_supporter_snapshot"';
 COMMENT ON COLUMN "initiative"."satisfied_informed_supporter_count" IS 'Calculated from table "direct_supporter_snapshot"';
-COMMENT ON COLUMN "initiative"."harmonic_weight"        IS 'Indicates the relevancy of the initiative, calculated from the potential supporters weighted with the harmonic series to avoid a large number of clones affecting other initiative''s sorting position too much';
+COMMENT ON COLUMN "initiative"."harmonic_weight"        IS 'Indicates the relevancy of the initiative, calculated from the potential supporters weighted with the harmonic series to avoid a large number of clones affecting other initiative''s sorting positions too much';
 COMMENT ON COLUMN "initiative"."positive_votes"         IS 'Calculated from table "direct_voter"';
 COMMENT ON COLUMN "initiative"."negative_votes"         IS 'Calculated from table "direct_voter"';
 COMMENT ON COLUMN "initiative"."direct_majority"        IS 'TRUE, if "positive_votes"/("positive_votes"+"negative_votes") is strictly greater or greater-equal than "direct_majority_num"/"direct_majority_den", and "positive_votes" is greater-equal than "direct_majority_positive", and ("positive_votes"+abstentions) is greater-equal than "direct_majority_non_negative"';
@@ -793,7 +793,7 @@ COMMENT ON COLUMN "suggestion"."plus1_unfulfilled_count"  IS 'Calculated from ta
 COMMENT ON COLUMN "suggestion"."plus1_fulfilled_count"    IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
 COMMENT ON COLUMN "suggestion"."plus2_unfulfilled_count"  IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
 COMMENT ON COLUMN "suggestion"."plus2_fulfilled_count"    IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
-COMMENT ON COLUMN "suggestion"."harmonic_weight"        IS 'Indicates the relevancy of the suggestion, calculated from the supporters (positive "degree") of the suggestion weighted with the harmonic series to avoid a large number of clones affecting other suggestion''s sorting position too much';
+COMMENT ON COLUMN "suggestion"."harmonic_weight"        IS 'Indicates the relevancy of the suggestion, calculated from the supporters (positive "degree") of the suggestion weighted with the harmonic series to avoid a large number of clones affecting other suggestion''s sorting positions too much';
 
 
 CREATE TABLE "rendered_suggestion" (
