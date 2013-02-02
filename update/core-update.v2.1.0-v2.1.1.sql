@@ -162,6 +162,10 @@ CREATE VIEW "remaining_harmonic_suggestion_weight_summands" AS
   JOIN "opinion"
     ON "remaining_harmonic_opinion_weight"."initiative_id" = "opinion"."initiative_id"
     AND "remaining_harmonic_opinion_weight"."member_id" = "opinion"."member_id"
+    AND (
+      ("opinion"."degree" > 0 AND "opinion"."fulfilled" = FALSE) OR
+      ("opinion"."degree" < 0 AND "opinion"."fulfilled" = TRUE)
+    )
   JOIN "suggestion"
     ON "opinion"."suggestion_id" = "suggestion"."id"
     AND "suggestion"."harmonic_weight" ISNULL
