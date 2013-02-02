@@ -37,7 +37,7 @@ Issue:add_reference{
   that_key      = 'issue_id',
   ref           = 'initiatives',
   back_ref      = 'issue',
-  default_order = 'initiative.rank, initiative.supporter_count DESC, id'
+  default_order = 'initiative.rank, initiative.harmonic_weight DESC, id'
 }
 
 Issue:add_reference{
