@@ -3188,6 +3188,9 @@ CREATE VIEW "remaining_harmonic_opinion_weight" AS
       ("opinion"."degree" > 0 AND "opinion"."fulfilled" = FALSE) OR
       ("opinion"."degree" < 0 AND "opinion"."fulfilled" = TRUE)
     )
+  JOIN "suggestion"
+    ON "opinion"."suggestion_id" = "suggestion"."id"
+    AND "suggestion"."harmonic_weight" ISNULL
   GROUP BY
     "initiative"."issue_id",
     "opinion"."initiative_id",
