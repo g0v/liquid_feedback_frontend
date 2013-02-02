@@ -3184,7 +3184,10 @@ CREATE VIEW "remaining_harmonic_opinion_weight" AS
   JOIN "opinion"
     ON "direct_interest_snapshot"."member_id" = "opinion"."member_id"
     AND "initiative"."id" = "opinion"."initiative_id"
-    AND "opinion"."degree" > 0
+    AND (
+      ("opinion"."degree" > 0 AND "opinion"."fulfilled" = FALSE) OR
+      ("opinion"."degree" < 0 AND "opinion"."fulfilled" = TRUE)
+    )
   GROUP BY
     "initiative"."issue_id",
     "opinion"."initiative_id",
