@@ -112,6 +112,8 @@ CREATE FUNCTION "set_harmonic_initiative_weights"
           "i" := "i" + 1;
         END LOOP;
       END LOOP;
+      UPDATE "initiative" SET "harmonic_weight" = 0
+        WHERE "issue_id" = "issue_id_p" AND "harmonic_weight" ISNULL;
     END;
   $$;
 
@@ -219,6 +221,8 @@ CREATE FUNCTION "set_harmonic_suggestion_weights"
           "i" := "i" + 1;
         END LOOP;
       END LOOP;
+      UPDATE "suggestion" SET "harmonic_weight" = 0
+        WHERE "initiative_id" = "initiative_id_p" AND "harmonic_weight" ISNULL;
     END;
   $$;
 
