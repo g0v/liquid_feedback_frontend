@@ -2,7 +2,7 @@
 local initiative = param.get("initiative", "table")
 local suggestions_selector = param.get("suggestions_selector", "table")
 
-suggestions_selector:add_order_by("harmonic_weight DESC, id")
+suggestions_selector:add_order_by("harmonic_weight DESC NULLS LAST, id")
 
 local ui_filters = ui.filters
 if true or not show_filter then
