@@ -5,7 +5,7 @@ CREATE OR REPLACE VIEW "liquid_feedback_version" AS
   AS "subquery"("string", "major", "minor", "revision");
 
 ALTER TABLE "initiative" ADD COLUMN "harmonic_weight" NUMERIC(12, 3);
-COMMENT ON COLUMN "initiative"."harmonic_weight" IS 'Indicates the relevancy of the initiative, calculated from the potential supporters weighted with the harmonic series to avoid a large number of clones affecting other initiative''s sorting positions too much';
+COMMENT ON COLUMN "initiative"."harmonic_weight" IS 'Indicates the relevancy of the initiative, calculated from the potential supporters weighted with the harmonic series to avoid a large number of clones affecting other initiative''s sorting positions too much; shall be used as secondary sorting key after "admitted" as primary sorting key';
 
 ALTER TABLE "suggestion" ADD COLUMN "harmonic_weight" NUMERIC(12, 3);
 COMMENT ON COLUMN "suggestion"."harmonic_weight" IS 'Indicates the relevancy of the suggestion, calculated from the supporters (positive "degree") of the suggestion weighted with the harmonic series to avoid a large number of clones affecting other suggestion''s sortings position too much';
@@ -40,6 +40,7 @@ CREATE VIEW "remaining_harmonic_initiative_weight_summands" AS
   SELECT
     "initiative"."issue_id",
     "initiative"."id" AS "initiative_id",
+    "initiative"."admitted",
     sum("remaining_harmonic_supporter_weight"."weight_num") AS "weight_num",
     "remaining_harmonic_supporter_weight"."weight_den"
   FROM "remaining_harmonic_supporter_weight"
@@ -53,6 +54,7 @@ CREATE VIEW "remaining_harmonic_initiative_weight_summands" AS
   GROUP BY
     "initiative"."issue_id",
     "initiative"."id",
+    "initiative"."admitted",
     "remaining_harmonic_supporter_weight"."weight_den";
 
 COMMENT ON VIEW "remaining_harmonic_initiative_weight_summands" IS 'Helper view for function "set_harmonic_initiative_weights"';
@@ -79,8 +81,17 @@ CREATE FUNCTION "set_harmonic_initiative_weights"
         FOR "weight_row" IN
           SELECT * FROM "remaining_harmonic_initiative_weight_summands"
           WHERE "issue_id" = "issue_id_p"
+          AND (
+            coalesce("admitted", FALSE) = FALSE OR NOT EXISTS (
+              SELECT NULL FROM "initiative"
+              WHERE "issue_id" = "issue_id_p"
+              AND "harmonic_weight" ISNULL
+              AND coalesce("admitted", FALSE) = FALSE
+            )
+          )
           ORDER BY "initiative_id" DESC, "weight_den" DESC
-          -- NOTE: latest initiatives treated worse
+          -- NOTE: non-admitted initiatives placed first (at last positions),
+          --       latest initiatives treated worse in case of tie
         LOOP
           "summand_v" := "weight_row"."weight_num"::FLOAT / "weight_row"."weight_den"::FLOAT;
           IF "i" = 0 OR "weight_row"."initiative_id" != "id_ary"["i"] THEN
@@ -199,7 +210,7 @@ CREATE FUNCTION "set_harmonic_suggestion_weights"
           SELECT * FROM "remaining_harmonic_suggestion_weight_summands"
           WHERE "initiative_id" = "initiative_id_p"
           ORDER BY "suggestion_id" DESC, "weight_den" DESC
-          -- NOTE: latest suggestions treated worse
+          -- NOTE: latest suggestions treated worse in case of tie
         LOOP
           "summand_v" := "weight_row"."weight_num"::FLOAT / "weight_row"."weight_den"::FLOAT;
           IF "i" = 0 OR "weight_row"."suggestion_id" != "id_ary"["i"] THEN
