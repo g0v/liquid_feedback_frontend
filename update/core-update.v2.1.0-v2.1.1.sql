@@ -259,182 +259,157 @@ COMMENT ON FUNCTION "set_harmonic_suggestion_weights"
   ( "issue"."id"%TYPE )
   IS 'Calculates and sets "harmonic_weight" of suggestions in a given initiative';
 
-CREATE OR REPLACE FUNCTION "create_snapshot"
+CREATE OR REPLACE FUNCTION "manual_freeze"("issue_id_p" "issue"."id"%TYPE)
+  RETURNS VOID
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    DECLARE
+      "issue_row" "issue"%ROWTYPE;
+    BEGIN
+      PERFORM "create_snapshot"("issue_id_p");
+      PERFORM "freeze_after_snapshot"("issue_id_p");
+      PERFORM "set_harmonic_initiative_weights"("issue_id_p");
+      PERFORM "set_harmonic_suggestion_weights"("id")
+        FROM "initiative" WHERE "issue_id" = "issue_id_p";
+      RETURN;
+    END;
+  $$;
+
+CREATE OR REPLACE FUNCTION "check_issue"
   ( "issue_id_p" "issue"."id"%TYPE )
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     DECLARE
-      "initiative_id_v"    "initiative"."id"%TYPE;
-      "suggestion_id_v"    "suggestion"."id"%TYPE;
+      "issue_row"      "issue"%ROWTYPE;
+      "policy_row"     "policy"%ROWTYPE;
+      "new_snapshot_v" BOOLEAN;
     BEGIN
       PERFORM "lock_issue"("issue_id_p");
-      PERFORM "create_population_snapshot"("issue_id_p");
-      PERFORM "create_interest_snapshot"("issue_id_p");
-      UPDATE "issue" SET
-        "snapshot" = now(),
-        "latest_snapshot_event" = 'periodic',
-        "population" = (
-          SELECT coalesce(sum("weight"), 0)
-          FROM "direct_population_snapshot"
-          WHERE "issue_id" = "issue_id_p"
-          AND "event" = 'periodic'
-        )
-        WHERE "id" = "issue_id_p";
-      FOR "initiative_id_v" IN
-        SELECT "id" FROM "initiative" WHERE "issue_id" = "issue_id_p"
-      LOOP
-        UPDATE "initiative" SET
-          "supporter_count" = (
-            SELECT coalesce(sum("di"."weight"), 0)
-            FROM "direct_interest_snapshot" AS "di"
-            JOIN "direct_supporter_snapshot" AS "ds"
-            ON "di"."member_id" = "ds"."member_id"
-            WHERE "di"."issue_id" = "issue_id_p"
-            AND "di"."event" = 'periodic'
-            AND "ds"."initiative_id" = "initiative_id_v"
-            AND "ds"."event" = 'periodic'
-          ),
-          "informed_supporter_count" = (
-            SELECT coalesce(sum("di"."weight"), 0)
-            FROM "direct_interest_snapshot" AS "di"
-            JOIN "direct_supporter_snapshot" AS "ds"
-            ON "di"."member_id" = "ds"."member_id"
-            WHERE "di"."issue_id" = "issue_id_p"
-            AND "di"."event" = 'periodic'
-            AND "ds"."initiative_id" = "initiative_id_v"
-            AND "ds"."event" = 'periodic'
-            AND "ds"."informed"
-          ),
-          "satisfied_supporter_count" = (
-            SELECT coalesce(sum("di"."weight"), 0)
-            FROM "direct_interest_snapshot" AS "di"
-            JOIN "direct_supporter_snapshot" AS "ds"
-            ON "di"."member_id" = "ds"."member_id"
-            WHERE "di"."issue_id" = "issue_id_p"
-            AND "di"."event" = 'periodic'
-            AND "ds"."initiative_id" = "initiative_id_v"
-            AND "ds"."event" = 'periodic'
-            AND "ds"."satisfied"
-          ),
-          "satisfied_informed_supporter_count" = (
-            SELECT coalesce(sum("di"."weight"), 0)
-            FROM "direct_interest_snapshot" AS "di"
-            JOIN "direct_supporter_snapshot" AS "ds"
-            ON "di"."member_id" = "ds"."member_id"
-            WHERE "di"."issue_id" = "issue_id_p"
-            AND "di"."event" = 'periodic'
-            AND "ds"."initiative_id" = "initiative_id_v"
-            AND "ds"."event" = 'periodic'
-            AND "ds"."informed"
-            AND "ds"."satisfied"
-          )
-          WHERE "id" = "initiative_id_v";
-        FOR "suggestion_id_v" IN
-          SELECT "id" FROM "suggestion"
-          WHERE "initiative_id" = "initiative_id_v"
-        LOOP
-          UPDATE "suggestion" SET
-            "minus2_unfulfilled_count" = (
-              SELECT coalesce(sum("snapshot"."weight"), 0)
-              FROM "issue" CROSS JOIN "opinion"
-              JOIN "direct_interest_snapshot" AS "snapshot"
-              ON "snapshot"."issue_id" = "issue"."id"
-              AND "snapshot"."event" = "issue"."latest_snapshot_event"
-              AND "snapshot"."member_id" = "opinion"."member_id"
-              WHERE "issue"."id" = "issue_id_p"
-              AND "opinion"."suggestion_id" = "suggestion_id_v"
-              AND "opinion"."degree" = -2
-              AND "opinion"."fulfilled" = FALSE
-            ),
-            "minus2_fulfilled_count" = (
-              SELECT coalesce(sum("snapshot"."weight"), 0)
-              FROM "issue" CROSS JOIN "opinion"
-              JOIN "direct_interest_snapshot" AS "snapshot"
-              ON "snapshot"."issue_id" = "issue"."id"
-              AND "snapshot"."event" = "issue"."latest_snapshot_event"
-              AND "snapshot"."member_id" = "opinion"."member_id"
-              WHERE "issue"."id" = "issue_id_p"
-              AND "opinion"."suggestion_id" = "suggestion_id_v"
-              AND "opinion"."degree" = -2
-              AND "opinion"."fulfilled" = TRUE
-            ),
-            "minus1_unfulfilled_count" = (
-              SELECT coalesce(sum("snapshot"."weight"), 0)
-              FROM "issue" CROSS JOIN "opinion"
-              JOIN "direct_interest_snapshot" AS "snapshot"
-              ON "snapshot"."issue_id" = "issue"."id"
-              AND "snapshot"."event" = "issue"."latest_snapshot_event"
-              AND "snapshot"."member_id" = "opinion"."member_id"
-              WHERE "issue"."id" = "issue_id_p"
-              AND "opinion"."suggestion_id" = "suggestion_id_v"
-              AND "opinion"."degree" = -1
-              AND "opinion"."fulfilled" = FALSE
-            ),
-            "minus1_fulfilled_count" = (
-              SELECT coalesce(sum("snapshot"."weight"), 0)
-              FROM "issue" CROSS JOIN "opinion"
-              JOIN "direct_interest_snapshot" AS "snapshot"
-              ON "snapshot"."issue_id" = "issue"."id"
-              AND "snapshot"."event" = "issue"."latest_snapshot_event"
-              AND "snapshot"."member_id" = "opinion"."member_id"
-              WHERE "issue"."id" = "issue_id_p"
-              AND "opinion"."suggestion_id" = "suggestion_id_v"
-              AND "opinion"."degree" = -1
-              AND "opinion"."fulfilled" = TRUE
-            ),
-            "plus1_unfulfilled_count" = (
-              SELECT coalesce(sum("snapshot"."weight"), 0)
-              FROM "issue" CROSS JOIN "opinion"
-              JOIN "direct_interest_snapshot" AS "snapshot"
-              ON "snapshot"."issue_id" = "issue"."id"
-              AND "snapshot"."event" = "issue"."latest_snapshot_event"
-              AND "snapshot"."member_id" = "opinion"."member_id"
-              WHERE "issue"."id" = "issue_id_p"
-              AND "opinion"."suggestion_id" = "suggestion_id_v"
-              AND "opinion"."degree" = 1
-              AND "opinion"."fulfilled" = FALSE
-            ),
-            "plus1_fulfilled_count" = (
-              SELECT coalesce(sum("snapshot"."weight"), 0)
-              FROM "issue" CROSS JOIN "opinion"
-              JOIN "direct_interest_snapshot" AS "snapshot"
-              ON "snapshot"."issue_id" = "issue"."id"
-              AND "snapshot"."event" = "issue"."latest_snapshot_event"
-              AND "snapshot"."member_id" = "opinion"."member_id"
-              WHERE "issue"."id" = "issue_id_p"
-              AND "opinion"."suggestion_id" = "suggestion_id_v"
-              AND "opinion"."degree" = 1
-              AND "opinion"."fulfilled" = TRUE
-            ),
-            "plus2_unfulfilled_count" = (
-              SELECT coalesce(sum("snapshot"."weight"), 0)
-              FROM "issue" CROSS JOIN "opinion"
-              JOIN "direct_interest_snapshot" AS "snapshot"
-              ON "snapshot"."issue_id" = "issue"."id"
-              AND "snapshot"."event" = "issue"."latest_snapshot_event"
-              AND "snapshot"."member_id" = "opinion"."member_id"
-              WHERE "issue"."id" = "issue_id_p"
-              AND "opinion"."suggestion_id" = "suggestion_id_v"
-              AND "opinion"."degree" = 2
-              AND "opinion"."fulfilled" = FALSE
-            ),
-            "plus2_fulfilled_count" = (
-              SELECT coalesce(sum("snapshot"."weight"), 0)
-              FROM "issue" CROSS JOIN "opinion"
-              JOIN "direct_interest_snapshot" AS "snapshot"
-              ON "snapshot"."issue_id" = "issue"."id"
-              AND "snapshot"."event" = "issue"."latest_snapshot_event"
-              AND "snapshot"."member_id" = "opinion"."member_id"
-              WHERE "issue"."id" = "issue_id_p"
-              AND "opinion"."suggestion_id" = "suggestion_id_v"
-              AND "opinion"."degree" = 2
-              AND "opinion"."fulfilled" = TRUE
+      SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
+      -- only process open issues:
+      IF "issue_row"."closed" ISNULL THEN
+        SELECT * INTO "policy_row" FROM "policy"
+          WHERE "id" = "issue_row"."policy_id";
+        -- create a snapshot, unless issue is already fully frozen:
+        IF "issue_row"."fully_frozen" ISNULL THEN
+          PERFORM "create_snapshot"("issue_id_p");
+          "new_snapshot_v" := TRUE;
+          SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
+        ELSE
+          "new_snapshot_v" := FALSE;
+        END IF;
+        -- eventually close or accept issues, which have not been accepted:
+        IF "issue_row"."accepted" ISNULL THEN
+          IF EXISTS (
+            SELECT NULL FROM "initiative"
+            WHERE "issue_id" = "issue_id_p"
+            AND "supporter_count" > 0
+            AND "supporter_count" * "policy_row"."issue_quorum_den"
+            >= "issue_row"."population" * "policy_row"."issue_quorum_num"
+          ) THEN
+            -- accept issues, if supporter count is high enough
+            PERFORM "set_snapshot_event"("issue_id_p", 'end_of_admission');
+            -- NOTE: "issue_row" used later
+            "issue_row"."state" := 'discussion';
+            "issue_row"."accepted" := now();
+            UPDATE "issue" SET
+              "state"    = "issue_row"."state",
+              "accepted" = "issue_row"."accepted"
+              WHERE "id" = "issue_row"."id";
+          ELSIF
+            now() >= "issue_row"."created" + "issue_row"."admission_time"
+          THEN
+            -- close issues, if admission time has expired
+            PERFORM "set_snapshot_event"("issue_id_p", 'end_of_admission');
+            UPDATE "issue" SET
+              "state" = 'canceled_issue_not_accepted',
+              "closed" = now()
+              WHERE "id" = "issue_row"."id";
+          END IF;
+        END IF;
+        -- eventually half freeze issues:
+        IF
+          -- NOTE: issue can't be closed at this point, if it has been accepted
+          "issue_row"."accepted" NOTNULL AND
+          "issue_row"."half_frozen" ISNULL
+        THEN
+          IF
+            now() >= "issue_row"."accepted" + "issue_row"."discussion_time"
+          THEN
+            PERFORM "set_snapshot_event"("issue_id_p", 'half_freeze');
+            -- NOTE: "issue_row" used later
+            "issue_row"."state" := 'verification';
+            "issue_row"."half_frozen" := now();
+            UPDATE "issue" SET
+              "state"       = "issue_row"."state",
+              "half_frozen" = "issue_row"."half_frozen"
+              WHERE "id" = "issue_row"."id";
+          END IF;
+        END IF;
+        -- close issues after some time, if all initiatives have been revoked:
+        IF
+          "issue_row"."closed" ISNULL AND
+          NOT EXISTS (
+            -- all initiatives are revoked
+            SELECT NULL FROM "initiative"
+            WHERE "issue_id" = "issue_id_p" AND "revoked" ISNULL
+          ) AND (
+            -- and issue has not been accepted yet
+            "issue_row"."accepted" ISNULL OR
+            NOT EXISTS (
+              -- or no initiatives have been revoked lately
+              SELECT NULL FROM "initiative"
+              WHERE "issue_id" = "issue_id_p"
+              AND now() < "revoked" + "issue_row"."verification_time"
+            ) OR (
+              -- or verification time has elapsed
+              "issue_row"."half_frozen" NOTNULL AND
+              "issue_row"."fully_frozen" ISNULL AND
+              now() >= "issue_row"."half_frozen" + "issue_row"."verification_time"
             )
-            WHERE "suggestion"."id" = "suggestion_id_v";
-        END LOOP;
-        PERFORM "set_harmonic_suggestion_weights"("initiative_id_v");
-      END LOOP;
-      PERFORM "set_harmonic_initiative_weights"("issue_id_p");
+          )
+        THEN
+          -- NOTE: "issue_row" used later
+          IF "issue_row"."accepted" ISNULL THEN
+            "issue_row"."state" := 'canceled_revoked_before_accepted';
+          ELSIF "issue_row"."half_frozen" ISNULL THEN
+            "issue_row"."state" := 'canceled_after_revocation_during_discussion';
+          ELSE
+            "issue_row"."state" := 'canceled_after_revocation_during_verification';
+          END IF;
+          "issue_row"."closed" := now();
+          UPDATE "issue" SET
+            "state"  = "issue_row"."state",
+            "closed" = "issue_row"."closed"
+            WHERE "id" = "issue_row"."id";
+        END IF;
+        -- fully freeze issue after verification time:
+        IF
+          "issue_row"."half_frozen" NOTNULL AND
+          "issue_row"."fully_frozen" ISNULL AND
+          "issue_row"."closed" ISNULL AND
+          now() >= "issue_row"."half_frozen" + "issue_row"."verification_time"
+        THEN
+          PERFORM "freeze_after_snapshot"("issue_id_p");
+          -- NOTE: "issue" might change, thus "issue_row" has to be updated below
+        END IF;
+        SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
+        -- close issue by calling close_voting(...) after voting time:
+        IF
+          "issue_row"."closed" ISNULL AND
+          "issue_row"."fully_frozen" NOTNULL AND
+          now() >= "issue_row"."fully_frozen" + "issue_row"."voting_time"
+        THEN
+          PERFORM "close_voting"("issue_id_p");
+          -- calculate ranks will not consume much time and can be done now
+          PERFORM "calculate_ranks"("issue_id_p");
+        END IF;
+        -- if a new shapshot has been created, then recalculate harmonic weights:
+        IF "new_snapshot_v" THEN
+          PERFORM "set_harmonic_initiative_weights"("issue_id_p");
+          PERFORM "set_harmonic_suggestion_weights"("id")
+            FROM "initiative" WHERE "issue_id" = "issue_id_p";
+        END IF;
+      END IF;
       RETURN;
     END;
   $$;

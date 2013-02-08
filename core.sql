@@ -3773,9 +3773,7 @@ CREATE FUNCTION "create_snapshot"
             )
             WHERE "suggestion"."id" = "suggestion_id_v";
         END LOOP;
-        PERFORM "set_harmonic_suggestion_weights"("initiative_id_v");
       END LOOP;
-      PERFORM "set_harmonic_initiative_weights"("issue_id_p");
       RETURN;
     END;
   $$;
@@ -3896,6 +3894,9 @@ CREATE FUNCTION "manual_freeze"("issue_id_p" "issue"."id"%TYPE)
     BEGIN
       PERFORM "create_snapshot"("issue_id_p");
       PERFORM "freeze_after_snapshot"("issue_id_p");
+      PERFORM "set_harmonic_initiative_weights"("issue_id_p");
+      PERFORM "set_harmonic_suggestion_weights"("id")
+        FROM "initiative" WHERE "issue_id" = "issue_id_p";
       RETURN;
     END;
   $$;
@@ -4420,8 +4421,9 @@ CREATE FUNCTION "check_issue"
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     DECLARE
-      "issue_row"         "issue"%ROWTYPE;
-      "policy_row"        "policy"%ROWTYPE;
+      "issue_row"      "issue"%ROWTYPE;
+      "policy_row"     "policy"%ROWTYPE;
+      "new_snapshot_v" BOOLEAN;
     BEGIN
       PERFORM "lock_issue"("issue_id_p");
       SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
@@ -4432,7 +4434,10 @@ CREATE FUNCTION "check_issue"
         -- create a snapshot, unless issue is already fully frozen:
         IF "issue_row"."fully_frozen" ISNULL THEN
           PERFORM "create_snapshot"("issue_id_p");
+          "new_snapshot_v" := TRUE;
           SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
+        ELSE
+          "new_snapshot_v" := FALSE;
         END IF;
         -- eventually close or accept issues, which have not been accepted:
         IF "issue_row"."accepted" ISNULL THEN
@@ -4539,6 +4544,12 @@ CREATE FUNCTION "check_issue"
           PERFORM "close_voting"("issue_id_p");
           -- calculate ranks will not consume much time and can be done now
           PERFORM "calculate_ranks"("issue_id_p");
+        END IF;
+        -- if a new shapshot has been created, then recalculate harmonic weights:
+        IF "new_snapshot_v" THEN
+          PERFORM "set_harmonic_initiative_weights"("issue_id_p");
+          PERFORM "set_harmonic_suggestion_weights"("id")
+            FROM "initiative" WHERE "issue_id" = "issue_id_p";
         END IF;
       END IF;
       RETURN;
