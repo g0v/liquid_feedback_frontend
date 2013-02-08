@@ -27,6 +27,10 @@ CREATE VIEW "remaining_harmonic_supporter_weight" AS
     AND "direct_interest_snapshot"."member_id" = "direct_supporter_snapshot"."member_id"
   JOIN "initiative"
     ON "direct_supporter_snapshot"."initiative_id" = "initiative"."id"
+    AND (
+      "direct_supporter_snapshot"."satisfied" = TRUE OR
+      coalesce("initiative"."admitted", FALSE) = FALSE
+    )
     AND "initiative"."harmonic_weight" ISNULL
   GROUP BY
     "direct_interest_snapshot"."issue_id",
@@ -50,6 +54,10 @@ CREATE VIEW "remaining_harmonic_initiative_weight_summands" AS
     AND "remaining_harmonic_supporter_weight"."member_id" = "direct_supporter_snapshot"."member_id"
   JOIN "initiative"
     ON "direct_supporter_snapshot"."initiative_id" = "initiative"."id"
+    AND (
+      "direct_supporter_snapshot"."satisfied" = TRUE OR
+      coalesce("initiative"."admitted", FALSE) = FALSE
+    )
     AND "initiative"."harmonic_weight" ISNULL
   GROUP BY
     "initiative"."issue_id",
