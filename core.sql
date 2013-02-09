@@ -771,8 +771,7 @@ CREATE TABLE "suggestion" (
         "plus1_unfulfilled_count"  INT4,
         "plus1_fulfilled_count"    INT4,
         "plus2_unfulfilled_count"  INT4,
-        "plus2_fulfilled_count"    INT4,
-        "harmonic_weight"       NUMERIC(12, 3) );
+        "plus2_fulfilled_count"    INT4 );
 CREATE INDEX "suggestion_created_idx" ON "suggestion" ("created");
 CREATE INDEX "suggestion_author_id_created_idx" ON "suggestion" ("author_id", "created");
 CREATE INDEX "suggestion_text_search_data_idx" ON "suggestion" USING gin ("text_search_data");
@@ -793,7 +792,6 @@ COMMENT ON COLUMN "suggestion"."plus1_unfulfilled_count"  IS 'Calculated from ta
 COMMENT ON COLUMN "suggestion"."plus1_fulfilled_count"    IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
 COMMENT ON COLUMN "suggestion"."plus2_unfulfilled_count"  IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
 COMMENT ON COLUMN "suggestion"."plus2_fulfilled_count"    IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
-COMMENT ON COLUMN "suggestion"."harmonic_weight"        IS 'Indicates the relevancy of the suggestion, calculated from the supporters (positive "degree") of the suggestion weighted with the harmonic series to avoid a large number of clones affecting other suggestion''s sorting positions too much';
 
 
 CREATE TABLE "rendered_suggestion" (
@@ -3187,127 +3185,6 @@ COMMENT ON FUNCTION "set_harmonic_initiative_weights"
   IS 'Calculates and sets "harmonic_weight" of initiatives in a given issue';
 
 
-CREATE VIEW "remaining_harmonic_opinion_weight" AS
-  SELECT
-    "initiative"."issue_id",
-    "opinion"."initiative_id",
-    "direct_interest_snapshot"."member_id",
-    "direct_interest_snapshot"."weight" AS "weight_num",
-    count("opinion"."suggestion_id") AS "weight_den"
-  FROM "issue"
-  JOIN "direct_interest_snapshot"
-    ON "issue"."id" = "direct_interest_snapshot"."issue_id"
-    AND "issue"."latest_snapshot_event" = "direct_interest_snapshot"."event"
-  JOIN "initiative"
-    ON "direct_interest_snapshot"."issue_id" = "initiative"."issue_id"
-  JOIN "opinion"
-    ON "direct_interest_snapshot"."member_id" = "opinion"."member_id"
-    AND "initiative"."id" = "opinion"."initiative_id"
-    AND (
-      ("opinion"."degree" > 0 AND "opinion"."fulfilled" = FALSE) OR
-      ("opinion"."degree" < 0 AND "opinion"."fulfilled" = TRUE)
-    )
-  JOIN "suggestion"
-    ON "opinion"."suggestion_id" = "suggestion"."id"
-    AND "suggestion"."harmonic_weight" ISNULL
-  GROUP BY
-    "initiative"."issue_id",
-    "opinion"."initiative_id",
-    "direct_interest_snapshot"."member_id",
-    "direct_interest_snapshot"."weight";
-
-COMMENT ON VIEW "remaining_harmonic_opinion_weight" IS 'Helper view for function "set_harmonic_suggestion_weights"';
-
-
-CREATE VIEW "remaining_harmonic_suggestion_weight_summands" AS
-  SELECT
-    "suggestion"."initiative_id",
-    "opinion"."suggestion_id",
-    sum("remaining_harmonic_opinion_weight"."weight_num") AS "weight_num",
-    "remaining_harmonic_opinion_weight"."weight_den"
-  FROM "remaining_harmonic_opinion_weight"
-  JOIN "opinion"
-    ON "remaining_harmonic_opinion_weight"."initiative_id" = "opinion"."initiative_id"
-    AND "remaining_harmonic_opinion_weight"."member_id" = "opinion"."member_id"
-    AND (
-      ("opinion"."degree" > 0 AND "opinion"."fulfilled" = FALSE) OR
-      ("opinion"."degree" < 0 AND "opinion"."fulfilled" = TRUE)
-    )
-  JOIN "suggestion"
-    ON "opinion"."suggestion_id" = "suggestion"."id"
-    AND "suggestion"."harmonic_weight" ISNULL
-  GROUP BY
-    "suggestion"."initiative_id",
-    "opinion"."suggestion_id",
-    "remaining_harmonic_opinion_weight"."weight_den";
-
-COMMENT ON VIEW "remaining_harmonic_suggestion_weight_summands" IS 'Helper view for function "set_harmonic_suggestion_weights"';
-
-
-CREATE FUNCTION "set_harmonic_suggestion_weights"
-  ( "initiative_id_p" "initiative"."id"%TYPE )
-  RETURNS VOID
-  LANGUAGE 'plpgsql' VOLATILE AS $$
-    DECLARE
-      "weight_row"   "remaining_harmonic_suggestion_weight_summands"%ROWTYPE;
-      "i"            INT4;
-      "count_v"      INT4;
-      "summand_v"    FLOAT;
-      "id_ary"       INT4[];
-      "weight_ary"   FLOAT[];
-      "min_weight_v" FLOAT;
-    BEGIN
-      UPDATE "suggestion" SET "harmonic_weight" = NULL
-        WHERE "initiative_id" = "initiative_id_p";
-      LOOP
-        "min_weight_v" := NULL;
-        "i" := 0;
-        "count_v" := 0;
-        FOR "weight_row" IN
-          SELECT * FROM "remaining_harmonic_suggestion_weight_summands"
-          WHERE "initiative_id" = "initiative_id_p"
-          ORDER BY "suggestion_id" DESC, "weight_den" DESC
-          -- NOTE: latest suggestions treated worse in case of tie
-        LOOP
-          "summand_v" := "weight_row"."weight_num"::FLOAT / "weight_row"."weight_den"::FLOAT;
-          IF "i" = 0 OR "weight_row"."suggestion_id" != "id_ary"["i"] THEN
-            "i" := "i" + 1;
-            "count_v" := "i";
-            "id_ary"["i"] := "weight_row"."suggestion_id";
-            "weight_ary"["i"] := "summand_v";
-          ELSE
-            "weight_ary"["i"] := "weight_ary"["i"] + "summand_v";
-          END IF;
-        END LOOP;
-        EXIT WHEN "count_v" = 0;
-        "i" := 1;
-        LOOP
-          "weight_ary"["i"] := "weight_ary"["i"]::NUMERIC(18,9)::NUMERIC(12,3);
-          IF "min_weight_v" ISNULL OR "weight_ary"["i"] < "min_weight_v" THEN
-            "min_weight_v" := "weight_ary"["i"];
-          END IF;
-          "i" := "i" + 1;
-          EXIT WHEN "i" > "count_v";
-        END LOOP;
-        "i" := 1;
-        LOOP
-          IF "weight_ary"["i"] = "min_weight_v" THEN
-            UPDATE "suggestion" SET "harmonic_weight" = "min_weight_v"
-              WHERE "id" = "id_ary"["i"];
-            EXIT;
-          END IF;
-          "i" := "i" + 1;
-        END LOOP;
-      END LOOP;
-      UPDATE "suggestion" SET "harmonic_weight" = 0
-        WHERE "initiative_id" = "initiative_id_p" AND "harmonic_weight" ISNULL;
-    END;
-  $$;
-
-COMMENT ON FUNCTION "set_harmonic_suggestion_weights"
-  ( "issue"."id"%TYPE )
-  IS 'Calculates and sets "harmonic_weight" of suggestions in a given initiative';
-
 
 ------------------------------
 -- Calculation of snapshots --
@@ -3895,8 +3772,6 @@ CREATE FUNCTION "manual_freeze"("issue_id_p" "issue"."id"%TYPE)
       PERFORM "create_snapshot"("issue_id_p");
       PERFORM "freeze_after_snapshot"("issue_id_p");
       PERFORM "set_harmonic_initiative_weights"("issue_id_p");
-      PERFORM "set_harmonic_suggestion_weights"("id")
-        FROM "initiative" WHERE "issue_id" = "issue_id_p";
       RETURN;
     END;
   $$;
@@ -4548,8 +4423,6 @@ CREATE FUNCTION "check_issue"
         -- if a new shapshot has been created, then recalculate harmonic weights:
         IF "new_snapshot_v" THEN
           PERFORM "set_harmonic_initiative_weights"("issue_id_p");
-          PERFORM "set_harmonic_suggestion_weights"("id")
-            FROM "initiative" WHERE "issue_id" = "issue_id_p";
         END IF;
       END IF;
       RETURN;
