@@ -491,7 +491,6 @@ CREATE TYPE "issue_state" AS ENUM (
         'canceled_issue_not_accepted',
         'canceled_after_revocation_during_discussion',
         'canceled_after_revocation_during_verification',
-        'calculation',
         'canceled_no_initiative_admitted',
         'finished_without_winner', 'finished_with_winner');
 
@@ -503,12 +502,12 @@ CREATE TABLE "issue" (
         "area_id"               INT4            NOT NULL REFERENCES "area" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
         "policy_id"             INT4            NOT NULL REFERENCES "policy" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
         "state"                 "issue_state"   NOT NULL DEFAULT 'admission',
+        "phase_finished"        TIMESTAMPTZ,
         "created"               TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "accepted"              TIMESTAMPTZ,
         "half_frozen"           TIMESTAMPTZ,
         "fully_frozen"          TIMESTAMPTZ,
         "closed"                TIMESTAMPTZ,
-        "ranks_available"       BOOLEAN         NOT NULL DEFAULT FALSE,
         "cleaned"               TIMESTAMPTZ,
         "admission_time"        INTERVAL,
         "discussion_time"       INTERVAL        NOT NULL,
@@ -522,15 +521,10 @@ CREATE TABLE "issue" (
         CONSTRAINT "admission_time_not_null_unless_instantly_accepted" CHECK (
           "admission_time" NOTNULL OR ("accepted" NOTNULL AND "accepted" = "created") ),
         CONSTRAINT "valid_state" CHECK ((
-          ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
-          ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" NOTNULL AND "ranks_available" = FALSE) OR
-          ("accepted" NOTNULL AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
-          ("accepted" NOTNULL AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL  AND "closed" NOTNULL AND "ranks_available" = FALSE) OR
-          ("accepted" NOTNULL AND "half_frozen" NOTNULL AND "fully_frozen" ISNULL  AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
-          ("accepted" NOTNULL AND "half_frozen" NOTNULL AND "fully_frozen" ISNULL  AND "closed" NOTNULL AND "ranks_available" = FALSE) OR
-          ("accepted" NOTNULL AND "half_frozen" NOTNULL AND "fully_frozen" NOTNULL AND "closed" ISNULL  AND "ranks_available" = FALSE) OR
-          ("accepted" NOTNULL AND "half_frozen" NOTNULL AND "fully_frozen" NOTNULL AND "closed" NOTNULL AND "ranks_available" = FALSE) OR
-          ("accepted" NOTNULL AND "half_frozen" NOTNULL AND "fully_frozen" NOTNULL AND "closed" NOTNULL AND "ranks_available" = TRUE)) AND (
+          ("accepted" ISNULL  AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL ) OR
+          ("accepted" NOTNULL AND "half_frozen" ISNULL  AND "fully_frozen" ISNULL ) OR
+          ("accepted" NOTNULL AND "half_frozen" NOTNULL AND "fully_frozen" ISNULL ) OR
+          ("accepted" NOTNULL AND "half_frozen" NOTNULL AND "fully_frozen" NOTNULL)) AND (
           ("state" = 'admission'    AND "closed" ISNULL AND "accepted" ISNULL) OR
           ("state" = 'discussion'   AND "closed" ISNULL AND "accepted" NOTNULL AND "half_frozen" ISNULL) OR
           ("state" = 'verification' AND "closed" ISNULL AND "half_frozen" NOTNULL AND "fully_frozen" ISNULL) OR
@@ -539,11 +533,12 @@ CREATE TABLE "issue" (
           ("state" = 'canceled_issue_not_accepted'                   AND "closed" NOTNULL AND "accepted" ISNULL) OR
           ("state" = 'canceled_after_revocation_during_discussion'   AND "closed" NOTNULL AND "half_frozen"  ISNULL) OR
           ("state" = 'canceled_after_revocation_during_verification' AND "closed" NOTNULL AND "fully_frozen" ISNULL) OR
-          ("state" = 'calculation'                     AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = FALSE) OR
-          ("state" = 'canceled_no_initiative_admitted' AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = TRUE) OR
-          ("state" = 'finished_without_winner'         AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = TRUE) OR
-          ("state" = 'finished_with_winner'            AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "ranks_available" = TRUE)
+          ("state" = 'canceled_no_initiative_admitted' AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "closed" = "fully_frozen") OR
+          ("state" = 'finished_without_winner'         AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "closed" != "fully_frozen") OR
+          ("state" = 'finished_with_winner'            AND "closed" NOTNULL AND "fully_frozen" NOTNULL AND "closed" != "fully_frozen")
           )),
+        CONSTRAINT "phase_finished_only_when_not_closed" CHECK (
+          "phase_finished" ISNULL OR "closed" ISNULL ),
         CONSTRAINT "state_change_order" CHECK (
           "created"      <= "accepted" AND
           "accepted"     <= "half_frozen" AND
@@ -569,11 +564,11 @@ CREATE INDEX "issue_closed_idx_canceled" ON "issue" ("closed") WHERE "fully_froz
 
 COMMENT ON TABLE "issue" IS 'Groups of initiatives';
 
+COMMENT ON COLUMN "issue"."phase_finished"          IS 'Set to a value NOTNULL, if the current phase has finished, but calculations are pending; No changes in this issue shall be made by the frontend or API when this value is set';
 COMMENT ON COLUMN "issue"."accepted"                IS 'Point in time, when one initiative of issue reached the "issue_quorum"';
 COMMENT ON COLUMN "issue"."half_frozen"             IS 'Point in time, when "discussion_time" has elapsed; Frontends must ensure that for half_frozen issues a) initiatives are not revoked, b) no new drafts are created, c) no initiators are added or removed.';
 COMMENT ON COLUMN "issue"."fully_frozen"            IS 'Point in time, when "verification_time" has elapsed and voting has started; Frontends must ensure that for fully_frozen issues additionally to the restrictions for half_frozen issues a) initiatives are not created, b) no interest is created or removed, c) no supporters are added or removed, d) no opinions are created, changed or deleted.';
 COMMENT ON COLUMN "issue"."closed"                  IS 'Point in time, when "admission_time" or "voting_time" have elapsed, and issue is no longer active; Frontends must ensure that for closed issues additionally to the restrictions for half_frozen and fully_frozen issues a) no voter is added or removed to/from the direct_voter table, b) no votes are added, modified or removed.';
-COMMENT ON COLUMN "issue"."ranks_available"         IS 'TRUE = ranks have been calculated';
 COMMENT ON COLUMN "issue"."cleaned"                 IS 'Point in time, when discussion data and votes had been deleted';
 COMMENT ON COLUMN "issue"."admission_time"          IS 'Copied from "policy" table at creation of issue';
 COMMENT ON COLUMN "issue"."discussion_time"         IS 'Copied from "policy" table at creation of issue';
@@ -1112,7 +1107,7 @@ CREATE TABLE "event" (
         "event"                 "event_type"    NOT NULL,
         "member_id"             INT4            REFERENCES "member" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
         "issue_id"              INT4            REFERENCES "issue" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-        "state"                 "issue_state"   CHECK ("state" != 'calculation'),
+        "state"                 "issue_state",
         "initiative_id"         INT4,
         "draft_id"              INT8,
         "suggestion_id"         INT8,
@@ -1207,7 +1202,7 @@ CREATE FUNCTION "write_event_issue_state_changed_trigger"()
   RETURNS TRIGGER
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
-      IF NEW."state" != OLD."state" AND NEW."state" != 'calculation' THEN
+      IF NEW."state" != OLD."state" THEN
         INSERT INTO "event" ("event", "issue_id", "state")
           VALUES ('issue_state_changed', NEW."id", NEW."state");
       END IF;
@@ -2057,7 +2052,8 @@ CREATE VIEW "battle_view" AS
   LEFT JOIN "vote" AS "worse_vote"
     ON "direct_voter"."member_id" = "worse_vote"."member_id"
     AND "losing_initiative"."id" = "worse_vote"."initiative_id"
-  WHERE "issue"."closed" NOTNULL
+  WHERE "issue"."state" = 'voting'
+  AND "issue"."phase_finished" NOTNULL
   AND "issue"."cleaned" ISNULL
   AND (
     "winning_initiative"."id" != "losing_initiative"."id" OR
@@ -2085,15 +2081,6 @@ CREATE VIEW "open_issue" AS
   SELECT * FROM "issue" WHERE "closed" ISNULL;
 
 COMMENT ON VIEW "open_issue" IS 'All open issues';
-
-
-CREATE VIEW "issue_with_ranks_missing" AS
-  SELECT * FROM "issue"
-  WHERE "fully_frozen" NOTNULL
-  AND "closed" NOTNULL
-  AND "ranks_available" = FALSE;
-
-COMMENT ON VIEW "issue_with_ranks_missing" IS 'Issues where voting was finished, but no ranks have been calculated yet';
 
 
 CREATE VIEW "member_contingent" AS
