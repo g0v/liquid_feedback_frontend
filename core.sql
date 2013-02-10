@@ -3047,9 +3047,9 @@ COMMENT ON FUNCTION "calculate_member_counts"() IS 'Updates "member_count" table
 
 
 
--------------------------------------
--- Calculation of harmonic weights --
--------------------------------------
+------------------------------------
+-- Calculation of harmonic weight --
+------------------------------------
 
 
 CREATE VIEW "remaining_harmonic_supporter_weight" AS
@@ -3063,17 +3063,17 @@ CREATE VIEW "remaining_harmonic_supporter_weight" AS
   JOIN "direct_interest_snapshot"
     ON "issue"."id" = "direct_interest_snapshot"."issue_id"
     AND "issue"."latest_snapshot_event" = "direct_interest_snapshot"."event"
+  JOIN "initiative"
+    ON "issue"."id" = "initiative"."issue_id"
+    AND "initiative"."harmonic_weight" ISNULL
   JOIN "direct_supporter_snapshot"
-    ON "direct_interest_snapshot"."issue_id" = "direct_supporter_snapshot"."issue_id"
+    ON "initiative"."id" = "direct_supporter_snapshot"."initiative_id"
     AND "direct_interest_snapshot"."event" = "direct_supporter_snapshot"."event"
     AND "direct_interest_snapshot"."member_id" = "direct_supporter_snapshot"."member_id"
-  JOIN "initiative"
-    ON "direct_supporter_snapshot"."initiative_id" = "initiative"."id"
     AND (
       "direct_supporter_snapshot"."satisfied" = TRUE OR
       coalesce("initiative"."admitted", FALSE) = FALSE
     )
-    AND "initiative"."harmonic_weight" ISNULL
   GROUP BY
     "direct_interest_snapshot"."issue_id",
     "direct_interest_snapshot"."event",
@@ -3091,17 +3091,17 @@ CREATE VIEW "remaining_harmonic_initiative_weight_summands" AS
     sum("remaining_harmonic_supporter_weight"."weight_num") AS "weight_num",
     "remaining_harmonic_supporter_weight"."weight_den"
   FROM "remaining_harmonic_supporter_weight"
+  JOIN "initiative"
+    ON "remaining_harmonic_supporter_weight"."issue_id" = "initiative"."issue_id"
+    AND "initiative"."harmonic_weight" ISNULL
   JOIN "direct_supporter_snapshot"
-    ON "remaining_harmonic_supporter_weight"."issue_id" = "direct_supporter_snapshot"."issue_id"
+    ON "initiative"."id" = "direct_supporter_snapshot"."initiative_id"
     AND "remaining_harmonic_supporter_weight"."event" = "direct_supporter_snapshot"."event"
     AND "remaining_harmonic_supporter_weight"."member_id" = "direct_supporter_snapshot"."member_id"
-  JOIN "initiative"
-    ON "direct_supporter_snapshot"."initiative_id" = "initiative"."id"
     AND (
       "direct_supporter_snapshot"."satisfied" = TRUE OR
       coalesce("initiative"."admitted", FALSE) = FALSE
     )
-    AND "initiative"."harmonic_weight" ISNULL
   GROUP BY
     "initiative"."issue_id",
     "initiative"."id",
