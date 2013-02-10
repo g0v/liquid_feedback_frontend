@@ -3410,8 +3410,10 @@ CREATE FUNCTION "create_interest_snapshot"
         WHERE "issue_id" = "issue_id_p"
         AND "event" = 'periodic';
       DELETE FROM "direct_supporter_snapshot"
-        WHERE "issue_id" = "issue_id_p"
-        AND "event" = 'periodic';
+        USING "initiative"  -- NOTE: due to missing index on issue_id
+        WHERE "initiative"."issue_id" = "issue_id_p"
+        AND "direct_supporter_snapshot"."initiative_id" = "initiative"."id"
+        AND "direct_supporter_snapshot"."event" = 'periodic';
       INSERT INTO "direct_interest_snapshot"
         ("issue_id", "event", "member_id")
         SELECT
@@ -3681,7 +3683,10 @@ CREATE FUNCTION "set_snapshot_event"
       UPDATE "delegating_interest_snapshot" SET "event" = "event_p"
         WHERE "issue_id" = "issue_id_p" AND "event" = "event_v";
       UPDATE "direct_supporter_snapshot" SET "event" = "event_p"
-        WHERE "issue_id" = "issue_id_p" AND "event" = "event_v";
+        FROM "initiative"  -- NOTE: due to missing index on issue_id
+        WHERE "initiative"."issue_id" = "issue_id_p"
+        AND "direct_supporter_snapshot"."initiative_id" = "initiative"."id"
+        AND "direct_supporter_snapshot"."event" = "event_v";
       RETURN;
     END;
   $$;
@@ -4494,7 +4499,9 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
         DELETE FROM "delegation"
           WHERE "issue_id" = "issue_id_p";
         DELETE FROM "supporter"
-          WHERE "issue_id" = "issue_id_p";
+          USING "initiative"
+          WHERE "initiative"."issue_id" = "issue_id_p"
+          AND "supporter"."initiative_id" = "initiative_id";
         UPDATE "issue" SET
           "state"           = "issue_row"."state",
           "closed"          = "issue_row"."closed",
