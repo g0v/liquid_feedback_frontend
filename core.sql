@@ -4486,7 +4486,7 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
         DELETE FROM "delegation"
           WHERE "issue_id" = "issue_id_p";
         DELETE FROM "supporter"
-          USING "initiative"
+          USING "initiative"  -- NOTE: due to missing index on issue_id
           WHERE "initiative"."issue_id" = "issue_id_p"
           AND "supporter"."initiative_id" = "initiative_id";
         UPDATE "issue" SET
