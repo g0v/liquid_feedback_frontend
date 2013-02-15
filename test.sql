@@ -3,6 +3,9 @@
 
 BEGIN;
 
+-- set transaction isolation level to be able to call "check_everything"() function
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+
 INSERT INTO "member" ("activated", "last_activity", "active", "login", "name") VALUES
   ('now', 'now', TRUE, 'user1',  'User #1'),   -- id  1
   ('now', 'now', TRUE, 'user2',  'User #2'),   -- id  2

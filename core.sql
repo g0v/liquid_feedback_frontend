@@ -1567,7 +1567,7 @@ COMMENT ON TRIGGER "voter_comment_fields_only_set_when_voter_comment_is_set" ON 
 
 
 ---------------------------------------------------------------
--- Ensure that votes are not modified when issues are frozen --
+-- Ensure that votes are not modified when issues are closed --
 ---------------------------------------------------------------
 
 -- NOTE: Frontends should ensure this anyway, but in case of programming
@@ -2859,9 +2859,46 @@ COMMENT ON FUNCTION "delegation_info"
 
 
 
+---------------------------
+-- Transaction isolation --
+---------------------------
+
+CREATE FUNCTION "require_transaction_isolation"()
+  RETURNS VOID
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      IF
+        current_setting('transaction_isolation') NOT IN
+        ('repeatable read', 'serializable')
+      THEN
+        RAISE EXCEPTION 'Insufficient transaction isolation level';
+      END IF;
+      RETURN;
+    END;
+  $$;
+
+
+CREATE FUNCTION "dont_require_transaction_isolation"()
+  RETURNS VOID
+  LANGUAGE 'plpgsql' VOLATILE AS $$
+    BEGIN
+      IF
+        current_setting('transaction_isolation') IN
+        ('repeatable read', 'serializable')
+      THEN
+        RAISE WARNING 'Unneccessary transaction isolation level: %',
+          current_setting('transaction_isolation');
+      END IF;
+      RETURN;
+    END;
+  $$;
+
+
+
 ------------------------------------------------------------------------
 -- Regular tasks, except calculcation of snapshots and voting results --
 ------------------------------------------------------------------------
+
 
 CREATE FUNCTION "check_activity"()
   RETURNS VOID
@@ -2869,9 +2906,9 @@ CREATE FUNCTION "check_activity"()
     DECLARE
       "system_setting_row" "system_setting"%ROWTYPE;
     BEGIN
+      PERFORM "dont_require_transaction_isolation"();
       SELECT * INTO "system_setting_row" FROM "system_setting";
       IF "system_setting_row"."member_ttl" NOTNULL THEN
-        LOCK TABLE "member" IN SHARE ROW EXCLUSIVE MODE;
         UPDATE "member" SET "active" = FALSE
           WHERE "active" = TRUE
           AND "last_activity" < (now() - "system_setting_row"."member_ttl")::DATE;
@@ -2887,12 +2924,7 @@ CREATE FUNCTION "calculate_member_counts"()
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
-      LOCK TABLE "member"       IN SHARE MODE;
-      LOCK TABLE "member_count" IN EXCLUSIVE MODE;
-      LOCK TABLE "unit"         IN EXCLUSIVE MODE;
-      LOCK TABLE "area"         IN EXCLUSIVE MODE;
-      LOCK TABLE "privilege"    IN SHARE MODE;
-      LOCK TABLE "membership"   IN SHARE MODE;
+      PERFORM "require_transaction_isolation"();
       DELETE FROM "member_count";
       INSERT INTO "member_count" ("total_count")
         SELECT "total_count" FROM "member_count_view";
@@ -2989,6 +3021,7 @@ CREATE FUNCTION "set_harmonic_initiative_weights"
       "weight_ary"   FLOAT[];
       "min_weight_v" FLOAT;
     BEGIN
+      PERFORM "require_transaction_isolation"();
       UPDATE "initiative" SET "harmonic_weight" = NULL
         WHERE "issue_id" = "issue_id_p";
       LOOP
@@ -3352,6 +3385,7 @@ CREATE FUNCTION "create_snapshot"
       "initiative_id_v"    "initiative"."id"%TYPE;
       "suggestion_id_v"    "suggestion"."id"%TYPE;
     BEGIN
+      PERFORM "require_transaction_isolation"();
       PERFORM "create_population_snapshot"("issue_id_p");
       PERFORM "create_interest_snapshot"("issue_id_p");
       UPDATE "issue" SET
@@ -3534,6 +3568,7 @@ CREATE FUNCTION "set_snapshot_event"
     DECLARE
       "event_v" "issue"."latest_snapshot_event"%TYPE;
     BEGIN
+      PERFORM "require_transaction_isolation"();
       SELECT "latest_snapshot_event" INTO "event_v" FROM "issue"
         WHERE "id" = "issue_id_p" FOR UPDATE;
       UPDATE "issue" SET "latest_snapshot_event" = "event_p"
@@ -3575,6 +3610,7 @@ CREATE FUNCTION "issue_admission"
       "issue_row"  "issue"%ROWTYPE;
       "policy_row" "policy"%ROWTYPE;
     BEGIN
+      PERFORM "require_transaction_isolation"();
       SELECT * INTO "issue_row" FROM "issue"
         WHERE "id" = "issue_id_p" FOR UPDATE;
       SELECT * INTO "policy_row"
@@ -3616,8 +3652,9 @@ CREATE FUNCTION "initiative_admission"
       "policy_row"     "policy"%ROWTYPE;
       "initiative_row" "initiative"%ROWTYPE;
     BEGIN
+      PERFORM "require_transaction_isolation"();
       SELECT * INTO "issue_row" FROM "issue"
-        WHERE "id" = "issue_id_p" FOR SHARE;
+        WHERE "id" = "issue_id_p";
       SELECT * INTO "policy_row" FROM "policy"
         WHERE "id" = "issue_row"."policy_id";
       FOR "initiative_row" IN
@@ -3658,6 +3695,7 @@ CREATE FUNCTION "freeze_after_snapshot"
       "policy_row"     "policy"%ROWTYPE;
       "initiative_row" "initiative"%ROWTYPE;
     BEGIN
+      PERFORM "require_transaction_isolation"();
       SELECT * INTO "issue_row" FROM "issue"
         WHERE "id" = "issue_id_p" FOR UPDATE;
       SELECT * INTO "policy_row" FROM "policy"
@@ -3824,6 +3862,7 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       "unit_id_v"   "unit"."id"%TYPE;
       "member_id_v" "member"."id"%TYPE;
     BEGIN
+      PERFORM "require_transaction_isolation"();
       SELECT "area_id" INTO "area_id_v" FROM "issue" WHERE "id" = "issue_id_p";
       SELECT "unit_id" INTO "unit_id_v" FROM "area"  WHERE "id" = "area_id_v";
       -- delete timestamp of voting comment:
@@ -3930,6 +3969,7 @@ CREATE FUNCTION "calculate_ranks"("issue_id_p" "issue"."id"%TYPE)
       "winners_ary"       INTEGER[];
       "initiative_id_v"   "initiative"."id"%TYPE;
     BEGIN
+      PERFORM "require_transaction_isolation"();
       SELECT * INTO "issue_row"
         FROM "issue" WHERE "id" = "issue_id_p";
       SELECT * INTO "policy_row"
@@ -4241,6 +4281,7 @@ CREATE FUNCTION "check_issue"
       "issue_row" "issue"%ROWTYPE;
       "state_v"   "issue_state";
     BEGIN
+      PERFORM "require_transaction_isolation"();
       IF "persist" ISNULL THEN
         SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p"
           FOR UPDATE;
@@ -4391,6 +4432,7 @@ CREATE FUNCTION "check_everything"()
       "issue_id_v" "issue"."id"%TYPE;
       "persist_v"  "check_issue_persistence";
     BEGIN
+      RAISE WARNING 'Function "check_everything" should only be used for development and debugging purposes';
       DELETE FROM "expired_session";
       PERFORM "check_activity"();
       PERFORM "calculate_member_counts"();
