@@ -1582,19 +1582,6 @@ CREATE FUNCTION "forbid_changes_on_closed_issue_trigger"()
       "issue_row"             "issue"%ROWTYPE;
       "direct_voter_update_v" BOOLEAN;
     BEGIN
-      "direct_voter_update_v" := FALSE;
-      IF TG_RELID = 'direct_voter'::regclass AND TG_OP = 'UPDATE' THEN
-        IF
-          OLD."issue_id"  = NEW."issue_id"  AND
-          OLD."member_id" = NEW."member_id" AND
-          OLD."weight"    = NEW."weight"
-        THEN
-          IF OLD."weight" = NEW."weight" THEN
-            RETURN NULL;  -- allows changing of voter comment
-          END IF;
-          "direct_voter_update_v" := TRUE;
-        END IF;
-      END IF;
       IF TG_OP = 'DELETE' THEN
         "issue_id_v" := OLD."issue_id";
       ELSE
@@ -1603,13 +1590,26 @@ CREATE FUNCTION "forbid_changes_on_closed_issue_trigger"()
       SELECT INTO "issue_row" * FROM "issue"
         WHERE "id" = "issue_id_v" FOR SHARE;
       IF "issue_row"."closed" NOTNULL THEN
+        IF
+          TG_RELID = 'direct_voter'::regclass AND
+          TG_OP = 'UPDATE'
+        THEN
+          IF
+            OLD."issue_id"  = NEW."issue_id"  AND
+            OLD."member_id" = NEW."member_id" AND
+            OLD."weight" = NEW."weight"
+          THEN
+            RETURN NULL;  -- allows changing of voter comment
+          END IF;
+        END IF;
         RAISE EXCEPTION 'Tried to modify data belonging to a closed issue.';
       ELSIF
         "issue_row"."state" = 'voting' AND
-        "issue_row"."phase_finished" NOTNULL AND
-        "direct_voter_update_v" = FALSE  -- allow change of weight during calculation
+        "issue_row"."phase_finished" NOTNULL
       THEN
-        RAISE EXCEPTION 'Tried to modify data after voting has been closed.';
+        IF TG_RELID = 'vote'::regclass THEN
+          RAISE EXCEPTION 'Tried to modify data after voting has been closed.';
+        END IF;
       END IF;
       RETURN NULL;
     END;
@@ -3667,10 +3667,11 @@ CREATE FUNCTION "freeze_after_snapshot"
         WHERE "issue_id" = "issue_id_p" AND "admitted" = TRUE
       ) THEN
         UPDATE "issue" SET
-          "state"        = 'voting',
-          "accepted"     = coalesce("accepted", "phase_finished"),
-          "half_frozen"  = coalesce("half_frozen", "phase_finished"),
-          "fully_frozen" = "phase_finished"
+          "state"         = 'voting',
+          "accepted"      = coalesce("accepted", "phase_finished"),
+          "half_frozen"   = coalesce("half_frozen", "phase_finished"),
+          "fully_frozen"  = "phase_finished",
+          "phase_finished" = NULL
           WHERE "id" = "issue_id_p";
       ELSE
         UPDATE "issue" SET
@@ -3679,7 +3680,7 @@ CREATE FUNCTION "freeze_after_snapshot"
           "half_frozen"     = coalesce("half_frozen", "phase_finished"),
           "fully_frozen"    = "phase_finished",
           "closed"          = "phase_finished",
-          "ranks_available" = TRUE
+          "phase_finished"  = NULL
           WHERE "id" = "issue_id_p";
         -- NOTE: The following DELETE statements have effect only when
         --       issue state has been manipulated
@@ -4320,15 +4321,15 @@ CREATE FUNCTION "check_issue"
       THEN
         PERFORM "set_harmonic_initiative_weights"("issue_id_p");
         "persist"."harmonic_weights_set" = TRUE;
-        IF "persist"."phase_finished" OR "persist"."issue_revoked" THEN
+        IF
+          "persist"."phase_finished" OR
+          "persist"."issue_revoked" OR
+          "persist"."state" = 'admission'
+        THEN
           RETURN "persist";
         ELSE
           RETURN NULL;
         END IF;
-      END IF;
-      IF "persist"."state" = 'verification' AND "persist"."phase_finished" THEN
-        PERFORM "freeze_after_snapshot"("issue_id_p");
-        RETURN NULL;
       END IF;
       IF "persist"."issue_revoked" THEN
         IF "persist"."state" = 'admission' THEN
@@ -4342,24 +4343,35 @@ CREATE FUNCTION "check_issue"
           "state"          = "state_v",
           "closed"         = "phase_finished",
           "phase_finished" = NULL
-          WHERE "id" = "issue_row"."id";
+          WHERE "id" = "issue_id_p";
         RETURN NULL;
       END IF;
       IF "persist"."state" = 'admission' THEN
         PERFORM issue_admission("issue_id_p");
         RETURN NULL;
       END IF;
-      IF
-        "persist"."state" = 'voting' AND "persist"."phase_finished" AND
-        coalesce("persist"."closed_voting", FALSE) = FALSE
-      THEN
-        PERFORM "close_voting"("issue_id_p");
-        "persist"."closed_voting" = TRUE;
-        RETURN "persist";
-      END IF;
-      IF "persist"."state" = 'voting' AND "persist"."phase_finished" THEN
-        PERFORM "calculate_ranks"("issue_id_p");
-        RETURN NULL;
+      IF "persist"."phase_finished" THEN
+        if "persist"."state" = 'discussion' THEN
+          UPDATE "issue" SET
+            "state"          = 'verification',
+            "half_frozen"    = "phase_finished",
+            "phase_finished" = NULL
+            WHERE "id" = "issue_id_p";
+          RETURN NULL;
+        END IF;
+        IF "persist"."state" = 'verification' THEN
+          PERFORM "freeze_after_snapshot"("issue_id_p");
+          RETURN NULL;
+        END IF;
+        IF "persist"."state" = 'voting' THEN
+          IF coalesce("persist"."closed_voting", FALSE) = FALSE THEN
+            PERFORM "close_voting"("issue_id_p");
+            "persist"."closed_voting" = TRUE;
+            RETURN "persist";
+          END IF;
+          PERFORM "calculate_ranks"("issue_id_p");
+          RETURN NULL;
+        END IF;
       END IF;
       RAISE WARNING 'should not happen';
       RETURN NULL;
