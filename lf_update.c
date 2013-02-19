@@ -120,7 +120,6 @@ int main(int argc, char **argv) {
       escaped_issue_id = PQescapeLiteral(db, issue_id, strlen(issue_id));
       old_res2 = NULL;
       for (j=0; ; j++) {
-        fprintf(stderr, "%i\n", j); // DEBUG
         if (j >= 20) {  // safety to avoid endless loops
           fprintf(stderr, "Function \"check_issue\"(...) returned non-null value too often.\n");
           err = 1;
