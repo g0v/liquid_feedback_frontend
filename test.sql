@@ -469,5 +469,6 @@ INSERT INTO "policy" (
         0, 100,
         0, 100
     );
+
 END;
 
