@@ -1578,9 +1578,8 @@ CREATE FUNCTION "forbid_changes_on_closed_issue_trigger"()
   RETURNS TRIGGER
   LANGUAGE 'plpgsql' VOLATILE AS $$
     DECLARE
-      "issue_id_v"            "issue"."id"%TYPE;
-      "issue_row"             "issue"%ROWTYPE;
-      "direct_voter_update_v" BOOLEAN;
+      "issue_id_v" "issue"."id"%TYPE;
+      "issue_row"  "issue"%ROWTYPE;
     BEGIN
       IF TG_OP = 'DELETE' THEN
         "issue_id_v" := OLD."issue_id";
@@ -3101,6 +3100,7 @@ CREATE FUNCTION "weight_of_added_delegations_for_population_snapshot"
       "weight_v"              INT4;
       "sub_weight_v"          INT4;
     BEGIN
+      PERFORM "require_transaction_isolation"();
       "weight_v" := 0;
       FOR "issue_delegation_row" IN
         SELECT * FROM "issue_delegation"
@@ -3165,6 +3165,7 @@ CREATE FUNCTION "create_population_snapshot"
     DECLARE
       "member_id_v" "member"."id"%TYPE;
     BEGIN
+      PERFORM "require_transaction_isolation"();
       DELETE FROM "direct_population_snapshot"
         WHERE "issue_id" = "issue_id_p"
         AND "event" = 'periodic';
@@ -3237,6 +3238,7 @@ CREATE FUNCTION "weight_of_added_delegations_for_interest_snapshot"
       "weight_v"              INT4;
       "sub_weight_v"          INT4;
     BEGIN
+      PERFORM "require_transaction_isolation"();
       "weight_v" := 0;
       FOR "issue_delegation_row" IN
         SELECT * FROM "issue_delegation"
@@ -3301,6 +3303,7 @@ CREATE FUNCTION "create_interest_snapshot"
     DECLARE
       "member_id_v" "member"."id"%TYPE;
     BEGIN
+      PERFORM "require_transaction_isolation"();
       DELETE FROM "direct_interest_snapshot"
         WHERE "issue_id" = "issue_id_p"
         AND "event" = 'periodic';
@@ -3597,165 +3600,6 @@ COMMENT ON FUNCTION "set_snapshot_event"
 
 
 
----------------------
--- Freezing issues --
----------------------
-
-
-CREATE FUNCTION "issue_admission"
-  ( "issue_id_p" "issue"."id"%TYPE )
-  RETURNS VOID
-  LANGUAGE 'plpgsql' VOLATILE AS $$
-    DECLARE
-      "issue_row"  "issue"%ROWTYPE;
-      "policy_row" "policy"%ROWTYPE;
-    BEGIN
-      PERFORM "require_transaction_isolation"();
-      SELECT * INTO "issue_row" FROM "issue"
-        WHERE "id" = "issue_id_p" FOR UPDATE;
-      SELECT * INTO "policy_row"
-        FROM "policy" WHERE "id" = "issue_row"."policy_id";
-      IF EXISTS (
-        SELECT NULL FROM "initiative"
-        WHERE "issue_id" = "issue_id_p"
-        AND "supporter_count" > 0
-        AND "supporter_count" * "policy_row"."issue_quorum_den"
-        >= "issue_row"."population" * "policy_row"."issue_quorum_num"
-      ) THEN
-        UPDATE "issue" SET
-          "state"          = 'discussion',
-          "accepted"       = coalesce("phase_finished", now()),
-          "phase_finished" = NULL
-          WHERE "id" = "issue_id_p";
-      ELSIF "issue_row"."phase_finished" NOTNULL THEN
-        UPDATE "issue" SET
-          "state"          = 'canceled_issue_not_accepted',
-          "closed"         = "phase_finished",
-          "phase_finished" = NULL
-          WHERE "id" = "issue_id_p";
-      END IF;
-      RETURN;
-    END;
-  $$;
-
-COMMENT ON FUNCTION "issue_admission"
-  ( "issue"."id"%TYPE )
-  IS 'Checks admission of an issue, and either sets "accepted" to TRUE, or cancels the issue if "phase_finished" is set';
-
-
-CREATE FUNCTION "initiative_admission"
-  ( "issue_id_p" "issue"."id"%TYPE )
-  RETURNS VOID
-  LANGUAGE 'plpgsql' VOLATILE AS $$
-    DECLARE
-      "issue_row"      "issue"%ROWTYPE;
-      "policy_row"     "policy"%ROWTYPE;
-      "initiative_row" "initiative"%ROWTYPE;
-    BEGIN
-      PERFORM "require_transaction_isolation"();
-      SELECT * INTO "issue_row" FROM "issue"
-        WHERE "id" = "issue_id_p";
-      SELECT * INTO "policy_row" FROM "policy"
-        WHERE "id" = "issue_row"."policy_id";
-      FOR "initiative_row" IN
-        SELECT * FROM "initiative"
-        WHERE "issue_id" = "issue_id_p" AND "revoked" ISNULL
-        FOR UPDATE
-      LOOP
-        IF
-          "initiative_row"."polling" OR (
-            "initiative_row"."satisfied_supporter_count" > 0 AND
-            "initiative_row"."satisfied_supporter_count" *
-            "policy_row"."initiative_quorum_den" >=
-            "issue_row"."population" * "policy_row"."initiative_quorum_num"
-          )
-        THEN
-          UPDATE "initiative" SET "admitted" = TRUE
-            WHERE "id" = "initiative_row"."id";
-        ELSE
-          UPDATE "initiative" SET "admitted" = FALSE
-            WHERE "id" = "initiative_row"."id";
-        END IF;
-      END LOOP;
-      RETURN;
-    END;
-  $$;
-
-COMMENT ON FUNCTION "initiative_admission"
-  ( "issue"."id"%TYPE )
-  IS 'Sets the "admitted" flag of all initiatives in an issue, according to their supporter count fulfilling the necessary "initiative_quorum"';
-
-
-CREATE FUNCTION "freeze_after_snapshot"
-  ( "issue_id_p" "issue"."id"%TYPE )
-  RETURNS VOID
-  LANGUAGE 'plpgsql' VOLATILE AS $$
-    DECLARE
-      "issue_row"      "issue"%ROWTYPE;
-      "policy_row"     "policy"%ROWTYPE;
-      "initiative_row" "initiative"%ROWTYPE;
-    BEGIN
-      PERFORM "require_transaction_isolation"();
-      SELECT * INTO "issue_row" FROM "issue"
-        WHERE "id" = "issue_id_p" FOR UPDATE;
-      SELECT * INTO "policy_row" FROM "policy"
-        WHERE "id" = "issue_row"."policy_id";
-      IF EXISTS (
-        SELECT NULL FROM "initiative"
-        WHERE "issue_id" = "issue_id_p" AND "admitted" = TRUE
-      ) THEN
-        UPDATE "issue" SET
-          "state"         = 'voting',
-          "accepted"      = coalesce("accepted", "phase_finished"),
-          "half_frozen"   = coalesce("half_frozen", "phase_finished"),
-          "fully_frozen"  = "phase_finished",
-          "phase_finished" = NULL
-          WHERE "id" = "issue_id_p";
-      ELSE
-        UPDATE "issue" SET
-          "state"           = 'canceled_no_initiative_admitted',
-          "accepted"        = coalesce("accepted", "phase_finished"),
-          "half_frozen"     = coalesce("half_frozen", "phase_finished"),
-          "fully_frozen"    = "phase_finished",
-          "closed"          = "phase_finished",
-          "phase_finished"  = NULL
-          WHERE "id" = "issue_id_p";
-        -- NOTE: The following DELETE statements have effect only when
-        --       issue state has been manipulated
-        DELETE FROM "direct_voter"     WHERE "issue_id" = "issue_id_p";
-        DELETE FROM "delegating_voter" WHERE "issue_id" = "issue_id_p";
-        DELETE FROM "battle"           WHERE "issue_id" = "issue_id_p";
-      END IF;
-      RETURN;
-    END;
-  $$;
-
-COMMENT ON FUNCTION "freeze_after_snapshot"
-  ( "issue"."id"%TYPE )
-  IS 'This function freezes an issue (fully) and starts voting, but must only be called after all other preparations have been made.';
-
-
-CREATE FUNCTION "manual_freeze"("issue_id_p" "issue"."id"%TYPE)
-  RETURNS VOID
-  LANGUAGE 'plpgsql' VOLATILE AS $$
-    DECLARE
-      "issue_row" "issue"%ROWTYPE;
-    BEGIN
-      PERFORM "create_snapshot"("issue_id_p");
-      PERFORM "set_snapshot_event"("issue_id_p", 'full_freeze');
-      PERFORM "initiative_admission"("issue_id_p");
-      PERFORM "set_harmonic_initiative_weights"("issue_id_p");
-      PERFORM "freeze_after_snapshot"("issue_id_p");
-      RETURN;
-    END;
-  $$;
-
-COMMENT ON FUNCTION "manual_freeze"
-  ( "issue"."id"%TYPE )
-  IS 'Freeze an issue manually (fully) and start voting';
-
-
-
 -----------------------
 -- Counting of votes --
 -----------------------
@@ -3773,6 +3617,7 @@ CREATE FUNCTION "weight_of_added_vote_delegations"
       "weight_v"              INT4;
       "sub_weight_v"          INT4;
     BEGIN
+      PERFORM "require_transaction_isolation"();
       "weight_v" := 0;
       FOR "issue_delegation_row" IN
         SELECT * FROM "issue_delegation"
@@ -3832,6 +3677,7 @@ CREATE FUNCTION "add_vote_delegations"
     DECLARE
       "member_id_v" "member"."id"%TYPE;
     BEGIN
+      PERFORM "require_transaction_isolation"();
       FOR "member_id_v" IN
         SELECT "member_id" FROM "direct_voter"
         WHERE "issue_id" = "issue_id_p"
@@ -4272,14 +4118,19 @@ CREATE TYPE "check_issue_persistence" AS (
         "harmonic_weights_set"  BOOLEAN,
         "closed_voting"         BOOLEAN );
 
+COMMENT ON TYPE "check_issue_persistence" IS 'Type of data returned by "check_issue" function, to be passed to subsequent calls of the same function';
+
+
 CREATE FUNCTION "check_issue"
   ( "issue_id_p" "issue"."id"%TYPE,
     "persist"    "check_issue_persistence" )
   RETURNS "check_issue_persistence"
   LANGUAGE 'plpgsql' VOLATILE AS $$
     DECLARE
-      "issue_row" "issue"%ROWTYPE;
-      "state_v"   "issue_state";
+      "issue_row"      "issue"%ROWTYPE;
+      "policy_row"     "policy"%ROWTYPE;
+      "initiative_row" "initiative"%ROWTYPE;
+      "state_v"        "issue_state";
     BEGIN
       PERFORM "require_transaction_isolation"();
       IF "persist" ISNULL THEN
@@ -4351,7 +4202,29 @@ CREATE FUNCTION "check_issue"
             PERFORM "set_snapshot_event"("issue_id_p", 'half_freeze');
           ELSIF "persist"."state" = 'verification' THEN
             PERFORM "set_snapshot_event"("issue_id_p", 'full_freeze');
-            PERFORM "initiative_admission"("issue_id_p");
+            SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p";
+            SELECT * INTO "policy_row" FROM "policy"
+              WHERE "id" = "issue_row"."policy_id";
+            FOR "initiative_row" IN
+              SELECT * FROM "initiative"
+              WHERE "issue_id" = "issue_id_p" AND "revoked" ISNULL
+              FOR UPDATE
+            LOOP
+              IF
+                "initiative_row"."polling" OR (
+                  "initiative_row"."satisfied_supporter_count" > 0 AND
+                  "initiative_row"."satisfied_supporter_count" *
+                  "policy_row"."initiative_quorum_den" >=
+                  "issue_row"."population" * "policy_row"."initiative_quorum_num"
+                )
+              THEN
+                UPDATE "initiative" SET "admitted" = TRUE
+                  WHERE "id" = "initiative_row"."id";
+              ELSE
+                UPDATE "initiative" SET "admitted" = FALSE
+                  WHERE "id" = "initiative_row"."id";
+              END IF;
+            END LOOP;
           END IF;
         END IF;
         RETURN "persist";
@@ -4388,7 +4261,29 @@ CREATE FUNCTION "check_issue"
         RETURN NULL;
       END IF;
       IF "persist"."state" = 'admission' THEN
-        PERFORM issue_admission("issue_id_p");
+        SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p"
+          FOR UPDATE;
+        SELECT * INTO "policy_row"
+          FROM "policy" WHERE "id" = "issue_row"."policy_id";
+        IF EXISTS (
+          SELECT NULL FROM "initiative"
+          WHERE "issue_id" = "issue_id_p"
+          AND "supporter_count" > 0
+          AND "supporter_count" * "policy_row"."issue_quorum_den"
+          >= "issue_row"."population" * "policy_row"."issue_quorum_num"
+        ) THEN
+          UPDATE "issue" SET
+            "state"          = 'discussion',
+            "accepted"       = coalesce("phase_finished", now()),
+            "phase_finished" = NULL
+            WHERE "id" = "issue_id_p";
+        ELSIF "issue_row"."phase_finished" NOTNULL THEN
+          UPDATE "issue" SET
+            "state"          = 'canceled_issue_not_accepted',
+            "closed"         = "phase_finished",
+            "phase_finished" = NULL
+            WHERE "id" = "issue_id_p";
+        END IF;
         RETURN NULL;
       END IF;
       IF "persist"."phase_finished" THEN
@@ -4401,7 +4296,36 @@ CREATE FUNCTION "check_issue"
           RETURN NULL;
         END IF;
         IF "persist"."state" = 'verification' THEN
-          PERFORM "freeze_after_snapshot"("issue_id_p");
+          SELECT * INTO "issue_row" FROM "issue" WHERE "id" = "issue_id_p"
+            FOR UPDATE;
+          SELECT * INTO "policy_row" FROM "policy"
+            WHERE "id" = "issue_row"."policy_id";
+          IF EXISTS (
+            SELECT NULL FROM "initiative"
+            WHERE "issue_id" = "issue_id_p" AND "admitted" = TRUE
+          ) THEN
+            UPDATE "issue" SET
+              "state"         = 'voting',
+              "accepted"      = coalesce("accepted", "phase_finished"),
+              "half_frozen"   = coalesce("half_frozen", "phase_finished"),
+              "fully_frozen"  = "phase_finished",
+              "phase_finished" = NULL
+              WHERE "id" = "issue_id_p";
+          ELSE
+            UPDATE "issue" SET
+              "state"           = 'canceled_no_initiative_admitted',
+              "accepted"        = coalesce("accepted", "phase_finished"),
+              "half_frozen"     = coalesce("half_frozen", "phase_finished"),
+              "fully_frozen"    = "phase_finished",
+              "closed"          = "phase_finished",
+              "phase_finished"  = NULL
+              WHERE "id" = "issue_id_p";
+            -- NOTE: The following DELETE statements have effect only when
+            --       issue state has been manipulated
+            DELETE FROM "direct_voter"     WHERE "issue_id" = "issue_id_p";
+            DELETE FROM "delegating_voter" WHERE "issue_id" = "issue_id_p";
+            DELETE FROM "battle"           WHERE "issue_id" = "issue_id_p";
+          END IF;
           RETURN NULL;
         END IF;
         IF "persist"."state" = 'voting' THEN
@@ -4422,7 +4346,7 @@ CREATE FUNCTION "check_issue"
 COMMENT ON FUNCTION "check_issue"
   ( "issue"."id"%TYPE,
     "check_issue_persistence" )
-  IS 'Precalculate supporter counts etc. for a given issue, and check, if status change is required; At end of voting the ranking is not calculated by this function, but must be calculated in a seperate transaction using the "calculate_ranks" function.';
+  IS 'Precalculate supporter counts etc. for a given issue, and check, if status change is required, and perform the status change when necessary; Function must be called multiple times with the previous result as second parameter, until the result is NULL (see source code of function "check_everything")';
 
 
 CREATE FUNCTION "check_everything"()
@@ -4447,7 +4371,7 @@ CREATE FUNCTION "check_everything"()
     END;
   $$;
 
-COMMENT ON FUNCTION "check_everything"() IS 'Amongst other regular tasks this function performs "check_issue" for every open issue, and if possible, automatically calculates ranks. Use this function only for development and debugging purposes, as long transactions with exclusive locking may result. In productive environments you should call the lf_update program instead.';
+COMMENT ON FUNCTION "check_everything"() IS 'Amongst other regular tasks this function performs "check_issue" for every open issue. Use this function only for development and debugging purposes, as you may run into locking and/or serialization problems in productive environments.';
 
 
 
