@@ -1,5 +1,7 @@
 BEGIN;
 
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+
 CREATE OR REPLACE VIEW "liquid_feedback_version" AS
   SELECT * FROM (VALUES ('2.2.0', 2, 2, 0))
   AS "subquery"("string", "major", "minor", "revision");
