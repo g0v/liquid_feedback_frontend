@@ -4170,16 +4170,12 @@ CREATE FUNCTION "check_issue"
           ) THEN
             UPDATE "issue" SET
               "state"         = 'voting',
-              "accepted"      = coalesce("accepted", "phase_finished"),
-              "half_frozen"   = coalesce("half_frozen", "phase_finished"),
               "fully_frozen"  = "phase_finished",
               "phase_finished" = NULL
               WHERE "id" = "issue_id_p";
           ELSE
             UPDATE "issue" SET
               "state"           = 'canceled_no_initiative_admitted',
-              "accepted"        = coalesce("accepted", "phase_finished"),
-              "half_frozen"     = coalesce("half_frozen", "phase_finished"),
               "fully_frozen"    = "phase_finished",
               "closed"          = "phase_finished",
               "phase_finished"  = NULL
