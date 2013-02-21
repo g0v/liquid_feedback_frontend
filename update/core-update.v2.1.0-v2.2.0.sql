@@ -1756,4 +1756,6 @@ CREATE OR REPLACE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
     END;
   $$;
 
+SELECT "set_harmonic_initiative_weights"("id") FROM "issue";
+
 COMMIT;
