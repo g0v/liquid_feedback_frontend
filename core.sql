@@ -276,7 +276,7 @@ COMMENT ON COLUMN "member_image"."scaled" IS 'FALSE for original image, TRUE for
 
 
 CREATE TABLE "member_count" (
-        "calculated"            TIMESTAMPTZ     NOT NULL DEFAULT NOW(),
+        "calculated"            TIMESTAMPTZ     NOT NULL DEFAULT now(),
         "total_count"           INT4            NOT NULL );
 
 COMMENT ON TABLE "member_count" IS 'Contains one row which contains the total count of active(!) members and a timestamp indicating when the total member count and area member counts were calculated';
