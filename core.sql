@@ -4169,16 +4169,16 @@ CREATE FUNCTION "check_issue"
             WHERE "issue_id" = "issue_id_p" AND "admitted" = TRUE
           ) THEN
             UPDATE "issue" SET
-              "state"         = 'voting',
-              "fully_frozen"  = "phase_finished",
+              "state"          = 'voting',
+              "fully_frozen"   = "phase_finished",
               "phase_finished" = NULL
               WHERE "id" = "issue_id_p";
           ELSE
             UPDATE "issue" SET
-              "state"           = 'canceled_no_initiative_admitted',
-              "fully_frozen"    = "phase_finished",
-              "closed"          = "phase_finished",
-              "phase_finished"  = NULL
+              "state"          = 'canceled_no_initiative_admitted',
+              "fully_frozen"   = "phase_finished",
+              "closed"         = "phase_finished",
+              "phase_finished" = NULL
               WHERE "id" = "issue_id_p";
             -- NOTE: The following DELETE statements have effect only when
             --       issue state has been manipulated
