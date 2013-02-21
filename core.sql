@@ -2726,6 +2726,7 @@ COMMENT ON FUNCTION "delegation_info"
 -- Transaction isolation --
 ---------------------------
 
+
 CREATE FUNCTION "require_transaction_isolation"()
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
@@ -2739,6 +2740,8 @@ CREATE FUNCTION "require_transaction_isolation"()
       RETURN;
     END;
   $$;
+
+COMMENT ON FUNCTION "require_transaction_isolation"() IS 'Throws an exception, if transaction isolation level is too low to provide a consistent snapshot';
 
 
 CREATE FUNCTION "dont_require_transaction_isolation"()
@@ -2755,6 +2758,8 @@ CREATE FUNCTION "dont_require_transaction_isolation"()
       RETURN;
     END;
   $$;
+
+COMMENT ON FUNCTION "dont_require_transaction_isolation"() IS 'Raises a warning, if transaction isolation level is higher than READ COMMITTED';
 
 
 

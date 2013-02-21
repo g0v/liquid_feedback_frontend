@@ -335,6 +335,7 @@ CREATE FUNCTION "require_transaction_isolation"()
       RETURN;
     END;
   $$;
+COMMENT ON FUNCTION "require_transaction_isolation"() IS 'Throws an exception, if transaction isolation level is too low to provide a consistent snapshot';
 
 CREATE FUNCTION "dont_require_transaction_isolation"()
   RETURNS VOID
@@ -350,6 +351,7 @@ CREATE FUNCTION "dont_require_transaction_isolation"()
       RETURN;
     END;
   $$;
+COMMENT ON FUNCTION "dont_require_transaction_isolation"() IS 'Raises a warning, if transaction isolation level is higher than READ COMMITTED';
 
 CREATE OR REPLACE FUNCTION "check_activity"()
   RETURNS VOID
