@@ -4253,9 +4253,8 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
         FOR UPDATE;
       IF "issue_row"."cleaned" ISNULL THEN
         UPDATE "issue" SET
-          "state"           = 'voting',
-          "closed"          = NULL,
-          "ranks_available" = FALSE
+          "state"  = 'voting',
+          "closed" = NULL
           WHERE "id" = "issue_id_p";
         DELETE FROM "delegating_voter"
           WHERE "issue_id" = "issue_id_p";
@@ -4278,10 +4277,9 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
           WHERE "initiative"."issue_id" = "issue_id_p"
           AND "supporter"."initiative_id" = "initiative_id";
         UPDATE "issue" SET
-          "state"           = "issue_row"."state",
-          "closed"          = "issue_row"."closed",
-          "ranks_available" = "issue_row"."ranks_available",
-          "cleaned"         = now()
+          "state"   = "issue_row"."state",
+          "closed"  = "issue_row"."closed",
+          "cleaned" = now()
           WHERE "id" = "issue_id_p";
       END IF;
       RETURN;
