@@ -254,12 +254,12 @@ ui.container{ attr = { class = class }, content = function()
       local policy = issue.policy
       ui.container{
         attr = { class = "not_admitted_info" },
-        content = _("This issue has been cancelled. It failed the quorum of #{quorum}.", { quorum = format.percentage(policy.issue_quorum_num / policy.issue_quorum_den) })
+        content = _("This issue has been canceled. It failed the quorum of #{quorum}.", { quorum = format.percentage(policy.issue_quorum_num / policy.issue_quorum_den) })
       }
     elseif issue.state:sub(1, #("canceled_")) == "canceled_" then
       ui.container{
         attr = { class = "not_admitted_info" },
-        content = _("This issue has been cancelled.")
+        content = _("This issue has been canceled.")
       }
     end
   end

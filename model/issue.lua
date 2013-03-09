@@ -193,12 +193,12 @@ function Issue:get_state_name_for_state(value)
     discussion = _"Discussion",
     verification = _"Frozen",
     voting = _"Voting",
-    canceled_revoked_before_accepted = _"Cancelled (before accepted due to revocation)",
-    canceled_issue_not_accepted = _"Cancelled (issue not accepted)",
-    canceled_after_revocation_during_discussion = _"Cancelled (during discussion due to revocation)",
-    canceled_after_revocation_during_verification = _"Cancelled (during verification due to revocation)",
+    canceled_revoked_before_accepted = _"Canceled (before accepted due to revocation)",
+    canceled_issue_not_accepted = _"Canceled (issue not accepted)",
+    canceled_after_revocation_during_discussion = _"Canceled (during discussion due to revocation)",
+    canceled_after_revocation_during_verification = _"Canceled (during verification due to revocation)",
     calculation = _"Calculation",
-    canceled_no_initiative_admitted = _"Cancelled (no initiative admitted)",
+    canceled_no_initiative_admitted = _"Canceled (no initiative admitted)",
     finished_without_winner = _"Finished (without winner)",
     finished_with_winner = _"Finished (with winner)"
   }
@@ -246,7 +246,7 @@ function Issue:modify_selector_for_state(initiatives_selector, state)
     initiatives_selector:add_where("issue.fully_frozen NOTNULL AND issue.closed ISNULL")
   elseif state == "finished" then
     initiatives_selector:add_where("issue.fully_frozen NOTNULL AND issue.closed NOTNULL")
-  elseif state == "cancelled" then
+  elseif state == "canceled" then
     initiatives_selector:add_where("issue.fully_frozen ISNULL AND issue.closed NOTNULL")
   else
     error("Invalid state")
