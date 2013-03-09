@@ -2876,6 +2876,19 @@ CREATE VIEW "remaining_harmonic_initiative_weight_summands" AS
 COMMENT ON VIEW "remaining_harmonic_initiative_weight_summands" IS 'Helper view for function "set_harmonic_initiative_weights"';
 
 
+CREATE VIEW "remaining_harmonic_initiative_weight_dummies" AS
+  SELECT
+    "issue_id",
+    "id" AS "initiative_id",
+    "admitted",
+    0 AS "weight_num",
+    1 AS "weight_den"
+  FROM "initiative"
+  WHERE "harmonic_weight" ISNULL;
+
+COMMENT ON VIEW "remaining_harmonic_initiative_weight_dummies" IS 'Helper view for function "set_harmonic_initiative_weights" providing dummy weights of zero value, which are needed for corner cases where there are no supporters for an initiative at all';
+    
+
 CREATE FUNCTION "set_harmonic_initiative_weights"
   ( "issue_id_p" "issue"."id"%TYPE )
   RETURNS VOID
@@ -2898,6 +2911,17 @@ CREATE FUNCTION "set_harmonic_initiative_weights"
         "count_v" := 0;
         FOR "weight_row" IN
           SELECT * FROM "remaining_harmonic_initiative_weight_summands"
+          WHERE "issue_id" = "issue_id_p"
+          AND (
+            coalesce("admitted", FALSE) = FALSE OR NOT EXISTS (
+              SELECT NULL FROM "initiative"
+              WHERE "issue_id" = "issue_id_p"
+              AND "harmonic_weight" ISNULL
+              AND coalesce("admitted", FALSE) = FALSE
+            )
+          )
+          UNION ALL  -- needed for corner cases
+          SELECT * FROM "remaining_harmonic_initiative_weight_dummies"
           WHERE "issue_id" = "issue_id_p"
           AND (
             coalesce("admitted", FALSE) = FALSE OR NOT EXISTS (
