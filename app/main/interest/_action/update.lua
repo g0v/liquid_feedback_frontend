@@ -18,8 +18,6 @@ then
   return false
 end
 
-end
-
 if param.get("delete", atom.boolean) then
   if interest then
     interest:destroy()
