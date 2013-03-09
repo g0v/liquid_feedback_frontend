@@ -185,17 +185,27 @@ function Issue.object:load_everything_for_member_id(member_id)
   initiatives:load_everything_for_member_id(member_id)
 end
 
+
+
 function Issue:get_state_name_for_state(value)
   local state_name_table = {
-    admission    = _"New",
-    discussion   = _"Discussion",
+    admission = _"New",
+    discussion = _"Discussion",
     verification = _"Frozen",
-    voting       = _"Voting",
-    finished     = _"Finished",
-    cancelled    = _"Cancelled"
+    voting = _"Voting",
+    canceled_revoked_before_accepted = _"Cancelled (before accepted due to revocation)",
+    canceled_issue_not_accepted = _"Cancelled (issue not accepted)",
+    canceled_after_revocation_during_discussion = _"Cancelled (during discussion due to revocation)",
+    canceled_after_revocation_during_verification = _"Cancelled (during verification due to revocation)",
+    calculation = _"Calculation",
+    canceled_no_initiative_admitted = _"Cancelled (no initiative admitted)",
+    finished_without_winner = _"Finished (without winner)",
+    finished_with_winner = _"Finished (with winner)"
   }
   return state_name_table[value] or value or ''
 end
+
+
 
 function Issue:get_search_selector(search_string)
   return self:new_selector()
