@@ -16,7 +16,7 @@ return {
 ["#{interval_text} ago"] = false;
 ["#{interval_text} left"] = false;
 ["#{issues_to_vote_count} issue(s)"] = false;
-["#{name}"] = false;
+["#{name}\n\n"] = false;
 ["#{number} Image(s) has been deleted"] = false;
 ["#{number} Image(s) has been updated"] = false;
 ["#{policy_name} ##{issue_id}"] = false;
@@ -233,7 +233,7 @@ return {
 ["Global delegation"] = false;
 ["Global search"] = false;
 ["Half frozen at"] = false;
-["Hello"] = false;
+["Hello\n\n"] = false;
 ["Hello "] = false;
 ["Help #{id}"] = false;
 ["Help for: #{text}"] = false;
@@ -248,7 +248,7 @@ return {
 ["I like to receive notifications by email about events in my areas and issues:"] = false;
 ["Id"] = false;
 ["Identification"] = false;
-["If this link is not working, please open following url in your web browser:"] = false;
+["If this link is not working, please open following url in your web browser:\n\n"] = false;
 ["Ignore Areas"] = false;
 ["Ignore initiative"] = false;
 ["Ignore member"] = false;
@@ -404,9 +404,9 @@ return {
 ["Old password"] = false;
 ["Old password is wrong"] = false;
 ["Oldest"] = false;
-["On that page please enter the confirmation code:"] = false;
-["On that page please enter the invite key:"] = false;
-["On that page please enter the reset code:"] = false;
+["On that page please enter the confirmation code:\n\n"] = false;
+["On that page please enter the invite key:\n\n"] = false;
+["On that page please enter the reset code:\n\n"] = false;
 ["One issue"] = false;
 ["One issue you are interested in"] = false;
 ["One more area in this unit"] = false;
@@ -443,7 +443,7 @@ return {
 ["Please choose two different versions of the draft to compare"] = false;
 ["Please choose two versions of the draft to compare"] = false;
 ["Please confirm your email address"] = false;
-["Please confirm your email address by clicking the following link:"] = false;
+["Please confirm your email address by clicking the following link:\n\n"] = false;
 ["Please enter the email reset code you have received:"] = false;
 ["Please enter the invite code you've received."] = false;
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = false;
@@ -666,7 +666,7 @@ return {
 ["You are interested"] = false;
 ["You are interested in this issue"] = false;
 ["You are invited to #{count} initiative(s)"] = false;
-["You are invited to LiquidFeedback. To register please click the following link:"] = false;
+["You are invited to LiquidFeedback. To register please click the following link:\n\n"] = false;
 ["You are invited to become initiator of this initiative."] = false;
 ["You are member"] = false;
 ["You are not participating in any of the #{count} areas in this unit"] = false;
@@ -764,7 +764,7 @@ return {
 ["satisfied"] = false;
 ["should"] = false;
 ["should not"] = false;
-["to reset your password please click on the following link:"] = false;
+["to reset your password please click on the following link:\n\n"] = false;
 ["unit"] = false;
 ["until"] = false;
 ["variable"] = false;

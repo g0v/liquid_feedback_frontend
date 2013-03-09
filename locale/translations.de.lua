@@ -16,7 +16,7 @@ return {
 ["#{interval_text} ago"] = "vor #{interval_text}";
 ["#{interval_text} left"] = "noch #{interval_text}";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} Themen";
-["#{name}"] = "#{name}";
+["#{name}\n\n"] = "#{name}\n\n";
 ["#{number} Image(s) has been deleted"] = "Es wurde(n) #{number} Bild(er) gelöscht";
 ["#{number} Image(s) has been updated"] = "Es wurde(n) #{number} Bild(er) aktualisiert";
 ["#{policy_name} ##{issue_id}"] = false;
@@ -233,7 +233,7 @@ return {
 ["Global delegation"] = "Globale Delegation";
 ["Global search"] = "Globale Suche";
 ["Half frozen at"] = "Halb eingefroren am/um";
-["Hello"] = "Hallo";
+["Hello\n\n"] = "Hallo\n\n";
 ["Hello "] = "Hallo ";
 ["Help #{id}"] = "Hilfe #{id}";
 ["Help for: #{text}"] = "Hilfe zu: #{text}";
@@ -248,7 +248,7 @@ return {
 ["I like to receive notifications by email about events in my areas and issues:"] = "Ich möchte per E-Mail über die folgenden Ereignisse in meinen Themenbereichen und Themen informiert werden:";
 ["Id"] = "Id";
 ["Identification"] = "Identifikation";
-["If this link is not working, please open following url in your web browser:"] = "Sollte der Link nicht funktionieren, öffne bitte die folgenden URL in Deinem Web-Browser:";
+["If this link is not working, please open following url in your web browser:\n\n"] = "Sollte der Link nicht funktionieren, öffne bitte die folgenden URL in Deinem Web-Browser:\n\n";
 ["Ignore Areas"] = "Ignoriere Bereiche";
 ["Ignore initiative"] = "Initiative ignorieren";
 ["Ignore member"] = "Mitglied ignorieren";
@@ -404,9 +404,9 @@ return {
 ["Old password"] = "Altes Kennwort";
 ["Old password is wrong"] = "Das alte Kennwort ist falsch";
 ["Oldest"] = "Älteste";
-["On that page please enter the confirmation code:"] = "Auf dieser Seite gib bitten den folgenden Code ein:";
-["On that page please enter the invite key:"] = "Auf dieser Seite gib den folgenden Code ein:";
-["On that page please enter the reset code:"] = "Auf dieser Seite gib bitte den folgenden Rücksetzcode ein:";
+["On that page please enter the confirmation code:\n\n"] = "Auf dieser Seite gib bitten den folgenden Code ein:\n\n";
+["On that page please enter the invite key:\n\n"] = "Auf dieser Seite gib den folgenden Code ein:\n\n";
+["On that page please enter the reset code:\n\n"] = "Auf dieser Seite gib bitte den folgenden Rücksetzcode ein:\n\n";
 ["One issue"] = "Ein Thema";
 ["One issue you are interested in"] = "Ein Thema, das Dich interessiert";
 ["One more area in this unit"] = "Ein weiteres Themengebiet in dieser Gliederung";
@@ -443,7 +443,7 @@ return {
 ["Please choose two different versions of the draft to compare"] = "Bitte wähle zwei verschiedene Versionen des Entwurfs, um sie zu vergleichen.";
 ["Please choose two versions of the draft to compare"] = "Bitte wähle zwei Versionen des Entwurfs, um sie zu vergleichen.";
 ["Please confirm your email address"] = "Bitte bestätige Deine E-Mail-Adresse";
-["Please confirm your email address by clicking the following link:"] = "Bitte bestätige Deine E-Mail-Adresse durch Klick auf folgenden Link:";
+["Please confirm your email address by clicking the following link:\n\n"] = "Bitte bestätige Deine E-Mail-Adresse durch Klick auf folgenden Link:\n\n";
 ["Please enter the email reset code you have received:"] = "Bitte gib den Rücksetzcode ein, den Du erhalten hast:";
 ["Please enter the invite code you've received."] = "Bitte gib den Einladungscode ein, den Du erhalten hast.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Bitte gib Deine E-Mail-Adresse ein. Diese Adresse wird für automatische Benachrichtigungen (wenn Du diese anforderst) sowie zum Zurücksetzen des Kennworts verwendet. Diese Adresse wird nicht veröffentlicht. Nach Abschluss der Registrierung wirst Du eine E-Mail mit einem Link zum Bestätigen der Adresse erhalten.";
@@ -666,7 +666,7 @@ return {
 ["You are interested"] = "Du bist interessiert";
 ["You are interested in this issue"] = "Du bist an diesem Thema interessiert";
 ["You are invited to #{count} initiative(s)"] = "Du bist zu #{count} Initiativen als Initiator eingeladen";
-["You are invited to LiquidFeedback. To register please click the following link:"] = "Du bist zu LiquidFeedback eingeladen. Bitte klicke auf den folgenden Link, um dich zu registrieren:";
+["You are invited to LiquidFeedback. To register please click the following link:\n\n"] = "Du bist zu LiquidFeedback eingeladen. Bitte klicke auf den folgenden Link, um dich zu registrieren:\n\n";
 ["You are invited to become initiator of this initiative."] = "Du bist eingeladen Initiator dieser Initiative zu werden.";
 ["You are member"] = "Du bist Mitglied";
 ["You are not participating in any of the #{count} areas in this unit"] = "Du nimmst an keinem der #{count} Themenbereiche dieser Gliederung teil";
@@ -764,7 +764,7 @@ return {
 ["satisfied"] = "zufrieden";
 ["should"] = "soll";
 ["should not"] = "soll nicht";
-["to reset your password please click on the following link:"] = "um Dein Kennwort zurückzusetzen klicke bitte den folgenden Link an:";
+["to reset your password please click on the following link:\n\n"] = "um Dein Kennwort zurückzusetzen klicke bitte den folgenden Link an:\n\n";
 ["unit"] = "Gliederung";
 ["until"] = "bis";
 ["variable"] = "variabel";
