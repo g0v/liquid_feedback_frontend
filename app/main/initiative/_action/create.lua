@@ -3,7 +3,7 @@ local area
 
 local issue_id = param.get("issue_id", atom.integer)
 if issue_id then
-  issue = Issue:new_selector():add_where{"id=?",issue_id}:single_object_mode():exec()
+  issue = Issue:new_selector():add_where{"id=?",issue_id}:for_share():single_object_mode():exec()
   if issue.closed then
     slot.put_into("error", _"This issue is already closed.")
     return false
