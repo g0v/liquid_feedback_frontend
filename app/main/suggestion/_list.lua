@@ -10,12 +10,14 @@ if true or not show_filter then
 end
 
 
+ui.tag{ tag = "a", attrs = { name="suggestions" } }
 ui.container{ attr = { class = "initiative_head" },
   content = function()
     ui.container{ attr = { class = "title" }, content = _"Suggestions" }
     ui.container{ attr = { class = "content" }, content = function()
       ui.paginate{
         selector = suggestions_selector,
+        anchor = "suggestions",
         content = function()
           local suggestions = suggestions_selector:exec()
           if #suggestions < 1 then
