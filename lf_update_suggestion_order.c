@@ -174,6 +174,16 @@ static void process_initiative(PGresult *res) {
     }
     old_member_id = member_id;
   }
+  free(candidates);
+  for (i=0; i<ballot_count; i++) {
+    int j;
+    for (j=0; j<4; j++) {
+      if (ballots[i].sections[j].count) {
+        free(ballots[i].sections[j].candidates);
+      }
+    }
+  }
+  free(ballots);
 }
 
 int main(int argc, char **argv) {
