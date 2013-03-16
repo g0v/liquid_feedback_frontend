@@ -29,32 +29,44 @@ static void freemem(void *ptr) {
 #define COL_PREFERENCE    2
 #define COL_SUGGESTION_ID 3
 
-static int candidate_count;
-static char **candidates;
+struct candidate {
+  char *key;
+  double score;
+  int seat;
+};
 
-static void register_candidate(char **candidate, VISIT visit, int level) {
+static int compare_candidate(struct candidate *c1, struct candidate *c2) {
+  return strcmp(c1->key, c2->key);
+}
+
+static int candidate_count;
+static struct candidate *candidates;
+
+static void register_candidate(char **candidate_key, VISIT visit, int level) {
   if (visit == postorder || visit == leaf) {
-    candidates[candidate_count++] = *candidate;
+    struct candidate *candidate;
+    candidate = candidates + (candidate_count++);
+    candidate->key   = *candidate_key;
+    candidate->score = 0.0;
+    candidate->seat  = 0;
   }
 }
 
-static int ptrstrcmp(char **s1, char **s2) {
-  return strcmp(*s1, *s2);
-}
-
-static int candidate_number(char *candidate) {
-  char **addr;
-  addr = bsearch(&candidate, candidates, candidate_count, sizeof(char *), (void *)ptrstrcmp);
-  if (!addr) {
+static struct candidate *candidate_by_key(char *candidate_key) {
+  struct candidate *candidate;
+  struct candidate compare;
+  compare.key = candidate_key;
+  candidate = bsearch(&compare, candidates, candidate_count, sizeof(struct candidate), (void *)compare_candidate);
+  if (!candidate) {
     fprintf(stderr, "Candidate not found (should not happen)\n");
     abort();
   }
-  return addr - candidates;
+  return candidate;
 }
 
 struct ballot_section {
   int count;
-  int *candidates;
+  struct candidate **candidates;
 };
 
 struct ballot {
@@ -90,7 +102,7 @@ static void process_initiative(PGresult *res) {
     old_member_id = member_id;
   }
   printf("Candidate count: %i\n", candidate_count);
-  candidates = malloc(candidate_count * sizeof(char *));
+  candidates = malloc(candidate_count * sizeof(struct candidate));
   if (!candidates) {
     fprintf(stderr, "Insufficient memory\n");
     abort();
@@ -105,36 +117,32 @@ static void process_initiative(PGresult *res) {
     abort();
   }
   ballot = ballots;
-  for (i=0; i<=tuple_count; i++) {
+  for (i=0; i<tuple_count; i++) {
     char *member_id, *suggestion_id;
     int weight, preference;
-    if (i<tuple_count) {
-      member_id = PQgetvalue(res, i, COL_MEMBER_ID);
-      suggestion_id = PQgetvalue(res, i, COL_SUGGESTION_ID);
-      weight = (int)strtol(PQgetvalue(res, i, COL_WEIGHT), (char **)NULL, 10);
-      if (weight <= 0) {
-        fprintf(stderr, "Unexpected weight value\n");
-        abort();
-      }
-      preference = (int)strtol(PQgetvalue(res, i, COL_PREFERENCE), (char **)NULL, 10);
-      if (preference < 1 || preference > 4) {
-        fprintf(stderr, "Unexpected preference value\n");
-        abort();
-      }
-      preference--;
-      ballot->weight = weight;
-      ballot->sections[preference].count++;
+    member_id = PQgetvalue(res, i, COL_MEMBER_ID);
+    suggestion_id = PQgetvalue(res, i, COL_SUGGESTION_ID);
+    weight = (int)strtol(PQgetvalue(res, i, COL_WEIGHT), (char **)NULL, 10);
+    if (weight <= 0) {
+      fprintf(stderr, "Unexpected weight value\n");
+      abort();
     }
-    if (i==tuple_count || (old_member_id && strcmp(old_member_id, member_id))) {
-      ballot++;
+    preference = (int)strtol(PQgetvalue(res, i, COL_PREFERENCE), (char **)NULL, 10);
+    if (preference < 1 || preference > 4) {
+      fprintf(stderr, "Unexpected preference value\n");
+      abort();
     }
+    preference--;
+    ballot->weight = weight;
+    ballot->sections[preference].count++;
+    if (old_member_id && strcmp(old_member_id, member_id)) ballot++;
     old_member_id = member_id;
   }
   for (i=0; i<ballot_count; i++) {
     int j;
     for (j=0; j<4; j++) {
       if (ballots[i].sections[j].count) {
-        ballots[i].sections[j].candidates = malloc(ballots[i].sections[j].count * sizeof(int));
+        ballots[i].sections[j].candidates = malloc(ballots[i].sections[j].count * sizeof(struct candidate *));
         if (!ballots[i].sections[j].candidates) {
           fprintf(stderr, "Insufficient memory\n");
           abort();
@@ -155,7 +163,7 @@ static void process_initiative(PGresult *res) {
         abort();
       }
       preference--;
-      ballot->sections[preference].candidates[candidates_in_sections[preference]++] = candidate_number(suggestion_id);
+      ballot->sections[preference].candidates[candidates_in_sections[preference]++] = candidate_by_key(suggestion_id);
     }
     if (i==tuple_count || (old_member_id && strcmp(old_member_id, member_id))) {
       ballot++;
