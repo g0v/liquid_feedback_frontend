@@ -75,105 +75,110 @@ struct ballot {
 };
 
 static void process_initiative(PGresult *res) {
-  void *candidate_tree = NULL;
   int ballot_count = 0;
-  int tuple_count, i;
-  char *old_member_id = NULL;
-  struct ballot *ballots, *ballot;
-  int candidates_in_sections[4] = {0, };
-  candidate_count = 0;
-  tuple_count = PQntuples(res);
-  for (i=0; i<=tuple_count; i++) {
-    char *member_id, *suggestion_id;
-    if (i<tuple_count) {
-      member_id = PQgetvalue(res, i, COL_MEMBER_ID);
-      suggestion_id = PQgetvalue(res, i, COL_SUGGESTION_ID);
-      if (!candidate_tree || !tfind(suggestion_id, &candidate_tree, (void *)strcmp)) {
-        candidate_count++;
-        if (!tsearch(suggestion_id, &candidate_tree, (void *)strcmp)) {
-          fprintf(stderr, "Insufficient memory\n");
-          abort();
+  int i;
+  struct ballot *ballots;
+  {
+    void *candidate_tree = NULL;
+    int tuple_count;
+    char *old_member_id = NULL;
+    struct ballot *ballot;
+    int candidates_in_sections[4] = {0, };
+    candidate_count = 0;
+    tuple_count = PQntuples(res);
+    for (i=0; i<=tuple_count; i++) {
+      char *member_id, *suggestion_id;
+      if (i<tuple_count) {
+        member_id = PQgetvalue(res, i, COL_MEMBER_ID);
+        suggestion_id = PQgetvalue(res, i, COL_SUGGESTION_ID);
+        if (!candidate_tree || !tfind(suggestion_id, &candidate_tree, (void *)strcmp)) {
+          candidate_count++;
+          if (!tsearch(suggestion_id, &candidate_tree, (void *)strcmp)) {
+            fprintf(stderr, "Insufficient memory\n");
+            abort();
+          }
         }
       }
-    }
-    if (i==tuple_count || (old_member_id && strcmp(old_member_id, member_id))) {
-      ballot_count++;
-    }
-    old_member_id = member_id;
-  }
-  printf("Candidate count: %i\n", candidate_count);
-  candidates = malloc(candidate_count * sizeof(struct candidate));
-  if (!candidates) {
-    fprintf(stderr, "Insufficient memory\n");
-    abort();
-  }
-  candidate_count = 0;
-  twalk(candidate_tree, (void *)register_candidate);
-  while (candidate_tree) tdelete(*(void **)candidate_tree, &candidate_tree, (void *)strcmp);
-  printf("Ballot count: %i\n", ballot_count);
-  ballots = calloc(ballot_count, sizeof(struct ballot));
-  if (!ballots) {
-    fprintf(stderr, "Insufficient memory\n");
-    abort();
-  }
-  ballot = ballots;
-  for (i=0; i<tuple_count; i++) {
-    char *member_id, *suggestion_id;
-    int weight, preference;
-    member_id = PQgetvalue(res, i, COL_MEMBER_ID);
-    suggestion_id = PQgetvalue(res, i, COL_SUGGESTION_ID);
-    weight = (int)strtol(PQgetvalue(res, i, COL_WEIGHT), (char **)NULL, 10);
-    if (weight <= 0) {
-      fprintf(stderr, "Unexpected weight value\n");
-      abort();
-    }
-    preference = (int)strtol(PQgetvalue(res, i, COL_PREFERENCE), (char **)NULL, 10);
-    if (preference < 1 || preference > 4) {
-      fprintf(stderr, "Unexpected preference value\n");
-      abort();
-    }
-    preference--;
-    ballot->weight = weight;
-    ballot->sections[preference].count++;
-    if (old_member_id && strcmp(old_member_id, member_id)) ballot++;
-    old_member_id = member_id;
-  }
-  for (i=0; i<ballot_count; i++) {
-    int j;
-    for (j=0; j<4; j++) {
-      if (ballots[i].sections[j].count) {
-        ballots[i].sections[j].candidates = malloc(ballots[i].sections[j].count * sizeof(struct candidate *));
-        if (!ballots[i].sections[j].candidates) {
-          fprintf(stderr, "Insufficient memory\n");
-          abort();
-        }
+      if (i==tuple_count || (old_member_id && strcmp(old_member_id, member_id))) {
+        ballot_count++;
       }
+      old_member_id = member_id;
     }
-  }
-  ballot = ballots;
-  for (i=0; i<=tuple_count; i++) {
-    char *member_id, *suggestion_id;
-    int preference;
-    if (i<tuple_count) {
+    printf("Candidate count: %i\n", candidate_count);
+    candidates = malloc(candidate_count * sizeof(struct candidate));
+    if (!candidates) {
+      fprintf(stderr, "Insufficient memory\n");
+      abort();
+    }
+    candidate_count = 0;
+    twalk(candidate_tree, (void *)register_candidate);
+    while (candidate_tree) tdelete(*(void **)candidate_tree, &candidate_tree, (void *)strcmp);
+    printf("Ballot count: %i\n", ballot_count);
+    ballots = calloc(ballot_count, sizeof(struct ballot));
+    if (!ballots) {
+      fprintf(stderr, "Insufficient memory\n");
+      abort();
+    }
+    ballot = ballots;
+    for (i=0; i<tuple_count; i++) {
+      char *member_id, *suggestion_id;
+      int weight, preference;
       member_id = PQgetvalue(res, i, COL_MEMBER_ID);
       suggestion_id = PQgetvalue(res, i, COL_SUGGESTION_ID);
+      weight = (int)strtol(PQgetvalue(res, i, COL_WEIGHT), (char **)NULL, 10);
+      if (weight <= 0) {
+        fprintf(stderr, "Unexpected weight value\n");
+        abort();
+      }
       preference = (int)strtol(PQgetvalue(res, i, COL_PREFERENCE), (char **)NULL, 10);
       if (preference < 1 || preference > 4) {
         fprintf(stderr, "Unexpected preference value\n");
         abort();
       }
       preference--;
-      ballot->sections[preference].candidates[candidates_in_sections[preference]++] = candidate_by_key(suggestion_id);
+      ballot->weight = weight;
+      ballot->sections[preference].count++;
+      if (old_member_id && strcmp(old_member_id, member_id)) ballot++;
+      old_member_id = member_id;
     }
-    if (i==tuple_count || (old_member_id && strcmp(old_member_id, member_id))) {
-      ballot++;
-      candidates_in_sections[0] = 0;
-      candidates_in_sections[1] = 0;
-      candidates_in_sections[2] = 0;
-      candidates_in_sections[3] = 0;
+    for (i=0; i<ballot_count; i++) {
+      int j;
+      for (j=0; j<4; j++) {
+        if (ballots[i].sections[j].count) {
+          ballots[i].sections[j].candidates = malloc(ballots[i].sections[j].count * sizeof(struct candidate *));
+          if (!ballots[i].sections[j].candidates) {
+            fprintf(stderr, "Insufficient memory\n");
+            abort();
+          }
+        }
+      }
     }
-    old_member_id = member_id;
+    ballot = ballots;
+    for (i=0; i<=tuple_count; i++) {
+      char *member_id, *suggestion_id;
+      int preference;
+      if (i<tuple_count) {
+        member_id = PQgetvalue(res, i, COL_MEMBER_ID);
+        suggestion_id = PQgetvalue(res, i, COL_SUGGESTION_ID);
+        preference = (int)strtol(PQgetvalue(res, i, COL_PREFERENCE), (char **)NULL, 10);
+        if (preference < 1 || preference > 4) {
+          fprintf(stderr, "Unexpected preference value\n");
+          abort();
+        }
+        preference--;
+        ballot->sections[preference].candidates[candidates_in_sections[preference]++] = candidate_by_key(suggestion_id);
+      }
+      if (i==tuple_count || (old_member_id && strcmp(old_member_id, member_id))) {
+        ballot++;
+        candidates_in_sections[0] = 0;
+        candidates_in_sections[1] = 0;
+        candidates_in_sections[2] = 0;
+        candidates_in_sections[3] = 0;
+      }
+      old_member_id = member_id;
+    }
   }
+
   free(candidates);
   for (i=0; i<ballot_count; i++) {
     int j;
@@ -257,9 +262,7 @@ int main(int argc, char **argv) {
       escaped_initiative_id = escapeLiteral(db, initiative_id, strlen(initiative_id));
       if (asprintf(&cmd, "SELECT \"member_id\", \"weight\", \"preference\", \"suggestion_id\" FROM \"individual_suggestion_ranking\" WHERE \"initiative_id\" = %s ORDER BY \"member_id\", \"preference\"", escaped_initiative_id) < 0) {
         fprintf(stderr, "Could not prepare query string in memory.\n");
-        err = 1;
-        freemem(escaped_initiative_id);
-        break;
+        abort();
       }
       res2 = PQexec(db, cmd);
       free(cmd);
