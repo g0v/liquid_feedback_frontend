@@ -222,7 +222,7 @@ static int write_ranks(PGconn *db, char *escaped_initiative_id, int final) {
 
 static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiative_id, int final) {
   int err;
-  int ballot_count = 0;
+  int ballot_count = 1;
   struct ballot *ballots;
   int i;
   {
@@ -244,22 +244,18 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
       }
     }
     candidate_count = 0;
-    for (i=0; i<=tuple_count; i++) {
+    for (i=0; i<tuple_count; i++) {
       char *member_id, *suggestion_id;
-      if (i<tuple_count) {
-        member_id = PQgetvalue(res, i, COL_MEMBER_ID);
-        suggestion_id = PQgetvalue(res, i, COL_SUGGESTION_ID);
-        if (!candidate_tree || !tfind(suggestion_id, &candidate_tree, (void *)strcmp)) {
-          candidate_count++;
-          if (!tsearch(suggestion_id, &candidate_tree, (void *)strcmp)) {
-            fprintf(stderr, "Insufficient memory while inserting into candidate tree.\n");
-            abort();
-          }
+      member_id = PQgetvalue(res, i, COL_MEMBER_ID);
+      suggestion_id = PQgetvalue(res, i, COL_SUGGESTION_ID);
+      if (!candidate_tree || !tfind(suggestion_id, &candidate_tree, (void *)strcmp)) {
+        candidate_count++;
+        if (!tsearch(suggestion_id, &candidate_tree, (void *)strcmp)) {
+          fprintf(stderr, "Insufficient memory while inserting into candidate tree.\n");
+          abort();
         }
       }
-      if (i==tuple_count || (old_member_id && strcmp(old_member_id, member_id))) {
-        ballot_count++;
-      }
+      if (old_member_id && strcmp(old_member_id, member_id)) ballot_count++;
       old_member_id = member_id;
     }
     printf("Candidate count: %i\n", candidate_count);
@@ -298,9 +294,9 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
         return 1;
       }
       preference--;
+      if (old_member_id && strcmp(old_member_id, member_id)) ballot++;
       ballot->weight = weight;
       ballot->sections[preference].count++;
-      if (old_member_id && strcmp(old_member_id, member_id)) ballot++;
       old_member_id = member_id;
     }
     for (i=0; i<ballot_count; i++) {
@@ -320,14 +316,18 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
     for (i=0; i<tuple_count; i++) {
       char *member_id, *suggestion_id;
       int preference;
-      if (i<tuple_count) {
-        member_id = PQgetvalue(res, i, COL_MEMBER_ID);
-        suggestion_id = PQgetvalue(res, i, COL_SUGGESTION_ID);
-        preference = (int)strtol(PQgetvalue(res, i, COL_PREFERENCE), (char **)NULL, 10);
-        preference--;
-        ballot->sections[preference].candidates[candidates_in_sections[preference]++] = candidate_by_key(suggestion_id);
+      member_id = PQgetvalue(res, i, COL_MEMBER_ID);
+      suggestion_id = PQgetvalue(res, i, COL_SUGGESTION_ID);
+      preference = (int)strtol(PQgetvalue(res, i, COL_PREFERENCE), (char **)NULL, 10);
+      preference--;
+      if (old_member_id && strcmp(old_member_id, member_id)) {
+        ballot++;
+        candidates_in_sections[0] = 0;
+        candidates_in_sections[1] = 0;
+        candidates_in_sections[2] = 0;
+        candidates_in_sections[3] = 0;
       }
-      if (old_member_id && strcmp(old_member_id, member_id)) ballot++;
+      ballot->sections[preference].candidates[candidates_in_sections[preference]++] = candidate_by_key(suggestion_id);
       old_member_id = member_id;
     }
   }
