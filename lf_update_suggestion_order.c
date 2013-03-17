@@ -279,10 +279,9 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
     }
     ballot = ballots;
     for (i=0; i<tuple_count; i++) {
-      char *member_id, *suggestion_id;
+      char *member_id;
       int weight, preference;
       member_id = PQgetvalue(res, i, COL_MEMBER_ID);
-      suggestion_id = PQgetvalue(res, i, COL_SUGGESTION_ID);
       weight = (int)strtol(PQgetvalue(res, i, COL_WEIGHT), (char **)NULL, 10);
       if (weight <= 0) {
         fprintf(stderr, "Unexpected weight value.\n");
