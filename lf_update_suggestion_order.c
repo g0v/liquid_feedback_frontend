@@ -154,12 +154,12 @@ static int write_ranks(PGconn *db, char *escaped_initiative_id, int final) {
   char *cmd;
   int i;
   if (final) {
-    if (asprintf(&cmd, "BEGIN; UPDATE \"initiative\" SET \"final_suggestion_order_calculated\" = TRUE WHERE \"id\" = %s; UPDATE \"suggestion\" SET \"proportional_order\" = NULL WHERE \"initiative_id\" = %s", escaped_initiative_id, escaped_initiative_id) < 0) {
+    if (asprintf(&cmd, "BEGIN; UPDATE \"initiative\" SET \"final_suggestion_order_calculated\" = TRUE WHERE \"id\" = %s; UPDATE \"suggestion\" SET \"proportional_order\" = 0 WHERE \"initiative_id\" = %s", escaped_initiative_id, escaped_initiative_id) < 0) {
       fprintf(stderr, "Could not prepare query string in memory.\n");
       abort();
     }
   } else {
-    if (asprintf(&cmd, "BEGIN; UPDATE \"suggestion\" SET \"proportional_order\" = NULL WHERE \"initiative_id\" = %s", escaped_initiative_id) < 0) {
+    if (asprintf(&cmd, "BEGIN; UPDATE \"suggestion\" SET \"proportional_order\" = 0 WHERE \"initiative_id\" = %s", escaped_initiative_id) < 0) {
       fprintf(stderr, "Could not prepare query string in memory.\n");
       abort();
     }
