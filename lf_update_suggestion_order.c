@@ -100,7 +100,7 @@ static struct candidate *loser(int round_number, struct ballot *ballots, int bal
         }
         if (matches) {
           double score_inc;
-          score_inc = 1.0 / (double)matches;
+          score_inc = (double)ballots[i].weight / (double)matches;
           for (k=0; k<ballots[i].sections[j].count; k++) {
             struct candidate *candidate;
             candidate = ballots[i].sections[j].candidates[k];
@@ -112,12 +112,12 @@ static struct candidate *loser(int round_number, struct ballot *ballots, int bal
         }
       }
     }
-    scale = (double)candidate_count;
+    scale = (double)0.0;
     for (i=0; i<candidate_count; i++) {
       double max_scale;
       if (candidates[i].score_per_step > 0.0) {
         max_scale = (1.0-candidates[i].score) / candidates[i].score_per_step;
-        if (max_scale <= scale) {
+        if (scale == 0.0 || max_scale <= scale) {
           scale = max_scale;
           candidates[i].reaches_score = 1;
         }
