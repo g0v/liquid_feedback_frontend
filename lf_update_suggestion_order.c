@@ -38,8 +38,15 @@ struct candidate {
   int seat;
 };
 
+static int compare_id(char *id1, char *id2) {
+  int ldiff;
+  ldiff = strlen(id1) - strlen(id2);
+  if (ldiff) return ldiff;
+  else return strcmp(id1, id2);
+}
+
 static int compare_candidate(struct candidate *c1, struct candidate *c2) {
-  return strcmp(c1->key, c2->key);
+  return compare_id(c1->key, c2->key);
 }
 
 static int candidate_count;
@@ -248,9 +255,9 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
       char *member_id, *suggestion_id;
       member_id = PQgetvalue(res, i, COL_MEMBER_ID);
       suggestion_id = PQgetvalue(res, i, COL_SUGGESTION_ID);
-      if (!candidate_tree || !tfind(suggestion_id, &candidate_tree, (void *)strcmp)) {
+      if (!candidate_tree || !tfind(suggestion_id, &candidate_tree, (void *)compare_id)) {
         candidate_count++;
-        if (!tsearch(suggestion_id, &candidate_tree, (void *)strcmp)) {
+        if (!tsearch(suggestion_id, &candidate_tree, (void *)compare_id)) {
           fprintf(stderr, "Insufficient memory while inserting into candidate tree.\n");
           abort();
         }
@@ -266,7 +273,7 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
     }
     candidate_count = 0;
     twalk(candidate_tree, (void *)register_candidate);
-    while (candidate_tree) tdelete(*(void **)candidate_tree, &candidate_tree, (void *)strcmp);
+    while (candidate_tree) tdelete(*(void **)candidate_tree, &candidate_tree, (void *)compare_id);
     printf("Ballot count: %i\n", ballot_count);
     ballots = calloc(ballot_count, sizeof(struct ballot));
     if (!ballots) {
