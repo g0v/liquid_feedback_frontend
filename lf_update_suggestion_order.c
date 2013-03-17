@@ -25,18 +25,21 @@ static void freemem(void *ptr) {
   free(ptr);
 }
 
+// column numbers when querying "individual_suggestion_ranking" view in function main():
 #define COL_MEMBER_ID     0
 #define COL_WEIGHT        1
 #define COL_PREFERENCE    2
 #define COL_SUGGESTION_ID 3
 
+// data structure for a candidate (in this case a suggestion) to the proportional runoff system:
 struct candidate {
-  char *key;
-  double score_per_step;
-  double score;
-  int seat;
+  char *key;              // identifier of the candidate, which is the "suggestion_id" string
+  double score_per_step;  // added score per step
+  double score;           // current score of candidate; a score of 1.0 is needed to survive a round
+  int seat;               // equals 0 for unseated candidates, or contains rank number
 };
 
+// compare two integers stored as strings (invocation like strcmp):
 static int compare_id(char *id1, char *id2) {
   int ldiff;
   ldiff = strlen(id1) - strlen(id2);
@@ -44,13 +47,16 @@ static int compare_id(char *id1, char *id2) {
   else return strcmp(id1, id2);
 }
 
+// compare two candidates by their key (invocation like strcmp):
 static int compare_candidate(struct candidate *c1, struct candidate *c2) {
   return compare_id(c1->key, c2->key);
 }
 
+// candidates are stored as global variables due to the constrained twalk() interface:
 static int candidate_count;
 static struct candidate *candidates;
 
+// function to be passed to twalk() to store candidates ordered in candidates[] array:
 static void register_candidate(char **candidate_key, VISIT visit, int level) {
   if (visit == postorder || visit == leaf) {
     struct candidate *candidate;
@@ -60,6 +66,7 @@ static void register_candidate(char **candidate_key, VISIT visit, int level) {
   }
 }
 
+// performs a binary search in candidates[] array to lookup a candidate by its key (which is the suggestion_id):
 static struct candidate *candidate_by_key(char *candidate_key) {
   struct candidate *candidate;
   struct candidate compare;
@@ -72,29 +79,36 @@ static struct candidate *candidate_by_key(char *candidate_key) {
   return candidate;
 }
 
+// section of a ballot with equally ranked candidates:
 struct ballot_section {
   int count;
   struct candidate **candidates;
 };
 
+// ballot of the proportional runoff system:
 struct ballot {
-  int weight;
-  struct ballot_section sections[4];
+  int weight;                         // if weight is greater than 1, then the ballot is counted multiple times
+  struct ballot_section sections[4];  // 4 sections, most preferred candidates first
 };
 
+// determine candidate, which is assigned the next seat (starting with the worst rank):
 static struct candidate *loser(int round_number, struct ballot *ballots, int ballot_count) {
-  int i, j, k;
-  int remaining;
+  int i, j, k;    // index variables for loops
+  int remaining;  // remaining candidates to be seated
+  // reset scores of all candidates:
   for (i=0; i<candidate_count; i++) {
     candidates[i].score = 0.0;
   }
+  // calculate remaining candidates to be seated:
   remaining = candidate_count - round_number;
-  while (1) {
-    double scale;
-    if (remaining <= 1) break;
+  // repeat following loop, if there is more than one remaining candidate:
+  if (remaining > 1) while (1) {
+    double scale;  // factor to be later multiplied with score_per_step:
+    // reset score_per_step for all candidates:
     for (i=0; i<candidate_count; i++) {
       candidates[i].score_per_step = 0.0;
     }
+    // calculate score_per_step for all candidates:
     for (i=0; i<ballot_count; i++) {
       for (j=0; j<4; j++) {
         int matches = 0;
@@ -117,7 +131,8 @@ static struct candidate *loser(int round_number, struct ballot *ballots, int bal
         }
       }
     }
-    scale = (double)0.0;
+    // calculate scale factor:
+    scale = (double)0.0;  // 0.0 is used to indicate that there is no value yet
     for (i=0; i<candidate_count; i++) {
       double max_scale;
       if (candidates[i].score_per_step > 0.0) {
@@ -127,28 +142,34 @@ static struct candidate *loser(int round_number, struct ballot *ballots, int bal
         }
       }
     }
+    // add scale*score_per_step to each candidates score:
     for (i=0; i<candidate_count; i++) {
       if (candidates[i].score_per_step > 0.0) {
         double max_scale;
         max_scale = (1.0-candidates[i].score) / candidates[i].score_per_step;
         if (max_scale == scale) {
+          // score of 1.0 should be reached, so we set score directly to avoid floating point errors:
           candidates[i].score = 1.0;
           remaining--;
         } else {
           candidates[i].score += scale * candidates[i].score_per_step;
           if (candidates[i].score >= 1.0) remaining--;
         }
+        // when there is only one candidate remaining, then break loop:
         if (remaining <= 1) break;
       }
     }
   }
-  for (i=candidate_count-1; i>=0; i--) {
+  // return remaining candidate:
+  for (i=0; i<candidate_count; i++) {
     if (candidates[i].score < 1.0 && !candidates[i].seat) return candidates+i;
   }
+  // if there is no remaining candidate, then something went wrong:
   fprintf(stderr, "No remaining candidate (should not happen).");
   abort();
 }
 
+// write results to database:
 static int write_ranks(PGconn *db, char *escaped_initiative_id, int final) {
   PGresult *res;
   char *cmd;
@@ -226,19 +247,24 @@ static int write_ranks(PGconn *db, char *escaped_initiative_id, int final) {
   }
 }
 
+// calculate ordering of suggestions for an initiative and call write_ranks() to write it to database:
 static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiative_id, int final) {
-  int err;
-  int ballot_count = 1;
-  struct ballot *ballots;
-  int i;
+  int err;                 // variable to store an error condition (0 = success)
+  int ballot_count = 1;    // number of ballots, must be initiatized to 1, due to loop below
+  struct ballot *ballots;  // data structure containing the ballots
+  int i;                   // index variable for loops
+  // create candidates[] and ballots[] arrays:
   {
-    void *candidate_tree = NULL;
-    int tuple_count;
-    char *old_member_id = NULL;
-    struct ballot *ballot;
-    int candidates_in_sections[4] = {0, };
+    void *candidate_tree = NULL;  // temporary structure to create a sorted unique list of all candidate keys
+    int tuple_count;              // number of tuples returned from the database
+    char *old_member_id = NULL;   // old member_id to be able to detect a new ballot in loops
+    struct ballot *ballot;        // pointer to current ballot
+    int candidates_in_sections[4] = {0, };  // number of candidates that have been placed in each section
+    // reset candidate count:
     candidate_count = 0;
+    // determine number of tuples:
     tuple_count = PQntuples(res);
+    // trivial case, when there are no tuples:
     if (!tuple_count) {
       if (final) {
         printf("No suggestions found, but marking initiative as finally calculated.\n");
@@ -250,6 +276,7 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
         return 0;
       }
     }
+    // calculate ballot_count and generate set of candidate keys (suggestion_id is used as key):
     for (i=0; i<tuple_count; i++) {
       char *member_id, *suggestion_id;
       member_id = PQgetvalue(res, i, COL_MEMBER_ID);
@@ -264,21 +291,28 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
       if (old_member_id && strcmp(old_member_id, member_id)) ballot_count++;
       old_member_id = member_id;
     }
+    // print candidate count:
     printf("Candidate count: %i\n", candidate_count);
+    // allocate memory for candidates[] array:
     candidates = malloc(candidate_count * sizeof(struct candidate));
     if (!candidates) {
       fprintf(stderr, "Insufficient memory while creating candidate list.\n");
       abort();
     }
-    candidate_count = 0;
+    // transform tree of candidate keys into sorted array:
+    candidate_count = 0;  // needed by register_candidate()
     twalk(candidate_tree, (void *)register_candidate);
+    // free memory of tree structure (tdestroy() is not available on all platforms):
     while (candidate_tree) tdelete(*(void **)candidate_tree, &candidate_tree, (void *)compare_id);
+    // print ballot count:
     printf("Ballot count: %i\n", ballot_count);
+    // allocate memory for ballots[] array:
     ballots = calloc(ballot_count, sizeof(struct ballot));
     if (!ballots) {
       fprintf(stderr, "Insufficient memory while creating ballot list.\n");
       abort();
     }
+    // set ballot weights, determine ballot section sizes, and verify preference values:
     ballot = ballots;
     old_member_id = NULL;
     for (i=0; i<tuple_count; i++) {
@@ -305,6 +339,7 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
       ballot->sections[preference].count++;
       old_member_id = member_id;
     }
+    // allocate memory for ballot sections:
     for (i=0; i<ballot_count; i++) {
       int j;
       for (j=0; j<4; j++) {
@@ -317,6 +352,7 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
         }
       }
     }
+    // fill ballot sections with candidate references:
     old_member_id = NULL;
     ballot = ballots;
     for (i=0; i<tuple_count; i++) {
@@ -338,12 +374,14 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
     }
   }
 
+  // calculate ranks based on constructed data structures:
   for (i=0; i<candidate_count; i++) {
     struct candidate *candidate = loser(i, ballots, ballot_count);
     candidate->seat = candidate_count - i;
     printf("Assigning rank #%i to suggestion #%s.\n", candidate_count - i, candidate->key);
   }
 
+  // free ballots[] array:
   for (i=0; i<ballot_count; i++) {
     int j;
     for (j=0; j<4; j++) {
@@ -354,6 +392,7 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
   }
   free(ballots);
 
+  // write results to database:
   if (final) {
     printf("Writing final ranks to database.\n");
   } else {
@@ -362,8 +401,10 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
   err = write_ranks(db, escaped_initiative_id, final);
   printf("Done.\n");
 
+  // free candidates[] array:
   free(candidates);
 
+  // return error code of write_ranks() call
   return err;
 }
 
