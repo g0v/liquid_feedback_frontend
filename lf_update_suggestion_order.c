@@ -4,6 +4,8 @@
 #include <libpq-fe.h>
 #include <search.h>
 
+static int logging = 0;
+
 static char *escapeLiteral(PGconn *conn, const char *str, size_t len) {
   // provides compatibility for PostgreSQL versions prior 9.0
   // in future: return PQescapeLiteral(conn, str, len);
@@ -267,12 +269,12 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
     // trivial case, when there are no tuples:
     if (!tuple_count) {
       if (final) {
-        printf("No suggestions found, but marking initiative as finally calculated.\n");
+        if (logging) printf("No suggestions found, but marking initiative as finally calculated.\n");
         err = write_ranks(db, escaped_initiative_id, final);
-        printf("Done.\n");
+        if (logging) printf("Done.\n");
         return err;
       } else {
-        printf("Nothing to do.\n");
+        if (logging) printf("Nothing to do.\n");
         return 0;
       }
     }
@@ -292,7 +294,7 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
       old_member_id = member_id;
     }
     // print candidate count:
-    printf("Candidate count: %i\n", candidate_count);
+    if (logging) printf("Candidate count: %i\n", candidate_count);
     // allocate memory for candidates[] array:
     candidates = malloc(candidate_count * sizeof(struct candidate));
     if (!candidates) {
@@ -305,7 +307,7 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
     // free memory of tree structure (tdestroy() is not available on all platforms):
     while (candidate_tree) tdelete(*(void **)candidate_tree, &candidate_tree, (void *)compare_id);
     // print ballot count:
-    printf("Ballot count: %i\n", ballot_count);
+    if (logging) printf("Ballot count: %i\n", ballot_count);
     // allocate memory for ballots[] array:
     ballots = calloc(ballot_count, sizeof(struct ballot));
     if (!ballots) {
@@ -378,7 +380,7 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
   for (i=0; i<candidate_count; i++) {
     struct candidate *candidate = loser(i, ballots, ballot_count);
     candidate->seat = candidate_count - i;
-    printf("Assigning rank #%i to suggestion #%s.\n", candidate_count - i, candidate->key);
+    if (logging) printf("Assigning rank #%i to suggestion #%s.\n", candidate_count - i, candidate->key);
   }
 
   // free ballots[] array:
@@ -394,12 +396,12 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
 
   // write results to database:
   if (final) {
-    printf("Writing final ranks to database.\n");
+    if (logging) printf("Writing final ranks to database.\n");
   } else {
-    printf("Writing ranks to database.\n");
+    if (logging) printf("Writing ranks to database.\n");
   }
   err = write_ranks(db, escaped_initiative_id, final);
-  printf("Done.\n");
+  if (logging) printf("Done.\n");
 
   // free candidates[] array:
   free(candidates);
@@ -423,7 +425,7 @@ int main(int argc, char **argv) {
     FILE *out;
     out = argc == 1 ? stderr : stdout;
     fprintf(out, "\n");
-    fprintf(out, "Usage: %s <conninfo>\n", argv[0]);
+    fprintf(out, "Usage: %s [-v|--verbose] <conninfo>\n", argv[0]);
     fprintf(out, "\n");
     fprintf(out, "<conninfo> is specified by PostgreSQL's libpq,\n");
     fprintf(out, "see http://www.postgresql.org/docs/9.1/static/libpq-connect.html\n");
@@ -434,15 +436,23 @@ int main(int argc, char **argv) {
   }
   {
     size_t len = 0;
-    for (i=1; i<argc; i++) len += strlen(argv[i]) + 1;
+    int argb = 1;
+    if (
+      argc >= 2 &&
+      (!strcmp(argv[1], "-v") || !strcmp(argv[1], "--verbose"))
+    ) {
+      argb = 2;
+      logging = 1;
+    }
+    for (i=argb; i<argc; i++) len += strlen(argv[i]) + 1;
     conninfo = malloc(len * sizeof(char));
     if (!conninfo) {
       fprintf(stderr, "Error: Could not allocate memory for conninfo string.\n");
       abort();
     }
     conninfo[0] = 0;
-    for (i=1; i<argc; i++) {
-      if (i>1) strcat(conninfo, " ");
+    for (i=argb; i<argc; i++) {
+      if (i>argb) strcat(conninfo, " ");
       strcat(conninfo, argv[i]);
     }
   }
@@ -473,7 +483,7 @@ int main(int argc, char **argv) {
     PQclear(res);
   } else {
     count = PQntuples(res);
-    printf("Number of initiatives to process: %i\n", count);
+    if (logging) printf("Number of initiatives to process: %i\n", count);
     for (i=0; i<count; i++) {
       char *initiative_id, *escaped_initiative_id;
       int final;
@@ -481,7 +491,7 @@ int main(int argc, char **argv) {
       PGresult *res2;
       initiative_id = PQgetvalue(res, i, 0);
       final = (PQgetvalue(res, i, 1)[0] == 't') ? 1 : 0;
-      printf("Processing initiative_id: %s\n", initiative_id);
+      if (logging) printf("Processing initiative_id: %s\n", initiative_id);
       escaped_initiative_id = escapeLiteral(db, initiative_id, strlen(initiative_id));
       if (!escaped_initiative_id) {
         fprintf(stderr, "Could not escape literal in memory.\n");
@@ -515,8 +525,11 @@ int main(int argc, char **argv) {
 
   // cleanup and exit
   PQfinish(db);
-  if (!err) printf("Successfully terminated.\n");
-  else fprintf(stderr, "Exiting with error code #%i.\n", err);
+  if (!err) {
+    if (logging) printf("Successfully terminated.\n");
+  } else {
+    fprintf(stderr, "Exiting with error code %i.\n", err);
+  }
   return err;
 
 }
