@@ -101,8 +101,8 @@ static struct candidate *loser(int round_number, struct ballot *ballots, int bal
   }
   // calculate remaining candidates to be seated:
   remaining = candidate_count - round_number;
-  // repeat following loop, if there is more than one remaining candidate:
-  if (remaining > 1) while (1) {
+  // repeat following loop, as long as there is more than one remaining candidate:
+  while (remaining > 1) {
     double scale;  // factor to be later multiplied with score_per_step:
     // reset score_per_step for all candidates:
     for (i=0; i<candidate_count; i++) {
@@ -155,7 +155,7 @@ static struct candidate *loser(int round_number, struct ballot *ballots, int bal
           candidates[i].score += scale * candidates[i].score_per_step;
           if (candidates[i].score >= 1.0) remaining--;
         }
-        // when there is only one candidate remaining, then break loop:
+        // when there is only one candidate remaining, then break inner (and thus outer) loop:
         if (remaining <= 1) break;
       }
     }
