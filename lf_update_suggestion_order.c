@@ -278,6 +278,7 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
       abort();
     }
     ballot = ballots;
+    old_member_id = NULL;
     for (i=0; i<tuple_count; i++) {
       char *member_id;
       int weight, preference;
@@ -314,8 +315,9 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
         }
       }
     }
+    old_member_id = NULL;
     ballot = ballots;
-    for (i=0; i<=tuple_count; i++) {
+    for (i=0; i<tuple_count; i++) {
       char *member_id, *suggestion_id;
       int preference;
       if (i<tuple_count) {
@@ -325,13 +327,7 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
         preference--;
         ballot->sections[preference].candidates[candidates_in_sections[preference]++] = candidate_by_key(suggestion_id);
       }
-      if (i==tuple_count || (old_member_id && strcmp(old_member_id, member_id))) {
-        ballot++;
-        candidates_in_sections[0] = 0;
-        candidates_in_sections[1] = 0;
-        candidates_in_sections[2] = 0;
-        candidates_in_sections[3] = 0;
-      }
+      if (old_member_id && strcmp(old_member_id, member_id)) ballot++;
       old_member_id = member_id;
     }
   }
