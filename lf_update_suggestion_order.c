@@ -33,7 +33,6 @@ static void freemem(void *ptr) {
 struct candidate {
   char *key;
   double score_per_step;
-  int reaches_score;
   double score;
   int seat;
 };
@@ -95,7 +94,6 @@ static struct candidate *loser(int round_number, struct ballot *ballots, int bal
     if (remaining <= 1) break;
     for (i=0; i<candidate_count; i++) {
       candidates[i].score_per_step = 0.0;
-      candidates[i].reaches_score = 0;
     }
     for (i=0; i<ballot_count; i++) {
       for (j=0; j<4; j++) {
@@ -126,13 +124,14 @@ static struct candidate *loser(int round_number, struct ballot *ballots, int bal
         max_scale = (1.0-candidates[i].score) / candidates[i].score_per_step;
         if (scale == 0.0 || max_scale <= scale) {
           scale = max_scale;
-          candidates[i].reaches_score = 1;
         }
       }
     }
     for (i=0; i<candidate_count; i++) {
       if (candidates[i].score_per_step > 0.0) {
-        if (candidates[i].reaches_score) {
+        double max_scale;
+        max_scale = (1.0-candidates[i].score) / candidates[i].score_per_step;
+        if (max_scale == scale) {
           candidates[i].score = 1.0;
           remaining--;
         } else {
