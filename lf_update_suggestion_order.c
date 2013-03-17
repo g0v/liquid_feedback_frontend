@@ -10,6 +10,7 @@ static char *escapeLiteral(PGconn *conn, const char *str, size_t len) {
   char *res;
   size_t res_len;
   res = malloc(2*len+3);
+  if (!res) return NULL;
   res[0] = '\'';
   res_len = PQescapeStringConn(conn, res+1, str, len, NULL);
   res[res_len+1] = '\'';
@@ -142,7 +143,78 @@ static struct candidate *loser(int round_number, struct ballot *ballots, int bal
   abort();
 }
 
-static void process_initiative(PGresult *res) {
+static int write_ranks(PGconn *db, char *escaped_initiative_id) {
+  PGresult *res;
+  char *cmd;
+  int i;
+  if (asprintf(&cmd, "BEGIN; UPDATE \"suggestion\" SET \"proportional_order\" = NULL WHERE \"initiative_id\" = %s", escaped_initiative_id) < 0) {
+    fprintf(stderr, "Could not prepare query string in memory.\n");
+    abort();
+  }
+  res = PQexec(db, cmd);
+  free(cmd);
+  if (!res) {
+    fprintf(stderr, "Error in pqlib while sending SQL command to initiate suggestion update.\n");
+    return 1;
+  } else if (
+    PQresultStatus(res) != PGRES_COMMAND_OK &&
+    PQresultStatus(res) != PGRES_TUPLES_OK
+  ) {
+    fprintf(stderr, "Error while executing SQL command to initiate suggestion update:\n%s", PQresultErrorMessage(res));
+    PQclear(res);
+    return 1;
+  } else {
+    PQclear(res);
+  }
+  for (i=0; i<candidate_count; i++) {
+    char *escaped_suggestion_id;
+    escaped_suggestion_id = escapeLiteral(db, candidates[i].key, strlen(candidates[i].key));
+    if (!escaped_suggestion_id) {
+      fprintf(stderr, "Could not escape literal in memory.\n");
+      abort();
+    }
+    if (asprintf(&cmd, "UPDATE \"suggestion\" SET \"proportional_order\" = %i WHERE \"id\" = %s", candidates[i].seat, escaped_suggestion_id) < 0) {
+      fprintf(stderr, "Could not prepare query string in memory.\n");
+      abort();
+    }
+    freemem(escaped_suggestion_id);
+    res = PQexec(db, cmd);
+    free(cmd);
+    if (!res) {
+      fprintf(stderr, "Error in pqlib while sending SQL command to update suggestion order.\n");
+    } else if (
+      PQresultStatus(res) != PGRES_COMMAND_OK &&
+      PQresultStatus(res) != PGRES_TUPLES_OK
+    ) {
+      fprintf(stderr, "Error while executing SQL command to update suggestion order:\n%s", PQresultErrorMessage(res));
+      PQclear(res);
+    } else {
+      PQclear(res);
+      continue;
+    }
+    res = PQexec(db, "ROLLBACK");
+    if (res) PQclear(res);
+    return 1;
+  }
+  res = PQexec(db, "COMMIT");
+  if (!res) {
+    fprintf(stderr, "Error in pqlib while sending SQL command to commit transaction.\n");
+    return 1;
+  } else if (
+    PQresultStatus(res) != PGRES_COMMAND_OK &&
+    PQresultStatus(res) != PGRES_TUPLES_OK
+  ) {
+    fprintf(stderr, "Error while executing SQL command to commit transaction:\n%s", PQresultErrorMessage(res));
+    PQclear(res);
+    return 1;
+  } else {
+    PQclear(res);
+    return 0;
+  }
+}
+
+static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiative_id) {
+  int err;
   int ballot_count = 0;
   struct ballot *ballots;
   int i;
@@ -196,12 +268,16 @@ static void process_initiative(PGresult *res) {
       weight = (int)strtol(PQgetvalue(res, i, COL_WEIGHT), (char **)NULL, 10);
       if (weight <= 0) {
         fprintf(stderr, "Unexpected weight value.\n");
-        abort();
+        free(ballots);
+        free(candidates);
+        return 1;
       }
       preference = (int)strtol(PQgetvalue(res, i, COL_PREFERENCE), (char **)NULL, 10);
       if (preference < 1 || preference > 4) {
         fprintf(stderr, "Unexpected preference value.\n");
-        abort();
+        free(ballots);
+        free(candidates);
+        return 1;
       }
       preference--;
       ballot->weight = weight;
@@ -246,9 +322,9 @@ static void process_initiative(PGresult *res) {
   for (i=0; i<candidate_count; i++) {
     struct candidate *candidate = loser(i, ballots, ballot_count);
     candidate->seat = candidate_count - i;
+    printf("Assigning rank #%i to suggestion #%s.\n", candidate_count - i, candidate->key);
   }
 
-  free(candidates);
   for (i=0; i<ballot_count; i++) {
     int j;
     for (j=0; j<4; j++) {
@@ -258,6 +334,14 @@ static void process_initiative(PGresult *res) {
     }
   }
   free(ballots);
+
+  printf("Writing ranks to database.\n");
+  err = write_ranks(db, escaped_initiative_id);
+  printf("Done.\n");
+
+  free(candidates);
+
+  return err;
 }
 
 int main(int argc, char **argv) {
@@ -289,8 +373,8 @@ int main(int argc, char **argv) {
     for (i=1; i<argc; i++) len += strlen(argv[i]) + 1;
     conninfo = malloc(len * sizeof(char));
     if (!conninfo) {
-      fprintf(stderr, "Error: Could not allocate memory for conninfo string\n");
-      return 1;
+      fprintf(stderr, "Error: Could not allocate memory for conninfo string.\n");
+      abort();
     }
     conninfo[0] = 0;
     for (i=1; i<argc; i++) {
@@ -302,7 +386,7 @@ int main(int argc, char **argv) {
   // connect to database:
   db = PQconnectdb(conninfo);
   if (!db) {
-    fprintf(stderr, "Error: Could not create database handle\n");
+    fprintf(stderr, "Error: Could not create database handle.\n");
     return 1;
   }
   if (PQstatus(db) != CONNECTION_OK) {
@@ -313,10 +397,10 @@ int main(int argc, char **argv) {
   // check initiatives:
   res = PQexec(db, "SELECT \"initiative_id\", \"final\" FROM \"initiative_suggestion_order_calculation\"");
   if (!res) {
-    fprintf(stderr, "Error in pqlib while sending SQL command selecting open issues\n");
+    fprintf(stderr, "Error in pqlib while sending SQL command selecting initiatives to process.\n");
     err = 1;
   } else if (PQresultStatus(res) != PGRES_TUPLES_OK) {
-    fprintf(stderr, "Error while executing SQL command selecting open issues:\n%s", PQresultErrorMessage(res));
+    fprintf(stderr, "Error while executing SQL command selecting initiatives to process:\n%s", PQresultErrorMessage(res));
     err = 1;
     PQclear(res);
   } else {
@@ -329,6 +413,10 @@ int main(int argc, char **argv) {
       initiative_id = PQgetvalue(res, i, 0);
       printf("Processing initiative_id: %s\n", initiative_id);
       escaped_initiative_id = escapeLiteral(db, initiative_id, strlen(initiative_id));
+      if (!escaped_initiative_id) {
+        fprintf(stderr, "Could not escape literal in memory.\n");
+        abort();
+      }
       if (asprintf(&cmd, "SELECT \"member_id\", \"weight\", \"preference\", \"suggestion_id\" FROM \"individual_suggestion_ranking\" WHERE \"initiative_id\" = %s ORDER BY \"member_id\", \"preference\"", escaped_initiative_id) < 0) {
         fprintf(stderr, "Could not prepare query string in memory.\n");
         abort();
@@ -336,21 +424,21 @@ int main(int argc, char **argv) {
       res2 = PQexec(db, cmd);
       free(cmd);
       if (!res2) {
-        fprintf(stderr, "Error in pqlib while sending SQL command selecting open issues\n");
+        fprintf(stderr, "Error in pqlib while sending SQL command selecting individual suggestion rankings.\n");
         err = 1;
       } else if (PQresultStatus(res2) != PGRES_TUPLES_OK) {
-        fprintf(stderr, "Error while executing SQL command selecting open issues:\n%s", PQresultErrorMessage(res));
+        fprintf(stderr, "Error while executing SQL command selecting individual suggestion rankings:\n%s", PQresultErrorMessage(res));
         err = 1;
         PQclear(res2);
       } else if (PQnfields(res2) < 4) {
-        fprintf(stderr, "Too few columns returned by SQL command selecting open issues.\n");
+        fprintf(stderr, "Too few columns returned by SQL command selecting individual suggestion rankings.\n");
         err = 1;
         PQclear(res2);
       } else {
         if (PQntuples(res2) == 0) {
           printf("Nothing to do.\n");
         } else {
-          process_initiative(res2);
+          if (process_initiative(db, res2, escaped_initiative_id)) err = 1;
         }
         PQclear(res2);
       }
@@ -361,6 +449,8 @@ int main(int argc, char **argv) {
 
   // cleanup and exit
   PQfinish(db);
+  if (!err) printf("Successfully terminated.\n");
+  else fprintf(stderr, "Exiting with error code #%i.\n", err);
   return err;
 
 }
