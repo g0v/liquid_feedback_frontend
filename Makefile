@@ -13,4 +13,4 @@ lf_update_suggestion_order: lf_update_suggestion_order.c
 		-o lf_update_suggestion_order lf_update_suggestion_order.c -lpq
 
 clean::
-	rm -f lf_update
+	rm -f lf_update lf_update_suggestion_order
