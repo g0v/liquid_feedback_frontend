@@ -38,14 +38,14 @@ int main(int argc, char **argv) {
   if (argc == 1 || !strcmp(argv[1], "-h") || !strcmp(argv[1], "--help")) {
     FILE *out;
     out = argc == 1 ? stderr : stdout;
-    fprintf(stdout, "\n");
-    fprintf(stdout, "Usage: %s <conninfo>\n", argv[0]);
-    fprintf(stdout, "\n");
-    fprintf(stdout, "<conninfo> is specified by PostgreSQL's libpq,\n");
-    fprintf(stdout, "see http://www.postgresql.org/docs/9.1/static/libpq-connect.html\n");
-    fprintf(stdout, "\n");
-    fprintf(stdout, "Example: %s dbname=liquid_feedback\n", argv[0]);
-    fprintf(stdout, "\n");
+    fprintf(out, "\n");
+    fprintf(out, "Usage: %s <conninfo>\n", argv[0]);
+    fprintf(out, "\n");
+    fprintf(out, "<conninfo> is specified by PostgreSQL's libpq,\n");
+    fprintf(out, "see http://www.postgresql.org/docs/9.1/static/libpq-connect.html\n");
+    fprintf(out, "\n");
+    fprintf(out, "Example: %s dbname=liquid_feedback\n", argv[0]);
+    fprintf(out, "\n");
     return argc == 1 ? 1 : 0;
   }
   {
