@@ -523,7 +523,7 @@ int main(int argc, char **argv) {
     PQclear(res);
   }
 
-  // cleanup and exit
+  // cleanup and exit:
   PQfinish(db);
   if (!err) {
     if (logging) printf("Successfully terminated.\n");

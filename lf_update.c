@@ -209,7 +209,7 @@ int main(int argc, char **argv) {
     PQclear(res);
   }
 
-  // cleanup and exit
+  // cleanup and exit:
   PQfinish(db);
   return err;
 
