@@ -231,6 +231,7 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
     char *old_member_id = NULL;
     struct ballot *ballot;
     int candidates_in_sections[4] = {0, };
+    candidate_count = 0;
     tuple_count = PQntuples(res);
     if (!tuple_count) {
       if (final) {
@@ -243,7 +244,6 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
         return 0;
       }
     }
-    candidate_count = 0;
     for (i=0; i<tuple_count; i++) {
       char *member_id, *suggestion_id;
       member_id = PQgetvalue(res, i, COL_MEMBER_ID);
