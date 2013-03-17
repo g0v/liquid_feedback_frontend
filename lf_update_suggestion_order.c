@@ -353,7 +353,11 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
   }
   free(ballots);
 
-  printf("Writing ranks to database.\n");
+  if (final) {
+    printf("Writing final ranks to database.\n");
+  } else {
+    printf("Writing ranks to database.\n");
+  }
   err = write_ranks(db, escaped_initiative_id, final);
   printf("Done.\n");
 
