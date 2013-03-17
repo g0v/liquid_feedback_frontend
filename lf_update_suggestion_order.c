@@ -143,13 +143,20 @@ static struct candidate *loser(int round_number, struct ballot *ballots, int bal
   abort();
 }
 
-static int write_ranks(PGconn *db, char *escaped_initiative_id) {
+static int write_ranks(PGconn *db, char *escaped_initiative_id, int final) {
   PGresult *res;
   char *cmd;
   int i;
-  if (asprintf(&cmd, "BEGIN; UPDATE \"suggestion\" SET \"proportional_order\" = NULL WHERE \"initiative_id\" = %s", escaped_initiative_id) < 0) {
-    fprintf(stderr, "Could not prepare query string in memory.\n");
-    abort();
+  if (final) {
+    if (asprintf(&cmd, "BEGIN; UPDATE \"initiative\" SET \"final_suggestion_order_calculated\" = TRUE WHERE \"id\" = %s; UPDATE \"suggestion\" SET \"proportional_order\" = NULL WHERE \"initiative_id\" = %s", escaped_initiative_id, escaped_initiative_id) < 0) {
+      fprintf(stderr, "Could not prepare query string in memory.\n");
+      abort();
+    }
+  } else {
+    if (asprintf(&cmd, "BEGIN; UPDATE \"suggestion\" SET \"proportional_order\" = NULL WHERE \"initiative_id\" = %s", escaped_initiative_id) < 0) {
+      fprintf(stderr, "Could not prepare query string in memory.\n");
+      abort();
+    }
   }
   res = PQexec(db, cmd);
   free(cmd);
@@ -213,7 +220,7 @@ static int write_ranks(PGconn *db, char *escaped_initiative_id) {
   }
 }
 
-static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiative_id) {
+static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiative_id, int final) {
   int err;
   int ballot_count = 0;
   struct ballot *ballots;
@@ -224,8 +231,19 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
     char *old_member_id = NULL;
     struct ballot *ballot;
     int candidates_in_sections[4] = {0, };
-    candidate_count = 0;
     tuple_count = PQntuples(res);
+    if (!tuple_count) {
+      if (final) {
+        printf("No suggestions found, but marking initiative as finally calculated.\n");
+        err = write_ranks(db, escaped_initiative_id, final);
+        printf("Done.\n");
+        return err;
+      } else {
+        printf("Nothing to do.\n");
+        return 0;
+      }
+    }
+    candidate_count = 0;
     for (i=0; i<=tuple_count; i++) {
       char *member_id, *suggestion_id;
       if (i<tuple_count) {
@@ -336,7 +354,7 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
   free(ballots);
 
   printf("Writing ranks to database.\n");
-  err = write_ranks(db, escaped_initiative_id);
+  err = write_ranks(db, escaped_initiative_id, final);
   printf("Done.\n");
 
   free(candidates);
@@ -403,14 +421,20 @@ int main(int argc, char **argv) {
     fprintf(stderr, "Error while executing SQL command selecting initiatives to process:\n%s", PQresultErrorMessage(res));
     err = 1;
     PQclear(res);
+  } else if (PQnfields(res) < 2) {
+    fprintf(stderr, "Too few columns returned by SQL command selecting initiatives to process.\n");
+    err = 1;
+    PQclear(res);
   } else {
     count = PQntuples(res);
     printf("Number of initiatives to process: %i\n", count);
     for (i=0; i<count; i++) {
       char *initiative_id, *escaped_initiative_id;
+      int final;
       char *cmd;
       PGresult *res2;
       initiative_id = PQgetvalue(res, i, 0);
+      final = (PQgetvalue(res, i, 1)[0] == 't') ? 1 : 0;
       printf("Processing initiative_id: %s\n", initiative_id);
       escaped_initiative_id = escapeLiteral(db, initiative_id, strlen(initiative_id));
       if (!escaped_initiative_id) {
@@ -435,11 +459,7 @@ int main(int argc, char **argv) {
         err = 1;
         PQclear(res2);
       } else {
-        if (PQntuples(res2) == 0) {
-          printf("Nothing to do.\n");
-        } else {
-          if (process_initiative(db, res2, escaped_initiative_id)) err = 1;
-        }
+        if (process_initiative(db, res2, escaped_initiative_id, final)) err = 1;
         PQclear(res2);
       }
       freemem(escaped_initiative_id);
