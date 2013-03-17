@@ -2043,7 +2043,7 @@ CREATE VIEW "initiative_suggestion_order_calculation" AS
 
 COMMENT ON VIEW "initiative_suggestion_order_calculation" IS 'Initiatives, where the "proportional_order" of its suggestions has to be calculated';
 
-COMMENT ON COLUMN "initiative_suggestion_order_calculation"."final" IS 'Set to TRUE, if the issue is fully frozen or closed, and the calculation has only be done for one last time';
+COMMENT ON COLUMN "initiative_suggestion_order_calculation"."final" IS 'Set to TRUE, if the issue is fully frozen or closed, and the calculation has to be done only once for one last time';
 
 
 CREATE VIEW "individual_suggestion_ranking" AS
