@@ -447,7 +447,7 @@ local delegation_chain = Member:new_selector()
 
 for i, record in ipairs(delegation_chain) do
   local style
-  local overridden = (not issue or issue.state ~= 'voting') and record.overridden
+  local overridden = (not issue or issue.state ~= 'voting') and (record.overridden or not record.member_valid)
 
   -- arrow
   if i == 2 then

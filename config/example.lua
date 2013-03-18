@@ -84,11 +84,6 @@ config.public_access = "none"
 -- ------------------------------------------------------------------------
 -- config.default_lang = "en"
 
--- after how long is a user considered inactive and the trustee will see warning,
--- notation is according to postgresql intervals, default: no warning at all
--- ------------------------------------------------------------------------
--- config.delegation_warning_time = '6 months'
-
 -- Invite code expiry
 -- after how long is an invite code can't be used anymore
 -- notation is according to postgresql intervals

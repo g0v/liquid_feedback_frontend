@@ -47,14 +47,12 @@ ui.container{
 
         if not member.active then
           local text = _"inactive"
-          ui.tag{ content = text }
           ui.image{
             attr = { alt = text, title = text },
             static = "icons/16/cross.png"
           }
         elseif member.member_valid == false then
-          local text = _"no voting right"
-          ui.tag{ content = text }
+          ui.tag{ content = _"no voting right" }
         end
 
         if member.grade then
