@@ -792,7 +792,7 @@ COMMENT ON COLUMN "suggestion"."plus1_unfulfilled_count"  IS 'Calculated from ta
 COMMENT ON COLUMN "suggestion"."plus1_fulfilled_count"    IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
 COMMENT ON COLUMN "suggestion"."plus2_unfulfilled_count"  IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
 COMMENT ON COLUMN "suggestion"."plus2_fulfilled_count"    IS 'Calculated from table "direct_supporter_snapshot", not requiring informed supporters';
-COMMENT ON COLUMN "suggestion"."proportional_order"       IS 'To be used for sorting suggestions within an initiative; updated by "lf_update_suggestion_order"';
+COMMENT ON COLUMN "suggestion"."proportional_order"       IS 'To be used for sorting suggestions within an initiative; NULL values sort last; updated by "lf_update_suggestion_order"';
 
 
 CREATE TABLE "rendered_suggestion" (

@@ -8,7 +8,7 @@ ALTER TABLE "initiative" ADD COLUMN "final_suggestion_order_calculated" BOOLEAN 
 COMMENT ON COLUMN "initiative"."final_suggestion_order_calculated" IS 'Set to TRUE, when "proportional_order" of suggestions has been calculated the last time';
 
 ALTER TABLE "suggestion" ADD COLUMN "proportional_order" INT4;
-COMMENT ON COLUMN "suggestion"."proportional_order" IS 'To be used for sorting suggestions within an initiative; updated by "lf_update_suggestion_order"';
+COMMENT ON COLUMN "suggestion"."proportional_order" IS 'To be used for sorting suggestions within an initiative; NULL values sort last; updated by "lf_update_suggestion_order"';
 
 CREATE VIEW "initiative_suggestion_order_calculation" AS
   SELECT
