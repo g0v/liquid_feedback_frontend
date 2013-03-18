@@ -65,6 +65,7 @@ static void register_candidate(char **candidate_key, VISIT visit, int level) {
     candidate = candidates + (candidate_count++);
     candidate->key   = *candidate_key;
     candidate->seat  = 0;
+    if (logging) printf("Candidate #%i is suggestion #%s.\n", candidate_count, candidate->key);
   }
 }
 
@@ -105,6 +106,7 @@ static struct candidate *loser(int round_number, struct ballot *ballots, int bal
   remaining = candidate_count - round_number;
   // repeat following loop, as long as there is more than one remaining candidate:
   while (remaining > 1) {
+    if (logging) printf("There are %i remaining candidates.\n", remaining);
     double scale;  // factor to be later multiplied with score_per_step:
     // reset score_per_step for all candidates:
     for (i=0; i<candidate_count; i++) {
@@ -146,6 +148,9 @@ static struct candidate *loser(int round_number, struct ballot *ballots, int bal
     }
     // add scale*score_per_step to each candidates score:
     for (i=0; i<candidate_count; i++) {
+      int log_candidate = 0;
+      if (logging && candidates[i].score < 1.0 && !candidates[i].seat) log_candidate = 1;
+      if (log_candidate) printf("Score for suggestion #%s = %.4f+%.4f*%.4f=", candidates[i].key, candidates[i].score, scale, candidates[i].score_per_step);
       if (candidates[i].score_per_step > 0.0) {
         double max_scale;
         max_scale = (1.0-candidates[i].score) / candidates[i].score_per_step;
@@ -157,8 +162,11 @@ static struct candidate *loser(int round_number, struct ballot *ballots, int bal
           candidates[i].score += scale * candidates[i].score_per_step;
           if (candidates[i].score >= 1.0) remaining--;
         }
-        // when there is only one candidate remaining, then break inner (and thus outer) loop:
-        if (remaining <= 1) break;
+      }
+      if (log_candidate) printf("%.4f.\n", candidates[i].score);
+      // when there is only one candidate remaining, then break inner (and thus outer) loop:
+      if (remaining <= 1) {
+        break;
       }
     }
   }
@@ -293,8 +301,6 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
       if (old_member_id && strcmp(old_member_id, member_id)) ballot_count++;
       old_member_id = member_id;
     }
-    // print candidate count:
-    if (logging) printf("Candidate count: %i\n", candidate_count);
     // allocate memory for candidates[] array:
     candidates = malloc(candidate_count * sizeof(struct candidate));
     if (!candidates) {
@@ -306,8 +312,6 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
     twalk(candidate_tree, (void *)register_candidate);
     // free memory of tree structure (tdestroy() is not available on all platforms):
     while (candidate_tree) tdelete(*(void **)candidate_tree, &candidate_tree, (void *)compare_id);
-    // print ballot count:
-    if (logging) printf("Ballot count: %i\n", ballot_count);
     // allocate memory for ballots[] array:
     ballots = calloc(ballot_count, sizeof(struct ballot));
     if (!ballots) {
@@ -374,13 +378,31 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
       ballot->sections[preference].candidates[candidates_in_sections[preference]++] = candidate_by_key(suggestion_id);
       old_member_id = member_id;
     }
+    // print ballots, if logging is enabled:
+    if (logging) {
+      for (i=0; i<ballot_count; i++) {
+        int j;
+        printf("Ballot #%i: ", i+1);
+        for (j=0; j<4; j++) {
+          int k;
+          if (j) printf(", ");
+          printf("preference %i (", j+1);
+          for (k=0; k<ballots[i].sections[j].count; k++) {
+            if (k) printf(",");
+            printf("s#%s", ballots[i].sections[j].candidates[k]->key);
+          }
+          printf(")");
+        }
+        printf(".\n");
+      }
+    }
   }
 
   // calculate ranks based on constructed data structures:
   for (i=0; i<candidate_count; i++) {
     struct candidate *candidate = loser(i, ballots, ballot_count);
     candidate->seat = candidate_count - i;
-    if (logging) printf("Assigning rank #%i to suggestion #%s.\n", candidate_count - i, candidate->key);
+    if (logging) printf("Assigning rank #%i to suggestion #%s.\n", candidate_count-i, candidate->key);
   }
 
   // free ballots[] array:
@@ -491,7 +513,7 @@ int main(int argc, char **argv) {
       PGresult *res2;
       initiative_id = PQgetvalue(res, i, 0);
       final = (PQgetvalue(res, i, 1)[0] == 't') ? 1 : 0;
-      if (logging) printf("Processing initiative_id: %s\n", initiative_id);
+      if (logging) printf("Processing initiative #%s:\n", initiative_id);
       escaped_initiative_id = escapeLiteral(db, initiative_id, strlen(initiative_id));
       if (!escaped_initiative_id) {
         fprintf(stderr, "Could not escape literal in memory.\n");
