@@ -150,7 +150,7 @@ static struct candidate *loser(int round_number, struct ballot *ballots, int bal
     for (i=0; i<candidate_count; i++) {
       int log_candidate = 0;
       if (logging && candidates[i].score < 1.0 && !candidates[i].seat) log_candidate = 1;
-      if (log_candidate) printf("Score for suggestion #%s = %.4f+%.4f*%.4f=", candidates[i].key, candidates[i].score, scale, candidates[i].score_per_step);
+      if (log_candidate) printf("Score for suggestion #%s = %.4f+%.4f*%.4f", candidates[i].key, candidates[i].score, scale, candidates[i].score_per_step);
       if (candidates[i].score_per_step > 0.0) {
         double max_scale;
         max_scale = (1.0-candidates[i].score) / candidates[i].score_per_step;
@@ -163,7 +163,10 @@ static struct candidate *loser(int round_number, struct ballot *ballots, int bal
           if (candidates[i].score >= 1.0) remaining--;
         }
       }
-      if (log_candidate) printf("%.4f.\n", candidates[i].score);
+      if (log_candidate) {
+        if (candidates[i].score >= 1.0) printf("=1\n");
+        else printf("=%.4f\n", candidates[i].score);
+      }
       // when there is only one candidate remaining, then break inner (and thus outer) loop:
       if (remaining <= 1) {
         break;
@@ -382,18 +385,22 @@ static int process_initiative(PGconn *db, PGresult *res, char *escaped_initiativ
     if (logging) {
       for (i=0; i<ballot_count; i++) {
         int j;
-        printf("Ballot #%i: ", i+1);
         for (j=0; j<4; j++) {
           int k;
-          if (j) printf(", ");
-          printf("preference %i (", j+1);
+          printf("Ballot #%i, ", i+1);
+          if (j==0) printf("1st");
+          if (j==1) printf("2nd");
+          if (j==2) printf("3rd");
+          if (j==3) printf("4th");
+          printf(" preference: ");
           for (k=0; k<ballots[i].sections[j].count; k++) {
-            if (k) printf(",");
-            printf("s#%s", ballots[i].sections[j].candidates[k]->key);
+            if (!k) printf("suggestions ");
+            else printf(", ");
+            printf("#%s", ballots[i].sections[j].candidates[k]->key);
           }
-          printf(")");
+          if (!k) printf("empty");
+          printf(".\n");
         }
-        printf(".\n");
       }
     }
   }
