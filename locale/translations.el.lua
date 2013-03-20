@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 return {
-["#{count} canceled"] = "#{count} ακυρώθηκαν";
+["#{count} cancelled"] = "#{count} ακυρώθηκαν";
 ["#{count} days ago"] = "#{count} μέρες πριν";
 ["#{count} finished"] = "#{count} ολοκληρώθηκαν";
 ["#{count} in discussion"] = "#{count} σε διαβούλευση";
@@ -12,9 +12,9 @@ return {
 ["#{count} of your outgoing delegation(s) are broken"] = "#{count} από τις αναθέσεις σας δεν ισχύουν πια";
 ["#{date} at #{time}"] = "#{date} στις #{time}";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} θέμα(τα) που σας ενδιαφέρουν";
-["#{interval_text} [interval]"] = false;
-["#{interval_text} ago"] = false;
-["#{interval_text} left"] = false;
+["#{interval_text} [interval]"] = "#{interval_text}";
+["#{interval_text} ago"] = "#{interval_text} πριν";
+["#{interval_text} left"] = "απομένουν #{interval_text}";
 ["#{issues_to_vote_count} issue(s)"] = "#{issues_to_vote_count} θέμα(τα)";
 ["#{name}\n\n"] = "#{name}\n\n";
 ["#{number} Image(s) has been deleted"] = "Διαγράφηκαν #{number} εικόνες";
@@ -101,12 +101,12 @@ return {
 ["Cancel password reset"] = "Ακύρωση επαναφοράς κωδικού πρόσβασης";
 ["Cancel refuse of invitation"] = "Ακύρωση απόρριψης της πρόσκλησης";
 ["Cancel registration"] = "Ακύρωση εγγραφής";
-["Canceled"] = "Ακυρώθηκε";
-["Canceled (before accepted due to revocation)"] = "Ακυρώθηκε (στη φάση 'Νέο', λόγω ανάκλησης)";
-["Canceled (during discussion due to revocation)"] = "Ακυρώθηκε (κατά τη διάρκεια της συζήτησης, λόγω ανάκλησης)";
-["Canceled (during verification due to revocation)"] = "Ακυρώθηκε (κατά τη διάρκεια της επιβεβαίωσης, λόγω ανάκλησης)";
-["Canceled (issue not accepted)"] = "Ακυρώθηκε (Δεν έγινε δεκτό)";
-["Canceled (no initiative admitted)"] = "Ακυρώθηκε (Δεν προκρίθηκε καμία πρωτοβουλία)";
+["Cancelled"] = "Ακυρώθηκε";
+["Cancelled (before accepted due to revocation)"] = "Ακυρώθηκε (στη φάση 'Νέο', λόγω ανάκλησης)";
+["Cancelled (during discussion due to revocation)"] = "Ακυρώθηκε (κατά τη διάρκεια της συζήτησης, λόγω ανάκλησης)";
+["Cancelled (during verification due to revocation)"] = "Ακυρώθηκε (κατά τη διάρκεια της επιβεβαίωσης, λόγω ανάκλησης)";
+["Cancelled (issue not accepted)"] = "Ακυρώθηκε (Δεν έγινε δεκτό)";
+["Cancelled (no initiative admitted)"] = "Ακυρώθηκε (Δεν προκρίθηκε καμία πρωτοβουλία)";
 ["Change area delegation"] = "Αλλαγή ανάθεσης για τον τομέα";
 ["Change email"] = "Αλλαγή email";
 ["Change email address"] = "Αλλαγή διεύθυνσης email";
@@ -577,7 +577,7 @@ return {
 ["This initiative is already revoked"] = "Αυτή η πρωτοβουλία έχει ήδη ανακληθεί";
 ["This initiative is revoked"] = "Αυτή η πρωτοβουλία έχει ανακληθεί";
 ["This invite key is connected with the following information:"] = "Αυτός ο κωδικός πρόσκλησης σχετίζεται με τα ακόλουθα στοιχεία:";
-["This issue has been canceled. It failed the quorum of #{quorum}."] = "Αυτό το θέμα έχει ακυρωθεί. Δεν είχε την απαιτούμενη απαρτία #{quorum}";
+["This issue has been cancelled. It failed the quorum of #{quorum}."] = "Αυτό το θέμα έχει ακυρωθεί. Δεν είχε την απαιτούμενη απαρτία #{quorum}";
 ["This issue is already closed."] = "Αυτό το θέμα έχει ήδη κλείσει.";
 ["This issue is already frozen."] = "Αυτό το θέμα έχει ήδη παγώσει.";
 ["This login is already taken, please choose another one!"] = "Αυτό το όνομα σύνδεσης υπάρχει ήδη, παρακαλώ επιλέξτε κάποιο άλλο!";
@@ -727,12 +727,12 @@ return {
 ["at least #{count} approvals"] = "τουλάχιστον #{count} επιδοκιμασίες";
 ["at least #{count} approvals or abstentions"] = "τουλάχιστον #{count} επιδοκιμασίες ή αποχές";
 ["change discussion URL"] = "αλλαγή του URL της συζήτησης";
-["day [interval ago]"] = false;
-["day [interval time left]"] = false;
-["day [interval]"] = false;
-["days [interval ago]"] = false;
-["days [interval time left]"] = false;
-["days [interval]"] = false;
+["day [interval ago]"] = "ημέρα";
+["day [interval time left]"] = "ημέρα";
+["day [interval]"] = "ημέρα";
+["days [interval ago]"] = "ημέρες";
+["days [interval time left]"] = "ημέρες";
+["days [interval]"] = "ημέρες";
 ["deactivated"] = "απενεργοποιημένο";
 ["delegates to"] = "αναθέτει στον/στην";
 ["delete<br /><br />"] = "διαγραφή<br /><br />";
@@ -744,12 +744,12 @@ return {
 ["inactive"] = "ανενεργός/ή";
 ["last 24 hours"] = "τις τελευταίες 24 ώρες";
 ["login name"] = "Όνομα σύνδεσης";
-["month [interval ago]"] = false;
-["month [interval time left]"] = false;
-["month [interval]"] = false;
-["months [interval ago]"] = false;
-["months [interval time left]"] = false;
-["months [interval]"] = false;
+["month [interval ago]"] = "μήνας";
+["month [interval time left]"] = "μήνας";
+["month [interval]"] = "μήνας";
+["months [interval ago]"] = "μήνες";
+["months [interval time left]"] = "μήνες";
+["months [interval]"] = "μήνες";
 ["more unsatisfied"] = "περισσότερο ανικανοποίητος/η";
 ["must"] = "οπωσδήποτε";
 ["must not"] = "με τίποτα";
@@ -772,10 +772,10 @@ return {
 ["without"] = "χωρίς";
 ["without winner"] = "Χωρίς νικητή";
 ["xmpp"] = "Jabber (XMPP)";
-["year [interval ago]"] = false;
-["year [interval time left]"] = false;
-["year [interval]"] = false;
-["years [interval ago]"] = false;
-["years [interval time left]"] = false;
-["years [interval]"] = false;
+["year [interval ago]"] = "έτος";
+["year [interval time left]"] = "έτος";
+["year [interval]"] = "έτος";
+["years [interval ago]"] = "έτη";
+["years [interval time left]"] = "έτη";
+["years [interval]"] = "έτη";
 }
