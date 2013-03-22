@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('2.2.1', 2, 2, 1))
+  SELECT * FROM (VALUES ('2.2.2', 2, 2, 2))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -52,6 +52,17 @@ COMMENT ON FUNCTION "highlight"
 -------------------------
 -- Tables and indicies --
 -------------------------
+
+
+CREATE TABLE "internal_session_store" (
+        PRIMARY KEY ("backend_pid", "key"),
+        "backend_pid"           INT4,
+        "key"                   TEXT,
+        "value"                 TEXT            NOT NULL );
+
+COMMENT ON TABLE "internal_session_store" IS 'Table to store session variables; shall be emptied before a transaction is committed';
+
+COMMENT ON COLUMN "internal_session_store"."backend_pid" IS 'Value returned by function pg_backend_pid()';
 
 
 CREATE TABLE "system_setting" (
@@ -1587,6 +1598,14 @@ CREATE FUNCTION "forbid_changes_on_closed_issue_trigger"()
       "issue_id_v" "issue"."id"%TYPE;
       "issue_row"  "issue"%ROWTYPE;
     BEGIN
+      IF EXISTS (
+        SELECT NULL FROM "internal_session_store"
+        WHERE "backend_pid" = pg_backend_pid()
+        AND "key" = 'override_protection_triggers'
+        AND "value" = TRUE::TEXT
+      ) THEN
+        RETURN NULL;
+      END IF;
       IF TG_OP = 'DELETE' THEN
         "issue_id_v" := OLD."issue_id";
       ELSE
@@ -1594,7 +1613,12 @@ CREATE FUNCTION "forbid_changes_on_closed_issue_trigger"()
       END IF;
       SELECT INTO "issue_row" * FROM "issue"
         WHERE "id" = "issue_id_v" FOR SHARE;
-      IF "issue_row"."closed" NOTNULL THEN
+      IF (
+        "issue_row"."closed" NOTNULL OR (
+          "issue_row"."state" = 'voting' AND
+          "issue_row"."phase_finished" NOTNULL
+        )
+      ) THEN
         IF
           TG_RELID = 'direct_voter'::regclass AND
           TG_OP = 'UPDATE'
@@ -1607,14 +1631,7 @@ CREATE FUNCTION "forbid_changes_on_closed_issue_trigger"()
             RETURN NULL;  -- allows changing of voter comment
           END IF;
         END IF;
-        RAISE EXCEPTION 'Tried to modify data belonging to a closed issue.';
-      ELSIF
-        "issue_row"."state" = 'voting' AND
-        "issue_row"."phase_finished" NOTNULL
-      THEN
-        IF TG_RELID = 'vote'::regclass THEN
-          RAISE EXCEPTION 'Tried to modify data after voting has been closed.';
-        END IF;
+        RAISE EXCEPTION 'Tried to modify data after voting has been closed.';
       END IF;
       RETURN NULL;
     END;
@@ -3653,6 +3670,10 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       PERFORM "require_transaction_isolation"();
       SELECT "area_id" INTO "area_id_v" FROM "issue" WHERE "id" = "issue_id_p";
       SELECT "unit_id" INTO "unit_id_v" FROM "area"  WHERE "id" = "area_id_v";
+      -- override protection triggers:
+      DELETE FROM "internal_session_store";
+      INSERT INTO "internal_session_store" ("backend_pid", "key", "value")
+        VALUES (pg_backend_pid(), 'override_protection_triggers', TRUE::TEXT);
       -- delete timestamp of voting comment:
       UPDATE "direct_voter" SET "comment_changed" = NULL
         WHERE "issue_id" = "issue_id_p";
@@ -3681,6 +3702,8 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       UPDATE "direct_voter" SET "weight" = 1
         WHERE "issue_id" = "issue_id_p";
       PERFORM "add_vote_delegations"("issue_id_p");
+      -- finish overriding protection triggers (mandatory, as pids may be reused):
+      DELETE FROM "internal_session_store";
       -- materialize battle_view:
       -- NOTE: "closed" column of issue must be set at this point
       DELETE FROM "battle" WHERE "issue_id" = "issue_id_p";
