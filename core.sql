@@ -7,7 +7,7 @@
 BEGIN;
 
 CREATE VIEW "liquid_feedback_version" AS
-  SELECT * FROM (VALUES ('2.2.2', 2, 2, 2))
+  SELECT * FROM (VALUES ('2.2.3', 2, 2, 3))
   AS "subquery"("string", "major", "minor", "revision");
 
 
@@ -54,15 +54,15 @@ COMMENT ON FUNCTION "highlight"
 -------------------------
 
 
-CREATE TABLE "internal_session_store" (
-        PRIMARY KEY ("backend_pid", "key"),
-        "backend_pid"           INT4,
+CREATE TABLE "temporary_transaction_data" (
+        PRIMARY KEY ("txid", "key"),
+        "txid"                  INT8            DEFAULT txid_current(),
         "key"                   TEXT,
         "value"                 TEXT            NOT NULL );
 
-COMMENT ON TABLE "internal_session_store" IS 'Table to store session variables; shall be emptied before a transaction is committed';
+COMMENT ON TABLE "temporary_transaction_data" IS 'Table to store temporary transaction data; shall be emptied before a transaction is committed';
 
-COMMENT ON COLUMN "internal_session_store"."backend_pid" IS 'Value returned by function pg_backend_pid()';
+COMMENT ON COLUMN "temporary_transaction_data"."txid" IS 'Value returned by function txid_current(); should be added to WHERE clause, when doing SELECT on this table, but ignored when doing DELETE on this table';
 
 
 CREATE TABLE "system_setting" (
@@ -1599,8 +1599,8 @@ CREATE FUNCTION "forbid_changes_on_closed_issue_trigger"()
       "issue_row"  "issue"%ROWTYPE;
     BEGIN
       IF EXISTS (
-        SELECT NULL FROM "internal_session_store"
-        WHERE "backend_pid" = pg_backend_pid()
+        SELECT NULL FROM "temporary_transaction_data"
+        WHERE "txid" = txid_current()
         AND "key" = 'override_protection_triggers'
         AND "value" = TRUE::TEXT
       ) THEN
@@ -3671,9 +3671,8 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       SELECT "area_id" INTO "area_id_v" FROM "issue" WHERE "id" = "issue_id_p";
       SELECT "unit_id" INTO "unit_id_v" FROM "area"  WHERE "id" = "area_id_v";
       -- override protection triggers:
-      DELETE FROM "internal_session_store";
-      INSERT INTO "internal_session_store" ("backend_pid", "key", "value")
-        VALUES (pg_backend_pid(), 'override_protection_triggers', TRUE::TEXT);
+      INSERT INTO "temporary_transaction_data" ("key", "value")
+        VALUES ('override_protection_triggers', TRUE::TEXT);
       -- delete timestamp of voting comment:
       UPDATE "direct_voter" SET "comment_changed" = NULL
         WHERE "issue_id" = "issue_id_p";
@@ -3702,8 +3701,9 @@ CREATE FUNCTION "close_voting"("issue_id_p" "issue"."id"%TYPE)
       UPDATE "direct_voter" SET "weight" = 1
         WHERE "issue_id" = "issue_id_p";
       PERFORM "add_vote_delegations"("issue_id_p");
-      -- finish overriding protection triggers (mandatory, as pids may be reused):
-      DELETE FROM "internal_session_store";
+      -- finish overriding protection triggers (avoids garbage):
+      DELETE FROM "temporary_transaction_data"
+        WHERE "key" = 'override_protection_triggers';
       -- materialize battle_view:
       -- NOTE: "closed" column of issue must be set at this point
       DELETE FROM "battle" WHERE "issue_id" = "issue_id_p";
@@ -4344,17 +4344,14 @@ COMMENT ON FUNCTION "check_everything"() IS 'Amongst other regular tasks this fu
 CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
-    DECLARE
-      "issue_row" "issue"%ROWTYPE;
     BEGIN
-      SELECT * INTO "issue_row"
-        FROM "issue" WHERE "id" = "issue_id_p"
-        FOR UPDATE;
-      IF "issue_row"."cleaned" ISNULL THEN
-        UPDATE "issue" SET
-          "state"  = 'voting',
-          "closed" = NULL
-          WHERE "id" = "issue_id_p";
+      IF EXISTS (
+        SELECT NULL FROM "issue" WHERE "id" = "issue_id_p" AND "cleaned" ISNULL
+      ) THEN
+        -- override protection triggers:
+        INSERT INTO "temporary_transaction_data" ("key", "value")
+          VALUES ('override_protection_triggers', TRUE::TEXT);
+        -- clean data:
         DELETE FROM "delegating_voter"
           WHERE "issue_id" = "issue_id_p";
         DELETE FROM "direct_voter"
@@ -4375,11 +4372,11 @@ CREATE FUNCTION "clean_issue"("issue_id_p" "issue"."id"%TYPE)
           USING "initiative"  -- NOTE: due to missing index on issue_id
           WHERE "initiative"."issue_id" = "issue_id_p"
           AND "supporter"."initiative_id" = "initiative_id";
-        UPDATE "issue" SET
-          "state"   = "issue_row"."state",
-          "closed"  = "issue_row"."closed",
-          "cleaned" = now()
-          WHERE "id" = "issue_id_p";
+        -- mark issue as cleaned:
+        UPDATE "issue" SET "cleaned" = now() WHERE "id" = "issue_id_p";
+        -- finish overriding protection triggers (avoids garbage):
+        DELETE FROM "temporary_transaction_data"
+          WHERE "key" = 'override_protection_triggers';
       END IF;
       RETURN;
     END;
@@ -4451,6 +4448,7 @@ CREATE FUNCTION "delete_private_data"()
   RETURNS VOID
   LANGUAGE 'plpgsql' VOLATILE AS $$
     BEGIN
+      DELETE FROM "temporary_transaction_data";
       DELETE FROM "member" WHERE "activated" ISNULL;
       UPDATE "member" SET
         "invite_code"                  = NULL,
