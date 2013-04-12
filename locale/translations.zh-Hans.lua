@@ -412,6 +412,7 @@ return {
 ["Lock and deactivate Member?"] = false;
 ["Lock member?"] = "封锁成员？";
 ["Locked"] = false;
+["Locked by import"] = false;
 ["Locked?"] = "被封锁？";
 ["Login"] = "登入";
 ["Login name"] = "帐号";
@@ -529,6 +530,7 @@ return {
 ["Not approved (rank #{rank})"] = "不通过 (顺位 #{rank})";
 ["Not imported"] = false;
 ["Not locked"] = false;
+["Not locked by import"] = false;
 ["Not voted"] = "未表决";
 ["Not voted issues"] = "未表决议题";
 ["Not yet voted"] = false;

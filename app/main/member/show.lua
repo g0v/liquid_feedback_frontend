@@ -30,7 +30,7 @@ ui.actions(function()
         }
       end
 
-      if member.locked then
+      if member.locked or member.locked_import then
         slot.put(" &middot; ")
         ui.tag{
           attr = { class = "deactivated_member_info" },

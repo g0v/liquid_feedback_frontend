@@ -391,6 +391,7 @@ return {
 ["List of trustees"] = false;
 ["Lock and deactivate Member?"] = false;
 ["Locked"] = false;
+["Locked by import"] = false;
 ["Locked?"] = "Ĉu blokita?";
 ["Login"] = "Ensaluti";
 ["Login name"] = "Salutnomo";
@@ -497,6 +498,7 @@ return {
 ["Not approved (rank #{rank})"] = "Ne konsentita (rango #{rank})";
 ["Not imported"] = false;
 ["Not locked"] = false;
+["Not locked by import"] = false;
 ["Not voted"] = "Ne balotita";
 ["Not voted issues"] = "Ne balotitaj temoj";
 ["Not yet voted"] = false;

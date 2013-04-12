@@ -413,6 +413,7 @@ return {
 ["Lock and deactivate Member?"] = false;
 ["Lock member?"] = "Blocca membro?";
 ["Locked"] = false;
+["Locked by import"] = false;
 ["Locked?"] = "Bloccato?";
 ["Login"] = "Login";
 ["Login name"] = "Nome utente";
@@ -530,6 +531,7 @@ return {
 ["Not approved (rank #{rank})"] = "Non approvato  (rank #{rank})";
 ["Not imported"] = false;
 ["Not locked"] = false;
+["Not locked by import"] = false;
 ["Not voted"] = "Non votato";
 ["Not voted issues"] = "Tematiche non votate";
 ["Not yet voted"] = false;

@@ -414,6 +414,7 @@ return {
 ["Lock and deactivate Member?"] = false;
 ["Lock member?"] = "Vergrendel deelnemer?";
 ["Locked"] = false;
+["Locked by import"] = false;
 ["Locked?"] = "Gesloten?";
 ["Login"] = "Login";
 ["Login name"] = "Login naam";
@@ -531,6 +532,7 @@ return {
 ["Not approved (rank #{rank})"] = "Niet aangenomen (Rang #{rank})";
 ["Not imported"] = false;
 ["Not locked"] = false;
+["Not locked by import"] = false;
 ["Not voted"] = "Niet gestemd";
 ["Not voted issues"] = "Onderwerpen waar niet over is gestemd";
 ["Not yet voted"] = false;

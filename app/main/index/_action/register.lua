@@ -36,6 +36,7 @@ local member = Member:new_selector()
   :add_where{ "invite_code = ?", code }
   :add_where{ "activated ISNULL" }
   :add_where{ "NOT locked" }
+  :add_where{ "NOT locked_import" }
   :optional_object_mode()
   :for_update()
   :exec()

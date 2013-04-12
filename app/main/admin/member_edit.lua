@@ -41,15 +41,16 @@ ui.form{
       modules = "admin",
       view = "member_list",
       params = {
-        search           = param.get("search"),
-        search_imported  = param.get("search_imported",  atom.integer),
-        search_admin     = param.get("search_admin",     atom.integer),
-        search_activated = param.get("search_activated", atom.integer),
-        search_locked    = param.get("search_locked",    atom.integer),
-        search_active    = param.get("search_active",    atom.integer),
-        order            = param.get("order"),
-        desc             = param.get("desc", atom.integer),
-        page             = param.get("page", atom.integer)
+        search               = param.get("search"),
+        search_imported      = param.get("search_imported",      atom.integer),
+        search_admin         = param.get("search_admin",         atom.integer),
+        search_activated     = param.get("search_activated",     atom.integer),
+        search_locked        = param.get("search_locked",        atom.integer),
+        search_locked_import = param.get("search_locked_import", atom.integer),
+        search_active        = param.get("search_active",        atom.integer),
+        order                = param.get("order"),
+        desc                 = param.get("desc", atom.integer),
+        page                 = param.get("page", atom.integer)
       }
     }
   },
@@ -83,6 +84,9 @@ ui.form{
       local status = ""
       if member.locked then
         status = status .. _"Locked" .. ", "
+      end
+      if member.locked_import then
+        status = status .. _"Locked by import" .. ", "
       end
       if not member.activated then
         status = status .. _"Not activated"

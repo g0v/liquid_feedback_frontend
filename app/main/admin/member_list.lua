@@ -1,9 +1,10 @@
-local search           = param.get("search")
-local search_imported  = param.get("search_imported",  atom.integer)
-local search_admin     = param.get("search_admin",     atom.integer)
-local search_activated = param.get("search_activated", atom.integer)
-local search_locked    = param.get("search_locked",    atom.integer)
-local search_active    = param.get("search_active",    atom.integer)
+local search               = param.get("search")
+local search_imported      = param.get("search_imported",      atom.integer)
+local search_admin         = param.get("search_admin",         atom.integer)
+local search_activated     = param.get("search_activated",     atom.integer)
+local search_locked        = param.get("search_locked",        atom.integer)
+local search_locked_import = param.get("search_locked_import", atom.integer)
+local search_active        = param.get("search_active",        atom.integer)
 
 local order = param.get("order")
 local desc  = param.get("desc", atom.integer)
@@ -27,15 +28,16 @@ ui.actions(function()
     module = "admin",
     view = "member_edit",
     params = {
-      search           = search,
-      search_imported  = search_imported,
-      search_admin     = search_admin,
-      search_activated = search_activated,
-      search_locked    = search_locked,
-      search_active    = search_active,
-      order            = order,
-      desc             = desc,
-      page             = param.get("page", atom.integer)
+      search               = search,
+      search_imported      = search_imported,
+      search_admin         = search_admin,
+      search_activated     = search_activated,
+      search_locked        = search_locked,
+      search_locked_import = search_locked_import,
+      search_active        = search_active,
+      order                = order,
+      desc                 = desc,
+      page                 = param.get("page", atom.integer)
     }
   }
 
@@ -103,6 +105,18 @@ ui.form{
     }
 
     ui.field.select{
+      name = "search_locked_import",
+      foreign_records  = {
+        {id = 0, name = "---" .. _"Locked by import" .. "?---"},
+        {id = 1, name = _"Locked by import"},
+        {id = 2, name = _"Not locked by import"}
+      },
+      foreign_id = "id",
+      foreign_name = "name",
+      selected_record  = search_locked_import
+    }
+
+    ui.field.select{
       name = "search_active",
       foreign_records  = {
         {id = 0, name = "---" .. _"Active" .. "?---"},
@@ -123,12 +137,13 @@ ui.form{
 }
 
 local members_selector = Member:build_selector{
-  admin_search           = search,
-  admin_search_imported  = search_imported,
-  admin_search_admin     = search_admin,
-  admin_search_activated = search_activated,
-  admin_search_locked    = search_locked,
-  admin_search_active    = search_active
+  admin_search               = search,
+  admin_search_imported      = search_imported,
+  admin_search_admin         = search_admin,
+  admin_search_activated     = search_activated,
+  admin_search_locked        = search_locked,
+  admin_search_locked_import = search_locked_import,
+  admin_search_active        = search_active
 }
 if desc then
   members_selector:add_order_by(order .. " DESC")
@@ -142,12 +157,13 @@ ui.tag{
 }
 
 local params_tpl = {
-  search           = search,
-  search_imported  = search_imported,
-  search_admin     = search_admin,
-  search_activated = search_activated,
-  search_locked    = search_locked,
-  search_active    = search_active
+  search               = search,
+  search_imported      = search_imported,
+  search_admin         = search_admin,
+  search_activated     = search_activated,
+  search_locked        = search_locked,
+  search_locked_import = search_locked_import,
+  search_active        = search_active
 }
 
 ui.paginate{
@@ -155,7 +171,9 @@ ui.paginate{
   per_page = 30,
   content = function()
     ui.list{
+      style = "table",
       records = members_selector:exec(),
+      attr = { class = "member_list" },
       columns = {
         {
           field_attr = { style = "text-align: right;" },
@@ -252,6 +270,13 @@ ui.paginate{
         },
         {
           content = function(record)
+            if record.locked_import then
+              ui.field.text{ value = _"Locked by import" }
+            end
+          end
+        },
+        {
+          content = function(record)
             if not record.activated then
               ui.field.text{ value = _"Not activated" }
             elseif not record.active then
@@ -270,15 +295,16 @@ ui.paginate{
               view = "member_edit",
               id = record.id,
               params = {
-                search           = search,
-                search_imported  = search_imported,
-                search_admin     = search_admin,
-                search_activated = search_activated,
-                search_locked    = search_locked,
-                search_active    = search_active,
-                order            = order,
-                desc             = desc,
-                page             = param.get("page", atom.integer)
+                search               = search,
+                search_imported      = search_imported,
+                search_admin         = search_admin,
+                search_activated     = search_activated,
+                search_locked        = search_locked,
+                search_locked_import = search_locked_import,
+                search_active        = search_active,
+                order                = order,
+                desc                 = desc,
+                page                 = param.get("page", atom.integer)
               }
             }
           end

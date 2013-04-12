@@ -241,9 +241,6 @@ function Member:build_selector(args)
   if args.active ~= nil then
     selector:add_where{ "member.active = ?", args.active }
   end
-  if args.locked ~= nil then
-    selector:add_where{ "member.locked = ?", args.locked }
-  end
   if args.is_contact_of_member_id then
     selector:join("contact", "__model_member__contact", "member.id = __model_member__contact.other_member_id")
     selector:add_where{ "__model_member__contact.member_id = ?", args.is_contact_of_member_id }
@@ -278,6 +275,11 @@ function Member:build_selector(args)
     selector:add_where{ "member.locked = TRUE" }
   elseif args.admin_search_locked == 2 then
     selector:add_where{ "member.locked = FALSE" }
+  end
+  if     args.admin_search_locked_import == 1 then
+    selector:add_where{ "member.locked_import = TRUE" }
+  elseif args.admin_search_locked_import == 2 then
+    selector:add_where{ "member.locked_import = FALSE" }
   end
   if     args.admin_search_active == 1 then
     selector:add_where{ "member.active = TRUE" }
@@ -332,6 +334,7 @@ function Member:by_login_and_password(login, password)
   local selector = self:new_selector()
   selector:add_where{'"login" = ?', login }
   selector:add_where('NOT "locked"')
+  selector:add_where('NOT "locked_import"')
   selector:optional_object_mode()
   local member = selector:exec()
   if member and member:check_password(password) then

@@ -82,7 +82,7 @@ function Event.object:send_notification()
 
   local members_to_notify = Member:new_selector()
     :join("event_seen_by_member", nil, { "event_seen_by_member.seen_by_member_id = member.id AND event_seen_by_member.id = ?", self.id } )
-    :add_where("member.activated NOTNULL AND member.notify_email NOTNULL AND member.locked = FALSE")
+    :add_where("member.activated NOTNULL AND member.notify_email NOTNULL AND member.locked = FALSE AND member.locked_import = FALSE")
     -- SAFETY FIRST, NEVER send notifications for events more then 3 days in past or future
     :add_where("now() - event_seen_by_member.occurrence BETWEEN '-3 days'::interval AND '3 days'::interval")
     -- do not notify a member about the events caused by the member

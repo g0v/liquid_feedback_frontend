@@ -333,6 +333,7 @@ return {
 ["List of trustees"] = "Liste der Bevollmächtigten";
 ["Lock and deactivate Member?"] = "Mitglied sperren und deaktivieren?";
 ["Locked"] = "Gesperrt";
+["Locked by import"] = "Gesperrt durch Import";
 ["Login"] = "Anmeldung";
 ["Login name"] = "Anmeldename";
 ["Login successful"] = "Anmeldung erfolgreich";
@@ -425,6 +426,7 @@ return {
 ["Not approved"] = "Nicht angenommen";
 ["Not imported"] = "Nicht importiert";
 ["Not locked"] = "Nicht gesperrt";
+["Not locked by import"] = "Nicht gesperrt durch Import";
 ["Not voted"] = "Nicht abgestimmt";
 ["Not voted issues"] = "Nicht abgestimmt";
 ["Not yet voted"] = "Noch nicht abgestimmt";

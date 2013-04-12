@@ -405,6 +405,7 @@ return {
 ["List of trustees"] = false;
 ["Lock and deactivate Member?"] = false;
 ["Locked"] = false;
+["Locked by import"] = false;
 ["Locked?"] = "Zárva?";
 ["Login"] = "Bejelentkezés";
 ["Login name"] = "Bejelentkezési név";
@@ -511,6 +512,7 @@ return {
 ["Not approved (rank #{rank})"] = "Nincs elfogadva (#{rank} rang)";
 ["Not imported"] = false;
 ["Not locked"] = false;
+["Not locked by import"] = false;
 ["Not voted"] = "Nem szavazott";
 ["Not voted issues"] = "Nem szavazott témák";
 ["Not yet voted"] = false;

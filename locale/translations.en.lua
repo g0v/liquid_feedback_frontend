@@ -333,6 +333,7 @@ return {
 ["List of trustees"] = false;
 ["Lock and deactivate Member?"] = false;
 ["Locked"] = false;
+["Locked by import"] = false;
 ["Login"] = false;
 ["Login name"] = false;
 ["Login successful"] = false;
@@ -425,6 +426,7 @@ return {
 ["Not approved"] = false;
 ["Not imported"] = false;
 ["Not locked"] = false;
+["Not locked by import"] = false;
 ["Not voted"] = false;
 ["Not voted issues"] = false;
 ["Not yet voted"] = false;

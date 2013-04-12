@@ -2,7 +2,7 @@
 Import members from CSV file
 
 - Not yet existing members will be created.
-- Existing members will get their privileges updated.
+- Existing members will be unlocked and get their privileges updated.
 - Remaining imported members will be locked and deactivated.
 - Privileges for not existing units will be ignored.
 
@@ -47,11 +47,11 @@ function util.import_members(file)
   -- needed for deactivation of remaining imported members
   local identification_prefix = "import-"
 
-  -- get all imported not deactivated members
+  -- get all imported not locked members
   local member_remains = {}
   local imported_members = Member:new_selector()
     :add_where{ "member.identification LIKE ?", identification_prefix .. "%" }
-    :add_where{ "member.locked = FALSE" }
+    :add_where{ "member.locked_import = FALSE" }
     :exec()
   local imported_before = 0
   for i, member in ipairs(imported_members) do
@@ -65,6 +65,7 @@ function util.import_members(file)
   end
 
   local inserted = 0
+  local unlocked = 0
   local lines = 0
   local eof = false
   local eof_lines
@@ -122,6 +123,15 @@ function util.import_members(file)
           db_error:escalate()
         end
         inserted = inserted + 1
+      elseif member.locked_import then
+        --print("Unlock member " .. identification)
+        member.locked_import = false
+        local err = member:try_save()
+        if err then
+          print("Database error: " .. tostring(err.message))
+          db_error:escalate()
+        end
+        unlocked = unlocked + 1
       end
 
       -- member does not remain anymore
@@ -189,7 +199,7 @@ function util.import_members(file)
         for i, id in ipairs(members_deactivate) do
           local member = Member:by_id(id)
           --print("Deactivate member " .. member.identification)
-          member.locked = true
+          member.locked_import = true
           member.active = false
           member:save()
           deactivated = deactivated + 1
@@ -201,30 +211,31 @@ function util.import_members(file)
 
   end
 
-  -- number of imported not deactivated members
+  -- number of imported not locked members
   local imported_after = Member:new_selector()
     :add_where{ "member.identification LIKE ?", identification_prefix .. "%" }
-    :add_where{ "member.locked = FALSE" }
+    :add_where{ "member.locked_import = FALSE" }
     :count()
 
   -- additional warnings
   if imported_after ~= lines then
-    print("WARNING: The number of imported not deactivated members (" .. imported_after .. ") is not equal to the number of lines in the CSV file (" .. lines .. ")!")
+    print("WARNING: The number of imported not locked members (" .. imported_after .. ") is not equal to the number of lines in the CSV file (" .. lines .. ")!")
   end
-  if imported_after ~= (imported_before + inserted - deactivated) then
-    print("WARNING: The number of imported not deactivated members (" .. imported_after .. ") is not equal to the number before (" .. imported_before .. ") plus the inserted (" .. inserted .. ") minus the deactivated (" .. deactivated .. ") members!")
+  if imported_after ~= (imported_before + inserted + unlocked - deactivated) then
+    print("WARNING: The number of imported not locked members (" .. imported_after .. ") is not equal to the number before (" .. imported_before .. ") plus the inserted (" .. inserted .. ") plus the unlocked (" .. unlocked .. ") minus the deactivated (" .. deactivated .. ") members!")
   end
 
   -- report
   print()
-  print("Imported not deactivated members before: " .. imported_before)
+  print("Imported not locked members before: " .. imported_before)
   print()
   print("Changes:")
-  print("    Inserted members:    " .. inserted)
+  print("    Inserted    members: " .. inserted)
+  print("    Unlocked    members: " .. unlocked)
   print("    Deactivated members: " .. deactivated)
   print()
-  print("Lines in CSV file:                " .. lines)
-  print("Imported not deactivated members: " .. imported_after)
+  print("Lines in CSV file:                  " .. lines)
+  print("Imported not locked members:        " .. imported_after)
   print()
 
 end

@@ -412,6 +412,7 @@ return {
 ["Lock and deactivate Member?"] = false;
 ["Lock member?"] = "Κλείδωμα μέλους;";
 ["Locked"] = false;
+["Locked by import"] = false;
 ["Locked?"] = "Κλειστό;";
 ["Login"] = "Σύνδεση";
 ["Login name"] = "Όνομα σύνδεσης";
@@ -529,6 +530,7 @@ return {
 ["Not approved (rank #{rank})"] = "Μη εγκεκριμένη (Κατάταξη #{rank})";
 ["Not imported"] = false;
 ["Not locked"] = false;
+["Not locked by import"] = false;
 ["Not voted"] = "Δεν έχω ψηφίσει";
 ["Not voted issues"] = "Θέματα που δεν έχουν ψηφιστεί";
 ["Not yet voted"] = false;

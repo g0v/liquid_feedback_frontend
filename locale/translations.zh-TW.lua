@@ -412,6 +412,7 @@ return {
 ["Lock and deactivate Member?"] = false;
 ["Lock member?"] = "封鎖成員？";
 ["Locked"] = false;
+["Locked by import"] = false;
 ["Locked?"] = "被封鎖？";
 ["Login"] = "登入";
 ["Login name"] = "帳號";
@@ -529,6 +530,7 @@ return {
 ["Not approved (rank #{rank})"] = "不通過 (順位 #{rank})";
 ["Not imported"] = false;
 ["Not locked"] = false;
+["Not locked by import"] = false;
 ["Not voted"] = "未表決";
 ["Not voted issues"] = "未表決議題";
 ["Not yet voted"] = false;

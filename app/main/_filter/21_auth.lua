@@ -84,7 +84,7 @@ if auth_needed and app.session.member == nil then
     }
   }
 
-elseif auth_needed and app.session.member.locked then
+elseif auth_needed and (app.session.member.locked or app.session.member.locked_import) then
   trace.debug("Member locked.")
   request.redirect{ module = 'index', view = 'login' }
 else
