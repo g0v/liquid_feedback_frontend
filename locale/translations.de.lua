@@ -22,7 +22,6 @@ return {
 ["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = "Es wurden #{number} Bilder aktualisiert. Falls sie noch nicht angezeigt werden, kannst du versuchen, die Seite neu zu laden.";
 ["(Potential) supporters, who rated this argument negative"] = "(Potentielle) Unterstützer, die das Argument negativ bewertet haben";
 ["(Potential) supporters, who rated this argument positive"] = "(Potentielle) Unterstützer, die das Argument positiv bewertet haben";
-["(new window)"] = "(neues Fenster)";
 ["(rank #{rank})"] = "(Rang #{rank})";
 ["+ #{weight}"] = false;
 ["+getElementById("] = false;
@@ -852,6 +851,7 @@ return {
 ["must not"] = "darf nicht";
 ["negative"] = "negativ";
 ["neutral"] = "neutral";
+["new window"] = "neues Fenster";
 ["no reverse beat path to status quo (including ties)"] = "Kein rückwärtsgerichteter Schlagpfad zum Status Quo (Gleichstände eingeschlossen)";
 ["no voting right"] = "kein Stimmrecht";
 ["not implemented"] = "nicht umgesetzt";

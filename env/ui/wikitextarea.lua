@@ -36,9 +36,9 @@ function ui.wikitextarea(name, label)
             attr = {
               onClick = "this.href=this.href.replace(/wikisyntax[^.]*/g, 'wikisyntax_'+getElementById('formatting_engine').value)" }
           }
-          slot.put(" ")
+          slot.put(" (")
           ui.link{
-            text = _"(new window)",
+            text = _"new window",
             module = "help",
             view = "show",
             id = "wikisyntax",
@@ -47,6 +47,7 @@ function ui.wikitextarea(name, label)
               target = "_blank"
             }
           }
+          slot.put(")")
         end
       }
     end

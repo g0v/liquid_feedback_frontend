@@ -32,7 +32,6 @@ return {
 ["(#{more_count} duplicates removed)"] = "(#{more_count} dubbelingen verwijderd)";
 ["(Potential) supporters, who rated this argument negative"] = false;
 ["(Potential) supporters, who rated this argument positive"] = false;
-["(new window)"] = "(nieuw venster)";
 ["(rank #{rank})"] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = false;
@@ -1084,6 +1083,7 @@ return {
 ["must not"] = "mag niet";
 ["negative"] = false;
 ["neutral"] = "neutraal";
+["new window"] = "nieuw venster";
 ["no reverse beat path to status quo (including ties)"] = "geen achteruitweg naar de status quo (inclusief allianties)";
 ["no voting right"] = false;
 ["none"] = "geen";

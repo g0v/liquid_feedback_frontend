@@ -22,7 +22,6 @@ return {
 ["#{number} Images have been updated. If they're not yet displayed, you can try to reload the page."] = false;
 ["(Potential) supporters, who rated this argument negative"] = false;
 ["(Potential) supporters, who rated this argument positive"] = false;
-["(new window)"] = false;
 ["(rank #{rank})"] = false;
 ["+ #{weight}"] = false;
 ["+getElementById("] = false;
@@ -851,6 +850,7 @@ return {
 ["must not"] = false;
 ["negative"] = false;
 ["neutral"] = false;
+["new window"] = false;
 ["no reverse beat path to status quo (including ties)"] = false;
 ["no voting right"] = false;
 ["not implemented"] = false;

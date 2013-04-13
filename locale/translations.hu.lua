@@ -29,7 +29,6 @@ return {
 ["(#{more_count} duplicates removed)"] = "(#{more_count} másolat eltávolítva)";
 ["(Potential) supporters, who rated this argument negative"] = false;
 ["(Potential) supporters, who rated this argument positive"] = false;
-["(new window)"] = "(új ablak)";
 ["(rank #{rank})"] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = "+getElementById(";
@@ -1035,6 +1034,7 @@ return {
 ["must not"] = "tilos";
 ["negative"] = false;
 ["neutral"] = "semleges";
+["new window"] = false;
 ["no reverse beat path to status quo (including ties)"] = "nincs visszaút a status quo-hoz (döntetlenekkel sem)";
 ["no voting right"] = false;
 ["none"] = "nincs";

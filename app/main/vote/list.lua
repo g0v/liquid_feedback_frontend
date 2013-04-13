@@ -321,14 +321,15 @@ ui.form{
                             view = "show",
                             id = initiative.id
                           }
-                          slot.put(" ")
+                          slot.put(" (")
                           ui.link{
                             attr = { class = "clickable", target = "_blank" },
-                            content = _"(new window)",
+                            content = _"new window",
                             module = "initiative",
                             view = "show",
                             id = initiative.id
                           }
+                          slot.put(")")
                           if not readonly then
                             slot.put(" ")
                             ui.image{ attr = { class = "grabber" }, static = "icons/grabber.png" }

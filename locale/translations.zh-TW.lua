@@ -31,7 +31,6 @@ return {
 ["(#{more_count} duplicates removed)"] = "(移除了 #{more_count} 個重複項目)";
 ["(Potential) supporters, who rated this argument negative"] = false;
 ["(Potential) supporters, who rated this argument positive"] = false;
-["(new window)"] = "(新視窗)";
 ["(rank #{rank})"] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = false;
@@ -1082,6 +1081,7 @@ return {
 ["must not"] = "不可";
 ["negative"] = false;
 ["neutral"] = "中立";
+["new window"] = false;
 ["no reverse beat path to status quo (including ties)"] = "無循環性優先順序導至現狀 (包括平手)";
 ["no voting right"] = false;
 ["none"] = "無";

@@ -27,7 +27,6 @@ return {
 ["(#{more_count} duplicates removed)"] = "(#{more_count} duoblaĵoj forigitaj)";
 ["(Potential) supporters, who rated this argument negative"] = false;
 ["(Potential) supporters, who rated this argument positive"] = false;
-["(new window)"] = "(nova fenestro)";
 ["(rank #{rank})"] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = false;
@@ -1002,6 +1001,7 @@ return {
 ["must not"] = "ne rajtas";
 ["negative"] = false;
 ["neutral"] = "neŭtrala";
+["new window"] = "nova fenestro";
 ["no reverse beat path to status quo (including ties)"] = false;
 ["no voting right"] = false;
 ["not implemented"] = "nerealigita";

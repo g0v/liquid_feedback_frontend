@@ -156,13 +156,14 @@ ui.form{
                   module = "policy",
                   view = "list"
                 }
-                slot.put(" ")
+                slot.put(" (")
                 ui.link{
                   attr = { target = "_blank" },
-                  text = _"(new window)",
+                  text = _"new window",
                   module = "policy",
                   view = "list"
                 }
+                slot.put(")")
               end
             }
           end

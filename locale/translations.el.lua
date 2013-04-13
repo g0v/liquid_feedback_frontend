@@ -31,7 +31,6 @@ return {
 ["(#{more_count} duplicates removed)"] = "(Αφαιρέθηκαν #{more_count} αντίγραφα)";
 ["(Potential) supporters, who rated this argument negative"] = false;
 ["(Potential) supporters, who rated this argument positive"] = false;
-["(new window)"] = "(νέο παράθυρο)";
 ["(rank #{rank})"] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = false;
@@ -1082,6 +1081,7 @@ return {
 ["must not"] = "με τίποτα";
 ["negative"] = false;
 ["neutral"] = "ουδέτερη";
+["new window"] = "νέο παράθυρο";
 ["no reverse beat path to status quo (including ties)"] = "Χωρίς reverse beat path προς την παρούσα κατάσταση (συμπεριλαμβάνοντας ισοπαλίες)";
 ["no voting right"] = false;
 ["none"] = "κανένα";

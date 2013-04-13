@@ -33,7 +33,6 @@ return {
 ["(#{more_count} duplicates removed)"] = "(#{more_count} duplicati eliminati)";
 ["(Potential) supporters, who rated this argument negative"] = false;
 ["(Potential) supporters, who rated this argument positive"] = false;
-["(new window)"] = "(nuova finestra)";
 ["(rank #{rank})"] = false;
 ["+ #{weight}"] = "+ #{weight}";
 ["+getElementById("] = "+getElementById(";
@@ -1080,6 +1079,7 @@ return {
 ["must not"] = "non deve";
 ["negative"] = false;
 ["neutral"] = "neutrale";
+["new window"] = "nuova finestra";
 ["no reverse beat path to status quo (including ties)"] = "nessun 'reverse beat path' rispetto allo status quo (incluso parimerito)";
 ["no voting right"] = false;
 ["none"] = "nessuno";
