@@ -105,15 +105,16 @@ return {
 ["Can't remove last initiator!"] = "Der letzte Initiator kann nicht entfernt werden!";
 ["Can't send confirmation email!"] = "Bestätigungs-E-Mail kann nicht versendet werden!";
 ["Cancel"] = "Abbrechen";
+["Cancel [nullify]"] = "Aufheben";
 ["Cancel password reset"] = "Kennwort-Rücksetzung abbrechen";
 ["Cancel refuse of invitation"] = "Ablehnung der Einladung aufheben";
 ["Cancel registration"] = "Registrierung abbrechen";
-["Cancelled"] = "Abgebrochen";
-["Cancelled (before accepted due to revocation)"] = "Abgebrochen (in Neu-Phase, wegen Rückzug)";
-["Cancelled (during discussion due to revocation)"] = "Abgebrochen (während Diskussion, wegen Rückzug)";
-["Cancelled (during verification due to revocation)"] = "Abgebrochen (während Eingefroren-Phase, wegen Rückzug)";
-["Cancelled (issue not accepted)"] = "Abgebrochen (Thema nicht akzeptiert)";
-["Cancelled (no initiative admitted)"] = "Abgebrochen (Keine Initiative zugelassen)";
+["Canceled"] = "Abgebrochen";
+["Canceled (before accepted due to revocation)"] = "Abgebrochen (in Neu-Phase, wegen Rückzug)";
+["Canceled (during discussion due to revocation)"] = "Abgebrochen (während Diskussion, wegen Rückzug)";
+["Canceled (during verification due to revocation)"] = "Abgebrochen (während Eingefroren-Phase, wegen Rückzug)";
+["Canceled (issue not accepted)"] = "Abgebrochen (Thema nicht akzeptiert)";
+["Canceled (no initiative admitted)"] = "Abgebrochen (Keine Initiative zugelassen)";
 ["Change discussion URL"] = "Diskussions-URL ändern";
 ["Change email"] = "E-Mail-Adresse ändern";
 ["Change email address"] = "E-Mail-Adresse ändern";
@@ -156,6 +157,7 @@ return {
 ["Create new unit"] = "Neue Gliederung anlegen";
 ["Created"] = "Erzeugt";
 ["Current name"] = "Aktueller Name";
+["Current phase is already closed."] = "Die aktuelle Phase ist bereits geschlossen.";
 ["Current status"] = "Aktueller Status";
 ["Current votings in areas you are member of and issues you are interested in:"] = "Jetzt laufende Abstimmungen zu Themen aus deinen Themenbereichen oder solchen an denen du interessiert bist:";
 ["Currently no API key is set."] = "Zur Zeit ist kein API-Schlüssel festgelegt.";
@@ -199,6 +201,7 @@ return {
 ["Discussion started"] = "Diskussion gestartet";
 ["Discussion starts soon."] = "Diskussion beginnt in Kürze.";
 ["Discussion time"] = "Zeit für die Diskussion";
+["Do not vote directly"] = "Nicht selbst abstimmen";
 ["Download"] = "Download";
 ["Download database export"] = "Datenbankexport herunterladen";
 ["Download documents"] = "Dokumente herunterladen";
@@ -230,6 +233,7 @@ return {
 ["Finished"] = "Abgeschlossen";
 ["Finished (with winner)"] = "Abgeschlossen (mit Gewinner)";
 ["Finished (without winner)"] = "Abgeschlossen (ohne Gewinner)";
+["Free timing"] = "Freie Zeitsteuerung";
 ["Frozen"] = "Eingefroren";
 ["Fully frozen"] = "Ganz eingefroren";
 ["Generate API key"] = "API-Schlüssel erzeugen";
@@ -255,6 +259,7 @@ return {
 ["Ignoring a member means, that you don't get anymore email notifications about the actions of this user."] = "Ein Mitglied zu ignorieren bedeutet, dass du keine E-Mail-Benachrichtigungen über seine Aktionen mehr bekommst.";
 ["Ignoring an initiative means, that you don't get anymore email notifications about it."] = "Eine Initiative zu ignorieren bedeutet, dass du zu ihr keine E-Mail-Benachrichtigungen mehr bekommst.";
 ["Images"] = "Bilder";
+["Implicitly admitted"] = "Implizit zugelassen";
 ["Imported"] = "Importiert";
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = "In dieser Installation ist eine Registrierung auch ohne Einladungscode möglich. Dafür das Feld bitte einfach leer lassen.";
 ["Inactive"] = "Inaktiv";
@@ -403,6 +408,7 @@ return {
 ["No"] = "Nein";
 ["No (potential) supporters rated this argument negative."] = "Kein (potentieller) Unterstützer hat dieses Argument negativ bewertet.";
 ["No (potential) supporters rated this argument positive."] = "Kein (potentieller) Unterstützer hat dieses Argument positiv bewertet.";
+["No admission needed"] = "Keine Zulassung erforderlich";
 ["No arguments"] = "Keine Argumente";
 ["No arguments yet"] = "Noch keine Argumente";
 ["No changes to your images were made"] = "An deinen Bildern wurde nichts geändert";
@@ -478,6 +484,7 @@ return {
 ["Please choose a member!"] = "Bitte wähle ein Mitglied!";
 ["Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you."] = "Wähle einen Namen, z. B. deinen Real- oder Nicknamen. Dieser wird anderen angezeigt um dich zu identifizieren.";
 ["Please choose a password and enter it twice. The password is case sensitive and has to be at least 8 characters long."] = "Bitte wähle ein Kennwort und gib es zweimal ein. Groß- und Kleinschreibung wird berücksichtigt. Das Kennwort muss mindestens 8 Zeichen lang sein.";
+["Please choose a policy"] = false;
 ["Please choose a policy!"] = "Bitte wähle ein Regelwerk!";
 ["Please choose two different versions of the draft to compare!"] = "Bitte wähle zwei verschiedene Versionen des Entwurfs, um sie zu vergleichen!";
 ["Please choose two versions of the draft to compare!"] = "Bitte wähle zwei Versionen des Entwurfs, um sie zu vergleichen!";
@@ -493,12 +500,14 @@ return {
 ["Policy"] = "Regelwerk";
 ["Policy '#{name}'"] = "Regelwerk '#{name}'";
 ["Policy list"] = "Liste der Regelwerke";
+["Polling mode"] = "Befragungsmodus";
 ["Population"] = "Grundgesamtheit";
 ["Positive"] = "Positiv";
 ["Posts"] = "Ämter";
 ["Potential supporters"] = "Potentielle Unterstützer";
 ["Potentially supported"] = "Potentiell unterstützt";
 ["Preview"] = "Vorschau";
+["Preview voting comment"] = "Vorschau Abstimmmungskommentar";
 ["Proceed with registration"] = "Registrierung fortsetzen";
 ["Profession"] = "Beruf";
 ["Profile"] = "Profil";
@@ -568,6 +577,7 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Sorry, du hast dein persönliches Flood-Limit erreicht. Bitte sei langsamer...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Sorry, dein Antragskontingent ist zur Zeit ausgeschöpft. Bitte versuche es später erneut!";
 ["Source"] = "Quelltext";
+["Standard policies"] = "Standardverfahren";
 ["Start search"] = "Suche starten";
 ["State"] = "Zustand";
 ["Statement"] = "Statement";
@@ -668,6 +678,7 @@ return {
 ["Units and areas"] = "Gliederungen und Themenbereiche";
 ["Unknown author"] = "Unbekannter Autor";
 ["Unlock Member?"] = "Mitglied entsperren?";
+["Update voting comment"] = "Abstimmungskommentar ändern";
 ["Updated drafts"] = "Neue Entwürfe";
 ["Upload avatar/photo"] = "Avatar/Foto hochladen";
 ["Upload images"] = "Bilder hochladen";
@@ -684,6 +695,10 @@ return {
 ["Voters"] = "Mitglieder, die abgestimmt haben";
 ["Votes"] = "Stimmen";
 ["Voting"] = "Abstimmung";
+["Voting comment"] = "Abstimmungskommentar";
+["Voting comment (last updated: #{timestamp})"] = "Abstimmmungskommentar (Letzte Änderung: #{timestamp})";
+["Voting comment (optional)"] = "Abstimmmungskommentar (optional)";
+["Voting comment available"] = "Abstimmungskommentar verfügbar";
 ["Voting for issue ##{id} started"] = "Abstimmung für Thema ##{id} hat begonnen";
 ["Voting for issue started"] = "Abstimmung für Thema hat begonnen";
 ["Voting for this issue has already begun!"] = "Die Abstimmung für dieses Thema hat schon begonnen!";
@@ -695,6 +710,7 @@ return {
 ["We have sent an email with activation link already in the last hour. Please try again later."] = "Wir haben bereits innerhalb der letzten Stunde eine E-Mail mit Bestätigungslink gesendet. Bitte versuche es später erneut.";
 ["Website"] = "Webseite";
 ["Wiki engine"] = "Wiki engine";
+["Wiki engine for statement"] = "Wiki engine für das Statement";
 ["Withdraw"] = "Zurückziehen";
 ["Withdraw interest and delete the suggestion"] = "Interesse zurückziehen und die Anregung löschen";
 ["Withdraw interest and delete the suggestions"] = "Interesse zurückziehen und die Anregungen löschen";
@@ -705,6 +721,7 @@ return {
 ["Yesterday at #{time}"] = "Gestern um #{time}";
 ["You abstained via delegation."] = "Du hast dich durch Delegation enthalten.";
 ["You abstained."] = "Du hast dich enthalten.";
+["You already voted this issue!"] = "Du hast dieses Thema bereits abgestimmt!";
 ["You are already initiator!"] = "Du bist bereits Initiator!";
 ["You are already not interested in this issue."] = "Du bist an diesem Thema bereits nicht interessiert.";
 ["You are already not supporting this initiative."] = "Diese Initiative hat bereits keine Unterstützung von dir.";
@@ -849,7 +866,9 @@ return {
 ["to reset your password please click on the following link:\n\n"] = "um dein Kennwort zurückzusetzen klicke bitte den folgenden Link an:\n\n";
 ["until"] = "bis";
 ["up"] = "rauf";
+["variable"] = "variabel";
 ["with winner"] = "mit Gewinner";
+["without"] = "ohne";
 ["without winner"] = "ohne Gewinner";
 ["xmpp"] = "Jabber (XMPP)";
 ["year [interval ago]"] = "Jahr";

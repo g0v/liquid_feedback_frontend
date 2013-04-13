@@ -27,10 +27,14 @@ ui.container{
         content = function()
           -- new
           dtdd( _"Created", format.timestamp(issue.created) )
-          dtdd( _"Admission time", format.interval_text(issue.admission_time_text), "duration" )
-          dtdd( _"Issue quorum", format.percentage(policy.issue_quorum_num / policy.issue_quorum_den), "quorum" )
-          if issue.population then
-            dtdd( _"Currently required", math.ceil(issue.population * policy.issue_quorum_num / policy.issue_quorum_den), "quorum" )
+          if policy.polling then
+            dtdd( _"Admission time", _"Implicitly admitted", "duration" )
+          else
+            dtdd( _"Admission time", format.interval_text(issue.admission_time_text), "duration" )
+            dtdd( _"Issue quorum", format.percentage(policy.issue_quorum_num / policy.issue_quorum_den), "quorum" )
+            if issue.population then
+              dtdd( _"Currently required", math.ceil(issue.population * policy.issue_quorum_num / policy.issue_quorum_den), "quorum" )
+            end
           end
           -- discussion
           if issue.accepted then
@@ -68,10 +72,12 @@ ui.container{
             dtdd( _"Last snapshot", format.timestamp(issue.snapshot) )
           end
         end
+
       }
 
       slot.put('<div class="clearfix"></div>')
 
     end }
+
   end
 }

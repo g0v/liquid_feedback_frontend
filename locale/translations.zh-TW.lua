@@ -131,9 +131,16 @@ return {
 ["Can't send confirmation email"] = "無法寄送確認電郵";
 ["Can't send confirmation email!"] = false;
 ["Cancel"] = "取消";
+["Cancel [nullify]"] = false;
 ["Cancel password reset"] = "取消密碼重設";
 ["Cancel refuse of invitation"] = "取消婉拒邀請";
 ["Cancel registration"] = "取消註冊";
+["Canceled"] = false;
+["Canceled (before accepted due to revocation)"] = false;
+["Canceled (during discussion due to revocation)"] = false;
+["Canceled (during verification due to revocation)"] = false;
+["Canceled (issue not accepted)"] = false;
+["Canceled (no initiative admitted)"] = false;
 ["Cancelled"] = "已取消";
 ["Cancelled (before accepted due to revocation)"] = "已取消 (未被接受即撤銷)";
 ["Cancelled (during discussion due to revocation)"] = "已取消 (在討論期撤銷)";
@@ -189,6 +196,7 @@ return {
 ["Created at"] = "新增於";
 ["Current draft"] = "目前草案";
 ["Current name"] = "目前代號";
+["Current phase is already closed."] = false;
 ["Current status"] = "目前狀態";
 ["Current trustee"] = "目前受託人";
 ["Current votings in areas you are member of and issues you are interested in:"] = "目前在您的領域或您所關心的議題中正進行的表決：";
@@ -243,6 +251,7 @@ return {
 ["Discussion starts soon."] = false;
 ["Discussion time"] = "剩餘討論時間";
 ["Discussion with initiators"] = "與發起者討論";
+["Do not vote directly"] = false;
 ["Download"] = "下載";
 ["Download database export"] = "下載匯出的資料庫";
 ["Download documents"] = "下載文件";
@@ -280,6 +289,7 @@ return {
 ["Finished"] = "已結束";
 ["Finished (with winner)"] = "已結束 (有獲選者)";
 ["Finished (without winner)"] = "已結束 (無獲選者)";
+["Free timing"] = false;
 ["Friday"] = "週五";
 ["Frozen"] = "底定期";
 ["Fully frozen"] = false;
@@ -314,6 +324,7 @@ return {
 ["Ignoring a member means, that you don't get anymore email notifications about the actions of this user."] = false;
 ["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "圖片";
+["Implicitly admitted"] = false;
 ["Imported"] = false;
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
 ["Inactive"] = false;
@@ -501,6 +512,7 @@ return {
 ["No"] = "否定";
 ["No (potential) supporters rated this argument negative."] = false;
 ["No (potential) supporters rated this argument positive."] = false;
+["No admission needed"] = false;
 ["No arguments"] = false;
 ["No arguments yet"] = false;
 ["No changes to your images were made"] = "您的圖片未被更改";
@@ -610,6 +622,7 @@ return {
 ["Policy"] = "規則";
 ["Policy '#{name}'"] = "規則 '#{name}'";
 ["Policy list"] = "規則清單";
+["Polling mode"] = false;
 ["Population"] = "人數";
 ["Positive"] = false;
 ["Posts"] = "職位";
@@ -618,6 +631,7 @@ return {
 ["Potential supporters (before begin of voting)"] = "可能支持者 (直到表決開始)";
 ["Potentially supported"] = "可能支持";
 ["Preview"] = "預覽";
+["Preview voting comment"] = false;
 ["Proceed with registration"] = "繼續註冊";
 ["Profession"] = "職業";
 ["Profile"] = "個人簡介";
@@ -711,6 +725,7 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "抱歉，您已經達到個人流量限制。請減緩...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "抱歉，您的提案申請額度已經用盡。請稍後重試！";
 ["Source"] = "來源";
+["Standard policies"] = false;
 ["Start search"] = "開始搜尋";
 ["State"] = "狀態";
 ["Statement"] = "自述";
@@ -839,6 +854,7 @@ return {
 ["Units and areas"] = "單位與領域";
 ["Unknown author"] = "無名作者";
 ["Unlock Member?"] = false;
+["Update voting comment"] = false;
 ["Updated drafts"] = "更新的草案";
 ["Upload avatar/photo"] = "上傳頭像";
 ["Upload images"] = "上傳圖片";
@@ -858,6 +874,10 @@ return {
 ["Voters"] = false;
 ["Votes"] = false;
 ["Voting"] = "表決中";
+["Voting comment"] = false;
+["Voting comment (last updated: #{timestamp})"] = false;
+["Voting comment (optional)"] = false;
+["Voting comment available"] = false;
 ["Voting details"] = "表決詳細資料";
 ["Voting for issue ##{id} started"] = false;
 ["Voting for issue started"] = false;
@@ -886,6 +906,7 @@ return {
 ["Yesterday at #{time}"] = "昨日於 #{time}";
 ["You abstained via delegation."] = false;
 ["You abstained."] = false;
+["You already voted this issue!"] = false;
 ["You are already initiator"] = "您已是發起者";
 ["You are already initiator!"] = false;
 ["You are already not interested in this issue."] = false;
@@ -1077,7 +1098,9 @@ return {
 ["unit"] = "單位";
 ["until"] = "直到";
 ["up"] = false;
+["variable"] = false;
 ["with winner"] = "有獲選者";
+["without"] = false;
 ["without winner"] = "無獲選者";
 ["xmpp"] = "Jabber (XMPP)";
 ["year [interval ago]"] = false;

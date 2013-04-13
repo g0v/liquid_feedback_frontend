@@ -752,6 +752,7 @@ div.notifications {
 }
 .vertical input[type=text],
 .vertical textarea,
+#voting_form textarea,
 .vertical select {
   width: 68%;
 }
@@ -761,6 +762,7 @@ div.notifications {
 .vertical select {
   padding-right: 0;
 }
+#voting_form .ui_field_label,
 .login .ui_field_label,
 .vertical .ui_field_label {
   line-height: 180%;
@@ -817,6 +819,7 @@ div.ui_field_multiline span {
   margin-bottom: 0;
 }
 
+#voting_form input[type=submit],
 .login input[type=submit],
 .vertical input[type=submit],
 .delegation_add input[type=submit] {
@@ -824,6 +827,10 @@ div.ui_field_multiline span {
 }
 .vertical input[type=submit].additional {
   margin-left: 1em;
+}
+
+#voting_form input[type=submit] {
+  margin-left: 0;
 }
 
 .login input[type=submit]:hover,
@@ -1187,6 +1194,11 @@ div.delegations_participation {
 .initiative.selected .name {
   font-weight: bold;
   xfont-style: italic;
+}
+
+.initiative.polling .name,
+.initiative_head.polling .title {
+  font-style: italic;
 }
 
 @media screen and (max-width: 480px) {

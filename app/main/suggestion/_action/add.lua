@@ -1,5 +1,5 @@
-local tmp = db:query({ "SELECT text_entries_left FROM member_contingent_left WHERE member_id = ?", app.session.member.id }, "opt_object")
-if tmp and tmp.text_entries_left and tmp.text_entries_left < 1 then
+local tmp = db:query({ "SELECT text_entries_left FROM member_contingent_left WHERE member_id = ? AND NOT polling", app.session.member.id }, "opt_object")
+if not tmp or tmp.text_entries_left < 1 then
   slot.put_into("error", _"Sorry, you have reached your personal flood limit. Please be slower...")
   return false
 end
@@ -50,6 +50,12 @@ if issue.closed then
   return false
 elseif issue.half_frozen then
   slot.put_into("error", _"This issue is already frozen!")
+  return false
+elseif 
+  (issue.half_frozen and issue.phase_finished) or
+  (not issue.accepted and issue.phase_finished) 
+then
+  slot.put_into("error", _"Current phase is already closed.")
   return false
 end
 

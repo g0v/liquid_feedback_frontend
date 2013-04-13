@@ -18,6 +18,8 @@ DirectVoter:add_reference{
   ref           = 'member',
 }
 
+model.has_rendered_content(DirectVoter, RenderedVoterComment, "comment")
+
 function DirectVoter:by_pk(issue_id, member_id)
   return self:new_selector()
     :add_where{ "issue_id = ? AND member_id = ?", issue_id, member_id }

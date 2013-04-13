@@ -131,9 +131,16 @@ return {
 ["Can't send confirmation email"] = "Δεν ήταν δυνατή η αποστολή email επιβεβαίωσης.";
 ["Can't send confirmation email!"] = false;
 ["Cancel"] = "Άκυρο";
+["Cancel [nullify]"] = false;
 ["Cancel password reset"] = "Ακύρωση επαναφοράς κωδικού πρόσβασης";
 ["Cancel refuse of invitation"] = "Ακύρωση απόρριψης της πρόσκλησης";
 ["Cancel registration"] = "Ακύρωση εγγραφής";
+["Canceled"] = false;
+["Canceled (before accepted due to revocation)"] = false;
+["Canceled (during discussion due to revocation)"] = false;
+["Canceled (during verification due to revocation)"] = false;
+["Canceled (issue not accepted)"] = false;
+["Canceled (no initiative admitted)"] = false;
 ["Cancelled"] = "Ακυρώθηκε";
 ["Cancelled (before accepted due to revocation)"] = "Ακυρώθηκε (στη φάση 'Νέο', λόγω ανάκλησης)";
 ["Cancelled (during discussion due to revocation)"] = "Ακυρώθηκε (κατά τη διάρκεια της συζήτησης, λόγω ανάκλησης)";
@@ -189,6 +196,7 @@ return {
 ["Created at"] = "Δημιουργήθηκε στις";
 ["Current draft"] = "Τρέχον προσχέδιο";
 ["Current name"] = "Τρέχουσα ονομασία";
+["Current phase is already closed."] = false;
 ["Current status"] = "Τρέχουσα κατάσταση";
 ["Current trustee"] = "Τρέχων αντιπρόσωπος";
 ["Current votings in areas you are member of and issues you are interested in:"] = "Τρέχουσες ψηφοφορίες σε τομείς που είστε μέλη και θέματα που σας ενδιαφέρουν:";
@@ -243,6 +251,7 @@ return {
 ["Discussion starts soon."] = false;
 ["Discussion time"] = "Διάρκεια διαβούλευσης";
 ["Discussion with initiators"] = "Συζήτηση με τους εισηγητές";
+["Do not vote directly"] = false;
 ["Download"] = "Κατέβασμα";
 ["Download database export"] = "Κατέβασμα βάσης δεδομένων";
 ["Download documents"] = "Κατέβασμα εγγράφων";
@@ -280,6 +289,7 @@ return {
 ["Finished"] = "Ολοκληρώθηκε";
 ["Finished (with winner)"] = "Ολοκληρώθηκε (με νικητή)";
 ["Finished (without winner)"] = "Ολοκληρώθηκε (χωρίς νικητή)";
+["Free timing"] = false;
 ["Friday"] = "Παρασκευή";
 ["Frozen"] = "Παγωμένο";
 ["Fully frozen"] = false;
@@ -314,6 +324,7 @@ return {
 ["Ignoring a member means, that you don't get anymore email notifications about the actions of this user."] = false;
 ["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "Εικόνες";
+["Implicitly admitted"] = false;
 ["Imported"] = false;
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
 ["Inactive"] = false;
@@ -501,6 +512,7 @@ return {
 ["No"] = "Όχι";
 ["No (potential) supporters rated this argument negative."] = false;
 ["No (potential) supporters rated this argument positive."] = false;
+["No admission needed"] = false;
 ["No arguments"] = false;
 ["No arguments yet"] = false;
 ["No changes to your images were made"] = "Δεν έγιναν αλλαγές στις εικόνες σας";
@@ -610,6 +622,7 @@ return {
 ["Policy"] = "Κανονισμός";
 ["Policy '#{name}'"] = "Κανονισμός '#{name}'";
 ["Policy list"] = "Κατάλογος κανονισμών";
+["Polling mode"] = false;
 ["Population"] = "Πληθυσμός";
 ["Positive"] = false;
 ["Posts"] = "Δημοσιέυσεις";
@@ -618,6 +631,7 @@ return {
 ["Potential supporters (before begin of voting)"] = "Δυνητικοί υποστηρικτές (πριν την έναρξη της ψηφοφορίας)";
 ["Potentially supported"] = "Ενδεχομένως να υποστηρίξω";
 ["Preview"] = "Προεπισκόπηση";
+["Preview voting comment"] = false;
 ["Proceed with registration"] = "Προχωρήστε με την εγγραφή";
 ["Profession"] = "Επάγγελμα";
 ["Profile"] = "Προφίλ";
@@ -711,6 +725,7 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Λυπούμαστε, έχετε προσωπικά φτάσει το όριο ταχύτητας. Παρακαλώ χαλαρώστε...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Λυπούμαστε, έχετε εξαντλήσει το όριο υποβολής πρωτοβουλιών για τώρα. Παρακαλώ ξαναδοκιμάστε αργότερα.";
 ["Source"] = "Πηγή";
+["Standard policies"] = false;
 ["Start search"] = "Έναρξη αναζήτησης";
 ["State"] = "Κατάσταση";
 ["Statement"] = "Δήλωση";
@@ -839,6 +854,7 @@ return {
 ["Units and areas"] = "Ενότητες και τομείς";
 ["Unknown author"] = "Άγνωστος συντάκτης";
 ["Unlock Member?"] = false;
+["Update voting comment"] = false;
 ["Updated drafts"] = "Νέα προσχέδια";
 ["Upload avatar/photo"] = "Ανέβασμα εικόνας/φωτό";
 ["Upload images"] = "Ανέβασμα φωτογραφίας";
@@ -858,6 +874,10 @@ return {
 ["Voters"] = false;
 ["Votes"] = false;
 ["Voting"] = "Ψηφοφορία";
+["Voting comment"] = false;
+["Voting comment (last updated: #{timestamp})"] = false;
+["Voting comment (optional)"] = false;
+["Voting comment available"] = false;
 ["Voting details"] = "Λεπτομέρειες ψηφοφορίας";
 ["Voting for issue ##{id} started"] = false;
 ["Voting for issue started"] = false;
@@ -886,6 +906,7 @@ return {
 ["Yesterday at #{time}"] = "Χτες στις #{time}";
 ["You abstained via delegation."] = false;
 ["You abstained."] = false;
+["You already voted this issue!"] = false;
 ["You are already initiator"] = "Είστε ήδη εισηγητής";
 ["You are already initiator!"] = false;
 ["You are already not interested in this issue."] = false;
@@ -1077,7 +1098,9 @@ return {
 ["unit"] = "Ενότητα";
 ["until"] = "μέχρι";
 ["up"] = false;
+["variable"] = false;
 ["with winner"] = "Με νικητή";
+["without"] = false;
 ["without winner"] = "Χωρίς νικητή";
 ["xmpp"] = "Jabber (XMPP)";
 ["year [interval ago]"] = false;

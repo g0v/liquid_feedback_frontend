@@ -8,10 +8,14 @@ if selected then
   class = class .. " selected"
 end
 
+if initiative.polling then
+  class = class .. " polling"
+end
+
 ui.container{ attr = { class = class }, content = function()
 
   ui.container{ attr = { class = "rank" }, content = function()
-    if (initiative.issue.accepted and initiative.issue.closed and initiative.issue.ranks_available) or initiative.admitted == false then
+    if (initiative.issue.fully_frozen and initiative.issue.closed) or initiative.admitted == false then
       ui.form_element(args, {fetch_value = true}, function(args)
         ui.tag{
           attr = { class = "rank" },
@@ -66,55 +70,55 @@ ui.container{ attr = { class = class }, content = function()
   ui.container{ attr = { class = "bar" }, content = function()
     if initiative.issue.fully_frozen and initiative.issue.closed then
       -- bar shows voting result
-      if initiative.issue.ranks_available then
-        if initiative.negative_votes and initiative.positive_votes then
-          local max_value = initiative.issue.voter_count
-          if initiative.positive_direct_votes and initiative.negative_direct_votes then
-            ui.bargraph{
-              title_prefix = _"Votes" .. ": ",
-              max_value = max_value,
-              width = 100,
-              bars = {
-                { color = "#0a5", value = initiative.positive_direct_votes },
-                { color = "#0b6", value = initiative.positive_votes - initiative.positive_direct_votes },
-                { color = "#aaa", value = max_value - initiative.negative_votes - initiative.positive_votes },
-                { color = "#b55", value = initiative.negative_votes - initiative.negative_direct_votes },
-                { color = "#a00", value = initiative.negative_direct_votes }
-              }
+      if initiative.negative_votes and initiative.positive_votes then
+        local max_value = initiative.issue.voter_count
+        if initiative.positive_direct_votes and initiative.negative_direct_votes then
+          ui.bargraph{
+            title_prefix = _"Votes" .. ": ",
+            max_value = max_value,
+            width = 100,
+            bars = {
+              { color = "#0a5", value = initiative.positive_direct_votes },
+              { color = "#0b6", value = initiative.positive_votes - initiative.positive_direct_votes },
+              { color = "#aaa", value = max_value - initiative.negative_votes - initiative.positive_votes },
+              { color = "#b55", value = initiative.negative_votes - initiative.negative_direct_votes },
+              { color = "#a00", value = initiative.negative_direct_votes }
             }
-          else
-            -- for old initiatives without calculated values for direct voters
-            ui.bargraph{
-              title_prefix = _"Votes" .. ": ",
-              max_value = max_value,
-              width = 100,
-              bars = {
-                { color = "#0a5", value = initiative.positive_votes },
-                { color = "#aaa", value = max_value - initiative.negative_votes - initiative.positive_votes },
-                { color = "#a00", value = initiative.negative_votes }
-              }
-            }
-          end
+          }
         else
-          slot.put("&nbsp;")
+          -- for old initiatives without calculated values for direct voters
+          ui.bargraph{
+            title_prefix = _"Votes" .. ": ",
+            max_value = max_value,
+            width = 100,
+            bars = {
+              { color = "#0a5", value = initiative.positive_votes },
+              { color = "#aaa", value = max_value - initiative.negative_votes - initiative.positive_votes },
+              { color = "#a00", value = initiative.negative_votes }
+            }
+          }
         end
       else
-        slot.put(_"Counting of votes")
+        slot.put("&nbsp;")
       end
     else
       -- bar shows supporters
       local max_value = initiative.issue.population or 0
       local quorum
       if initiative.issue.accepted then
-        quorum = initiative.issue.policy.initiative_quorum_num / initiative.issue.policy.initiative_quorum_den
+        if initiative.issue.policy.initiative_quorum_den then
+          quorum = initiative.issue.policy.initiative_quorum_num / initiative.issue.policy.initiative_quorum_den * max_value
+        end
       else
-        quorum = initiative.issue.policy.issue_quorum_num / initiative.issue.policy.issue_quorum_den
+        if initiative.issue.policy.issue_quorum_den then
+          quorum = initiative.issue.policy.issue_quorum_num / initiative.issue.policy.issue_quorum_den * max_value
+        end
       end
       ui.bargraph{
         title_prefix = _"Supporters" .. ": ",
         max_value = max_value,
         width = 100,
-        quorum = max_value * quorum,
+        quorum = quorum,
         quorum_color = "#00F",
         bars = {
           { color = "#4c6", value = (initiative.satisfied_supporter_count or 0) },

@@ -33,20 +33,37 @@ ui.list{
       label_attr = { width = "200" },
       label = _"Phases",
       content = function(policy)
-        ui.field.text{ label = _"New" .. ":", value = "≤ " .. format.interval_text(policy.admission_time_text) }
-        ui.field.text{ label = _"Discussion" .. ":",  value = format.interval_text(policy.discussion_time_text) }
-        ui.field.text{ label = _"Frozen" .. ":",      value = format.interval_text(policy.verification_time_text) }
-        ui.field.text{ label = _"Voting" .. ":",      value = format.interval_text(policy.voting_time_text) }
+        if policy.polling then
+          ui.field.text{ label = _"New" .. ":", value = _"without" }
+        else
+          ui.field.text{ label = _"New" .. ":", value = "≤ " .. format.interval_text(policy.admission_time) }
+        end
+        ui.field.text{
+          label = _"Discussion" .. ":",
+          value = policy.discussion_time   and format.interval_text(policy.discussion_time)   or _"variable"
+        }
+        ui.field.text{
+          label = _"Frozen" .. ":",
+          value = policy.verification_time and format.interval_text(policy.verification_time) or _"variable"
+        }
+        ui.field.text{
+          label = _"Voting" .. ":",
+          value = policy.voting_time       and format.interval_text(policy.voting_time)       or _"variable"
+        }
       end
     },
     {
       label_attr = { width = "200" },
       label = _"Quorum",
       content = function(policy)
-        ui.field.text{
-          label = _"Issue quorum" .. ":",
-          value = "≥ " .. tostring(policy.issue_quorum_num) .. "/" .. tostring(policy.issue_quorum_den)
-        }
+        if policy.polling then
+          ui.field.text{ label = _"Issue quorum" .. ":", value = _"without" }
+        else
+          ui.field.text{
+            label = _"Issue quorum" .. ":",
+            value = "≥ " .. tostring(policy.issue_quorum_num) .. "/" .. tostring(policy.issue_quorum_den)
+          }
+        end
         ui.field.text{
           label = _"Initiative quorum" .. ":",
           value = "≥ " .. tostring(policy.initiative_quorum_num) .. "/" .. tostring(policy.initiative_quorum_den)

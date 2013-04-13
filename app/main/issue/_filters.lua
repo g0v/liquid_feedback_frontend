@@ -96,8 +96,8 @@ if not state then
     end
   }
   filter[#filter+1] = {
-    name = "cancelled",
-    label = _"Cancelled",
+    name = "canceled",
+    label = _"Canceled",
     selector_modifier = function(selector)
 
       if for_events then
@@ -149,8 +149,8 @@ if state == "closed" then
     end
   }
   filter[#filter+1] = {
-    name = "cancelled",
-    label = _"Cancelled",
+    name = "canceled",
+    label = _"Canceled",
     selector_modifier = function(selector)
       if for_events then
         selector:add_where("event.state NOT IN ('finished_with_winner', 'finished_without_winner')")
@@ -378,7 +378,6 @@ if app.session.member then
   end
 
 end
-
 
 function filters:get_filter(group, name)
   for i,grp in ipairs(self) do

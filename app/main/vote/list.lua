@@ -2,40 +2,37 @@ local issue = Issue:by_id(param.get("issue_id"), atom.integer)
 
 local member_id = param.get("member_id", atom.integer)
 local member
-
 local readonly = false
+local preview = param.get("preview") and true or false
+local submit_button_text
+local direct_voter
 
 if member_id then
+  -- other members ballot
   if not issue.closed then
     error("access denied")
   end
   member = Member:by_id(member_id)
   readonly = true
-end
-
-if issue.closed then
-  if not member then
-    slot.put_into("error", _"This issue is already closed!")
-  end
-  if not member then
-    member = app.session.member
-  end
-  readonly = true
-end
-
-ui.title(function()
-  if member then
+  ui.title(function()
     slot.put( _("Ballot of member '#{member_name}'", { member_name = string.format('<a href="%s">%s</a>',
       encode.url{ module = "member", view = "show", id = member.id },
       encode.html(member.name)
     )}))
-  else
-    slot.put(_"Voting")
-  end
-end, issue.area.unit, issue.area, issue)
-
-if not member then
+  end, issue.area.unit, issue.area, issue)
+  direct_voter = DirectVoter:by_pk(issue.id, member.id)
+else
+  -- own ballot
   member = app.session.member
+  submit_button_text = _"Finish voting"
+  if issue.closed then
+    submit_button_text = _"Update voting comment"
+    readonly = true
+  end
+  ui.title(function()
+    slot.put(_"Voting")
+  end, issue.area.unit, issue.area, issue)
+  direct_voter = DirectVoter:by_pk(issue.id, member.id)
   ui.actions(function()
     ui.link{
       text = _"Cancel",
@@ -43,27 +40,28 @@ if not member then
       view = "show",
       id = issue.id
     }
-    slot.put(" &middot; ")
-    ui.link{
-      text = _"Discard voting",
-      module = "vote",
-      action = "update",
-      params = {
-        issue_id = issue.id,
-        discard = true
-      },
-      routing = {
-        default = {
-          mode = "redirect",
-          module = "issue",
-          view = "show",
-          id = issue.id
+    if direct_voter then
+      slot.put(" &middot; ")
+      ui.link{
+        text = _"Discard voting",
+        module = "vote",
+        action = "update",
+        params = {
+          issue_id = issue.id,
+          discard = true
+        },
+        routing = {
+          default = {
+            mode = "redirect",
+            module = "issue",
+            view = "show",
+            id = issue.id
+          }
         }
       }
-    }
+    end
   end)
 end
-
 
 local tempvoting_string = param.get("scoring")
 
@@ -157,6 +155,7 @@ ui.script{
 }
 
 ui.form{
+  record = direct_voter,
   attr = {
     id = "voting_form",
     class = readonly and "voting_form_readonly" or "voting_form_active"
@@ -164,16 +163,8 @@ ui.form{
   module = "vote",
   action = "update",
   params = { issue_id = issue.id },
-  routing = {
-    default = {
-      mode = "redirect",
-      module = "issue",
-      view = "show",
-      id = issue.id
-    }
-  },
   content = function()
-    if not readonly then
+    if not readonly or preview then
       local scoring = param.get("scoring")
       if not scoring then
         for i, initiative in ipairs(initiatives) do
@@ -200,8 +191,8 @@ ui.form{
         tag = "input",
         attr = {
           type = "submit",
-          class = "voting_done",
-          value = _"Finish voting"
+          class = "voting_done1",
+          value = submit_button_text
         }
       }
     end
@@ -414,15 +405,69 @@ ui.form{
         end
       end
     }
-    if not readonly then
-      ui.tag{
-        tag = "input",
-        attr = {
-          type = "submit",
-          class = "voting_done",
-          value = _"Finish voting"
+    if app.session.member_id and preview then
+      local formatting_engine = param.get("formatting_engine")
+      local comment = param.get("comment")
+      local rendered_comment = format.wiki_text(comment, formatting_engine)
+      slot.put(rendered_comment)
+    end
+    if (readonly or direct_voter and direct_voter.comment) and not preview then
+      local text
+      if direct_voter and direct_voter.comment_changed then
+        text = _("Voting comment (last updated: #{timestamp})", { timestamp = format.timestamp(direct_voter.comment_changed) })
+      elseif direct_voter and direct_voter.comment then
+        text = _"Voting comment"
+      end
+      if text then
+        ui.heading{ level = "2", content = text }
+      end
+      if direct_voter and direct_voter.comment then
+        local rendered_comment = direct_voter:get_content('html')
+        ui.container{ attr = { class = "member_statement" }, content = function()
+          slot.put(rendered_comment)
+        end }
+        slot.put("<br />")
+      end
+    end
+    if app.session.member_id and app.session.member_id == member.id then
+      if not readonly or direct_voter then
+        ui.field.hidden{ name = "update_comment", value = param.get("update_comment") or issue.closed and "1" }
+        ui.field.select{
+          label = _"Wiki engine for statement",
+          name = "formatting_engine",
+          foreign_records = {
+            { id = "rocketwiki", name = "RocketWiki" },
+            { id = "compat", name = _"Traditional wiki syntax" }
+          },
+          attr = {id = "formatting_engine"},
+          foreign_id = "id",
+          foreign_name = "name",
+          value = param.get("formatting_engine") or direct_voter and direct_voter.formatting_engine
         }
-      }
+        ui.field.text{
+          label = _"Voting comment (optional)",
+          name = "comment",
+          multiline = true,
+          value = param.get("comment") or direct_voter and direct_voter.comment,
+          attr = { style = "height: 20ex;" },
+        }
+        ui.submit{
+          name = "preview",
+          value = _"Preview voting comment",
+          attr = { class = "preview" }
+        }
+      end
+      if not readonly or preview or direct_voter then
+        slot.put(" ")
+        ui.tag{
+          tag = "input",
+          attr = {
+            type = "submit",
+            class = "voting_done2",
+            value = submit_button_text
+          }
+        }
+      end
     end
   end
 }

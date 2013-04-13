@@ -132,9 +132,16 @@ return {
 ["Can't send confirmation email"] = "De bevestigingsemail kan niet verzonden worden.";
 ["Can't send confirmation email!"] = false;
 ["Cancel"] = "Afbreken";
+["Cancel [nullify]"] = false;
 ["Cancel password reset"] = "Wachtwoord reset afbreken";
 ["Cancel refuse of invitation"] = "Uitnodiging weigeren afbreken";
 ["Cancel registration"] = "Registratie afbreken";
+["Canceled"] = false;
+["Canceled (before accepted due to revocation)"] = false;
+["Canceled (during discussion due to revocation)"] = false;
+["Canceled (during verification due to revocation)"] = false;
+["Canceled (issue not accepted)"] = false;
+["Canceled (no initiative admitted)"] = false;
 ["Cancelled"] = "Afgebroken";
 ["Cancelled (before accepted due to revocation)"] = "Afgebroken (wegens terugtrekking)";
 ["Cancelled (during discussion due to revocation)"] = "Afgebroken (tijdens de discussie, wegens terugtrekking)";
@@ -190,6 +197,7 @@ return {
 ["Created at"] = "Gecreëerd op";
 ["Current draft"] = "Huidig ontwerp";
 ["Current name"] = "Huidige naam";
+["Current phase is already closed."] = false;
 ["Current status"] = "Huidige status";
 ["Current trustee"] = "De huidige gedelegeerde";
 ["Current votings in areas you are member of and issues you are interested in:"] = "Huidige stemmingen in themagebieden waar u lid van bent en onderwerpen waarin u geïnteresseerd bent:";
@@ -244,6 +252,7 @@ return {
 ["Discussion starts soon."] = false;
 ["Discussion time"] = "Tijd voor discussie";
 ["Discussion with initiators"] = "Discussie met initiatiefnemers";
+["Do not vote directly"] = false;
 ["Download"] = "Download";
 ["Download database export"] = "Download database export";
 ["Download documents"] = "Download documenten";
@@ -282,6 +291,7 @@ return {
 ["Finished"] = "Afgesloten";
 ["Finished (with winner)"] = "Afgesloten (met winnaar)";
 ["Finished (without winner)"] = "Afgesloten (zonder winnaar)";
+["Free timing"] = false;
 ["Friday"] = "Vrijdag";
 ["Frozen"] = "Bevroren";
 ["Fully frozen"] = false;
@@ -316,6 +326,7 @@ return {
 ["Ignoring a member means, that you don't get anymore email notifications about the actions of this user."] = false;
 ["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "Plaatjes";
+["Implicitly admitted"] = false;
 ["Imported"] = false;
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
 ["Inactive"] = false;
@@ -503,6 +514,7 @@ return {
 ["No"] = "Nee";
 ["No (potential) supporters rated this argument negative."] = false;
 ["No (potential) supporters rated this argument positive."] = false;
+["No admission needed"] = false;
 ["No arguments"] = false;
 ["No arguments yet"] = false;
 ["No changes to your images were made"] = "Er is niks veranderd aan de plaatjes";
@@ -613,6 +625,7 @@ return {
 ["Policy"] = "Procedure";
 ["Policy '#{name}'"] = "Procedures '#{name}'";
 ["Policy list"] = "Procedurelijst";
+["Polling mode"] = false;
 ["Population"] = "Populatie";
 ["Positive"] = false;
 ["Posts"] = "Posts";
@@ -621,6 +634,7 @@ return {
 ["Potential supporters (before begin of voting)"] = "Potentieële ondersteuners (voor de stemming)";
 ["Potentially supported"] = "Potentieel ondersteund";
 ["Preview"] = "Preview";
+["Preview voting comment"] = false;
 ["Proceed with registration"] = "Ga verder met registratie";
 ["Profession"] = "Beroep";
 ["Profile"] = "Profiel";
@@ -714,6 +728,7 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Sorry, U heeft uw persoonlijke flood-limiet overschreden. Wees alstublieft langzamer...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Sorry, uw voorraad om initiatieven te starten is op, Probeert u het alstublieft later!";
 ["Source"] = "Brontekst";
+["Standard policies"] = false;
 ["Start search"] = "Start zoeken";
 ["State"] = "Toestand";
 ["Statement"] = "Verklaring";
@@ -842,6 +857,7 @@ return {
 ["Units and areas"] = "Dossiers en themagebieden";
 ["Unknown author"] = "Onbekende auteur";
 ["Unlock Member?"] = false;
+["Update voting comment"] = false;
 ["Updated drafts"] = "Nieuwe ontwerpen";
 ["Upload avatar/photo"] = "Upload een avatar/foto";
 ["Upload images"] = "Laadt de plaatjes";
@@ -861,6 +877,10 @@ return {
 ["Voters"] = false;
 ["Votes"] = false;
 ["Voting"] = "De stemming";
+["Voting comment"] = false;
+["Voting comment (last updated: #{timestamp})"] = false;
+["Voting comment (optional)"] = false;
+["Voting comment available"] = false;
 ["Voting details"] = "Stemmings details";
 ["Voting for issue ##{id} started"] = false;
 ["Voting for issue started"] = false;
@@ -889,6 +909,7 @@ return {
 ["Yesterday at #{time}"] = "Gisteren om #{time}";
 ["You abstained via delegation."] = false;
 ["You abstained."] = false;
+["You already voted this issue!"] = false;
 ["You are already initiator"] = "U bent al initiator";
 ["You are already initiator!"] = false;
 ["You are already not interested in this issue."] = false;
@@ -1079,7 +1100,9 @@ return {
 ["unit"] = "dossier";
 ["until"] = "tot";
 ["up"] = false;
+["variable"] = false;
 ["with winner"] = "met winnaar";
+["without"] = false;
 ["without winner"] = "zonder winnaar";
 ["xmpp"] = "Jabber (XMPP)";
 ["year [interval ago]"] = false;

@@ -105,15 +105,16 @@ return {
 ["Can't remove last initiator!"] = false;
 ["Can't send confirmation email!"] = false;
 ["Cancel"] = false;
+["Cancel [nullify]"] = false;
 ["Cancel password reset"] = false;
 ["Cancel refuse of invitation"] = false;
 ["Cancel registration"] = false;
-["Cancelled"] = false;
-["Cancelled (before accepted due to revocation)"] = false;
-["Cancelled (during discussion due to revocation)"] = false;
-["Cancelled (during verification due to revocation)"] = false;
-["Cancelled (issue not accepted)"] = false;
-["Cancelled (no initiative admitted)"] = false;
+["Canceled"] = false;
+["Canceled (before accepted due to revocation)"] = false;
+["Canceled (during discussion due to revocation)"] = false;
+["Canceled (during verification due to revocation)"] = false;
+["Canceled (issue not accepted)"] = false;
+["Canceled (no initiative admitted)"] = false;
 ["Change discussion URL"] = false;
 ["Change email"] = false;
 ["Change email address"] = false;
@@ -144,7 +145,6 @@ return {
 ["Contacts"] = false;
 ["Contacts participating in this area"] = false;
 ["Content"] = false;
-["Counting of votes"] = false;
 ["Counting starts soon."] = false;
 ["Create / edit area"] = false;
 ["Create / edit policy"] = false;
@@ -156,6 +156,7 @@ return {
 ["Create new unit"] = false;
 ["Created"] = false;
 ["Current name"] = false;
+["Current phase is already closed."] = false;
 ["Current status"] = false;
 ["Current votings in areas you are member of and issues you are interested in:"] = false;
 ["Currently no API key is set."] = false;
@@ -199,6 +200,7 @@ return {
 ["Discussion started"] = false;
 ["Discussion starts soon."] = false;
 ["Discussion time"] = false;
+["Do not vote directly"] = false;
 ["Download"] = false;
 ["Download database export"] = false;
 ["Download documents"] = false;
@@ -230,6 +232,7 @@ return {
 ["Finished"] = false;
 ["Finished (with winner)"] = false;
 ["Finished (without winner)"] = false;
+["Free timing"] = false;
 ["Frozen"] = false;
 ["Fully frozen"] = false;
 ["Generate API key"] = false;
@@ -255,6 +258,7 @@ return {
 ["Ignoring a member means, that you don't get anymore email notifications about the actions of this user."] = false;
 ["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = false;
+["Implicitly admitted"] = false;
 ["Imported"] = false;
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
 ["Inactive"] = false;
@@ -403,6 +407,7 @@ return {
 ["No"] = false;
 ["No (potential) supporters rated this argument negative."] = false;
 ["No (potential) supporters rated this argument positive."] = false;
+["No admission needed"] = false;
 ["No arguments"] = false;
 ["No arguments yet"] = false;
 ["No changes to your images were made"] = false;
@@ -478,6 +483,7 @@ return {
 ["Please choose a member!"] = false;
 ["Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you."] = false;
 ["Please choose a password and enter it twice. The password is case sensitive and has to be at least 8 characters long."] = false;
+["Please choose a policy"] = false;
 ["Please choose a policy!"] = false;
 ["Please choose two different versions of the draft to compare!"] = false;
 ["Please choose two versions of the draft to compare!"] = false;
@@ -493,12 +499,14 @@ return {
 ["Policy"] = false;
 ["Policy '#{name}'"] = false;
 ["Policy list"] = false;
+["Polling mode"] = false;
 ["Population"] = false;
 ["Positive"] = false;
 ["Posts"] = false;
 ["Potential supporters"] = false;
 ["Potentially supported"] = false;
 ["Preview"] = false;
+["Preview voting comment"] = false;
 ["Proceed with registration"] = false;
 ["Profession"] = false;
 ["Profile"] = false;
@@ -568,6 +576,7 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = false;
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = false;
 ["Source"] = false;
+["Standard policies"] = false;
 ["Start search"] = false;
 ["State"] = false;
 ["Statement"] = false;
@@ -668,6 +677,7 @@ return {
 ["Units and areas"] = false;
 ["Unknown author"] = false;
 ["Unlock Member?"] = false;
+["Update voting comment"] = false;
 ["Updated drafts"] = false;
 ["Upload avatar/photo"] = false;
 ["Upload images"] = false;
@@ -684,6 +694,10 @@ return {
 ["Voters"] = false;
 ["Votes"] = false;
 ["Voting"] = false;
+["Voting comment"] = false;
+["Voting comment (last updated: #{timestamp})"] = false;
+["Voting comment (optional)"] = false;
+["Voting comment available"] = false;
 ["Voting for issue ##{id} started"] = false;
 ["Voting for issue started"] = false;
 ["Voting for this issue has already begun!"] = false;
@@ -695,6 +709,7 @@ return {
 ["We have sent an email with activation link already in the last hour. Please try again later."] = false;
 ["Website"] = false;
 ["Wiki engine"] = false;
+["Wiki engine for statement"] = false;
 ["Withdraw"] = false;
 ["Withdraw interest and delete the suggestion"] = false;
 ["Withdraw interest and delete the suggestions"] = false;
@@ -705,6 +720,7 @@ return {
 ["Yesterday at #{time}"] = false;
 ["You abstained via delegation."] = false;
 ["You abstained."] = false;
+["You already voted this issue!"] = false;
 ["You are already initiator!"] = false;
 ["You are already not interested in this issue."] = false;
 ["You are already not supporting this initiative."] = false;
@@ -849,7 +865,9 @@ return {
 ["to reset your password please click on the following link:\n\n"] = false;
 ["until"] = false;
 ["up"] = false;
+["variable"] = false;
 ["with winner"] = false;
+["without"] = false;
 ["without winner"] = false;
 ["xmpp"] = false;
 ["year [interval ago]"] = false;

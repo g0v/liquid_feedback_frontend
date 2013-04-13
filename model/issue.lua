@@ -37,7 +37,7 @@ Issue:add_reference{
   that_key      = 'issue_id',
   ref           = 'initiatives',
   back_ref      = 'issue',
-  default_order = 'initiative.rank, initiative.supporter_count DESC, initiative.satisfied_supporter_count DESC, id'
+  default_order = 'initiative.admitted DESC NULLS LAST, initiative.rank NULLS LAST, initiative.harmonic_weight DESC NULLS LAST, id'
 }
 
 Issue:add_reference{
@@ -166,6 +166,8 @@ Issue:add_reference{
     selector:add_field("direct_voter.member_id NOTNULL", "direct_voted")
     selector:left_join("delegating_voter", nil, { "delegating_voter.issue_id = issue.id AND delegating_voter.member_id = ?", options.member_id })
     selector:add_field("delegating_voter.delegate_member_id", "voted_delegate_member_id")
+    selector:left_join("non_voter", nil, { "non_voter.issue_id = issue.id AND non_voter.member_id = ?", options.member_id })
+    selector:add_field("non_voter.member_id NOTNULL", "non_voter")
     return selector
   end
 }
@@ -194,12 +196,18 @@ end
 
 function Issue:get_state_name_for_state(value)
   local state_name_table = {
-    new          = _"New",
-    accepted     = _"Discussion",
-    frozen       = _"Frozen",
-    voting       = _"Voting",
-    finished     = _"Finished",
-    cancelled    = _"Cancelled"
+    admission = _"New",
+    discussion = _"Discussion",
+    verification = _"Frozen",
+    voting = _"Voting",
+    canceled_revoked_before_accepted = _"Canceled (before accepted due to revocation)",
+    canceled_issue_not_accepted = _"Canceled (issue not accepted)",
+    canceled_after_revocation_during_discussion = _"Canceled (during discussion due to revocation)",
+    canceled_after_revocation_during_verification = _"Canceled (during verification due to revocation)",
+    calculation = _"Calculation",
+    canceled_no_initiative_admitted = _"Canceled (no initiative admitted)",
+    finished_without_winner = _"Finished (without winner)",
+    finished_with_winner = _"Finished (with winner)"
   }
   return state_name_table[value] or value or ''
 end
@@ -211,15 +219,15 @@ function Issue:get_search_selector(search_string)
     :add_where{ '"initiative"."text_search_data" @@ "text_search_query"(?) OR "draft"."text_search_data" @@ "text_search_query"(?)', search_string, search_string }
     :add_order_by('"issue"."id" DESC')
     :add_group_by('"issue"."id"')
-    :add_group_by('"issue"."state"')
     :add_group_by('"issue"."area_id"')
     :add_group_by('"issue"."policy_id"')
+    :add_group_by('"issue"."state"')
+    :add_group_by('"issue"."phase_finished"')
     :add_group_by('"issue"."created"')
     :add_group_by('"issue"."accepted"')
     :add_group_by('"issue"."half_frozen"')
     :add_group_by('"issue"."fully_frozen"')
     :add_group_by('"issue"."closed"')
-    :add_group_by('"issue"."ranks_available"')
     :add_group_by('"issue"."status_quo_schulze_rank"')
     :add_group_by('"issue"."cleaned"')
     :add_group_by('"issue"."snapshot"')
@@ -245,49 +253,16 @@ function Issue:modify_selector_for_state(initiatives_selector, state)
     initiatives_selector:add_where("issue.fully_frozen NOTNULL AND issue.closed ISNULL")
   elseif state == "finished" then
     initiatives_selector:add_where("issue.fully_frozen NOTNULL AND issue.closed NOTNULL")
-  elseif state == "cancelled" then
+  elseif state == "canceled" then
     initiatives_selector:add_where("issue.fully_frozen ISNULL AND issue.closed NOTNULL")
   else
     error("Invalid state")
   end
 end
 
-function Issue.object_get:state()
-  if self.closed then
-    if self.fully_frozen then
-      return "finished"
-    else
-      return "cancelled"
-    end
-  elseif self.fully_frozen then
-    return "voting"
-  elseif self.half_frozen then
-    return "frozen"
-  elseif self.accepted then
-    return "accepted"
-  else
-    return "new"
-  end
-
-end
 
 function Issue.object_get:state_name()
   return Issue:get_state_name_for_state(self.state)
-end
-
-function Issue.object_get:next_states()
-  local state = self.state
-  local next_states
-  if state == "new" then
-    next_states = { "accepted", "cancelled" }
-  elseif state == "accepted" then
-    next_states = { "frozen" }
-  elseif state == "frozen" then
-    next_states = { "voting" }
-  elseif state == "voting" then
-    next_states = { "finished" }
-  end
-  return next_states
 end
 
 function Issue.object_get:next_states_names()

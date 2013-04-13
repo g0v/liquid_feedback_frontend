@@ -64,8 +64,9 @@ if not initiative.issue.closed then
     ui.tag{
       content = _"You have ignored this initiative." .. " "
     }
+    slot.put(" (")
     ui.link{
-      text   = "(" .. _"Stop ignoring initiative" .. ")",
+      text   = _"Stop ignoring initiative",
       module = "initiative",
       action = "update_ignore",
       id     = initiative.id,
@@ -80,6 +81,7 @@ if not initiative.issue.closed then
         }
       }
     }
+    slot.put(")")
   else
     ui.link{
       text    = _"Ignore initiative",

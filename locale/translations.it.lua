@@ -133,9 +133,16 @@ return {
 ["Can't send confirmation email"] = "Non posso inviare l'email di conferma";
 ["Can't send confirmation email!"] = false;
 ["Cancel"] = "Annulla";
+["Cancel [nullify]"] = false;
 ["Cancel password reset"] = "Annulla il ripristino della password";
 ["Cancel refuse of invitation"] = "Annulla il rifiuto all'invito";
 ["Cancel registration"] = "Annulla la registrazione";
+["Canceled"] = false;
+["Canceled (before accepted due to revocation)"] = false;
+["Canceled (during discussion due to revocation)"] = false;
+["Canceled (during verification due to revocation)"] = false;
+["Canceled (issue not accepted)"] = false;
+["Canceled (no initiative admitted)"] = false;
 ["Cancelled"] = "Annullato";
 ["Cancelled (before accepted due to revocation)"] = "Annullato (revocato prima dell'approvazione)";
 ["Cancelled (during discussion due to revocation)"] = "Annullato (revocato durante la discussione)";
@@ -190,6 +197,7 @@ return {
 ["Created"] = false;
 ["Created at"] = "Creazione";
 ["Current name"] = "Nome attuale";
+["Current phase is already closed."] = false;
 ["Current status"] = "Stato attuale";
 ["Current trustee"] = "Fiduciario attuale";
 ["Current votings in areas you are member of and issues you are interested in:"] = "Votazioni nelle tue aree e tematiche di interesse:";
@@ -244,6 +252,7 @@ return {
 ["Discussion starts soon."] = false;
 ["Discussion time"] = "Discussione in corso";
 ["Discussion with initiators"] = "Discussione con i promotori";
+["Do not vote directly"] = false;
 ["Download"] = "Scarica";
 ["Download database export"] = "Scarica il database esportato";
 ["Download documents"] = "Scarica i documenti";
@@ -281,6 +290,7 @@ return {
 ["Finished"] = "Finito";
 ["Finished (with winner)"] = "Finito (con risultato approvato)";
 ["Finished (without winner)"] = "Finito (senza risultato approvato)";
+["Free timing"] = false;
 ["Friday"] = "Venerdi'";
 ["Frozen"] = "Sospeso";
 ["Fully frozen"] = false;
@@ -315,6 +325,7 @@ return {
 ["Ignoring a member means, that you don't get anymore email notifications about the actions of this user."] = false;
 ["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "Immagini";
+["Implicitly admitted"] = false;
 ["Imported"] = false;
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
 ["Inactive"] = false;
@@ -502,6 +513,7 @@ return {
 ["No"] = "No";
 ["No (potential) supporters rated this argument negative."] = false;
 ["No (potential) supporters rated this argument positive."] = false;
+["No admission needed"] = false;
 ["No arguments"] = false;
 ["No arguments yet"] = false;
 ["No changes to your images were made"] = "Le tue immagini non sono state modificate";
@@ -611,6 +623,7 @@ return {
 ["Policy"] = "Policy";
 ["Policy '#{name}'"] = "Policy '#{name}'";
 ["Policy list"] = "Elenco policy";
+["Polling mode"] = false;
 ["Population"] = "Popolazione";
 ["Positive"] = false;
 ["Posts"] = "Post";
@@ -619,6 +632,7 @@ return {
 ["Potential supporters (before begin of voting)"] = "Sostenitori potenziali (prima del voto)";
 ["Potentially supported"] = "Potenzialmente sostenuto";
 ["Preview"] = "Anteprima";
+["Preview voting comment"] = false;
 ["Proceed with registration"] = "Continua con la registrazione";
 ["Profession"] = "Professione";
 ["Profile"] = "Profilo";
@@ -712,6 +726,7 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Purtroppo hai svolto un'attivita' eccessiva. Prova a partecipare piu' lentamente...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Purtroppo hai creato troppe iniziative in un tempo breve. Riprova piu' tardi.";
 ["Source"] = "Sorgente";
+["Standard policies"] = false;
 ["Start search"] = "Avvia la ricerca";
 ["State"] = "Stato";
 ["Statement"] = "Testo";
@@ -840,6 +855,7 @@ return {
 ["Units and areas"] = "Sezioni e aree";
 ["Unknown author"] = "Autore sconosciuto";
 ["Unlock Member?"] = false;
+["Update voting comment"] = false;
 ["Updated drafts"] = "Bozze aggiornate";
 ["Upload avatar/photo"] = "Carica avatar/foto";
 ["Upload images"] = "Immagini caricate";
@@ -858,6 +874,10 @@ return {
 ["Voters"] = false;
 ["Votes"] = false;
 ["Voting"] = "Votazione";
+["Voting comment"] = false;
+["Voting comment (last updated: #{timestamp})"] = false;
+["Voting comment (optional)"] = false;
+["Voting comment available"] = false;
 ["Voting for issue ##{id} started"] = false;
 ["Voting for issue started"] = false;
 ["Voting for this issue has already begun!"] = false;
@@ -884,6 +904,7 @@ return {
 ["Yesterday at #{time}"] = "Ieri alle #{time}";
 ["You abstained via delegation."] = false;
 ["You abstained."] = false;
+["You already voted this issue!"] = false;
 ["You are already initiator"] = "Sei gia' un promotore";
 ["You are already initiator!"] = false;
 ["You are already not interested in this issue."] = false;
@@ -1075,7 +1096,9 @@ return {
 ["unit"] = "sezione";
 ["until"] = "finche'";
 ["up"] = false;
+["variable"] = false;
 ["with winner"] = "con risultato approvato";
+["without"] = false;
 ["without winner"] = "senza risultato approvato";
 ["xmpp"] = "xmpp";
 ["year [interval ago]"] = false;

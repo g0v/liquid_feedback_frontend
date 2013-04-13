@@ -1,7 +1,7 @@
 ui.title(_"About site")
 app.html_title.title = _"About site"
 
-if app.session.member_id then
+if app.session.member_id and config.use_terms then
   ui.actions(function()
     ui.link{
       module = "index",

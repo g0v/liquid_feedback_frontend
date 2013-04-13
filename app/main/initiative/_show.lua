@@ -53,7 +53,13 @@ end)
 
 util.help("initiative.show")
 
-ui.container{ attr = { class = "initiative_head" }, content = function()
+local class = "initiative_head"
+
+if initiative.polling then
+  class = class .. " polling"
+end
+
+ui.container{ attr = { class = class }, content = function()
 
   local text = _("Initiative i#{id}: #{name}", { id = initiative.id, name = initiative.name })
   if show_as_head then
@@ -193,7 +199,7 @@ ui.container{ attr = { class = "initiative_head" }, content = function()
   end
 
   -- voting results
-  if initiative.issue.closed and initiative.issue.ranks_available and initiative.admitted then
+  if initiative.issue.fully_frozen and initiative.issue.closed and initiative.admitted then
     local class = initiative.winner and "admitted_info" or "not_admitted_info"
     ui.container{
       attr = { class = class },
@@ -492,8 +498,7 @@ if not show_as_head then
   if app.session:has_access("all_pseudonymous") then
 
     -- voters
-    if initiative.issue.closed and initiative.issue.ranks_available and initiative.admitted then
-
+    if initiative.issue.fully_frozen and initiative.issue.closed and initiative.admitted then
       local members_selector = initiative.issue:get_reference_selector("direct_voters")
         :left_join("vote", nil, { "vote.initiative_id = ? AND vote.member_id = member.id", initiative.id })
         :add_field("direct_voter.weight AS voter_weight")

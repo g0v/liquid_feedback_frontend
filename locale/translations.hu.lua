@@ -129,9 +129,16 @@ return {
 ["Can't send confirmation email"] = "Nem lehet elküldeni a megerõsítõ emailt";
 ["Can't send confirmation email!"] = false;
 ["Cancel"] = "Megszakítás";
+["Cancel [nullify]"] = false;
 ["Cancel password reset"] = "Jelszóvisszaállítás megszakítása";
 ["Cancel refuse of invitation"] = "Meghívás elutasításának megszakítása";
 ["Cancel registration"] = "Regisztrálás megszakítása";
+["Canceled"] = false;
+["Canceled (before accepted due to revocation)"] = false;
+["Canceled (during discussion due to revocation)"] = false;
+["Canceled (during verification due to revocation)"] = false;
+["Canceled (issue not accepted)"] = false;
+["Canceled (no initiative admitted)"] = false;
 ["Cancelled"] = "Megszakítva";
 ["Cancelled (before accepted due to revocation)"] = "Megszakítva (elfogadás elõtt, visszavonás miatt)";
 ["Cancelled (during discussion due to revocation)"] = "Megszakítva (tárgyalás közben, visszavonás miatt)";
@@ -187,6 +194,7 @@ return {
 ["Created at"] = "Létrehozás idõpontja:";
 ["Current draft"] = "Jelenlegi vázlat";
 ["Current name"] = "Jelenlegi név";
+["Current phase is already closed."] = false;
 ["Current status"] = "Jelenlegi állapot";
 ["Current votings in areas you are member of and issues you are interested in:"] = "Jelenleg folyamatban lévõ szavazások a téma- és az érdeklõdési köreidben:";
 ["Currently no API key is set."] = "Jelenleg nincs API-kulcs beállítva.";
@@ -237,6 +245,7 @@ return {
 ["Discussion starts soon."] = false;
 ["Discussion time"] = "Tárgyalás ideje";
 ["Discussion with initiators"] = "Tárgyalás a kezdeményezõkkel";
+["Do not vote directly"] = false;
 ["Download"] = "Letöltés";
 ["Download database export"] = "Exportált adatbázis letöltése";
 ["Download documents"] = "Dokumentumok letöltése";
@@ -275,6 +284,7 @@ return {
 ["Finished"] = "Lezárva";
 ["Finished (with winner)"] = "Lezárva (nyertessel)";
 ["Finished (without winner)"] = "Lezárva (nyertes nélkül)";
+["Free timing"] = false;
 ["Friday"] = "Péntek";
 ["Frozen"] = "Befagyasztva";
 ["Fully frozen"] = false;
@@ -308,6 +318,7 @@ return {
 ["Ignoring a member means, that you don't get anymore email notifications about the actions of this user."] = false;
 ["Ignoring an initiative means, that you don't get anymore email notifications about it."] = false;
 ["Images"] = "Képek";
+["Implicitly admitted"] = false;
 ["Imported"] = false;
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = false;
 ["Inactive"] = false;
@@ -486,6 +497,7 @@ return {
 ["No"] = "Nem";
 ["No (potential) supporters rated this argument negative."] = false;
 ["No (potential) supporters rated this argument positive."] = false;
+["No admission needed"] = false;
 ["No arguments"] = false;
 ["No arguments yet"] = false;
 ["No changes to your images were made"] = "Nem lettek módosítva a képeid";
@@ -589,6 +601,7 @@ return {
 ["Policy"] = "Irányelv";
 ["Policy '#{name}'"] = "'#{name}' irányelv";
 ["Policy list"] = "Irányelvek listája";
+["Polling mode"] = false;
 ["Population"] = "Népesség";
 ["Positive"] = false;
 ["Posts"] = "Tisztségek";
@@ -596,6 +609,7 @@ return {
 ["Potential supporters"] = false;
 ["Potentially supported"] = "Potenciálisan támogatva";
 ["Preview"] = "Elõnézet";
+["Preview voting comment"] = false;
 ["Proceed with registration"] = false;
 ["Profession"] = "Foglalkozás";
 ["Profile"] = "Profil";
@@ -685,6 +699,7 @@ return {
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Elérted a személyes floodlimitedet. Lassíts.";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Egyelõre kimerítetted a kezdeményezés-létrehozási lehetõségeidet. Próbáld újra késõbb.";
 ["Source"] = "Forrásszöveg";
+["Standard policies"] = false;
 ["Start search"] = "Keresés indítása";
 ["State"] = "Helyzet";
 ["Statement"] = "Állítás";
@@ -809,6 +824,7 @@ return {
 ["Units and areas"] = false;
 ["Unknown author"] = "Ismeretlen szerzõ";
 ["Unlock Member?"] = false;
+["Update voting comment"] = false;
 ["Updated drafts"] = "Frissített vázlatok";
 ["Upload avatar/photo"] = false;
 ["Upload images"] = "Képek feltöltése";
@@ -828,6 +844,10 @@ return {
 ["Voters"] = false;
 ["Votes"] = false;
 ["Voting"] = "Szavazás";
+["Voting comment"] = false;
+["Voting comment (last updated: #{timestamp})"] = false;
+["Voting comment (optional)"] = false;
+["Voting comment available"] = false;
 ["Voting details"] = "Szavazás részletei";
 ["Voting for issue ##{id} started"] = false;
 ["Voting for issue started"] = false;
@@ -856,6 +876,7 @@ return {
 ["Yesterday at #{time}"] = false;
 ["You abstained via delegation."] = false;
 ["You abstained."] = false;
+["You already voted this issue!"] = false;
 ["You are already initiator"] = "Már kezdeményezõ vagy";
 ["You are already initiator!"] = false;
 ["You are already not interested in this issue."] = false;
@@ -1030,7 +1051,9 @@ return {
 ["unit"] = "egység";
 ["until"] = "(a)míg";
 ["up"] = false;
+["variable"] = false;
 ["with winner"] = "gyõztessel";
+["without"] = false;
 ["without winner"] = "gyõztes nélkül";
 ["xmpp"] = "Fecsegés (XMPP)";
 ["year [interval ago]"] = false;

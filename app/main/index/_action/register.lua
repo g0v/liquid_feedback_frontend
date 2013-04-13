@@ -70,8 +70,6 @@ if not param.get("step2") then
   return
 end
 
-local old_notify_email = member.notify_email
-
 local notify_email = util.trim(param.get("notify_email"))
 local name         = util.trim(param.get("name"))
 local login        = util.trim(param.get("login"))
@@ -98,8 +96,6 @@ else
     slot.put_into("error", _"This email address is not valid!")
     return false
   end
-
-  member.notify_email = notify_email
 
 end
 
@@ -183,7 +179,7 @@ for i, checkbox in ipairs(config.use_terms_checkboxes) do
   end
 end
 
-if notify_email ~= old_notify_email then
+if notify_email ~= member.notify_email then
   local success = member:set_notify_email(notify_email)
   if not success then
     slot.put_into("error", _"Can't send confirmation email!")

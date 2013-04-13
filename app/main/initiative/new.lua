@@ -31,6 +31,38 @@ else
 
 end
 
+local polling = param.get("polling", atom.boolean)
+local policy_id = param.get("policy_id", atom.integer)
+local policy
+if policy_id then
+  policy = Policy:by_id(policy_id)
+end
+
+local preview = param.get("preview")
+
+-- links to polling policies
+if not preview and not issue_id and app.session.member:has_polling_right_for_unit_id(area.unit_id) then
+  ui.actions(function()
+    ui.link{
+      text = _"Standard policies",
+      module = "initiative", view = "new", params = {
+        area_id = area.id
+      }
+    }
+    for i, policy in ipairs(area.allowed_policies) do
+      if policy.polling then
+        slot.put(" &middot; ")
+        ui.link{
+          text = policy.name,
+          module = "initiative", view = "new", params = {
+            area_id = area.id, policy_id = policy.id
+          }
+        }
+      end
+    end
+  end)
+end
+
 ui.form{
   module = "initiative",
   action = "create",
@@ -69,44 +101,78 @@ ui.form{
     end
 
     if not issue_id then
-      tmp = { { id = -1, name = _"Please choose a policy!" } }
-      for i, allowed_policy in ipairs(area.allowed_policies) do
-        tmp[#tmp+1] = allowed_policy
-      end
-      ui.field.select{
-        label = _"Policy",
-        name = "policy_id",
-        foreign_records = tmp,
-        foreign_id = "id",
-        foreign_name = "name",
-        value = param.get("policy_id", atom.integer) or area.default_policy and area.default_policy.id
-      }
-      ui.tag{
-        tag = "div",
-        content = function()
-          ui.tag{
-            tag = "label",
-            attr = { class = "ui_field_label" },
-            content = function() slot.put("&nbsp;") end,
-          }
-          ui.tag{
-            content = function()
-              ui.link{
-                text = _"Information about the available policies",
-                module = "policy",
-                view = "list"
-              }
-              slot.put(" ")
-              ui.link{
-                attr = { target = "_blank" },
-                text = _"(new window)",
-                module = "policy",
-                view = "list"
-              }
+
+      if policy and policy.polling then
+        ui.field.hidden{ name = "policy_id", value = policy.id }
+        ui.field.text{ label = _"Policy",  value = policy.name }
+        if policy.free_timeable then
+          local available_timings
+          if config.free_timing and config.free_timing.available_func then
+            available_timings = config.free_timing.available_func(policy)
+            if available_timings == false then
+              error("error in free timing config")
             end
-          }
+          end
+          if available_timings then
+            ui.field.select{
+              label = _"Free timing",
+              name = "free_timing",
+              foreign_records = available_timings,
+              foreign_id = "id",
+              foreign_name = "name",
+              value = param.get("free_timing")
+            }
+          else
+            ui.field.text{ label = _"Free timing", name = "free_timing", value = param.get("free_timing") }
+          end
         end
-      }
+      else
+        tmp = { { id = -1, name = _"Please choose a policy!" } }
+        for i, allowed_policy in ipairs(area.allowed_policies) do
+          if not allowed_policy.polling then
+            tmp[#tmp+1] = allowed_policy
+          end
+        end
+        ui.field.select{
+          label = _"Policy",
+          name = "policy_id",
+          foreign_records = tmp,
+          foreign_id = "id",
+          foreign_name = "name",
+          value = param.get("policy_id", atom.integer) or area.default_policy and area.default_policy.id
+        }
+        ui.tag{
+          tag = "div",
+          content = function()
+            ui.tag{
+              tag = "label",
+              attr = { class = "ui_field_label" },
+              content = function() slot.put("&nbsp;") end,
+            }
+            ui.tag{
+              content = function()
+                ui.link{
+                  text = _"Information about the available policies",
+                  module = "policy",
+                  view = "list"
+                }
+                slot.put(" ")
+                ui.link{
+                  attr = { target = "_blank" },
+                  text = _"(new window)",
+                  module = "policy",
+                  view = "list"
+                }
+              end
+            }
+          end
+        }
+      end
+    end
+
+    -- polling for alternative initiatives
+    if issue and issue.policy.polling and app.session.member:has_polling_right_for_unit_id(area.unit_id) then
+      ui.field.boolean{ name = "polling", label = _"No admission needed", value = polling }
     end
 
     ui.field.text{
