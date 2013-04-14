@@ -4,8 +4,11 @@ local member_id = param.get("member_id", atom.integer)
 local member
 local readonly = false
 local preview = param.get("preview") and true or false
-local submit_button_text
-local direct_voter
+
+local submit_button_text = _"Finish voting"
+if issue.closed then
+  submit_button_text = _"Update voting comment"
+end
 
 if member_id then
   -- other members ballot
@@ -20,27 +23,22 @@ if member_id then
       encode.html(member.name)
     )}))
   end, issue.area.unit, issue.area, issue)
-  direct_voter = DirectVoter:by_pk(issue.id, member.id)
 else
   -- own ballot
   member = app.session.member
-  submit_button_text = _"Finish voting"
-  if issue.closed then
-    submit_button_text = _"Update voting comment"
-    readonly = true
-  end
   ui.title(function()
     slot.put(_"Voting")
   end, issue.area.unit, issue.area, issue)
-  direct_voter = DirectVoter:by_pk(issue.id, member.id)
-  ui.actions(function()
-    ui.link{
-      text = _"Cancel",
-      module = "issue",
-      view = "show",
-      id = issue.id
-    }
-    if direct_voter then
+  if issue.closed then
+    readonly = true
+  else
+    ui.actions(function()
+      ui.link{
+        text = _"Cancel",
+        module = "issue",
+        view = "show",
+        id = issue.id
+      }
       slot.put(" &middot; ")
       ui.link{
         text = _"Discard voting",
@@ -59,9 +57,11 @@ else
           }
         }
       }
-    end
-  end)
+    end)
+  end
 end
+
+local direct_voter = DirectVoter:by_pk(issue.id, member.id)
 
 local tempvoting_string = param.get("scoring")
 
@@ -120,7 +120,6 @@ for i = 1, max_grade do
 end
 
 
-
 if not readonly then
   util.help("vote.list", _"Voting")
   slot.put('<script src="' .. request.get_relative_baseurl() .. 'static/js/dragdrop.js"></script>')
@@ -164,7 +163,8 @@ ui.form{
   action = "update",
   params = { issue_id = issue.id },
   content = function()
-    if not readonly or preview then
+
+    if not readonly then
       local scoring = param.get("scoring")
       if not scoring then
         for i, initiative in ipairs(initiatives) do
@@ -186,16 +186,9 @@ ui.form{
         end
       end
       slot.put('<input type="hidden" name="scoring" value="' .. scoring .. '"/>')
-      -- TODO abstrahieren
-      ui.tag{
-        tag = "input",
-        attr = {
-          type = "submit",
-          class = "voting_done1",
-          value = submit_button_text
-        }
-      }
+      ui.submit{ text = submit_button_text }
     end
+
     ui.container{
       attr = { id = "voting" },
       content = function()
@@ -406,23 +399,18 @@ ui.form{
         end
       end
     }
-    if app.session.member_id and preview then
-      local formatting_engine = param.get("formatting_engine")
-      local comment = param.get("comment")
-      local rendered_comment = format.wiki_text(comment, formatting_engine)
-      slot.put(rendered_comment)
-    end
-    if (readonly or direct_voter and direct_voter.comment) and not preview then
+
+    if not preview and direct_voter then
       local text
-      if direct_voter and direct_voter.comment_changed then
+      if direct_voter.comment_changed then
         text = _("Voting comment (last updated: #{timestamp})", { timestamp = format.timestamp(direct_voter.comment_changed) })
-      elseif direct_voter and direct_voter.comment then
+      elseif direct_voter.comment then
         text = _"Voting comment"
       end
       if text then
         ui.heading{ level = "2", content = text }
       end
-      if direct_voter and direct_voter.comment then
+      if direct_voter.comment then
         local rendered_comment = direct_voter:get_content('html')
         ui.container{ attr = { class = "member_statement" }, content = function()
           slot.put(rendered_comment)
@@ -430,46 +418,29 @@ ui.form{
         slot.put("<br />")
       end
     end
+
     if app.session.member_id and app.session.member_id == member.id then
+
+      if preview then
+        local formatting_engine = param.get("formatting_engine")
+        local comment = param.get("comment")
+        local rendered_comment = format.wiki_text(comment, formatting_engine)
+        ui.heading{ level = "2", content = _"Voting comment preview" }
+        ui.container{ attr = { class = "member_statement" }, content = function()
+          slot.put(rendered_comment)
+        end }
+        slot.put("<br />")
+      end
+
       if not readonly or direct_voter then
         ui.field.hidden{ name = "update_comment", value = param.get("update_comment") or issue.closed and "1" }
-        ui.field.select{
-          label = _"Wiki engine for statement",
-          name = "formatting_engine",
-          foreign_records = {
-            { id = "rocketwiki", name = "RocketWiki" },
-            { id = "compat", name = _"Traditional wiki syntax" }
-          },
-          attr = {id = "formatting_engine"},
-          foreign_id = "id",
-          foreign_name = "name",
-          value = param.get("formatting_engine") or direct_voter and direct_voter.formatting_engine
-        }
-        ui.field.text{
-          label = _"Voting comment (optional)",
-          name = "comment",
-          multiline = true,
-          value = param.get("comment") or direct_voter and direct_voter.comment,
-          attr = { style = "height: 20ex;" },
-        }
-        ui.submit{
-          name = "preview",
-          value = _"Preview voting comment",
-          attr = { class = "preview" }
-        }
+        ui.wikitextarea("comment", _"Voting comment (optional)")
+        ui.submit{ name = "preview", text = _"Preview voting comment" }
+        ui.submit{ attr = { class = "additional" }, text = submit_button_text }
       end
-      if not readonly or preview or direct_voter then
-        slot.put(" ")
-        ui.tag{
-          tag = "input",
-          attr = {
-            type = "submit",
-            class = "voting_done2",
-            value = submit_button_text
-          }
-        }
-      end
+
     end
+
   end
 }
 

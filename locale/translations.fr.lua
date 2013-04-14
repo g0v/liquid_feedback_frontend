@@ -482,7 +482,6 @@ return {
 ["Please choose a member!"] = false;
 ["Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you."] = false;
 ["Please choose a password and enter it twice. The password is case sensitive and has to be at least 8 characters long."] = false;
-["Please choose a policy"] = false;
 ["Please choose a policy!"] = false;
 ["Please choose two different versions of the draft to compare!"] = false;
 ["Please choose two versions of the draft to compare!"] = false;
@@ -697,6 +696,7 @@ return {
 ["Voting comment (last updated: #{timestamp})"] = false;
 ["Voting comment (optional)"] = false;
 ["Voting comment available"] = false;
+["Voting comment preview"] = false;
 ["Voting for issue ##{id} started"] = false;
 ["Voting for issue started"] = false;
 ["Voting for this issue has already begun!"] = false;
@@ -708,7 +708,6 @@ return {
 ["We have sent an email with activation link already in the last hour. Please try again later."] = false;
 ["Website"] = false;
 ["Wiki engine"] = false;
-["Wiki engine for statement"] = false;
 ["Withdraw"] = false;
 ["Withdraw interest and delete the suggestion"] = false;
 ["Withdraw interest and delete the suggestions"] = false;

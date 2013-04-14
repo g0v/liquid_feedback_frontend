@@ -483,7 +483,6 @@ return {
 ["Please choose a member!"] = "Bitte wähle ein Mitglied!";
 ["Please choose a name, i.e. your real name or your nick name. This name will be shown to others to identify you."] = "Wähle einen Namen, z. B. deinen Real- oder Nicknamen. Dieser wird anderen angezeigt um dich zu identifizieren.";
 ["Please choose a password and enter it twice. The password is case sensitive and has to be at least 8 characters long."] = "Bitte wähle ein Kennwort und gib es zweimal ein. Groß- und Kleinschreibung wird berücksichtigt. Das Kennwort muss mindestens 8 Zeichen lang sein.";
-["Please choose a policy"] = false;
 ["Please choose a policy!"] = "Bitte wähle ein Regelwerk!";
 ["Please choose two different versions of the draft to compare!"] = "Bitte wähle zwei verschiedene Versionen des Entwurfs, um sie zu vergleichen!";
 ["Please choose two versions of the draft to compare!"] = "Bitte wähle zwei Versionen des Entwurfs, um sie zu vergleichen!";
@@ -698,6 +697,7 @@ return {
 ["Voting comment (last updated: #{timestamp})"] = "Abstimmmungskommentar (Letzte Änderung: #{timestamp})";
 ["Voting comment (optional)"] = "Abstimmmungskommentar (optional)";
 ["Voting comment available"] = "Abstimmungskommentar verfügbar";
+["Voting comment preview"] = "Vorschau Abstimmungskommentar";
 ["Voting for issue ##{id} started"] = "Abstimmung für Thema ##{id} hat begonnen";
 ["Voting for issue started"] = "Abstimmung für Thema hat begonnen";
 ["Voting for this issue has already begun!"] = "Die Abstimmung für dieses Thema hat schon begonnen!";

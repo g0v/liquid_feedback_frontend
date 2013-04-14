@@ -504,6 +504,7 @@ if not show_as_head then
         :add_field("direct_voter.weight AS voter_weight")
         :add_field("direct_voter.weight AS weight")
         :add_field("coalesce(vote.grade, 0) as grade")
+        :add_field("direct_voter.comment as voter_comment")
         :left_join("initiative", nil, "initiative.id = vote.initiative_id")
         :left_join("issue", nil, "issue.id = initiative.issue_id")
 

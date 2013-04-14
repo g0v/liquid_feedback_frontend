@@ -5,24 +5,6 @@ local for_listing = param.get("for_listing", atom.boolean)
 local for_initiative = param.get("for_initiative", "table")
 local for_initiative_id = for_initiative and for_initiative.id or nil
 
-local direct_voter
-if app.session.member_id then
-  direct_voter = issue.member_info.direct_voted
-end
-
-local voteable = app.session.member_id and issue.state == 'voting' and
-       app.session.member:has_voting_right_for_unit_id(issue.area.unit_id)
-
-local vote_comment_able = app.session.member_id and issue.closed and direct_voter
-
-local vote_link_text
-if voteable then
-  vote_link_text = direct_voter and _"Change vote" or _"Vote now"
-elseif vote_comment_able then
-  vote_link_text = direct_voter and _"Update voting comment"
-end
-
-
 local class = "issue"
 if issue.is_interested then
   class = class .. " interested"
@@ -92,53 +74,6 @@ ui.container{ attr = { class = class }, content = function()
   }
 
   local links = {}
-
-  if voteable then
-    links[#links+1] ={
-      content = vote_link_text,
-      module = "vote",
-      view = "list",
-      params = { issue_id = issue.id }
-    }
-  end
-
-  if voteable and not direct_voter then
-    if not issue.member_info.non_voter then
-      links[#links+1] ={
-        content = _"Do not vote directly",
-        module = "vote",
-        action = "non_voter",
-        params = { issue_id = issue.id },
-        routing = {
-          default = {
-            mode = "redirect",
-            module = request.get_module(),
-            view = request.get_view(),
-            id = param.get_id_cgi(),
-            params = param.get_all_cgi()
-          }
-        }
-      }
-    else
-      links[#links+1] = { attr = { class = "action" }, content = _"Do not vote directly" }
-      links[#links+1] ={
-        in_brackets = true,
-        content = _"Cancel [nullify]",
-        module = "vote",
-        action = "non_voter",
-        params = { issue_id = issue.id, delete = true },
-        routing = {
-          default = {
-            mode = "redirect",
-            module = request.get_module(),
-            view = request.get_view(),
-            id = param.get_id_cgi(),
-            params = param.get_all_cgi()
-          }
-        }
-      }
-    end
-  end
 
   if not for_member or for_member.id == app.session.member_id then
 
@@ -224,6 +159,67 @@ ui.container{ attr = { class = class }, content = function()
 
     end
 
+  end
+
+  local direct_voter
+  if app.session.member_id then
+    direct_voter = issue.member_info.direct_voted
+  end
+  local voteable = app.session.member_id and issue.state == 'voting' and
+         app.session.member:has_voting_right_for_unit_id(issue.area.unit_id)
+  local vote_comment_able = app.session.member_id and issue.closed and direct_voter
+
+  if voteable or vote_comment_able then
+    local vote_link_text
+    if voteable then
+      vote_link_text = direct_voter and _"Change vote" or _"Vote now"
+    elseif vote_comment_able then
+      vote_link_text = direct_voter and _"Update voting comment"
+    end
+    links[#links+1] ={
+      content = vote_link_text,
+      module = "vote",
+      view = "list",
+      params = { issue_id = issue.id }
+    }
+  end
+
+  if voteable and not direct_voter then
+    if not issue.member_info.non_voter then
+      links[#links+1] ={
+        content = _"Do not vote directly",
+        module = "vote",
+        action = "non_voter",
+        params = { issue_id = issue.id },
+        routing = {
+          default = {
+            mode = "redirect",
+            module = request.get_module(),
+            view = request.get_view(),
+            id = param.get_id_cgi(),
+            params = param.get_all_cgi()
+          }
+        }
+      }
+    else
+      links[#links+1] = { attr = { class = "action" }, content = _"Do not vote directly" }
+      links[#links+1] ={
+        in_brackets = true,
+        content = _"Cancel [nullify]",
+        module = "vote",
+        action = "non_voter",
+        params = { issue_id = issue.id, delete = true },
+        routing = {
+          default = {
+            mode = "redirect",
+            module = request.get_module(),
+            view = request.get_view(),
+            id = param.get_id_cgi(),
+            params = param.get_all_cgi()
+          }
+        }
+      }
+    end
   end
 
   if #links > 0 then

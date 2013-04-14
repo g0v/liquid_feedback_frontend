@@ -53,13 +53,18 @@ function ui.wikitextarea(name, label)
     end
   }
 
+  local height = "50ex"
+  if name == "comment" then
+    height = "20ex"
+  end
+
   -- textarea
   ui.field.text{
     label = label,
     name = name,
     multiline = true,
     attr = {
-      style = "height: 50ex; margin-left: 29%",
+      style = "height: " .. height .. "; margin-left: 29%",
       id = "content_text"
     },
     value = param.get(name)

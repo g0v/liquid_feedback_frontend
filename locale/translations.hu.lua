@@ -847,6 +847,7 @@ return {
 ["Voting comment (last updated: #{timestamp})"] = false;
 ["Voting comment (optional)"] = false;
 ["Voting comment available"] = false;
+["Voting comment preview"] = false;
 ["Voting details"] = "Szavazás részletei";
 ["Voting for issue ##{id} started"] = false;
 ["Voting for issue started"] = false;

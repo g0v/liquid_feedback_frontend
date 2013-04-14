@@ -877,6 +877,7 @@ return {
 ["Voting comment (last updated: #{timestamp})"] = false;
 ["Voting comment (optional)"] = false;
 ["Voting comment available"] = false;
+["Voting comment preview"] = false;
 ["Voting for issue ##{id} started"] = false;
 ["Voting for issue started"] = false;
 ["Voting for this issue has already begun!"] = false;

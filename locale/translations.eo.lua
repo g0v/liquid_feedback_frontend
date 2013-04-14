@@ -821,6 +821,7 @@ return {
 ["Voting comment (last updated: #{timestamp})"] = false;
 ["Voting comment (optional)"] = false;
 ["Voting comment available"] = false;
+["Voting comment preview"] = false;
 ["Voting details"] = "Voĉdonodetaloj";
 ["Voting for issue ##{id} started"] = false;
 ["Voting for issue started"] = false;
@@ -837,7 +838,6 @@ return {
 ["Website"] = "Retpaĝaro";
 ["Wednesday"] = "Merkredo";
 ["Wiki engine"] = "Viki-modulo";
-["Wiki engine for statement"] = false;
 ["Withdraw"] = false;
 ["Withdraw interest and delete the suggestion"] = false;
 ["Withdraw interest and delete the suggestions"] = false;

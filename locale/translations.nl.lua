@@ -880,6 +880,7 @@ return {
 ["Voting comment (last updated: #{timestamp})"] = false;
 ["Voting comment (optional)"] = false;
 ["Voting comment available"] = false;
+["Voting comment preview"] = false;
 ["Voting details"] = "Stemmings details";
 ["Voting for issue ##{id} started"] = false;
 ["Voting for issue started"] = false;
