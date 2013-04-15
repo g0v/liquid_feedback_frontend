@@ -391,6 +391,9 @@ return {
 ["Issue accepted"] = "Onderwerp geaccpeteerd";
 ["Issue canceled"] = "Onderwerp afgebroken";
 ["Issue delegation"] = "Onderwerp-delegatie";
+["Issue direct quorum"] = false;
+["Issue direct quorum denumerator"] = false;
+["Issue direct quorum numerator"] = false;
 ["Issue events"] = "Onderwerp evenementen";
 ["Issue finished"] = "Onderwerp afgesloten";
 ["Issue finished without voting"] = "Onderwerp zonder stemming afgesloten";
@@ -519,7 +522,9 @@ return {
 ["No changes to your images were made"] = "Er is niks veranderd aan de plaatjes";
 ["No default"] = "Geen standaard";
 ["No delegation"] = "Geen delegatie";
+["No direct"] = false;
 ["No events selected to list"] = "Geen evenementen zijn geselecteerd voor de lijst";
+["No indirect"] = false;
 ["No more events available"] = "Er zijn geen evenementen meer";
 ["No multistage majority"] = "Geen multistage meerderheid";
 ["No non-supporters rated this argument negative."] = false;
@@ -906,6 +911,8 @@ return {
 ["Withdraw support and delete the suggestion"] = false;
 ["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = "Ja";
+["Yes direct"] = false;
+["Yes indirect"] = false;
 ["Yesterday at #{time}"] = "Gisteren om #{time}";
 ["You abstained via delegation."] = false;
 ["You abstained."] = false;
@@ -1055,6 +1062,7 @@ return {
 ["delegates to"] = "gelegeerd aan";
 ["delete"] = false;
 ["delete<br /><br />"] = "delete<br /><br />";
+["direct"] = false;
 ["disabled"] = "uitgeschakeld";
 ["down"] = false;
 ["email"] = "email";
@@ -1066,6 +1074,8 @@ return {
 ["i#{id}: #{name}"] = false;
 ["implemented"] = "geïmplementeerd";
 ["inactive"] = false;
+["incl. potential"] = false;
+["indirect"] = false;
 ["last 24 hours"] = "laatste 24 uur";
 ["login name"] = "login naam";
 ["majority"] = "meerderheid";
@@ -1088,10 +1098,14 @@ return {
 ["no reverse beat path to status quo (including ties)"] = "geen achteruitweg naar de status quo (inclusief allianties)";
 ["no voting right"] = false;
 ["none"] = "geen";
+["not"] = false;
 ["not implemented"] = "niet geïmplementeerd";
+["not incl. potential"] = false;
 ["not yet"] = "nog niet";
 ["positive"] = false;
 ["possibly instable result caused by multistage majority"] = "Mogelijke instabiele resultaten als gevolg van multi-level meerderheden";
+["potential direct"] = false;
+["potential indirect"] = false;
 ["prohibit potentially instable results caused by multistage majorities"] = "Instabiele resultaten als gevolg van multi-level meerderheden verbieden";
 ["reverse beat path to status quo (including ties)"] = "achteruitweg naar de status quo (inclusief allianties)";
 ["satisfied"] = "tevreden";

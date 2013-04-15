@@ -390,6 +390,9 @@ return {
 ["Issue accepted"] = "Tematica accettata";
 ["Issue canceled"] = "Tematica cancellata";
 ["Issue delegation"] = "Delega della tematica";
+["Issue direct quorum"] = false;
+["Issue direct quorum denumerator"] = false;
+["Issue direct quorum numerator"] = false;
 ["Issue events"] = "Eventi della tematica";
 ["Issue finished"] = "Tematica chiusa";
 ["Issue finished without voting"] = "Tematica chiusa senza voto";
@@ -518,7 +521,9 @@ return {
 ["No changes to your images were made"] = "Le tue immagini non sono state modificate";
 ["No default"] = "Nessun valore predefinito";
 ["No delegation"] = "Nessuna delega";
+["No direct"] = false;
 ["No events selected to list"] = "Nessun evento selezionato";
+["No indirect"] = false;
 ["No more events available"] = "Altri eventi da leggere";
 ["No multistage majority"] = "Nessuna maggioranza multistage";
 ["No non-supporters rated this argument negative."] = false;
@@ -901,6 +906,8 @@ return {
 ["Withdraw support and delete the suggestion"] = false;
 ["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = "Si";
+["Yes direct"] = false;
+["Yes indirect"] = false;
 ["Yesterday at #{time}"] = "Ieri alle #{time}";
 ["You abstained via delegation."] = false;
 ["You abstained."] = false;
@@ -1051,6 +1058,7 @@ return {
 ["delegates to"] = "delega a";
 ["delete"] = false;
 ["delete<br /><br />"] = "elimina<br /><br />";
+["direct"] = false;
 ["disabled"] = "disabilitato";
 ["down"] = false;
 ["email"] = "email";
@@ -1062,6 +1070,8 @@ return {
 ["i#{id}: #{name}"] = "i#{id}: #{name}";
 ["implemented"] = "implementato";
 ["inactive"] = "inattivo";
+["incl. potential"] = false;
+["indirect"] = false;
 ["last 24 hours"] = "ultime 24 ore";
 ["login name"] = "nome utente";
 ["majority"] = "maggioranza";
@@ -1084,10 +1094,14 @@ return {
 ["no reverse beat path to status quo (including ties)"] = "nessun 'reverse beat path' rispetto allo status quo (incluso parimerito)";
 ["no voting right"] = false;
 ["none"] = "nessuno";
+["not"] = false;
 ["not implemented"] = "non implementato";
+["not incl. potential"] = false;
 ["not yet"] = "non ancora";
 ["positive"] = false;
 ["possibly instable result caused by multistage majority"] = "il risultato puÚ essere instabile a causa di maggioranze multistage";
+["potential direct"] = false;
+["potential indirect"] = false;
 ["prohibit potentially instable results caused by multistage majorities"] = "impedisci risultati instabili causati da maggioranze multistage";
 ["reverse beat path to status quo (including ties)"] = "il 'reverse beat path' rispetto allo status quo e' permesso (incluso parimerito)";
 ["satisfied"] = "soddisfatto";

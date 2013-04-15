@@ -389,6 +389,9 @@ return {
 ["Issue accepted"] = "Το θέμα έγινε αποδεκτό";
 ["Issue canceled"] = "Το θέμα ακυρώθηκε";
 ["Issue delegation"] = "Ανάθεση θέματος";
+["Issue direct quorum"] = false;
+["Issue direct quorum denumerator"] = false;
+["Issue direct quorum numerator"] = false;
 ["Issue events"] = "Συμβάντα θέματος";
 ["Issue finished"] = "Το θέμα ολοκληρώθηκε";
 ["Issue finished without voting"] = "Το θέμα ολοκληρώθηκε δίχως ψηφοφορία";
@@ -517,7 +520,9 @@ return {
 ["No changes to your images were made"] = "Δεν έγιναν αλλαγές στις εικόνες σας";
 ["No default"] = "Χωρίς προεπιλογή";
 ["No delegation"] = "Χωρίς ανάθεση";
+["No direct"] = false;
 ["No events selected to list"] = "Δεν επιλέχθηκαν συμβάντα";
+["No indirect"] = false;
 ["No more events available"] = "Δεν υπάρχουν άλλα διαθέσιμα συμβάντα";
 ["No multistage majority"] = "Χωρίς πολυσταδιακή πλειοψηφία";
 ["No non-supporters rated this argument negative."] = false;
@@ -903,6 +908,8 @@ return {
 ["Withdraw support and delete the suggestion"] = false;
 ["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = "Ναι";
+["Yes direct"] = false;
+["Yes indirect"] = false;
 ["Yesterday at #{time}"] = "Χτες στις #{time}";
 ["You abstained via delegation."] = false;
 ["You abstained."] = false;
@@ -1053,6 +1060,7 @@ return {
 ["delegates to"] = "αναθέτει στον/στην";
 ["delete"] = false;
 ["delete<br /><br />"] = "διαγραφή<br /><br />";
+["direct"] = false;
 ["disabled"] = "απενεργοποιημένο";
 ["down"] = false;
 ["email"] = "Email";
@@ -1064,6 +1072,8 @@ return {
 ["i#{id}: #{name}"] = false;
 ["implemented"] = "υλοποιημένη";
 ["inactive"] = "ανενεργός/ή";
+["incl. potential"] = false;
+["indirect"] = false;
 ["last 24 hours"] = "τις τελευταίες 24 ώρες";
 ["login name"] = "Όνομα σύνδεσης";
 ["majority"] = "πλειοψηφία";
@@ -1086,10 +1096,14 @@ return {
 ["no reverse beat path to status quo (including ties)"] = "Χωρίς reverse beat path προς την παρούσα κατάσταση (συμπεριλαμβάνοντας ισοπαλίες)";
 ["no voting right"] = false;
 ["none"] = "κανένα";
+["not"] = false;
 ["not implemented"] = "δεν έχει υλοποιηθεί";
+["not incl. potential"] = false;
 ["not yet"] = "όχι ακόμη";
 ["positive"] = false;
 ["possibly instable result caused by multistage majority"] = "Ενδεχομένως ασταθές αποτέλεσμα λόγω πολυσταδιακής πλειοψηφίας";
+["potential direct"] = false;
+["potential indirect"] = false;
 ["prohibit potentially instable results caused by multistage majorities"] = "Απαγόρευση δυνητικά ασταθών αποτελεσμάτων που προκαλούνται από πολυσταδιακές πλειοψηφίες";
 ["reverse beat path to status quo (including ties)"] = "Reverse beat path προς την παρούσα κατάσταση (συμπεριλαμβάνοντας ισοπαλίες)";
 ["satisfied"] = "ικανοποιημένος/η";

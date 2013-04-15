@@ -311,6 +311,9 @@ return {
 ["Issue ##{issue} - i#{initiative_id}: #{initiative_name}"] = "Thema ##{issue} - i#{initiative_id}: #{initiative_name}";
 ["Issue Details"] = "Details des Themas";
 ["Issue delegation"] = "Delegation für Thema";
+["Issue direct quorum"] = "Quorum Thema direkt";
+["Issue direct quorum denumerator"] = "Quorum Thema direkt Nenner";
+["Issue direct quorum numerator"] = "Quorum Thema direkt Zähler";
 ["Issue pad"] = "Pad zum Thema";
 ["Issue quorum"] = "Quorum Thema";
 ["Issue quorum denumerator"] = "Themen-Quorum Nenner";
@@ -412,6 +415,8 @@ return {
 ["No arguments yet"] = "Noch keine Argumente";
 ["No changes to your images were made"] = "An deinen Bildern wurde nichts geändert";
 ["No default"] = "Kein Standard";
+["No direct"] = "Nein direkt";
+["No indirect"] = "Nein indirekt";
 ["No multistage majority"] = "Keine mehrstufigen Mehrheiten";
 ["No non-supporters rated this argument negative."] = "Kein Nicht-Unterstützer hat dieses Argument negativ bewertet.";
 ["No non-supporters rated this argument positive."] = "Kein Nicht-Unterstützer hat dieses Argument positiv bewertet.";
@@ -717,6 +722,8 @@ return {
 ["Withdraw support and delete the suggestion"] = "Unterstützung zurückziehen und die Anregung löschen";
 ["Withdraw support and delete the suggestions"] = "Unterstützung zurückziehen und die Anregungen löschen";
 ["Yes"] = "Ja";
+["Yes direct"] = "Ja direkt";
+["Yes indirect"] = "Ja indirekt";
 ["Yesterday at #{time}"] = "Gestern um #{time}";
 ["You abstained via delegation."] = "Du hast dich durch Delegation enthalten.";
 ["You abstained."] = "Du hast dich enthalten.";
@@ -825,6 +832,7 @@ return {
 ["delegates to"] = "delegiert an";
 ["delete"] = "löschen";
 ["delete<br /><br />"] = "löschen<br /><br />";
+["direct"] = "direkt";
 ["disabled"] = "ausgeschaltet";
 ["down"] = "runter";
 ["email"] = "E-Mail";
@@ -835,6 +843,8 @@ return {
 ["i#{id}: #{name}"] = "i#{id}: #{name}";
 ["implemented"] = "umgesetzt";
 ["inactive"] = "inaktiv";
+["incl. potential"] = "mit potentiellen";
+["indirect"] = "indirekt";
 ["login name"] = "Anmeldename";
 ["minute [interval time ago]"] = "Minute";
 ["minute [interval time left]"] = "Minute";
@@ -854,10 +864,14 @@ return {
 ["new window"] = "neues Fenster";
 ["no reverse beat path to status quo (including ties)"] = "Kein rückwärtsgerichteter Schlagpfad zum Status Quo (Gleichstände eingeschlossen)";
 ["no voting right"] = "kein Stimmrecht";
+["not"] = "nicht";
 ["not implemented"] = "nicht umgesetzt";
+["not incl. potential"] = "ohne potentielle";
 ["not yet"] = "bis jetzt nicht";
 ["positive"] = "positiv";
 ["possibly instable result caused by multistage majority"] = "Möglicherweise instabiles Ergebnis aufgrund mehrstufiger Mehrheiten";
+["potential direct"] = "potentiell direkt";
+["potential indirect"] = "potentiell indirekt";
 ["prohibit potentially instable results caused by multistage majorities"] = "Instabile Ergebnisse aufgrund mehrstufiger Mehrheiten verbieten";
 ["reverse beat path to status quo (including ties)"] = "Rückwärtsgerichteter Schlagpfad zum Status Quo (Gleichstände eingeschlossen)";
 ["satisfied"] = "zufrieden";

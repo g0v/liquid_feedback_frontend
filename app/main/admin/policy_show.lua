@@ -32,6 +32,9 @@ ui.form{
     ui.field.text{ label = _"Issue quorum numerator",   name = "issue_quorum_num" }
     ui.field.text{ label = _"Issue quorum denumerator", name = "issue_quorum_den" }
 
+    ui.field.text{ label = _"Issue direct quorum numerator",   name = "issue_quorum_direct_num" }
+    ui.field.text{ label = _"Issue direct quorum denumerator", name = "issue_quorum_direct_den" }
+
     ui.field.text{ label = _"Initiative quorum numerator",   name = "initiative_quorum_num" }
     ui.field.text{ label = _"Initiative quorum denumerator", name = "initiative_quorum_den" }
 

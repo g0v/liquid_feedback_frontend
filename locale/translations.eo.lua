@@ -364,6 +364,9 @@ return {
 ["Issue accepted"] = "Temo akceptita";
 ["Issue canceled"] = "Temo nuligita";
 ["Issue delegation"] = "Temodelegacio";
+["Issue direct quorum"] = false;
+["Issue direct quorum denumerator"] = false;
+["Issue direct quorum numerator"] = false;
 ["Issue events"] = "Temoeventoj";
 ["Issue finished"] = "Temo finita";
 ["Issue finished without voting"] = "Temo finita sen voĉdono";
@@ -483,7 +486,9 @@ return {
 ["No changes to your images were made"] = "Viaj bildoj ne estas ŝanĝitaj";
 ["No default"] = "Neniu aprioraĵo";
 ["No delegation"] = "Neniu delegacio";
+["No direct"] = false;
 ["No events selected to list"] = "Neniuj eventoj elektitaj";
+["No indirect"] = false;
 ["No multistage majority"] = false;
 ["No non-supporters rated this argument negative."] = false;
 ["No non-supporters rated this argument positive."] = false;
@@ -845,6 +850,8 @@ return {
 ["Withdraw support and delete the suggestion"] = false;
 ["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = "Jes";
+["Yes direct"] = false;
+["Yes indirect"] = false;
 ["Yesterday at #{time}"] = false;
 ["You abstained via delegation."] = false;
 ["You abstained."] = false;
@@ -973,6 +980,7 @@ return {
 ["delegates to"] = false;
 ["delete"] = false;
 ["delete<br /><br />"] = false;
+["direct"] = false;
 ["disabled"] = "malaktiva";
 ["down"] = false;
 ["email"] = "retpoŝto";
@@ -984,6 +992,8 @@ return {
 ["i#{id}: #{name}"] = false;
 ["implemented"] = "realigita";
 ["inactive"] = false;
+["incl. potential"] = false;
+["indirect"] = false;
 ["last 24 hours"] = "lastaj 24 horoj";
 ["login name"] = "Salutnomo";
 ["minute [interval time ago]"] = false;
@@ -1004,10 +1014,14 @@ return {
 ["new window"] = "nova fenestro";
 ["no reverse beat path to status quo (including ties)"] = false;
 ["no voting right"] = false;
+["not"] = false;
 ["not implemented"] = "nerealigita";
+["not incl. potential"] = false;
 ["not yet"] = false;
 ["positive"] = false;
 ["possibly instable result caused by multistage majority"] = false;
+["potential direct"] = false;
+["potential indirect"] = false;
 ["prohibit potentially instable results caused by multistage majorities"] = false;
 ["reverse beat path to status quo (including ties)"] = false;
 ["satisfied"] = "kontenta";

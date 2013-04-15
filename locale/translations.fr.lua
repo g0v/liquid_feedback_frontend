@@ -310,6 +310,9 @@ return {
 ["Issue ##{issue} - i#{initiative_id}: #{initiative_name}"] = false;
 ["Issue Details"] = false;
 ["Issue delegation"] = false;
+["Issue direct quorum"] = false;
+["Issue direct quorum denumerator"] = false;
+["Issue direct quorum numerator"] = false;
 ["Issue pad"] = false;
 ["Issue quorum"] = false;
 ["Issue quorum denumerator"] = false;
@@ -411,6 +414,8 @@ return {
 ["No arguments yet"] = false;
 ["No changes to your images were made"] = false;
 ["No default"] = false;
+["No direct"] = false;
+["No indirect"] = false;
 ["No multistage majority"] = false;
 ["No non-supporters rated this argument negative."] = false;
 ["No non-supporters rated this argument positive."] = false;
@@ -715,6 +720,8 @@ return {
 ["Withdraw support and delete the suggestion"] = false;
 ["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = false;
+["Yes direct"] = false;
+["Yes indirect"] = false;
 ["Yesterday at #{time}"] = false;
 ["You abstained via delegation."] = false;
 ["You abstained."] = false;
@@ -823,6 +830,7 @@ return {
 ["delegates to"] = false;
 ["delete"] = false;
 ["delete<br /><br />"] = false;
+["direct"] = false;
 ["disabled"] = false;
 ["down"] = false;
 ["email"] = false;
@@ -833,6 +841,8 @@ return {
 ["i#{id}: #{name}"] = false;
 ["implemented"] = false;
 ["inactive"] = false;
+["incl. potential"] = false;
+["indirect"] = false;
 ["login name"] = false;
 ["minute [interval time ago]"] = false;
 ["minute [interval time left]"] = false;
@@ -852,10 +862,14 @@ return {
 ["new window"] = false;
 ["no reverse beat path to status quo (including ties)"] = false;
 ["no voting right"] = false;
+["not"] = false;
 ["not implemented"] = false;
+["not incl. potential"] = false;
 ["not yet"] = false;
 ["positive"] = false;
 ["possibly instable result caused by multistage majority"] = false;
+["potential direct"] = false;
+["potential indirect"] = false;
 ["prohibit potentially instable results caused by multistage majorities"] = false;
 ["reverse beat path to status quo (including ties)"] = false;
 ["satisfied"] = false;

@@ -383,6 +383,9 @@ return {
 ["Issue accepted"] = "Téma elfogadva";
 ["Issue canceled"] = "Téma megszakítva";
 ["Issue delegation"] = "Témadelegáció";
+["Issue direct quorum"] = false;
+["Issue direct quorum denumerator"] = false;
+["Issue direct quorum numerator"] = false;
 ["Issue events"] = "Téma eseményei";
 ["Issue finished"] = "Téma lezárva";
 ["Issue finished without voting"] = "Téma szavazás nélkül lezárva";
@@ -502,7 +505,9 @@ return {
 ["No changes to your images were made"] = "Nem lettek módosítva a képeid";
 ["No default"] = "Nincs alapértelmezés";
 ["No delegation"] = "Nincs delegáció";
+["No direct"] = false;
 ["No events selected to list"] = "Nem lettek kiválasztva kilistázandó események";
+["No indirect"] = false;
 ["No multistage majority"] = "Nincs többszintû többség";
 ["No non-supporters rated this argument negative."] = false;
 ["No non-supporters rated this argument positive."] = false;
@@ -873,6 +878,8 @@ return {
 ["Withdraw support and delete the suggestion"] = false;
 ["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = "Igen";
+["Yes direct"] = false;
+["Yes indirect"] = false;
 ["Yesterday at #{time}"] = false;
 ["You abstained via delegation."] = false;
 ["You abstained."] = false;
@@ -1006,6 +1013,7 @@ return {
 ["delegates to"] = false;
 ["delete"] = false;
 ["delete<br /><br />"] = "törlés<br /><br />";
+["direct"] = false;
 ["disabled"] = "leállítva";
 ["down"] = false;
 ["email"] = "email";
@@ -1017,6 +1025,8 @@ return {
 ["i#{id}: #{name}"] = "i#{id}: #{name}";
 ["implemented"] = "beépítve";
 ["inactive"] = false;
+["incl. potential"] = false;
+["indirect"] = false;
 ["last 24 hours"] = "elmúlt 24 óra";
 ["login name"] = "bejelentkezési név";
 ["majority"] = "többség";
@@ -1039,10 +1049,14 @@ return {
 ["no reverse beat path to status quo (including ties)"] = "nincs visszaút a status quo-hoz (döntetlenekkel sem)";
 ["no voting right"] = false;
 ["none"] = "nincs";
+["not"] = false;
 ["not implemented"] = "nincs beépítve";
+["not incl. potential"] = false;
 ["not yet"] = "még nem";
 ["positive"] = false;
 ["possibly instable result caused by multistage majority"] = "eredmény instabil lehet a többszintû többség miatt";
+["potential direct"] = false;
+["potential indirect"] = false;
 ["prohibit potentially instable results caused by multistage majorities"] = "többszintû többség miatt potenciálisan instabil eredmények tiltása";
 ["reverse beat path to status quo (including ties)"] = "visszaút a status quo-hoz (döntetlenekkel együtt)";
 ["satisfied"] = "elégedett";

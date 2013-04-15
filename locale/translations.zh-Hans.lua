@@ -389,6 +389,9 @@ return {
 ["Issue accepted"] = "议题被接受";
 ["Issue canceled"] = "议题被取消";
 ["Issue delegation"] = "议题委任";
+["Issue direct quorum"] = false;
+["Issue direct quorum denumerator"] = false;
+["Issue direct quorum numerator"] = false;
 ["Issue events"] = "议题动态";
 ["Issue finished"] = "议题已结束";
 ["Issue finished without voting"] = "议题未经表决而结束";
@@ -517,7 +520,9 @@ return {
 ["No changes to your images were made"] = "您的图片未被更改";
 ["No default"] = "无預设值";
 ["No delegation"] = "无委任";
+["No direct"] = false;
 ["No events selected to list"] = "未选列动态";
+["No indirect"] = false;
 ["No more events available"] = "无其他动态可选";
 ["No multistage majority"] = "无多阶段多数";
 ["No non-supporters rated this argument negative."] = false;
@@ -903,6 +908,8 @@ return {
 ["Withdraw support and delete the suggestion"] = false;
 ["Withdraw support and delete the suggestions"] = false;
 ["Yes"] = "肯定";
+["Yes direct"] = false;
+["Yes indirect"] = false;
 ["Yesterday at #{time}"] = "昨日于 #{time}";
 ["You abstained via delegation."] = false;
 ["You abstained."] = false;
@@ -1053,6 +1060,7 @@ return {
 ["delegates to"] = "委任给";
 ["delete"] = false;
 ["delete<br /><br />"] = "刪除<br /><br />";
+["direct"] = false;
 ["disabled"] = "停用";
 ["down"] = false;
 ["email"] = "电邮";
@@ -1064,6 +1072,8 @@ return {
 ["i#{id}: #{name}"] = false;
 ["implemented"] = "已被采纳";
 ["inactive"] = "不活动的";
+["incl. potential"] = false;
+["indirect"] = false;
 ["last 24 hours"] = "最近 24 小时內";
 ["login name"] = "帐号";
 ["majority"] = "多数";
@@ -1086,10 +1096,14 @@ return {
 ["no reverse beat path to status quo (including ties)"] = "无循环性优先顺序导至现状 (包括平手)";
 ["no voting right"] = false;
 ["none"] = "无";
+["not"] = false;
 ["not implemented"] = "未被采纳";
+["not incl. potential"] = false;
 ["not yet"] = "尚未";
 ["positive"] = false;
 ["possibly instable result caused by multistage majority"] = "因多阶段多数可能导致不稳定结果";
+["potential direct"] = false;
+["potential indirect"] = false;
 ["prohibit potentially instable results caused by multistage majorities"] = "防止因多阶段多数导致潜在不稳定结果";
 ["reverse beat path to status quo (including ties)"] = "循环性优先顺序导至现状 (包括平手)";
 ["satisfied"] = "满意";

@@ -78,11 +78,16 @@ ui.container{ attr = { class = class }, content = function()
             max_value = max_value,
             width = 100,
             bars = {
-              { color = "#0a5", value = initiative.positive_direct_votes },
-              { color = "#0b6", value = initiative.positive_votes - initiative.positive_direct_votes },
-              { color = "#aaa", value = max_value - initiative.negative_votes - initiative.positive_votes },
-              { color = "#b55", value = initiative.negative_votes - initiative.negative_direct_votes },
-              { color = "#a00", value = initiative.negative_direct_votes }
+              { color = "#0a5", title = _"Yes direct",
+                value = initiative.positive_direct_votes },
+              { color = "#0b6", title = _"Yes indirect",
+                value = initiative.positive_votes - initiative.positive_direct_votes },
+              { color = "#aaa", title = _"Abstention",
+                value = max_value - initiative.negative_votes - initiative.positive_votes },
+              { color = "#b55", title = _"No indirect",
+                value = initiative.negative_votes - initiative.negative_direct_votes },
+              { color = "#a00", title = _"No direct",
+                value = initiative.negative_direct_votes }
             }
           }
         else
@@ -92,9 +97,12 @@ ui.container{ attr = { class = class }, content = function()
             max_value = max_value,
             width = 100,
             bars = {
-              { color = "#0a5", value = initiative.positive_votes },
-              { color = "#aaa", value = max_value - initiative.negative_votes - initiative.positive_votes },
-              { color = "#a00", value = initiative.negative_votes }
+              { color = "#0a5", title = _"Yes",
+                value = initiative.positive_votes },
+              { color = "#aaa", title = _"Abstention",
+                value = max_value - initiative.negative_votes - initiative.positive_votes },
+              { color = "#a00", title = _"No",
+                value = initiative.negative_votes }
             }
           }
         end
@@ -109,23 +117,49 @@ ui.container{ attr = { class = class }, content = function()
         if initiative.issue.policy.initiative_quorum_den then
           quorum = initiative.issue.policy.initiative_quorum_num / initiative.issue.policy.initiative_quorum_den * max_value
         end
+        ui.bargraph{
+          title_prefix = _"Supporters" .. ": ",
+          max_value = max_value,
+          width = 100,
+          quorum = quorum,
+          bars = {
+            { color = "#0a5", title = _"direct",
+              value = (initiative.satisfied_direct_supporter_count or 0) },
+            { color = "#0b6", title = _"indirect",
+              value = (initiative.satisfied_supporter_count or 0) },
+            { color = "#aaa", title = _"potential direct",
+              value = (initiative.direct_supporter_count or 0) - (initiative.satisfied_direct_supporter_count or 0) },
+            { color = "#bbb", title = _"potential indirect",
+              value = (initiative.supporter_count or 0) - (initiative.satisfied_supporter_count or 0) },
+            { color = "#fff", title = _"not",
+              value = max_value - (initiative.supporter_count or 0) },
+          }
+        }
       else
         if initiative.issue.policy.issue_quorum_den then
           quorum = initiative.issue.policy.issue_quorum_num / initiative.issue.policy.issue_quorum_den * max_value
         end
-      end
-      ui.bargraph{
-        title_prefix = _"Supporters" .. ": ",
-        max_value = max_value,
-        width = 100,
-        quorum = quorum,
-        quorum_color = "#00F",
-        bars = {
-          { color = "#4c6", value = (initiative.satisfied_supporter_count or 0) },
-          { color = "#aaa", value = (initiative.supporter_count or 0) - (initiative.satisfied_supporter_count or 0) },
-          { color = "#fff", value = max_value - (initiative.supporter_count or 0) },
+        local quorum_direct
+        if initiative.issue.policy.issue_quorum_direct_den then
+          quorum_direct = initiative.issue.policy.issue_quorum_direct_num / initiative.issue.policy.issue_quorum_direct_den * max_value
+        end
+        ui.bargraph{
+          title_prefix = _"Supporters" .. ": ",
+          max_value = max_value,
+          width = 100,
+          quorum_direct = quorum_direct,
+          quorum = quorum,
+          -- we do not show the potential supporters separately to make clear that they are counted for the issue quorum
+          bars = {
+            { color = "#0a5", title = _"direct",
+              value = (initiative.direct_supporter_count or 0) },
+            { color = "#0b6", title = _"indirect",
+              value = (initiative.supporter_count or 0) - (initiative.direct_supporter_count or 0) },
+            { color = "#fff", title = _"not",
+              value = max_value - (initiative.supporter_count or 0) },
+          }
         }
-      }
+      end
     end
   end }
 
