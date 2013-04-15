@@ -26,12 +26,8 @@ if member.is_informed == false then
 end
 
 local in_delegation_chain = false
-if member.delegate_member_ids then
-  for member_id in member.delegate_member_ids:gmatch("(%w+)") do
-    if tonumber(member_id) == member.id then
-      in_delegation_chain = true
-    end
-  end
+if member.delegate_member_id == member.id then
+  in_delegation_chain = true
 end
 
 if in_delegation_chain or highlight or ((issue or initiative) and member.id == app.session.member_id) then
