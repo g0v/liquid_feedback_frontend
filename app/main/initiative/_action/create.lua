@@ -155,6 +155,7 @@ initiative:save()
 
 local draft = Draft:new()
 draft.initiative_id = initiative.id
+draft.name = name
 draft.formatting_engine = formatting_engine
 draft.content = param.get("draft")
 draft.author_id = app.session.member.id

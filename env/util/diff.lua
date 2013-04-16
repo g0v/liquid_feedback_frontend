@@ -69,17 +69,18 @@ function util.diff(old_content, new_content)
   end
 
   if output == "" then
-    ui.field.text{ value = _"The versions do not differ." }
-  else
-    ui.container{
-      tag = "div",
-      attr = { class = "diff" },
-      content = function()
-        output = output:gsub("[^\n\r]+", function(line)
-          process_line(line)
-        end)
-      end
-    }
+    return false
   end
+
+  ui.container{
+    tag = "div",
+    attr = { class = "diff" },
+    content = function()
+      output = output:gsub("[^\n\r]+", function(line)
+        process_line(line)
+      end)
+    end
+  }
+  return true
 
 end

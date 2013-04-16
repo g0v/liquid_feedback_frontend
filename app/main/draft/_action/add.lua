@@ -25,6 +25,12 @@ if not tmp or tmp.text_entries_left < 1 then
   return false
 end
 
+local name = util.trim(param.get("name"))
+if #name < 3 then
+  slot.put_into("error", _"This name is really too short!")
+  return false
+end
+
 local formatting_engine = param.get("formatting_engine")
 
 local formatting_engine_valid = false
@@ -44,10 +50,11 @@ end
 local draft = Draft:new()
 draft.author_id = app.session.member.id
 draft.initiative_id = initiative.id
+draft.name = name
 draft.formatting_engine = formatting_engine
 draft.content = param.get("content")
 
-if draft.content == initiative.current_draft.content then
+if draft.content == initiative.current_draft.content and draft.name == initiative.current_draft.name then
   slot.put_into("error", _"The draft has not been changed!")
   return false
 end

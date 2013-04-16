@@ -7,6 +7,16 @@ if source then
     tag = "div",
     attr = { class = "diff" },
     content = function()
+      local output = encode.html(draft.name)
+      output = output:gsub("\n", "\n<br />")
+      slot.put(output)
+    end
+  }
+
+  ui.tag{
+    tag = "div",
+    attr = { class = "diff" },
+    content = function()
       local output = encode.html(draft.content)
       output = output:gsub("\n", "\n<br />")
       slot.put(output)
@@ -16,6 +26,11 @@ if source then
 else
 
   ui.container{ attr = { class = "initiative_head" }, content = function()
+
+    ui.container{
+      attr = { class = "title" },
+      content = _("Initiative i#{id}: #{name}", { id = draft.initiative_id, name = draft.name })
+    }
 
     ui.container{
       attr = { class = "draft_content wiki" },

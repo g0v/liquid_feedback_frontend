@@ -68,4 +68,8 @@ if app.session.member_id and not initiative.revoked and not initiative.issue.clo
   end
 end
 
-util.diff(old_draft.content, new_draft.content)
+local diff1 = util.diff(old_draft.name,    new_draft.name)
+local diff2 = util.diff(old_draft.content, new_draft.content)
+if not diff1 and not diff2 then
+  slot.put_into("warning", _"The versions do not differ.")
+end

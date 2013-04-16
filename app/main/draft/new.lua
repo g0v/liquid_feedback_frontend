@@ -26,7 +26,7 @@ if param.get("preview") then
     -- title
     ui.container{
       attr = { class = "title" },
-      content = _("Initiative i#{id}: #{name}", { id = initiative.id, name = initiative.name })
+      content = _("Initiative i#{id}: #{name}", { id = initiative.id, name = param.get("name") })
     }
 
     -- draft content
@@ -41,7 +41,11 @@ if param.get("preview") then
 
 elseif param.get("diff") then
 
-  util.diff(initiative.current_draft.content, param.get("content"))
+  local diff1 = util.diff(initiative.current_draft.name,    param.get("name"))
+  local diff2 = util.diff(initiative.current_draft.content, param.get("content"))
+  if not diff1 and not diff2 then
+    slot.put_into("warning", _"The versions do not differ.")
+  end
 
 end
 
@@ -70,6 +74,13 @@ ui.form{
       ui.submit{ attr = { class = "additional" }, text = _"Save" }
       slot.put("<br /><br /><br />")
     end
+
+    ui.field.text{
+      label = _"Title of initiative",
+      name  = "name",
+      attr = { maxlength = 256 },
+      value = param.get("name")
+    }
 
     ui.wikitextarea("content", _"Content")
 
