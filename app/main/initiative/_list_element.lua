@@ -117,6 +117,7 @@ ui.container{ attr = { class = class }, content = function()
         if initiative.issue.policy.initiative_quorum_den then
           quorum = initiative.issue.policy.initiative_quorum_num / initiative.issue.policy.initiative_quorum_den * max_value
         end
+        local satisfied_indirect = (initiative.satisfied_supporter_count or 0) - (initiative.satisfied_direct_supporter_count or 0)
         ui.bargraph{
           title_prefix = _"Supporters" .. ": ",
           max_value = max_value,
@@ -126,11 +127,11 @@ ui.container{ attr = { class = class }, content = function()
             { color = "#0a5", title = _"direct",
               value = (initiative.satisfied_direct_supporter_count or 0) },
             { color = "#0b6", title = _"indirect",
-              value = (initiative.satisfied_supporter_count or 0) },
+              value = satisfied_indirect },
             { color = "#aaa", title = _"potential direct",
               value = (initiative.direct_supporter_count or 0) - (initiative.satisfied_direct_supporter_count or 0) },
             { color = "#bbb", title = _"potential indirect",
-              value = (initiative.supporter_count or 0) - (initiative.satisfied_supporter_count or 0) },
+              value = (initiative.supporter_count or 0) - (initiative.direct_supporter_count or 0) - satisfied_indirect },
             { color = "#fff", title = _"not",
               value = max_value - (initiative.supporter_count or 0) },
           }

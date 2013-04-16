@@ -24,10 +24,10 @@ function ui.bargraph(args)
         quorum = nil
       end
 
-      local last_visiable_bar = 0
+      local last_visible_bar = 0
       for i, bar in ipairs(args.bars) do
         if bar.value > 0 then
-          last_visiable_bar = i
+          last_visible_bar = i
         end
       end
 
@@ -83,7 +83,7 @@ function ui.bargraph(args)
             quorum = nil
           end
 
-          if i == last_visiable_bar then
+          if i == last_visible_bar then
             width = args.width - length
           else
             width = math.floor(value)
