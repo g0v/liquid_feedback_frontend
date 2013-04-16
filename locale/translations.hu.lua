@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 return {
-["#{count} cancelled"] = false;
+["#{count} canceled"] = false;
 ["#{count} days ago"] = "#{count} nappal ezelõtt";
 ["#{count} finished"] = false;
 ["#{count} in discussion"] = false;
@@ -132,18 +132,12 @@ return {
 ["Cancel password reset"] = "Jelszóvisszaállítás megszakítása";
 ["Cancel refuse of invitation"] = "Meghívás elutasításának megszakítása";
 ["Cancel registration"] = "Regisztrálás megszakítása";
-["Canceled"] = false;
-["Canceled (before accepted due to revocation)"] = false;
-["Canceled (during discussion due to revocation)"] = false;
-["Canceled (during verification due to revocation)"] = false;
-["Canceled (issue not accepted)"] = false;
-["Canceled (no initiative admitted)"] = false;
-["Cancelled"] = "Megszakítva";
-["Cancelled (before accepted due to revocation)"] = "Megszakítva (elfogadás elõtt, visszavonás miatt)";
-["Cancelled (during discussion due to revocation)"] = "Megszakítva (tárgyalás közben, visszavonás miatt)";
-["Cancelled (during verification due to revocation)"] = "Megszakítva (ellenõrzés közben, visszavonás miatt)";
-["Cancelled (issue not accepted)"] = "Megszakítva (el nem fogadott téma)";
-["Cancelled (no initiative admitted)"] = "Megszakítva (nem engedélyezett kezdeményezés)";
+["Canceled"] = "Megszakítva";
+["Canceled (before accepted due to revocation)"] = "Megszakítva (elfogadás elõtt, visszavonás miatt)";
+["Canceled (during discussion due to revocation)"] = "Megszakítva (tárgyalás közben, visszavonás miatt)";
+["Canceled (during verification due to revocation)"] = "Megszakítva (ellenõrzés közben, visszavonás miatt)";
+["Canceled (issue not accepted)"] = "Megszakítva (el nem fogadott téma)";
+["Canceled (no initiative admitted)"] = "Megszakítva (nem engedélyezett kezdeményezés)";
 ["Change area delegation"] = "Témakör-delegáció módosítása";
 ["Change discussion URL"] = false;
 ["Change email"] = "Email-cím módosítása";
@@ -372,8 +366,8 @@ return {
 ["Issue"] = "Téma";
 ["Issue ##{id}"] = "Téma: ##{id}";
 ["Issue ##{id} reached discussion"] = false;
-["Issue ##{id} was cancelled because no initiative was admitted"] = false;
-["Issue ##{id} was cancelled due to revocation"] = false;
+["Issue ##{id} was canceled because no initiative was admitted"] = false;
+["Issue ##{id} was canceled due to revocation"] = false;
 ["Issue ##{id} was finished (with winner)"] = false;
 ["Issue ##{id} was finished (without winner)"] = false;
 ["Issue ##{id} was frozen"] = false;
@@ -396,10 +390,10 @@ return {
 ["Issue quorum numerator"] = "Téma-határozatképesség-számláló";
 ["Issue reached discussion"] = false;
 ["Issue reached next phase"] = "A téma eljutott a következõ fázisba";
-["Issue was cancelled because no initiative was admitted"] = false;
-["Issue was cancelled due to revocation"] = false;
-["Issue was cancelled due to revocation (during discussion)"] = false;
-["Issue was cancelled due to revocation (during verification)"] = false;
+["Issue was canceled because no initiative was admitted"] = false;
+["Issue was canceled due to revocation"] = false;
+["Issue was canceled due to revocation (during discussion)"] = false;
+["Issue was canceled due to revocation (during verification)"] = false;
 ["Issue was finished (with winner)"] = false;
 ["Issue was finished (without winner)"] = false;
 ["Issue was frozen"] = false;
@@ -764,7 +758,7 @@ return {
 ["This invite code has no login assigned!"] = false;
 ["This invite code has no screen name assigned!"] = false;
 ["This invite key is connected with the following information:"] = "Ehhez a meghívókulcshoz a következõ adatok kapcsolódnak:";
-["This issue has been cancelled. It failed the quorum of #{quorum}."] = "Téma megszakítva. Nincs meg a határozatképesség: #(quorum).";
+["This issue has been canceled. It failed the quorum of #{quorum}."] = "Téma megszakítva. Nincs meg a határozatképesség: #(quorum).";
 ["This issue is already closed!"] = false;
 ["This issue is already closed."] = "Téma már lezárva.";
 ["This issue is already frozen!"] = false;

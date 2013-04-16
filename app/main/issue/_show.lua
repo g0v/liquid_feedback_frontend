@@ -242,11 +242,11 @@ ui.container{ attr = { class = class }, content = function()
     end }
   end
 
-  if not for_listing and issue.state == "cancelled" then
+  if not for_listing and issue.state == "canceled" then
     local policy = issue.policy
     ui.container{
       attr = { class = "not_admitted_info clear_both" },
-      content = _("This issue has been cancelled. It failed the quorum of #{quorum}.", { quorum = format.percentage(policy.issue_quorum_num / policy.issue_quorum_den) })
+      content = _("This issue has been canceled. It failed the quorum of #{quorum}.", { quorum = format.percentage(policy.issue_quorum_num / policy.issue_quorum_den) })
     }
   end
 

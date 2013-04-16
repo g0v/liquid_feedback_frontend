@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 return {
-["#{count} cancelled"] = "#{count} 个已取消";
+["#{count} canceled"] = "#{count} 个已取消";
 ["#{count} days ago"] = "#{count} 日前";
 ["#{count} finished"] = "#{count} 个已结束";
 ["#{count} in discussion"] = "#{count} 个项目讨论中";
@@ -134,18 +134,12 @@ return {
 ["Cancel password reset"] = "取消密码重设";
 ["Cancel refuse of invitation"] = "取消婉拒邀请";
 ["Cancel registration"] = "取消注册";
-["Canceled"] = false;
-["Canceled (before accepted due to revocation)"] = false;
-["Canceled (during discussion due to revocation)"] = false;
-["Canceled (during verification due to revocation)"] = false;
-["Canceled (issue not accepted)"] = false;
-["Canceled (no initiative admitted)"] = false;
-["Cancelled"] = "已取消";
-["Cancelled (before accepted due to revocation)"] = "已取消 (未被接受即撤销)";
-["Cancelled (during discussion due to revocation)"] = "已取消 (在讨论期撤销)";
-["Cancelled (during verification due to revocation)"] = "已取消 (在验证期撤销)";
-["Cancelled (issue not accepted)"] = "已取消 (议题不被接受)";
-["Cancelled (no initiative admitted)"] = "已取消 (无提案被递交)";
+["Canceled"] = "已取消";
+["Canceled (before accepted due to revocation)"] = "已取消 (未被接受即撤销)";
+["Canceled (during discussion due to revocation)"] = "已取消 (在讨论期撤销)";
+["Canceled (during verification due to revocation)"] = "已取消 (在验证期撤销)";
+["Canceled (issue not accepted)"] = "已取消 (议题不被接受)";
+["Canceled (no initiative admitted)"] = "已取消 (无提案被递交)";
 ["Change area delegation"] = "更改领域的委任";
 ["Change discussion URL"] = false;
 ["Change email"] = "更改电邮地址";
@@ -378,8 +372,8 @@ return {
 ["Issue"] = "议题";
 ["Issue ##{id}"] = "议题 ##{id}";
 ["Issue ##{id} reached discussion"] = false;
-["Issue ##{id} was cancelled because no initiative was admitted"] = false;
-["Issue ##{id} was cancelled due to revocation"] = false;
+["Issue ##{id} was canceled because no initiative was admitted"] = false;
+["Issue ##{id} was canceled due to revocation"] = false;
 ["Issue ##{id} was finished (with winner)"] = false;
 ["Issue ##{id} was finished (without winner)"] = false;
 ["Issue ##{id} was frozen"] = false;
@@ -402,10 +396,10 @@ return {
 ["Issue quorum numerator"] = "议题法定门槛分子";
 ["Issue reached discussion"] = false;
 ["Issue reached next phase"] = "议题进入下个阶段";
-["Issue was cancelled because no initiative was admitted"] = false;
-["Issue was cancelled due to revocation"] = false;
-["Issue was cancelled due to revocation (during discussion)"] = false;
-["Issue was cancelled due to revocation (during verification)"] = false;
+["Issue was canceled because no initiative was admitted"] = false;
+["Issue was canceled due to revocation"] = false;
+["Issue was canceled due to revocation (during discussion)"] = false;
+["Issue was canceled due to revocation (during verification)"] = false;
 ["Issue was finished (with winner)"] = false;
 ["Issue was finished (without winner)"] = false;
 ["Issue was frozen"] = false;
@@ -791,7 +785,7 @@ return {
 ["This invite code has no login assigned!"] = false;
 ["This invite code has no screen name assigned!"] = false;
 ["This invite key is connected with the following information:"] = "此邀请码与下列资讯连结：";
-["This issue has been cancelled. It failed the quorum of #{quorum}."] = "此议题因未达 #{quorum} 的法定门槛而被取消。";
+["This issue has been canceled. It failed the quorum of #{quorum}."] = "此议题因未达 #{quorum} 的法定门槛而被取消。";
 ["This issue is already closed!"] = false;
 ["This issue is already closed."] = "此议题已结案。";
 ["This issue is already frozen!"] = false;

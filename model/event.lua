@@ -193,15 +193,15 @@ function Event.object:send_notification()
             elseif self.state == "voting" then
               subject = subject .. _("Voting for issue ##{id} started", { id = self.issue_id })
             elseif self.state == "canceled_revoked_before_accepted" then
-              subject = subject .. _("Issue ##{id} was cancelled due to revocation", { id = self.issue_id })
+              subject = subject .. _("Issue ##{id} was canceled due to revocation", { id = self.issue_id })
             elseif self.state == "canceled_issue_not_accepted" then
               subject = subject .. _("Issue ##{id} was not accepted", { id = self.issue_id })
             elseif self.state == "canceled_after_revocation_during_discussion" then
-              subject = subject .. _("Issue ##{id} was cancelled due to revocation", { id = self.issue_id })
+              subject = subject .. _("Issue ##{id} was canceled due to revocation", { id = self.issue_id })
             elseif self.state == "canceled_after_revocation_during_verification" then
-              subject = subject .. _("Issue ##{id} was cancelled due to revocation", { id = self.issue_id })
+              subject = subject .. _("Issue ##{id} was canceled due to revocation", { id = self.issue_id })
             elseif self.state == "canceled_no_initiative_admitted" then
-              subject = subject .. _("Issue ##{id} was cancelled because no initiative was admitted", { id = self.issue_id })
+              subject = subject .. _("Issue ##{id} was canceled because no initiative was admitted", { id = self.issue_id })
             elseif self.state == "finished_without_winner" then
               subject = subject .. _("Issue ##{id} was finished (without winner)", { id = self.issue_id })
             elseif self.state == "finished_with_winner" then

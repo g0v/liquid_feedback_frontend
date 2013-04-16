@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 return {
-["#{count} cancelled"] = false;
+["#{count} canceled"] = false;
 ["#{count} days ago"] = false;
 ["#{count} finished"] = false;
 ["#{count} in discussion"] = false;
@@ -124,13 +124,12 @@ return {
 ["Cancel password reset"] = "Nuligi pasvortoremeton";
 ["Cancel refuse of invitation"] = "Nuligi rifuzon de la invito";
 ["Cancel registration"] = "Nuligi registradon";
-["Canceled"] = false;
+["Canceled"] = "Abolita";
 ["Canceled (before accepted due to revocation)"] = false;
 ["Canceled (during discussion due to revocation)"] = false;
 ["Canceled (during verification due to revocation)"] = false;
 ["Canceled (issue not accepted)"] = false;
 ["Canceled (no initiative admitted)"] = false;
-["Cancelled"] = "Abolita";
 ["Change area delegation"] = "Ŝanĝi delegacion por temaro";
 ["Change discussion URL"] = false;
 ["Change email"] = "Ŝanĝi retpoŝton";
@@ -353,8 +352,8 @@ return {
 ["Issue"] = "Temo";
 ["Issue ##{id}"] = "Temo ##{id}";
 ["Issue ##{id} reached discussion"] = false;
-["Issue ##{id} was cancelled because no initiative was admitted"] = false;
-["Issue ##{id} was cancelled due to revocation"] = false;
+["Issue ##{id} was canceled because no initiative was admitted"] = false;
+["Issue ##{id} was canceled due to revocation"] = false;
 ["Issue ##{id} was finished (with winner)"] = false;
 ["Issue ##{id} was finished (without winner)"] = false;
 ["Issue ##{id} was frozen"] = false;
@@ -377,10 +376,10 @@ return {
 ["Issue quorum numerator"] = "Nominatoro de tema kovorumo";
 ["Issue reached discussion"] = false;
 ["Issue reached next phase"] = false;
-["Issue was cancelled because no initiative was admitted"] = false;
-["Issue was cancelled due to revocation"] = false;
-["Issue was cancelled due to revocation (during discussion)"] = false;
-["Issue was cancelled due to revocation (during verification)"] = false;
+["Issue was canceled because no initiative was admitted"] = false;
+["Issue was canceled due to revocation"] = false;
+["Issue was canceled due to revocation (during discussion)"] = false;
+["Issue was canceled due to revocation (during verification)"] = false;
 ["Issue was finished (with winner)"] = false;
 ["Issue was finished (without winner)"] = false;
 ["Issue was frozen"] = false;
@@ -742,7 +741,7 @@ return {
 ["This invite code has no login assigned!"] = false;
 ["This invite code has no screen name assigned!"] = false;
 ["This invite key is connected with the following information:"] = false;
-["This issue has been cancelled. It failed the quorum of #{quorum}."] = "Tiu temo estas abolita. Ĝi malsukcesis la kvorumon de #{quorum}.";
+["This issue has been canceled. It failed the quorum of #{quorum}."] = "Tiu temo estas abolita. Ĝi malsukcesis la kvorumon de #{quorum}.";
 ["This issue is already closed!"] = false;
 ["This issue is already closed."] = "La temo estas jam fermita.";
 ["This issue is already frozen!"] = false;

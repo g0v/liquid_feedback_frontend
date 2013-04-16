@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 return {
-["#{count} cancelled"] = "#{count} abgebrochen";
+["#{count} canceled"] = "#{count} abgebrochen";
 ["#{count} days ago"] = "vor #{count} Tagen";
 ["#{count} finished"] = "#{count} abgeschlossen";
 ["#{count} in discussion"] = "#{count} in Diskussion";
@@ -302,8 +302,8 @@ return {
 ["Invited"] = "Eingeladen";
 ["Issue ##{id}"] = "Thema ##{id}";
 ["Issue ##{id} reached discussion"] = "Thema ##{id} hat Diskussion erreicht";
-["Issue ##{id} was cancelled because no initiative was admitted"] = "Thema ##{id} wurde abgebrochen, weil keine Initiative zugelassen wurde";
-["Issue ##{id} was cancelled due to revocation"] = "Thema ##{id} wurde wegen Rückzug abgebrochen";
+["Issue ##{id} was canceled because no initiative was admitted"] = "Thema ##{id} wurde abgebrochen, weil keine Initiative zugelassen wurde";
+["Issue ##{id} was canceled due to revocation"] = "Thema ##{id} wurde wegen Rückzug abgebrochen";
 ["Issue ##{id} was finished (with winner)"] = "Thema ##{id} wurde abgeschlossen (mit Gewinner)";
 ["Issue ##{id} was finished (without winner)"] = "Thema ##{id} wurde abgeschlossen (ohne Gewinner)";
 ["Issue ##{id} was frozen"] = "Thema ##{id} wurde eingefroren";
@@ -320,10 +320,10 @@ return {
 ["Issue quorum numerator"] = "Themen-Quorum Zähler";
 ["Issue reached discussion"] = "Thema hat Diskussion erreicht";
 ["Issue reached next phase"] = "Thema hat die nächste Phase erreicht";
-["Issue was cancelled because no initiative was admitted"] = "Thema wurde abgebrochen, weil keine Initiative zugelassen wurde";
-["Issue was cancelled due to revocation"] = "Thema wurde wegen Rückzug abgebrochen";
-["Issue was cancelled due to revocation (during discussion)"] = "Thema wurde wegen Rückzug abgebrochen (während Diskussion)";
-["Issue was cancelled due to revocation (during verification)"] = "Thema wurde wegen Rückzug abgebrochen (während Eingefroren)";
+["Issue was canceled because no initiative was admitted"] = "Thema wurde abgebrochen, weil keine Initiative zugelassen wurde";
+["Issue was canceled due to revocation"] = "Thema wurde wegen Rückzug abgebrochen";
+["Issue was canceled due to revocation (during discussion)"] = "Thema wurde wegen Rückzug abgebrochen (während Diskussion)";
+["Issue was canceled due to revocation (during verification)"] = "Thema wurde wegen Rückzug abgebrochen (während Eingefroren)";
 ["Issue was finished (with winner)"] = "Thema wurde abgeschlossen (mit Gewinner)";
 ["Issue was finished (without winner)"] = "Thema wurde abgeschlossen (ohne Gewinner)";
 ["Issue was frozen"] = "Thema wurde eingefroren";
@@ -633,7 +633,7 @@ return {
 ["This invite code has no login assigned!"] = "Diesem Einladungscode ist kein Anmeldename zugewiesen!";
 ["This invite code has no screen name assigned!"] = "Diesem Einladungscode ist kein Screen-Name zugewiesen!";
 ["This invite key is connected with the following information:"] = "Dieser Einladungscode ist mit den folgenden Daten verknüpft:";
-["This issue has been cancelled. It failed the quorum of #{quorum}."] = "Dieses Thema wurde abgebrochen. Es hat das Quorum von #{quorum} nicht erfüllt.";
+["This issue has been canceled. It failed the quorum of #{quorum}."] = "Dieses Thema wurde abgebrochen. Es hat das Quorum von #{quorum} nicht erfüllt.";
 ["This issue is already closed!"] = "Das Thema ist schon geschlossen!";
 ["This issue is already frozen!"] = "Das Thema ist schon eingefroren!";
 ["This issue is closed."] = "Dieses Thema ist geschlossen.";

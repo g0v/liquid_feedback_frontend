@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 return {
-["#{count} cancelled"] = false;
+["#{count} canceled"] = false;
 ["#{count} days ago"] = "#{count} dagen geleden";
 ["#{count} finished"] = "#{count} geëindigd";
 ["#{count} in discussion"] = "#{count} in discussie";
@@ -14,7 +14,7 @@ return {
 ["#{count} of them have an area delegation set."] = false;
 ["#{count} of your outgoing delegation(s) are broken"] = "#{count} van uw uitgaande delegatie(s) zijn stuk";
 ["#{count} of your outgoing delegations are broken."] = false;
-["#{count} xcancelled"] = "#{count} afgebroken";
+["#{count} xcanceled"] = "#{count} afgebroken";
 ["#{date} at #{time}"] = "#{date} om #{time}";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} onderwerpen waarin u geïnteresseerd bent";
 ["#{interested_issues_to_vote_count} issues you are interested in"] = false;
@@ -135,18 +135,12 @@ return {
 ["Cancel password reset"] = "Wachtwoord reset afbreken";
 ["Cancel refuse of invitation"] = "Uitnodiging weigeren afbreken";
 ["Cancel registration"] = "Registratie afbreken";
-["Canceled"] = false;
-["Canceled (before accepted due to revocation)"] = false;
-["Canceled (during discussion due to revocation)"] = false;
-["Canceled (during verification due to revocation)"] = false;
-["Canceled (issue not accepted)"] = false;
-["Canceled (no initiative admitted)"] = false;
-["Cancelled"] = "Afgebroken";
-["Cancelled (before accepted due to revocation)"] = "Afgebroken (wegens terugtrekking)";
-["Cancelled (during discussion due to revocation)"] = "Afgebroken (tijdens de discussie, wegens terugtrekking)";
-["Cancelled (during verification due to revocation)"] = "Afgebroken (tijdens de verificatie, wegens terugtrekking)";
-["Cancelled (issue not accepted)"] = "Afgebroken (onderwerp niet geaccepteerd)";
-["Cancelled (no initiative admitted)"] = "Afgebroken (geen initiatiefvoorstel is toegelaten)";
+["Canceled"] = "Afgebroken";
+["Canceled (before accepted due to revocation)"] = "Afgebroken (wegens terugtrekking)";
+["Canceled (during discussion due to revocation)"] = "Afgebroken (tijdens de discussie, wegens terugtrekking)";
+["Canceled (during verification due to revocation)"] = "Afgebroken (tijdens de verificatie, wegens terugtrekking)";
+["Canceled (issue not accepted)"] = "Afgebroken (onderwerp niet geaccepteerd)";
+["Canceled (no initiative admitted)"] = "Afgebroken (geen initiatiefvoorstel is toegelaten)";
 ["Change area delegation"] = "Verander delegatie themagebied";
 ["Change discussion URL"] = false;
 ["Change email"] = "Verander het emailadres";
@@ -380,8 +374,8 @@ return {
 ["Issue"] = "Onderwerp";
 ["Issue ##{id}"] = "Onderwerp ##{id}";
 ["Issue ##{id} reached discussion"] = false;
-["Issue ##{id} was cancelled because no initiative was admitted"] = false;
-["Issue ##{id} was cancelled due to revocation"] = false;
+["Issue ##{id} was canceled because no initiative was admitted"] = false;
+["Issue ##{id} was canceled due to revocation"] = false;
 ["Issue ##{id} was finished (with winner)"] = false;
 ["Issue ##{id} was finished (without winner)"] = false;
 ["Issue ##{id} was frozen"] = false;
@@ -404,10 +398,10 @@ return {
 ["Issue quorum numerator"] = "Onderwerp quorum teller";
 ["Issue reached discussion"] = false;
 ["Issue reached next phase"] = "Onderwerp heeft de volgende fase bereikt";
-["Issue was cancelled because no initiative was admitted"] = false;
-["Issue was cancelled due to revocation"] = false;
-["Issue was cancelled due to revocation (during discussion)"] = false;
-["Issue was cancelled due to revocation (during verification)"] = false;
+["Issue was canceled because no initiative was admitted"] = false;
+["Issue was canceled due to revocation"] = false;
+["Issue was canceled due to revocation (during discussion)"] = false;
+["Issue was canceled due to revocation (during verification)"] = false;
 ["Issue was finished (with winner)"] = false;
 ["Issue was finished (without winner)"] = false;
 ["Issue was frozen"] = false;
@@ -794,7 +788,7 @@ return {
 ["This invite code has no login assigned!"] = false;
 ["This invite code has no screen name assigned!"] = false;
 ["This invite key is connected with the following information:"] = "Deze uitnodigingscode is gekoppeld aan de volgende informatie:";
-["This issue has been cancelled. It failed the quorum of #{quorum}."] = "Dit onderwerp is geannuleerd, het heeft het quorum #{quorum} niet gehaald.";
+["This issue has been canceled. It failed the quorum of #{quorum}."] = "Dit onderwerp is geannuleerd, het heeft het quorum #{quorum} niet gehaald.";
 ["This issue is already closed!"] = false;
 ["This issue is already closed."] = "Dit onderwerp is al afgesloten.";
 ["This issue is already frozen!"] = false;

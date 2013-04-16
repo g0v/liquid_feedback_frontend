@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 return {
-["#{count} cancelled"] = "#{count} ακυρώθηκαν";
+["#{count} canceled"] = "#{count} ακυρώθηκαν";
 ["#{count} days ago"] = "#{count} μέρες πριν";
 ["#{count} finished"] = "#{count} ολοκληρώθηκαν";
 ["#{count} in discussion"] = "#{count} σε διαβούλευση";
@@ -134,18 +134,12 @@ return {
 ["Cancel password reset"] = "Ακύρωση επαναφοράς κωδικού πρόσβασης";
 ["Cancel refuse of invitation"] = "Ακύρωση απόρριψης της πρόσκλησης";
 ["Cancel registration"] = "Ακύρωση εγγραφής";
-["Canceled"] = false;
-["Canceled (before accepted due to revocation)"] = false;
-["Canceled (during discussion due to revocation)"] = false;
-["Canceled (during verification due to revocation)"] = false;
-["Canceled (issue not accepted)"] = false;
-["Canceled (no initiative admitted)"] = false;
-["Cancelled"] = "Ακυρώθηκε";
-["Cancelled (before accepted due to revocation)"] = "Ακυρώθηκε (στη φάση 'Νέο', λόγω ανάκλησης)";
-["Cancelled (during discussion due to revocation)"] = "Ακυρώθηκε (κατά τη διάρκεια της συζήτησης, λόγω ανάκλησης)";
-["Cancelled (during verification due to revocation)"] = "Ακυρώθηκε (κατά τη διάρκεια της επιβεβαίωσης, λόγω ανάκλησης)";
-["Cancelled (issue not accepted)"] = "Ακυρώθηκε (Δεν έγινε δεκτό)";
-["Cancelled (no initiative admitted)"] = "Ακυρώθηκε (Δεν προκρίθηκε καμία πρωτοβουλία)";
+["Canceled"] = "Ακυρώθηκε";
+["Canceled (before accepted due to revocation)"] = "Ακυρώθηκε (στη φάση 'Νέο', λόγω ανάκλησης)";
+["Canceled (during discussion due to revocation)"] = "Ακυρώθηκε (κατά τη διάρκεια της συζήτησης, λόγω ανάκλησης)";
+["Canceled (during verification due to revocation)"] = "Ακυρώθηκε (κατά τη διάρκεια της επιβεβαίωσης, λόγω ανάκλησης)";
+["Canceled (issue not accepted)"] = "Ακυρώθηκε (Δεν έγινε δεκτό)";
+["Canceled (no initiative admitted)"] = "Ακυρώθηκε (Δεν προκρίθηκε καμία πρωτοβουλία)";
 ["Change area delegation"] = "Αλλαγή ανάθεσης για τον τομέα";
 ["Change discussion URL"] = false;
 ["Change email"] = "Αλλαγή email";
@@ -378,8 +372,8 @@ return {
 ["Issue"] = "Θέμα";
 ["Issue ##{id}"] = "Θέμα ##{id}";
 ["Issue ##{id} reached discussion"] = false;
-["Issue ##{id} was cancelled because no initiative was admitted"] = false;
-["Issue ##{id} was cancelled due to revocation"] = false;
+["Issue ##{id} was canceled because no initiative was admitted"] = false;
+["Issue ##{id} was canceled due to revocation"] = false;
 ["Issue ##{id} was finished (with winner)"] = false;
 ["Issue ##{id} was finished (without winner)"] = false;
 ["Issue ##{id} was frozen"] = false;
@@ -402,10 +396,10 @@ return {
 ["Issue quorum numerator"] = "Αριθμητής απαρτίας θέματος";
 ["Issue reached discussion"] = false;
 ["Issue reached next phase"] = "Το θέμα έφτασε το επόμενο στάδιο";
-["Issue was cancelled because no initiative was admitted"] = false;
-["Issue was cancelled due to revocation"] = false;
-["Issue was cancelled due to revocation (during discussion)"] = false;
-["Issue was cancelled due to revocation (during verification)"] = false;
+["Issue was canceled because no initiative was admitted"] = false;
+["Issue was canceled due to revocation"] = false;
+["Issue was canceled due to revocation (during discussion)"] = false;
+["Issue was canceled due to revocation (during verification)"] = false;
 ["Issue was finished (with winner)"] = false;
 ["Issue was finished (without winner)"] = false;
 ["Issue was frozen"] = false;
@@ -791,7 +785,7 @@ return {
 ["This invite code has no login assigned!"] = false;
 ["This invite code has no screen name assigned!"] = false;
 ["This invite key is connected with the following information:"] = "Αυτός ο κωδικός πρόσκλησης σχετίζεται με τα ακόλουθα στοιχεία:";
-["This issue has been cancelled. It failed the quorum of #{quorum}."] = "Αυτό το θέμα έχει ακυρωθεί. Δεν είχε την απαιτούμενη απαρτία #{quorum}";
+["This issue has been canceled. It failed the quorum of #{quorum}."] = "Αυτό το θέμα έχει ακυρωθεί. Δεν είχε την απαιτούμενη απαρτία #{quorum}";
 ["This issue is already closed!"] = false;
 ["This issue is already closed."] = "Αυτό το θέμα έχει ήδη κλείσει.";
 ["This issue is already frozen!"] = false;
