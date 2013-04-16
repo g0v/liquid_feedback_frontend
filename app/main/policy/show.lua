@@ -14,14 +14,22 @@ ui.form{
     ui.field.text{ label = _"Discussion" .. ":", value = policy.discussion_time or _"variable" }
     ui.field.text{ label = _"Frozen" .. ":", value = policy.verification_time or _"variable" }
     ui.field.text{ label = _"Voting" .. ":", value = policy.voting_time or _"variable" }
-    
+
     if policy.polling then
       ui.field.text{ label = _"Issue quorum" .. ":", value = _"without" }
     else
-      ui.field.text{
-        label = _"Issue quorum",
-        value = "≥ " .. tostring(policy.issue_quorum_num) .. "/" .. tostring(policy.issue_quorum_den)
-      }
+      if policy.issue_quorum_num then
+        ui.field.text{
+          label = _"Issue quorum",
+          value = "≥ " .. tostring(policy.issue_quorum_num) .. "/" .. tostring(policy.issue_quorum_den)
+        }
+      end
+      if policy.issue_quorum_direct_num then
+        ui.field.text{
+          label = _"Issue direct quorum",
+          value = "≥ " .. tostring(policy.issue_quorum_direct_num) .. "/" .. tostring(policy.issue_quorum_direct_den)
+        }
+      end
     end
     ui.field.text{
       label = _"Initiative quorum",
