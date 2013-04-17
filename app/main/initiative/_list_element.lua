@@ -154,7 +154,8 @@ ui.container{ attr = { class = class }, content = function()
           bars = {
             { color = "#0a5", title = _"direct",
               value = (initiative.direct_supporter_count or 0) },
-            { color = "#0b6", title = _"indirect",
+              -- if there is a direct issue quorum we show the indirect supporters in extra light green to indicate that they are not sufficient to reach the quorum
+            { color = quorum_direct and "#0d8" or "#0b6", title = _"indirect",
               value = (initiative.supporter_count or 0) - (initiative.direct_supporter_count or 0) },
             { color = "#fff", title = _"not",
               value = max_value - (initiative.supporter_count or 0) },
