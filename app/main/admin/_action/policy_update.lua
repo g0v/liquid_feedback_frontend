@@ -4,6 +4,7 @@ param.update(
   policy,
   "index", "name", "description", "active",
   "admission_time", "discussion_time", "verification_time", "voting_time",
+  "delegation",
   "issue_quorum_num", "issue_quorum_den",
   "issue_quorum_direct_num", "issue_quorum_direct_den",
   "initiative_quorum_num", "initiative_quorum_den",

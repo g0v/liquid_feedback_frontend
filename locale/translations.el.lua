@@ -202,12 +202,16 @@ return {
 ["Delegate area"] = "Ανάθεση τομέα";
 ["Delegate issue"] = "Ανάθεση θέματος";
 ["Delegate unit"] = "Ανάθεση ενότητας";
+["Delegation"] = false;
 ["Delegation abandoned"] = "Ακύρωση ανάθεσης";
 ["Delegation for Area"] = false;
 ["Delegation for Issue"] = false;
 ["Delegation turned off for area"] = "Η ανάθεση απενεργοποιήθηκε για τον τομέα";
 ["Delegation turned off for issue"] = "Η ανάθεση απενεργοποιήθηκε για το θέμα";
 ["Delegations"] = "Αναθέσεις";
+["Delegations are not allowed for this area!"] = false;
+["Delegations are not allowed for this issue!"] = false;
+["Delegations are not allowed for this unit!"] = false;
 ["Delete"] = "Διαγραφή";
 ["Delete filter"] = "Διαγραφή φίλτρου";
 ["Delete personal data and deactivate account"] = false;

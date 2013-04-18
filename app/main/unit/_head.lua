@@ -21,7 +21,9 @@ ui.container{ attr = { class = "unit_head" }, content = function()
   end }
 
   -- unit delegation
-  execute.view{ module = "delegation", view = "_info", params = { unit = unit, member = member } }
+  if unit.delegation then
+    execute.view{ module = "delegation", view = "_info", params = { unit = unit, member = member } }
+  end
 
   -- voting rights
   if show_content and member and member:has_voting_right_for_unit_id(unit.id) then

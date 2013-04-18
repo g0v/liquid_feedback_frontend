@@ -185,12 +185,16 @@ return {
 ["Date format is not valid. Please use following format: YYYY-MM-DD"] = "Datoformato ne estas valida. Bonvolu uzi jenan formaton: JJJJ-MM-TT";
 ["Default Policy"] = "Apriora regularo";
 ["Degree"] = "Grado";
+["Delegation"] = false;
 ["Delegation abandoned"] = "Delegacio malaplikita";
 ["Delegation for Area"] = false;
 ["Delegation for Issue"] = false;
 ["Delegation turned off for area"] = "Temara delegacio malŝaltita";
 ["Delegation turned off for issue"] = "Tema delegacio malŝaltita";
 ["Delegations"] = "Delegacioj";
+["Delegations are not allowed for this area!"] = false;
+["Delegations are not allowed for this issue!"] = false;
+["Delegations are not allowed for this unit!"] = false;
 ["Delete"] = false;
 ["Delete filter"] = "Forviŝi filtron";
 ["Delete personal data and deactivate account"] = false;

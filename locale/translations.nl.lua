@@ -203,12 +203,16 @@ return {
 ["Delegate area"] = "Delegeer themagebied";
 ["Delegate issue"] = "Delegeer onderwerp";
 ["Delegate unit"] = "Delegeer dossier";
+["Delegation"] = false;
 ["Delegation abandoned"] = "Delegatie uitgezet";
 ["Delegation for Area"] = false;
 ["Delegation for Issue"] = false;
 ["Delegation turned off for area"] = "Delegatie uitgezet voor dit themagebied";
 ["Delegation turned off for issue"] = "Delegatie uitgezet voor dit onderwerp";
 ["Delegations"] = "Delegaties";
+["Delegations are not allowed for this area!"] = false;
+["Delegations are not allowed for this issue!"] = false;
+["Delegations are not allowed for this unit!"] = false;
 ["Delete"] = "Verwijder";
 ["Delete filter"] = "Verwijder filter";
 ["Delete personal data and deactivate account"] = false;

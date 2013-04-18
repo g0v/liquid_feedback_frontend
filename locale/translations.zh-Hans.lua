@@ -202,12 +202,16 @@ return {
 ["Delegate area"] = "领域委任";
 ["Delegate issue"] = "议题委任";
 ["Delegate unit"] = "单位委任";
+["Delegation"] = false;
 ["Delegation abandoned"] = "委任已被停止";
 ["Delegation for Area"] = false;
 ["Delegation for Issue"] = false;
 ["Delegation turned off for area"] = "对领域的委任被停用";
 ["Delegation turned off for issue"] = "对议题的委任被停用";
 ["Delegations"] = "委任清单";
+["Delegations are not allowed for this area!"] = false;
+["Delegations are not allowed for this issue!"] = false;
+["Delegations are not allowed for this unit!"] = false;
 ["Delete"] = "刪除";
 ["Delete filter"] = "刪除筛选条件";
 ["Delete personal data and deactivate account"] = false;

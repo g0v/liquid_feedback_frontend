@@ -196,12 +196,16 @@ return {
 ["Date format is not valid. Please use following format: YYYY-MM-DD"] = "Érvénytelen dátumformátum. Kérlek, ÉV-HÓ-NAP formátumot használj (tehát pl. 1999-09-09";
 ["Default Policy"] = "Alapértelmezett irányelv";
 ["Degree"] = "Fok";
+["Delegation"] = false;
 ["Delegation abandoned"] = "Delegáció mellõzve";
 ["Delegation for Area"] = false;
 ["Delegation for Issue"] = false;
 ["Delegation turned off for area"] = "Témakör delegációja leállítva";
 ["Delegation turned off for issue"] = "Téma delegációja leállítva";
 ["Delegations"] = "Delegációk";
+["Delegations are not allowed for this area!"] = false;
+["Delegations are not allowed for this issue!"] = false;
+["Delegations are not allowed for this unit!"] = false;
 ["Delete"] = "Törlés";
 ["Delete filter"] = "Szûrõ törlése";
 ["Delete personal data and deactivate account"] = false;

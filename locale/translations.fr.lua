@@ -164,9 +164,13 @@ return {
 ["Date format is not valid. Please use following format: YYYY-MM-DD"] = false;
 ["Default Policy"] = false;
 ["Degree"] = false;
+["Delegation"] = false;
 ["Delegation for Area"] = false;
 ["Delegation for Issue"] = false;
 ["Delegations"] = false;
+["Delegations are not allowed for this area!"] = false;
+["Delegations are not allowed for this issue!"] = false;
+["Delegations are not allowed for this unit!"] = false;
 ["Delete"] = false;
 ["Delete personal data and deactivate account"] = false;
 ["Delete personal data and deactivate?"] = false;

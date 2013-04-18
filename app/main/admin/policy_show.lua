@@ -29,6 +29,8 @@ ui.form{
     ui.field.text{ label = _"Verification time",  name = "verification_time" }
     ui.field.text{ label = _"Voting time",        name = "voting_time" }
 
+    ui.field.boolean{ label = _"Delegation", name = "delegation" }
+
     ui.field.text{ label = _"Issue quorum numerator",   name = "issue_quorum_num" }
     ui.field.text{ label = _"Issue quorum denumerator", name = "issue_quorum_den" }
 

@@ -41,6 +41,65 @@ else
   scope = "unit"
 end
 
+
+if issue and not issue.delegation then
+
+  ui.tag{
+    attr = { class = "delegation_info" },
+    content = function()
+
+      local delegation_chain
+
+      delegation_chain = Member:new_selector()
+        :add_field("delegation_chain.*")
+        :join(
+          { "delegation_chain(?,?,?,?,TRUE)", member.id, unit_id, area_id, issue_id },
+          "delegation_chain",
+          "member.id = delegation_chain.member_id"
+        )
+        :add_order_by("index")
+        :limit(1)
+        :exec()
+
+      slot.put('<div class="delegation_info_none">')
+
+      for i, record in ipairs(delegation_chain) do
+
+        -- highlight if participating
+        local popup_text
+        local class = "micro_avatar"
+        if record.participation then
+          class = class .. " highlighted"
+          if issue.closed then
+            popup_text = _"You voted."
+          else
+            popup_text = _"You are interested."
+          end
+        end
+
+        execute.view{
+          module = "member_image",
+          view = "_show",
+          params = {
+            member_id = record.member_id,
+            class = class,
+            popup_text = popup_text,
+            image_type = "avatar",
+            show_dummy = true
+          }
+        }
+
+      end
+
+      slot.put('</div>')
+
+    end
+  }
+
+  return
+end
+
+
 ui.link{
   module = "delegation", view = "show", params = {
     unit_id = unit_id,

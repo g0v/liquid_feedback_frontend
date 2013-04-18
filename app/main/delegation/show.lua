@@ -41,6 +41,21 @@ if issue then
 end
 
 
+-- link back
+ui.actions(function()
+  ui.link{
+    content = function()
+      ui.image{ static = "icons/16/resultset_previous.png" }
+      slot.put(_"Back")
+    end,
+    module = param.get("back_module"),
+    view   = param.get("back_view"),
+    id     = param.get("back_id"),
+    params = param.get_unserialize("back_params")
+  }
+end)
+
+
 -- check voting right of the trustee
 if not member:has_voting_right_for_unit_id(voting_right_unit_id) then
   if member.id == app.session.member.id then
@@ -48,6 +63,20 @@ if not member:has_voting_right_for_unit_id(voting_right_unit_id) then
   else
     slot.put_into("error", _"This member has no voting right in this unit!")
   end
+  return
+end
+
+
+if unit and not unit.delegation then
+  slot.put_into("error", _"Delegations are not allowed for this unit!")
+  return
+end
+if area and not area.delegation then
+  slot.put_into("error", _"Delegations are not allowed for this area!")
+  return
+end
+if issue and not issue.delegation then
+  slot.put_into("error", _"Delegations are not allowed for this issue!")
   return
 end
 
@@ -81,21 +110,6 @@ if param.get("area_id", atom.integer) then
   area_id = param.get("area_id", atom.integer)
   scope = "area"
 end
-
-
--- link back
-ui.actions(function()
-  ui.link{
-    content = function()
-      ui.image{ static = "icons/16/resultset_previous.png" }
-      slot.put(_"Back")
-    end,
-    module = param.get("back_module"),
-    view   = param.get("back_view"),
-    id     = param.get("back_id"),
-    params = param.get_unserialize("back_params")
-  }
-end)
 
 
 local delegations

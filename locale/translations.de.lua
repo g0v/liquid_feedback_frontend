@@ -165,9 +165,13 @@ return {
 ["Date format is not valid. Please use following format: YYYY-MM-DD"] = "Datumsformat nicht korrekt. Bitte verwende: JJJJ-MM-TT, also z.B. 1945-05-23";
 ["Default Policy"] = "Standard-Regelwerk";
 ["Degree"] = "Grad";
+["Delegation"] = "Delegation";
 ["Delegation for Area"] = "Delegation für Themenbereich";
 ["Delegation for Issue"] = "Delegation für Thema";
 ["Delegations"] = "Delegationen";
+["Delegations are not allowed for this area!"] = "In diesem Themenbereich sind Delegationen nicht zugelassen!";
+["Delegations are not allowed for this issue!"] = "In diesem Thema sind Delegationen nicht zugelassen!";
+["Delegations are not allowed for this unit!"] = "In dieser Gliederung sind Delegationen nicht zugelassen!";
 ["Delete"] = "Löschen";
 ["Delete personal data and deactivate account"] = "Persönliche Daten löschen und Account deaktivieren";
 ["Delete personal data and deactivate?"] = "Persönliche Daten löschen und deaktivieren?";

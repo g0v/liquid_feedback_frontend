@@ -31,7 +31,9 @@ ui.container{ attr = { class = "area_head" }, content = function()
   end }
 
   -- area delegation
-  execute.view{ module = "delegation", view = "_info", params = { area = area, member = member } }
+  if area.delegation then
+    execute.view{ module = "delegation", view = "_info", params = { area = area, member = member } }
+  end
 
   if show_content then
 

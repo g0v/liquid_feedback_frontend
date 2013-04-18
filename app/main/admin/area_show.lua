@@ -38,6 +38,7 @@ ui.form{
     ui.field.text{    label = _"Unit", value = area.unit.name, readonly = true }
     ui.field.text{    label = _"Name",        name = "name" }
     ui.field.text{    label = _"Description", name = "description", multiline = true }
+    ui.field.boolean{ label = _"Delegation", name = "delegation" }
     ui.field.select{  label = _"Default Policy",   name = "default_policy",
                  value=area.default_policy and area.default_policy.id or "-1",
                  foreign_records = def_policy,

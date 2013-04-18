@@ -96,30 +96,32 @@ if app.session:has_access("all_pseudonymous") then
     params = { members_selector = members_selector }
   }
 
-  local delegations_selector = Member:new_selector()
-    :reset_fields()
-    :add_field("member.id", "member_id")
-    :add_field("delegation.unit_id")
-    :add_field("delegation.area_id")
-    :add_field("delegation.issue_id")
-    :join("delegation", "delegation", "member.id = delegation.truster_id")
-    :join("privilege", "truster_privilege", "truster_privilege.member_id = member.id AND truster_privilege.unit_id = delegation.unit_id AND truster_privilege.voting_right")
-    :join("member", "trustee", "trustee.id = delegation.trustee_id")
-    :join("privilege", "trustee_privilege", "trustee_privilege.member_id = trustee.id AND trustee_privilege.unit_id = delegation.unit_id AND trustee_privilege.voting_right")
-    :add_where{ "member.active" }
-    :add_where{ "trustee.active" }
-    :add_where{ "delegation.unit_id = ?", unit.id }
-    :add_where{ "delegation.area_id ISNULL" }
-    :add_where{ "delegation.issue_id ISNULL" }
-    :add_order_by("member.name")
-    :add_group_by("member.name, member.id, delegation.unit_id, delegation.area_id, delegation.issue_id")
-  tabs[#tabs+1] = {
-    name = "delegations",
-    label = _"Delegations",
-    module = "delegation",
-    view = "_list",
-    params = { delegations_selector = delegations_selector }
-  }
+  if unit.delegation then
+    local delegations_selector = Member:new_selector()
+      :reset_fields()
+      :add_field("member.id", "member_id")
+      :add_field("delegation.unit_id")
+      :add_field("delegation.area_id")
+      :add_field("delegation.issue_id")
+      :join("delegation", "delegation", "member.id = delegation.truster_id")
+      :join("privilege", "truster_privilege", "truster_privilege.member_id = member.id AND truster_privilege.unit_id = delegation.unit_id AND truster_privilege.voting_right")
+      :join("member", "trustee", "trustee.id = delegation.trustee_id")
+      :join("privilege", "trustee_privilege", "trustee_privilege.member_id = trustee.id AND trustee_privilege.unit_id = delegation.unit_id AND trustee_privilege.voting_right")
+      :add_where{ "member.active" }
+      :add_where{ "trustee.active" }
+      :add_where{ "delegation.unit_id = ?", unit.id }
+      :add_where{ "delegation.area_id ISNULL" }
+      :add_where{ "delegation.issue_id ISNULL" }
+      :add_order_by("member.name")
+      :add_group_by("member.name, member.id, delegation.unit_id, delegation.area_id, delegation.issue_id")
+    tabs[#tabs+1] = {
+      name = "delegations",
+      label = _"Delegations",
+      module = "delegation",
+      view = "_list",
+      params = { delegations_selector = delegations_selector }
+    }
+  end
 
 end
 

@@ -203,12 +203,16 @@ return {
 ["Delegate area"] = "Delega questa area";
 ["Delegate issue"] = "Delega questa tematica";
 ["Delegate unit"] = "Delega questa sezione";
+["Delegation"] = false;
 ["Delegation abandoned"] = "Delega abbandonata";
 ["Delegation for Area"] = false;
 ["Delegation for Issue"] = false;
 ["Delegation turned off for area"] = "Delega disattivata per quest'area";
 ["Delegation turned off for issue"] = "Delega disattivata per questa tematica";
 ["Delegations"] = "Deleghe";
+["Delegations are not allowed for this area!"] = false;
+["Delegations are not allowed for this issue!"] = false;
+["Delegations are not allowed for this unit!"] = false;
 ["Delete"] = "Elimina";
 ["Delete filter"] = "Elimina filtro";
 ["Delete personal data and deactivate account"] = false;
