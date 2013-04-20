@@ -104,6 +104,7 @@ return {
 ["Area '#{name}'"] = "領域 '#{name}'";
 ["Area delegation"] = "領域委任";
 ["Area list of '#{unit_name}'"] = "在'#{unit_name}' 之中的領域清單";
+["Area list of unit '#{unit_name}'"] = false;
 ["Areas"] = "領域";
 ["Argument"] = false;
 ["Argument ##{id}"] = false;
@@ -1098,6 +1099,7 @@ return {
 ["not implemented"] = "未被採納";
 ["not incl. potential"] = false;
 ["not yet"] = "尚未";
+["off"] = false;
 ["positive"] = false;
 ["possibly instable result caused by multistage majority"] = "因多階段多數可能導致不穩定結果";
 ["potential direct"] = false;

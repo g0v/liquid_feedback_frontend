@@ -102,6 +102,7 @@ return {
 ["Area '#{name}'"] = "'#{name}' témakör";
 ["Area delegation"] = "Témakör delegálása";
 ["Area list of '#{unit_name}'"] = "'#{unit_name}' témakörei";
+["Area list of unit '#{unit_name}'"] = false;
 ["Areas"] = "Témakörök";
 ["Argument"] = false;
 ["Argument ##{id}"] = false;
@@ -1051,6 +1052,7 @@ return {
 ["not implemented"] = "nincs beépítve";
 ["not incl. potential"] = false;
 ["not yet"] = "még nem";
+["off"] = false;
 ["positive"] = false;
 ["possibly instable result caused by multistage majority"] = "eredmény instabil lehet a többszintû többség miatt";
 ["potential direct"] = false;

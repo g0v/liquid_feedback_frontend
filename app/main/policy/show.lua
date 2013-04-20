@@ -2,10 +2,23 @@ local policy = Policy:by_id(param.get_id())
 
 ui.title(encode.html(_("Policy '#{name}'", { name = policy.name })))
 
+if policy.description and #policy.description > 0 then
+  ui.container{
+    attr = { class = "suggestion_content wiki" },
+    content = function()
+      ui.tag{
+        tag = "p",
+        content = policy.description
+      }
+    end
+  }
+end
+
 ui.form{
   attr = { class = "vertical" },
   record = policy,
   content = function()
+
     if policy.polling then
       ui.field.text{ label = _"New" .. ":", value = _"without" }
     else
@@ -55,6 +68,13 @@ ui.form{
         .. (policy.indirect_majority_non_negative > 1 and ", " .. _("at least #{count} approvals or abstentions", { count = policy.indirect_majority_non_negative }) or "")
     }
 
+    if not policy.delegation then
+      ui.field.text{
+        label = _"Delegation",
+        value = "off"
+      }
+    end
+
     local texts = {}
     if policy.no_reverse_beat_path then
       texts[#texts+1] = _"no reverse beat path to status quo (including ties)"
@@ -66,17 +86,8 @@ ui.form{
       label = _"Options",
       value = table.concat(texts, ", ")
     }
-    if policy.description and #policy.description > 0 then
-      ui.container{
-        attr = { class = "suggestion_content wiki" },
-        content = function()
-          ui.tag{
-            tag = "p",
-            content = policy.description
-          }
-        end
-      }
-    end
+
+    ui.field.text{ label = _"Active", value = policy.active and _"Yes" or _"No" }
 
   end
 }

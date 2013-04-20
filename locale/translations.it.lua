@@ -106,6 +106,7 @@ return {
 ["Area '#{name}'"] = "Area '#{name}'";
 ["Area delegation"] = "Delega di area";
 ["Area list of '#{unit_name}'"] = "Elenco delle aree di '#{unit_name}'";
+["Area list of unit '#{unit_name}'"] = false;
 ["Areas"] = "Aree";
 ["Argument"] = false;
 ["Argument ##{id}"] = false;
@@ -1096,6 +1097,7 @@ return {
 ["not implemented"] = "non implementato";
 ["not incl. potential"] = false;
 ["not yet"] = "non ancora";
+["off"] = false;
 ["positive"] = false;
 ["possibly instable result caused by multistage majority"] = "il risultato puÚ essere instabile a causa di maggioranze multistage";
 ["potential direct"] = false;

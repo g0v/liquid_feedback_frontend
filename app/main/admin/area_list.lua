@@ -6,7 +6,7 @@ local show_not_in_use = param.get("show_not_in_use", atom.boolean) or false
 local areas = Area:build_selector{ unit_id = unit_id, active = not show_not_in_use }:exec()
 
 
-ui.title(_("Area list of '#{unit_name}'", { unit_name = unit.name }))
+ui.title(_("Area list of unit '#{unit_name}'", { unit_name = unit.name }))
 
 
 ui.actions(function()
@@ -15,6 +15,12 @@ ui.actions(function()
     text = _"Admin menu",
     module = "admin",
     view = "index"
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    text = _"Units",
+    module = "admin",
+    view = "unit_list"
   }
   slot.put(" &middot; ")
 

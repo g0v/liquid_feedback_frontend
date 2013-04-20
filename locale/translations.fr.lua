@@ -81,7 +81,7 @@ return {
 ["Are you sure?"] = false;
 ["Area"] = false;
 ["Area delegation"] = false;
-["Area list of '#{unit_name}'"] = false;
+["Area list of unit '#{unit_name}'"] = false;
 ["Areas"] = false;
 ["Argument"] = false;
 ["Argument ##{id}"] = false;
@@ -870,6 +870,7 @@ return {
 ["not implemented"] = false;
 ["not incl. potential"] = false;
 ["not yet"] = false;
+["off"] = false;
 ["positive"] = false;
 ["possibly instable result caused by multistage majority"] = false;
 ["potential direct"] = false;

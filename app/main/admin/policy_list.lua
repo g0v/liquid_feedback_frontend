@@ -1,8 +1,5 @@
 local show_not_in_use = param.get("show_not_in_use", atom.boolean) or false
 
-local policies = Policy:build_selector{ active = not show_not_in_use }:exec()
-
-
 ui.title(_"Policy list")
 
 
@@ -39,21 +36,12 @@ ui.actions(function()
 end)
 
 
-ui.list{
-  records = policies,
-  columns = {
-
-    { label = _"Policy", name = "name" },
-
-    { content = function(record)
-        ui.link{
-          text = _"Edit",
-          module = "admin",
-          view = "policy_show",
-          id = record.id
-        }
-      end
-    }
-
+execute.view{
+  module = "policy",
+  view = "_list",
+  params = {
+    admin = true,
+    show_not_in_use = show_not_in_use,
+    policies = Policy:build_selector{ active = not show_not_in_use }:exec()
   }
 }

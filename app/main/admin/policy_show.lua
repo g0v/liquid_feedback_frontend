@@ -17,8 +17,6 @@ ui.form{
   id = policy.id,
   content = function()
 
-    ui.field.text{ label = _"Index",        name = "index" }
-
     ui.field.text{ label = _"Name",        name = "name" }
     ui.field.text{ label = _"Description", name = "description", multiline = true }
     ui.field.text{ label = _"Hint",        readonly = true,

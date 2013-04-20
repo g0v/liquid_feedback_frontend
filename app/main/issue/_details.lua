@@ -74,6 +74,9 @@ ui.container{
         tag = "dl",
         attr = { class = "details_right" },
         content = function()
+          if not issue.delegation then
+            dtdd( _"Delegation", _"off" )
+          end
           dtdd( _"Population", issue.population )
           dtdd( _"State", issue.state_name )
           if issue.snapshot then

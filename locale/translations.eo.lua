@@ -93,7 +93,7 @@ return {
 ["Area"] = "Temaro";
 ["Area '#{name}'"] = "Temaro '#{name}'";
 ["Area delegation"] = "Temarodelegacio";
-["Area list of '#{unit_name}'"] = false;
+["Area list of unit '#{unit_name}'"] = false;
 ["Areas"] = "Temaroj";
 ["Argument"] = false;
 ["Argument ##{id}"] = false;
@@ -1021,6 +1021,7 @@ return {
 ["not implemented"] = "nerealigita";
 ["not incl. potential"] = false;
 ["not yet"] = false;
+["off"] = false;
 ["positive"] = false;
 ["possibly instable result caused by multistage majority"] = false;
 ["potential direct"] = false;

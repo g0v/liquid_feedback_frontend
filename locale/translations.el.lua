@@ -104,6 +104,7 @@ return {
 ["Area '#{name}'"] = "Τομέας '#{name}'";
 ["Area delegation"] = "Ανάθεση τομέα";
 ["Area list of '#{unit_name}'"] = "Τομείς ενότητας '#{unit_name}'";
+["Area list of unit '#{unit_name}'"] = false;
 ["Areas"] = "Τομείς";
 ["Argument"] = false;
 ["Argument ##{id}"] = false;
@@ -1098,6 +1099,7 @@ return {
 ["not implemented"] = "δεν έχει υλοποιηθεί";
 ["not incl. potential"] = false;
 ["not yet"] = "όχι ακόμη";
+["off"] = false;
 ["positive"] = false;
 ["possibly instable result caused by multistage majority"] = "Ενδεχομένως ασταθές αποτέλεσμα λόγω πολυσταδιακής πλειοψηφίας";
 ["potential direct"] = false;

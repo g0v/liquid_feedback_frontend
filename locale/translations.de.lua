@@ -81,7 +81,7 @@ return {
 ["Are you sure?"] = "Sicher?";
 ["Area"] = "Themenbereich";
 ["Area delegation"] = "Delegation für Themenbereich";
-["Area list of '#{unit_name}'"] = "Themenbereiche in '#{unit_name}'";
+["Area list of unit '#{unit_name}'"] = "Themenbereiche in Gliederung '#{unit_name}'";
 ["Areas"] = "Themenbereiche";
 ["Argument"] = "Argument";
 ["Argument ##{id}"] = "Argument ##{id}";
@@ -872,6 +872,7 @@ return {
 ["not implemented"] = "nicht umgesetzt";
 ["not incl. potential"] = "ohne potentielle";
 ["not yet"] = "bis jetzt nicht";
+["off"] = "aus";
 ["positive"] = "positiv";
 ["possibly instable result caused by multistage majority"] = "Möglicherweise instabiles Ergebnis aufgrund mehrstufiger Mehrheiten";
 ["potential direct"] = "potentiell direkt";

@@ -105,6 +105,7 @@ return {
 ["Area '#{name}'"] = "Themagebied '#{name}'";
 ["Area delegation"] = "Delegatie voor themagebied";
 ["Area list of '#{unit_name}'"] = "Themagebieden in '#{unit_name}'";
+["Area list of unit '#{unit_name}'"] = false;
 ["Areas"] = "Themagebieden";
 ["Argument"] = false;
 ["Argument ##{id}"] = false;
@@ -1100,6 +1101,7 @@ return {
 ["not implemented"] = "niet geïmplementeerd";
 ["not incl. potential"] = false;
 ["not yet"] = "nog niet";
+["off"] = false;
 ["positive"] = false;
 ["possibly instable result caused by multistage majority"] = "Mogelijke instabiele resultaten als gevolg van multi-level meerderheden";
 ["potential direct"] = false;
