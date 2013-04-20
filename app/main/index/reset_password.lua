@@ -1,15 +1,14 @@
 execute.view{ module = "index", view = "_lang_chooser" }
 
-slot.put_into("title", _"Reset password")
+ui.title(_"Reset password")
 
-slot.select("actions", function()
+ui.actions(function()
   ui.link{
     content = function()
-        ui.image{ static = "icons/16/cancel.png" }
-        slot.put(_"Cancel password reset")
+        slot.put(_"Cancel")
     end,
     module = "index",
-    view = "index"
+    view = "login"
   }
 end)
 
@@ -34,10 +33,12 @@ if not secret then
     },
     content = function()
       ui.field.text{ 
-        label = "Login",
+        label = _"login name",
         name = "login"
       }
       ui.submit{ text = _"Request password reset link" }
+      slot.put("&nbsp;&nbsp;")
+      ui.link{ module = "index", view = "send_login", text = _"Forgot login name?" }
     end
   }
 

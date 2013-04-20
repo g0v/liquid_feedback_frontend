@@ -39,11 +39,6 @@ slot.select('navigation', function()
       module = 'index',
       view   = 'register'
     }
-    ui.link{
-      text   = _"Reset password",
-      module = 'index',
-      view   = 'reset_password'
-    }
   end
 end)
 

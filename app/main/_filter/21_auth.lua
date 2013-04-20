@@ -13,6 +13,8 @@ local auth_needed = not (
     or view   == "about"
     or view   == "reset_password"
     or action == "reset_password"
+    or view   == "send_login"
+    or action == "send_login"
     or view   == "confirm_notify_email"
     or action == "confirm_notify_email"
     or view   == "menu"

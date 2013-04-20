@@ -5,7 +5,7 @@ ui.tag{
   end
 }
 
-execute.view{ module = "index", view = "_lang_chooser" }
+ui.actions()
 
 ui.title(_"Login")
 app.html_title.title = _"Login"
@@ -62,5 +62,7 @@ ui.form{
     ui.submit{
       text = _'Login'
     }
+    slot.put("&nbsp;&nbsp;")
+    ui.link{ module = "index", view = "reset_password", text = _"Forgot password?" }
   end
 }
