@@ -106,6 +106,11 @@ config.public_access = "none"
 -- ------------------------------------------------------------------------
 -- config.support = "support@example.com"
 
+-- Inform locked member
+-- display "this account is locked" if a locked member tries to login
+-- ------------------------------------------------------------------------
+-- config.inform_locked_member = false
+
 -- Configuration of password hashing algorithm (defaults to "crypt_sha512")
 -- ------------------------------------------------------------------------
 -- config.password_hash_algorithm = "crypt_sha512"

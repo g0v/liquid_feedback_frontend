@@ -53,7 +53,7 @@ function do_etherpad_auth(member)
 end
 
 
-if member then
+if member and not member.locked and not member.locked_import then
 
   member.last_login = "now"
   member.last_activity = "now"
@@ -67,7 +67,7 @@ if member then
   if member.password_hash_needs_update then
     member:set_password(password)
   end
-  
+
   member:save()
 
   app.session.member = member
@@ -81,7 +81,14 @@ if member then
     do_etherpad_auth(member)
   end
 
+elseif member and config.inform_locked_member then
+
+  slot.put_into("error", _("Sorry, but your account is locked. To get unlocked please contact #{support}!", { support = '<a href="mailto:' .. config.support .. '">' .. config.support .. '</a>' }))
+  trace.debug('User locked')
+
 else
+
   slot.put_into("error", _"Invalid login name or password!")
   trace.debug('User NOT authenticated')
+
 end
