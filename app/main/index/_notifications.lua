@@ -21,11 +21,18 @@ if config.check_delegations_interval_soft then
     :single_object_mode()
     :exec()
     
+
   if member.needs_delegation_check_soft then
-    notification_links[#notification_links+1] = {
-      module = "index", view = "check_delegations", 
-      text = _"Check your delegations!"
-    }
+
+    local delegations = Delegation:delegations_to_check_for_member_id(member.id)
+    
+    if #delegations > 0 then
+      notification_links[#notification_links+1] = {
+        module = "index", view = "check_delegations", 
+        text = _"Check your delegations!"
+      }
+    end
+    
   end
 end
 

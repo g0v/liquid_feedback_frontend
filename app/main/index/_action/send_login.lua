@@ -3,7 +3,8 @@
 local email = param.get("email")
 
 local members = Member:new_selector()
-  :add_where{ "notify_email = ? OR notify_email_unconfirmed = ?", email, email }
+  :add_where{ "split_part(notify_email, '@', 1) = split_part(?, '@', 1)", email }
+  :add_where{ "lower(split_part(notify_email, '@', 2)) = lower(split_part(?, '@', 2))", email }
   :add_where("login_recovery_expiry ISNULL OR login_recovery_expiry < now()")
   :exec()
 
@@ -28,9 +29,6 @@ local content = slot.use_temporary(function()
   end
 end)
 
-trace.debug(content)
-if true then return end
-
 local success = net.send_mail{
   envelope_from = config.mail_envelope_from,
   from          = config.mail_from,
@@ -40,3 +38,5 @@ local success = net.send_mail{
   content_type  = "text/plain; charset=UTF-8",
   content       = content
 }
+
+slot.put_into("notice", _"Your request has been processed.")

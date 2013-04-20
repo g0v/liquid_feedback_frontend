@@ -49,18 +49,30 @@ function do_etherpad_auth(member)
     name = "sessionID",
     value = etherpad_sesion_id
   }
-
 end
-
 
 if member then
   member.last_login = "now"
-  if config.check_delegations_interval_hard and member.needs_delegation_check_hard then
+  
+  local delegations = Delegation:delegations_to_check_for_member_id(member.id)
+  
+  if config.check_delegations_interval_hard 
+      and member.needs_delegation_check_hard
+      and #delegations > 0 then
+        
     app.session.needs_delegation_check = true
+    
   else
+    
+    if #delegations == 0 then
+      member.last_delegation_check = "now"
+    end
+    
     member.last_activity = "now"
     member.active = true
+    
   end
+  
   if member.lang == nil then
     member.lang = app.session.lang
   else
