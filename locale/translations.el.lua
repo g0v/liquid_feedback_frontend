@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 return {
-["#{count} cancelled"] = "#{count} ακυρώθηκαν";
+["#{count} canceled"] = false;
 ["#{count} days ago"] = "#{count} μέρες πριν";
 ["#{count} finished"] = "#{count} ολοκληρώθηκαν";
 ["#{count} in discussion"] = "#{count} σε διαβούλευση";
@@ -33,6 +33,7 @@ return {
 ["API keys"] = "API κλειδιά";
 ["Abandon global delegation for this area"] = "Ακύρωση καθολικής ανάθεσης για αυτόν τον τομέα";
 ["Abandon unit and area delegations for this issue"] = "Ακύρωση ανάθεσης ενότητας και τομέα για αυτό το θέμα";
+["Abandon unit delegation"] = false;
 ["Abandon unit delegation for this area"] = "Ακύρωση ανάθεσης ενότητας για αυτόν τον τομέα";
 ["About site"] = "Πληροφορίες";
 ["Abstention"] = "Αποχή";
@@ -98,15 +99,14 @@ return {
 ["Can't send confirmation email"] = "Δεν ήταν δυνατή η αποστολή email επιβεβαίωσης.";
 ["Cancel"] = "Άκυρο";
 ["Cancel [nullify]"] = "Ακύρωση";
-["Cancel password reset"] = "Ακύρωση επαναφοράς κωδικού πρόσβασης";
 ["Cancel refuse of invitation"] = "Ακύρωση απόρριψης της πρόσκλησης";
 ["Cancel registration"] = "Ακύρωση εγγραφής";
-["Cancelled"] = "Ακυρώθηκε";
-["Cancelled (before accepted due to revocation)"] = "Ακυρώθηκε (στη φάση 'Νέο', λόγω ανάκλησης)";
-["Cancelled (during discussion due to revocation)"] = "Ακυρώθηκε (κατά τη διάρκεια της συζήτησης, λόγω ανάκλησης)";
-["Cancelled (during verification due to revocation)"] = "Ακυρώθηκε (κατά τη διάρκεια της επιβεβαίωσης, λόγω ανάκλησης)";
-["Cancelled (issue not accepted)"] = "Ακυρώθηκε (Δεν έγινε δεκτό)";
-["Cancelled (no initiative admitted)"] = "Ακυρώθηκε (Δεν προκρίθηκε καμία πρωτοβουλία)";
+["Canceled"] = false;
+["Canceled (before accepted due to revocation)"] = false;
+["Canceled (during discussion due to revocation)"] = false;
+["Canceled (during verification due to revocation)"] = false;
+["Canceled (issue not accepted)"] = false;
+["Canceled (no initiative admitted)"] = false;
 ["Change area delegation"] = "Αλλαγή ανάθεσης για τον τομέα";
 ["Change email"] = "Αλλαγή email";
 ["Change email address"] = "Αλλαγή διεύθυνσης email";
@@ -122,6 +122,8 @@ return {
 ["Change your notification email address"] = "Αλλαγή email για τις ειδοποιήσεις";
 ["Change your password"] = "Αλλαγή κωδικού πρόσβασης";
 ["Change your screen name"] = "Αλλαγή ονόματος";
+["Check delegations"] = false;
+["Check your delegations!"] = false;
 ["Choose initiator"] = "Επιλογή εισηγητή";
 ["Choose member"] = "Επιλογή μέλους";
 ["Closed"] = "Κλειστό";
@@ -137,7 +139,6 @@ return {
 ["Confirmed address"] = "Επιβεβαιωμένη διεύθυνση email";
 ["Contacts"] = "Επαφές";
 ["Content"] = "Περιεχόμενο";
-["Counting of votes"] = "Καταμέτρηση";
 ["Counting starts soon"] = "Η καταμέτρηση ξεκινά σύντομα";
 ["Create / edit area"] = "Δημιουργία / επεξεργασία τομέα";
 ["Create / edit policy"] = "Δημιουργία / επεξεργασία κανονισμού";
@@ -148,8 +149,10 @@ return {
 ["Create new unit"] = "Δημιουργία νέας ενότητας";
 ["Created at"] = "Δημιουργήθηκε στις";
 ["Current name"] = "Τρέχουσα ονομασία";
+["Current phase is already closed."] = false;
 ["Current status"] = "Τρέχουσα κατάσταση";
 ["Current trustee"] = "Τρέχων αντιπρόσωπος";
+["Current unit and area delegations need confirmation"] = false;
 ["Current votings in areas you are member of and issues you are interested in:"] = "Τρέχουσες ψηφοφορίες σε τομείς που είστε μέλη και θέματα που σας ενδιαφέρουν:";
 ["Currently no API key is set."] = "Δεν υπάρχει καθορισμένο API κλειδί αυτή τη στιγμή.";
 ["Currently required"] = "Αυτή τη στιγμή απαιτείται";
@@ -225,6 +228,8 @@ return {
 ["Finished"] = "Ολοκληρώθηκε";
 ["Finished (with winner)"] = "Ολοκληρώθηκε (με νικητή)";
 ["Finished (without winner)"] = "Ολοκληρώθηκε (χωρίς νικητή)";
+["Forgot login name?"] = false;
+["Forgot password?"] = false;
 ["Free timing"] = false;
 ["Friday"] = "Παρασκευή";
 ["Frozen"] = "Παγωμένο";
@@ -235,6 +240,7 @@ return {
 ["Half frozen at"] = "Μερικώς παγωμένο στις";
 ["Hello\n\n"] = "Γειά σου\n\n";
 ["Hello "] = "Γειά σου ";
+["Hello,\n\n"] = false;
 ["Help #{id}"] = "Βοήθεια #{id}";
 ["Help for: #{text}"] = "Βοήθεια για: #{text}";
 ["Hide"] = "Απόκρυψη";
@@ -320,6 +326,8 @@ return {
 ["Locked?"] = "Κλειστό;";
 ["Login"] = "Σύνδεση";
 ["Login name"] = "Όνομα σύνδεσης";
+["Login name request"] = false;
+["Login-Name: "] = false;
 ["Logout"] = "Αποσύνδεση";
 ["Logout successful"] = "Επιτυχής αποσύνδεση";
 ["Manage filter"] = "Διαχείριση φίλτρου";
@@ -444,9 +452,11 @@ return {
 ["Please choose two versions of the draft to compare"] = "Παρακαλώ επιλέξτε δύο εκδόσεις του προσχεδίου για να τις συγκρίνετε.";
 ["Please confirm your email address"] = "Παρακαλώ επιβεβαιώστε την διεύθυνση email σας";
 ["Please confirm your email address by clicking the following link:\n\n"] = "Παρακαλώ να επιβεβαιώσετε την διεύθυνση email σας πατώντας στον παρακάτω σύνδεσμο:\n\n";
+["Please decide for each delegation to confirm or to revoke it!"] = false;
 ["Please enter the email reset code you have received:"] = "Παρακαλώ εισάγετε τον κωδικό επαναφοράς που έχετε λάβει:";
 ["Please enter the invite code you've received."] = "Παρακαλώ εισάγετε τον κωδικό πρόσκλησης που έχετε λάβει.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Παρακαλώ εισάγετε τη διεύθυνση email σας. Αυτή η διεύθυνση θα χρησιμοποιηθεί για αυτόματες ειδοποιήσεις (αν το επιλέξετε) και σε περίπτωση που έχετε χάσει τον κωδικό πρόσβασής σας. Αυτή η διεύθυνση δεν θα δημοσιευθεί. Μετά την εγγραφή θα λάβετε ένα email με έναν σύνδεσμο επιβεβαίωσης.";
+["Please enter your email address. You will receive an email with your login name."] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Παρακαλώ εισάγετε το όνομα σύνδεσής σας. Θα λάβετε ένα email με ένα σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας. Προσοχή στα κεφαλαία/πεζά γράμματα, έχουν σημασία.";
 ["Please enter your new password twice."] = "Παρακαλώ εισάγετε τον νέο σας κωδικό πρόσβασης δύο φορες:";
 ["Please select your preferred notification level"] = "Παρακαλώ επιλέξτε το προτιμώμενο επίπεδο ειδοποίησης σας";
@@ -484,11 +494,11 @@ return {
 ["Remove initiator from initiative"] = "Αφαίρεση εισηγητή από την πρωτοβουλία";
 ["Rendered"] = "Μορφοποιημένο";
 ["Repeat new password"] = "Επανάληψη νέου κωδικού";
+["Request email with login name"] = false;
 ["Request password reset link"] = "Αίτηση συνδέσμου επαναφοράς κωδικού πρόσβασης";
 ["Resend activation email to '#{email}'"] = "Επανάληψη αποστολής του email ενεργοποίησης στο '#{email}'";
 ["Reset code"] = "Κωδικός επαναφοράς";
 ["Reset code is invalid!"] = "Ο κωδικός επαναφοράς δεν είναι έγκυρος";
-["Reset link has been send for this member"] = "Ο σύνδεσμος επαναφοράς έχει αποσταλεί";
 ["Reset password"] = "Επαναφορά κωδικού";
 ["Revoke initiative"] = "Ανάκληση πρωτοβουλίας";
 ["Revoked at"] = "Ανακλήθηκε στις";
@@ -577,7 +587,8 @@ return {
 ["This initiative is already revoked"] = "Αυτή η πρωτοβουλία έχει ήδη ανακληθεί";
 ["This initiative is revoked"] = "Αυτή η πρωτοβουλία έχει ανακληθεί";
 ["This invite key is connected with the following information:"] = "Αυτός ο κωδικός πρόσκλησης σχετίζεται με τα ακόλουθα στοιχεία:";
-["This issue has been cancelled. It failed the quorum of #{quorum}."] = "Αυτό το θέμα έχει ακυρωθεί. Δεν είχε την απαιτούμενη απαρτία #{quorum}";
+["This issue has been canceled."] = false;
+["This issue has been canceled. It failed the quorum of #{quorum}."] = false;
 ["This issue is already closed."] = "Αυτό το θέμα έχει ήδη κλείσει.";
 ["This issue is already frozen."] = "Αυτό το θέμα έχει ήδη παγώσει.";
 ["This login is already taken, please choose another one!"] = "Αυτό το όνομα σύνδεσης υπάρχει ήδη, παρακαλώ επιλέξτε κάποιο άλλο!";
@@ -701,6 +712,7 @@ return {
 ["Your password has been updated successfully"] = "Ο κωδικός πρόσβασής σας ανανεώθηκε επιτυχώς";
 ["Your rating has been deleted"] = "Η βαθμολογία σας διαγράφηκε";
 ["Your rating has been updated"] = "Η βαθμολογία σας ενημερώθηκε";
+["Your request has been processed."] = false;
 ["Your suggestion has been added"] = "Η πρόταση σας προστέθηκε";
 ["Your support has been added to this initiative"] = "Η υποστήριξή σας έχει προστεθεί στην πρωτοβουλία";
 ["Your support has been removed from this initiative"] = "Η υποστήριξή σας έχει αποσυρθεί από την πρωτοβουλία";
@@ -720,6 +732,7 @@ return {
 ["[not displayed public]"] = "[δεν εμφανίζεται δημόσια]";
 ["a bit unsatisfied"] = "λίγο ανικανοποίητος/η";
 ["abandoned"] = "ακυρωμένο";
+["action"] = false;
 ["activated"] = "ενεργοποιημένο";
 ["and #{count} more initiatives"] = "και #{count} ακόμη πρωτοβουλίες";
 ["and one more initiative"] = "και μία ακόμη πρωτοβουλία";
@@ -727,6 +740,7 @@ return {
 ["at least #{count} approvals"] = "τουλάχιστον #{count} επιδοκιμασίες";
 ["at least #{count} approvals or abstentions"] = "τουλάχιστον #{count} επιδοκιμασίες ή αποχές";
 ["change discussion URL"] = "αλλαγή του URL της συζήτησης";
+["confirm"] = false;
 ["day [interval ago]"] = "ημέρα";
 ["day [interval time left]"] = "ημέρα";
 ["day [interval]"] = "ημέρα";
@@ -734,6 +748,7 @@ return {
 ["days [interval time left]"] = "ημέρες";
 ["days [interval]"] = "ημέρες";
 ["deactivated"] = "απενεργοποιημένο";
+["delegated to"] = false;
 ["delegates to"] = "αναθέτει στον/στην";
 ["delete<br /><br />"] = "διαγραφή<br /><br />";
 ["disabled"] = "απενεργοποιημένο";
@@ -761,11 +776,14 @@ return {
 ["possibly instable result caused by multistage majority"] = "Ενδεχομένως ασταθές αποτέλεσμα λόγω πολυσταδιακής πλειοψηφίας";
 ["prohibit potentially instable results caused by multistage majorities"] = "Απαγόρευση δυνητικά ασταθών αποτελεσμάτων που προκαλούνται από πολυσταδιακές πλειοψηφίες";
 ["reverse beat path to status quo (including ties)"] = "Reverse beat path προς την παρούσα κατάσταση (συμπεριλαμβάνοντας ισοπαλίες)";
+["revoke"] = false;
 ["satisfied"] = "ικανοποιημένος/η";
 ["should"] = "καλό θα ήταν";
 ["should not"] = "καλύτερα όχι";
+["the following login is connected to this email address:\n\n"] = false;
 ["to reset your password please click on the following link:\n\n"] = "Πατήστε στον παρακάτω σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας:\n\n";
 ["unit"] = "Ενότητα";
+["unit / area"] = false;
 ["until"] = "μέχρι";
 ["variable"] = "μεταβλητό";
 ["with winner"] = "Με νικητή";
