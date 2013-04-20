@@ -55,8 +55,12 @@ end
 
 if member then
   member.last_login = "now"
-  member.last_activity = "now"
-  member.active = true
+  if config.check_delegations_interval_hard and member.needs_delegation_check_hard then
+    app.session.needs_delegation_check = true
+  else
+    member.last_activity = "now"
+    member.active = true
+  end
   if member.lang == nil then
     member.lang = app.session.lang
   else

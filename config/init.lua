@@ -44,6 +44,10 @@ if config.locked_profile_fields == nil then
   config.locked_profile_fields = {}
 end
 
+if config.check_delegations_default == nil then
+  config.check_delegations_default = "confirm"
+end
+
 if not config.database then
   config.database = { engine='postgresql', dbname='liquid_feedback' }
 end

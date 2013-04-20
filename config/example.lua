@@ -89,6 +89,17 @@ config.public_access = "none"
 -- ------------------------------------------------------------------------
 -- config.delegation_warning_time = '6 months'
 
+-- after which time a user is advised (_soft) or forced (_hard) to check
+-- unit and area delegations. default: no check at all
+-- ------------------------------------------------------------------------
+-- config.check_delegations_interval_hard = "6 months"
+-- config.check_delegations_interval_soft = "3 months"
+
+-- default option when checking delegations
+-- available options: "confirm", "revoke" and "none", default: "confirm"
+-- ------------------------------------------------------------------------
+-- config.check_delegations_default = "confirm"
+
 -- Prefix of all automatic mails, defaults to "[Liquid Feedback] "
 -- ------------------------------------------------------------------------
 -- config.mail_subject_prefix = "[LiquidFeedback] "

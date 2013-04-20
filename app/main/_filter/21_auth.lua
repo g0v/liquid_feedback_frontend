@@ -89,6 +89,19 @@ elseif auth_needed and app.session.member.locked then
   trace.debug("Member locked.")
   request.redirect{ module = 'index', view = 'login' }
 else
+  if config.check_delegations_interval_hard and app.session.member_id and app.session.needs_delegation_check 
+    and not (module == "admin" or (module == "index" and (
+      view == "check_delegations" 
+      or action == "check_delegations" 
+      or action == "logout"
+      or view == "about"
+      or view == "usage_terms"
+      or action == "set_lang")
+    ))
+    and not (module == "member_image" and view == "show") then
+    request.redirect{ module = 'index', view = 'check_delegations' }
+    return
+  end
   if auth_needed then
     trace.debug("Authentication accepted.")
   else
