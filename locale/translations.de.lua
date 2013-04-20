@@ -224,7 +224,7 @@ return {
 ["Everything"] = "Alles";
 ["External memberships"] = "Externe Mitgliedschaften";
 ["External posts"] = "Externe Ämter";
-["Finish delegation check"] = false;
+["Finish delegation check"] = "Delegationsprüfung abschließen";
 ["Finish voting"] = "Stimmabgabe abschließen";
 ["Finished"] = "Abgeschlossen";
 ["Finished (with winner)"] = "Abgeschlossen (mit Gewinner)";
