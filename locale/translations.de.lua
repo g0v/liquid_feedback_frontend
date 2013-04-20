@@ -33,6 +33,7 @@ return {
 ["API keys"] = "API-Schlüssel";
 ["Abandon global delegation for this area"] = "Aussetzen der globale Delegation";
 ["Abandon unit and area delegations for this issue"] = "Aussetzen der Gliederungs-/Themenbereichsdelegation";
+["Abandon unit delegation"] = false;
 ["Abandon unit delegation for this area"] = "Aussetzen der Gliederungsdelegation";
 ["About site"] = "Impressum";
 ["Abstention"] = "Enthaltung";
@@ -98,7 +99,6 @@ return {
 ["Can't send confirmation email"] = "Bestätigungs-E-Mail kann nicht versendet werden.";
 ["Cancel"] = "Abbrechen";
 ["Cancel [nullify]"] = "Aufheben";
-["Cancel password reset"] = "Kennwort-Rücksetzung abbrechen";
 ["Cancel refuse of invitation"] = "Ablehnung der Einladung aufheben";
 ["Cancel registration"] = "Registrierung abbrechen";
 ["Canceled"] = "Abgebrochen";
@@ -122,6 +122,8 @@ return {
 ["Change your notification email address"] = "Deine E-Mail-Adresse für Benachrichtigungen ändern";
 ["Change your password"] = "Dein Kennwort ändern";
 ["Change your screen name"] = "Deinen Screen-Namen ändern";
+["Check delegations"] = false;
+["Check your delegations!"] = false;
 ["Choose initiator"] = "Initiator auswählen";
 ["Choose member"] = "Mitglied auswählen";
 ["Closed"] = "geschlossen";
@@ -137,7 +139,6 @@ return {
 ["Confirmed address"] = "Bestätigte E-Mail";
 ["Contacts"] = "Kontakte";
 ["Content"] = "Inhalt";
-["Counting of votes"] = "Auszählung";
 ["Counting starts soon"] = "Auszählung beginnt in Kürze";
 ["Create / edit area"] = "Themengebiet anlegen / bearbeiten";
 ["Create / edit policy"] = "Regelwerk anlegen / bearbeiten";
@@ -148,8 +149,10 @@ return {
 ["Create new unit"] = "Neue Gliederung anlegen";
 ["Created at"] = "Erzeugt am/um";
 ["Current name"] = "Aktueller Name";
+["Current phase is already closed."] = false;
 ["Current status"] = "Aktueller Status";
 ["Current trustee"] = "Aktueller Delegierter";
+["Current unit and area delegations need confirmation"] = false;
 ["Current votings in areas you are member of and issues you are interested in:"] = "Jetzt laufende Abstimmungen zu Themen aus Deinen Themenbereichen oder solchen an denen Du interessiert bist:";
 ["Currently no API key is set."] = "Zur Zeit ist kein API-Schlüssel festgelegt.";
 ["Currently required"] = "Zur Zeit benötigt";
@@ -225,6 +228,8 @@ return {
 ["Finished"] = "Abgeschlossen";
 ["Finished (with winner)"] = "Abgeschlossen (mit Gewinner)";
 ["Finished (without winner)"] = "Abgeschlossen (ohne Gewinner)";
+["Forgot login name?"] = false;
+["Forgot password?"] = false;
 ["Free timing"] = "Freie Zeitsteuerung";
 ["Friday"] = "Freitag";
 ["Frozen"] = "Eingefroren";
@@ -235,6 +240,7 @@ return {
 ["Half frozen at"] = "Halb eingefroren am/um";
 ["Hello\n\n"] = "Hallo\n\n";
 ["Hello "] = "Hallo ";
+["Hello,\n\n"] = false;
 ["Help #{id}"] = "Hilfe #{id}";
 ["Help for: #{text}"] = "Hilfe zu: #{text}";
 ["Hide"] = "Verstecken";
@@ -320,6 +326,8 @@ return {
 ["Locked?"] = "Gesperrt?";
 ["Login"] = "Anmeldung";
 ["Login name"] = "Anmeldename";
+["Login name request"] = false;
+["Login-Name: "] = false;
 ["Logout"] = "Abmelden";
 ["Logout successful"] = "Abmeldung erfolgreich";
 ["Manage filter"] = "Filter verwalten";
@@ -444,9 +452,11 @@ return {
 ["Please choose two versions of the draft to compare"] = "Bitte wähle zwei Versionen des Entwurfs, um sie zu vergleichen.";
 ["Please confirm your email address"] = "Bitte bestätige Deine E-Mail-Adresse";
 ["Please confirm your email address by clicking the following link:\n\n"] = "Bitte bestätige Deine E-Mail-Adresse durch Klick auf folgenden Link:\n\n";
+["Please decide for each delegation to confirm or to revoke it!"] = false;
 ["Please enter the email reset code you have received:"] = "Bitte gib den Rücksetzcode ein, den Du erhalten hast:";
 ["Please enter the invite code you've received."] = "Bitte gib den Einladungscode ein, den Du erhalten hast.";
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Bitte gib Deine E-Mail-Adresse ein. Diese Adresse wird für automatische Benachrichtigungen (wenn Du diese anforderst) sowie zum Zurücksetzen des Kennworts verwendet. Diese Adresse wird nicht veröffentlicht. Nach Abschluss der Registrierung wirst Du eine E-Mail mit einem Link zum Bestätigen der Adresse erhalten.";
+["Please enter your email address. You will receive an email with your login name."] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Bitte gib Deinen Anmeldenamen ein. Du wirst eine E-Mail mit einem Link zum Zurücksetzen des Kennworts erhalten.";
 ["Please enter your new password twice."] = "Bitte gib Dein neues Kennwort zweimal ein:";
 ["Please select your preferred notification level"] = "Bitte wähle das gewünschte Benachrichtigungslevel";
@@ -484,11 +494,11 @@ return {
 ["Remove initiator from initiative"] = "Initiator von der Initiative entfernen";
 ["Rendered"] = "Formatiert";
 ["Repeat new password"] = "Neues Kennwort wiederholen";
+["Request email with login name"] = false;
 ["Request password reset link"] = "Link zum Rücksetzen des Kennworts anfordern";
 ["Resend activation email to '#{email}'"] = "E-Mail mit Aktivierungslink erneut an '#{email}' senden";
 ["Reset code"] = "Rücksetzcode";
 ["Reset code is invalid!"] = "Rücksetzcode ist ungültig";
-["Reset link has been send for this member"] = "Rücksetz-Link wurde versendet";
 ["Reset password"] = "Kennwort zurücksetzen";
 ["Revoke initiative"] = "Initiative zurückziehen";
 ["Revoked at"] = "Zurückgezogen am/um";
@@ -577,6 +587,7 @@ return {
 ["This initiative is already revoked"] = "Diese Initiative ist schon zurückgezogen";
 ["This initiative is revoked"] = "Diese Initiative wurde zurückgezogen";
 ["This invite key is connected with the following information:"] = "Dieser Einladungscode ist mit den folgenden Daten verknüpft:";
+["This issue has been canceled."] = false;
 ["This issue has been canceled. It failed the quorum of #{quorum}."] = "Dieses Thema wurde abgebrochen. Es hat das Quorum von #{quorum} nicht erfüllt.";
 ["This issue is already closed."] = "Das Thema ist schon geschlossen.";
 ["This issue is already frozen."] = "Das Thema ist schon eingefroren";
@@ -701,6 +712,7 @@ return {
 ["Your password has been updated successfully"] = "Das Kennwort wurde erfolgreich geändert";
 ["Your rating has been deleted"] = "Deine Bewertung wurde gelöscht";
 ["Your rating has been updated"] = "Deine Bewertung wurde aktualisiert";
+["Your request has been processed."] = false;
 ["Your suggestion has been added"] = "Deine Anregung wurde hinzufügt";
 ["Your support has been added to this initiative"] = "Deine Unterstützung wurde der Initiative hinzugefügt";
 ["Your support has been removed from this initiative"] = "Deine Unterstützung wurde der Initiative entzogen";
@@ -720,6 +732,7 @@ return {
 ["[not displayed public]"] = "[nicht öffentlich]";
 ["a bit unsatisfied"] = "etwas unzufrieden";
 ["abandoned"] = "ausgesetzt";
+["action"] = false;
 ["activated"] = "aktiviert";
 ["and #{count} more initiatives"] = "und #{count} weitere Initiativen";
 ["and one more initiative"] = "und eine weitere Initiative";
@@ -727,6 +740,7 @@ return {
 ["at least #{count} approvals"] = "mindestens #{count} Zustimmungen";
 ["at least #{count} approvals or abstentions"] = "mindestens #{count} Zustimmungen oder Enthaltungen";
 ["change discussion URL"] = "Diskussions-URL ändern";
+["confirm"] = false;
 ["day [interval ago]"] = "Tag";
 ["day [interval time left]"] = "Tag";
 ["day [interval]"] = "Tag";
@@ -734,6 +748,7 @@ return {
 ["days [interval time left]"] = "Tage";
 ["days [interval]"] = "Tage";
 ["deactivated"] = "deaktiviert";
+["delegated to"] = false;
 ["delegates to"] = "delegiert an";
 ["delete<br /><br />"] = "löschen<br /><br />";
 ["disabled"] = "ausgeschaltet";
@@ -761,11 +776,14 @@ return {
 ["possibly instable result caused by multistage majority"] = "Möglicherweise instabiles Ergebnis aufgrund mehrstufiger Mehrheiten";
 ["prohibit potentially instable results caused by multistage majorities"] = "Instabile Ergebnisse aufgrund mehrstufiger Mehrheiten verbieten";
 ["reverse beat path to status quo (including ties)"] = "Rückwärtsgerichteter Schlagpfad zum Status Quo (Gleichstände eingeschlossen)";
+["revoke"] = false;
 ["satisfied"] = "zufrieden";
 ["should"] = "soll";
 ["should not"] = "soll nicht";
+["the following login is connected to this email address:\n\n"] = false;
 ["to reset your password please click on the following link:\n\n"] = "um Dein Kennwort zurückzusetzen klicke bitte den folgenden Link an:\n\n";
 ["unit"] = "Gliederung";
+["unit / area"] = false;
 ["until"] = "bis";
 ["variable"] = "variabel";
 ["with winner"] = "mit Gewinner";

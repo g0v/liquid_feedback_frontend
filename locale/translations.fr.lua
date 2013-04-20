@@ -33,6 +33,7 @@ return {
 ["API keys"] = false;
 ["Abandon global delegation for this area"] = false;
 ["Abandon unit and area delegations for this issue"] = false;
+["Abandon unit delegation"] = false;
 ["Abandon unit delegation for this area"] = false;
 ["About site"] = false;
 ["Abstention"] = false;
@@ -98,7 +99,6 @@ return {
 ["Can't send confirmation email"] = false;
 ["Cancel"] = false;
 ["Cancel [nullify]"] = false;
-["Cancel password reset"] = false;
 ["Cancel refuse of invitation"] = false;
 ["Cancel registration"] = false;
 ["Canceled"] = false;
@@ -122,6 +122,8 @@ return {
 ["Change your notification email address"] = false;
 ["Change your password"] = false;
 ["Change your screen name"] = false;
+["Check delegations"] = false;
+["Check your delegations!"] = false;
 ["Choose initiator"] = false;
 ["Choose member"] = false;
 ["Closed"] = false;
@@ -137,7 +139,6 @@ return {
 ["Confirmed address"] = false;
 ["Contacts"] = false;
 ["Content"] = false;
-["Counting of votes"] = false;
 ["Counting starts soon"] = false;
 ["Create / edit area"] = false;
 ["Create / edit policy"] = false;
@@ -148,8 +149,10 @@ return {
 ["Create new unit"] = false;
 ["Created at"] = false;
 ["Current name"] = false;
+["Current phase is already closed."] = false;
 ["Current status"] = false;
 ["Current trustee"] = false;
+["Current unit and area delegations need confirmation"] = false;
 ["Current votings in areas you are member of and issues you are interested in:"] = false;
 ["Currently no API key is set."] = false;
 ["Currently required"] = false;
@@ -225,6 +228,8 @@ return {
 ["Finished"] = false;
 ["Finished (with winner)"] = false;
 ["Finished (without winner)"] = false;
+["Forgot login name?"] = false;
+["Forgot password?"] = false;
 ["Free timing"] = false;
 ["Friday"] = false;
 ["Frozen"] = false;
@@ -235,6 +240,7 @@ return {
 ["Half frozen at"] = false;
 ["Hello\n\n"] = false;
 ["Hello "] = false;
+["Hello,\n\n"] = false;
 ["Help #{id}"] = false;
 ["Help for: #{text}"] = false;
 ["Hide"] = false;
@@ -320,6 +326,8 @@ return {
 ["Locked?"] = false;
 ["Login"] = false;
 ["Login name"] = false;
+["Login name request"] = false;
+["Login-Name: "] = false;
 ["Logout"] = false;
 ["Logout successful"] = false;
 ["Manage filter"] = false;
@@ -444,9 +452,11 @@ return {
 ["Please choose two versions of the draft to compare"] = false;
 ["Please confirm your email address"] = false;
 ["Please confirm your email address by clicking the following link:\n\n"] = false;
+["Please decide for each delegation to confirm or to revoke it!"] = false;
 ["Please enter the email reset code you have received:"] = false;
 ["Please enter the invite code you've received."] = false;
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = false;
+["Please enter your email address. You will receive an email with your login name."] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = false;
 ["Please enter your new password twice."] = false;
 ["Please select your preferred notification level"] = false;
@@ -484,11 +494,11 @@ return {
 ["Remove initiator from initiative"] = false;
 ["Rendered"] = false;
 ["Repeat new password"] = false;
+["Request email with login name"] = false;
 ["Request password reset link"] = false;
 ["Resend activation email to '#{email}'"] = false;
 ["Reset code"] = false;
 ["Reset code is invalid!"] = false;
-["Reset link has been send for this member"] = false;
 ["Reset password"] = false;
 ["Revoke initiative"] = false;
 ["Revoked at"] = false;
@@ -577,6 +587,7 @@ return {
 ["This initiative is already revoked"] = false;
 ["This initiative is revoked"] = false;
 ["This invite key is connected with the following information:"] = false;
+["This issue has been canceled."] = false;
 ["This issue has been canceled. It failed the quorum of #{quorum}."] = false;
 ["This issue is already closed."] = false;
 ["This issue is already frozen."] = false;
@@ -701,6 +712,7 @@ return {
 ["Your password has been updated successfully"] = false;
 ["Your rating has been deleted"] = false;
 ["Your rating has been updated"] = false;
+["Your request has been processed."] = false;
 ["Your suggestion has been added"] = false;
 ["Your support has been added to this initiative"] = false;
 ["Your support has been removed from this initiative"] = false;
@@ -720,6 +732,7 @@ return {
 ["[not displayed public]"] = false;
 ["a bit unsatisfied"] = false;
 ["abandoned"] = false;
+["action"] = false;
 ["activated"] = false;
 ["and #{count} more initiatives"] = false;
 ["and one more initiative"] = false;
@@ -727,6 +740,7 @@ return {
 ["at least #{count} approvals"] = false;
 ["at least #{count} approvals or abstentions"] = false;
 ["change discussion URL"] = false;
+["confirm"] = false;
 ["day [interval ago]"] = false;
 ["day [interval time left]"] = false;
 ["day [interval]"] = false;
@@ -734,6 +748,7 @@ return {
 ["days [interval time left]"] = false;
 ["days [interval]"] = false;
 ["deactivated"] = false;
+["delegated to"] = false;
 ["delegates to"] = false;
 ["delete<br /><br />"] = false;
 ["disabled"] = false;
@@ -761,11 +776,14 @@ return {
 ["possibly instable result caused by multistage majority"] = false;
 ["prohibit potentially instable results caused by multistage majorities"] = false;
 ["reverse beat path to status quo (including ties)"] = false;
+["revoke"] = false;
 ["satisfied"] = false;
 ["should"] = false;
 ["should not"] = false;
+["the following login is connected to this email address:\n\n"] = false;
 ["to reset your password please click on the following link:\n\n"] = false;
 ["unit"] = false;
+["unit / area"] = false;
 ["until"] = false;
 ["variable"] = false;
 ["with winner"] = false;
