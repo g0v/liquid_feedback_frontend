@@ -8,7 +8,11 @@ ui.actions(function()
   end
 end)
 
-util.help("index.check_delegations", _"Check delegations")
+if app.session.needs_delegation_check then
+  util.help("index.check_delegations_hard", _"Check delegations")
+else
+  util.help("index.check_delegations", _"Check delegations")
+end
 
 ui.form{
   module = "index", action = "check_delegations",
