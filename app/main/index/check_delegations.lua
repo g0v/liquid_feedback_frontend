@@ -108,7 +108,7 @@ ui.form{
 
     slot.put("<br />")
 
-    ui.submit{ text = "Finish delegation check" }
+    ui.submit{ text = _"Finish delegation check" }
   
   end
 }
