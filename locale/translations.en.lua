@@ -224,6 +224,7 @@ return {
 ["Everything"] = false;
 ["External memberships"] = false;
 ["External posts"] = false;
+["Finish delegation check"] = false;
 ["Finish voting"] = false;
 ["Finished"] = false;
 ["Finished (with winner)"] = false;

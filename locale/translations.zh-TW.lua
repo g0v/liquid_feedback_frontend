@@ -224,6 +224,7 @@ return {
 ["Everything"] = "全部";
 ["External memberships"] = "外部成員";
 ["External posts"] = "外部職位";
+["Finish delegation check"] = false;
 ["Finish voting"] = "完成投票";
 ["Finished"] = "已結束";
 ["Finished (with winner)"] = "已結束 (有獲選者)";

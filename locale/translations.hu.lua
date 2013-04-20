@@ -224,6 +224,7 @@ return {
 ["Everything"] = false;
 ["External memberships"] = "Külsõ tagságok";
 ["External posts"] = "Külsõ tisztségek";
+["Finish delegation check"] = false;
 ["Finish voting"] = "Szavazás lezárása";
 ["Finished"] = "Lezárva";
 ["Finished (with winner)"] = "Lezárva (nyertessel)";

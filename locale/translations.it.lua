@@ -224,6 +224,7 @@ return {
 ["Everything"] = "Tutto";
 ["External memberships"] = "Utenti esterni";
 ["External posts"] = "Post esterni";
+["Finish delegation check"] = false;
 ["Finish voting"] = "Fine del voto";
 ["Finished"] = "Finito";
 ["Finished (with winner)"] = "Finito (con risultato approvato)";

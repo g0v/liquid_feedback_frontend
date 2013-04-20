@@ -224,6 +224,7 @@ return {
 ["Everything"] = "Όλα";
 ["External memberships"] = "Εξωτερικές συμμετοχές";
 ["External posts"] = "Εξωτερικές θέσεις";
+["Finish delegation check"] = false;
 ["Finish voting"] = "Ολοκλήρωση ψήφου";
 ["Finished"] = "Ολοκληρώθηκε";
 ["Finished (with winner)"] = "Ολοκληρώθηκε (με νικητή)";

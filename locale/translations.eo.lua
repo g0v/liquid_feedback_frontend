@@ -224,6 +224,7 @@ return {
 ["Everything"] = false;
 ["External memberships"] = "Eksteraj membrecoj";
 ["External posts"] = "Eksteraj postenoj";
+["Finish delegation check"] = false;
 ["Finish voting"] = "Fini voĉdonadon";
 ["Finished"] = "Finita";
 ["Finished (with winner)"] = false;

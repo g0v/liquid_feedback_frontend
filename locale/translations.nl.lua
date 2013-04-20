@@ -224,6 +224,7 @@ return {
 ["Everything"] = "Alles";
 ["External memberships"] = "Externe lidmaatschappen";
 ["External posts"] = "Externe posts";
+["Finish delegation check"] = false;
 ["Finish voting"] = "Stemming afgesloten";
 ["Finished"] = "Afgesloten";
 ["Finished (with winner)"] = "Afgesloten (met winnaar)";
