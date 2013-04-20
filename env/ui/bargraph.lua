@@ -2,12 +2,14 @@ function ui.bargraph(args)
 
   local text = ""
   for i, bar in ipairs(args.bars) do
-    if #text > 0 then
-      text = text .. " / "
-    end
-    text = text .. tostring(bar.value)
-    if bar.title then
-      text = text .. " " .. bar.title
+    if bar.value > 0 or not bar.hide_empty then
+      if #text > 0 then
+        text = text .. " / "
+      end
+      text = text .. tostring(bar.value)
+      if bar.title then
+        text = text .. " " .. bar.title
+      end
     end
   end
 

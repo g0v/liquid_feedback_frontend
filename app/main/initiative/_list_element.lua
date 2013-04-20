@@ -80,11 +80,11 @@ ui.container{ attr = { class = class }, content = function()
             bars = {
               { color = "#0a5", title = _"Yes direct",
                 value = initiative.positive_direct_votes },
-              { color = "#0b6", title = _"Yes indirect",
+              { color = "#0b6", title = _"Yes indirect", hide_empty = true,
                 value = initiative.positive_votes - initiative.positive_direct_votes },
               { color = "#aaa", title = _"Abstention",
                 value = max_value - initiative.negative_votes - initiative.positive_votes },
-              { color = "#b55", title = _"No indirect",
+              { color = "#b55", title = _"No indirect", hide_empty = true,
                 value = initiative.negative_votes - initiative.negative_direct_votes },
               { color = "#a00", title = _"No direct",
                 value = initiative.negative_direct_votes }
@@ -126,11 +126,11 @@ ui.container{ attr = { class = class }, content = function()
           bars = {
             { color = "#0a5", title = _"direct",
               value = (initiative.satisfied_direct_supporter_count or 0) },
-            { color = "#0b6", title = _"indirect",
-              value = satisfied_indirect },
+            { color = "#0b6", title = _"indirect", hide_empty = true,
+              value = satisfied_indirect},
             { color = "#aaa", title = _"potential direct",
               value = (initiative.direct_supporter_count or 0) - (initiative.satisfied_direct_supporter_count or 0) },
-            { color = "#bbb", title = _"potential indirect",
+            { color = "#bbb", title = _"potential indirect", hide_empty = true,
               value = (initiative.supporter_count or 0) - (initiative.direct_supporter_count or 0) - satisfied_indirect },
             { color = "#fff", title = _"not",
               value = max_value - (initiative.supporter_count or 0) },
@@ -155,7 +155,7 @@ ui.container{ attr = { class = class }, content = function()
             { color = "#0a5", title = _"direct",
               value = (initiative.direct_supporter_count or 0) },
               -- if there is a direct issue quorum we show the indirect supporters in extra light green to indicate that they are not sufficient to reach the quorum
-            { color = quorum_direct and "#0d8" or "#0b6", title = _"indirect",
+            { color = quorum_direct and "#0d8" or "#0b6", title = _"indirect", hide_empty = true,
               value = (initiative.supporter_count or 0) - (initiative.direct_supporter_count or 0) },
             { color = "#fff", title = _"not",
               value = max_value - (initiative.supporter_count or 0) },
