@@ -41,7 +41,7 @@ function ui.bargraph(args)
 
           local value = bar.value * args.width / args.max_value
 
-          if quorum_direct and quorum_direct < length + value then
+          if quorum_direct and (quorum_direct < length + value or i == last_visible_bar) then
             local width = math.floor(math.max(quorum_direct - length - 1, 0))
             if width > 0 then
               ui.container{
@@ -63,7 +63,7 @@ function ui.bargraph(args)
             quorum_direct = nil
           end
 
-          if quorum and quorum < length + value then
+          if quorum and (quorum < length + value or i == last_visible_bar) then
             local width = math.floor(math.max(quorum - length - 1, 0))
             if width > 0 then
               ui.container{
