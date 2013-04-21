@@ -2,7 +2,7 @@ execute.inner()
 
 if util._hidden_helps ~= nil then
   slot.select("help_hidden", function()
-    for i, help in ipairs(util._hidden_helps) do 
+    for i, help in ipairs(util._hidden_helps) do
       ui.link{
         attr = {
           class = "help_hidden",

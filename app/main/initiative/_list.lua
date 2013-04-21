@@ -2,7 +2,7 @@ local issue = param.get("issue", "table")
 local initiatives_selector = param.get("initiatives_selector", "table")
 
 local initiatives
-if issue then
+if issue and not initiatives_selector then
   initiatives = issue.initiatives
 else
   initiatives = initiatives_selector:exec()
@@ -33,8 +33,6 @@ local name = "initiative_list"
 if issue then
   name = "issue_" .. tostring(issue.id) ..  "_initiative_list"
 end
-
-ui.add_partial_param_names{ name }
 
 if highlight_initiative then
   local highlight_initiative_found

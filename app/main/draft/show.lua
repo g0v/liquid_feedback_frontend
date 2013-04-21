@@ -4,13 +4,17 @@ local source = param.get("source", atom.boolean)
 execute.view{
   module = "draft",
   view = "_head",
-  params = { draft = draft}
+  params = {
+    draft = draft,
+    title = _("Draft created at #{date} #{time}", {
+      date = format.date(draft.created),
+      time = format.time(draft.created, { hide_seconds = true })
+    })
+  }
 }
 
-slot.put_into("title", " &middot; " .. _"History")
-
-if source then
-  ui.actions(function()
+ui.actions(function()
+  if source then
     ui.link{
       content = _"Rendered",
       module = "draft",
@@ -18,10 +22,7 @@ if source then
       id = param.get_id(),
       params = { source = false }
     }
-    end
-  )
-else
-  ui.actions(function()
+  else
     ui.link{
       content = _"Source",
       module = "draft",
@@ -29,9 +30,8 @@ else
       id = param.get_id(),
       params = { source = true }
     }
-    end
-  )
-end
+  end
+end)
 
 execute.view{
   module = "draft",

@@ -6,7 +6,7 @@ local login = param.get("login")
 
 login = util.trim(login)
 
-if #login < 3 then 
+if #login < 3 then
   slot.put_into(_error, _"This login is too short!")
 end
 
@@ -22,4 +22,4 @@ if db_error then
   db_error:escalate()
 end
 
-slot.put_into("notice", _("Your login has been changed to '#{login}'", { login = login }))
+slot.put_into("notice", _("Your login has been changed to '#{login}'.", { login = login }))

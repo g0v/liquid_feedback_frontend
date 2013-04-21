@@ -1,21 +1,17 @@
 local member = Member:by_id(param.get_id())
 
-slot.select("head", function()
-  ui.container{
-    attr = { class = "title" }, 
-    content = _("Member name history for '#{name}'", { name = member.name })
+ui.title(_("Member name history for '#{name}'", { name = member.name }))
+
+ui.actions(function()
+  ui.link{
+    content = function()
+      ui.image{ static = "icons/16/cancel.png" }
+      slot.put(_"Back")
+    end,
+    module = "member",
+    view = "show",
+    id = member.id
   }
-  ui.container{ attr = { class = "actions" }, content = function()
-    ui.link{
-      content = function()
-          ui.image{ static = "icons/16/cancel.png" }
-          slot.put(_"Back")
-      end,
-      module = "member",
-      view = "show",
-      id = member.id
-    }
-  end }
 end)
 
 ui.form{
@@ -72,5 +68,5 @@ ui.tag{
 }
 slot.put("<br />")
 ui.container{
-  content = _("This member account has been created at #{created}", { created = format.timestamp(member.activated)})
+  content = _("This member account has been created at #{created}.", { created = format.timestamp(member.activated)})
 }

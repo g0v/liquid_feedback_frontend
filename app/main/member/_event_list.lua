@@ -9,7 +9,7 @@ ui.container{ attr = { class = "ui_filter" }, content = function()
       text = _"My areas and issues",
       module = "index", view = "index", params = { tab = "timeline", events = "personal" }
     }
-    
+
     slot.put(" ")
 
     ui.link{
@@ -26,6 +26,6 @@ if events == "personal" then
   }
 elseif events == "global" then
   execute.view{
-    module = "event", view = "_list", params = { global = true } 
+    module = "event", view = "_list", params = { global = true }
   }
 end

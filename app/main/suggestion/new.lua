@@ -1,12 +1,13 @@
 local initiative_id = param.get("initiative_id")
+local initiative = Initiative:by_id(initiative_id)
 
-slot.put_into("title", _"Add new suggestion")
+ui.title(_"New suggestion", initiative.issue.area.unit, initiative.issue.area, initiative.issue, initiative)
 
 ui.actions(function()
   ui.link{
     content = function()
-        ui.image{ static = "icons/16/cancel.png" }
-        slot.put(_"Cancel")
+      ui.image{ static = "icons/16/cancel.png" }
+      slot.put(_"Cancel")
     end,
     module = "initiative",
     view = "show",
@@ -20,7 +21,7 @@ ui.form{
   action = "add",
   params = { initiative_id = initiative_id },
   routing = {
-    default = {
+    ok = {
       mode = "redirect",
       module = "initiative",
       view = "show",
@@ -30,6 +31,61 @@ ui.form{
   },
   attr = { class = "vertical" },
   content = function()
+
+    if param.get("preview") then
+
+      ui.container{ attr = { class = "initiative_head" }, content = function()
+
+        ui.container{ attr = { class = "title suggestion_title" }, content = param.get("name") }
+
+        ui.container{ attr = { class = "content" }, content = function()
+
+          ui.container{
+            attr = { class = "initiator_names" },
+            content = function()
+
+              if app.session:has_access("all_pseudonymous") then
+                ui.link{
+                  content = function()
+                    execute.view{
+                      module = "member_image",
+                      view = "_show",
+                      params = {
+                        member = app.session.member,
+                        image_type = "avatar",
+                        show_dummy = true,
+                        class = "micro_avatar"
+                      }
+                    }
+                  end,
+                  module = "member", view = "show", id = app.session.member.id
+                }
+                slot.put(" ")
+              end
+              ui.link{
+                text = app.session.member.name,
+                module = "member", view = "show", id = app.session.member.id
+              }
+
+            end
+          }
+
+        end }
+
+        ui.container{
+          attr = { class = "draft_content wiki" },
+          content = function()
+            slot.put( format.wiki_text(param.get("content"), param.get("formatting_engine")) )
+          end
+        }
+
+      end }
+
+      ui.submit{ text = _"Commit suggestion" }
+      slot.put("<br /><br /><br />")
+
+    end
+
     local supported = Supporter:by_pk(initiative_id, app.session.member.id) and true or false
     if not supported then
       ui.field.text{
@@ -37,6 +93,7 @@ ui.form{
         value = _"You are currently not supporting this initiative directly. By adding suggestions to this initiative you will automatically become a potential supporter."
       }
     end
+
     ui.field.select{
       label = _"Degree",
       name = "degree",
@@ -45,59 +102,21 @@ ui.form{
         { id =  2, name = _"must"},
       },
       foreign_id = "id",
-      foreign_name = "name"
-    }
-    ui.field.text{ label = _"Title (80 chars max)", name = "name" }
-    ui.field.select{
-      label = _"Wiki engine",
-      name = "formatting_engine",
-      foreign_records = {
-        { id = "rocketwiki", name = "RocketWiki" },
-        { id = "compat", name = _"Traditional wiki syntax" }
-      },
-      attr = {id = "formatting_engine"},
-      foreign_id = "id",
       foreign_name = "name",
-      value = param.get("formatting_engine")
-    }
-    ui.tag{
-      tag = "div",
-      content = function()
-        ui.tag{
-          tag = "label",
-          attr = { class = "ui_field_label" },
-          content = function() slot.put("&nbsp;") end,
-        }
-        ui.tag{
-          content = function()
-            ui.link{
-              text = _"Syntax help",
-              module = "help",
-              view = "show",
-              id = "wikisyntax",
-              attr = {onClick="this.href=this.href.replace(/wikisyntax[^.]*/g, 'wikisyntax_'+getElementById('formatting_engine').value)"}
-            }
-            slot.put(" ")
-            ui.link{
-              text = _"(new window)",
-              module = "help",
-              view = "show",
-              id = "wikisyntax",
-              attr = {target = "_blank", onClick="this.href=this.href.replace(/wikisyntax[^.]*/g, 'wikisyntax_'+getElementById('formatting_engine').value)"}
-            }
-          end
-        }
-      end
-    }
-    ui.field.text{
-      label = _"Description",
-      name = "content",
-      multiline = true, 
-      attr = { style = "height: 50ex;" },
-      value = param.get("content")
+      value = param.get("degree", atom.integer)
     }
 
-    
-    ui.submit{ text = _"Commit suggestion" }
+    ui.field.text{
+      label = _"Title",
+      name = "name",
+      attr = { maxlength = 256 },
+      value = param.get("name")
+    }
+
+    ui.wikitextarea("content", _"Description")
+
+    ui.submit{ name = "preview", text = _"Preview" }
+    ui.submit{ attr = { class = "additional" }, text = _"Commit suggestion" }
+
   end
 }

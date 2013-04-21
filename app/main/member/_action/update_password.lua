@@ -20,4 +20,4 @@ end
 app.session.member:set_password(new_password1)
 app.session.member:save()
 
-slot.put_into("notice", _"Your password has been updated successfully")
+slot.put_into("notice", _"Your password has been updated successfully.")

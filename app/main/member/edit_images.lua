@@ -4,7 +4,7 @@ util.help("member.edit_images", _"Images")
 
 ui.form{
   record = app.session.member,
-  attr = { 
+  attr = {
     class = "vertical",
     enctype = 'multipart/form-data'
   },
@@ -23,7 +23,7 @@ ui.form{
       module = "member_image",
       view = "_show",
       params = {
-        member = app.session.member, 
+        member = app.session.member,
         image_type = "avatar"
       }
     }
@@ -32,7 +32,7 @@ ui.form{
       module = "member_image",
       view = "_show",
       params = {
-        member = app.session.member, 
+        member = app.session.member,
         image_type = "photo"
       }
     }

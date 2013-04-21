@@ -12,12 +12,12 @@ end
 local update_comment = param.get("update_comment") == "1" and true or false
 
 if issue.state ~= "voting" and not issue.closed then
-  slot.put_into("error", _"Voting has not started yet.")
+  slot.put_into("error", _"Voting has not started yet!")
   return false
 end
 
 if issue.phase_finished or issue.closed and not update_comment then
-  slot.put_into("error", _"This issue is already closed.")
+  slot.put_into("error", _"This issue is already closed!")
   return false
 end
 
@@ -31,7 +31,7 @@ if param.get("discard", atom.boolean) then
   return
 end
 
-local move_up 
+local move_up
 local move_down
 
 local tempvoting_string = param.get("scoring")
@@ -54,9 +54,9 @@ if not move_down and not move_up then
   if not preview then
     if not direct_voter then
       if issue.closed then
-        slot.put_into("error", _"This issue is already closed.")
+        slot.put_into("error", _"This issue is already closed!")
         return false
-      else 
+      else
         direct_voter = DirectVoter:new()
         direct_voter.issue_id = issue.id
         direct_voter.member_id = app.session.member_id
@@ -65,7 +65,7 @@ if not move_down and not move_up then
         direct_voter = DirectVoter:by_pk(issue.id, app.session.member_id)
       end
     end
-    
+
     local formatting_engine = param.get("formatting_engine")
     local comment = param.get("comment")
 
@@ -86,7 +86,7 @@ if not move_down and not move_up then
       end
     end
     direct_voter:save()
-    
+
   end
 
   if not update_comment then

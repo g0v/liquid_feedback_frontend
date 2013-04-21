@@ -43,16 +43,12 @@ Unit:add_reference{
     end
     sub_selector:from("unit")
     sub_selector:add_field("unit.id", "unit_id")
-    sub_selector:add_field{ '(delegation_info(?, unit.id, null, null, ?)).*', options.member_id, options.trustee_id }
+    sub_selector:add_field{ '(delegation_info(?, unit.id, null, null)).*', options.member_id }
     sub_selector:add_where{ 'unit.id IN ($)', ids }
 
     local selector = Unit:get_db_conn():new_selector()
     selector:add_from(sub_selector, "delegation_info")
-    selector:left_join("member", "first_trustee", "first_trustee.id = delegation_info.first_trustee_id")
-    selector:left_join("member", "other_trustee", "other_trustee.id = delegation_info.other_trustee_id")
     selector:add_field("delegation_info.*")
-    selector:add_field("first_trustee.name", "first_trustee_name")
-    selector:add_field("other_trustee.name", "other_trustee_name")
     return selector
   end
 }
@@ -84,7 +80,7 @@ function recursive_add_child_units(units, parent_unit)
       recursive_add_child_units(units, unit)
     end
   end
-end  
+end
 
 function recursive_get_child_units(units, parent_unit, depth)
   for i, unit in ipairs(parent_unit.childs) do

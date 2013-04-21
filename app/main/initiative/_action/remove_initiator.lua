@@ -5,19 +5,23 @@ local initiator = Initiator:by_pk(initiative.id, app.session.member.id)
 local issue = initiative:get_reference_selector("issue"):for_share():single_object_mode():exec()
 
 if issue.closed then
-  slot.put_into("error", _"This issue is already closed.")
+  slot.put_into("error", _"This issue is already closed!")
   return false
-elseif issue.half_frozen then 
-  slot.put_into("error", _"This issue is already frozen.")
+elseif issue.half_frozen then
+  slot.put_into("error", _"This issue is already frozen!")
   return false
 end
 
 if initiative.revoked then
-  slot.put_into("error", _"This initiative is revoked")
+  slot.put_into("error", _"This initiative is revoked!")
   return false
 end
 
 local initiator_todelete = Initiator:by_pk(initiative.id, param.get("member_id", atom.integer))
+if not initiator_todelete then
+  slot.put_into("error", _"You did not select an initiator to remove!")
+  return false
+end
 
 if not (initiator and initiator.accepted) and not (initiator.member_id == initiator_todelete.member_id) then
   error("access denied")
@@ -35,9 +39,9 @@ local initiators = initiative
 
 if #initiators > 1 or initiator_todelete.accepted ~= true then
   initiator_todelete:destroy()
---  slot.put_into("notice", _"Member has been removed from initiators")
+  slot.put_into("notice", _"Member has been removed from initiators.")
 else
-  slot.put_into("error", _"Can't remove last initiator")
+  slot.put_into("error", _"Can't remove last initiator!")
   return false
 end
 

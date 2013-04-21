@@ -4,10 +4,10 @@ local initiative = Initiative:by_id(param.get("initiative_id", atom.integer))
 local issue = initiative:get_reference_selector("issue"):for_share():single_object_mode():exec()
 
 if issue.closed then
-  slot.put_into("error", _"This issue is already closed.")
+  slot.put_into("error", _"This issue is already closed!")
   return false
-elseif issue.half_frozen then 
-  slot.put_into("error", _"This issue is already frozen.")
+elseif issue.half_frozen then
+  slot.put_into("error", _"This issue is already frozen!")
   return false
 elseif issue.phase_finished then
   slot.put_into("error", _"Current phase is already closed.")
@@ -25,6 +25,12 @@ if not tmp or tmp.text_entries_left < 1 then
   return false
 end
 
+local name = util.trim(param.get("name"))
+if #name < 3 then
+  slot.put_into("error", _"This name is really too short!")
+  return false
+end
+
 local formatting_engine = param.get("formatting_engine")
 
 local formatting_engine_valid = false
@@ -37,15 +43,22 @@ if not formatting_engine_valid then
   error("invalid formatting engine!")
 end
 
-if param.get("preview") then
+if param.get("preview") or param.get("diff") then
   return false
 end
 
 local draft = Draft:new()
 draft.author_id = app.session.member.id
 draft.initiative_id = initiative.id
+draft.name = name
 draft.formatting_engine = formatting_engine
 draft.content = param.get("content")
+
+if draft.content == initiative.current_draft.content and draft.name == initiative.current_draft.name then
+  slot.put_into("error", _"The draft has not been changed!")
+  return false
+end
+
 draft:save()
 
 local supporter = Supporter:by_pk(initiative.id, app.session.member.id)

@@ -13,7 +13,9 @@ if not config.locked_profile_fields.notify_email then
   pages[#pages+1] = { view = "settings_email",          text = _"Change your notification email address" }
 end
 pages[#pages+1] = { view = "settings_notification", text = _"Notification settings" }
-pages[#pages+1] = { view = "developer_settings",      text = _"Developer settings" }
+pages[#pages+1] = { view = "settings_delete",       text = _"Delete your personal data and deactivate your account" }
+
+-- pages[#pages+1] = { view = "developer_settings",      text = _"Developer settings" }
 
 if config.download_dir then
   pages[#pages+1] = { module = "index", view = "download",      text = _"Database download" }

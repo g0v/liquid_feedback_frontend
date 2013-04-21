@@ -1,24 +1,28 @@
 trace.disable()
-    
+
 local secret = param.get("secret")
 
 if not secret then
 
   local member = Member:new_selector()
     :add_where{ "login = ?", param.get("login") }
+    -- don't send another mail until the reset code expires
     :add_where("password_reset_secret ISNULL OR password_reset_secret_expiry < now()")
     :optional_object_mode()
     :exec()
 
   if member then
+
     if not member.notify_email then
-      slot.put_into("error", _"Sorry, but there is not confirmed email address for your account. Please contact the administrator or support.")
+      slot.put_into("error", _("Sorry, but there is no confirmed email address for this account. Please contact #{support}!", { support = '<a href="mailto:' .. config.support .. '">' .. config.support .. '</a>' }))
       return false
     end
+
     member.password_reset_secret = multirand.string( 24, "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz" )
     local expiry = db:query("SELECT now() + '1 days'::interval as expiry", "object").expiry
     member.password_reset_secret_expiry = expiry
     member:save()
+
     local content = slot.use_temporary(function()
       slot.put(_"Hello " .. member.name .. ",\n\n")
       slot.put(_"to reset your password please click on the following link:\n\n")
@@ -27,6 +31,7 @@ if not secret then
       slot.put(request.get_absolute_baseurl() .. "index/reset_password.html\n\n")
       slot.put(_"On that page please enter the reset code:\n\n")
       slot.put(member.password_reset_secret .. "\n\n")
+      slot.put(_"The reset code is only valid for one day.\n\n")
     end)
     local success = net.send_mail{
       envelope_from = config.mail_envelope_from,
@@ -37,11 +42,13 @@ if not secret then
       content_type  = "text/plain; charset=UTF-8",
       content       = content
     }
+
   end
 
-  slot.put_into("notice", _"Your request has been processed.")
+  slot.put_into("notice", _"If a member with this login exists, a reset link has been sent to the stored email address.")
 
 else
+
   local member = Member:new_selector()
     :add_where{ "password_reset_secret = ?", secret }
     :add_where{ "password_reset_secret_expiry > now()" }
@@ -71,6 +78,6 @@ else
   member.password_reset_secret_expiry = nil
   member:save()
 
-  slot.put_into("notice", _"Password has been reset successfully")
+  slot.put_into("notice", _"Password has been reset successfully.")
 
 end

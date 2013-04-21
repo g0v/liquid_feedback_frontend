@@ -1,4 +1,4 @@
-slot.put_into("title", _"Member list")
+ui.title(_"Member list")
 
 util.help("member.list")
 

@@ -2,84 +2,170 @@ local delegations_selector = param.get("delegations_selector", "table")
 local outgoing = param.get("outgoing", atom.boolean)
 local incoming = param.get("incoming", atom.boolean)
 
+-- display the scope
 local function delegation_scope(delegation)
   ui.container{
-    attr = { class = "delegation_scope" },
+    attr = { class = "delegations_scope" },
     content = function()
-      local area
-      local unit
-      if delegation.issue then
-        area = delegation.issue.area
-      elseif delegation.area then
-        area = delegation.area
-      else
-        unit = delegation.unit
-      end
-      if unit then
+      if delegation.scope_unit_id then
         ui.link{
-          content = _"Unit '#{name}'":gsub("#{name}", unit.name),
           module = "unit",
           view = "show",
-          id = unit.id
+          id = delegation.scope_unit_id,
+          attr = { class = "unit_link" },
+          text = delegation.scope_unit_name
         }
       end
-      if area then
+      if delegation.scope_area_id then
         ui.link{
-          content = _"Area '#{name}'":gsub("#{name}", area.name),
           module = "area",
           view = "show",
-          id = area.id
+          id = delegation.scope_area_id,
+          attr = { class = "area_link" },
+          text = delegation.scope_area_name
         }
       end
-      if delegation.issue then
+      if delegation.issue_id then
         ui.link{
-          content = _"Issue ##{id}":gsub("#{id}", delegation.issue.id),
           module = "issue",
           view = "show",
-          id = delegation.issue.id
+          id = delegation.issue_id,
+          attr = { class = "issue_link" },
+          text = delegation.policy_name .. " #" .. delegation.issue_id
         }
       end
     end
   }
 end
 
+-- serialize get-parameters
+local params = ''
+for key, value in pairs(param.get_all_cgi()) do
+  params = params .. key .. "=" .. value .. "&"
+end
 
 ui.paginate{
+  name = "delegations_page",
+  anchor = "delegations",
   selector = delegations_selector,
+  per_page = 20,
   content = function()
+
+    local delegation_last_unit_id
+    local delegation_last_area_id
+    local delegation_last_issue_id
+
     for i, delegation in ipairs(delegations_selector:exec()) do
+
+      -- scope
+      if (incoming or outgoing) and (
+        delegation.unit_id  ~= delegation_last_unit_id or
+        delegation.area_id  ~= delegation_last_area_id or
+        delegation.issue_id ~= delegation_last_issue_id
+      ) then
+        delegation_scope(delegation)
+        delegation_last_unit_id  = delegation.unit_id
+        delegation_last_area_id  = delegation.area_id
+        delegation_last_issue_id = delegation.issue_id
+      end
+
       ui.container{
-        attr = { class = "delegation_list_entry" },
+        attr = { class = "delegations_list_row" },
         content = function()
-          if outgoing then
-            delegation_scope(delegation)
-          else
-            execute.view{
-              module = "member",
-              view = "_show_thumb",
-              params = { member = delegation.truster }
-            }
-          end
-          ui.image{
-            attr = { class = "delegation_arrow" },
-            static = "delegation_arrow.jpg"
-          }
-          if incoming then
-            delegation_scope(delegation)
-          else
-            if delegation.trustee then
-              execute.view{
-                module = "member",
-                view = "_show_thumb",
-                params = { member = delegation.trustee }
-              }
-            else
-              ui.tag{ content = _"Delegation abandoned" }
+
+          local delegation_chain = Member:new_selector()
+            :add_field("delegation_chain.*")
+            :join({ "delegation_chain(?,?,?,?,FALSE)", delegation.member_id, delegation.unit_id, delegation.area_id, delegation.issue_id }, "delegation_chain", "member.id = delegation_chain.member_id")
+            :add_order_by("index")
+            :limit(6) -- 1 = truster, 2-5 = displayed trustees, 6 = to see there are more
+            :exec()
+
+          for i, record in ipairs(delegation_chain) do
+            local style
+            local overridden = (not issue or issue.state ~= 'voting') and (record.overridden or not record.member_valid or not record.delegation_active)
+
+            -- display dots instead of the sixth trustee
+            if i == 6 then
+              break
             end
+
+            -- arrow
+            if i == 2 then
+              ui.image{
+                attr = {
+                  class = "delegation_arrow" .. (overridden and " overridden" or ""),
+                  alt = _"delegates to",
+                  title = _"delegates to"
+                },
+                static = "delegation_arrow_24_horizontal.png"
+              }
+            end
+
+            -- delegation
+            local class
+            if overridden then
+              class = "overridden"
+            elseif record.participation then
+              class = "highlighted"
+            end
+            ui.container{
+              attr = { class = class },
+              content = function()
+                execute.view{
+                  module = "member",
+                  view = "_show_thumb",
+                  params = { member = record }
+                }
+              end
+            }
+
           end
+
+          ui.container{
+            attr = { class = "more" },
+            content = function()
+              -- link to delegation page
+              ui.link{
+                attr = { title = _"Show more information" },
+                module = "delegation",
+                view = "show",
+                params = {
+                  unit_id   = delegation.unit_id,
+                  area_id   = delegation.area_id,
+                  issue_id  = delegation.issue_id,
+                  member_id = delegation.member_id,
+                  back_module = request.get_module(),
+                  back_view   = request.get_view(),
+                  back_id     = param.get_id_cgi(),
+                  back_params = params
+                },
+                content = function()
+                  ui.image{
+                    attr = {
+                       alt = _"Show more information"
+                    },
+                    static = "icons/16/magnifier.png"
+                  }
+                end
+              }
+              -- dots if not all trustees could be displayed
+              if #delegation_chain > 5 then
+                ui.container{
+                  attr = { class = "dots" },
+                  content = function()
+                    slot.put("<br />...")
+                  end
+                }
+              end
+            end
+          }
+
         end
       }
+
     end
-    slot.put("<br style='clear: left;' />")
+
+    slot.put('<div class="clearfix"></div>')
+
   end
 }

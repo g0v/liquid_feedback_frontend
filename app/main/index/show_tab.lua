@@ -29,7 +29,6 @@ end
 tabs[#tabs+1] = {
   name = "not_voted_issues",
   label = _"Not voted issues" .. " (" .. tostring(issues_to_vote_count) .. ")",
-  icon = { static = "icons/16/email_open.png" },
   module = "index",
   view = "_not_voted_issues",
   params = {
@@ -45,7 +44,6 @@ local initiator_invites_selector = Initiative:new_selector()
 tabs[#tabs+1] = {
   name = "initiator_invites",
   label = _"Initiator invites" .. " (" .. tostring(initiator_invites_selector:count()) .. ")",
-  icon = { static = "icons/16/email_open.png" },
   module = "index",
   view = "_initiator_invites",
   params = {
@@ -61,7 +59,6 @@ local updated_drafts_selector = Initiative:new_selector()
 tabs[#tabs+1] = {
   name = "updated_drafts",
   label = _"Updated drafts" .. " (" .. tostring(updated_drafts_selector:count()) .. ")",
-  icon = { static = "icons/16/email_open.png" },
   module = "index",
   view = "_updated_drafts",
   params = {

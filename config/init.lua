@@ -10,7 +10,7 @@ if not config.password_hash_algorithm then
 end
 
 if not config.password_hash_min_rounds then
- config.password_hash_min_rounds = 10000
+  config.password_hash_min_rounds = 10000
 end
 
 if not config.password_hash_max_rounds then
@@ -26,7 +26,7 @@ if config.default_lang == nil then
 end
 
 if config.mail_subject_prefix == nil then
-  config.mail_subject_prefix = "[LiquidFeedback] "
+  config.mail_subject_prefix = "[Pirate Feedback] "
 end
 
 if config.member_image_content_type == nil then
@@ -44,12 +44,8 @@ if config.locked_profile_fields == nil then
   config.locked_profile_fields = {}
 end
 
-if config.check_delegations_default == nil then
-  config.check_delegations_default = "confirm"
-end
-
 if not config.database then
-  config.database = { engine='postgresql', dbname='liquid_feedback' }
+  config.database = { engine='postgresql', dbname='pirate_feedback' }
 end
 
 if not config.enable_debug_trace then
@@ -63,7 +59,7 @@ request.set_404_route{ module = 'index', view = '404' }
 
 -- open and set default database handle
 db = assert(mondelefant.connect(config.database))
-at_exit(function() 
+at_exit(function()
   db:close()
 end)
 function mondelefant.class_prototype:get_db_conn() return db end
@@ -87,4 +83,3 @@ function mondelefant.class_prototype:by_id(id)
   selector:optional_object_mode()
   return selector:exec()
 end
-

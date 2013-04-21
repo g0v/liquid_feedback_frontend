@@ -1,5 +1,12 @@
-tmp
-.+~
-
-syntax: regexp
+^tmp
+~$
+\.AppleDouble
+:2e
+\.backup$
+\.orig$
 ^locale/help/.*\.html
+^config/myconfig\.lua
+^fastpath/getpic
+^publish\.sh
+^locale/show_changes\.sh
+

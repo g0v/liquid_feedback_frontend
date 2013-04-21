@@ -5,10 +5,10 @@ local issue_id = param.get("issue_id", atom.integer)
 if issue_id then
   issue = Issue:new_selector():add_where{"id=?",issue_id}:for_share():single_object_mode():exec()
   if issue.closed then
-    slot.put_into("error", _"This issue is already closed.")
+    slot.put_into("error", _"This issue is already closed!")
     return false
-  elseif issue.fully_frozen then 
-    slot.put_into("error", _"Voting for this issue has already begun.")
+  elseif issue.fully_frozen then
+    slot.put_into("error", _"Voting for this issue has already begun!")
     return false
   elseif issue.phase_finished then
     slot.put_into("error", _"Current phase is already closed.")
@@ -36,7 +36,7 @@ end
 
 if not issue then
   if policy_id == -1 then
-    slot.put_into("error", _"Please choose a policy")
+    slot.put_into("error", _"Please choose a policy!")
     return false
   end
   if not policy.active then
@@ -46,7 +46,6 @@ if not issue then
   if policy.polling and not app.session.member:has_polling_right_for_unit_id(area.unit_id) then
     error("no polling right for this unit")
   end
-  
   if not area:get_reference_selector("allowed_policies")
     :add_where{ "policy.id = ?", policy_id }
     :optional_object_mode()
@@ -68,17 +67,13 @@ if tmp and tmp.text_entries_left < 1 then
   return false
 end
 
-local name = param.get("name")
-
-local name = util.trim(name)
-
+local name = util.trim(param.get("name"))
 if #name < 3 then
   slot.put_into("error", _"This name is really too short!")
   return false
 end
 
 local formatting_engine = param.get("formatting_engine")
-
 local formatting_engine_valid = false
 for fe, dummy in pairs(config.formatting_engine_executeables) do
   if formatting_engine == fe then
@@ -100,12 +95,12 @@ if not issue then
   issue = Issue:new()
   issue.area_id = area.id
   issue.policy_id = policy_id
-  
+
   if policy.polling then
     issue.accepted = 'now'
     issue.state = 'discussion'
     initiative.polling = true
-    
+
     if policy.free_timeable then
       local free_timing_string = util.trim(param.get("free_timing"))
       local available_timings
@@ -134,14 +129,14 @@ if not issue then
       issue.verification_time = timing.verification
       issue.voting_time = timing.voting
     end
-    
+
   end
-  
+
   issue:save()
 
   if config.etherpad then
     local result = net.curl(
-      config.etherpad.api_base 
+      config.etherpad.api_base
       .. "api/1/createGroupPad?apikey=" .. config.etherpad.api_key
       .. "&groupID=" .. config.etherpad.group_id
       .. "&padName=Issue" .. tostring(issue.id)
@@ -160,6 +155,7 @@ initiative:save()
 
 local draft = Draft:new()
 draft.initiative_id = initiative.id
+draft.name = name
 draft.formatting_engine = formatting_engine
 draft.content = param.get("draft")
 draft.author_id = app.session.member.id
@@ -179,7 +175,7 @@ if not is_polling then
   supporter:save()
 end
 
-slot.put_into("notice", _"Initiative successfully created")
+slot.put_into("notice", _"Initiative successfully created.")
 
 request.redirect{
   module = "initiative",

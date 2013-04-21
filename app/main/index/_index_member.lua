@@ -1,3 +1,38 @@
+-- quick links
+ui.actions(function()
+  ui.link{
+    text = _"Latest vote results",
+    module = "index",
+    view = "index",
+    params = {
+      tab = "closed",
+      filter = "finished",
+      filter_interest = "unit"
+    }
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    text = _"Voted by delegation",
+    module = "index",
+    view = "index",
+    params = {
+      tab = "closed",
+      filter_interest = "voted",
+      filter_delegation = "delegated"
+    }
+  }
+  slot.put(" &middot; ")
+  ui.link{
+    text = _"Not yet voted",
+    module = "index",
+    view = "index",
+    params = {
+      tab = "open",
+      filter = "frozen",
+      filter_interest = "unit"
+    }
+  }
+end)
 
 local tabs = {
   module = "index",
@@ -7,20 +42,10 @@ local tabs = {
 tabs[#tabs+1] = {
   name = "areas",
   label = _"Home",
-  icon = { static = "icons/16/package.png" },
   module = "index",
   view = "_member_home",
   params = { member = app.session.member }
 }
-
-tabs[#tabs+1] = {
-  name = "timeline",
-  label = _"Latest events",
-  module = "event",
-  view = "_list",
-  params = { }
-}
-
 
 tabs[#tabs+1] = {
   name = "open",
@@ -50,11 +75,23 @@ tabs[#tabs+1] = {
 }
 
 tabs[#tabs+1] = {
+  name = "timeline",
+  label = _"Latest events",
+  module = "event",
+  view = "_list"
+}
+
+tabs[#tabs+1] = {
   name = "members",
   label = _"Members",
   module = 'member',
   view   = '_list',
-  params = { members_selector = Member:new_selector():add_where("active") }
+  params = {
+    members_selector = Member:new_selector()
+      :add_where("active")
+      :left_join("contact", nil, { "contact.other_member_id = member.id AND contact.member_id = ?", app.session.member_id })
+      :add_field("contact.member_id NOTNULL", "saved")
+  }
 }
 
 if not param.get("tab") then

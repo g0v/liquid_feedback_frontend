@@ -5,17 +5,17 @@ local membership = Membership:by_pk(area.id, app.session.member.id)
 if membership then
 
   ui.container{
-    attr = { 
+    attr = {
       class = "head head_active",
     },
     content = function()
       ui.image{
         static = "icons/16/user_green.png"
       }
-      slot.put(_"You are member")
+      slot.put(_"You are member.")
     end
   }
-  
+
   ui.link{
     image  = { static = "icons/16/cross.png" },
     text    = _"Withdraw membership",

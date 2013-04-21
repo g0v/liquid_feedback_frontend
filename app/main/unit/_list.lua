@@ -1,6 +1,6 @@
 local units = Unit:get_flattened_tree{ active = true }
 
-ui.container{ attr = { class = "box" }, content = function()
+ui.container{ attr = { class = "box unit_list_box" }, content = function()
 
   ui.list{
     attr = { class = "unit_list" },
@@ -12,9 +12,9 @@ ui.container{ attr = { class = "box" }, content = function()
             slot.put("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
           end
           ui.link{ text = unit.name, module = "unit", view = "show", id = unit.id }
-        end 
+        end
       }
     }
   }
-  
+
 end }

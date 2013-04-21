@@ -80,16 +80,12 @@ Area:add_reference{
     end
     sub_selector:from("area")
     sub_selector:add_field("area.id", "area_id")
-    sub_selector:add_field{ '(delegation_info(?, null, area.id, null, ?)).*', options.member_id, options.trustee_id }
+    sub_selector:add_field{ '(delegation_info(?, null, area.id, null)).*', options.member_id }
     sub_selector:add_where{ 'area.id IN ($)', ids }
 
     local selector = Area:get_db_conn():new_selector()
     selector:add_from(sub_selector, "delegation_info")
-    selector:left_join("member", "first_trustee", "first_trustee.id = delegation_info.first_trustee_id")
-    selector:left_join("member", "other_trustee", "other_trustee.id = delegation_info.other_trustee_id")
     selector:add_field("delegation_info.*")
-    selector:add_field("first_trustee.name", "first_trustee_name")
-    selector:add_field("other_trustee.name", "other_trustee_name")
     return selector
   end
 }
@@ -131,9 +127,5 @@ function Area:build_selector(args)
 end
 
 function Area.object_get:name_with_unit_name()
-  if not config.single_unit_id then
-    return self.unit.name .. ", " .. self.name
-  else
-    return self.name
-  end
+  return self.unit.name .. ", " .. self.name
 end

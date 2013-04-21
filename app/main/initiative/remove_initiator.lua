@@ -5,20 +5,18 @@ if not initiator or initiator.accepted ~= true then
   error("access denied")
 end
 
-slot.put_into("title", _"Remove initiator from initiative")
+ui.title(_"Remove initiator from initiative", initiative.issue.area.unit, initiative.issue.area, initiative.issue, initiative)
 
-slot.select("actions", function()
+ui.actions(function()
   ui.link{
     content = function()
-        ui.image{ static = "icons/16/cancel.png" }
-        slot.put(_"Cancel")
+      ui.image{ static = "icons/16/cancel.png" }
+      slot.put(_"Cancel")
     end,
     module = "initiative",
     view = "show",
     id = initiative.id,
-    params = {
-      tab = "initiators"
-    }
+    params = { tab = "initiators" }
   }
 end)
 

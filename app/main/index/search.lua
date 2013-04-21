@@ -2,9 +2,9 @@ local search_for = param.get("search_for", atom.string) or "global"
 local search_string = param.get("search", atom.string)
 
 if search_string then
-  slot.put_into("title", encode.html(_("Search results for: '#{search}'", { search  = search_string })))
+  ui.title(encode.html(_("Search results for: '#{search}'", { search  = search_string })))
 else
-  slot.put_into("title", encode.html(_"Search"))
+  ui.title(_"Search")
 end
 
 ui.form{
@@ -14,7 +14,7 @@ ui.form{
   } },
   attr = { class = "vertical" },
   content = function()
-    
+
     if app.session:has_access("everything") then
       ui.field.select{
         label = _"Search context",
@@ -44,11 +44,14 @@ if search_string then
       execute.view{
         module = "member",
         view = "_list",
-        params = { members_selector = members_selector },
+        params = {
+          members_selector = members_selector,
+          no_filter = true
+        }
       }
     end
   end
-    
+
   if search_for == "global" or search_for == "issue" then
     local issues_selector = Issue:get_search_selector(search_string)
     execute.view{
@@ -58,8 +61,8 @@ if search_string then
         issues_selector = issues_selector,
         highlight_string = search_string,
         no_filter = true
-      },
+      }
     }
   end
-  
+
 end

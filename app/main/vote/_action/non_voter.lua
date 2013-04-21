@@ -1,12 +1,12 @@
 local issue = Issue:new_selector():add_where{ "id = ?", param.get("issue_id", atom.integer) }:for_share():single_object_mode():exec()
 
 if issue.state ~= "voting" and not issue.closed then
-  slot.put_into("error", _"Voting has not started yet.")
+  slot.put_into("error", _"Voting has not started yet!")
   return false
 end
 
 if issue.phase_finished or issue.closed then
-  slot.put_into("error", _"This issue is already closed.")
+  slot.put_into("error", _"This issue is already closed!")
   return false
 end
 
@@ -14,7 +14,7 @@ local direct_voter = DirectVoter:by_pk(issue.id, app.session.member_id)
 
 if direct_voter then
   slot.select("error", function()
-    ui.tag{ content = _"You already voted this issue" }
+    ui.tag{ content = _"You already voted this issue!" }
   end )
   return false
 end

@@ -33,6 +33,7 @@ if app.session:has_access("anonymous") then
     or module == "issue" and view == "show"
     or module == "initiative" and view == "show"
     or module == "suggestion" and view == "show"
+    or module == "argument" and view == "show"
     or module == "draft" and view == "diff"
     or module == "draft" and view == "show"
     or module == "draft" and view == "list"
@@ -48,7 +49,7 @@ if app.session:has_access("all_pseudonymous") then
   if module == "member_image" and view == "show"
    or module == "vote" and view == "show_incoming"
    or module == "interest" and view == "show_incoming"
-   or module == "supporter" and view == "show_incoming" 
+   or module == "supporter" and view == "show_incoming"
    or module == "vote" and view == "list" then
     auth_needed = false
   end
@@ -65,11 +66,7 @@ if module == "sitemap" then
 end
 
 if app.session:has_access("anonymous") and not app.session.member_id and auth_needed and module == "index" and view == "index" then
-  if config.single_unit_id then
-    request.redirect{ module = "unit", view = "show", id = config.single_unit_id }
-  else
-    request.redirect{ module = "unit", view = "list" }
-  end
+  request.redirect{ module = "unit", view = "list" }
   return
 end
 
@@ -80,30 +77,20 @@ end
 
 if auth_needed and app.session.member == nil then
   trace.debug("Not authenticated yet.")
+
   request.redirect{
     module = 'index', view = 'login', params = {
       redirect_module = module,
-      redirect_view = view,
-      redirect_id = param.get_id()
+      redirect_view   = view,
+      redirect_id     = param.get_id(),
+      redirect_params = param.get_all_cgi_serialize()
     }
   }
-elseif auth_needed and app.session.member.locked then
+
+elseif auth_needed and (app.session.member.locked or app.session.member.locked_import) then
   trace.debug("Member locked.")
   request.redirect{ module = 'index', view = 'login' }
 else
-  if config.check_delegations_interval_hard and app.session.member_id and app.session.needs_delegation_check 
-    and not (module == "admin" or (module == "index" and (
-      view == "check_delegations" 
-      or action == "check_delegations" 
-      or action == "logout"
-      or view == "about"
-      or view == "usage_terms"
-      or action == "set_lang")
-    ))
-    and not (module == "member_image" and view == "show") then
-    request.redirect{ module = 'index', view = 'check_delegations' }
-    return
-  end
   if auth_needed then
     trace.debug("Authentication accepted.")
   else

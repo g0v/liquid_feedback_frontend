@@ -1,19 +1,17 @@
 local initiative = Initiative:by_id(param.get("initiative_id"))
 
-slot.put_into("title", _"Invite an initiator to initiative")
+ui.title(_"Invite an initiator to initiative", initiative.issue.area.unit, initiative.issue.area, initiative.issue, initiative)
 
-slot.select("actions", function()
+ui.actions(function()
   ui.link{
     content = function()
-        ui.image{ static = "icons/16/cancel.png" }
-        slot.put(_"Cancel")
+      ui.image{ static = "icons/16/cancel.png" }
+      slot.put(_"Cancel")
     end,
     module = "initiative",
     view = "show",
     id = initiative.id,
-    params = {
-      tab = "initiators"
-    }
+    params = { tab = "initiators" }
   }
 end)
 

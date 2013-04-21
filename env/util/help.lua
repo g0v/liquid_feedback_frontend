@@ -36,7 +36,7 @@ function util.help(id, title)
           end
         }
         local lang = locale.get("lang")
-        local basepath = request.get_app_basepath() 
+        local basepath = request.get_app_basepath()
         local file_name = basepath .. "/locale/help/" .. id .. "." .. lang .. ".txt.html"
         local file = io.open(file_name)
         if file ~= nil then

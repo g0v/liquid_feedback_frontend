@@ -30,6 +30,15 @@ Initiative:add_reference{
 
 Initiative:add_reference{
   mode          = '1m',
+  to            = "Argument",
+  this_key      = 'id',
+  that_key      = 'initiative_id',
+  ref           = 'arguments',
+  back_ref      = 'initiative',
+}
+
+Initiative:add_reference{
+  mode          = '1m',
   to            = "Initiator",
   this_key      = 'id',
   that_key      = 'initiative_id',
@@ -133,7 +142,7 @@ Initiative:add_reference{
     end
     sub_selector:from("issue")
     sub_selector:add_field("issue.id", "issue_id")
-    sub_selector:add_field{ '(delegation_info(?, null, null, issue.id, ?)).*', options.member_id, options.trustee_id }
+    sub_selector:add_field{ '(delegation_info(?, null, null, issue.id)).*', options.member_id }
     sub_selector:add_where{ 'issue.id IN ($)', issue_ids }
 
     local selector = Initiative:get_db_conn():new_selector()
@@ -142,23 +151,51 @@ Initiative:add_reference{
     selector:join("issue", nil, "issue.id = initiative.issue_id")
     selector:join(sub_selector, "delegation_info", "delegation_info.issue_id = issue.id")
     selector:add_field("delegation_info.*")
-    
+
     selector:left_join("supporter", nil, "supporter.initiative_id = initiative.id AND supporter.member_id = delegation_info.participating_member_id")
 
     selector:left_join("delegating_interest_snapshot", "delegating_interest_s", { "delegating_interest_s.event = issue.latest_snapshot_event AND delegating_interest_s.issue_id = issue.id AND delegating_interest_s.member_id = ?", options.member_id })
 
-    selector:left_join("direct_supporter_snapshot", "supporter_s", { "supporter_s.event = issue.latest_snapshot_event AND supporter_s.initiative_id = initiative.id AND (supporter_s.member_id = ? OR supporter_s.member_id = delegating_interest_s.delegate_member_ids[array_upper(delegating_interest_s.delegate_member_ids, 1)])", options.member_id })
+    selector:left_join("direct_supporter_snapshot", "supporter_s", { "supporter_s.event = issue.latest_snapshot_event AND supporter_s.initiative_id = initiative.id AND (supporter_s.member_id = ? OR supporter_s.member_id = delegating_interest_s.delegate_member_id)", options.member_id })
 
-    selector:add_field("CASE WHEN issue.fully_frozen ISNULL AND issue.closed ISNULL THEN supporter.member_id NOTNULL ELSE supporter_s.member_id NOTNULL END", "supported")
-    selector:add_field({ "CASE WHEN issue.fully_frozen ISNULL AND issue.closed ISNULL THEN delegation_info.own_participation AND supporter.member_id NOTNULL ELSE supporter_s.member_id = ? END", options.member_id }, "directly_supported")
-    
-    selector:add_field("CASE WHEN issue.fully_frozen ISNULL AND issue.closed ISNULL THEN supporter.member_id NOTNULL AND NOT EXISTS(SELECT 1 FROM critical_opinion WHERE critical_opinion.initiative_id = initiative.id AND critical_opinion.member_id = delegation_info.participating_member_id) ELSE supporter_s.satisfied NOTNULL END", "satisfied")
+    -- use snapshot data for frozen and closed issues, otherwise current data
 
-    
+    selector:add_field(
+      "CASE WHEN issue.fully_frozen ISNULL AND issue.closed ISNULL THEN \
+        supporter.member_id NOTNULL \
+      ELSE \
+        supporter_s.member_id NOTNULL \
+      END",
+      "supported"
+    )
+    selector:add_field(
+      {
+        "CASE WHEN issue.fully_frozen ISNULL AND issue.closed ISNULL THEN \
+          delegation_info.own_participation AND supporter.member_id NOTNULL \
+        ELSE \
+          supporter_s.member_id = ? \
+        END",
+        options.member_id
+      },
+      "directly_supported"
+    )
+
+    -- satisfied means, that a member has no critical opinion to any suggestion of this initiative
+    selector:add_field(
+      "CASE WHEN issue.fully_frozen ISNULL AND issue.closed ISNULL THEN \
+        supporter.member_id NOTNULL AND \
+        NOT EXISTS(SELECT 1 FROM critical_opinion WHERE critical_opinion.initiative_id = initiative.id AND critical_opinion.member_id = delegation_info.participating_member_id)\
+      ELSE \
+        supporter_s.satisfied NOTNULL \
+      END",
+      "satisfied"
+    )
+
+
     --selector:add_field("", "informed")
     selector:left_join("initiator", nil, { "initiator.initiative_id = initiative.id AND initiator.member_id = ? AND initiator.accepted", options.member_id })
     selector:add_field("initiator.member_id NOTNULL", "initiated")
-    
+
     return selector
   end
 }
@@ -233,11 +270,7 @@ function Initiative.object_get:current_draft()
 end
 
 function Initiative.object_get:shortened_name()
-  local name = self.name
-  if #name > 100 then
-    name = name:sub(1,100) .. "..."
-  end
-  return name
+  return util.ellipsis(self.name, 100)
 end
 
 function Initiative.object_get:initiator_names()

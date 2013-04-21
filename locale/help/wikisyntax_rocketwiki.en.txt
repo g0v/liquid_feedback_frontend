@@ -39,7 +39,7 @@
 -- German SZ-ligature: {{{sz} or {ss}}}
 -- Mid{{{.}}}dot
 -- Ellipsis {{{...}}}
--- Arrows {{{->} {=>} {<->}}} etc. 
+-- Arrows {{{->} {=>} {<->}}} etc.
 -- {{{C} 2009, Registered{R}, Trademark{TM}}}
 -- {{360{deg} 0{'} 0{''}}} **=>** 360{deg} 0{'} 0{''}
 -- {{{1/4} + {1/2} = {3/4}}} **=>** {1/4} + {1/2} = {3/4}

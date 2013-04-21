@@ -1,4 +1,4 @@
-slot.put_into("title", _"Email address confirmation")
+ui.title(_"Email address confirmation")
 
 ui.form{
   attr = { class = "vertical" },

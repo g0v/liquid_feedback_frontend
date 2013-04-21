@@ -3,67 +3,42 @@ local issue = Issue:by_id(param.get("issue_id"), atom.integer)
 local member_id = param.get("member_id", atom.integer)
 local member
 local readonly = false
-
 local preview = param.get("preview") and true or false
 
+local submit_button_text = _"Finish voting"
+if issue.closed then
+  submit_button_text = _"Update voting comment"
+end
+
 if member_id then
+  -- other members ballot
   if not issue.closed then
     error("access denied")
   end
   member = Member:by_id(member_id)
   readonly = true
-end
-
-if issue.closed then
-  if not member then
-    member = app.session.member
-  end
-  readonly = true
-end
-
-local submit_button_text = _"Finish voting"
-
-if issue.closed then
-  submit_button_text = _"Update voting comment"
-end
-
-local direct_voter
-
-if member then
-  direct_voter = DirectVoter:by_pk(issue.id, member.id)
-  local str = _("Ballot of '#{member_name}' for issue ##{issue_id}",
-                  {member_name = string.format('<a href="%s">%s</a>',
-                                          encode.url{
-                                            module    = "member",
-                                            view      = "show",
-                                            id        = member.id,
-                                          },
-                                          encode.html(member.name)),
-                   issue_id = string.format('<a href="%s">%s</a>',
-                                          encode.url{
-                                            module    = "issue",
-                                            view      = "show",
-                                            id        = issue.id,
-                                          },
-                                          encode.html(tostring(issue.id)))
-                  }
-              )
-  ui.raw_title(str)
+  ui.title(function()
+    slot.put( _("Ballot of member '#{member_name}'", { member_name = string.format('<a href="%s">%s</a>',
+      encode.url{ module = "member", view = "show", id = member.id },
+      encode.html(member.name)
+    )}))
+  end, issue.area.unit, issue.area, issue)
 else
+  -- own ballot
   member = app.session.member
-
-  direct_voter = DirectVoter:by_pk(issue.id, member.id)
-
-  ui.title(_"Voting")
-
-  ui.actions(function()
-    ui.link{
-      text = _"Cancel",
-      module = "issue",
-      view = "show",
-      id = issue.id
-    }
-    if direct_voter then
+  ui.title(function()
+    slot.put(_"Voting")
+  end, issue.area.unit, issue.area, issue)
+  if issue.closed then
+    readonly = true
+  else
+    ui.actions(function()
+      ui.link{
+        text = _"Cancel",
+        module = "issue",
+        view = "show",
+        id = issue.id
+      }
       slot.put(" &middot; ")
       ui.link{
         text = _"Discard voting",
@@ -82,11 +57,11 @@ else
           }
         }
       }
-    end
-  end)
+    end)
+  end
 end
 
-
+local direct_voter = DirectVoter:by_pk(issue.id, member.id)
 
 local tempvoting_string = param.get("scoring")
 
@@ -145,7 +120,6 @@ for i = 1, max_grade do
 end
 
 
-
 if not readonly then
   util.help("vote.list", _"Voting")
   slot.put('<script src="' .. request.get_relative_baseurl() .. 'static/js/dragdrop.js"></script>')
@@ -189,7 +163,8 @@ ui.form{
   action = "update",
   params = { issue_id = issue.id },
   content = function()
-    if not readonly or preview then
+
+    if not readonly then
       local scoring = param.get("scoring")
       if not scoring then
         for i, initiative in ipairs(initiatives) do
@@ -211,21 +186,14 @@ ui.form{
         end
       end
       slot.put('<input type="hidden" name="scoring" value="' .. scoring .. '"/>')
-      -- TODO abstrahieren
-      ui.tag{
-        tag = "input",
-        attr = {
-          type = "submit",
-          class = "voting_done1",
-          value = submit_button_text
-        }
-      }
+      ui.submit{ text = submit_button_text }
     end
+
     ui.container{
       attr = { id = "voting" },
       content = function()
         local approval_index, disapproval_index = 0, 0
-        for grade = max_grade, min_grade, -1 do 
+        for grade = max_grade, min_grade, -1 do
           local entries = sections[grade]
           local class
           if grade > 0 then
@@ -346,14 +314,15 @@ ui.form{
                             view = "show",
                             id = initiative.id
                           }
-                          slot.put(" ")
+                          slot.put(" (")
                           ui.link{
                             attr = { class = "clickable", target = "_blank" },
-                            content = _"(new window)",
+                            content = _"new window",
                             module = "initiative",
                             view = "show",
                             id = initiative.id
                           }
+                          slot.put(")")
                           if not readonly then
                             slot.put(" ")
                             ui.image{ attr = { class = "grabber" }, static = "icons/grabber.png" }
@@ -392,6 +361,7 @@ ui.form{
                         }
                       end
                       ui.container{
+                        attr = { style = "margin-left: 72px" },
                         content = function()
                           ui.tag{ content = "i" .. initiative.id .. ": " }
                           ui.tag{ content = initiative.shortened_name }
@@ -429,23 +399,18 @@ ui.form{
         end
       end
     }
-    if app.session.member_id and preview then
-      local formatting_engine = param.get("formatting_engine")
-      local comment = param.get("comment")
-      local rendered_comment = format.wiki_text(comment, formatting_engine)
-      slot.put(rendered_comment)
-    end
-    if (readonly or direct_voter and direct_voter.comment) and not preview then
+
+    if not preview and direct_voter then
       local text
-      if direct_voter and direct_voter.comment_changed then
+      if direct_voter.comment_changed then
         text = _("Voting comment (last updated: #{timestamp})", { timestamp = format.timestamp(direct_voter.comment_changed) })
-      elseif direct_voter and direct_voter.comment then
+      elseif direct_voter.comment then
         text = _"Voting comment"
       end
       if text then
         ui.heading{ level = "2", content = text }
       end
-      if direct_voter and direct_voter.comment then
+      if direct_voter.comment then
         local rendered_comment = direct_voter:get_content('html')
         ui.container{ attr = { class = "member_statement" }, content = function()
           slot.put(rendered_comment)
@@ -453,47 +418,39 @@ ui.form{
         slot.put("<br />")
       end
     end
+
     if app.session.member_id and app.session.member_id == member.id then
+
+      if preview then
+        local formatting_engine = param.get("formatting_engine")
+        local comment = param.get("comment")
+        local rendered_comment = format.wiki_text(comment, formatting_engine)
+        ui.heading{ level = "2", content = _"Voting comment preview" }
+        ui.container{ attr = { class = "member_statement" }, content = function()
+          slot.put(rendered_comment)
+        end }
+        slot.put("<br />")
+      end
+
       if not readonly or direct_voter then
         ui.field.hidden{ name = "update_comment", value = param.get("update_comment") or issue.closed and "1" }
-        ui.field.select{
-          label = _"Wiki engine for statement",
-          name = "formatting_engine",
-          foreign_records = {
-            { id = "rocketwiki", name = "RocketWiki" },
-            { id = "compat", name = _"Traditional wiki syntax" }
-          },
-          attr = {id = "formatting_engine"},
-          foreign_id = "id",
-          foreign_name = "name",
-          value = param.get("formatting_engine") or direct_voter and direct_voter.formatting_engine
-        }
-        ui.field.text{
-          label = _"Voting comment (optional)",
-          name = "comment",
-          multiline = true,
-          value = param.get("comment") or direct_voter and direct_voter.comment,
-          attr = { style = "height: 20ex;" },
-        }
-        ui.submit{
-          name = "preview",
-          value = _"Preview voting comment",
-          attr = { class = "preview" }
-        }
+        ui.wikitextarea("comment", _"Voting comment (optional)")
+        ui.submit{ name = "preview", text = _"Preview voting comment" }
+        ui.submit{ attr = { class = "additional" }, text = submit_button_text }
       end
-      if not readonly or preview or direct_voter then
-        slot.put(" ")
-        ui.tag{
-          tag = "input",
-          attr = {
-            type = "submit",
-            class = "voting_done2",
-            value = submit_button_text
-          }
-        }
-      end
+
     end
+
   end
 }
 
-
+if config.absolute_base_short_url then
+  ui.container{
+    attr = { class = "shortlink" },
+    content = function()
+      slot.put(_"Short link" .. ": ")
+      local link = config.absolute_base_short_url .. "v" .. issue.id
+      ui.link{ external = link, text = link }
+    end
+  }
+end

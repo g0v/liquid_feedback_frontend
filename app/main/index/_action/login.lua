@@ -9,23 +9,23 @@ function do_etherpad_auth(member)
     .. "api/1/createAuthorIfNotExistsFor?apikey=" .. config.etherpad.api_key
     .. "&name=" .. encode.url_part(member.name) .. "&authorMapper=" .. tostring(member.id)
   )
-  
+
   if not result then
     slot.put_into("error", _"Etherpad authentication failed" .. " 1")
     return false
   end
-  
+
   local etherpad_author_id = string.match(result, '"authorID"%s*:%s*"([^"]+)"')
-  
+
   if not etherpad_author_id then
     slot.put_into("error", _"Etherpad authentication failed" .. " 2")
     return false
   end
-  
+
   local time_in_24h = os.time() + 24 * 60 * 60
-  
+
   local result = net.curl(
-    config.etherpad.api_base 
+    config.etherpad.api_base
     .. "api/1/createSession?apikey=" .. config.etherpad.api_key
     .. "&groupID=" .. config.etherpad.group_id
     .. "&authorID=" .. etherpad_author_id
@@ -36,7 +36,7 @@ function do_etherpad_auth(member)
     slot.put_into("error", _"Etherpad authentication failed" .. " 3")
     return false
   end
-  
+
   local etherpad_sesion_id = string.match(result, '"sessionID"%s*:%s*"([^"]+)"')
 
   if not etherpad_sesion_id then
@@ -51,28 +51,12 @@ function do_etherpad_auth(member)
   }
 end
 
-if member then
+
+if member and not member.locked and not member.locked_import then
+
   member.last_login = "now"
-  
-  local delegations = Delegation:delegations_to_check_for_member_id(member.id)
-  
-  if config.check_delegations_interval_hard 
-      and member.needs_delegation_check_hard
-      and #delegations > 0 then
-        
-    app.session.needs_delegation_check = true
-    
-  else
-    
-    if #delegations == 0 then
-      member.last_delegation_check = "now"
-    end
-    
-    member.last_activity = "now"
-    member.active = true
-    
-  end
-  
+  member.last_activity = "now"
+  member.active = true
   if member.lang == nil then
     member.lang = app.session.lang
   else
@@ -82,18 +66,28 @@ if member then
   if member.password_hash_needs_update then
     member:set_password(password)
   end
-  
+
   member:save()
+
   app.session.member = member
   app.session:save()
+
+  slot.put_into("notice", _"Login successful")
+
   trace.debug('User authenticated')
+
   if config.etherpad then
     do_etherpad_auth(member)
   end
+
+elseif member and config.inform_locked_member then
+
+  slot.put_into("error", _("Sorry, but your account is locked. To get unlocked please contact #{support}!", { support = '<a href="mailto:' .. config.support .. '">' .. config.support .. '</a>' }))
+  trace.debug('User locked')
+
 else
-  slot.select("error", function()
-    ui.tag{ content = _'Invalid login name or password!' }
-  end)
+
+  slot.put_into("error", _"Invalid login name or password!")
   trace.debug('User NOT authenticated')
-  return false
+
 end

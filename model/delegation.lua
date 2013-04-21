@@ -41,9 +41,42 @@ Delegation:add_reference{
   ref           = 'issue',
 }
 
+-- get all delegations
 function Delegation:by_pk(truster_id, unit_id, area_id, issue_id)
-  local selector = self:new_selector():optional_object_mode()
-  selector:add_where{ "truster_id = ?", truster_id }
+  local selector = self:new_selector()
+    :add_where{ "truster_id = ?", truster_id }
+  if unit_id then
+    selector:add_where{ "unit_id = ?",   unit_id }
+  else
+    selector:add_where("unit_id ISNULL")
+  end
+  if area_id then
+    selector:add_where{ "area_id = ?",   area_id }
+  else
+    selector:add_where("area_id ISNULL")
+  end
+  if issue_id then
+    selector:add_where{ "issue_id = ? ", issue_id }
+  else
+    selector:add_where("issue_id ISNULL")
+  end
+  selector:left_join("system_setting", nil, "TRUE")
+    :add_field( "justify_interval(age(confirmed, CURRENT_DATE) + system_setting.delegation_ttl)", "time_left" )
+    :add_field( "justify_interval(age(confirmed) - system_setting.delegation_ttl - '1 day'::interval)", "time_ago" )
+  if config.delegation_warning_time then
+    selector:add_field(
+      {"confirmed < CURRENT_DATE - (system_setting.delegation_ttl - ?::interval)", config.delegation_warning_time},
+      "warning"
+    )
+  end
+  return selector:add_order_by("preference"):exec()
+end
+
+function Delegation:by_trustee(truster_id, trustee_id, unit_id, area_id, issue_id)
+  local selector = self:new_selector()
+    :optional_object_mode()
+    :add_where{ "truster_id = ?", truster_id }
+    :add_where{ "trustee_id = ?", trustee_id }
   if unit_id then
     selector:add_where{ "unit_id = ?",    unit_id }
   else
@@ -62,33 +95,24 @@ function Delegation:by_pk(truster_id, unit_id, area_id, issue_id)
   return selector:exec()
 end
 
-function Delegation:selector_for_broken(member_id)
-  return Delegation:new_selector()
-    :left_join("issue", nil, "issue.id = delegation.issue_id")
-    :add_where("issue.id ISNULL OR issue.closed ISNULL")
-    :join("member", nil, "delegation.trustee_id = member.id")
-    :add_where{"delegation.truster_id = ?", member_id}
-    :add_where{"member.active = 'f' OR (member.last_activity IS NULL OR age(member.last_activity) > ?::interval)", config.delegation_warning_time }
-end
-
-function Delegation:delegations_to_check_for_member_id(member_id, for_update)
-
-  Member:new_selector():add_where({ "id = ?", member_id }):for_update():exec()
-  
-  local selector =  Delegation:new_selector()
-    :add_field("member.name", "member_name")
-    :add_field("unit.name", "unit_name")
-    :add_field("area.name", "area_name")
-    :left_join("area", nil, "area.active AND area.id = delegation.area_id")
-    :join("unit", nil, "unit.active AND (unit.id = delegation.unit_id OR unit.id = area.unit_id)")
-    :left_join("member", nil, "member.id = delegation.trustee_id")
-    :add_where({ "delegation.truster_id = ?", member_id })
-    :add_order_by("unit.name, area.name NULLS FIRST")
-    
-  if for_update then
-    selector:for_update_of("delegation")
+-- number of delegations in one preference list
+function Delegation:count(truster_id, unit_id, area_id, issue_id)
+  local selector = self:new_selector()
+    :add_where{ "truster_id = ?", truster_id }
+  if unit_id then
+    selector:add_where{ "unit_id = ?",    unit_id }
+  else
+    selector:add_where("unit_id ISNULL")
   end
-    
-  return selector:exec()
-  
-end 
+  if area_id then
+    selector:add_where{ "area_id = ?",    area_id }
+  else
+    selector:add_where("area_id ISNULL")
+  end
+  if issue_id then
+    selector:add_where{ "issue_id = ? ",  issue_id }
+  else
+    selector:add_where("issue_id ISNULL")
+  end
+  return selector:count()
+end

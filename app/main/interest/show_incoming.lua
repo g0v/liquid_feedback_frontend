@@ -6,15 +6,28 @@ local members_selector = Member:new_selector()
   :join("issue", nil, "issue.id = delegating_interest_snapshot.issue_id")
   :add_where{ "delegating_interest_snapshot.issue_id = ?", issue.id }
   :add_where{ "delegating_interest_snapshot.event = ?", issue.latest_snapshot_event }
-  :add_where{ "delegating_interest_snapshot.delegate_member_ids[1] = ?", member.id }
-  :add_field{ "delegating_interest_snapshot.weight" }
+  :add_where{ "delegating_interest_snapshot.delegate_member_id = ?", member.id }
+
+ui.title(function()
+  if member.id == app.session.member.id then
+    -- show own delegation
+    slot.put(_("Incoming delegations"))
+  else
+    -- show other member's delegation
+    slot.put(_("Incoming delegations of member '#{member}'", { member = string.format('<a href="%s">%s</a>',
+      encode.url{ module = "member", view = "show", id = member.id },
+      encode.html(member.name)
+    )}))
+  end
+end, issue.area.unit, issue.area, issue)
 
 execute.view{
   module = "member",
   view = "_list",
-  params = { 
+  params = {
     members_selector = members_selector,
     issue = issue,
-    trustee = member
+    trustee = member,
+    show_delegation_link = true
   }
 }

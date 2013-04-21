@@ -21,27 +21,38 @@ ui.form{
       attr = { class = "right" },
       content = function()
 
-      execute.view{
-        module = "member_image",
-        view = "_show",
-        params = {
-          member = member,
-          image_type = "photo"
+        execute.view{
+          module = "member_image",
+          view = "_show",
+          params = {
+            member = member,
+            image_type = "photo"
+          }
         }
-      }
-
-      ui.container{
-        attr = { class = "contact_data" },
-        content = function()
-        end
-      }
 
       end
     }
-    
-    if member.identification then
-      ui.field.text{    label = _"Identification", name = "identification" }
+
+    -- edit links
+    if member.id == app.session.member_id then
+      ui.link{
+        content = function()
+          slot.put(encode.html(_"Edit profile"))
+        end,
+        module  = "member",
+        view    = "edit"
+      }
+      slot.put(" &middot; ")
+      ui.link{
+        content = function()
+          slot.put(encode.html(_"Upload avatar/photo"))
+        end,
+        module  = "member",
+        view    = "edit_images"
+      }
+      slot.put("<br/><br/>")
     end
+
     if member.name then
       ui.field.text{ label = _"Screen name", name = "name" }
     end
@@ -49,7 +60,7 @@ ui.form{
       ui.field.text{    label = _"Login name", name = "login" }
       ui.field.text{    label = _"Notification email", name = "notify_email" }
     end
-    
+
     if member.realname and #member.realname > 0 then
       ui.field.text{ label = _"Real name", name = "realname" }
     end
@@ -70,6 +81,7 @@ ui.form{
     end
     if member.address and #member.address > 0 then
       ui.container{
+        attr = { class = "ui_field_multiline" },
         content = function()
           ui.tag{
             tag = "label",
@@ -98,16 +110,43 @@ ui.form{
       ui.field.text{ label = _"Internal posts", name = "internal_posts" }
     end
     if member.external_memberships and #member.external_memberships > 0 then
-      ui.field.text{ label = _"Memberships", name = "external_memberships", multiline = true }
+      ui.container{
+        attr = { class = "ui_field_multiline" },
+        content = function()
+          ui.tag{
+            tag = "label",
+            attr = { class = "ui_field_label" },
+            content = _"Memberships"
+          }
+          ui.tag{
+            tag = "span",
+            content = function()
+              slot.put(encode.html_newlines(encode.html(member.external_memberships)))
+            end
+          }
+        end
+      }
     end
     if member.external_posts and #member.external_posts > 0 then
-      ui.field.text{ label = _"Posts", name = "external_posts", multiline = true }
-    end    
-    if member.admin then
-      ui.field.boolean{ label = _"Admin?",       name = "admin" }
+      ui.container{
+        attr = { class = "ui_field_multiline" },
+        content = function()
+          ui.tag{
+            tag = "label",
+            attr = { class = "ui_field_label" },
+            content = _"Posts"
+          }
+          ui.tag{
+            tag = "span",
+            content = function()
+              slot.put(encode.html_newlines(encode.html(member.external_posts)))
+            end
+          }
+        end
+      }
     end
-    if member.locked then
-      ui.field.boolean{ label = _"Locked?",      name = "locked" }
+    if member.admin then
+      ui.field.text{ label = _"Admin?", value = _"Yes" }
     end
     if member.last_activity then
       ui.field.text{ label = _"Last activity (updated daily)", value = format.date(member.last_activity) or _"not yet" }

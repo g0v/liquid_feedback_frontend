@@ -1,8 +1,10 @@
+<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width" />
-    <title> <!-- WEBMCP SLOTNODIV html_title --></title>
+    <title><!-- WEBMCP SLOTNODIV html_title --></title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" media="screen" href="__BASEURL__/static/trace.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="__BASEURL__/static/gregor.js/gregor.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="<!-- WEBMCP SLOTNODIV stylesheet_url -->" />
@@ -12,8 +14,6 @@
       <script type="text/javascript">jsFail = false;</script>
     <![endif]>
     <script type="text/javascript" src="__BASEURL__/static/js/jsprotect.js"></script>
-    <script type="text/javascript" src="__BASEURL__/static/js/partialload.js"></script>
-    <script type="text/javascript">var ui_tabs_active = {};</script>
   </head>
   <body>
     <div class="topbar">
@@ -34,13 +34,13 @@
       <div class="page_head" id="head">
         <!-- WEBMCP SLOT head -->
       </div>
-      <div class="layout_notice" id="layout_notice" onclick="document.getElementById('layout_notice').style.display='none';">
+      <div class="layout_notice" id="layout_notice">
         <!-- WEBMCP SLOT notice -->
       </div>
-      <div class="layout_warning" id="layout_warning" onclick="document.getElementById('layout_warning').style.display='none';">
+      <div class="layout_warning" id="layout_warning">
         <!-- WEBMCP SLOT warning -->
       </div>
-      <div class="layout_error" id="layout_error" onclick="document.getElementById('layout_error').style.display='none';">
+      <div class="layout_error" id="layout_error">
         <!-- WEBMCP SLOT error -->
       </div>
       <div class="main" id="default">
@@ -56,12 +56,6 @@
       <tt id="system_error"><!-- WEBMCP SLOT system_error --></tt>
       <div id="trace">&nbsp;</div><hr />
       <!-- WEBMCP SLOT trace -->
-      <div class="trace_close" onclick="document.getElementById('trace_show').style.display='block';document.getElementById('trace_content').style.display='none';">
-        close
-      </div>
     </div>
-    <script type="text/javascript">
-    <!-- WEBMCP SLOTNODIV custom_script -->
-    </script>
   </body>
 </html>

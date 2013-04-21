@@ -1,3 +1,6 @@
+-- displays the small delegation chain in the right top corner
+
+-- show delegation information only for logged in members
 if not app.session.member_id then
   return
 end
@@ -12,186 +15,224 @@ local unit_id  = unit  and unit.id  or nil
 local area_id  = area  and area.id  or nil
 local issue_id = issue and issue.id or nil
 
-local info
-local delegation_text
-
+-- user without voting right also have no delegations
+local voting_right_unit_id
 if unit then
-  info = unit.delegation_info
-  delegation_text = _"Delegate unit"
+  voting_right_unit_id = unit.id
+elseif area then
+  voting_right_unit_id = area.unit_id
+elseif issue then
+  voting_right_unit_id = issue.area.unit_id
+end
+if not member:has_voting_right_for_unit_id(voting_right_unit_id) then
+  return
 end
 
-if area then
-  area:load_delegation_info_once_for_member_id(member.id)
-  info = area.delegation_info
-  delegation_text = _"Delegate area"
-end
-
+-- title of the link to the delegation page
+local scope
 if issue then
-  info = issue.member_info
-  delegation_text = _"Delegate issue"
+  link_title = _"Issue delegation"
+  scope = "issue"
+elseif area then
+  link_title = _"Area delegation"
+  scope = "area"
+else
+  link_title = _"Unit delegation"
+  scope = "unit"
 end
 
-local function print_delegation_info()
-  local participant_occured = false
-  
-  if info.own_participation or info.first_trustee_id then
-    
-    local class = "micro_avatar"
-    if info.own_participation then
-      participant_occured = true
-      class = class .. " highlighted"
-    end
-    
-    execute.view{ module = "member_image", view = "_show", params = {
-      member = member, class = class, popup_text = member.name,
-      image_type = "avatar", show_dummy = true,
-    } }
 
-  end
+if issue and not issue.delegation then
 
-  if not (issue and issue.state == "voting" and info.own_participation) then
-    
-    if info.first_trustee_id then
-    
-      local text = _"delegates to"
-      ui.image{
-        attr = { class = "delegation_arrow", alt = text, title = text },
-        static = "delegation_arrow_24_horizontal.png"
-      }
+  ui.tag{
+    attr = { class = "delegation_info" },
+    content = function()
 
-      local class = "micro_avatar"
-      if not participant_occured and info.first_trustee_participation then
-        participant_occured = true
-        class = class .. " highlighted"
-      end
-      
-      execute.view{ module = "member_image", view = "_show", params = {
-        member_id = info.first_trustee_id, class = class, popup_text = info.first_trustee_name,
-        image_type = "avatar", show_dummy = true,
-      } }
+      local delegation_chain
 
-    end
-          
-    if info.first_trustee_ellipsis then
+      delegation_chain = Member:new_selector()
+        :add_field("delegation_chain.*")
+        :join(
+          { "delegation_chain(?,?,?,?,TRUE)", member.id, unit_id, area_id, issue_id },
+          "delegation_chain",
+          "member.id = delegation_chain.member_id"
+        )
+        :add_order_by("index")
+        :limit(1)
+        :exec()
 
-      local text = _"delegates to"
-      ui.image{
-        attr = { class = "delegation_arrow", alt = text, title = text },
-        static = "delegation_arrow_24_horizontal.png"
-      }
+      slot.put('<div class="delegation_info_none">')
 
-      slot.put("...")
-      
-    end
-    
-    if info.other_trustee_id then
-    
-      local text = _"delegates to"
-      ui.image{
-        attr = { class = "delegation_arrow", alt = text, title = text },
-        static = "delegation_arrow_24_horizontal.png"
-      }
+      for i, record in ipairs(delegation_chain) do
 
-      local class = "micro_avatar"
-      if not participant_occured and info.other_trustee_participation then
-        participant_occured = true
-        class = class .. " highlighted"
-      end
-      
-      execute.view{ module = "member_image", view = "_show", params = {
-        member_id = info.other_trustee_id, class = class, popup_text = info.other_trustee_name,
-        image_type = "avatar", show_dummy = true,
-      } }
-
-    end
-          
-    if info.other_trustee_ellipsis then
-
-      local text = _"delegates to"
-      ui.image{
-        attr = { class = "delegation_arrow", alt = text, title = text },
-        static = "delegation_arrow_24_horizontal.png"
-      }
-
-      slot.put("...")
-      
-    end
-    
-    local trailing_ellipsis = info.other_trustee_ellipsis or
-      (info.first_trustee_ellipsis and not info.other_trustee_id)
-    
-    if info.delegation_loop == "own" then
-      
-      local text = _"delegates to"
-      ui.image{
-        attr = { class = "delegation_arrow", alt = text, title = text },
-        static = "delegation_arrow_24_horizontal.png"
-      }
-
-      execute.view{ module = "member_image", view = "_show", params = {
-        member = member, class = "micro_avatar", popup_text = member.name,
-        image_type = "avatar", show_dummy = true,
-      } }
-
-    elseif info.delegation_loop == "first" then
-      if info.first_trustee_ellipsis then
-        if not trailing_ellipsis then
-
-          local text = _"delegates to"
-          ui.image{
-            attr = { class = "delegation_arrow", alt = text, title = text },
-            static = "delegation_arrow_24_horizontal.png"
-          }
-
-          slot.put("...")
+        -- highlight if participating
+        local popup_text
+        local class = "micro_avatar"
+        if record.participation then
+          class = class .. " highlighted"
+          if issue.closed then
+            popup_text = _"You voted."
+          else
+            popup_text = _"You are interested."
+          end
         end
-          
-      else
-          
-        local text = _"delegates to"
-        ui.image{
-          attr = { class = "delegation_arrow", alt = text, title = text },
-          static = "delegation_arrow_24_horizontal.png"
+
+        execute.view{
+          module = "member_image",
+          view = "_show",
+          params = {
+            member_id = record.member_id,
+            class = class,
+            popup_text = popup_text,
+            image_type = "avatar",
+            show_dummy = true
+          }
         }
 
-        execute.view{ module = "member_image", view = "_show", params = {
-          member_id = info.first_trustee_id, class = "micro_avatar", popup_text = info.first_trustee_name,
-          image_type = "avatar", show_dummy = true,
-        } }
       end
-    
-        
-    elseif info.delegation_loop and not trailing_ellipsis then
-      local text = _"delegates to"
-      ui.image{
-        attr = { class = "delegation_arrow", alt = text, title = text },
-        static = "delegation_arrow_24_horizontal.png"
-      }
 
-      slot.put("...")
+      slot.put('</div>')
+
+    end
+  }
+
+  return
+end
+
+
+ui.link{
+  module = "delegation", view = "show", params = {
+    unit_id = unit_id,
+    area_id = area_id,
+    issue_id = issue_id,
+    member_id = member.id,
+    back_module = request.get_module(),
+    back_view = request.get_view(),
+    back_id = param.get_id_cgi(),
+    back_params = param.get_all_cgi_serialize()
+  },
+  attr = { class = "delegation_info", title = link_title },
+  content = function()
+
+    -- configure how many members should be displayed
+    local show_max = 16
+
+    local no_participation = true
+    local delegation_chain
+
+    if scope == "issue" then
+
+      delegation_chain = Member:new_selector()
+        :add_field("delegation_chain.*")
+        :join(
+          { "delegation_chain(?,?,?,?,TRUE)", member.id, unit_id, area_id, issue_id },
+          "delegation_chain",
+          "member.id = delegation_chain.member_id"
+        )
+        :add_order_by("index")
+        :exec()
+
+      for i, record in ipairs(delegation_chain) do
+        if record.participation then
+          no_participation = false
+          break
+        end
+      end
+
+    else
+
+      delegation_chain = Member:new_selector()
+        :add_field("delegation_chain.*")
+        :join(
+          { "delegation_chain(?,?,?,?,FALSE)", member.id, unit_id, area_id, issue_id },
+          "delegation_chain",
+          "member.id = delegation_chain.member_id"
+        )
+        :add_order_by("index")
+        :exec()
+
     end
 
-  end
-end
+    slot.put('<div class="delegation_info_none">')
+    local dots_displayed = false
 
+    for i, record in ipairs(delegation_chain) do
 
-if info.own_participation or info.first_trustee_id then
-  if app.session.member_id == member.id then
-    ui.link{
-      module = "delegation", view = "show", params = {
-        unit_id = unit_id,
-        area_id = area_id,
-        issue_id = issue_id
-      },
-      attr = { class = "delegation_info" }, content = function()
-        print_delegation_info()
+      local overridden = (not issue or issue.state ~= 'voting') and record.overridden
+
+      if i >= 2 then
+
+        -- show all of the same scope and further until the particicating member
+        if record.scope_out ~= scope and (overridden or no_participation) then
+          break
+        end
+
+        if i == 2 then
+          ui.image{
+            attr = { class = "delegation_arrow", alt = _"delegates to" },
+            static = "delegation_arrow_24_horizontal.png"
+          }
+        end
+
+        -- separate scopes
+        if record.scope_out ~= record.scope_in and record.scope_out ~= scope then
+          slot.put('</div><div class="delegation_info_' .. record.scope_out .. '">')
+          dots_displayed = false
+        end
+
       end
-    }
-  else
-    ui.container{
-      attr = { class = "delegation_info" }, content = function()
-        print_delegation_info()
+
+      -- show only the first members and the participating one; replace the rest by dots
+      if i <= show_max or record.participation then
+
+        -- name of member
+        local member = Member:by_id(record.member_id)
+        local popup_text = link_title .. ": " .. member.name
+
+        -- highlight if participating
+        local class = "micro_avatar"
+        if not overridden and record.participation then
+          class = class .. " highlighted"
+          if scope == "issue" and issue.closed then
+            if member.id == app.session.member_id then
+              popup_text = popup_text .. " - " .. _"You voted."
+            else
+              popup_text = popup_text .. " - " .. _"This member voted."
+            end
+          else
+            if member.id == app.session.member_id then
+              popup_text = popup_text .. " - " .. _"You are interested."
+            else
+              popup_text = popup_text .. " - " .. _"This member is interested."
+            end
+          end
+        end
+
+        execute.view{
+          module = "member_image",
+          view = "_show",
+          params = {
+            member_id = record.member_id,
+            class = class,
+            popup_text = popup_text,
+            image_type = "avatar",
+            show_dummy = true
+          }
+        }
+
+        -- end after participating member
+        if record.participation and i > show_max then
+          break
+        end
+
+      elseif not dots_displayed then
+        slot.put("...")
+        dots_displayed = true
       end
-    }
+
+    end
+
+    slot.put('</div>')
+
   end
-end
+}

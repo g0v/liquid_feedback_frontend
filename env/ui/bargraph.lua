@@ -1,39 +1,52 @@
 function ui.bargraph(args)
+
   local text = ""
   for i, bar in ipairs(args.bars) do
-    if #text > 0 then
-      text = text .. " / "
+    if bar.value > 0 or not bar.hide_empty then
+      if #text > 0 then
+        text = text .. " / "
+      end
+      text = text .. tostring(bar.value)
+      if bar.title then
+        text = text .. " " .. bar.title
+      end
     end
-    text = text .. tostring(bar.value)
   end
+
   ui.container{
     attr = {
       class = args.class or "bargraph",
-      title = tostring(text)
+      title = (args.title_prefix or "") .. text
     },
     content = function()
-      local at_least_one_bar = false
-      local quorum = args.quorum and args.quorum * args.width / args.max_value or nil
-      local length = 0
-      local rest = 0
-      local last_visiable_bar = 0
+
+      local quorum        = args.quorum        and args.quorum        * args.width / args.max_value or nil
+      local quorum_direct = args.quorum_direct and args.quorum_direct * args.width / args.max_value or nil
+      if quorum and quorum_direct and quorum <= quorum_direct then
+        quorum = nil
+      end
+
+      local last_visible_bar = 0
       for i, bar in ipairs(args.bars) do
         if bar.value > 0 then
-          last_visiable_bar = i
+          last_visible_bar = i
         end
       end
+
+      local at_least_one_bar = false
+      local length = 0
       for i, bar in ipairs(args.bars) do
         if bar.value > 0 then
           at_least_one_bar = true
+
           local value = bar.value * args.width / args.max_value
-          if quorum and quorum < length + value then
-            local dlength = math.max(quorum - length - 1, 0)
-            local dlength_abs = math.floor(dlength)
-            local rest = rest + dlength - dlength_abs
-            if dlength > 0 then
+
+          if quorum_direct and (quorum_direct < length + value or i == last_visible_bar) then
+            local width = math.floor(math.max(quorum_direct - length - 1, 0))
+            if width > 0 then
               ui.container{
                 attr = {
-                  style = "width: " .. tostring(dlength_abs) .. "px; background-color: " .. bar.color .. ";",
+                  style = "width: " .. tostring(width) .. "px; background-color: " .. bar.color .. ";",
                 },
                 content = function() slot.put("&nbsp;") end
               }
@@ -41,31 +54,57 @@ function ui.bargraph(args)
             ui.container{
               attr = {
                 class = "quorum",
-                style = "width: 1px; background-color: " .. (args.quorum_color or "blue") ..";",
+                style = "width: 1px; background-color: #666;",
               },
               content = function() slot.put("") end
             }
-            length = dlength + 1
-            value = value - dlength
+            length = length + width + 1
+            value = value - width
+            quorum_direct = nil
+          end
+
+          if quorum and (quorum < length + value or i == last_visible_bar) then
+            local width = math.floor(math.max(quorum - length - 1, 0))
+            if width > 0 then
+              ui.container{
+                attr = {
+                  style = "width: " .. tostring(width) .. "px; background-color: " .. bar.color .. ";",
+                },
+                content = function() slot.put("&nbsp;") end
+              }
+            end
+            ui.container{
+              attr = {
+                class = "quorum",
+                style = "width: 1px; background-color: #00F;",
+              },
+              content = function() slot.put("") end
+            }
+            length = length + width + 1
+            value = value - width
             quorum = nil
           end
-          local value_abs = math.floor(value)
-          rest = rest + value - value_abs
-          if i == last_visiable_bar then
-            value_abs = value_abs + rest
+
+          if i == last_visible_bar then
+            width = args.width - length
+          else
+            width = math.floor(value)
           end
-          length = length + value_abs
           ui.container{
             attr = {
-              style = "width: " .. tostring(value_abs) .. "px; background-color: " .. bar.color .. ";",
+              style = "width: " .. tostring(width) .. "px; background-color: " .. bar.color .. ";",
             },
             content = function() slot.put("&nbsp;") end
           }
+          length = length + width
+
         end
       end
+
       if not at_least_one_bar then
         slot.put("&nbsp;")
       end
+
     end
   }
 end

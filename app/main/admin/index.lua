@@ -1,7 +1,6 @@
-slot.put_into("title", _"Admin menu")
+ui.title(_"Admin menu")
 
-
-ui.tag{ tag = "ul", content = function()
+ui.tag{ tag = "ul", attr = { class = "menu_list" }, content = function()
   ui.tag{ tag= "li", content = function()
     ui.link{
       text = _"Policies",

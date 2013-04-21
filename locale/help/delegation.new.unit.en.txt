@@ -1,5 +1,11 @@
-= Unit delegation =
+= Delegation =
 
-A unit delegation is always active if you don't participate yourself and there is no delegation on the level of the respective area or issue. Note that unit delegations for a superordinate unit are not automatically inherited to subdivisions.
+The list of trustees on the left shows the members, to which you delegate. You can add to this list members from your contacts, remove them again and change the order.
+
+A delegation will only be relevant if the corresponding members participate, eg participate in an area or subscribe to a topic interest or vote themselves. As long as a trustee does not participate, a delegation to him has no effect. The order of the trustees determines who gets the delegation when several of the trustees participate.
+
+The list on the right also shows the delegations on parent scopes. If in one scope none of the trustees participates, the trustees on the parent level follow.
+
+At the top of the list you stand yourself. If you participate yourself, delegations have no effect. If no one from the whole list participates, then the vote is void.
 
 **Notice:** You can only delegate to members, who you have added to your list of contacts. You can find other members under the tabulator ""Eligible voters"" in their corresponding unit. Click on the member to visit their member page, then click on ""Add to my contacts"" to add this member to your personal contact list.

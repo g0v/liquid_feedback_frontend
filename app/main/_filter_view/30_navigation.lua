@@ -2,23 +2,107 @@ slot.select('navigation', function()
 
   ui.link{
     content = function()
-      ui.tag{ attr = { class = "logo_liquidfeedback" }, content = _"LiquidFeedback" }
+      ui.tag{ attr = { class = "logo" }, content = _"Pirate Feedback" }
       slot.put(" &middot; ")
       ui.tag{ content = config.instance_name }
     end,
     module = 'index',
     view   = 'index'
   }
-  
-  if app.session:has_access("anonymous") and not (app.session.needs_delegation_check) then
 
+  -- language
+  ui.tag{
+    tag = "ul",
+    attr = { id = "language_menu" },
+    content = function()
+      ui.tag{
+        tag = "li",
+        content = function()
+          ui.link{
+            module = "index",
+            view = "menu",
+            content = function()
+              ui.tag{ content = _"Language" }
+            end
+          }
+          execute.view{ module = "index", view = "_menu" }
+        end
+      }
+    end
+  }
+
+  -- search
+  if app.session:has_access("anonymous") then
     ui.link{
       content = _"Search",
       module = 'index',
       view   = 'search'
     }
-  
-    if app.session.member == nil then
+  end
+
+end)
+
+slot.select('navigation_right', function()
+
+  if app.session.member_id then
+
+    ui.link{
+      text   = _"Logout",
+      module = 'index',
+      action = 'logout',
+      routing = {
+        default = {
+          mode = "redirect",
+          module = "index",
+          view = "index"
+        }
+      }
+    }
+
+    if app.session.member.admin then
+      ui.link{
+        text   = _"Admin",
+        module = 'admin',
+        view   = 'index'
+      }
+    end
+
+    ui.link{
+      text   = _"Settings",
+      module = "member",
+      view = "settings"
+    }
+
+    ui.link{
+      content = _"Contacts",
+      module = 'contact',
+      view   = 'list'
+    }
+
+    ui.link{
+      text = _"Profile",
+      module = "member",
+      view = "show",
+      id = app.session.member_id,
+      attr = { title = _"Profile" },
+      content = function()
+        execute.view{
+          module = "member_image",
+          view = "_show",
+          params = {
+            member = app.session.member,
+            image_type = "avatar",
+            show_dummy = true,
+            class = "micro_avatar"
+          }
+        }
+        ui.tag{ content = app.session.member.name }
+      end
+    }
+
+  else
+
+    if app.session:has_access("anonymous") then
       ui.link{
         text   = _"Login",
         module = 'index',
@@ -30,83 +114,22 @@ slot.select('navigation', function()
         }
       }
     end
-    
+
   end
 
-  if app.session.member == nil then
-    ui.link{
-      text   = _"Registration",
-      module = 'index',
-      view   = 'register'
-    }
-  end
-end)
-
-
-slot.select('navigation_right', function()
-  ui.tag{ 
-    tag = "ul",
-    attr = { id = "member_menu" },
-    content = function()
-      ui.tag{ 
-        tag = "li",
-        content = function()
-          ui.link{
-            module = "index",
-            view = "menu",
-            content = function()
-              if app.session.member_id then
-                execute.view{
-                  module = "member_image",
-                  view = "_show",
-                  params = {
-                    member = app.session.member,
-                    image_type = "avatar",
-                    show_dummy = true,
-                    class = "micro_avatar",
-                  }
-                }
-                ui.tag{ content = app.session.member.name }
-              else
-                ui.tag{ content = _"Select language" }
-              end
-            end
-          }
-          execute.view{ module = "index", view = "_menu" }
-        end
-      }
-    end
-  }
 end)
 
 slot.select("footer", function()
-  if app.session.member_id and app.session.member.admin then
-    ui.link{
-      text   = _"Admin",
-      module = 'admin',
-      view   = 'index'
-    }
-    slot.put(" &middot; ")
-  end
   ui.link{
     text   = _"About site",
     module = 'index',
     view   = 'about'
   }
-  if config.use_terms then
-    slot.put(" &middot; ")
-    ui.link{
-      text   = _"Use terms",
-      module = 'index',
-      view   = 'usage_terms'
-    }
-  end
   slot.put(" &middot; ")
-  ui.tag{ content = _"This site is using" }
-  slot.put(" ")
   ui.link{
-    text   = _"LiquidFeedback",
-    external = "http://www.public-software-group.org/liquid_feedback"
+    text   = _"Use terms",
+    module = 'index',
+    view   = 'usage_terms'
   }
 end)
 
