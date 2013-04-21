@@ -14,6 +14,8 @@ return {
 ["#{count} of them have an area delegation set."] = false;
 ["#{count} of your outgoing delegation(s) are broken"] = "#{count} van uw uitgaande delegatie(s) zijn stuk";
 ["#{count} of your outgoing delegations are broken."] = false;
+["#{count} of your outgoing delegations are expired."] = false;
+["#{count} of your outgoing delegations expire soon, the first in #{interval_text}."] = false;
 ["#{count} xcanceled"] = "#{count} afgebroken";
 ["#{date} at #{time}"] = "#{date} om #{time}";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} onderwerpen waarin u geïnteresseerd bent";
@@ -176,6 +178,7 @@ return {
 ["Contacts"] = "Contacten";
 ["Contacts participating in this area"] = false;
 ["Content"] = "Inhoud";
+["Continue"] = false;
 ["Counting of votes"] = "Tellen stemmen";
 ["Counting starts soon"] = "Het tellen van de stemmen begint spoedig";
 ["Counting starts soon."] = false;
@@ -283,6 +286,7 @@ return {
 ["Event"] = false;
 ["Event #{id} -> #{num} members"] = "Event #{id} -> #{num} deelnemers";
 ["Everything"] = "Alles";
+["Expired and soon expiring delegations"] = false;
 ["External memberships"] = "Externe lidmaatschappen";
 ["External posts"] = "Externe posts";
 ["Finish voting"] = "Stemming afgesloten";
@@ -570,7 +574,9 @@ return {
 ["One more area in this unit"] = "Nog één themagebied in dit dossier";
 ["One of them has an area delegation set"] = "Eén van deze heeft een themagebied delegatie actief";
 ["One of them has an area delegation set."] = false;
-["One outgoing delegation is broken."] = false;
+["One of your outgoing delegations expires in #{interval_text}."] = false;
+["One of your outgoing delegations is broken."] = false;
+["One of your outgoing delegations is expired."] = false;
 ["One step back"] = "Een stap terug";
 ["Only for issues reaching the discussion phase"] = "Alleen voor onderwerpen die de discussie fase bereiken.";
 ["Only for issues reaching the frozen phase"] = "Alleen voor onderwerpen die de bevroren fase bereiken.";
@@ -728,6 +734,7 @@ return {
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Sorry, maar we beschikken niet over een bevestigd emailadres van uw account. Neemt u alstublieft contact op met de administrator.";
 ["Sorry, but you are currently not invited"] = "Sorry, maar u bent op dit moment niet uitgenodigd";
 ["Sorry, but you are currently not invited!"] = false;
+["Sorry, but your account is locked. To get unlocked please contact #{support}!"] = false;
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Sorry, U heeft uw persoonlijke flood-limiet overschreden. Wees alstublieft langzamer...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Sorry, uw voorraad om initiatieven te starten is op, Probeert u het alstublieft later!";
 ["Source"] = "Brontekst";
@@ -1052,19 +1059,26 @@ return {
 ["before begin of voting"] = false;
 ["change discussion URL"] = "discussie URL veranderd";
 ["day [interval ago]"] = false;
+["day [interval expired]"] = false;
+["day [interval expires]"] = false;
 ["day [interval time left]"] = false;
 ["day [interval]"] = false;
 ["days [interval ago]"] = false;
+["days [interval expired]"] = false;
+["days [interval expires]"] = false;
 ["days [interval time left]"] = false;
 ["days [interval]"] = false;
 ["deactivated"] = "gedeactiveerd";
 ["delegates to"] = "gelegeerd aan";
-["delete"] = false;
 ["delete<br /><br />"] = "delete<br /><br />";
 ["direct"] = false;
 ["disabled"] = "uitgeschakeld";
 ["down"] = false;
 ["email"] = "email";
+["expired"] = false;
+["expired #{interval_text} ago"] = false;
+["expired today"] = false;
+["expires in #{interval_text}"] = false;
 ["global"] = "wereldwijd";
 ["hour [interval time ago]"] = false;
 ["hour [interval time left]"] = false;
@@ -1076,6 +1090,7 @@ return {
 ["incl. potential"] = false;
 ["indirect"] = false;
 ["last 24 hours"] = "laatste 24 uur";
+["less than one day [interval expires]"] = false;
 ["login name"] = "login naam";
 ["majority"] = "meerderheid";
 ["minute [interval time ago]"] = false;
@@ -1083,9 +1098,13 @@ return {
 ["minutes [interval time ago]"] = false;
 ["minutes [interval time left]"] = false;
 ["month [interval ago]"] = false;
+["month [interval expired]"] = false;
+["month [interval expires]"] = false;
 ["month [interval time left]"] = false;
 ["month [interval]"] = false;
 ["months [interval ago]"] = false;
+["months [interval expired]"] = false;
+["months [interval expires]"] = false;
 ["months [interval time left]"] = false;
 ["months [interval]"] = false;
 ["more unsatisfied"] = "meer ontevreden";
@@ -1121,9 +1140,13 @@ return {
 ["without winner"] = "zonder winnaar";
 ["xmpp"] = "Jabber (XMPP)";
 ["year [interval ago]"] = false;
+["year [interval expired]"] = false;
+["year [interval expires]"] = false;
 ["year [interval time left]"] = false;
 ["year [interval]"] = false;
 ["years [interval ago]"] = false;
+["years [interval expired]"] = false;
+["years [interval expires]"] = false;
 ["years [interval time left]"] = false;
 ["years [interval]"] = false;
 }

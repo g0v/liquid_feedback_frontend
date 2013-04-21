@@ -84,6 +84,14 @@ config.public_access = "none"
 -- ------------------------------------------------------------------------
 -- config.default_lang = "en"
 
+-- Delegation warning time
+-- how long before the expiration of a delegation the member will see a warning
+-- configure the delegation expiry in system_settings.delegation_ttl
+-- notation is according to postgresql intervals
+-- Default: no warning
+-- ------------------------------------------------------------------------
+-- config.delegation_warning_time = '2 weeks'
+
 -- Invite code expiry
 -- after how long is an invite code can't be used anymore
 -- notation is according to postgresql intervals

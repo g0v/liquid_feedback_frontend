@@ -1,0 +1,1 @@
+Here you can see all delegation lists, in which single delegates are inactive. You can click on the magnifier glass to edit the delegations.

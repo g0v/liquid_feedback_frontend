@@ -12,6 +12,8 @@ return {
 ["#{count} not voted"] = false;
 ["#{count} of them have an area delegation set."] = false;
 ["#{count} of your outgoing delegations are broken."] = false;
+["#{count} of your outgoing delegations are expired."] = false;
+["#{count} of your outgoing delegations expire soon, the first in #{interval_text}."] = false;
 ["#{date} at #{time}"] = false;
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} téged érdeklõ téma";
 ["#{interested_issues_to_vote_count} issues you are interested in"] = false;
@@ -173,6 +175,7 @@ return {
 ["Contacts"] = "Kapcsolatok";
 ["Contacts participating in this area"] = false;
 ["Content"] = "Tartalom";
+["Continue"] = false;
 ["Counting of votes"] = "Szavazatszámlálás";
 ["Counting starts soon"] = "Rövidesen indul a szavazatszámlálás";
 ["Counting starts soon."] = false;
@@ -276,6 +279,7 @@ return {
 ["Event"] = false;
 ["Event #{id} -> #{num} members"] = "#{id} esemény -> #{num} tag";
 ["Everything"] = false;
+["Expired and soon expiring delegations"] = false;
 ["External memberships"] = "Külsõ tagságok";
 ["External posts"] = "Külsõ tisztségek";
 ["Finish voting"] = "Szavazás lezárása";
@@ -549,7 +553,9 @@ return {
 ["One issue you are interested in"] = "Egy téged érdeklõ téma";
 ["One more area in this unit"] = false;
 ["One of them has an area delegation set."] = false;
-["One outgoing delegation is broken."] = false;
+["One of your outgoing delegations expires in #{interval_text}."] = false;
+["One of your outgoing delegations is broken."] = false;
+["One of your outgoing delegations is expired."] = false;
 ["One step back"] = "Vissza egy lépéssel";
 ["Only for issues reaching the discussion phase"] = "Csak a tárgyalási fázisba eljutó témákhoz.";
 ["Only for issues reaching the frozen phase"] = "Csak a befagyasztott fázisba eljutó témákhoz.";
@@ -699,6 +705,7 @@ return {
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "A fiókodhoz nem tartozik megerõsített email-cím. Lépj kapcsolatba az adminnal vagy a támogatókkal.";
 ["Sorry, but you are currently not invited"] = "Sajnos jelenleg nem vagy meghívva";
 ["Sorry, but you are currently not invited!"] = false;
+["Sorry, but your account is locked. To get unlocked please contact #{support}!"] = false;
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Elérted a személyes floodlimitedet. Lassíts.";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Egyelõre kimerítetted a kezdeményezés-létrehozási lehetõségeidet. Próbáld újra késõbb.";
 ["Source"] = "Forrásszöveg";
@@ -1003,19 +1010,26 @@ return {
 ["before begin of voting"] = false;
 ["change discussion URL"] = "tárgyalás URL-jének megváltoztatása";
 ["day [interval ago]"] = false;
+["day [interval expired]"] = false;
+["day [interval expires]"] = false;
 ["day [interval time left]"] = false;
 ["day [interval]"] = false;
 ["days [interval ago]"] = false;
+["days [interval expired]"] = false;
+["days [interval expires]"] = false;
 ["days [interval time left]"] = false;
 ["days [interval]"] = false;
 ["deactivated"] = "deaktiválva";
 ["delegates to"] = false;
-["delete"] = false;
 ["delete<br /><br />"] = "törlés<br /><br />";
 ["direct"] = false;
 ["disabled"] = "leállítva";
 ["down"] = false;
 ["email"] = "email";
+["expired"] = false;
+["expired #{interval_text} ago"] = false;
+["expired today"] = false;
+["expires in #{interval_text}"] = false;
 ["global"] = "globális";
 ["hour [interval time ago]"] = false;
 ["hour [interval time left]"] = false;
@@ -1027,6 +1041,7 @@ return {
 ["incl. potential"] = false;
 ["indirect"] = false;
 ["last 24 hours"] = "elmúlt 24 óra";
+["less than one day [interval expires]"] = false;
 ["login name"] = "bejelentkezési név";
 ["majority"] = "többség";
 ["minute [interval time ago]"] = false;
@@ -1034,9 +1049,13 @@ return {
 ["minutes [interval time ago]"] = false;
 ["minutes [interval time left]"] = false;
 ["month [interval ago]"] = false;
+["month [interval expired]"] = false;
+["month [interval expires]"] = false;
 ["month [interval time left]"] = false;
 ["month [interval]"] = false;
 ["months [interval ago]"] = false;
+["months [interval expired]"] = false;
+["months [interval expires]"] = false;
 ["months [interval time left]"] = false;
 ["months [interval]"] = false;
 ["more unsatisfied"] = "nagyon elégedetlen";
@@ -1072,9 +1091,13 @@ return {
 ["without winner"] = "gyõztes nélkül";
 ["xmpp"] = "Fecsegés (XMPP)";
 ["year [interval ago]"] = false;
+["year [interval expired]"] = false;
+["year [interval expires]"] = false;
 ["year [interval time left]"] = false;
 ["year [interval]"] = false;
 ["years [interval ago]"] = false;
+["years [interval expired]"] = false;
+["years [interval expires]"] = false;
 ["years [interval time left]"] = false;
 ["years [interval]"] = false;
 }

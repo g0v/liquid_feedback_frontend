@@ -21,6 +21,12 @@ if param.get("delete") then
     delegation:destroy()
   end
 
+elseif param.get("continue") then
+
+  delegation.confirmed = 'now'
+  delegation.active = true
+  delegation:save()
+
 elseif param.get("trustee_swap_id") then
 
   local delegation_swap = Delegation:by_trustee(app.session.member.id, param.get("trustee_swap_id"), unit_id, area_id, issue_id)

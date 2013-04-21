@@ -14,6 +14,8 @@ return {
 ["#{count} of them have an area delegation set."] = false;
 ["#{count} of your outgoing delegation(s) are broken"] = "#{count} deleghe che hai dato hanno errori";
 ["#{count} of your outgoing delegations are broken."] = false;
+["#{count} of your outgoing delegations are expired."] = false;
+["#{count} of your outgoing delegations expire soon, the first in #{interval_text}."] = false;
 ["#{date} at #{time}"] = "#{date} alle #{time}";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} tematiche che ti interessano";
 ["#{interested_issues_to_vote_count} issues you are interested in"] = false;
@@ -177,6 +179,7 @@ return {
 ["Contacts"] = "Contatti";
 ["Contacts participating in this area"] = false;
 ["Content"] = "Contenuto";
+["Continue"] = false;
 ["Counting of votes"] = "Spoglio dei voti";
 ["Counting starts soon"] = "Lo spoglio iniziera' presto";
 ["Counting starts soon."] = false;
@@ -282,6 +285,7 @@ return {
 ["Event"] = false;
 ["Event #{id} -> #{num} members"] = "Evento #{id} -> #{num} utenti";
 ["Everything"] = "Tutto";
+["Expired and soon expiring delegations"] = false;
 ["External memberships"] = "Utenti esterni";
 ["External posts"] = "Post esterni";
 ["Finish voting"] = "Fine del voto";
@@ -569,7 +573,9 @@ return {
 ["One more area in this unit"] = "Una o piu' aree in questa sezione";
 ["One of them has an area delegation set"] = "Una di queste ha una delega di area";
 ["One of them has an area delegation set."] = false;
-["One outgoing delegation is broken."] = false;
+["One of your outgoing delegations expires in #{interval_text}."] = false;
+["One of your outgoing delegations is broken."] = false;
+["One of your outgoing delegations is expired."] = false;
 ["One step back"] = "Un passo indietro";
 ["Only for issues reaching the discussion phase"] = "Solo per tematiche che raggiungono la fase di discussione";
 ["Only for issues reaching the frozen phase"] = "Solo per tematiche che sono sospese";
@@ -726,6 +732,7 @@ return {
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Purtroppo non c'e' un indirizzo email confermato per il tuo account. Si consiglia di contattare l'amministratore o il supporto.";
 ["Sorry, but you are currently not invited"] = "Purtroppo al momento non hai l'invito.";
 ["Sorry, but you are currently not invited!"] = false;
+["Sorry, but your account is locked. To get unlocked please contact #{support}!"] = false;
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Purtroppo hai svolto un'attivita' eccessiva. Prova a partecipare piu' lentamente...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Purtroppo hai creato troppe iniziative in un tempo breve. Riprova piu' tardi.";
 ["Source"] = "Sorgente";
@@ -1048,19 +1055,26 @@ return {
 ["before begin of voting"] = false;
 ["change discussion URL"] = "cambia l'URL della discussione";
 ["day [interval ago]"] = false;
+["day [interval expired]"] = false;
+["day [interval expires]"] = false;
 ["day [interval time left]"] = false;
 ["day [interval]"] = false;
 ["days [interval ago]"] = false;
+["days [interval expired]"] = false;
+["days [interval expires]"] = false;
 ["days [interval time left]"] = false;
 ["days [interval]"] = false;
 ["deactivated"] = "disattivato";
 ["delegates to"] = "delega a";
-["delete"] = false;
 ["delete<br /><br />"] = "elimina<br /><br />";
 ["direct"] = false;
 ["disabled"] = "disabilitato";
 ["down"] = false;
 ["email"] = "email";
+["expired"] = false;
+["expired #{interval_text} ago"] = false;
+["expired today"] = false;
+["expires in #{interval_text}"] = false;
 ["global"] = "globale";
 ["hour [interval time ago]"] = false;
 ["hour [interval time left]"] = false;
@@ -1072,6 +1086,7 @@ return {
 ["incl. potential"] = false;
 ["indirect"] = false;
 ["last 24 hours"] = "ultime 24 ore";
+["less than one day [interval expires]"] = false;
 ["login name"] = "nome utente";
 ["majority"] = "maggioranza";
 ["minute [interval time ago]"] = false;
@@ -1079,9 +1094,13 @@ return {
 ["minutes [interval time ago]"] = false;
 ["minutes [interval time left]"] = false;
 ["month [interval ago]"] = false;
+["month [interval expired]"] = false;
+["month [interval expires]"] = false;
 ["month [interval time left]"] = false;
 ["month [interval]"] = false;
 ["months [interval ago]"] = false;
+["months [interval expired]"] = false;
+["months [interval expires]"] = false;
 ["months [interval time left]"] = false;
 ["months [interval]"] = false;
 ["more unsatisfied"] = "maggiore disaccordo";
@@ -1117,9 +1136,13 @@ return {
 ["without winner"] = "senza risultato approvato";
 ["xmpp"] = "xmpp";
 ["year [interval ago]"] = false;
+["year [interval expired]"] = false;
+["year [interval expires]"] = false;
 ["year [interval time left]"] = false;
 ["year [interval]"] = false;
 ["years [interval ago]"] = false;
+["years [interval expired]"] = false;
+["years [interval expires]"] = false;
 ["years [interval time left]"] = false;
 ["years [interval]"] = false;
 }

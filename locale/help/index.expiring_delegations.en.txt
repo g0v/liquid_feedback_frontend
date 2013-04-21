@@ -1,0 +1,1 @@
+Delegations expire after a certain period, if they don't get reconfirmed. Here you can see all delegation lists, in which single delegations are expired or will expire soon. Click on the magnifier glass to edit the delegations and reconfirm or delete expiring delegations.

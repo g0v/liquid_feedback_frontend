@@ -14,10 +14,64 @@ if app.session.member.notify_level == nil then
   }
 end
 
-local broken_delegations_count = Delegation:selector_for_broken(app.session.member_id):count()
+local expiring_delegations_selector = Delegation:new_selector()
+  :optional_object_mode()
+  :add_where("delegation.issue_id ISNULL")
+  :add_where{"delegation.truster_id = ?", app.session.member_id}
+  :add_group_by("delegation.id")
+if config.delegation_warning_time then
+  expiring_delegations_selector:add_field("count(1)", "count")
+    :add_field("count(CASE WHEN delegation.active = FALSE THEN 1 ELSE NULL END)", "expired_count")
+    :join("system_setting")
+    :add_field(
+      "justify_interval(age(MIN(delegation.confirmed), CURRENT_DATE) + system_setting.delegation_ttl)",
+      "time_left"
+    )
+    :add_where{
+      "delegation.active = FALSE OR delegation.confirmed < (CURRENT_DATE - (system_setting.delegation_ttl - ?::interval))::DATE",
+      config.delegation_warning_time
+    }
+    :add_group_by("system_setting.delegation_ttl")
+else
+  expiring_delegations_selector:add_field("count(1)", "expired_count")
+    :add_where("delegation.active = FALSE")
+end
+local expiring_delegations = expiring_delegations_selector:exec()
+if expiring_delegations then
+  local text
+  if expiring_delegations.expired_count == 0 then
+    if expiring_delegations.count == 1 then
+      text = format.interval_text(
+        expiring_delegations.time_left, { mode = "expires", variant = "warning_one" }
+      )
+    else
+      text = format.interval_text(
+        expiring_delegations.time_left, { mode = "expires", variant = "warning_multiple", count = expiring_delegations.count }
+      )
+    end
+  else
+    if expiring_delegations.expired_count == 1 then
+      text = _("One of your outgoing delegations is expired.")
+    else
+      text = _("#{count} of your outgoing delegations are expired.", { count = expiring_delegations.expired_count })
+    end
+  end
+  notification_links[#notification_links+1] = {
+    module = "index", view = "expiring_delegations",
+    text = text
+  }
+end
+
+local broken_delegations_count = Delegation:new_selector()
+  :left_join("issue", nil, "issue.id = delegation.issue_id")
+  :add_where("issue.closed ISNULL")
+  :join("member", nil, "delegation.trustee_id = member.id")
+  :add_where{"delegation.truster_id = ?", member_id}
+  :add_where("member.active = FALSE")
+  :count()
 if broken_delegations_count > 0 then
   if broken_delegations_count == 1 then
-    text = _"One outgoing delegation is broken."
+    text = _"One of your outgoing delegations is broken."
   else
     text = _("#{count} of your outgoing delegations are broken.", { count = broken_delegations_count })
   end
@@ -27,7 +81,7 @@ if broken_delegations_count > 0 then
   }
 end
 
-local selector = Issue:new_selector()
+local issues_to_vote_count = Issue:new_selector()
   :join("area", nil, "area.id = issue.area_id")
   :join("privilege", nil, { "privilege.unit_id = area.unit_id AND privilege.member_id = ? AND privilege.voting_right", app.session.member_id })
   :left_join("direct_voter", nil, { "direct_voter.issue_id = issue.id AND direct_voter.member_id = ?", app.session.member.id })
@@ -38,9 +92,7 @@ local selector = Issue:new_selector()
   :add_where{ "interest.member_id NOTNULL" }
   :add_where{ "issue.fully_frozen NOTNULL" }
   :add_where{ "issue.closed ISNULL" }
-  :add_order_by{ "issue.fully_frozen + issue.voting_time ASC" }
-
-local issues_to_vote_count = selector:count()
+  :count()
 if issues_to_vote_count > 0 then
   local text
   if issues_to_vote_count == 1 then
@@ -58,7 +110,6 @@ if issues_to_vote_count > 0 then
 end
 
 local initiator_invites_count = Initiator:selector_for_invites(app.session.member_id):count()
-
 if initiator_invites_count > 0 then
   local text
   if initiator_invites_count == 1 then
@@ -73,7 +124,6 @@ if initiator_invites_count > 0 then
 end
 
 updated_drafts_count = Initiative:selector_for_updated_drafts(app.session.member_id):count()
-
 if updated_drafts_count > 0 then
   local text
   if updated_drafts_count == 1 then

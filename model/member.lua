@@ -636,8 +636,8 @@ function Member.object:get_delegatee_member(unit_id, area_id, issue_id)
 end
 
 -- selector template for list of delegations, used for incoming, outgoing and broken delegations
-function Member:selector_delegations()
-  return Member:new_selector()
+function Member:selector_delegations(expiring)
+  local selector = Member:new_selector()
     :reset_fields()
     :add_field("member.id", "member_id")
     :add_field("delegation.unit_id")
@@ -655,8 +655,13 @@ function Member:selector_delegations()
     :left_join("area", "area", "area.id = delegation.area_id OR area.id = issue.area_id")
     :left_join("unit", "unit", "unit.id = delegation.unit_id OR unit.id = area.unit_id")
     :add_where("issue.closed ISNULL")
-    :add_order_by("unit.name, area.name, delegation.issue_id")
+  if expiring then
+    selector:add_order_by("confirmed")
+      :add_group_by("confirmed")
+  end
+  selector:add_order_by("unit.name, area.name, delegation.issue_id")
     :add_group_by("member.id, delegation.unit_id, unit.id, unit.name, delegation.area_id, area.id, area.name, delegation.issue_id, policy.name")
+  return selector
 end
 
 -- count direct and indirect weight

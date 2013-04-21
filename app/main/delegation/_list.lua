@@ -82,7 +82,7 @@ ui.paginate{
 
           for i, record in ipairs(delegation_chain) do
             local style
-            local overridden = (not issue or issue.state ~= 'voting') and (record.overridden or not record.member_valid)
+            local overridden = (not issue or issue.state ~= 'voting') and (record.overridden or not record.member_valid or not record.delegation_active)
 
             -- display dots instead of the sixth trustee
             if i == 6 then
@@ -135,8 +135,8 @@ ui.paginate{
                   issue_id  = delegation.issue_id,
                   member_id = delegation.member_id,
                   back_module = request.get_module(),
-                  back_view = request.get_view(),
-                  back_id = param.get_id_cgi(),
+                  back_view   = request.get_view(),
+                  back_id     = param.get_id_cgi(),
                   back_params = params
                 },
                 content = function()

@@ -1,0 +1,1 @@
+Delegationen verfallen nach einem bestimmten Zeitraum, falls sie nicht erneut bestätigt werden. Hier sind alle Delegationslisten dargestellt, in denen einzelne Delegationen verfallen sind oder bald verfallen werden. Mit einem Klick auf die Lupe kannst Du die Delegationen bearbeiten und verfallende Delegationen fortsetzen oder löschen.

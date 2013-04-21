@@ -14,6 +14,8 @@ return {
 ["#{count} of them have an area delegation set."] = false;
 ["#{count} of your outgoing delegation(s) are broken"] = "#{count} από τις αναθέσεις σας δεν ισχύουν πια";
 ["#{count} of your outgoing delegations are broken."] = false;
+["#{count} of your outgoing delegations are expired."] = false;
+["#{count} of your outgoing delegations expire soon, the first in #{interval_text}."] = false;
 ["#{date} at #{time}"] = "#{date} στις #{time}";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} θέμα(τα) που σας ενδιαφέρουν";
 ["#{interested_issues_to_vote_count} issues you are interested in"] = false;
@@ -175,6 +177,7 @@ return {
 ["Contacts"] = "Επαφές";
 ["Contacts participating in this area"] = false;
 ["Content"] = "Περιεχόμενο";
+["Continue"] = false;
 ["Counting of votes"] = "Καταμέτρηση";
 ["Counting starts soon"] = "Η καταμέτρηση ξεκινά σύντομα";
 ["Counting starts soon."] = false;
@@ -281,6 +284,7 @@ return {
 ["Etherpad authentication failed"] = "Η πιστοποίηση μέσω Etherpad απέτυχε";
 ["Event"] = false;
 ["Everything"] = "Όλα";
+["Expired and soon expiring delegations"] = false;
 ["External memberships"] = "Εξωτερικές συμμετοχές";
 ["External posts"] = "Εξωτερικές θέσεις";
 ["Finish voting"] = "Ολοκλήρωση ψήφου";
@@ -568,7 +572,9 @@ return {
 ["One more area in this unit"] = "Ένας ακόμη τομέας σε αυτή την ενότητα";
 ["One of them has an area delegation set"] = "Ένας απ' αυτούς έχει ανατεθεί σε άλλο μέλος";
 ["One of them has an area delegation set."] = false;
-["One outgoing delegation is broken."] = false;
+["One of your outgoing delegations expires in #{interval_text}."] = false;
+["One of your outgoing delegations is broken."] = false;
+["One of your outgoing delegations is expired."] = false;
 ["One step back"] = "Ένα βήμα πίσω";
 ["Only for issues reaching the discussion phase"] = "Μόνο για θέματα που φτάνουν στο στάδιο της συζήτησης.";
 ["Only for issues reaching the frozen phase"] = "Μόνο για θέματα που φτάνουν στο στάδιο του παγώματος.";
@@ -725,6 +731,7 @@ return {
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "Λυπούμαστε, αλλά δεν υπάρχει καμία επιβεβαιωμένη διεύθυνση email για το λογαριασμό σας. Παρακαλούμε επικοινωνήστε με τον διαχειριστή ή την υποστήριξη.";
 ["Sorry, but you are currently not invited"] = "Λυπούμαστε, αλλά δεν έχετε προσκληθεί αυτή τη στιγμή";
 ["Sorry, but you are currently not invited!"] = false;
+["Sorry, but your account is locked. To get unlocked please contact #{support}!"] = false;
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "Λυπούμαστε, έχετε προσωπικά φτάσει το όριο ταχύτητας. Παρακαλώ χαλαρώστε...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "Λυπούμαστε, έχετε εξαντλήσει το όριο υποβολής πρωτοβουλιών για τώρα. Παρακαλώ ξαναδοκιμάστε αργότερα.";
 ["Source"] = "Πηγή";
@@ -1050,19 +1057,26 @@ return {
 ["before begin of voting"] = false;
 ["change discussion URL"] = "αλλαγή του URL της συζήτησης";
 ["day [interval ago]"] = false;
+["day [interval expired]"] = false;
+["day [interval expires]"] = false;
 ["day [interval time left]"] = false;
 ["day [interval]"] = false;
 ["days [interval ago]"] = false;
+["days [interval expired]"] = false;
+["days [interval expires]"] = false;
 ["days [interval time left]"] = false;
 ["days [interval]"] = false;
 ["deactivated"] = "απενεργοποιημένο";
 ["delegates to"] = "αναθέτει στον/στην";
-["delete"] = false;
 ["delete<br /><br />"] = "διαγραφή<br /><br />";
 ["direct"] = false;
 ["disabled"] = "απενεργοποιημένο";
 ["down"] = false;
 ["email"] = "Email";
+["expired"] = false;
+["expired #{interval_text} ago"] = false;
+["expired today"] = false;
+["expires in #{interval_text}"] = false;
 ["global"] = "Καθολικό";
 ["hour [interval time ago]"] = false;
 ["hour [interval time left]"] = false;
@@ -1074,6 +1088,7 @@ return {
 ["incl. potential"] = false;
 ["indirect"] = false;
 ["last 24 hours"] = "τις τελευταίες 24 ώρες";
+["less than one day [interval expires]"] = false;
 ["login name"] = "Όνομα σύνδεσης";
 ["majority"] = "πλειοψηφία";
 ["minute [interval time ago]"] = false;
@@ -1081,9 +1096,13 @@ return {
 ["minutes [interval time ago]"] = false;
 ["minutes [interval time left]"] = false;
 ["month [interval ago]"] = false;
+["month [interval expired]"] = false;
+["month [interval expires]"] = false;
 ["month [interval time left]"] = false;
 ["month [interval]"] = false;
 ["months [interval ago]"] = false;
+["months [interval expired]"] = false;
+["months [interval expires]"] = false;
 ["months [interval time left]"] = false;
 ["months [interval]"] = false;
 ["more unsatisfied"] = "περισσότερο ανικανοποίητος/η";
@@ -1119,9 +1138,13 @@ return {
 ["without winner"] = "Χωρίς νικητή";
 ["xmpp"] = "Jabber (XMPP)";
 ["year [interval ago]"] = false;
+["year [interval expired]"] = false;
+["year [interval expires]"] = false;
 ["year [interval time left]"] = false;
 ["year [interval]"] = false;
 ["years [interval ago]"] = false;
+["years [interval expired]"] = false;
+["years [interval expires]"] = false;
 ["years [interval time left]"] = false;
 ["years [interval]"] = false;
 }

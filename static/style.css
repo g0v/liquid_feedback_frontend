@@ -872,6 +872,26 @@ div.ui_field_multiline span {
  * delegation page
  */
 
+.delegation_left {
+  width: 55%;
+  float: left;
+  overflow: hidden;
+}
+.delegation_right {
+  margin-left: 45%;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 900px) {
+  .delegation_left {
+    width: auto;
+    float: none;
+  }
+  .delegation_right {
+    margin-left: 0;
+  }
+}
+
 .overridden {
   opacity: 0.4;
 }
@@ -915,10 +935,14 @@ form.delegation_down {
 form.delegation_delete {
   position:absolute;
   left: 310px;
-  top: 15px;
+  top: 7px;
+}
+form.delegation_delete input[type=submit] {
+  margin-top: 2px;
 }
 form.delegation_add {
   margin-top: 15px;
+  margin-bottom: 2em;
 }
 form.delegation_add select {
   width: 90%;

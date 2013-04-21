@@ -14,6 +14,8 @@ return {
 ["#{count} of them have an area delegation set."] = false;
 ["#{count} of your outgoing delegation(s) are broken"] = "您所委任的表决中有 #{count} 个已经毁损";
 ["#{count} of your outgoing delegations are broken."] = false;
+["#{count} of your outgoing delegations are expired."] = false;
+["#{count} of your outgoing delegations expire soon, the first in #{interval_text}."] = false;
 ["#{date} at #{time}"] = "于 #{date} #{time}";
 ["#{interested_issues_to_vote_count} issue(s) you are interested in"] = "#{interested_issues_to_vote_count} 个您所关心的议题";
 ["#{interested_issues_to_vote_count} issues you are interested in"] = false;
@@ -175,6 +177,7 @@ return {
 ["Contacts"] = "通讯录";
 ["Contacts participating in this area"] = false;
 ["Content"] = "內容";
+["Continue"] = false;
 ["Counting of votes"] = "统计票数";
 ["Counting starts soon"] = "计票即将开始";
 ["Counting starts soon."] = false;
@@ -281,6 +284,7 @@ return {
 ["Etherpad authentication failed"] = "Etherpad 认证失败";
 ["Event"] = false;
 ["Everything"] = "全部";
+["Expired and soon expiring delegations"] = false;
 ["External memberships"] = "外部成员";
 ["External posts"] = "外部职位";
 ["Finish voting"] = "完成投票";
@@ -568,7 +572,9 @@ return {
 ["One more area in this unit"] = "此单位的另一个领域";
 ["One of them has an area delegation set"] = "其中设有一组领域委任";
 ["One of them has an area delegation set."] = false;
-["One outgoing delegation is broken."] = false;
+["One of your outgoing delegations expires in #{interval_text}."] = false;
+["One of your outgoing delegations is broken."] = false;
+["One of your outgoing delegations is expired."] = false;
 ["One step back"] = "上一步";
 ["Only for issues reaching the discussion phase"] = "限已进入讨论阶段的议题";
 ["Only for issues reaching the frozen phase"] = "限已进入底定阶段的议题";
@@ -725,6 +731,7 @@ return {
 ["Sorry, but there is not confirmed email address for your account. Please contact the administrator or support."] = "抱歉，您的帐号並无经认证的电邮地址。请联络管理员或支援。";
 ["Sorry, but you are currently not invited"] = "抱歉，您目前未受邀请。";
 ["Sorry, but you are currently not invited!"] = false;
+["Sorry, but your account is locked. To get unlocked please contact #{support}!"] = false;
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "抱歉，您已经达到个人流量限制。请减缓...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "抱歉，您的提案申请额度已经用尽。请稍后重试！";
 ["Source"] = "来源";
@@ -1050,19 +1057,26 @@ return {
 ["before begin of voting"] = false;
 ["change discussion URL"] = "更改讨论网址";
 ["day [interval ago]"] = false;
+["day [interval expired]"] = false;
+["day [interval expires]"] = false;
 ["day [interval time left]"] = false;
 ["day [interval]"] = false;
 ["days [interval ago]"] = false;
+["days [interval expired]"] = false;
+["days [interval expires]"] = false;
 ["days [interval time left]"] = false;
 ["days [interval]"] = false;
 ["deactivated"] = "停用";
 ["delegates to"] = "委任给";
-["delete"] = false;
 ["delete<br /><br />"] = "刪除<br /><br />";
 ["direct"] = false;
 ["disabled"] = "停用";
 ["down"] = false;
 ["email"] = "电邮";
+["expired"] = false;
+["expired #{interval_text} ago"] = false;
+["expired today"] = false;
+["expires in #{interval_text}"] = false;
 ["global"] = "全面";
 ["hour [interval time ago]"] = false;
 ["hour [interval time left]"] = false;
@@ -1074,6 +1088,7 @@ return {
 ["incl. potential"] = false;
 ["indirect"] = false;
 ["last 24 hours"] = "最近 24 小时內";
+["less than one day [interval expires]"] = false;
 ["login name"] = "帐号";
 ["majority"] = "多数";
 ["minute [interval time ago]"] = false;
@@ -1081,9 +1096,13 @@ return {
 ["minutes [interval time ago]"] = false;
 ["minutes [interval time left]"] = false;
 ["month [interval ago]"] = false;
+["month [interval expired]"] = false;
+["month [interval expires]"] = false;
 ["month [interval time left]"] = false;
 ["month [interval]"] = false;
 ["months [interval ago]"] = false;
+["months [interval expired]"] = false;
+["months [interval expires]"] = false;
 ["months [interval time left]"] = false;
 ["months [interval]"] = false;
 ["more unsatisfied"] = "较不满意";
@@ -1119,9 +1138,13 @@ return {
 ["without winner"] = "无获选者";
 ["xmpp"] = "Jabber (XMPP)";
 ["year [interval ago]"] = false;
+["year [interval expired]"] = false;
+["year [interval expires]"] = false;
 ["year [interval time left]"] = false;
 ["year [interval]"] = false;
 ["years [interval ago]"] = false;
+["years [interval expired]"] = false;
+["years [interval expires]"] = false;
 ["years [interval time left]"] = false;
 ["years [interval]"] = false;
 }
