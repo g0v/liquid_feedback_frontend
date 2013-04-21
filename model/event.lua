@@ -94,11 +94,19 @@ function Event.object:send_notification()
           -- initiative(s)
           local body_initiative = ""
           local initiative
+          local draft
           local url_initiative_id = self.initiative_id
           if self.initiative_id then
             -- initiative
             initiative = Initiative:by_id(self.initiative_id)
-            body_initiative = body_initiative .. _("i#{id}: #{name}", { id = initiative.id, name = initiative.name }) .. "\n\n"
+            -- draft
+            if self.draft_id then
+              draft = Draft:by_id(self.draft_id)
+              body_initiative = body_initiative .. _("i#{id}: #{name}", { id = initiative.id, name = draft.name }) .. "\n\n"
+                .. draft.content .. "\n"
+            else
+              body_initiative = body_initiative .. _("i#{id}: #{name}", { id = initiative.id, name = initiative.name }) .. "\n\n"
+            end
           else
             -- initiatives of an issue
             local issue = Issue:by_id(self.issue_id)
@@ -159,12 +167,6 @@ function Event.object:send_notification()
           -- initiative(s)
             .. body_initiative
 
-          -- draft
-          if self.draft_id then
-            local draft = Draft:by_id(self.draft_id)
-            body = body .. draft.content .. "\n"
-          end
-
           -- suggestion
           local suggestion
           if self.suggestion_id then
@@ -214,7 +216,7 @@ function Event.object:send_notification()
           elseif self.event == "initiative_revoked" then
             subject = subject .. _("Initiative revoked - i#{id}: #{name}", { id = initiative.id, name = initiative.name })
           elseif self.event == "new_draft_created" then
-            subject = subject .. _("New draft for initiative i#{id} - #{name}", { id = initiative.id, name = initiative.name })
+            subject = subject .. _("New draft for initiative i#{id} - #{name}", { id = initiative.id, name = draft.name })
           elseif self.event == "suggestion_created" then
             subject = subject .. _("New suggestion for initiative i#{id} - #{suggestion}", { id = initiative.id, suggestion = suggestion.name })
           elseif self.event == "argument_created" then
