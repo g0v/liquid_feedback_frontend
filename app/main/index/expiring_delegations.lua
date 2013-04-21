@@ -2,7 +2,7 @@ ui.title(_"Expired and soon expiring delegations")
 util.help("index.expiring_delegations")
 
 local delegations_selector = Member:selector_delegations(true)
-  :join("system_setting")
+  :left_join("system_setting", nil, "TRUE")
   :add_where{ "member.id = ?", app.session.member_id }
   :add_where("delegation.issue_id ISNULL")
   :add_where{

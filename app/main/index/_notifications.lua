@@ -22,7 +22,7 @@ local expiring_delegations_selector = Delegation:new_selector()
 if config.delegation_warning_time then
   expiring_delegations_selector:add_field("count(1)", "count")
     :add_field("count(CASE WHEN delegation.active = FALSE THEN 1 ELSE NULL END)", "expired_count")
-    :join("system_setting")
+    :left_join("system_setting", nil, "TRUE")
     :add_field(
       "justify_interval(age(MIN(delegation.confirmed), CURRENT_DATE) + system_setting.delegation_ttl)",
       "time_left"

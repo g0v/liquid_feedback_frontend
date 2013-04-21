@@ -60,7 +60,7 @@ function Delegation:by_pk(truster_id, unit_id, area_id, issue_id)
   else
     selector:add_where("issue_id ISNULL")
   end
-  selector:join("system_setting")
+  selector:left_join("system_setting", nil, "TRUE")
     :add_field( "justify_interval(age(confirmed, CURRENT_DATE) + system_setting.delegation_ttl)", "time_left" )
     :add_field( "justify_interval(age(confirmed) - system_setting.delegation_ttl - '1 day'::interval)", "time_ago" )
   if config.delegation_warning_time then
