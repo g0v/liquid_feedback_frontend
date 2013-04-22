@@ -874,12 +874,12 @@ div.ui_field_multiline span {
  */
 
 .delegation_left {
-  width: 55%;
+  width: 54%;
   float: left;
   overflow: hidden;
 }
 .delegation_right {
-  margin-left: 45%;
+  margin-left: 56%;
   overflow: hidden;
 }
 
