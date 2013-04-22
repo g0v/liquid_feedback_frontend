@@ -14,6 +14,7 @@ local members = Member:new_selector()
   :add_where{ "split_part(notify_email, '@', 1) = split_part(?, '@', 1)", email }
   :add_where{ "lower(split_part(notify_email, '@', 2)) = lower(split_part(?, '@', 2))", email }
   :add_where("login_recovery_expiry ISNULL OR login_recovery_expiry < now()")
+  :add_where("login NOTNULL")
   :exec()
 
 if #members > 0 then
