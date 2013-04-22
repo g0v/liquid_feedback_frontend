@@ -65,7 +65,7 @@ return {
 ["All in my units"] = "Alle in meinen Gliederungen";
 ["All issues"] = "Alle Themen";
 ["All units"] = "Alle Gliederungen";
-["All your contacts are on this list of trustees. To add more members, you have to add them to your contacts first."] = "Alle deine Kontakte sind in dieser Liste von Bevollmächtigten. Um weitere Mitglieder hinzuzufügen, musst du sie erst in deine Kontakte aufnehmen.";
+["All your contacts are on this list of trustees. To add more members, you have to add them to your contacts first."] = "Alle deine Kontakte sind in dieser Delegationsliste. Um weitere Mitglieder hinzuzufügen, musst du sie erst in deine Kontakte aufnehmen.";
 ["Any"] = "Alle";
 ["Any phase"] = "Alle Phasen";
 ["Any state"] = "Alle Zustände";
@@ -346,7 +346,7 @@ return {
 ["Latest events"] = "Letzte Ereignisse";
 ["Latest vote results"] = "Neuste Abstimmungsergebnisse";
 ["List all revisions (#{count})"] = "Zeige alle Versionen (#{count})";
-["List of trustees"] = "Liste der Bevollmächtigten";
+["List of trustees"] = "Delegationsliste";
 ["Lock and deactivate Member?"] = "Mitglied sperren und deaktivieren?";
 ["Locked"] = "Gesperrt";
 ["Locked by import"] = "Gesperrt durch Import";
@@ -636,7 +636,7 @@ return {
 ["The versions do not differ."] = "Die Versionen unterscheiden sich nicht.";
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = "Es gibt #{count} Anregungen, zu denen bisher nur du eine Meinung angegeben hast. Wenn du dein Interesse zurückziehst, werden diese Anregungen gelöscht!";
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = "Es gibt #{count} Anregungen, zu denen bisher nur du eine Meinung angegeben hast. Wenn du deine Unterstützung zurückziehst, werden diese Anregungen gelöscht!";
-["There are no trustees selected."] = "Es sind keine Bevollmächtigten ausgewählt.";
+["There are no trustees selected."] = "Es sind keine Delegierten ausgewählt.";
 ["There is one suggestion, for which only you entered an opinion. If you withdraw your interest, this suggestion will be deleted!"] = "Es gibt eine Anregungen, zu der bisher nur du eine Meinung angegeben hast. Wenn du dein Interesse zurückziehst, wird diese Anregung gelöscht!";
 ["There is one suggestion, for which only you entered an opinion. If you withdraw your support, this suggestion will be deleted!"] = "Es gibt eine Anregungen, zu der bisher nur du eine Meinung angegeben hast. Wenn du deine Unterstützung zurückziehst, wird diese Anregung gelöscht!";
 ["This argument does not exist!"] = "Dieses Argument existiert nicht!";
@@ -690,7 +690,7 @@ return {
 ["To reset your password please click on the following link:"] = "Um dein Kennwort zurückzusetzen klicke bitte den folgenden Link an:";
 ["Today at #{time}"] = "Heute um #{time}";
 ["Traditional wiki syntax"] = "Traditionelle Wiki-Syntax";
-["Trustee has no voting right in this unit!"] = "Bevollmächtigter hat kein Stimmrecht in dieser Gliederung!";
+["Trustee has no voting right in this unit!"] = "Delegierter hat kein Stimmrecht in dieser Gliederung!";
 ["Unconfirmed address"] = "Unbestätigte E-Mail";
 ["Unit"] = "Gliederung";
 ["Unit delegation"] = "Gliederungsdelegation";
@@ -795,7 +795,7 @@ return {
 ["You were supporter."] = "Du bist Unterstützer.";
 ["You've successfully registered and you can login now with your login and password!"] = "Du hast dich erfolgreich registriert und kannst dich jetzt mit deinen Anmeldenamen und Kennwort anmelden!";
 ["Your argument has been added."] = "Dein Argument wurde hinzugefügt.";
-["Your contact list is empty. To add members to this list of trustees, you have to add them to your contacts first."] = "Deine Kontakte-Liste ist leer. Um Mitglieder zu dieser Liste von Bevollmächtigten hinzuzufügen, musst du sie erst in deine Kontakte aufnehmen.";
+["Your contact list is empty. To add members to this list of trustees, you have to add them to your contacts first."] = "Deine Kontakte-Liste ist leer. Um Mitglieder zu dieser Delegationsliste hinzuzufügen, musst du sie erst in deine Kontakte aufnehmen.";
 ["Your email address has been changed, please check for confirmation email with activation link!"] = "Deine E-Mail-Adresse wurde geändert, du hast eine Bestätigungs-E-Mail mit Aktivierungslink erhalten.";
 ["Your interest has been removed from this issue."] = "Dein Interesse wurde dem Thema entzogen.";
 ["Your login has been changed to '#{login}'."] = "Dein Anmeldename wurde auf '#{login}' geändert.";
