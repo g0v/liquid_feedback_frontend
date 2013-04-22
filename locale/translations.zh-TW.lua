@@ -291,6 +291,8 @@ return {
 ["Finished"] = "已結束";
 ["Finished (with winner)"] = "已結束 (有獲選者)";
 ["Finished (without winner)"] = "已結束 (無獲選者)";
+["Forgot login name?"] = false;
+["Forgot password?"] = false;
 ["Free timing"] = false;
 ["Friday"] = "週五";
 ["Frozen"] = "底定期";
@@ -303,6 +305,8 @@ return {
 ["Half frozen at"] = "半底定於";
 ["Hello\n\n"] = "您好\n\n";
 ["Hello "] = "您好 ";
+["Hello #{name}!"] = false;
+["Hello!"] = false;
 ["Help #{id}"] = "說明文件 #{id}";
 ["Help for: #{text}"] = "#{text} 的說明文件";
 ["Hidden, click to publish"] = false;
@@ -318,7 +322,9 @@ return {
 ["I like to receive notifications by email about events:"] = false;
 ["Id"] = "身分";
 ["Identification"] = "身分";
+["If a member with this email address exists, the login name has been sent."] = false;
 ["If a member with this login exists, a reset link has been sent to the stored email address."] = false;
+["If this link is not working, please open following url in your web browser:"] = false;
 ["If this link is not working, please open following url in your web browser:\n\n"] = "若此連結失效，請於您的瀏覽器開啟下列網址：\n\n";
 ["Ignore Areas"] = "忽略領域";
 ["Ignore initiative"] = "忽略提案";
@@ -432,6 +438,7 @@ return {
 ["Locked?"] = "被封鎖？";
 ["Login"] = "登入";
 ["Login name"] = "帳號";
+["Login name request"] = false;
 ["Login successful"] = false;
 ["Logout"] = "登出";
 ["Logout successful"] = "成功登出";
@@ -562,8 +569,11 @@ return {
 ["Old password"] = "舊密碼";
 ["Old password is wrong"] = "舊密碼輸入錯誤";
 ["Oldest"] = "由舊至新";
+["On that page please enter the confirmation code:"] = false;
 ["On that page please enter the confirmation code:\n\n"] = "請在此頁面輸入確認碼：\n\n";
+["On that page please enter the invite key:"] = false;
 ["On that page please enter the invite key:\n\n"] = "請在此頁面輸入邀請碼：\n\n";
+["On that page please enter the reset code:"] = false;
 ["On that page please enter the reset code:\n\n"] = "請在此頁面輸入重設碼：\n\n";
 ["One Image has been deleted."] = false;
 ["One Image has been updated. If it is not yet displayed, you can try to reload the page."] = false;
@@ -616,10 +626,13 @@ return {
 ["Please choose two versions of the draft to compare"] = "請選擇兩個版本的草案以比較。";
 ["Please choose two versions of the draft to compare!"] = false;
 ["Please confirm your email address"] = "請確認您的電郵地址";
+["Please confirm your email address by clicking the following link:"] = false;
 ["Please confirm your email address by clicking the following link:\n\n"] = "請點擊下列連結以確認您的電郵地址：\n\n";
 ["Please confirm your email address!"] = false;
 ["Please enter the email reset code you have received:"] = "請輸入您所收到的電郵重設碼：";
 ["Please enter the invite code you've received."] = "請輸入您所收到的邀請碼";
+["Please enter the reset code you have received by email:"] = false;
+["Please enter your email address! You will receive an email with your login name."] = false;
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "請輸入您的電郵地址。此地址將為您申請密碼重設時自動通知的收件信箱。此電郵地址將不被公開。在註冊完成後您將收到一封電郵內含認證此信箱的連結。";
 ["Please enter your login name! You will receive an email with a link to reset your password. Note that your login name might be distinct from your screen name!"] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "請輸入您的帳號。您將收到一封附有重設密碼連結的電子郵件。";
@@ -669,6 +682,8 @@ return {
 ["Remove initiator from initiative"] = "自提案移除發起者";
 ["Rendered"] = "已格式化";
 ["Repeat new password"] = "重複新密碼";
+["Request email with login name"] = false;
+["Request login name"] = false;
 ["Request password reset link"] = "申請重設密碼的連結";
 ["Resend activation email to '#{email}'"] = "重寄啟用電郵至 '#{email}'";
 ["Reset code"] = "重設碼";
@@ -770,13 +785,14 @@ return {
 ["The draft has not been changed!"] = false;
 ["The draft of this initiative has been updated!"] = "此提案之草案已被更新！";
 ["The drafts do not differ"] = "這些草案並無差異";
+["The following login is connected to this email address:"] = false;
 ["The initiators suggest to support the following initiative:"] = "提案人建議支持下列提案：";
 ["The maximum number of delegations for one preference list is reached!"] = false;
 ["The requested area does not exist!"] = false;
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
-["The reset code is only valid for one day.\n\n"] = false;
+["The reset code is only valid for one day."] = false;
 ["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
@@ -786,6 +802,7 @@ return {
 ["This argument does not exist!"] = false;
 ["This email address is not valid!"] = false;
 ["This email address is too short!"] = "此電郵地址太短！";
+["This function is not activated!"] = false;
 ["This initiative"] = "提案";
 ["This initiative has been revoked at #{revoked}"] = "此提案已在 #{revoked} 被撤銷";
 ["This initiative has not been admitted! It failed the quorum of #{quorum}."] = "此提案因未達 #{quorum} 的法定門檻而未被遞交。";
@@ -848,6 +865,7 @@ return {
 ["Title"] = "標題";
 ["Title (80 chars max)"] = "標題 (最長 80 個半形或 40 個全形字體)";
 ["Title of initiative"] = "提案標題";
+["To reset your password please click on the following link:"] = false;
 ["Today at #{time}"] = "今天於 #{time}";
 ["Traditional wiki syntax"] = "傳統 Wiki-Syntax";
 ["Trustee"] = "受託人";
@@ -936,6 +954,7 @@ return {
 ["You are interested."] = false;
 ["You are invited to #{count} initiative(s)"] = "您被邀請參與 #{count} 個提案";
 ["You are invited to #{count} initiatives."] = false;
+["You are invited to Pirate Feedback. To register please click the following link:"] = false;
 ["You are invited to Pirate Feedback. To register please click the following link:\n\n"] = "您被邀請參與 Pirate Feedback。請點擊下列連結以註冊：\n\n";
 ["You are invited to become initiator of this initiative."] = "您被邀請成為此議題之發起者。";
 ["You are invited to one initiative."] = false;

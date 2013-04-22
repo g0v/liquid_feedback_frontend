@@ -119,6 +119,11 @@ config.public_access = "none"
 -- ------------------------------------------------------------------------
 -- config.inform_locked_member = false
 
+-- Send login
+-- On request send a user his login name by email
+-- ------------------------------------------------------------------------
+-- config.send_login = false
+
 -- Configuration of password hashing algorithm (defaults to "crypt_sha512")
 -- ------------------------------------------------------------------------
 -- config.password_hash_algorithm = "crypt_sha512"

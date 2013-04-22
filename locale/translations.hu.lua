@@ -286,6 +286,8 @@ return {
 ["Finished"] = "Lezárva";
 ["Finished (with winner)"] = "Lezárva (nyertessel)";
 ["Finished (without winner)"] = "Lezárva (nyertes nélkül)";
+["Forgot login name?"] = false;
+["Forgot password?"] = false;
 ["Free timing"] = false;
 ["Friday"] = "Péntek";
 ["Frozen"] = "Befagyasztva";
@@ -298,6 +300,8 @@ return {
 ["Half frozen at"] = "Félig befagyasztva ekkor:";
 ["Hello\n\n"] = "Helló\n\n";
 ["Hello "] = "Helló ";
+["Hello #{name}!"] = false;
+["Hello!"] = false;
 ["Help #{id}"] = "Súgó: #{id}";
 ["Help for: #{text}"] = "Súgó: #{text}";
 ["Hidden, click to publish"] = false;
@@ -312,7 +316,9 @@ return {
 ["I like to receive notifications by email about events:"] = false;
 ["Id"] = "Azonosító";
 ["Identification"] = "Azonosítás";
+["If a member with this email address exists, the login name has been sent."] = false;
 ["If a member with this login exists, a reset link has been sent to the stored email address."] = false;
+["If this link is not working, please open following url in your web browser:"] = false;
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Ha a link nem mûködik, úgy nyisd meg a következõ URL-t a böngészõdbõl:\n\n";
 ["Ignore Areas"] = "Területek ignorálása";
 ["Ignore initiative"] = "Kezdeményezés ignorálása";
@@ -425,6 +431,7 @@ return {
 ["Locked?"] = "Zárva?";
 ["Login"] = "Bejelentkezés";
 ["Login name"] = "Bejelentkezési név";
+["Login name request"] = false;
 ["Login successful"] = false;
 ["Logout"] = "Kijelentkezés";
 ["Logout successful"] = "Sikeres kijelentkezés";
@@ -544,8 +551,11 @@ return {
 ["Old password"] = "Régi jelszó";
 ["Old password is wrong"] = "A régi jelszó hibás";
 ["Oldest"] = "Legrégebbi";
+["On that page please enter the confirmation code:"] = false;
 ["On that page please enter the confirmation code:\n\n"] = "Ezen az oldalon add meg a következõ megerõsítõ kódot:\n\n";
+["On that page please enter the invite key:"] = false;
 ["On that page please enter the invite key:\n\n"] = "Ezen az oldalon add meg a következõ meghívókulcsot:\n\n";
+["On that page please enter the reset code:"] = false;
 ["On that page please enter the reset code:\n\n"] = "Ezen az oldalon add meg a következõ visszaállítási kódot :\n\n";
 ["One Image has been deleted."] = false;
 ["One Image has been updated. If it is not yet displayed, you can try to reload the page."] = false;
@@ -596,10 +606,13 @@ return {
 ["Please choose two different versions of the draft to compare!"] = false;
 ["Please choose two versions of the draft to compare"] = "Válaszd ki a vázlat két, összehasonlítandó változatát";
 ["Please choose two versions of the draft to compare!"] = false;
+["Please confirm your email address by clicking the following link:"] = false;
 ["Please confirm your email address by clicking the following link:\n\n"] = "A következõ linkre kattintva erõsítheted meg az email-címedet:";
 ["Please confirm your email address!"] = false;
 ["Please enter the email reset code you have received:"] = "Írd be a visszaállítási kódodat:";
 ["Please enter the invite code you've received."] = "Írd be a meghívókódodat.";
+["Please enter the reset code you have received by email:"] = false;
+["Please enter your email address! You will receive an email with your login name."] = false;
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Írd be az email-címedet. Ide kapod majd az automatikus értesítõket (ha kérsz ilyeneket), és a jelszavad esetleges elvesztése esetén is szükség lesz rá. Ez a címed nem lesz közzétéve. A regisztrációt követõen ide kapod majd a megerõsítõ linket tartalmazó mailt is.";
 ["Please enter your login name! You will receive an email with a link to reset your password. Note that your login name might be distinct from your screen name!"] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Írd be a bejelentkezési nevedet - majd mailben kapni fogsz egy linket a jelszavad visszaáálításához.";
@@ -644,6 +657,8 @@ return {
 ["Remove initiator from initiative"] = "Kezdeményezõ eltávolítása a kezdeményezésbõl";
 ["Rendered"] = "Formattálva";
 ["Repeat new password"] = "Új jelszó újra";
+["Request email with login name"] = false;
+["Request login name"] = false;
 ["Request password reset link"] = "Jelszó-visszaállítási link kérelmezése";
 ["Resend activation email to '#{email}'"] = "Aktivációs email újbóli elküldése a '#{email}' címre";
 ["Reset code"] = "Visszaállító kód";
@@ -743,13 +758,14 @@ return {
 ["The draft has not been changed!"] = false;
 ["The draft of this initiative has been updated!"] = "Kezdeményezés vázlata frissítve!";
 ["The drafts do not differ"] = "Nincs különbség a vázlatok között";
+["The following login is connected to this email address:"] = false;
 ["The initiators suggest to support the following initiative:"] = "A kezdeményezõk a következõ kezdeményezés támogatását javasolják:";
 ["The maximum number of delegations for one preference list is reached!"] = false;
 ["The requested area does not exist!"] = false;
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
-["The reset code is only valid for one day.\n\n"] = false;
+["The reset code is only valid for one day."] = false;
 ["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
@@ -759,6 +775,7 @@ return {
 ["This argument does not exist!"] = false;
 ["This email address is not valid!"] = false;
 ["This email address is too short!"] = "Ez az email-cím túl rövid!";
+["This function is not activated!"] = false;
 ["This initiative"] = "Ez a kezdeményezés";
 ["This initiative has been revoked at #{revoked}"] = "Kezdeményezés visszavonásának idõpontja: #{revoked}";
 ["This initiative has not been admitted! It failed the quorum of #{quorum}."] = "Kezdeményezés nem lett engedélyezve, mivel nem érte el a határozatképességet: #(quorum).";
@@ -819,6 +836,7 @@ return {
 ["Title"] = "Cím";
 ["Title (80 chars max)"] = "Cím (max. 80 karakter)";
 ["Title of initiative"] = "Kezdeményezés címe";
+["To reset your password please click on the following link:"] = false;
 ["Today at #{time}"] = false;
 ["Traditional wiki syntax"] = "Hagyományos wiki-szintaxis";
 ["Trustee"] = "Meghatalmazott";
@@ -904,6 +922,7 @@ return {
 ["You are interested in this issue"] = "Érdekel ez a téma";
 ["You are interested."] = false;
 ["You are invited to #{count} initiatives."] = false;
+["You are invited to Pirate Feedback. To register please click the following link:"] = false;
 ["You are invited to Pirate Feedback. To register please click the following link:\n\n"] = "Meghívtak a Pirate Feedbackhez. Regisztráláshoz kattints a következõ linkre:";
 ["You are invited to become initiator of this initiative."] = "Meghívtak kezdeményezõnek ehhez a kezdeményezéshez.";
 ["You are invited to one initiative."] = false;

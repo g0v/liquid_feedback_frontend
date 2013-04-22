@@ -291,6 +291,8 @@ return {
 ["Finished"] = "Ολοκληρώθηκε";
 ["Finished (with winner)"] = "Ολοκληρώθηκε (με νικητή)";
 ["Finished (without winner)"] = "Ολοκληρώθηκε (χωρίς νικητή)";
+["Forgot login name?"] = false;
+["Forgot password?"] = false;
 ["Free timing"] = false;
 ["Friday"] = "Παρασκευή";
 ["Frozen"] = "Παγωμένο";
@@ -303,6 +305,8 @@ return {
 ["Half frozen at"] = "Μερικώς παγωμένο στις";
 ["Hello\n\n"] = "Γειά σου\n\n";
 ["Hello "] = "Γειά σου ";
+["Hello #{name}!"] = false;
+["Hello!"] = false;
 ["Help #{id}"] = "Βοήθεια #{id}";
 ["Help for: #{text}"] = "Βοήθεια για: #{text}";
 ["Hidden, click to publish"] = false;
@@ -318,7 +322,9 @@ return {
 ["I like to receive notifications by email about events:"] = false;
 ["Id"] = "Id";
 ["Identification"] = "Αναγνωριστικό";
+["If a member with this email address exists, the login name has been sent."] = false;
 ["If a member with this login exists, a reset link has been sent to the stored email address."] = false;
+["If this link is not working, please open following url in your web browser:"] = false;
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Εάν δεν λειτουργεί αυτός ο σύνδεσμος, παρακαλώ ανοίξτε την παρακάτω διεύθυνση με το πρόγραμμα περιήγησης στον ιστό:\n\n";
 ["Ignore Areas"] = "Αγνοήση τομέων";
 ["Ignore initiative"] = "Αγνόηση πρωτοβουλίας";
@@ -432,6 +438,7 @@ return {
 ["Locked?"] = "Κλειστό;";
 ["Login"] = "Σύνδεση";
 ["Login name"] = "Όνομα σύνδεσης";
+["Login name request"] = false;
 ["Login successful"] = false;
 ["Logout"] = "Αποσύνδεση";
 ["Logout successful"] = "Επιτυχής αποσύνδεση";
@@ -562,8 +569,11 @@ return {
 ["Old password"] = "Παλιός κωδικός";
 ["Old password is wrong"] = "Ο παλιός κωδικός πρόσβασης είναι λανθασμένος";
 ["Oldest"] = "Παλαιότερο";
+["On that page please enter the confirmation code:"] = false;
 ["On that page please enter the confirmation code:\n\n"] = "Σε εκείνη την σελίδα εισάγετε τον κωδικό επιβεβαίωσης:\n\n";
+["On that page please enter the invite key:"] = false;
 ["On that page please enter the invite key:\n\n"] = "Σε εκείνη την σελίδα εισάγετε τον κωδικό πρόσκλησης:\n\n";
+["On that page please enter the reset code:"] = false;
 ["On that page please enter the reset code:\n\n"] = "Σε εκείνη την σελίδα εισάγετε τον κωδικό επαναφοράς:\n\n";
 ["One Image has been deleted."] = false;
 ["One Image has been updated. If it is not yet displayed, you can try to reload the page."] = false;
@@ -616,10 +626,13 @@ return {
 ["Please choose two versions of the draft to compare"] = "Παρακαλώ επιλέξτε δύο εκδόσεις του προσχεδίου για να τις συγκρίνετε.";
 ["Please choose two versions of the draft to compare!"] = false;
 ["Please confirm your email address"] = "Παρακαλώ επιβεβαιώστε την διεύθυνση email σας";
+["Please confirm your email address by clicking the following link:"] = false;
 ["Please confirm your email address by clicking the following link:\n\n"] = "Παρακαλώ να επιβεβαιώσετε την διεύθυνση email σας πατώντας στον παρακάτω σύνδεσμο:\n\n";
 ["Please confirm your email address!"] = false;
 ["Please enter the email reset code you have received:"] = "Παρακαλώ εισάγετε τον κωδικό επαναφοράς που έχετε λάβει:";
 ["Please enter the invite code you've received."] = "Παρακαλώ εισάγετε τον κωδικό πρόσκλησης που έχετε λάβει.";
+["Please enter the reset code you have received by email:"] = false;
+["Please enter your email address! You will receive an email with your login name."] = false;
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Παρακαλώ εισάγετε τη διεύθυνση email σας. Αυτή η διεύθυνση θα χρησιμοποιηθεί για αυτόματες ειδοποιήσεις (αν το επιλέξετε) και σε περίπτωση που έχετε χάσει τον κωδικό πρόσβασής σας. Αυτή η διεύθυνση δεν θα δημοσιευθεί. Μετά την εγγραφή θα λάβετε ένα email με έναν σύνδεσμο επιβεβαίωσης.";
 ["Please enter your login name! You will receive an email with a link to reset your password. Note that your login name might be distinct from your screen name!"] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Παρακαλώ εισάγετε το όνομα σύνδεσής σας. Θα λάβετε ένα email με ένα σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας. Προσοχή στα κεφαλαία/πεζά γράμματα, έχουν σημασία.";
@@ -669,6 +682,8 @@ return {
 ["Remove initiator from initiative"] = "Αφαίρεση εισηγητή από την πρωτοβουλία";
 ["Rendered"] = "Μορφοποιημένο";
 ["Repeat new password"] = "Επανάληψη νέου κωδικού";
+["Request email with login name"] = false;
+["Request login name"] = false;
 ["Request password reset link"] = "Αίτηση συνδέσμου επαναφοράς κωδικού πρόσβασης";
 ["Resend activation email to '#{email}'"] = "Επανάληψη αποστολής του email ενεργοποίησης στο '#{email}'";
 ["Reset code"] = "Κωδικός επαναφοράς";
@@ -770,13 +785,14 @@ return {
 ["The draft has not been changed!"] = false;
 ["The draft of this initiative has been updated!"] = "Το προσχέδιο της πρωτοβουλίας έχει ενημερωθεί!";
 ["The drafts do not differ"] = "Τα προσχέδια δεν διαφέρουν";
+["The following login is connected to this email address:"] = false;
 ["The initiators suggest to support the following initiative:"] = "Οι εισηγητές προτείνουν να υποστηρίξετε την ακόλουθη πρωτοβουλία:";
 ["The maximum number of delegations for one preference list is reached!"] = false;
 ["The requested area does not exist!"] = false;
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
-["The reset code is only valid for one day.\n\n"] = false;
+["The reset code is only valid for one day."] = false;
 ["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
@@ -786,6 +802,7 @@ return {
 ["This argument does not exist!"] = false;
 ["This email address is not valid!"] = false;
 ["This email address is too short!"] = "Η διεύθυνση email είναι πολύ μικρή!";
+["This function is not activated!"] = false;
 ["This initiative"] = "Αυτή η πρωτοβουλία";
 ["This initiative has been revoked at #{revoked}"] = "Αυτή η πρωτοβουλία ανακλήθηκε στις #{revoked}";
 ["This initiative has not been admitted! It failed the quorum of #{quorum}."] = "Αυτή η πρωτοβουλία δεν προκρίθηκε. Δεν είχε την απαιτούμενη απαρτία #{quorum}.";
@@ -848,6 +865,7 @@ return {
 ["Title"] = "Τίτλος";
 ["Title (80 chars max)"] = "Τίτλος (μεγ. 80 χαρακτήρες)";
 ["Title of initiative"] = "Τίτλος της πρωτοβουλίας";
+["To reset your password please click on the following link:"] = false;
 ["Today at #{time}"] = "Σήμερα στις #{time}";
 ["Traditional wiki syntax"] = "Παραδοσιακή σύνταξη wiki";
 ["Trustee"] = "Αντιπρόσωπος";
@@ -936,6 +954,7 @@ return {
 ["You are interested."] = false;
 ["You are invited to #{count} initiative(s)"] = "Είστε προσκεκλημένος σε #{count} πρωτοβουλία/ες";
 ["You are invited to #{count} initiatives."] = false;
+["You are invited to Pirate Feedback. To register please click the following link:"] = false;
 ["You are invited to Pirate Feedback. To register please click the following link:\n\n"] = "Σας προσκάλεσαν στο Pirate Feedback. Κάντε κλικ στον παρακάτω σύνδεσμο για να εγγραφείτε:";
 ["You are invited to become initiator of this initiative."] = "Είστε προσκεκλημένος να γίνεται εισηγητής αυτής της πρωτοβουλίας.";
 ["You are invited to one initiative."] = false;

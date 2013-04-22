@@ -84,10 +84,12 @@ elseif member and config.inform_locked_member then
 
   slot.put_into("error", _("Sorry, but your account is locked. To get unlocked please contact #{support}!", { support = '<a href="mailto:' .. config.support .. '">' .. config.support .. '</a>' }))
   trace.debug('User locked')
+  return false
 
 else
 
   slot.put_into("error", _"Invalid login name or password!")
   trace.debug('User NOT authenticated')
-
+  return false
+  
 end

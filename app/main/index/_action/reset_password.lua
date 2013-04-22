@@ -5,7 +5,7 @@ local secret = param.get("secret")
 if not secret then
 
   local member = Member:new_selector()
-    :add_where{ "login = ?", param.get("login") }
+    :add_where{ "login = ?", util.trim(param.get("login")) }
     -- don't send another mail until the reset code expires
     :add_where("password_reset_secret ISNULL OR password_reset_secret_expiry < now()")
     :optional_object_mode()
@@ -24,14 +24,14 @@ if not secret then
     member:save()
 
     local content = slot.use_temporary(function()
-      slot.put(_"Hello " .. member.name .. ",\n\n")
-      slot.put(_"to reset your password please click on the following link:\n\n")
+      slot.put(_("Hello #{name}!", { name = member.name }) .. "\n\n")
+      slot.put(_"To reset your password please click on the following link:" .. "\n\n")
       slot.put(request.get_absolute_baseurl() .. "index/reset_password.html?secret=" .. member.password_reset_secret .. "\n\n")
-      slot.put(_"If this link is not working, please open following url in your web browser:\n\n")
+      slot.put(_"If this link is not working, please open following url in your web browser:" .. "\n\n")
       slot.put(request.get_absolute_baseurl() .. "index/reset_password.html\n\n")
-      slot.put(_"On that page please enter the reset code:\n\n")
+      slot.put(_"On that page please enter the reset code:" .. "\n\n")
       slot.put(member.password_reset_secret .. "\n\n")
-      slot.put(_"The reset code is only valid for one day.\n\n")
+      slot.put(_"The reset code is only valid for one day." .. "\n\n")
     end)
     local success = net.send_mail{
       envelope_from = config.mail_envelope_from,

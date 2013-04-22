@@ -271,6 +271,8 @@ return {
 ["Finished"] = "Finita";
 ["Finished (with winner)"] = false;
 ["Finished (without winner)"] = false;
+["Forgot login name?"] = false;
+["Forgot password?"] = false;
 ["Free timing"] = false;
 ["Friday"] = "Vendredo";
 ["Frozen"] = "Ĝelita";
@@ -281,8 +283,9 @@ return {
 ["Global search"] = false;
 ["Half frozen"] = false;
 ["Half frozen at"] = "Duone ĝelita je";
-["Hello\n\n"] = false;
 ["Hello "] = "Saluton ";
+["Hello #{name}!"] = false;
+["Hello!"] = false;
 ["Help #{id}"] = "Helpo #{id}";
 ["Help for: #{text}"] = "Helpo por: #{text}";
 ["Hidden, click to publish"] = false;
@@ -297,7 +300,9 @@ return {
 ["I like to receive notifications by email about events:"] = false;
 ["Id"] = "Identigilo";
 ["Identification"] = false;
+["If a member with this email address exists, the login name has been sent."] = false;
 ["If a member with this login exists, a reset link has been sent to the stored email address."] = false;
+["If this link is not working, please open following url in your web browser:"] = false;
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Se tiu ligilo ne funkcias, bonvolu malfermi la sekvan URLon per via retumilo:\n\n";
 ["Ignore Areas"] = "Malatenti temarojn";
 ["Ignore initiative"] = false;
@@ -410,6 +415,7 @@ return {
 ["Locked?"] = "Ĉu blokita?";
 ["Login"] = "Ensaluti";
 ["Login name"] = "Salutnomo";
+["Login name request"] = false;
 ["Login successful"] = false;
 ["Logout"] = "Adiaŭi";
 ["Logout successful"] = "Adiaŭo sukcesa";
@@ -528,8 +534,9 @@ return {
 ["Old password"] = "Malnova pasvorto";
 ["Old password is wrong"] = "La malnova pasvorto estas malĝusta";
 ["Oldest"] = "Plej malnova";
-["On that page please enter the confirmation code:\n\n"] = false;
-["On that page please enter the invite key:\n\n"] = false;
+["On that page please enter the confirmation code:"] = false;
+["On that page please enter the invite key:"] = false;
+["On that page please enter the reset code:"] = false;
 ["On that page please enter the reset code:\n\n"] = "Bonvolu enigu sur tiu paĝo la remetokodon:\n\n";
 ["One Image has been deleted."] = false;
 ["One Image has been updated. If it is not yet displayed, you can try to reload the page."] = false;
@@ -580,10 +587,12 @@ return {
 ["Please choose two different versions of the draft to compare!"] = false;
 ["Please choose two versions of the draft to compare"] = "Bonvolu elekti du versiojn de la skizo por kompari ili.";
 ["Please choose two versions of the draft to compare!"] = false;
-["Please confirm your email address by clicking the following link:\n\n"] = false;
+["Please confirm your email address by clicking the following link:"] = false;
 ["Please confirm your email address!"] = false;
 ["Please enter the email reset code you have received:"] = "Bonvolu enigi retpoŝtoremetokodon, kiun vi ricevis:";
 ["Please enter the invite code you've received."] = "Bonvolu enigi la invitokodon, kiun vi ricevis.";
+["Please enter the reset code you have received by email:"] = false;
+["Please enter your email address! You will receive an email with your login name."] = false;
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Bonvolu enigi vian retadreson. Tiu adreso estas uzita por aŭtomataj sciigoj (se vi petas tiajn) kaj por remeti la pasvorton. Tiu adreso ne estos publikigita. Post la fino de la registrado, vi ricevos retpoŝton kun ligilo al la konfirmo de la adreso.";
 ["Please enter your login name! You will receive an email with a link to reset your password. Note that your login name might be distinct from your screen name!"] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Bonvolu enigi vian salutnomon. Vi ricevos retpoŝton kun ligilo al la remeto de la pasvorto.";
@@ -628,6 +637,8 @@ return {
 ["Remove initiator from initiative"] = "Ĉu forigi iniciinton de la iniciato?";
 ["Rendered"] = "Bildigita";
 ["Repeat new password"] = "Ripeti novan pasvorton";
+["Request email with login name"] = false;
+["Request login name"] = false;
 ["Request password reset link"] = "Demandi ligilon por remeti la pasvorton";
 ["Resend activation email to '#{email}'"] = "Resendi aktivigan retpoŝton al '#{email}'";
 ["Reset code"] = "Remetokodo";
@@ -725,13 +736,14 @@ return {
 ["The draft has not been changed!"] = false;
 ["The draft of this initiative has been updated!"] = "La skizo de tiu iniciato estas ĝisdatigita";
 ["The drafts do not differ"] = "La skizoj ne estas malsamaj";
+["The following login is connected to this email address:"] = false;
 ["The initiators suggest to support the following initiative:"] = "La iniciintoj rekomendas subteni sekvan iniciaton:";
 ["The maximum number of delegations for one preference list is reached!"] = false;
 ["The requested area does not exist!"] = false;
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
-["The reset code is only valid for one day.\n\n"] = false;
+["The reset code is only valid for one day."] = false;
 ["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
@@ -741,6 +753,7 @@ return {
 ["This argument does not exist!"] = false;
 ["This email address is not valid!"] = false;
 ["This email address is too short!"] = "Tiu retpoŝtadreso esta tro mallonga!";
+["This function is not activated!"] = false;
 ["This initiative"] = "Tiu iniciato";
 ["This initiative has been revoked at #{revoked}"] = "Tiu iniciato estis nuligita je #{revoked}";
 ["This initiative has not been admitted! It failed the quorum of #{quorum}."] = "Tiu iniciato ne estas aprobita! Ĝi malsukcesis la kvorumon de #{quorum}.";
@@ -799,6 +812,7 @@ return {
 ["Title"] = "Titolo";
 ["Title (80 chars max)"] = "Titolo (maksimume 80 literoj)";
 ["Title of initiative"] = "Titolo de la iniciato";
+["To reset your password please click on the following link:"] = false;
 ["Today at #{time}"] = false;
 ["Traditional wiki syntax"] = "Tradicia Viki-sintakso";
 ["Trustee"] = "Fidulo mastrumanta";
@@ -880,7 +894,7 @@ return {
 ["You are interested in this issue"] = "Vin interesas tiu temo";
 ["You are interested."] = false;
 ["You are invited to #{count} initiatives."] = false;
-["You are invited to Pirate Feedback. To register please click the following link:\n\n"] = false;
+["You are invited to Pirate Feedback. To register please click the following link:"] = false;
 ["You are invited to become initiator of this initiative."] = "Vi estas invitita por esti inicionto de tiu iniciato.";
 ["You are invited to one initiative."] = false;
 ["You are member"] = "Vi estas membro";

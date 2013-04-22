@@ -292,6 +292,8 @@ return {
 ["Finished"] = "Finito";
 ["Finished (with winner)"] = "Finito (con risultato approvato)";
 ["Finished (without winner)"] = "Finito (senza risultato approvato)";
+["Forgot login name?"] = false;
+["Forgot password?"] = false;
 ["Free timing"] = false;
 ["Friday"] = "Venerdi'";
 ["Frozen"] = "Sospeso";
@@ -304,6 +306,8 @@ return {
 ["Half frozen at"] = "Parzialmente sospeso dal";
 ["Hello\n\n"] = "Ciao\n\n";
 ["Hello "] = "Ciao";
+["Hello #{name}!"] = false;
+["Hello!"] = false;
 ["Help #{id}"] = "Aiuto #{id}";
 ["Help for: #{text}"] = "Aiuto su: #{text}";
 ["Hidden, click to publish"] = false;
@@ -319,7 +323,9 @@ return {
 ["I like to receive notifications by email about events:"] = false;
 ["Id"] = "Id";
 ["Identification"] = "Identificativo";
+["If a member with this email address exists, the login name has been sent."] = false;
 ["If a member with this login exists, a reset link has been sent to the stored email address."] = false;
+["If this link is not working, please open following url in your web browser:"] = false;
 ["If this link is not working, please open following url in your web browser:\n\n"] = "Se questo link non funziona, puoi aprire l'indirizzo seguente nel tuo browser:\n\n";
 ["Ignore Areas"] = "Ignora le aree";
 ["Ignore initiative"] = "Ignora l'iniziativa";
@@ -433,6 +439,7 @@ return {
 ["Locked?"] = "Bloccato?";
 ["Login"] = "Login";
 ["Login name"] = "Nome utente";
+["Login name request"] = false;
 ["Login successful"] = false;
 ["Logout"] = "Logout";
 ["Logout successful"] = "Logout effettuato";
@@ -563,8 +570,11 @@ return {
 ["Old password"] = "Vecchia password";
 ["Old password is wrong"] = "La vecchia password e' errata";
 ["Oldest"] = "Meno recenti";
+["On that page please enter the confirmation code:"] = false;
 ["On that page please enter the confirmation code:\n\n"] = "Su quella pagina inserisci il codice di conferma:\n\n";
+["On that page please enter the invite key:"] = false;
 ["On that page please enter the invite key:\n\n"] = "Su quella pagina inserisci il codice di invito:\n\n";
+["On that page please enter the reset code:"] = false;
 ["On that page please enter the reset code:\n\n"] = "Su quella pagina inserisci il codice di reset:\n\n";
 ["One Image has been deleted."] = false;
 ["One Image has been updated. If it is not yet displayed, you can try to reload the page."] = false;
@@ -617,10 +627,13 @@ return {
 ["Please choose two versions of the draft to compare"] = "Scegli due bozze diverse per vedere le differenze";
 ["Please choose two versions of the draft to compare!"] = false;
 ["Please confirm your email address"] = "Per favore conferma il tuo indirizzo email";
+["Please confirm your email address by clicking the following link:"] = false;
 ["Please confirm your email address by clicking the following link:\n\n"] = "Conferma il tuo indirizzo email cliccando sul link sottostante:\n\n";
 ["Please confirm your email address!"] = false;
 ["Please enter the email reset code you have received:"] = "Inserisci il codice di reset che hai ricevuto:";
 ["Please enter the invite code you've received."] = "Inserisci il codice di invito che hai ricevuto.";
+["Please enter the reset code you have received by email:"] = false;
+["Please enter your email address! You will receive an email with your login name."] = false;
 ["Please enter your email address. This address will be used for automatic notifications (if you request them) and in case you've lost your password. This address will not be published. After registration you will receive an email with a confirmation link."] = "Inserisci la tua email. Sara' usata per le notifiche (se le desideri) ed eventualmente per recuperare la password. L'indirizzo non sara' pubblico. Dopo la registrazione riceverai un messaggio con la richiesta di verifica.";
 ["Please enter your login name! You will receive an email with a link to reset your password. Note that your login name might be distinct from your screen name!"] = false;
 ["Please enter your login name. You will receive an email with a link to reset your password."] = "Inserisci il tuo nome utente. Riceverai un messaggio email con il link per il reset della password.";
@@ -670,6 +683,8 @@ return {
 ["Remove initiator from initiative"] = "Rimuovi il promotore dall'iniziativa";
 ["Rendered"] = "Eseguito";
 ["Repeat new password"] = "Ripeti la nuova password";
+["Request email with login name"] = false;
+["Request login name"] = false;
 ["Request password reset link"] = "Chiedi il reset della password";
 ["Resend activation email to '#{email}'"] = "Invia di nuovo l'email di attivazione a '#{email}'";
 ["Reset code"] = "Codice di reset";
@@ -771,13 +786,14 @@ return {
 ["The draft has not been changed!"] = false;
 ["The draft of this initiative has been updated!"] = "La bozza di questa iniziativa e' stata aggiornata";
 ["The drafts do not differ"] = "Le bozze non differiscono";
+["The following login is connected to this email address:"] = false;
 ["The initiators suggest to support the following initiative:"] = "I promotori suggeriscono di sostenere questa iniziativa:";
 ["The maximum number of delegations for one preference list is reached!"] = false;
 ["The requested area does not exist!"] = false;
 ["The requested initiative does not exist!"] = false;
 ["The requested issue does not exist!"] = false;
 ["The requested unit does not exist!"] = false;
-["The reset code is only valid for one day.\n\n"] = false;
+["The reset code is only valid for one day."] = false;
 ["The versions do not differ."] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your interest, these suggestions will be deleted!"] = false;
 ["There are #{count} suggestions, for which only you entered an opinion. If you withdraw your support, these suggestions will be deleted!"] = false;
@@ -787,6 +803,7 @@ return {
 ["This argument does not exist!"] = false;
 ["This email address is not valid!"] = false;
 ["This email address is too short!"] = "L'indirizzo email e' troppo corto!";
+["This function is not activated!"] = false;
 ["This initiative"] = "Questa iniziativa";
 ["This initiative has been revoked at #{revoked}"] = "Questa iniziativa e' stata revocata il #{revoked}";
 ["This initiative has not been admitted! It failed the quorum of #{quorum}."] = "Questa iniziativa non e' stata ammessa! Non ha raggiunto il quorum di #{quorum}.";
@@ -849,6 +866,7 @@ return {
 ["Title"] = "Titolo";
 ["Title (80 chars max)"] = "Titolo (max 80 caratteri)";
 ["Title of initiative"] = "Titolo dell'iniziativa";
+["To reset your password please click on the following link:"] = false;
 ["Today at #{time}"] = "Oggi alle #{time}";
 ["Traditional wiki syntax"] = "Sintassi wiki classica";
 ["Trustee"] = "Fiduciario";
@@ -934,6 +952,7 @@ return {
 ["You are interested."] = false;
 ["You are invited to #{count} initiative(s)"] = "Sei invitato a partecipare a #{count} iniziative";
 ["You are invited to #{count} initiatives."] = false;
+["You are invited to Pirate Feedback. To register please click the following link:"] = false;
 ["You are invited to Pirate Feedback. To register please click the following link:\n\n"] = "Hai ricevuto un invito per Pirate Feedback. Per registrarti clicca sul link sottostante:\n\n";
 ["You are invited to become initiator of this initiative."] = "Hai un invito a diventare promotore di questa iniziativa";
 ["You are invited to one initiative."] = false;
