@@ -345,6 +345,7 @@ return {
 ["Latest draft created at #{date} #{time}"] = "Letzter Entwurf vom #{date} um #{time}";
 ["Latest events"] = "Letzte Ereignisse";
 ["Latest vote results"] = "Neuste Abstimmungsergebnisse";
+["License"] = "Lizenz";
 ["List all revisions (#{count})"] = "Zeige alle Versionen (#{count})";
 ["List of trustees"] = "Delegationsliste";
 ["Lock and deactivate Member?"] = "Mitglied sperren und deaktivieren?";
@@ -590,6 +591,7 @@ return {
 ["Show policies in use"] = "Zeige Regelwerke in Verwendung";
 ["Show policies not in use"] = "Zeige deaktivierte Regelwerke";
 ["So I'm"] = "Also bin ich";
+["Software"] = "Software";
 ["Sorry, but there is no confirmed email address for this account. Please contact #{support}!"] = "Sorry, aber für diesen Account ist keine bestätigte E-Mail-Adresse hinterlegt. Bitte wende dich an #{support}!";
 ["Sorry, but you are currently not invited!"] = "Sorry, aber du bist zur Zeit nicht eingeladen!";
 ["Sorry, but your account is locked. To get unlocked please contact #{support}!"] = "Sorry, aber dein Account ist gesperrt. Um die Sperre aufzuheben wende dich bitte an #{support}!";
@@ -683,6 +685,7 @@ return {
 ["This name is too short!"] = "Dieser Name ist zu kurz!";
 ["This screen name is too short!"] = "Dieser Screen-Name ist zu kurz!";
 ["This service is provided by:"] = "Diensteanbieter:";
+["This service is provided using the following software components:"] = "Dieser Dienst wurde mit folgender Software realisiert:";
 ["This suggestion has been meanwhile deleted!"] = "Diese Anregung wurde zwischenzeitlich gelöscht!";
 ["This title is really too short!"] = "Dieser Titel ist wirklich zu kurz!";
 ["Title"] = "Titel";
@@ -708,6 +711,7 @@ return {
 ["Verification started"] = "Phase Eingefroren gestartet";
 ["Verification starts soon."] = "Phase Eingefroren beginnt in Kürze.";
 ["Verification time"] = "Zeit für Eingefroren";
+["Version"] = "Version";
 ["Versions"] = "Versionen";
 ["Vote now"] = "Jetzt abstimmen";
 ["Voted"] = "Abgestimmt";

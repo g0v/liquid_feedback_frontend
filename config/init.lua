@@ -4,6 +4,7 @@
 -- ========================================================================
 
 config.app_version = "2.2.3"
+config.pirate_feedback_version = "1.2.1"
 
 if not config.password_hash_algorithm then
   config.password_hash_algorithm = "crypt_sha512"

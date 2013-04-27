@@ -344,6 +344,7 @@ return {
 ["Latest draft created at #{date} #{time}"] = false;
 ["Latest events"] = false;
 ["Latest vote results"] = false;
+["License"] = false;
 ["List all revisions (#{count})"] = false;
 ["List of trustees"] = false;
 ["Lock and deactivate Member?"] = false;
@@ -589,6 +590,7 @@ return {
 ["Show policies in use"] = false;
 ["Show policies not in use"] = false;
 ["So I'm"] = false;
+["Software"] = false;
 ["Sorry, but there is no confirmed email address for this account. Please contact #{support}!"] = false;
 ["Sorry, but you are currently not invited!"] = false;
 ["Sorry, but your account is locked. To get unlocked please contact #{support}!"] = false;
@@ -682,6 +684,7 @@ return {
 ["This name is too short!"] = false;
 ["This screen name is too short!"] = false;
 ["This service is provided by:"] = false;
+["This service is provided using the following software components:"] = false;
 ["This suggestion has been meanwhile deleted!"] = false;
 ["This title is really too short!"] = false;
 ["Title"] = false;
@@ -707,6 +710,7 @@ return {
 ["Verification started"] = false;
 ["Verification starts soon."] = false;
 ["Verification time"] = false;
+["Version"] = false;
 ["Versions"] = false;
 ["Vote now"] = false;
 ["Voted"] = false;
