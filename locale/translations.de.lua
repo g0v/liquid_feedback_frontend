@@ -10,7 +10,7 @@ return {
 ["#{count} more areas in this unit"] = "#{count} weitere Themenbereiche in dieser Gliederung";
 ["#{count} new"] = "#{count} neue";
 ["#{count} not voted"] = "#{count} nicht abgestimmt";
-["#{count} of them have an area delegation set."] = "bei #{count} davon ist eine Delegation für den Themenbereich gesetzt.";
+["#{count} of them have an area delegation set."] = "Bei #{count} davon ist eine Delegation für den Themenbereich gesetzt.";
 ["#{count} of your outgoing delegations are broken."] = "#{count} deiner ausgehenden Delegationen sind kaputt.";
 ["#{count} of your outgoing delegations are expired."] = "#{count} deiner ausgehenden Delegationen sind verfallen.";
 ["#{count} of your outgoing delegations expire soon, the first in #{interval_text}."] = "#{count} deiner ausgehenden Delegationen verfallen bald, die erste in #{interval_text}.";

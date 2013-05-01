@@ -89,31 +89,6 @@ for i, unit in ipairs(units) do
       :add_where{ "delegation.trustee_id NOTNULL" }
       :count()
 
-    local more_area_text
-    if area_count == 0 and more_area_count == 1 then
-      if app.session.member_id == member.id then
-        more_area_text = _("You are not participating in the only area of the unit.")
-      else
-        more_area_text = _("Member is not participating in the only area of the unit.")
-      end
-    elseif area_count == 0 and more_area_count > 0 then
-      if app.session.member_id == member.id then
-        more_area_text = _("You are not participating in any of the #{count} areas in this unit.", { count = more_area_count })
-      else
-        more_area_text = _("Member is not participating in any of the #{count} areas in this unit.", { count = more_area_count })
-      end
-    elseif area_count > 0 and more_area_count == 1 then
-      more_area_text = _("One more area in this unit")
-    elseif area_count > 0 and more_area_count > 0 then
-      more_area_text = _("#{count} more areas in this unit", { count = more_area_count })
-    end
-    local delegated_text
-    if delegated_count == 1 then
-      delegated_text = _("One of them has an area delegation set.", { count = delegated_count })
-    elseif delegated_count > 0 then
-      delegated_text = _("#{count} of them have an area delegation set.", { count = delegated_count })
-    end
-
     ui.container{ attr = { class = "area_list" }, content = function()
 
       execute.view{ module = "unit", view = "_head", params = { unit = unit, show_content = true, member = member } }
@@ -138,13 +113,48 @@ for i, unit in ipairs(units) do
 
     ui.container{ attr = { class = "area", style="margin-top: 1ex; margin-left: 10px;" }, content = function()
       ui.container{ attr = { class = "title" }, content = function()
+
+        local more_area_text
+        if area_count > 0 then
+          if more_area_count > 0 then
+            if more_area_count == 1 then
+              more_area_text = _("One more area in this unit")
+            else
+              more_area_text = _("#{count} more areas in this unit", { count = more_area_count })
+            end
+          end
+        else
+          if more_area_count > 0 then
+            if more_area_count == 1 then
+              if app.session.member_id == member.id then
+                more_area_text = _("You are not participating in the only area of the unit.")
+              else
+                more_area_text = _("Member is not participating in the only area of the unit.")
+              end
+            else
+              if app.session.member_id == member.id then
+                more_area_text = _("You are not participating in any of the #{count} areas in this unit.", { count = more_area_count })
+              else
+                more_area_text = _("Member is not participating in any of the #{count} areas in this unit.", { count = more_area_count })
+              end
+            end
+          end
+        end
+      
         if more_area_text then
           ui.link{ module = "unit", view = "show", id = unit.id, text = more_area_text }
+          if delegated_count > 0 then
+            local delegated_text
+            if delegated_count == 1 then
+              delegated_text = _("One of them has an area delegation set.", { count = delegated_count })
+            else
+              delegated_text = _("#{count} of them have an area delegation set.", { count = delegated_count })
+            end
+            slot.put(" &middot; ")
+            ui.tag{ content = delegated_text }
+          end
         end
-        if delegated_text then
-          slot.put(" &middot; ")
-          ui.tag{ content = delegated_text }
-        end
+
       end }
     end }
 
