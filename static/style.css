@@ -1194,6 +1194,7 @@ div.delegations_participation {
   margin-left: 1ex;
   margin-bottom: 0.7ex;
   line-height: 50%;
+  padding: 5px
 }
 .initiative .bar {
   margin-right: 0.3em;
@@ -1221,6 +1222,10 @@ div.delegations_participation {
 .initiative.selected .name {
   font-weight: bold;
   xfont-style: italic;
+}
+.initiative.selected {
+  background-color: orange;
+  border-radius: 5px;
 }
 
 .initiative.polling .name,
