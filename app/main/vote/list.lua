@@ -459,10 +459,7 @@ ui.form{
         ui.field.select{
           label = _"Wiki engine for statement",
           name = "formatting_engine",
-          foreign_records = {
-            { id = "rocketwiki", name = "RocketWiki" },
-            { id = "compat", name = _"Traditional wiki syntax" }
-          },
+          foreign_records = config.formatting_engines,
           attr = {id = "formatting_engine"},
           foreign_id = "id",
           foreign_name = "name",

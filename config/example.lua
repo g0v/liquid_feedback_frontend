@@ -43,6 +43,15 @@ config.absolute_base_url = "http://example.com/"
 config.database = { engine='postgresql', dbname='liquid_feedback' }
 
 
+-- Formatting Engines
+-- --
+-- ------------------------------------------------------------------------
+config.formatting_engines = {
+  { id = "rocketwiki", name = "RocketWiki" },
+  { id = "compat", name = _"Traditional wiki syntax" }
+}
+
+
 -- Location of the rocketwiki binaries
 -- ------------------------------------------------------------------------
 config.formatting_engine_executeables = {
