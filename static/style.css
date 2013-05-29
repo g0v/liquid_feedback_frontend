@@ -1067,6 +1067,7 @@ div.notifications {
   margin-left: 1ex;
   margin-bottom: 1ex;
   line-height: 50%;
+  padding: 5px
 }
 
 .initiative .bar {
@@ -1097,9 +1098,9 @@ div.notifications {
   font-size: 115%;
 }
 
-.initiative.selected .name {
-  font-weight: bold;
-  xfont-style: italic;
+.initiative.selected {
+  background-color: orange;
+  border-radius: 5px;
 }
 
 .initiative.polling .name,
