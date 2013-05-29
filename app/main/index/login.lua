@@ -29,6 +29,11 @@ else
   ui.tag{ tag = "p", content = _"Closed user group, please login to participate." }
 end
 
+ui.link{
+  text   = _"Login with g0v hub",
+  module = 'auth'
+}
+
 ui.form{
   attr = { class = "login" },
   module = 'index',
