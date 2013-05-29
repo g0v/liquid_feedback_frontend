@@ -179,7 +179,7 @@ return {
 ["Direct majority denumerator"] = "直接表決多數分母";
 ["Direct majority non negative"] = "直接表決多數非否定票";
 ["Direct majority numerator"] = "直接表決多數分子";
-["Direct majority positive"] = "直接表決多數肯定票";
+["Direct majority positive"] = "直接表決多數贊成票";
 ["Disapproval (prefer to last block) [many entries]"] = "否決 (但較偏好此草案於前數個被否決的草案)";
 ["Disapproval (prefer to last block) [single entry]"] = "否決 (但較偏好此草案於前個被否決的草案)";
 ["Disapproval (prefer to lower block) [many entries]"] = "否決 (但較偏好此草案於下層被否決的眾草案)";
@@ -267,7 +267,7 @@ return {
 ["Indirect majority denumerator"] = "間接多數分母";
 ["Indirect majority non negative"] = "間接多數非否定票";
 ["Indirect majority numerator"] = "間接多數分子";
-["Indirect majority positive"] = "間接多數肯定票";
+["Indirect majority positive"] = "間接多數贊成票";
 ["Information about the available policies"] = "現有規則的相關資訊";
 ["Initiated"] = "所發起的";
 ["Initiative"] = "提案";
@@ -368,7 +368,7 @@ return {
 ["My areas and issues"] = "我的領域與議題";
 ["My opinion"] = "我的意見";
 ["My units"] = "我的單位";
-["Name"] = "使用者代號";
+["Name"] = "名車";
 ["New"] = "遞交期";
 ["New address"] = "新電郵地址";
 ["New draft"] = "新草案";
@@ -426,7 +426,7 @@ return {
 ["Only for issues reaching the voting phase"] = "限已進入表決階段的議題";
 ["Open"] = "開啟";
 ["Open initiatives you are supporting which has been updated their draft:"] = "開啟您所支持的提案中有草稿更新者：";
-["Open issues"] = "開放性議題";
+["Open issues"] = "進行中議題";
 ["Opinions"] = "意見";
 ["Options"] = "選項";
 ["Organizational unit"] = "組織單位";
@@ -646,7 +646,7 @@ return {
 ["Vote now"] = "立即表決";
 ["Voted"] = "已表決";
 ["Voted no"] = "投否定票";
-["Voted yes"] = "投肯定票";
+["Voted yes"] = "投贊成票";
 ["Voters"] = "投票人";
 ["Voting"] = "表決中";
 ["Voting comment"] = "表決評論";
@@ -666,7 +666,7 @@ return {
 ["Wiki engine for statement"] = "編輯自述的 Wiki 軟體";
 ["Withdraw"] = "退出";
 ["Withdraw membership"] = "退出成員身分";
-["Yes"] = "肯定";
+["Yes"] = "贊成";
 ["Yesterday at #{time}"] = "昨日於 #{time}";
 ["You already voted this issue"] = "您已表決過此議題";
 ["You are already initiator"] = "您已是發起者";
@@ -738,8 +738,8 @@ return {
 ["and #{count} more initiatives"] = "之外 #{count} 個提案";
 ["and one more initiative"] = "之外一個提案";
 ["area"] = "領域";
-["at least #{count} approvals"] = "至少 #{count} 票肯定";
-["at least #{count} approvals or abstentions"] = "至少 #{count} 票肯定或棄權";
+["at least #{count} approvals"] = "至少 #{count} 票贊成";
+["at least #{count} approvals or abstentions"] = "至少 #{count} 票贊成或棄權";
 ["change discussion URL"] = "更改討論網址";
 ["confirm"] = "確認";
 ["day [interval ago]"] = "日";
