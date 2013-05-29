@@ -56,6 +56,11 @@ if not redirect_module or not redirect_view or (
   redirect_params = nil
 end
 
+ui.link{
+  text   = _"Login with g0v hub",
+  module = 'auth'
+}
+
 ui.form{
   attr = { class = "login" },
   module = "index",
