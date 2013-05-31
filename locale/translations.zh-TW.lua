@@ -424,7 +424,7 @@ return {
 ["Only for issues reaching the discussion phase"] = "限已進入討論階段的議案";
 ["Only for issues reaching the frozen phase"] = "限已進入底定階段的議案";
 ["Only for issues reaching the voting phase"] = "限已進入表決階段的議案";
-["Open"] = "開啟";
+["Open"] = "進行中";
 ["Open initiatives you are supporting which has been updated their draft:"] = "開啟您所支持的方案中有草稿更新者：";
 ["Open issues"] = "進行中議案";
 ["Opinions"] = "意見";
