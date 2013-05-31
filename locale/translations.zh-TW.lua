@@ -368,7 +368,7 @@ return {
 ["My areas and issues"] = "我的主題與議案";
 ["My opinion"] = "我的意見";
 ["My units"] = "我的組織";
-["Name"] = "名車";
+["Name"] = "名稱";
 ["New"] = "成案期";
 ["New address"] = "新電郵地址";
 ["New draft"] = "新草案";
