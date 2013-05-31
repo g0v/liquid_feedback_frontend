@@ -767,8 +767,8 @@ return {
 ["months [interval time left]"] = "月";
 ["months [interval]"] = "月";
 ["more unsatisfied"] = "較不滿意";
-["must"] = "必須";
-["must not"] = "不可";
+["must"] = "非常同意";
+["must not"] = "非常反對";
 ["neutral"] = "中立";
 ["no reverse beat path to status quo (including ties)"] = "無循環性優先順序導至現狀 (包括平手)";
 ["none"] = "無";
@@ -779,8 +779,8 @@ return {
 ["reverse beat path to status quo (including ties)"] = "循環性優先順序導至現狀 (包括平手)";
 ["revoke"] = "撤回";
 ["satisfied"] = "滿意";
-["should"] = "應當";
-["should not"] = "不應";
+["should"] = "同意";
+["should not"] = "反對";
 ["the following login is connected to this email address:\n\n"] = "以下帳號與此電郵地址連結：\n\n";
 ["to reset your password please click on the following link:\n\n"] = "欲重設您的密碼請點擊下列連結：\n\n";
 ["unit"] = "組織";
