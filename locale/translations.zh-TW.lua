@@ -31,7 +31,7 @@ return {
 ["API key has been created"] = "API-碼已被製造";
 ["API key has been deleted"] = "API-碼已被刪除";
 ["API keys"] = "API-碼";
-["Abandon global delegation for this area"] = "停止此主題中的全面委任";
+["Abandon global delegation for this area"] = "停止此主題中的全域委任";
 ["Abandon unit and area delegations for this issue"] = "停止此議案的組織及主題委任";
 ["Abandon unit delegation"] = "停止此組織的委任";
 ["Abandon unit delegation for this area"] = "停止此主題的組織委任";
@@ -63,8 +63,8 @@ return {
 ["Any"] = "所有";
 ["Any phase"] = "所有階段";
 ["Any state"] = "所有狀態";
-["Apply global delegation for this area (Currently: #{delegate_name} [#{scope}])"] = "對此主題使用全面委任 (目前: #{delegate_name} [#{scope}])";
-["Apply global or area delegation for this issue (Currently: #{delegate_name} [#{scope}])"] = "對此議案使用全面或是主題委任 (目前: #{delegate_name} [#{scope}])";
+["Apply global delegation for this area (Currently: #{delegate_name} [#{scope}])"] = "對此主題使用全域面委任 (目前: #{delegate_name} [#{scope}])";
+["Apply global or area delegation for this issue (Currently: #{delegate_name} [#{scope}])"] = "對此議案使用全域或是主題委任 (目前: #{delegate_name} [#{scope}])";
 ["Apply unit delegation for this area (Currently: #{delegate_name} [#{scope}])"] = "對此主題使用組織委任 (目前: #{delegate_name} [#{scope}])";
 ["Apply unit or area delegation for this issue (Currently: #{delegate_name} [#{scope}])"] = "對此議案使用組織或主題委任 (目前: #{delegate_name} [#{scope}])";
 ["Approval (#th preference) [many entries]"] = "贊同 (第 # 順位)";
@@ -98,7 +98,7 @@ return {
 ["Can't remove last initiator"] = "無法移除最末位發起者";
 ["Can't send confirmation email"] = "無法寄送確認電郵";
 ["Cancel"] = "取消";
-["Cancel [nullify]"] = "取消 [nullify]";
+["Cancel [nullify]"] = "取消"
 ["Cancel refuse of invitation"] = "取消婉拒邀請";
 ["Cancel registration"] = "取消註冊";
 ["Canceled"] = "已取消";
@@ -236,8 +236,8 @@ return {
 ["Frozen"] = "底定期";
 ["Fully frozen at"] = "全底定於";
 ["Generate API key"] = "產生 API-碼";
-["Global delegation"] = "全面委任";
-["Global search"] = "全面搜尋";
+["Global delegation"] = "全域委任";
+["Global search"] = "全域搜尋";
 ["Half frozen at"] = "半底定於";
 ["Hello\n\n"] = "您好\n\n";
 ["Hello "] = "您好 ";
@@ -526,7 +526,7 @@ return {
 ["Set URL"] = "設定網址";
 ["Set delegation for Area '#{name}'"] = "為主題 '#{name}' 設定委任";
 ["Set delegation for Issue ##{number} in Area '#{area_name}'"] = "為主題 '#{area_name}'的議案 ##{number} 設定委任";
-["Set global delegation"] = "設定全面委任";
+["Set global delegation"] = "設定全域委任";
 ["Set new password"] = "設定新密碼";
 ["Set unit delegation"] = "設定組織委任";
 ["Settings"] = "設定";
@@ -754,7 +754,7 @@ return {
 ["delete<br /><br />"] = "刪除<br /><br />";
 ["disabled"] = "停用";
 ["email"] = "電郵";
-["global"] = "全面";
+["global"] = "全域";
 ["i#{id}: #{name}"] = false;
 ["implemented"] = "已被採納";
 ["inactive"] = "不活動的";
