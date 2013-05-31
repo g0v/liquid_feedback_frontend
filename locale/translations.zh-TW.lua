@@ -53,8 +53,8 @@ return {
 ["Admin"] = "管理員";
 ["Admin menu"] = "管理員目錄";
 ["Admin?"] = "管理員？";
-["Admission time"] = "遞交期";
-["Admitted"] = "已遞交";
+["Admission time"] = "成案期";
+["Admitted"] = "已成案";
 ["All areas"] = "所有的主題";
 ["All areas in my units"] = "我組織中所有主題";
 ["All issues"] = "所有議案";
@@ -106,7 +106,7 @@ return {
 ["Canceled (during discussion due to revocation)"] = "已取消 (在討論期撤銷)";
 ["Canceled (during verification due to revocation)"] = "已取消 (在驗證期撤銷)";
 ["Canceled (issue not accepted)"] = "已取消 (議案不被接受)";
-["Canceled (no initiative admitted)"] = "已取消 (無方案被遞交)";
+["Canceled (no initiative admitted)"] = "已取消 (沒有任何成案的方案)";
 ["Change area delegation"] = "更改主題的委任";
 ["Change email"] = "更改電郵地址";
 ["Change email address"] = "更改電郵地址";
@@ -260,7 +260,7 @@ return {
 ["Ignore initiative"] = "忽略方案";
 ["Ignore member"] = "忽略成員";
 ["Images"] = "圖片";
-["Implicitly admitted"] = "被默許遞交";
+["Implicitly admitted"] = "自動成案";
 ["Incoming delegations"] = "受委任的表決";
 ["Index"] = "索引";
 ["Indirect majority"] = "間接多數";
@@ -369,7 +369,7 @@ return {
 ["My opinion"] = "我的意見";
 ["My units"] = "我的組織";
 ["Name"] = "名車";
-["New"] = "遞交期";
+["New"] = "成案期";
 ["New address"] = "新電郵地址";
 ["New draft"] = "新草案";
 ["New draft has been added to initiative"] = "新草案已加入方案";
@@ -383,7 +383,7 @@ return {
 ["New suggestion"] = "新增建議";
 ["Newest"] = "由新至舊";
 ["No"] = "否定";
-["No admission needed"] = "無須遞交";
+["No admission needed"] = "無須成案";
 ["No changes to your images were made"] = "您的圖片未被更改";
 ["No default"] = "無預設值";
 ["No delegation"] = "無委任";
@@ -584,7 +584,7 @@ return {
 ["This email address is too short!"] = "此電郵地址太短！";
 ["This initiative"] = "方案";
 ["This initiative has been revoked at #{revoked}"] = "此方案已在 #{revoked} 被撤銷";
-["This initiative has not been admitted! It failed the quorum of #{quorum}."] = "此方案因未達 #{quorum} 的法定門檻而未被遞交。";
+["This initiative has not been admitted! It failed the quorum of #{quorum}."] = "此方案因未達 #{quorum} 的法定門檻而未成案。";
 ["This initiative is already revoked"] = "此方案已撤銷";
 ["This initiative is revoked"] = "此方案被撤銷";
 ["This invite key is connected with the following information:"] = "此邀請碼與下列資訊連結：";
