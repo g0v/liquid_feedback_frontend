@@ -614,12 +614,12 @@ return {
 ["This service is provided using the following software components:"] = "此服務是經由下列軟體組件提供：";
 ["This site is using"] = "此網站使用";
 ["This suggestion has been meanwhile deleted"] = "此建議已在期間被刪除";
-["This title is really too short!"] = "此標題真的太短！";
+["This title is really too short!"] = "此主旨真的太短！";
 ["Thursday"] = "週四";
 ["Timeline"] = "時間軸";
-["Title"] = "標題";
-["Title (80 chars max)"] = "標題 (最長 80 個半形或 40 個全形字體)";
-["Title of initiative"] = "方案標題";
+["Title"] = "主旨";
+["Title (80 chars max)"] = "主旨 (最長 80 個半形或 40 個全形字體)";
+["Title of initiative"] = "方案主旨";
 ["Today at #{time}"] = "今天於 #{time}";
 ["Traditional wiki syntax"] = "傳統 Wiki-Syntax";
 ["Trustee"] = "受託人";
