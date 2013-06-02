@@ -98,7 +98,7 @@ return {
 ["Can't remove last initiator"] = "無法移除最末位發起者";
 ["Can't send confirmation email"] = "無法寄送確認電郵";
 ["Cancel"] = "取消";
-["Cancel [nullify]"] = "取消"
+["Cancel [nullify]"] = "取消";
 ["Cancel refuse of invitation"] = "取消婉拒邀請";
 ["Cancel registration"] = "取消註冊";
 ["Canceled"] = "已取消";
