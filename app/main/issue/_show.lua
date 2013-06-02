@@ -250,6 +250,15 @@ ui.container{ attr = { class = class }, content = function()
     }
   end
 
+  if not for_listing and config.etherpad and app.session.member then
+    ui.container{ attr = { class = "issue_pad" }, content = function()
+        ui.tag{ tag = "iframe", attr = {
+          width = "100%",
+          height = "300",
+              src = issue.etherpad_url
+          }, content = "" }
+    end }
+  end
   ui.container{ attr = { class = "initiative_list content clear_both" }, content = function()
     local initiatives_selector
     local highlight_string = param.get("highlight_string")
