@@ -375,7 +375,7 @@ return {
 ["New draft has been added to initiative"] = "新草案已加入方案";
 ["New drafts for #{count} initiative(s) you are supporting"] = "#{count} 個您所支持的方案有新草案";
 ["New initiative"] = "新方案";
-["New initiative draft"] = "新方案之草案";
+["New initiative draft"] = "草案更新";
 ["New issue"] = "新議案";
 ["New password"] = "新密碼";
 ["New passwords does not match."] = "重複輸入的新設密碼並不吻合";
