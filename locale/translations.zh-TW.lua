@@ -372,7 +372,7 @@ return {
 ["New"] = "成案期";
 ["New address"] = "新電郵地址";
 ["New draft"] = "新草案";
-["New draft has been added to initiative"] = "新草案已加入方案";
+["New draft has been added to initiative"] = "方案的草案已更新";
 ["New drafts for #{count} initiative(s) you are supporting"] = "#{count} 個您所支持的方案有新草案";
 ["New initiative"] = "新方案";
 ["New initiative draft"] = "草案更新";
