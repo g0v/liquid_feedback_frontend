@@ -203,9 +203,11 @@ return {
 ["Discussion URL"] = "討論網址";
 ["Discussion on issue"] = "討論議案";
 ["Discussion started"] = "討論已開始";
-["Discussion starts soon."] = false;
+["Discussion starts soon"] = "討論即將開始";
+["Discussion starts soon."] = "討論即將開始。";
 ["Discussion time"] = "剩餘討論時間";
-["Do not vote directly"] = "請勿直接投票";
+["Discussion with initiators"] = "與發起者討論";
+["Do not vote directly"] = "不直接投票";
 ["Download"] = "下載";
 ["Download database export"] = "下載匯出的資料庫";
 ["Download documents"] = "下載文件";
