@@ -197,7 +197,7 @@ return {
 ["Discussion starts soon"] = "討論即將開始";
 ["Discussion time"] = "剩餘討論時間";
 ["Discussion with initiators"] = "與發起者討論";
-["Do not vote directly"] = "請勿直接投票";
+["Do not vote directly"] = "不直接投票";
 ["Download"] = "下載";
 ["Download database export"] = "下載匯出的資料庫";
 ["Download documents"] = "下載文件";
