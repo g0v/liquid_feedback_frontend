@@ -4,10 +4,7 @@ function ui.wikitextarea(name, label)
   ui.field.select{
     label = _"Wiki engine",
     name = "formatting_engine",
-    foreign_records = {
-      { id = "compat",     name = _"Traditional wiki syntax" },
-      { id = "rocketwiki", name = "RocketWiki" }
-    },
+    foreign_records = config.formatting_engine,
     attr = {
       id = "formatting_engine",
       onChange = "wikiToolbar.switchMode(document.getElementById('formatting_engine').value);"

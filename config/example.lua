@@ -50,6 +50,14 @@ config.formatting_engine_executeables = {
   compat = "/opt/rocketwiki-lqfb/rocketwiki-lqfb-compat"
 }
 
+-- Enabled formatting engines
+-- ------------------------------------------------------------------------
+config.formatting_engine = {
+--  { id = "markdown",   name = "Markdown" },
+  { id = "compat",     name = _"Traditional wiki syntax" },
+  { id = "rocketwiki", name = "RocketWiki" }
+}
+
 
 -- Public access level
 -- ------------------------------------------------------------------------
