@@ -9,7 +9,7 @@ return {
 ["#{count} members found:"] = "找到 #{count} 位成員：";
 ["#{count} more areas in this unit"] = "此組織的另外 #{count} 個主題";
 ["#{count} new"] = "#{count} 個新的";
-["#{count} not voted"] = "#{count} 位尚未投票";
+["#{count} not voted"] = "#{count} 項尚未投票";
 ["#{count} of them have an area delegation set."] = "其中 #{count}位擁有一主題委任集合。";
 ["#{count} of your outgoing delegations are broken."] = "您將發出的 #{count} 項委任已毀損。";
 ["#{count} of your outgoing delegations are expired."] = "您將發出的 #{count} 項委任已逾期。";
