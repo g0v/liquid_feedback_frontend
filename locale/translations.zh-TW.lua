@@ -244,10 +244,10 @@ return {
 ["Forgot password?"] = "忘記密碼？";
 ["Free timing"] = "自定期限";
 ["Frozen"] = "底定期";
-["Fully frozen"] = "完全凍結";
+["Fully frozen"] = "完全底定";
 ["Generate API key"] = "產生 API-碼";
 ["Global search"] = "全域搜尋";
-["Half frozen"] = "半數凍結";
+["Half frozen"] = "大致底定";
 ["Hello #{name}!"] = "哈囉#{name}!";
 ["Hello!"] = "哈囉!";
 ["Help #{id}"] = "說明文件 #{id}";
@@ -316,7 +316,7 @@ return {
 ["Issue ##{id} was canceled due to revocation"] = "議案 ##{id} 因撤銷關係，已被取消。";
 ["Issue ##{id} was finished (with winner)"] = "議案 ##{id} 已結束 (有贏家)。";
 ["Issue ##{id} was finished (without winner)"] = "議案 ##{id} 已結束 (無贏家)。";
-["Issue ##{id} was frozen"] = "議案 ##{id} 已凍結。";
+["Issue ##{id} was frozen"] = "議案 ##{id} 已底定。";
 ["Issue ##{id} was not accepted"] = "議案 ##{id} 未被接受。";
 ["Issue ##{issue} - i#{initiative_id}: #{initiative_name}"] = "議案 ##{issue} - i#{initiative_id}: #{initiative_name}";
 ["Issue Details"] = "議案細節";
@@ -336,13 +336,13 @@ return {
 ["Issue was canceled due to revocation (during verification)"] = "議案因撤銷關係，已被取消。(於認證期間)";
 ["Issue was finished (with winner)"] = "議案已結束 (有贏家)。";
 ["Issue was finished (without winner)"] = "議案已結束 (無贏家)。";
-["Issue was frozen"] = "議案已被凍結";
+["Issue was frozen"] = "議案已經底定";
 ["Issue was not accepted"] = "議案未被接受";
 ["Issues:"] = "議案:";
 ["JavaScript is disabled or not available."] = "JavaScript 被停用或尚未安裝.";
 ["Language"] = "語言";
 ["Last activity (updated daily)"] = "最新動態 (每日更新)";
-["Last snapshot"] = "最後的快照";
+["Last snapshot"] = "更新時間";
 ["Latest draft created at #{date} #{time}"] = "最新的草案設置於 #{date}  #{time}";
 ["Latest events"] = "最新動態";
 ["Latest vote results"] = "最新投票結果";
@@ -654,7 +654,7 @@ return {
 ["This invite key is connected with the following information:"] = "此邀請碼與下列資訊連結：";
 ["This issue has been canceled. It failed the quorum of #{quorum}."] = "此議案因未達 #{quorum} 的法定門檻而被取消。";
 ["This issue is already closed!"] = "此議案已關閉!";
-["This issue is already frozen!"] = "此議案已凍結!";
+["This issue is already frozen!"] = "此議案已底定!";
 ["This issue is closed."] = "此議案已關閉。";
 ["This login is already taken, please choose another one!"] = "此帳號已被使用，請另擇一！";
 ["This login is too short!"] = "此帳號太短！";
