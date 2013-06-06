@@ -596,7 +596,7 @@ return {
 ["Sorry, but your account is locked. To get unlocked please contact #{support}!"] = "抱歉，您帳號已被鎖定。如欲解除鎖定，請聯絡 #{support}!";
 ["Sorry, you have reached your personal flood limit. Please be slower..."] = "抱歉，您已經達到個人流量限制。請減緩...";
 ["Sorry, your contingent for creating initiatives has been used up. Please try again later."] = "抱歉，您的方案申請額度已經用盡。請稍後重試！";
-["Source"] = "來源";
+["Source"] = "原文";
 ["Standard policies"] = "標準規則";
 ["Start search"] = "開始搜尋";
 ["State"] = "狀態";
