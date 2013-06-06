@@ -96,7 +96,7 @@ return {
 ["Avatar"] = "頭像";
 ["Back"] = "返回";
 ["Back to initiative"] = "回到方案";
-["Balance"] = "平衡";
+["Balance"] = "合計";
 ["Ballot of member '#{member_name}'"] = "投票成員'#{member_name}'";
 ["Become a member"] = "成為成員";
 ["Birthday"] = "生日";
