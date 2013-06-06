@@ -90,8 +90,8 @@ return {
 ["Argument contra"] = "反方論點";
 ["Argument does not exist!"] = "論點不存在!";
 ["Argument pro"] = "正方論點";
-["Arguments contra"] = "多項反方論點";
-["Arguments pro"] = "多項正方論點";
+["Arguments contra"] = "所有反方論點";
+["Arguments pro"] = "所有正方論點";
 ["Author"] = "作者";
 ["Avatar"] = "頭像";
 ["Back"] = "返回";
