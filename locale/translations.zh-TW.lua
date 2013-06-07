@@ -444,7 +444,7 @@ return {
 ["Not activated"] = "尚未啟用";
 ["Not active"] = "閒置";
 ["Not admin"] = "非管理者";
-["Not approved"] = "不贊同";
+["Not approved"] = "不通過";
 ["Not imported"] = "未匯入";
 ["Not locked"] = "未鎖定";
 ["Not locked by import"] = "未利用匯入鎖定";
