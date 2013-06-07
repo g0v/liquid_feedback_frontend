@@ -24,6 +24,12 @@ assert(record.content_type, "No content-type set for image.")
 
 slot.set_layout(nil, record.content_type)
 
+if record.content_type == 'text/x-url' then
+  print('Location: ' .. record.data .. '\n\n')
+  exit()
+end
+
+
 if record then
   slot.put_into("data", record.data)
 end
