@@ -274,7 +274,7 @@ return {
 ["In this installation registration is also possible without an invite code. Therefor please just leave the field empty."] = "於此設置註冊時亦可無邀請碼。因此請僅需維持該欄位空白。";
 ["Inactive"] = "閒置";
 ["Incoming delegations"] = "受委託的投票";
-["Incoming delegations of member '#{member}'"] = "受委託投票的成員'#{member}'";
+["Incoming delegations of member '#{member}'"] = "委託 '#{member}' 投票的成員";
 ["Indirect majority"] = "間接多數";
 ["Indirect majority denumerator"] = "間接多數分母";
 ["Indirect majority non negative"] = "間接多數非否定票";
