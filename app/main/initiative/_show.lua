@@ -284,7 +284,7 @@ ui.container{ attr = { class = class }, content = function()
           slot.put(_("The initiators suggest to support the following initiative:"))
           slot.put(" ")
           ui.link{
-            content = _("Issue ##{id}", { id = suggested_initiative.issue.id } ) .. ": " .. encode.html(suggested_initiative.name),
+            content = _("Initiative i#{id}", { id = suggested_initiative.id } ) .. ": " .. encode.html(suggested_initiative.name),
             module = "initiative",
             view = "show",
             id = suggested_initiative.id
