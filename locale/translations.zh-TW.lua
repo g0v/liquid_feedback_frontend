@@ -854,7 +854,7 @@ return {
 ["deactivated"] = "停用";
 ["delegates to"] = "委託給";
 ["delete<br /><br />"] = "刪除<br /><br />";
-["direct"] = "個人直接支持";
+["direct"] = "人直接支持";
 ["disabled"] = "停用";
 ["down"] = "向下";
 ["email"] = "電郵";
@@ -870,7 +870,7 @@ return {
 ["implemented"] = "已被採納";
 ["inactive"] = "不活動的";
 ["incl. potential"] = "包含可能支持者";
-["indirect"] = "間接";
+["indirect"] = "人間接支持";
 ["less than one day [interval expires]"] = "不到一天";
 ["login name"] = "帳號";
 ["minute [interval time ago]"] = "分鐘";
@@ -895,15 +895,15 @@ return {
 ["new window"] = "新視窗";
 ["no reverse beat path to status quo (including ties)"] = "無循環性優先順序導至現狀 (包括平手)";
 ["no voting right"] = "無投票權";
-["not"] = "未支持";
+["not"] = "人未支持";
 ["not implemented"] = "未被採納";
 ["not incl. potential"] = "不包含可能支持者";
 ["not yet"] = "尚未";
 ["off"] = "關";
 ["positive"] = "支持";
 ["possibly instable result caused by multistage majority"] = "因多階段多數可能導致不穩定結果";
-["potential direct"] = "個人可能直接支持";
-["potential indirect"] = "個人可能間接支持";
+["potential direct"] = "人可能直接支持";
+["potential indirect"] = "人可能間接支持";
 ["prohibit potentially instable results caused by multistage majorities"] = "防止「多階段多數決」可能導致的不穩定結果";
 ["reverse beat path to status quo (including ties)"] = "循環性優先順序導至現狀 (包括平手)";
 ["satisfied"] = "滿意";
