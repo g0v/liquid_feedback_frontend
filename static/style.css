@@ -1288,6 +1288,7 @@ th.opinion {
 .member_list .member_image_avatar {
   float: left;
   margin-right: 0.5em;
+  height: 48px
 }
 
 .member_list .member_thumb,
