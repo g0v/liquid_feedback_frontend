@@ -62,9 +62,9 @@ if number_of_initiatives > 1 then
           if record.winning_count == record.losing_count then
             ui.image{ static = "icons/16/bullet_blue.png" }
           elseif record.winning_count > record.losing_count then
-            ui.image{ static = "icons/16/resultset_previous.png" }
+            ui.image{ static = "icons/16/resultset_won.png" }
           else
-            ui.image{ static = "icons/16/resultset_next.png" }
+            ui.image{ static = "icons/16/resultset_lost.png" }
           end
         end
       },
