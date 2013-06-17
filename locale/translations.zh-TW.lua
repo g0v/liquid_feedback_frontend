@@ -426,8 +426,8 @@ return {
 ["No arguments yet"] = "尚無論點";
 ["No changes to your images were made"] = "您的圖片未被更改";
 ["No default"] = "無預設值";
-["No direct"] = "無直接";
-["No indirect"] = "無間接";
+["No direct"] = "直接反對";
+["No indirect"] = "間接反對";
 ["No multistage majority"] = "無多階段多數";
 ["No non-supporters rated this argument negative."] = "沒有對此論點持否定評價的非支持者";
 ["No non-supporters rated this argument positive."] = "沒有對此論點持肯定評價的非支持者";
@@ -741,8 +741,8 @@ return {
 ["Withdraw support and delete the suggestion"] = "撤回支持並刪除建議";
 ["Withdraw support and delete the suggestions"] = "撤回支持並刪除建議";
 ["Yes"] = "贊成";
-["Yes direct"] = "是的 直接";
-["Yes indirect"] = "是的 間接";
+["Yes direct"] = "直接贊成";
+["Yes indirect"] = "間接贊成";
 ["Yesterday at #{time}"] = "昨日於 #{time}";
 ["You abstained via delegation."] = "您已透過委託棄權";
 ["You abstained."] = "您已棄權";
