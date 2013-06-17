@@ -186,7 +186,7 @@ return {
 ["Direct and by delegation"] = "直接表決及委託表決";
 ["Direct majority"] = "直接表決多數";
 ["Direct majority denumerator"] = "直接表決多數分母";
-["Direct majority non negative"] = "直接表決多數非否定票";
+["Direct majority non negative"] = "直接表決多數非反對票";
 ["Direct majority numerator"] = "直接表決多數分子";
 ["Direct majority positive"] = "直接表決多數贊成票";
 ["Disapproval (prefer to last block) [many entries]"] = "否決 (但較偏好此草案於前數個被否決的草案)";
@@ -277,7 +277,7 @@ return {
 ["Incoming delegations of member '#{member}'"] = "委託 '#{member}' 投票的成員";
 ["Indirect majority"] = "間接多數";
 ["Indirect majority denumerator"] = "間接多數分母";
-["Indirect majority non negative"] = "間接多數非否定票";
+["Indirect majority non negative"] = "間接多數非反對票";
 ["Indirect majority numerator"] = "間接多數分子";
 ["Indirect majority positive"] = "間接多數贊成票";
 ["Information about the available policies"] = "現有規則的相關資訊";
@@ -418,7 +418,7 @@ return {
 ["New suggestion for initiative"] = "方案之新建議";
 ["New suggestion for initiative i#{id} - #{suggestion}"] = "方案之新建議 i#{id} - #{suggestion}";
 ["Newest"] = "由新至舊";
-["No"] = "否定";
+["No"] = "反對";
 ["No (potential) supporters rated this argument negative."] = "無(可能)支持者對此論點持否定評價";
 ["No (potential) supporters rated this argument positive."] = "無(可能)支持者對此論點持肯定評價";
 ["No admission needed"] = "無須成案";
@@ -713,7 +713,7 @@ return {
 ["Vote now"] = "立即投票";
 ["Voted"] = "已投票";
 ["Voted by delegation"] = "已透過委託投票";
-["Voted no"] = "投否定票";
+["Voted no"] = "投反對票";
 ["Voted yes"] = "投贊成票";
 ["Voters"] = "投票人";
 ["Votes"] = "投票";
@@ -786,8 +786,8 @@ return {
 ["You have to mark 'Are you sure' to revoke!"] = "請勾選 '確認' 以撤銷";
 ["You have voting privileges for this unit."] = "您於此組織有投票權。";
 ["You need to be logged in, to use all features of this system."] = "您需要登入以使用此系統的全部功能。";
-["You voted no via delegation."] = "您透過委託投票否定。";
-["You voted no."] = "您投票否定。";
+["You voted no via delegation."] = "您透過委託投票反對。";
+["You voted no."] = "您投票反對。";
 ["You voted yes via delegation."] = "您透過委託投票贊成。";
 ["You voted yes."] = "您投票贊成。";
 ["You voted."] = "您已投票。";
