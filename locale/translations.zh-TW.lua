@@ -643,7 +643,7 @@ return {
 ["This argument does not exist!"] = "此論點並不存在!";
 ["This email address is not valid!"] = "此電郵地址無效!";
 ["This function is not activated!"] = "此功能未被啟用!";
-["This initiative"] = "方案";
+["This initiative"] = "本方案";
 ["This initiative has been revoked at #{revoked}"] = "此方案已在 #{revoked} 被撤銷";
 ["This initiative has not been admitted! It failed the quorum of #{quorum}."] = "此方案因未達 #{quorum} 的法定門檻而未成案。";
 ["This initiative is already revoked!"] = "此方案已被撤銷!";
