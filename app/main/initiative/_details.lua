@@ -2,9 +2,9 @@ local initiative = param.get("initiative", "table")
 
 function bool2str(value)
   if value then
-    return _("Yes")
+    return _("Yes [boolean]")
   else
-    return _("No")
+    return _("No [boolean]")
   end
 end
 

@@ -419,6 +419,7 @@ return {
 ["New suggestion for initiative i#{id} - #{suggestion}"] = "方案之新建議 i#{id} - #{suggestion}";
 ["Newest"] = "由新至舊";
 ["No"] = "反對";
+["No [boolean]"] = "否";
 ["No (potential) supporters rated this argument negative."] = "無(可能)支持者對此論點持否定評價";
 ["No (potential) supporters rated this argument positive."] = "無(可能)支持者對此論點持肯定評價";
 ["No admission needed"] = "無須成案";
@@ -741,6 +742,7 @@ return {
 ["Withdraw support and delete the suggestion"] = "撤回支持並刪除建議";
 ["Withdraw support and delete the suggestions"] = "撤回支持並刪除建議";
 ["Yes"] = "贊成";
+["Yes [boolean]"] = "是";
 ["Yes direct"] = "直接贊成";
 ["Yes indirect"] = "間接贊成";
 ["Yesterday at #{time}"] = "昨日於 #{time}";
