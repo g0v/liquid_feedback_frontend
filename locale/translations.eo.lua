@@ -804,6 +804,7 @@ return {
 ["This name is too short!"] = "Tiu nomo estas tro mallonga!";
 ["This screen name is too short!"] = false;
 ["This service is provided by:"] = false;
+["This service is provided using the following software components:"] = false;
 ["This suggestion has been meanwhile deleted"] = "Tiu sugesto estis intertempe forviŝita";
 ["This suggestion has been meanwhile deleted!"] = false;
 ["This title is really too short!"] = "Tiu titolo estas vere tro mallonga!";

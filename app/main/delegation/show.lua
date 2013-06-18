@@ -139,8 +139,7 @@ ui.container{
   content = function()
 
     -- list of trustees
-    ui.heading{ level = 2, content = _"List of trustees" }
-    slot.put("<br />")
+    ui.heading{ level = 2, attr = { class = "delegation" }, content = _"List of trustees" }
 
     for i, delegation in ipairs(delegations) do
 
@@ -473,11 +472,10 @@ ui.container{
   content = function()
 
     if scope == "issue" and issue.closed then
-      ui.heading{ level = 2, content = _"Effective delegation in voting" }
+      ui.heading{ level = 2, attr = { class = "delegation" }, content = _"Effective delegation in voting" }
     else
-      ui.heading{ level = 2, content = _"Complete preference list over all scopes" }
+      ui.heading{ level = 2, attr = { class = "delegation" }, content = _"Complete preference list over all scopes" }
     end
-    slot.put("<br />")
 
     local delegation_chain = Member:new_selector()
       :add_field("delegation_chain.*")

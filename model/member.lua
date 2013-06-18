@@ -655,12 +655,10 @@ function Member:selector_delegations(expiring)
     :left_join("area", "area", "area.id = delegation.area_id OR area.id = issue.area_id")
     :left_join("unit", "unit", "unit.id = delegation.unit_id OR unit.id = area.unit_id")
     :add_where("issue.closed ISNULL")
-  if expiring then
-    selector:add_order_by("confirmed")
-      :add_group_by("confirmed")
+  if not expiring then
+    selector:add_order_by("unit.name, area.name, delegation.issue_id")
+      :add_group_by("member.id, delegation.unit_id, unit.id, unit.name, delegation.area_id, area.id, area.name, delegation.issue_id, policy.name")
   end
-  selector:add_order_by("unit.name, area.name, delegation.issue_id")
-    :add_group_by("member.id, delegation.unit_id, unit.id, unit.name, delegation.area_id, area.id, area.name, delegation.issue_id, policy.name")
   return selector
 end
 

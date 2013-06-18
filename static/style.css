@@ -124,6 +124,16 @@ h1 {
 h2 {
   font-size: 125%;
 }
+h2.delegation {
+  margin-top: 0.3em;
+  margin-bottom: 0.7em;
+}
+h2.about {
+  font-size: 100%;
+  font-weight: bold;
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
 .heading {
   display: block;
   font-size: 115%;
