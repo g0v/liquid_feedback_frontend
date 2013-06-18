@@ -712,7 +712,7 @@ return {
 ["Versions"] = "版本";
 ["Vote now"] = "立即投票";
 ["Voted"] = "已投票";
-["Voted by delegation"] = "已透過委託投票";
+["Voted by delegation"] = "透過委託的投票";
 ["Voted no"] = "投反對票";
 ["Voted yes"] = "投贊成票";
 ["Voters"] = "投票人";
