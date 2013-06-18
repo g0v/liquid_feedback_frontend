@@ -137,7 +137,7 @@ return {
 ["Commit argument"] = "提交論點";
 ["Commit suggestion"] = "送出建議";
 ["Compare"] = "比較";
-["Complete preference list over all scopes"] = "完成所有範圍的偏好表單";
+["Complete preference list over all scopes"] = "所有範圍的完整偏好表單";
 ["Confirm"] = "確認";
 ["Confirmation code"] = "確認碼";
 ["Confirmation code invalid!"] = "確認碼無效！";
